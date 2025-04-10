@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- advc: Game text added by the AdvCiv mod and changes to BtS game text;
+	 such changes are tagged with a comment that says "redefine".
+	 Some of the Romance-language translations are based on www.deepl.com. -->
+<Civ4GameText xmlns="http://www.firaxis.com">
+	<!-- XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv -->
+	<TEXT>
+		<Tag>TXT_KEY_UPGRADE_COST_MODIFIER_HELP</Tag>
+		<English>%d1_Mod%% Upgrade [ICON_GOLD] Cost for [LINK=literal]%s2_UnitCombat[\LINK]</English>
+	</TEXT>
+	<!-- XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv -->
+</Civ4GameText>
