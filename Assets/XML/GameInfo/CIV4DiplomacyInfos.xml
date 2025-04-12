@@ -48,6 +48,12 @@
 					<DiplomacyText>
 						<Text>AI_DIPLO_DECLARE_WAR_LEADER_CELESTIA</Text>
 					</DiplomacyText>
+					<OtherLeaders>
+						<Leader>
+							<LeaderType>LEADER_SOMBRA</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</OtherLeaders>
 				</Response>
 				<Response>
 					<Civilizations/>
@@ -2092,6 +2098,20 @@
 					<DiplomacyPowers/>
 					<DiplomacyText>
 						<Text>AI_DIPLO_DECLARE_WAR_LEADER_LUSTERDAWN</Text>
+					</DiplomacyText>
+				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_DECLARE_WAR_LEADER_AEQUILIBRIUS</Text>
 					</DiplomacyText>
 				</Response>
 			</Responses>
@@ -4272,6 +4292,20 @@
 						<Text>AI_DIPLO_FIRST_CONTACT_LEADER_LUSTERDAWN</Text>
 					</DiplomacyText>
 				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_FIRST_CONTACT_LEADER_AEQUILIBRIUS</Text>
+					</DiplomacyText>
+				</Response>
 			</Responses>
 		</DiplomacyInfo>
 		<DiplomacyInfo>
@@ -6337,6 +6371,20 @@
 					<DiplomacyPowers/>
 					<DiplomacyText>
 						<Text>AI_DIPLO_REFUSE_TO_TALK_LEADER_LUSTERDAWN_1</Text>
+					</DiplomacyText>
+				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_REFUSE_TO_TALK_LEADER_AEQUILIBRIUS_1</Text>
 					</DiplomacyText>
 				</Response>
 			</Responses>
@@ -8417,6 +8465,20 @@
 					<DiplomacyPowers/>
 					<DiplomacyText>
 						<Text>AI_DIPLO_PEACE_LEADER_LUSTERDAWN_1</Text>
+					</DiplomacyText>
+				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_PEACE_LEADER_AEQUILIBRIUS_1</Text>
 					</DiplomacyText>
 				</Response>
 			</Responses>
@@ -10646,6 +10708,20 @@
 					<DiplomacyPowers/>
 					<DiplomacyText>
 						<Text>AI_DIPLO_NO_PEACE_LEADER_LUSTERDAWN_1</Text>
+					</DiplomacyText>
+				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_NO_PEACE_LEADER_AEQUILIBRIUS_1</Text>
 					</DiplomacyText>
 				</Response>
 			</Responses>
@@ -14638,6 +14714,33 @@
 				</Response>
 				<Response>
 					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes>
+						<Attitude>
+							<AttitudeType>ATTITUDE_FRIENDLY</AttitudeType>
+							<bAttitudeType>1</bAttitudeType>
+						</Attitude>
+						<Attitude>
+							<AttitudeType>ATTITUDE_PLEASED</AttitudeType>
+							<bAttitudeType>1</bAttitudeType>
+						</Attitude>
+						<Attitude>
+							<AttitudeType>ATTITUDE_CAUTIOUS</AttitudeType>
+							<bAttitudeType>1</bAttitudeType>
+						</Attitude>
+					</Attitudes>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_GREETINGS_ATT_FR_LEADER_AEQUILIBRIUS_1</Text>
+					</DiplomacyText>
+				</Response>
+				<Response>
+					<Civilizations/>
 					<Leaders/>
 					<Attitudes>
 						<Attitude>
@@ -18031,6 +18134,29 @@
 						<Text>AI_DIPLO_GREETINGS_ATT_FUR_LEADER_LUSTERDAWN_1</Text>
 					</DiplomacyText>
 				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes>
+						<Attitude>
+							<AttitudeType>ATTITUDE_ANNOYED</AttitudeType>
+							<bAttitudeType>1</bAttitudeType>
+						</Attitude>
+						<Attitude>
+							<AttitudeType>ATTITUDE_FURIOUS</AttitudeType>
+							<bAttitudeType>1</bAttitudeType>
+						</Attitude>
+					</Attitudes>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_GREETINGS_ATT_FUR_LEADER_AEQUILIBRIUS_1</Text>
+					</DiplomacyText>
+				</Response>
 			</Responses>
 		</DiplomacyInfo>
 		<DiplomacyInfo>
@@ -20355,6 +20481,20 @@
 						<Text>AI_DIPLO_TRY_THIS_DEAL_LEADER_LUSTERDAWN_1</Text>
 					</DiplomacyText>
 				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_TRY_THIS_DEAL_LEADER_AEQUILIBRIUS_1</Text>
+					</DiplomacyText>
+				</Response>
 			</Responses>
 		</DiplomacyInfo>
 		<DiplomacyInfo>
@@ -22474,6 +22614,20 @@
 					<DiplomacyPowers/>
 					<DiplomacyText>
 						<Text>AI_DIPLO_OFFER_PEACE_LEADER_LUSTERDAWN_1</Text>
+					</DiplomacyText>
+				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_OFFER_PEACE_LEADER_AEQUILIBRIUS_1</Text>
 					</DiplomacyText>
 				</Response>
 			</Responses>
@@ -24845,6 +24999,22 @@
 						<Text>AI_DIPLO_GIVE_HELP_LEADER_LUSTERDAWN_3</Text>
 					</DiplomacyText>
 				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_GIVE_HELP_LEADER_AEQUILIBRIUS_1</Text>
+						<Text>AI_DIPLO_GIVE_HELP_LEADER_AEQUILIBRIUS_2</Text>
+						<Text>AI_DIPLO_GIVE_HELP_LEADER_AEQUILIBRIUS_3</Text>
+					</DiplomacyText>
+				</Response>
 			</Responses>
 		</DiplomacyInfo>
 		<DiplomacyInfo>
@@ -26924,6 +27094,20 @@
 					<DiplomacyPowers/>
 					<DiplomacyText>
 						<Text>AI_DIPLO_OFFER_DEAL_LEADER_LUSTERDAWN_1</Text>
+					</DiplomacyText>
+				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_OFFER_DEAL_LEADER_AEQUILIBRIUS_1</Text>
 					</DiplomacyText>
 				</Response>
 				<Response>
@@ -29054,6 +29238,20 @@
 					<DiplomacyPowers/>
 					<DiplomacyText>
 						<Text>AI_DIPLO_OFFER_DEAL_LEADER_LUSTERDAWN_1</Text>
+					</DiplomacyText>
+				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_OFFER_DEAL_LEADER_AEQUILIBRIUS_1</Text>
 					</DiplomacyText>
 				</Response>
 			</Responses>
@@ -31609,6 +31807,22 @@
 						<Text>AI_DIPLO_GIVE_HELP_LEADER_LUSTERDAWN_3</Text>
 					</DiplomacyText>
 				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_GIVE_HELP_LEADER_AEQUILIBRIUS_1</Text>
+						<Text>AI_DIPLO_GIVE_HELP_LEADER_AEQUILIBRIUS_2</Text>
+						<Text>AI_DIPLO_GIVE_HELP_LEADER_AEQUILIBRIUS_3</Text>
+					</DiplomacyText>
+				</Response>
 			</Responses>
 		</DiplomacyInfo>
 		<DiplomacyInfo>
@@ -34016,6 +34230,22 @@
 						<Text>AI_DIPLO_ASK_FOR_HELP_LEADER_LUSTERDAWN_1</Text>
 						<Text>AI_DIPLO_ASK_FOR_HELP_LEADER_LUSTERDAWN_2</Text>
 						<Text>AI_DIPLO_ASK_FOR_HELP_LEADER_LUSTERDAWN_3</Text>
+					</DiplomacyText>
+				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_ASK_FOR_HELP_LEADER_AEQUILIBRIUS_1</Text>
+						<Text>AI_DIPLO_ASK_FOR_HELP_LEADER_AEQUILIBRIUS_2</Text>
+						<Text>AI_DIPLO_ASK_FOR_HELP_LEADER_AEQUILIBRIUS_3</Text>
 					</DiplomacyText>
 				</Response>
 			</Responses>
@@ -36898,6 +37128,25 @@
 				</Response>
 				<Response>
 					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers>
+						<DiplomacyPower>
+							<DiplomacyPowerType>DIPLOMACYPOWER_WEAKER</DiplomacyPowerType>
+							<bDiplomacyPowerType>1</bDiplomacyPowerType>
+						</DiplomacyPower>
+					</DiplomacyPowers>
+					<DiplomacyText>
+						<Text>AI_DIPLO_DEMAND_TRIBUTE_POWER_WEAKER_AEQUILIBRIUS_1</Text>
+					</DiplomacyText>
+				</Response>
+				<Response>
+					<Civilizations/>
 					<Leaders/>
 					<Attitudes/>
 					<DiplomacyPowers>
@@ -39695,6 +39944,25 @@
 					</DiplomacyPowers>
 					<DiplomacyText>
 						<Text>AI_DIPLO_DEMAND_TRIBUTE_POWER_EQUAL_LUSTERDAWN_1</Text>
+					</DiplomacyText>
+				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers>
+						<DiplomacyPower>
+							<DiplomacyPowerType>DIPLOMACYPOWER_EQUAL</DiplomacyPowerType>
+							<bDiplomacyPowerType>1</bDiplomacyPowerType>
+						</DiplomacyPower>
+					</DiplomacyPowers>
+					<DiplomacyText>
+						<Text>AI_DIPLO_DEMAND_TRIBUTE_POWER_EQUAL_AEQUILIBRIUS_1</Text>
 					</DiplomacyText>
 				</Response>
 				<Response>
@@ -42497,6 +42765,25 @@
 						<Text>AI_DIPLO_DEMAND_TRIBUTE_POWER_STRONGER_LUSTERDAWN_1</Text>
 					</DiplomacyText>
 				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers>
+						<DiplomacyPower>
+							<DiplomacyPowerType>DIPLOMACYPOWER_STRONGER</DiplomacyPowerType>
+							<bDiplomacyPowerType>1</bDiplomacyPowerType>
+						</DiplomacyPower>
+					</DiplomacyPowers>
+					<DiplomacyText>
+						<Text>AI_DIPLO_DEMAND_TRIBUTE_POWER_STRONGER_AEQUILIBRIUS_1</Text>
+					</DiplomacyText>
+				</Response>
 			</Responses>
 		</DiplomacyInfo>
 		<DiplomacyInfo>
@@ -44897,6 +45184,20 @@
 						<Text>AI_DIPLO_NUKES_LEADER_LUSTERDAWN_1</Text>
 					</DiplomacyText>
 				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_NUKES_LEADER_AEQUILIBRIUS_1</Text>
+					</DiplomacyText>
+				</Response>
 			</Responses>
 		</DiplomacyInfo>
 		<DiplomacyInfo>
@@ -47264,6 +47565,22 @@
 						<Text>AI_DIPLO_WORST_ENEMY_LEADER_LUSTERDAWN_3</Text>
 					</DiplomacyText>
 				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_WORST_ENEMY_LEADER_AEQUILIBRIUS_1</Text>
+						<Text>AI_DIPLO_WORST_ENEMY_LEADER_AEQUILIBRIUS_2</Text>
+						<Text>AI_DIPLO_WORST_ENEMY_LEADER_AEQUILIBRIUS_3</Text>
+					</DiplomacyText>
+				</Response>
 			</Responses>
 		</DiplomacyInfo>
 		<DiplomacyInfo>
@@ -49627,6 +49944,22 @@
 						<Text>AI_DIPLO_WORST_ENEMY_TRADING_LEADER_LUSTERDAWN_1</Text>
 						<Text>AI_DIPLO_WORST_ENEMY_TRADING_LEADER_LUSTERDAWN_2</Text>
 						<Text>AI_DIPLO_WORST_ENEMY_TRADING_LEADER_LUSTERDAWN_3</Text>
+					</DiplomacyText>
+				</Response>
+				<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_AEQUILIBRIUS</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_WORST_ENEMY_TRADING_LEADER_AEQUILIBRIUS_1</Text>
+						<Text>AI_DIPLO_WORST_ENEMY_TRADING_LEADER_AEQUILIBRIUS_2</Text>
+						<Text>AI_DIPLO_WORST_ENEMY_TRADING_LEADER_AEQUILIBRIUS_3</Text>
 					</DiplomacyText>
 				</Response>
 			</Responses>
