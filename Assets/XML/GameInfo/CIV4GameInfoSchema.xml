@@ -1161,6 +1161,14 @@
 	<ElementType name="Civilizations" content="eltOnly">
 		<element type="Civilization" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
+	<!-- XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv -->
+	<ElementType name="OtherCivilizations" content="eltOnly">
+		<element type="Civilization" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="OtherNotCivilizations" content="eltOnly">
+		<element type="Civilization" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv -->
 	<ElementType name="LeaderType" content="textOnly"/>
 	<ElementType name="bLeaderType" content="textOnly" dt:type="boolean"/>
 	<ElementType name="Leader" content="eltOnly">
@@ -1170,6 +1178,14 @@
 	<ElementType name="Leaders" content="eltOnly">
 		<element type="Leader" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
+	<!-- XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv -->
+	<ElementType name="OtherLeaders" content="eltOnly">
+		<element type="Leader" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="OtherNotLeaders" content="eltOnly">
+		<element type="Leader" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv -->
 	<ElementType name="AttitudeType" content="textOnly"/>
 	<ElementType name="bAttitudeType" content="textOnly" dt:type="boolean"/>
 	<ElementType name="Attitude" content="eltOnly">
@@ -1198,6 +1214,12 @@
 		<element type="Attitudes"/>
 		<element type="DiplomacyPowers"/>
 		<element type="DiplomacyText"/>
+		<!-- XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv -->
+		<element type="OtherCivilizations" minOccurs="0"/>
+		<element type="OtherNotCivilizations" minOccurs="0"/>
+		<element type="OtherLeaders" minOccurs="0"/>
+		<element type="OtherNotLeaders" minOccurs="0"/>
+		<!-- XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv -->
 	</ElementType>
 	<ElementType name="Responses" content="eltOnly">
 		<element type="Response" maxOccurs="*"/>
