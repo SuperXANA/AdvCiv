@@ -1204,6 +1204,10 @@ protected:
 	ArrayEnumMap<FeatureTypes,int,short> m_aiExtraFeatureAttackPercent;
 	ArrayEnumMap<FeatureTypes,int,short> m_aiExtraFeatureDefensePercent;
 	ArrayEnumMap<UnitCombatTypes,int,short> m_aiExtraUnitCombatModifier;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	ArrayEnumMap<DamageTypes,int,short> m_aiDamageTypeCombat;
+	ArrayEnumMap<DamageTypes,int,short> m_aiDamageTypeResist;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// </advc.enum>
 
 	PlayerTypes getCombatOwner_bulk(TeamTypes eForTeam, CvPlot const& kPlot) const; // advc
@@ -1242,6 +1246,15 @@ protected:
 	void resolveAirCombat(CvUnit* pInterceptor, CvPlot* pPlot, CvAirMissionDefinition& kBattle);
 	void checkRemoveSelectionAfterAttack();
 	void updateFlatMovement();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getDamageTypeCombat(DamageTypes eIndex) const { return m_aiDamageTypeCombat.get(eUnitCombat); }
+	void changeDamageTypeCombat(DamageTypes eIndex, int iChange);
+	void setDamageTypeCombat(DamageTypes eIndex, int iValue);
+	int getDamageTypeResist(DamageTypes eIndex) const { return m_aiDamageTypeResist.get(eUnitCombat); }
+	int calculateDamageTypeResist(DamageTypes eIndex) const;
+	void changeDamageTypeResist(DamageTypes eIndex, int iChange);
+	void setDamageTypeResist(DamageTypes eIndex, int iValue);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 // <advc.003u>
 private:
 	void uninitEntity(); // I don't think subclasses should ever call this

@@ -10476,6 +10476,57 @@ int CvUnit::getSubUnitsAlive(int iDamage) const
 			(maxHitPoints() / ((m_pUnitInfo->getGroupSize() * 2) + 1))) / maxHitPoints());
 }
 
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+int CvUnit::getDamageTypeCombat(DamageTypes eIndex) const
+{ 
+	return m_aiDamageTypeCombat.get(eIndex); 
+}
+
+void CvUnit::changeDamageTypeCombat(DamageTypes eIndex, int iChange)
+{
+	if (iChange != 0)
+	{
+		m_aiDamageTypeCombat.add(eIndex, iChange);
+	}
+}
+
+void CvUnit::setDamageTypeCombat(DamageTypes eIndex, int iValue)
+{
+	m_aiDamageTypeCombat.set(eIndex, iValue);
+}
+
+int CvUnit::getDamageTypeResist(DamageTypes eIndex) const
+{
+	return m_aiDamageTypeResist.get(eIndex); 
+}
+
+int CvUnit::calculateDamageTypeResist(DamageTypes eIndex) const
+{
+	int iResistance = getDamageTypeResist(eIndex);
+	if (iResistance <= -100)
+    {
+        return -100; // Super-Effective!
+    }
+    if (iResistance >= 100)
+    {
+        return 100; // Immunity!
+    }
+	return iResistance;
+}
+
+void CvUnit::changeDamageTypeResist(DamageTypes eIndex, int iChange)
+{
+	if (iChange != 0)
+	{
+		m_aiDamageTypeResist.add(eIndex, iChange);
+	}
+}
+
+void CvUnit::setDamageTypeResist(DamageTypes eIndex, int iValue)
+{
+	m_aiDamageTypeResist.set(eIndex, iValue);
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 void CvUnit::read(FDataStreamBase* pStream)
 {
@@ -10634,6 +10685,10 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.read(pStream);
 		m_aiExtraFeatureDefensePercent.read(pStream);
 		m_aiExtraUnitCombatModifier.read(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		m_aiDamageTypeCombat.read(pStream);
+		m_aiDamageTypeResist.read(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	}
 	else
 	{
@@ -10644,6 +10699,10 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.readArray<int>(pStream);
 		m_aiExtraFeatureDefensePercent.readArray<int>(pStream);
 		m_aiExtraUnitCombatModifier.readArray<int>(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		m_aiDamageTypeCombat.readArray<int>(pStream);
+		m_aiDamageTypeResist.readArray<int>(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	}
 }
 
@@ -10756,6 +10815,10 @@ void CvUnit::write(FDataStreamBase* pStream)
 	m_aiExtraFeatureAttackPercent.write(pStream);
 	m_aiExtraFeatureDefensePercent.write(pStream);
 	m_aiExtraUnitCombatModifier.write(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	m_aiDamageTypeCombat.write(pStream);
+	m_aiDamageTypeResist.write(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	REPRO_TEST_END_WRITE();
 }
 
