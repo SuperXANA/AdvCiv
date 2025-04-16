@@ -10444,6 +10444,16 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 		changeExtraDomainModifier(eLoopDomain,
 				GC.getInfo(ePromotion).getDomainModifierPercent(eLoopDomain) * iChange);
 	}
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	FOR_EACH_ENUM(DamageType)
+	{
+		changeDamageTypeCombat(eLoopDamageType,
+				GC.getInfo(ePromotion).getDamageTypeCombat(eLoopDamageType) * iChange);
+		changeDamageTypeResist(eLoopDamageType,
+				GC.getInfo(ePromotion).getDamageTypeResist(eLoopDamageType) * iChange);
+	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	if (IsSelected())
 	{
