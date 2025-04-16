@@ -1247,10 +1247,10 @@ protected:
 	void checkRemoveSelectionAfterAttack();
 	void updateFlatMovement();
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	int getDamageTypeCombat(DamageTypes eIndex) const { return m_aiDamageTypeCombat.get(eUnitCombat); }
+	int getDamageTypeCombat(DamageTypes eIndex) const { return m_aiDamageTypeCombat.get(eIndex); }
 	void changeDamageTypeCombat(DamageTypes eIndex, int iChange);
 	void setDamageTypeCombat(DamageTypes eIndex, int iValue);
-	int getDamageTypeResist(DamageTypes eIndex) const { return m_aiDamageTypeResist.get(eUnitCombat); }
+	int getDamageTypeResist(DamageTypes eIndex) const { return m_aiDamageTypeResist.get(eIndex); }
 	int calculateDamageTypeResist(DamageTypes eIndex) const;
 	void changeDamageTypeResist(DamageTypes eIndex, int iChange);
 	void setDamageTypeResist(DamageTypes eIndex, int iValue);
