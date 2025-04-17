@@ -6895,6 +6895,16 @@ int CvPlayerAI::AI_techUnitValue(TechTypes eTech, int iPathLength, bool& bEnable
 
 		iValue += iTotalUnitValue;
 	}
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	if (kLoopUnit.getDomainType() != DOMAIN_SEA)
+	{
+		FOR_EACH_ENUM(DamageType)
+		{
+			iValue += (kLoopUnit.getDamageTypeCombat(eLoopDamageType));
+		}
+	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	// K-Mod. Rescale to match AI_techValue
 	iValue *= 4 * (getNumCities() /* k146: */ + 2);
