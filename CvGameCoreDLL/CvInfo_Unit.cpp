@@ -2149,12 +2149,12 @@ bool CvPromotionInfo::getUnitCombat(int i) const
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 int CvPromotionInfo::getDamageTypeCombat(int i) const
 {
-	return m_piDamageTypeCombat ? m_piDamageTypeCombat[i] : -1;
+	return m_piDamageTypeCombat ? m_piDamageTypeCombat[i] : 0;
 }
 
 int CvPromotionInfo::getDamageTypeResist(int i) const
 {
-	return m_piDamageTypeResist ? m_piDamageTypeResist[i] : -1;
+	return m_piDamageTypeResist ? m_piDamageTypeResist[i] : 0;
 }
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 #if ENABLE_XML_FILE_CACHE
