@@ -336,6 +336,7 @@ public: /*  All const functions are exposed to Python except some related to art
 	
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	int getDamageTypeCombat(int i) const;
+	int getDamageTypeResist(int i) const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	const CvArtInfoUnit* getArtInfo(int i, EraTypes eEra, UnitArtStyleTypes eStyle) const;
@@ -523,6 +524,7 @@ protected:
 	
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	int* m_piDamageTypeCombat;
+	int* m_piDamageTypeResist;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	std::vector<InvisibleTypes> m_aeSeeInvisibleTypes;

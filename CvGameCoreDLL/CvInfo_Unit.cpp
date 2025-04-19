@@ -165,7 +165,8 @@ m_paszLateArtDefineTags(NULL),
 m_paszMiddleArtDefineTags(NULL),
 m_paszUnitNames(NULL),
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-m_piDamageTypeCombat(NULL)
+m_piDamageTypeCombat(NULL),
+m_piDamageTypeResist(NULL)
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 {}
 
@@ -212,6 +213,7 @@ CvUnitInfo::~CvUnitInfo()
 	SAFE_DELETE_ARRAY(m_paszUnitNames);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	SAFE_DELETE_ARRAY(m_piDamageTypeCombat);
+	SAFE_DELETE_ARRAY(m_piDamageTypeResist);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
@@ -705,7 +707,11 @@ void CvUnitInfo::setMiddleArtDefineTag(int i, const TCHAR* szVal)
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 int CvUnitInfo::getDamageTypeCombat(int i) const
 {
-	return m_piDamageTypeCombat ? m_piDamageTypeCombat[i] : -1;
+	return m_piDamageTypeCombat ? m_piDamageTypeCombat[i] : 0;
+}
+int CvUnitInfo::getDamageTypeCombat(int i) const
+{
+	return m_piDamageTypeResist ? m_piDamageTypeResist[i] : 0;
 }
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
@@ -1018,6 +1024,9 @@ void CvUnitInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_piDamageTypeCombat);
 	m_piDamageTypeCombat = new int[GC.getNumDamageTypeInfos()];
 	stream->Read(GC.getNumDamageTypeInfos(), m_piDamageTypeCombat);
+	SAFE_DELETE_ARRAY(m_piDamageTypeResist);
+	m_piDamageTypeResist = new int[GC.getNumDamageTypeInfos()];
+	stream->Read(GC.getNumDamageTypeInfos(), m_piDamageTypeResist);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
@@ -1206,6 +1215,7 @@ void CvUnitInfo::write(FDataStreamBase* stream)
 	stream->WriteString(m_szFormationType);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	stream->Write(GC.getNumDamageTypeInfos(), m_piDamageTypeCombat);
+	stream->Write(GC.getNumDamageTypeInfos(), m_piDamageTypeResist);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 #endif
@@ -1543,6 +1553,7 @@ bool CvUnitInfo::read(CvXMLLoadUtility* pXML)
 	
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	pXML->SetVariableListTagPair(&m_piDamageTypeCombat, "DamageTypeCombats", GC.getNumDamageTypeInfos());
+	pXML->SetVariableListTagPair(&m_piDamageTypeResist, "DamageTypeResists", GC.getNumDamageTypeInfos());
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	return true;
