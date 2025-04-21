@@ -497,7 +497,10 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL)
+m_piDiploWarMusicScriptIds(NULL),
+	// XANA: 04-20-2025 Civic Adoption Weights
+m_piCivicWeightModifier(NULL)
+	// XANA: 04-20-2025 Civic Adoption Weights
 {}
 
 // <advc.xmldefault>
@@ -533,6 +536,9 @@ CvLeaderHeadInfo::CvLeaderHeadInfo(CvLeaderHeadInfo const& kOther)
 	allocCopy(m_piDiploPeaceMusicScriptIds, kOther.m_piDiploPeaceMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarIntroMusicScriptIds, kOther.m_piDiploWarIntroMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarMusicScriptIds, kOther.m_piDiploWarMusicScriptIds, GC.getNumEraInfos());
+	// XANA: 04-20-2025 Civic Adoption Weights
+	allocCopy(m_piCivicWeightModifier, kOther.m_piCivicWeightModifier, GC.getNumCivicInfos());
+	// XANA: 04-20-2025 Civic Adoption Weights
 } // </advc.xmldefault>
 
 CvLeaderHeadInfo::~CvLeaderHeadInfo()
@@ -550,6 +556,9 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploPeaceMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
+	// XANA: 04-20-2025 Civic Adoption Weights
+	SAFE_DELETE_ARRAY(m_piCivicWeightModifier);
+	// XANA: 04-20-2025 Civic Adoption Weights
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const
@@ -656,6 +665,27 @@ const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 
 	return NULL;
 }
+
+// XANA: 04-20-2025 Civic Adoption Weights
+int CvLeaderHeadInfo::getCivicWeightModifier(int iCivic) const
+{
+	FAssertBounds(0, GC.getNumCivicInfos(), iCivic);
+	return m_piCivicWeightModifier ? m_piCivicWeightModifier[iCivic] : 0;
+}
+void CvLeaderHeadInfo::changeCivicWeightModifier(int iCivic, int iChange)
+{
+	if (iChange != 0)
+	{
+		FAssertBounds(0, GC.getNumCivicInfos(), iCivic);
+		m_piCivicWeightModifier[iCivic] = (m_piCivicWeightModifier[iCivic] + iChange);
+	}
+}
+void CvLeaderHeadInfo::setCivicWeightModifier(int iCivic, int iValue)
+{
+	FAssertBounds(0, GC.getNumCivicInfos(), iCivic);
+	m_piCivicWeightModifier[iCivic] = iValue;
+}
+// XANA: 04-20-2025 Civic Adoption Weights
 
 #if ENABLE_XML_FILE_CACHE
 void CvLeaderHeadInfo::read(FDataStreamBase* stream)
@@ -792,6 +822,11 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
 	m_piDiploWarMusicScriptIds = new int[GC.getNumEraInfos()];
 	stream->Read(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+	// XANA: 04-20-2025 Civic Adoption Weights
+	SAFE_DELETE_ARRAY(m_piCivicWeightModifier);
+	m_piCivicWeightModifier = new int[GC.getNumCivicInfos()];
+	stream->Read(GC.getNumCivicInfos(), m_piCivicWeightModifier);
+	// XANA: 04-20-2025 Civic Adoption Weights
 }
 
 void CvLeaderHeadInfo::write(FDataStreamBase* stream)
@@ -898,6 +933,9 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumEraInfos(), m_piDiploPeaceMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarIntroMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+	// XANA: 04-20-2025 Civic Adoption Weights
+	stream->Write(GC.getNumCivicInfos(), m_piCivicWeightModifier);
+	// XANA: 04-20-2025 Civic Adoption Weights
 }
 #endif
 
@@ -1063,6 +1101,9 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	#endif // </advc.xmldefault>
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploWarIntroMusicScriptIds, "DiplomacyIntroMusicWar", GC.getNumEraInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploWarMusicScriptIds, "DiplomacyMusicWar", GC.getNumEraInfos());
+	// XANA: 04-20-2025 Civic Adoption Weights
+	pXML->SetVariableListTagPair(&m_piCivicWeightModifier, "CivicWeightModifiers", GC.getNumCivicInfos());
+	// XANA: 04-20-2025 Civic Adoption Weights
 
 	m_pXML = NULL; // advc.xmldefault
 	return true;

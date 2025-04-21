@@ -6747,6 +6747,16 @@ bool CvPlayer::canDoCivics(CivicTypes eCivic) const
 			}
 		}
 	} // </advc.912d>
+	
+	// XANA: 04-20-2025 Civic Adoption Weights
+	if (!isHuman())
+	{
+		if (GC.getLeaderHeadInfo(getPersonalityType()).getCivicWeightModifier(eCivic) <= -100) // eCivic's weight <= -100% == [AI Must Never Adopt]
+		{
+			return false;
+		}
+	}
+	// XANA: 04-20-2025 Civic Adoption Weights
 	return true;
 }
 

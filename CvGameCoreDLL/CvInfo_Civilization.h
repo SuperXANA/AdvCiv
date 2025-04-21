@@ -225,6 +225,11 @@ public: // advc: All the const functions are exposed to Python except those adde
 	DllExport const CvArtInfoLeaderhead* getArtInfo() const;
 	const TCHAR* getLeaderHead() const;
 	const TCHAR* getButton() const;
+	// XANA: 04-20-2025 Civic Adoption Weights
+	int getCivicWeightModifier(int iCivic) const;
+	void changeCivicWeightModifier(int iCivic, iChange);
+	void setCivicWeightModifier(int iCivic, iValue);
+	// XANA: 04-20-2025 Civic Adoption Weights
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
 	void write(FDataStreamBase* stream);
@@ -339,6 +344,9 @@ protected:
 	int* m_piDiploPeaceMusicScriptIds;
 	int* m_piDiploWarIntroMusicScriptIds;
 	int* m_piDiploWarMusicScriptIds;
+	// XANA: 04-20-2025 Civic Adoption Weights
+	int* m_piCivicWeightModifier;
+	// XANA: 04-20-2025 Civic Adoption Weights
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;
 	static void GetChildXmlValByName(int& r, TCHAR const* szName, int iDefault = MIN_INT);

@@ -17959,6 +17959,10 @@ int CvPlayerAI::AI_civicValue(CivicTypes eCivic) const
 			iValue += 6 * iCities;
 		}
 	}
+	// XANA: 04-20-2025 Civic Adoption Weights
+	iValue *= (100 + GC.getLeaderHeadInfo(getPersonalityType()).getCivicWeightModifier(eCivic));
+	iValue /= 100;
+	// XANA: 04-20-2025 Civic Adoption Weights
 
 	/* if (AI_atVictoryStage(AI_VICTORY_CULTURE2) && kCivic.isNoNonStateReligionSpread())
 		iValue /= 10;*/ // what the lol...
