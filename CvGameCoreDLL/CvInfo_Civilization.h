@@ -226,9 +226,9 @@ public: // advc: All the const functions are exposed to Python except those adde
 	const TCHAR* getLeaderHead() const;
 	const TCHAR* getButton() const;
 	// XANA: 04-20-2025 Civic Adoption Weights
-	int getCivicWeightModifier(int iCivic) const;
-	void changeCivicWeightModifier(int iCivic, iChange);
-	void setCivicWeightModifier(int iCivic, iValue);
+	int getCivicWeightModifier(CivicTypes eCivic) const;
+	void changeCivicWeightModifier(CivicTypes eCivic, int iChange);
+	void setCivicWeightModifier(CivicTypes eCivic, int iValue);
 	// XANA: 04-20-2025 Civic Adoption Weights
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);

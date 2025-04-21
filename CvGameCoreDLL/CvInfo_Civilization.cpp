@@ -667,22 +667,22 @@ const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 }
 
 // XANA: 04-20-2025 Civic Adoption Weights
-int CvLeaderHeadInfo::getCivicWeightModifier(int iCivic) const
+int CvLeaderHeadInfo::getCivicWeightModifier(CivicTypes eCivic) const
 {
-	FAssertBounds(0, GC.getNumCivicInfos(), iCivic);
-	return m_piCivicWeightModifier ? m_piCivicWeightModifier[iCivic] : 0;
+	FAssertBounds(0, GC.getNumCivicInfos(), eCivic);
+	return m_piCivicWeightModifier ? m_piCivicWeightModifier[eCivic] : 0;
 }
-void CvLeaderHeadInfo::changeCivicWeightModifier(int iCivic, int iChange)
+void CvLeaderHeadInfo::changeCivicWeightModifier(CivicTypes eCivic, int iChange)
 {
 	if (iChange != 0)
 	{
-		FAssertBounds(0, GC.getNumCivicInfos(), iCivic);
-		m_piCivicWeightModifier[iCivic] = (m_piCivicWeightModifier[iCivic] + iChange);
+		FAssertBounds(0, GC.getNumCivicInfos(), eCivic);
+		m_piCivicWeightModifier[iCivic] = (m_piCivicWeightModifier[eCivic] + iChange);
 	}
 }
-void CvLeaderHeadInfo::setCivicWeightModifier(int iCivic, int iValue)
+void CvLeaderHeadInfo::setCivicWeightModifier(CivicTypes eCivic, int iValue)
 {
-	FAssertBounds(0, GC.getNumCivicInfos(), iCivic);
+	FAssertBounds(0, GC.getNumCivicInfos(), eCivic);
 	m_piCivicWeightModifier[iCivic] = iValue;
 }
 // XANA: 04-20-2025 Civic Adoption Weights
