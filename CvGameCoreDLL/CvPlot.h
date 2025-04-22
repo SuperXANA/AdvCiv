@@ -818,7 +818,47 @@ public:
 	// </advc.003s>
 
 	wchar const* debugStr() const; // advc.031c
+	
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	TerrainTypes getRealTerrainType() const;
+	FeatureTypes getRealFeatureType() const;
+	int getRealFeatureVariety() const;
+	BonusTypes getRealBonusType() const;
+	ImprovementTypes getRealImprovementType() const;
+	RouteTypes getRealRouteType() const;
 
+	void setRealTerrainType(TerrainTypes eNewValue);
+	void setRealFeatureType(FeatureTypes eFeature);
+	void setRealFeatureVariety(int iVariety);
+	void setRealBonusType(BonusTypes eBonus);
+	void setRealImprovementType(ImprovementTypes eImprovement);
+	void setRealRouteType(RouteTypes eRoute);
+
+	void setTempTerrainType(TerrainTypes eNewValue, int iTimer);
+	void setTempFeatureType(FeatureTypes eFeature, int iVariety, int iTimer);
+	void setTempBonusType(BonusTypes eBonus, int iTimer);
+	void setTempImprovementType(ImprovementTypes eImprovement, int iTimer);
+	void setTempRouteType(RouteTypes eRoute, int iTimer);
+
+	int getTempTerrainTimer() const;
+	int getTempFeatureTimer() const;
+	int getTempBonusTimer() const;
+	int getTempImprovementTimer() const;
+	int getTempRouteTimer() const;
+
+	void changeTempTerrainTimer(int iChange);
+	void changeTempFeatureTimer(int iChange);
+	void changeTempBonusTimer(int iChange);
+	void changeTempImprovementTimer(int iChange);
+	void changeTempRouteTimer(int iChange);
+
+	bool isHasTempTerrain();
+	bool isHasTempFeature();
+	bool isHasTempBonus();
+	bool isHasTempImprovement();
+	bool isHasTempRoute();
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	
 	void read(FDataStreamBase* pStream);
 	void write(FDataStreamBase* pStream);
 	// advc.003h: Adopted from We The People mod (devolution)
@@ -940,6 +980,20 @@ protected:
 
 	void doFeature();
 	void doCulture();
+	
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+    int m_iTempTerrainTimer;
+	short /*TerrainTypes*/ m_eRealTerrainType;
+	int m_iTempFeatureTimer;
+	int m_iTempBonusTimer;
+	int m_iTempImprovementTimer;
+	int m_iTempRouteTimer;
+	short m_eRealFeatureType;
+	int m_iRealFeatureVariety;
+	short m_eRealBonusType;
+	short /*ImprovementTypes*/ m_eRealImprovementType;
+	short /*RouteTypes*/ m_eRealRouteType;
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 	int areaID() const;
 	void processArea(CvArea& kArea, int iChange);

@@ -4555,6 +4555,101 @@ void CvGameTextMgr::setPlotHelpDebug_ShiftOnly(CvWStringBuffer& szString, CvPlot
 				szString.append(CvWString::format(L"\n%s = % d", GC.getInfo((UnitCombatTypes)iI).getDescription(), kPlayer.AI_getUnitCombatWeight((UnitCombatTypes)iI)));
 		}
 	}*/
+	
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	if (pPlot->getTempTerrainTimer() > 0)
+		{
+			szTempBuffer.Format(CvWString::format(L" (Temp Terrain: %d turns left)",
+			pPlot->getTempTerrainTimer()));
+			szTempBuffer.Format(CvWString::format(L"\n --Real Terrain: %s",
+			GC.getInfo(pPlot->getRealTerrainType()).getDescription()));
+			szString.append(szTempBuffer);
+		}
+	if (pPlot->getTempBonusTimer() > 0)
+		{
+			if (pPlot->getBonusType() == NO_BONUS)
+			{
+				szTempBuffer.Format(CvWString::format(L"\n Temp Bonus: NO_BONUS (%d turns left)",
+				pPlot->getTempBonusTimer()));
+			}
+			else
+			{
+				szTempBuffer.Format(CvWString::format(L"\n Temp Bonus: %s (%d turns left)",
+				GC.getInfo(pPlot->getBonusType()).getDescription(),
+				pPlot->getTempBonusTimer()));
+			}
+			szString.append(szTempBuffer);
+			if (pPlot->getRealBonusType() != NO_BONUS)
+			{
+				szTempBuffer.Format(CvWString::format(L"\n --Real Bonus: %s",
+				GC.getInfo(pPlot->getRealBonusType()).getDescription()));
+				szString.append(szTempBuffer);
+			}
+		}
+	if (pPlot->getTempFeatureTimer() > 0)
+		{
+			if (pPlot->getFeatureType() == NO_FEATURE)
+			{
+				szTempBuffer.Format(CvWString::format(L"\n Temp Feature: NO_FEATURE (%d turns left)",
+				pPlot->getTempFeatureTimer()));
+			}
+			else
+			{
+				szTempBuffer.Format(CvWString::format(L"\n Temp Feature: %s (%d turns left)",
+				GC.getInfo(pPlot->getFeatureType()).getDescription(),
+				pPlot->getTempFeatureTimer()));
+			}
+			szString.append(szTempBuffer);
+			if (pPlot->getRealFeatureType() != NO_FEATURE)
+			{
+				szTempBuffer.Format(CvWString::format(L"\n --Real Feature: %s",
+				GC.getInfo(pPlot->getRealFeatureType()).getDescription()));
+				szString.append(szTempBuffer);
+			}
+		}
+	if (pPlot->getTempImprovementTimer() > 0)
+		{
+			if (pPlot->getImprovementType() == NO_IMPROVEMENT)
+			{
+				szTempBuffer.Format(CvWString::format(L"\n Temp Improvement: NO_IMPROVEMENT (%d turns left)",
+				pPlot->getTempImprovementTimer()));
+			}
+			else
+			{
+				szTempBuffer.Format(CvWString::format(L"\n Temp Improvement: %s (%d turns left)",
+				GC.getInfo(pPlot->getImprovementType()).getDescription(),
+				pPlot->getTempImprovementTimer()));
+			}
+			szString.append(szTempBuffer);
+			if (pPlot->getRealImprovementType() != NO_IMPROVEMENT)
+			{
+				szTempBuffer.Format(CvWString::format(L"\n --Real Improvement: %s",
+				GC.getInfo(pPlot->getRealImprovementType()).getDescription()));
+				szString.append(szTempBuffer);
+			}
+		}
+	if (pPlot->getTempRouteTimer() > 0)
+		{
+			if (pPlot->getRouteType() == NO_ROUTE)
+			{
+				szTempBuffer.Format(CvWString::format(L"\n Temp Route: NO_ROUTE (%d turns left)",
+				pPlot->getTempRouteTimer()));
+			}
+			else
+			{
+				szTempBuffer.Format(CvWString::format(L"\n Temp Route %s (%d turns left)",
+				GC.getInfo(pPlot->getRouteType()).getDescription(),
+				pPlot->getTempRouteTimer()));
+			}
+			szString.append(szTempBuffer);
+			if (pPlot->getRealRouteType() != NO_ROUTE)
+			{
+				szTempBuffer.Format(CvWString::format(L"\n --Real Route: %s",
+				GC.getInfo(pPlot->getRealRouteType()).getDescription()));
+				szString.append(szTempBuffer);
+			}
+		}
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 }
 
 // advc.135c: Cut and pasted from setPlotHelp

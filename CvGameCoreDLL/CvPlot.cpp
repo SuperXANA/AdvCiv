@@ -104,6 +104,20 @@ CvPlot::CvPlot() // advc: Merged with the deleted reset function
 	m_plotCity.reset();
 	m_workingCity.reset();
 	m_workingCityOverride.reset();
+	
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+   	m_eRealTerrainType = NO_TERRAIN;
+    m_iTempTerrainTimer = 0;
+	m_eRealFeatureType = NO_FEATURE;
+	m_iRealFeatureVariety = -1;
+	m_iTempFeatureTimer = 0;
+	m_eRealBonusType = NO_BONUS;
+	m_iTempBonusTimer = 0;
+	m_eRealImprovementType = NO_IMPROVEMENT;
+	m_iTempImprovementTimer = 0;
+	m_eRealRouteType = NO_ROUTE;
+	m_iTempRouteTimer = 0;
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 }
 
 
@@ -353,6 +367,95 @@ void CvPlot::doTurn()
 	doFeature();
 	doCulture();
 	verifyUnitValidPlot();
+	
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+    if (isHasTempTerrain())
+    {
+        changeTempTerrainTimer(-1);
+        if (getTempTerrainTimer() == 0)
+        {
+			if (getRealTerrainType() != NO_TERRAIN)
+			{
+				setTerrainType(getRealTerrainType(),true,true);
+				setRealTerrainType(NO_TERRAIN);
+			}
+        }
+    }
+
+	if (isHasTempFeature())
+	{
+		changeTempFeatureTimer(-1);
+
+		if (getTempFeatureTimer() == 0)
+		{
+			setFeatureType(getRealFeatureType(), getRealFeatureVariety());
+			setRealFeatureType(NO_FEATURE);
+		}
+	}
+
+	if (isHasTempBonus())
+	{
+		changeTempBonusTimer(-1);
+
+		if (getTempBonusTimer() == 0)
+		{
+			CvCity* pCity;
+			pCity = GC.getMap().findCity(getX(), getY(), kOwner.getID(), NO_TEAM, false);
+
+			if (pCity != NULL)
+			{
+				if (isRevealed(pCity->getTeam(), false))
+				{
+					if (stepDistance(getX(), getY(), pCity->getX(), pCity->getY()) <= 5)
+					{	
+						CvWString szBuffer;
+
+						if (getBonusType() != NO_BONUS)
+						{
+							if (GET_TEAM(pCity->getTeam()).isHasTech((TechTypes)(GC.getInfo(getBonusType()).getTechReveal())))
+							{
+								szBuffer = gDLL->getText("TXT_KEY_MISC_LOST_RESOURCE", GC.getnfo(getBonusType()).getTextKeyWide(), pCity->getNameKey());
+								gDLL->getInterfaceIFace()->addMessage(pCity->getOwner(), false, GC.getEVENT_MESSAGE_TIME(), szBuffer, "AS2D_DISCOVERBONUS", MESSAGE_TYPE_MINOR_EVENT, GC.getBonusInfo(getBonusType()).getButton(), (ColorTypes)GC.getInfoTypeForString("COLOR_WHITE"), getX(), getY(), true, true);
+							}
+						}
+
+						if (getRealBonusType() != NO_BONUS)
+						{
+							if (GET_TEAM(pCity->getTeam()).isHasTech((TechTypes)(GC.getInfo(getRealBonusType()).getTechReveal())))
+							{
+								szBuffer = gDLL->getText("TXT_KEY_MISC_DISCOVERED_RESOURCE", GC.getInfo(getRealBonusType()).getTextKeyWide(), pCity->getNameKey());
+								gDLL->getInterfaceIFace()->addMessage(pCity->getOwner(), false, GC.getEVENT_MESSAGE_TIME(), szBuffer, "AS2D_DISCOVERBONUS", MESSAGE_TYPE_MINOR_EVENT, GC.getBonusInfo(getRealBonusType()).getButton(), (ColorTypes)GC.getInfoTypeForString("COLOR_WHITE"), getX(), getY(), true, true);
+							}
+						}
+					}
+				}
+			}
+
+			setBonusType(getRealBonusType());
+			setRealBonusType(NO_BONUS);
+		}
+	}
+
+	if (isHasTempImprovement())
+    {
+        changeTempImprovementTimer(-1);
+        if (getTempImprovementTimer() == 0)
+        {
+			setImprovementType(getRealImprovementType());
+			setRealImprovementType(NO_IMPROVEMENT);
+        }
+    }
+
+	if (isHasTempRoute())
+    {
+        changeTempRouteTimer(-1);
+        if (getTempRouteTimer() == 0)
+        {
+			setRouteType(getRealRouteType(), true);
+			setRealRouteType(NO_ROUTE);
+        }
+    }
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 	/*if (!isOwned())
 		doImprovementUpgrade();*/ // advc (comment): Was already commented out in BtS
@@ -6953,7 +7056,17 @@ void CvPlot::doFeature()
 					getX(), getY()) < iProbability) // advc.007: Log coordinates
 				// UNOFFICIAL_PATCH: END
 				{
-					setFeatureType(eLoopFeature);
+					
+					// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+					if (getTempTerrainTimer() > 0  && !GC.getInfo(eLoopFeature).isTerrain(getRealTerrainType()))
+					{
+						setTempFeatureType(eLoopFeature, -1, getTempTerrainTimer());
+					}
+					else
+					{
+						setFeatureType(eLoopFeature);
+					}
+					// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 					CvCity* pCity = GC.getMap().findCity(getX(), getY(), getOwner(), NO_TEAM, false);
 					if (pCity != NULL &&
 						/*	advc.106: K-Mod had added an isVisible check,
@@ -7382,6 +7495,19 @@ void CvPlot::read(FDataStreamBase* pStream)
 	else if (uiFlag < 5)
 		m_aiYield.readArray<short>(pStream);
 	else m_aiYield.readArray<char>(pStream);
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	pStream->Read(&m_eRealTerrainType);
+	pStream->Read(&m_iTempTerrainTimer);)
+	pStream->Read(&m_eRealFeatureType);
+	pStream->Read(&m_iRealFeatureVariety);
+	pStream->Read(&m_iTempFeatureTimer);
+	pStream->Read(&m_eRealBonusType);
+	pStream->Read(&m_iTempBonusTimer);
+	pStream->Read(&m_eRealImprovementType);
+	pStream->Read(&m_iTempImprovementTimer);
+	pStream->Read(&m_eRealRouteType);
+	pStream->Read(&m_iTempRouteTimer);
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	// BETTER_BTS_AI_MOD, Efficiency (plot danger cache), 08/21/09, jdog5000: START
 	/*	K-Mod. I've changed the purpose of invalidateBorderDangerCache.
 		It is no longer appropriate for this. */
@@ -7566,6 +7692,19 @@ void CvPlot::write(FDataStreamBase* pStream)
 	REPRO_TEST_END_WRITE();
 	REPRO_TEST_BEGIN_WRITE(CvString::format("Plot pt2(%d,%d)", getX(), getY()).GetCString());
 	m_aiYield.write(pStream);
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	pStream->Write(m_eRealTerrainType);
+	pStream->Write(m_iTempTerrainTimer);)
+	pStream->Write(m_eRealFeatureType);
+	pStream->Write(m_iRealFeatureVariety);
+	pStream->Write(m_iTempFeatureTimer);
+	pStream->Write(m_eRealBonusType);
+	pStream->Write(m_iTempBonusTimer);
+	pStream->Write(m_eRealImprovementType);
+	pStream->Write(m_iTempImprovementTimer);
+	pStream->Write(m_eRealRouteType);
+	pStream->Write(m_iTempRouteTimer);
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	m_aiCulture.write(pStream);
 	m_aiFoundValue.write(pStream);
 	m_aiPlayerCityRadiusCount.write(pStream);
@@ -8492,6 +8631,234 @@ bool CvPlot::isConnectSea() const
 	/* Checking for a connection between different water areas would be easy enough
 	   to do, but shortening paths within a water area can also be valuable. */
 } // </advc.121>
+
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+TerrainTypes CvPlot::getRealTerrainType() const
+{
+	return (TerrainTypes)m_eRealTerrainType;
+}
+
+FeatureTypes CvPlot::getRealFeatureType() const
+{
+	return (FeatureTypes)m_eRealFeatureType;
+}
+
+int CvPlot::getRealFeatureVariety() const
+{
+	return (FeatureTypes)m_iRealFeatureVariety;
+}
+
+BonusTypes CvPlot::getRealBonusType() const
+{
+	return (BonusTypes)m_eRealBonusType;
+}
+
+ImprovementTypes CvPlot::getRealImprovementType() const
+{
+	return (ImprovementTypes)m_eRealImprovementType;
+}
+
+RouteTypes CvPlot::getRealRouteType() const
+{
+	return (RouteTypes)m_eRealRouteType;
+}
+
+void CvPlot::setRealTerrainType(TerrainTypes eNewValue)
+{
+    m_eRealTerrainType = eNewValue;
+}
+
+void CvPlot::setRealFeatureType(FeatureTypes eFeature)
+{
+	m_eRealFeatureType = eFeature;
+}
+
+void CvPlot::setRealFeatureVariety(int iVariety)
+{
+	m_iRealFeatureVariety = iVariety;
+}
+
+void CvPlot::setRealBonusType(BonusTypes eBonus)
+{
+	m_eRealBonusType = eBonus;
+}
+
+void CvPlot::setRealImprovementType(ImprovementTypes eImprovement)
+{
+	m_eRealImprovementType = eImprovement;
+}
+
+void CvPlot::setRealRouteType(RouteTypes eRoute)
+{
+	m_eRealRouteType = eRoute;
+}
+
+void CvPlot::setTempTerrainType(TerrainTypes eNewValue, int iTimer)
+{
+	if (iTimer == 0 || eNewValue == NO_TERRAIN)
+	{
+		changeTempTerrainTimer(getTempTerrainTimer() * -1);
+		if (getRealTerrainType() != NO_TERRAIN)
+		{
+			setTerrainType(getRealTerrainType(), true, true);
+			setRealTerrainType(NO_TERRAIN);
+		}
+
+		return;
+	}
+	if (getTerrainType() != eNewValue)
+	{
+		if (!isHasTempTerrain())
+		{
+			setRealTerrainType(getTerrainType());
+		}
+		changeTempTerrainTimer(iTimer);
+		setTerrainType(eNewValue, true, true, true);
+	}
+}
+
+void CvPlot::setTempFeatureType(FeatureTypes eFeature, int iVariety, int iTimer)
+{
+	if (getFeatureType() != eFeature || getFeatureVariety() != iVariety)
+	{
+		if (!isHasTempFeature())
+		{
+			setRealFeatureType(getFeatureType());
+			setRealFeatureVariety(getFeatureVariety());
+		}
+		setFeatureType(eFeature, iVariety);
+		changeTempFeatureTimer(iTimer);
+	}
+}
+
+void CvPlot::setTempBonusType(BonusTypes eBonus, int iTimer)
+{
+	if (getBonusType(NO_TEAM) != eBonus)
+	{
+		if (!isHasTempBonus())
+		{
+			setRealBonusType(getBonusType(NO_TEAM));
+		}
+		setBonusType(eBonus);
+		changeTempBonusTimer(iTimer);
+	}
+}
+
+void CvPlot::setTempImprovementType(ImprovementTypes eImprovement, int iTimer)
+{
+	if (getImprovementType() != eImprovement)
+	{
+		if (!isHasTempImprovement())
+		{
+			setRealImprovementType(getImprovementType());
+		}
+		setImprovementType(eImprovement);
+		changeTempImprovementTimer(iTimer);
+	}
+}
+
+void CvPlot::setTempRouteType(RouteTypes eRoute, int iTimer)
+{
+	if (getRouteType() != eRoute)
+	{
+		if (!isHasTempRoute())
+		{
+			setRealRouteType(getRouteType());
+		}
+		setRouteType(eRoute, true);
+		changeTempRouteTimer(iTimer);
+	}
+}
+int CvPlot::getTempTerrainTimer() const
+{
+    return m_iTempTerrainTimer;
+}
+
+int CvPlot::getTempFeatureTimer() const
+{
+	return m_iTempFeatureTimer;
+}
+
+int CvPlot::getTempBonusTimer() const
+{
+	return m_iTempBonusTimer;
+}
+
+int CvPlot::getTempImprovementTimer() const
+{
+	return m_iTempImprovementTimer;
+}
+
+int CvPlot::getTempRouteTimer() const
+{
+	return m_iTempRouteTimer;
+}
+
+bool CvPlot::isHasTempTerrain()
+{
+	return getTempTerrainTimer() > 0;
+}
+
+bool CvPlot::isHasTempFeature()
+{
+	return getTempFeatureTimer() > 0;
+}
+
+bool CvPlot::isHasTempBonus()
+{
+	return getTempBonusTimer() > 0;
+}
+
+bool CvPlot::isHasTempImprovement()
+{
+	return getTempImprovementTimer() > 0;
+}
+
+bool CvPlot::isHasTempRoute()
+{
+	return getTempRouteTimer() > 0;
+}
+
+void CvPlot::changeTempTerrainTimer(int iChange)
+{
+    if (iChange != 0)
+    {
+        m_iTempTerrainTimer += iChange;
+    }
+}
+
+void CvPlot::changeTempFeatureTimer(int iChange)
+{
+	if (iChange != 0)
+	{
+		m_iTempFeatureTimer += iChange;
+	}
+}
+
+void CvPlot::changeTempBonusTimer(int iChange)
+{
+	if (iChange != 0)
+	{
+		m_iTempBonusTimer += iChange;
+	}
+}
+
+void CvPlot::changeTempImprovementTimer(int iChange)
+{
+	if (iChange != 0)
+	{
+		m_iTempImprovementTimer += iChange;
+	}
+}
+
+void CvPlot::changeTempRouteTimer(int iChange)
+{
+	if (iChange != 0)
+	{
+		m_iTempRouteTimer += iChange;
+	}
+}
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 /*  advc.031c: For found value log; but could also find other uses, possibly through
 	optional call parameters. */
