@@ -415,7 +415,7 @@ void CvPlot::doTurn()
 							if (GET_TEAM(pCity->getTeam()).isHasTech((TechTypes)(GC.getInfo(getBonusType()).getTechReveal())))
 							{
 								szBuffer = gDLL->getText("TXT_KEY_MISC_LOST_RESOURCE", GC.getnfo(getBonusType()).getTextKeyWide(), pCity->getNameKey());
-								gDLL->getInterfaceIFace()->addMessage(pCity->getOwner(), false, GC.getEVENT_MESSAGE_TIME(), szBuffer, "AS2D_DISCOVERBONUS", MESSAGE_TYPE_MINOR_EVENT, GC.getBonusInfo(getBonusType()).getButton(), (ColorTypes)GC.getInfoTypeForString("COLOR_WHITE"), getX(), getY(), true, true);
+								gDLL->getInterfaceIFace()->addMessage(pCity->getOwner(), false, GC.getEVENT_MESSAGE_TIME(), szBuffer, "AS2D_DISCOVERBONUS", MESSAGE_TYPE_MINOR_EVENT, GC.getInfo(getBonusType()).getButton(), (ColorTypes)GC.getInfoTypeForString("COLOR_WHITE"), getX(), getY(), true, true);
 							}
 						}
 
@@ -424,7 +424,7 @@ void CvPlot::doTurn()
 							if (GET_TEAM(pCity->getTeam()).isHasTech((TechTypes)(GC.getInfo(getRealBonusType()).getTechReveal())))
 							{
 								szBuffer = gDLL->getText("TXT_KEY_MISC_DISCOVERED_RESOURCE", GC.getInfo(getRealBonusType()).getTextKeyWide(), pCity->getNameKey());
-								gDLL->getInterfaceIFace()->addMessage(pCity->getOwner(), false, GC.getEVENT_MESSAGE_TIME(), szBuffer, "AS2D_DISCOVERBONUS", MESSAGE_TYPE_MINOR_EVENT, GC.getBonusInfo(getRealBonusType()).getButton(), (ColorTypes)GC.getInfoTypeForString("COLOR_WHITE"), getX(), getY(), true, true);
+								gDLL->getInterfaceIFace()->addMessage(pCity->getOwner(), false, GC.getEVENT_MESSAGE_TIME(), szBuffer, "AS2D_DISCOVERBONUS", MESSAGE_TYPE_MINOR_EVENT, GC.getInfo(getRealBonusType()).getButton(), (ColorTypes)GC.getInfoTypeForString("COLOR_WHITE"), getX(), getY(), true, true);
 							}
 						}
 					}
