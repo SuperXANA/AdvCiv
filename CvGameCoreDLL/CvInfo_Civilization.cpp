@@ -677,13 +677,13 @@ void CvLeaderHeadInfo::changeCivicWeightModifier(CivicTypes eCivic, int iChange)
 	if (iChange != 0)
 	{
 		FAssertBounds(0, GC.getNumCivicInfos(), eCivic);
-		m_piCivicWeightModifier[iCivic] = (m_piCivicWeightModifier[eCivic] + iChange);
+		m_piCivicWeightModifier[eCivic] = (m_piCivicWeightModifier[eCivic] + iChange);
 	}
 }
 void CvLeaderHeadInfo::setCivicWeightModifier(CivicTypes eCivic, int iValue)
 {
 	FAssertBounds(0, GC.getNumCivicInfos(), eCivic);
-	m_piCivicWeightModifier[iCivic] = iValue;
+	m_piCivicWeightModifier[eCivic] = iValue;
 }
 // XANA: 04-20-2025 Civic Adoption Weights
 
