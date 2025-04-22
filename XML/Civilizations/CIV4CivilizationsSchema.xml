@@ -197,6 +197,16 @@
 	<ElementType name="DiplomacyIntroMusicWar" content="eltOnly">
 		<element type="DiploMusicWarEra" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
+	<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+	<ElementType name="CivicType" content="textOnly"/>
+	<ElementType name="CivicWeightModifier" content="eltOnly">
+		<element type="CivicType"/>
+		<element type="iWeightModifier"/>
+	</ElementType>
+	<ElementType name="CivicWeightModifiers" content="eltOnly">
+		<element type="CivicWeightModifier" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 	<!-- advc.xmldefault: Made many subelements optional (minOccurs 0).
 		 None were optional before except the ones added by advc.ctr. -->
 	<ElementType name="LeaderHeadInfo" content="eltOnly">
@@ -304,6 +314,9 @@
 		<element type="DiplomacyMusicPeace"/>
 		<element type="DiplomacyIntroMusicWar"/>
 		<element type="DiplomacyMusicWar"/>
+		<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+		<element type="CivicWeightModifiers" minOccurs="0"/>
+		<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 	</ElementType>
 	<ElementType name="LeaderHeadInfos" content="eltOnly">
 		<element type="LeaderHeadInfo" maxOccurs="*"/>
