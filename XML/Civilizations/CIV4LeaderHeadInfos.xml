@@ -172,6 +172,14 @@
 					<DiploScriptId>AS2D_DIPLO_BARBARIAN_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_EMANCIPATION</CivicType>
+					<iWeightModifier>-100</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		
 		<!-- advc.xmldefault (start)
@@ -850,6 +858,9 @@
 					<DiploScriptId></DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers/>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<!-- advc.xmldefault (end) -->
 		
@@ -6779,6 +6790,14 @@
 					<DiploScriptId>AS2D_DIPLO_CG_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_THEOCRACY</CivicType>
+					<iWeightModifier>50</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--CRIMSON AURA, COLOR-NEGATIVE FIRE PONY ALTER EGO OF SCARLET AURA [OC]-->
 			<Type>LEADER_RAGE</Type>  <!-- MANA KNOWLEDGE: FIRE, LVL 2 -->
@@ -8013,6 +8032,14 @@
 					<DiploScriptId>AS2D_DIPLO_SOLAR_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_POLICE_STATE</CivicType>
+					<iWeightModifier>100</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--DEMONIC SUNSET SHIMMER [EQUESTRIA GIRLS]-->
 			<Type>LEADER_DEMONSUNSET</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 1 & CHAOS, LVL 1 -->
@@ -14369,6 +14396,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_FREE_SPEECH</CivicType>
+					<iWeightModifier>75</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--KARYS SKYDO, COMMANDER OF THE UNITED EQUESTRIAN PACT FORCE [OC]-->
 			<Type>LEADER_KARYS</Type> <!-- MANA KNOWLEDGE: HARMONY, LVL 1 -->
@@ -15338,6 +15373,14 @@
 					<DiploScriptId>AS2D_DIPLO_GROGAR_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_EMANCIPATION</CivicType>
+					<iWeightModifier>-100</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--KING SOMBRA-->
 			<Type>LEADER_SOMBRA</Type> <!-- MANA KNOWLEDGE: ICE, LVL 1 -->
@@ -16988,6 +17031,14 @@
 					<DiploScriptId>AS2D_DIPLO_LOPUTU_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_FREE_RELIGION</CivicType>
+					<iWeightModifier>-100</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--LORD TIREK-->
 			<Type>LEADER_TIREK</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 1 & LIFE, LVL 1 -->
@@ -17726,6 +17777,14 @@
 					<DiploScriptId>AS2D_DIPLO_LUSTERDAWN_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_HEREDITARY_RULE</CivicType>
+					<iWeightModifier>25</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--LYRA HEARTSTRINGS-->
 			<Type>LEADER_LYRA</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
@@ -21105,6 +21164,14 @@
 					<DiploScriptId>AS2D_DIPLO_NMM_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_FREE_MARKET</CivicType>
+					<iWeightModifier>25</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--NIGHTMARE RARITY, EVIL ALTER EGO OF RARITY [OC]-->
 			<Type>LEADER_NR</Type> <!-- MANA KNOWLEDGE: MIND, LVL 1 -->
@@ -22287,6 +22354,14 @@
 					<DiploScriptId>AS2D_DIPLO_PEACHY_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_VASSALAGE</CivicType>
+					<iWeightModifier>100</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PIMEDASUS HELENDAV, IMMORTAL SORCERESS-SOVEREIGN OF THE SUPREME DARKNESS [OC]-->
 			<Type>LEADER_PIMEDASUS</Type> <!-- MANA KNOWLEDGE: DEATH, LVL 3 & HARMONY, LVL 1 & COSMOS, LVL 2 -->
@@ -23295,6 +23370,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_HEREDITARY_RULE</CivicType>
+					<iWeightModifier>50</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PRINCESS CELESTIA-->
 			<Type>LEADER_CELESTIA</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 1 & HARMONY, LVL 1 -->
@@ -23563,6 +23646,14 @@
 					<DiploScriptId>AS2D_DIPLO_CELESTIA_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_PACIFISM</CivicType>
+					<iWeightModifier>75</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PRINCESS CHRONO [OC]-->
 			<Type>LEADER_CHRONO</Type> <!-- MANA KNOWLEDGE: COSMOS, LVL 1 -->
@@ -24542,6 +24633,14 @@
 					<DiploScriptId>AS2D_DIPLO_LUNA_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_THEOCRACY</CivicType>
+					<iWeightModifier>25</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PRINCESS PLATINUM-->
 			<Type>LEADER_PLATINUM</Type> <!-- MANA KNOWLEDGE: EARTH, LVL 1 -->
@@ -25031,6 +25130,18 @@
 					<DiploScriptId>AS2D_DIPLO_CHANGELING_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_POLICE_STATE</CivicType>
+					<iWeightModifier>100</iWeightModifier>
+				</CivicWeightModifier>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_EMANCIPATION</CivicType>
+					<iWeightModifier>-100</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--RAINBOW DASH-->
 			<Type>LEADER_RAINBOWDASH</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
@@ -26226,6 +26337,14 @@
 					<DiploScriptId>AS2D_DIPLO_RUSA_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_VASSALAGE</CivicType>
+					<iWeightModifier>50</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SAFFRON SOUL [OC]-->
 			<Type>LEADER_SAFFRON</Type> <!-- MANA KNOWLEDGE: CHAOS, LVL 1 -->
@@ -27713,6 +27832,14 @@
 					<DiploScriptId>AS2D_DIPLO_MQ9_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_NATIONHOOD</CivicType>
+					<iWeightModifier>100</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SHINING ARMOR, TWILIGHT SPARKLE'S OLDER BROTHER-->
 			<Type>LEADER_SHININGARMOR</Type> <!-- MANA KNOWLEDGE: LIFE, LVL 1 & HARMONY, LVL 1 -->
@@ -29470,6 +29597,14 @@
 					<DiploScriptId>AS2D_DIPLO_STARLIGHT_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_NATIONHOOD</CivicType>
+					<iWeightModifier>25</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--STARSTORM SLUMBER [OC]-->
 			<Type>LEADER_STARSTORM</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
@@ -31318,6 +31453,14 @@
 					<DiploScriptId>AS2D_DIPLO_SUNNYSKIES_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_NATIONHOOD</CivicType>
+					<iWeightModifier>75</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SUNSET SHIMMER [EQUESTRIA GIRLS]-->
 			<Type>LEADER_SUNSET</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 1 & COSMOS, LVL 1 -->
@@ -32077,6 +32220,14 @@
 					<DiploScriptId>AS2D_DIPLO_SWEETDREAMS_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_POLICE_STATE</CivicType>
+					<iWeightModifier>100</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SWEET TREAT, RELAXATION CENTER CAREGIVER [OC]-->
 			<Type>LEADER_SWEETTREAT</Type> <!-- MANA KNOWLEDGE: LIFE, LVL 1 -->
@@ -32573,6 +32724,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_NATIONHOOD</CivicType>
+					<iWeightModifier>50</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--BON BON, AKA SECRET AGENT SWEETIE DROPS-->
 			<Type>LEADER_BONBON</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
@@ -33750,6 +33909,14 @@
 					<DiploScriptId>AS2D_DIPLO_TRIXIE_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_THEOCRACY</CivicType>
+					<iWeightModifier>25</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--TSUMETAI HOUSEKI, MYSTICAL QUEEN OF ICE [OC]-->
 			<Type>LEADER_TSUMETAI</Type> <!-- MANA KNOWLEDGE: ICE, LVL 2 -->
@@ -34244,6 +34411,14 @@
 					<DiploScriptId>AS2D_DIPLO_TWILIGHT_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_THEOCRACY</CivicType>
+					<iWeightModifier>25</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--TWINKLESHINE-->
 			<Type>LEADER_TWINKLESHINE</Type> <!-- MANA KNOWLEDGE: WATER, LVL 1 -->
@@ -35206,6 +35381,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<CivicWeightModifiers>
+				<CivicWeightModifier>
+					<CivicType>CIVIC_SERFDOM</CivicType>
+					<iWeightModifier>100</iWeightModifier>
+				</CivicWeightModifier>
+			</CivicWeightModifiers>
+			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--VAPOR TRAIL-->
 			<Type>LEADER_VAPOR</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
