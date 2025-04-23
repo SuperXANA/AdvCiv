@@ -7497,7 +7497,7 @@ void CvPlot::read(FDataStreamBase* pStream)
 	else m_aiYield.readArray<char>(pStream);
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	pStream->Read(&m_eRealTerrainType);
-	pStream->Read(&m_iTempTerrainTimer);)
+	pStream->Read(&m_iTempTerrainTimer);
 	pStream->Read(&m_eRealFeatureType);
 	pStream->Read(&m_iRealFeatureVariety);
 	pStream->Read(&m_iTempFeatureTimer);
@@ -7694,7 +7694,7 @@ void CvPlot::write(FDataStreamBase* pStream)
 	m_aiYield.write(pStream);
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	pStream->Write(m_eRealTerrainType);
-	pStream->Write(m_iTempTerrainTimer);)
+	pStream->Write(m_iTempTerrainTimer);
 	pStream->Write(m_eRealFeatureType);
 	pStream->Write(m_iRealFeatureVariety);
 	pStream->Write(m_iTempFeatureTimer);
