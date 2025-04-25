@@ -225,6 +225,9 @@ public: // advc: All the const functions are exposed to Python except those adde
 	DllExport const CvArtInfoLeaderhead* getArtInfo() const;
 	const TCHAR* getLeaderHead() const;
 	const TCHAR* getButton() const;
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+	int getFavoriteTechModifier(TechTypes eTech) const;
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
 	void write(FDataStreamBase* stream);
@@ -340,6 +343,9 @@ protected:
 	int* m_piDiploWarIntroMusicScriptIds;
 	int* m_piDiploWarMusicScriptIds;
 	// <advc.xmldefault>
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+	int* m_piFavoriteTechModifier;
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 	static CvXMLLoadUtility* m_pXML;
 	static void GetChildXmlValByName(int& r, TCHAR const* szName, int iDefault = MIN_INT);
 	// </advc.xmldefault>

@@ -5996,6 +5996,15 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
 		iValue /= 200;
 		// K-Mod end
 	}
+	
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+	int iFavoriteTechModifier = GC.getLeaderHeadInfo(getPersonalityType()).getFavoriteTechModifier(eTech);
+	if (iFavoriteTechModifier > 0) // XANA: [Note] Only positive factors supported, negative factors bring no personality flavor for the AI.
+	{
+		iValue *= (iFavoriteTechModifier + 100);
+		iValue /= 200;
+	}
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 
 	/*  K-Mod, 12/sep/10, Karadoc
 		Use a random _factor_ at the end. */

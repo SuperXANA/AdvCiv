@@ -497,7 +497,10 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL)
+m_piDiploWarMusicScriptIds(NULL),
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+m_piFavoriteTechModifier(NULL)
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 {}
 
 // <advc.xmldefault>
@@ -550,6 +553,9 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploPeaceMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+	SAFE_DELETE_ARRAY(m_piFavoriteTechModifier);
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const
@@ -656,6 +662,14 @@ const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 
 	return NULL;
 }
+
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+int CvLeaderHeadInfo::getFavoriteTechModifier(TechTypes eTech) const
+{
+	FAssertBounds(0, GC.getNumTechInfos(), eTech);
+	return m_piFavoriteTechModifier ? m_piFavoriteTechModifier[eTech] : 0;
+}
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 
 #if ENABLE_XML_FILE_CACHE
 void CvLeaderHeadInfo::read(FDataStreamBase* stream)
@@ -792,6 +806,11 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
 	m_piDiploWarMusicScriptIds = new int[GC.getNumEraInfos()];
 	stream->Read(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+	SAFE_DELETE_ARRAY(m_piFavoriteTechModifier);
+	m_piFavoriteTechModifier = new int[GC.getNumTechInfos()];
+	stream->Read(GC.getNumTechInfos(), m_piFavoriteTechModifier);
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 }
 
 void CvLeaderHeadInfo::write(FDataStreamBase* stream)
@@ -898,6 +917,9 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumEraInfos(), m_piDiploPeaceMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarIntroMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+	stream->Write(GC.getNumTechInfos(), m_piFavoriteTechModifier);
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 }
 #endif
 
@@ -1043,6 +1065,9 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_piImprovementWeightModifier, "ImprovementWeightModifiers", GC.getNumImprovementInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploPeaceIntroMusicScriptIds, "DiplomacyIntroMusicPeace", GC.getNumEraInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploPeaceMusicScriptIds, "DiplomacyMusicPeace", GC.getNumEraInfos());
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+	pXML->SetVariableListTagPair(&m_piFavoriteTechModifier, "TechWeightModifiers", GC.getNumTechInfos());
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 	// <advc.xmldefault>
 	#ifdef FASSERT_ENABLE
 	if (!isDefaultsType())
