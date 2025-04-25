@@ -6002,7 +6002,7 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
 	if (iFavoriteTechModifier > 0) // XANA: [Note] Only positive factors supported, negative factors bring no personality flavor for the AI.
 	{
 		iValue *= (iFavoriteTechModifier + 100);
-		iValue /= 200;
+		iValue /= ((iFavoriteTechModifier < 100) ? 133 : 167);
 	}
 	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 
