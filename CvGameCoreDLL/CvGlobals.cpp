@@ -1364,6 +1364,18 @@ int CvGlobals::getNUM_LEADERANIM_TYPES() const
 	return NUM_LEADERANIM_TYPES;
 }
 
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+bool CvGlobals::readDamageInfoArray(FDataStreamBase* pStream)
+{
+	return readInfoArray(pStream, m_paDamageInfo, "CvDamageInfo");
+}
+
+void CvGlobals::writeDamageInfoArray(FDataStreamBase* pStream)
+{
+	writeInfoArray(pStream, m_paDamageInfo);
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
 // advc (note): The EXE calls this (only?) when the display language is changed
 void CvGlobals::infosReset()
 {

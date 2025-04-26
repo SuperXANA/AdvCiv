@@ -753,6 +753,12 @@ public:
 
 	DllExport bool readEventTriggerInfoArray(FDataStreamBase* pStream);
 	DllExport void writeEventTriggerInfoArray(FDataStreamBase* pStream);
+	
+	// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	bool readDamageInfoArray(FDataStreamBase* pStream);
+	void writeDamageInfoArray(FDataStreamBase* pStream);
+	// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	
 #pragma endregion ReadInfoArrays
 
 	// additional accessors for initializing globals ...
