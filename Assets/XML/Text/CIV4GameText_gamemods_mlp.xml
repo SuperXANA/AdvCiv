@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- advc: Game text added by the AdvCiv mod and changes to BtS game text;
+	 such changes are tagged with a comment that says "redefine".
+	 Some of the Romance-language translations are based on www.deepl.com. -->
+<Civ4GameText xmlns="http://www.firaxis.com">
+	<!-- XANA: 04-19-2025 FfH Damage Types for AdvancedCiv -->
+	<TEXT>
+		<Tag>TXT_KEY_UNIT_MAGIC_STRENGTH</Tag>
+		<English>[ICON_BULLET] %s1_mpowerslist</English>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_UNIT_MAGIC_DEFENSE</Tag>
+		<English>[ICON_BULLET] %s1_mresistancelist</English>
+	</TEXT>
+	<!-- XANA: 04-19-2025 FfH Damage Types for AdvancedCiv -->
+</Civ4GameText>
