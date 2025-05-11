@@ -270,6 +270,12 @@ public:
 	void appendToAttitudeBreakdown(CvWStringBuffer& szBreakdown, int iPass,
 			int iAttitudeChange, int& iTotal,
 			char const* szTextKey, char const* szTextKeyAlt = NULL); // </advc>
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+	void appendToAttitudeBreakdownWithExtraDescription(CvWStringBuffer& szBreakdown, int iPass,
+			int iAttitudeChange, int& iTotal,
+			char const* szTextKey, char const* szTextKeyAlt = NULL, 
+			char const* szExtraDescription = NULL);
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 	void getVassalInfoString(CvWStringBuffer& szBuffer, PlayerTypes ePlayer); // K-Mod
 	void getWarWearinessString(CvWStringBuffer& szBuffer, PlayerTypes ePlayer, PlayerTypes eTargetPlayer) const; // K-Mod
 	//void getEspionageString(CvWStringBuffer& szBuffer, PlayerTypes ePlayer, PlayerTypes eTargetPlayer);

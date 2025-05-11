@@ -497,7 +497,10 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL)
+m_piDiploWarMusicScriptIds(NULL),
+// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+m_piCityBonusDiplomacyModifier(NULL)
+// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 {}
 
 // <advc.xmldefault>
@@ -533,6 +536,9 @@ CvLeaderHeadInfo::CvLeaderHeadInfo(CvLeaderHeadInfo const& kOther)
 	allocCopy(m_piDiploPeaceMusicScriptIds, kOther.m_piDiploPeaceMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarIntroMusicScriptIds, kOther.m_piDiploWarIntroMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarMusicScriptIds, kOther.m_piDiploWarMusicScriptIds, GC.getNumEraInfos());
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+	allocCopy(m_piCityBonusDiplomacyModifier, kOther.m_piCityBonusDiplomacyModifier, GC.getNumBonusInfos());
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 } // </advc.xmldefault>
 
 CvLeaderHeadInfo::~CvLeaderHeadInfo()
@@ -550,6 +556,9 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploPeaceMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+	SAFE_DELETE_ARRAY(m_piCityBonusDiplomacyModifier);
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const
@@ -656,6 +665,13 @@ const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 
 	return NULL;
 }
+// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+int CvLeaderHeadInfo::getCityBonusDiplomacyModifier(BonusTypes eBonus) const
+{
+	FAssertBounds(0, GC.getNumBonusInfos(), eBonus);
+	return m_piCityBonusDiplomacyModifier ? m_piCityBonusDiplomacyModifier[eBonus] : 0;
+}
+// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 
 #if ENABLE_XML_FILE_CACHE
 void CvLeaderHeadInfo::read(FDataStreamBase* stream)
@@ -792,6 +808,11 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
 	m_piDiploWarMusicScriptIds = new int[GC.getNumEraInfos()];
 	stream->Read(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+	SAFE_DELETE_ARRAY(m_piCityBonusDiplomacyModifier);
+	m_piCityBonusDiplomacyModifier = new int[GC.getNumBonusInfos()];
+	stream->Read(GC.getNumBonusInfos(), m_piCityBonusDiplomacyModifier);
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 }
 
 void CvLeaderHeadInfo::write(FDataStreamBase* stream)
@@ -898,6 +919,9 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumEraInfos(), m_piDiploPeaceMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarIntroMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+	stream->Write(GC.getNumBonusInfos(), m_piCityBonusDiplomacyModifier);
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 }
 #endif
 
@@ -1043,6 +1067,9 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_piImprovementWeightModifier, "ImprovementWeightModifiers", GC.getNumImprovementInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploPeaceIntroMusicScriptIds, "DiplomacyIntroMusicPeace", GC.getNumEraInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploPeaceMusicScriptIds, "DiplomacyMusicPeace", GC.getNumEraInfos());
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+	pXML->SetVariableListTagPair(&m_piCityBonusDiplomacyModifier, "BonusAttitudeChanges", GC.getNumBonusInfos());
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 	// <advc.xmldefault>
 	#ifdef FASSERT_ENABLE
 	if (!isDefaultsType())

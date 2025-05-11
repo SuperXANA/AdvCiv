@@ -16156,6 +16156,26 @@ void CvGameTextMgr::appendToAttitudeBreakdown(CvWStringBuffer& szBreakdown, int 
 		iTotal += iAttitudeChange;
 	}
 }
+// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+void CvGameTextMgr::appendToAttitudeBreakdownWithExtraDescription(CvWStringBuffer& szBreakdown, int iPass,
+	int iAttitudeChange, int& iTotal, char const* szTextKey, char const* szTextKeyAlt,
+	char const* szExtraDescription)
+{
+	if ((iPass == 0) ? (iAttitudeChange > 0) : (iAttitudeChange < 0))
+	{
+		CvWString szTempBuffer;
+		szTempBuffer.Format(SETCOLR L"%s" ENDCOLR,
+				TEXT_COLOR(iAttitudeChange > 0 ?
+				"COLOR_POSITIVE_TEXT" : "COLOR_NEGATIVE_TEXT"),
+				gDLL->getText(iAttitudeChange > 0 || szTextKeyAlt == NULL ?
+				szTextKey : szTextKeyAlt, iAttitudeChange,
+				szExtraDescription).GetCString());
+		szBreakdown.append(NEWLINE);
+		szBreakdown.append(szTempBuffer);
+		iTotal += iAttitudeChange;
+	}
+}
+// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 
 
 void CvGameTextMgr::getAttitudeString(CvWStringBuffer& szBuffer, PlayerTypes ePlayer,
@@ -16301,6 +16321,16 @@ void CvGameTextMgr::getAttitudeString(CvWStringBuffer& szBuffer, PlayerTypes ePl
 				iTotal += iAttitudeChange;
 			}
 		}
+		// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+		FOR_EACH_ENUM(Bonus)
+		{
+			appendToAttitudeBreakdownWithExtraDescription(szBreakdown, iPass,
+					kPlayer.AI_getBonusPreferenceAttitude(eTargetPlayer, eLoopBonus), iTotal,
+					"TXT_KEY_MISC_ATTITUDE_FAVORED_BONUS",
+					"TXT_KEY_MISC_ATTITUDE_DISFAVORED_BONUS",
+					GC.getInfo(eLoopBonus).getDescription());
+		}
+		// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 		// advc.sha: Moved down along with WarAttitude (see below); keep these together.
 		appendToAttitudeBreakdown(szBreakdown, iPass,
 				kPlayer.AI_getPeaceAttitude(eTargetPlayer), iTotal,

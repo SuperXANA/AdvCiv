@@ -7686,6 +7686,10 @@ void CvPlayerAI::AI_updateAttitude(PlayerTypes ePlayer, /* advc.130e: */ bool bU
 	/*  advc.sha: Moved to the end and added parameter; the partial result for
 		iAttitude now factors in. */
 	iAttitude += AI_getWarAttitude(ePlayer, iAttitude);
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+	FOR_EACH_ENUM(Bonus)
+		iAttitude += AI_getBonusPreferenceAttitude(ePlayer, eLoopBonus);
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 
 	m_aiAttitude[ePlayer] = range(iAttitude, -100, 100);
 	// <advc.130e>
@@ -8676,6 +8680,16 @@ int CvPlayerAI::AI_knownRankDifference(PlayerTypes eOther,
 	rOutrankingBothRatio = scaled(iOutrankBoth, itThird.nextIndex());
 	return iDelta;
 }
+// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+int CvPlayerAI::AI_getBonusPreferenceAttitude(PlayerTypes ePlayer, BonusTypes eBonus) const
+{
+	const int iCityBonusAttitudeModifier = GC.getInfo(getPersonalityType()).getCityBonusDiplomacyModifier(eBonus);
+	if (iCityBonusAttitudeModifier != 0)
+		if (GET_PLAYER(ePlayer).hasBonus(eBonus))
+			return iCityBonusAttitudeModifier;
+	return 0;
+}
+// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 
 // advc: Refactored (superficially; should really be in a separate class etc.)
 PlayerVoteTypes CvPlayerAI::AI_diploVote(const VoteSelectionSubData& kVoteData,
