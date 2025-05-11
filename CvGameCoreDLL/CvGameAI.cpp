@@ -149,11 +149,12 @@ int CvGameAI::AI_magicCombatValue(UnitTypes eUnit) const
 	{
 		iCombat += kUnitInfo.getDamageTypeCombat(eLoopDamageType);
 	}
-	if (iCombat <= 0)
+	
+	if (iCombat > 0)
 	{
-		return 0
+		return iCombat;
 	}
-	return iCombat;
+	return 0;
 }
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
