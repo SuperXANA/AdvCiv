@@ -709,7 +709,7 @@ int CvUnitInfo::getDamageTypeCombat(int i) const
 {
 	return m_piDamageTypeCombat ? m_piDamageTypeCombat[i] : 0;
 }
-int CvUnitInfo::getDamageTypeCombat(int i) const
+int CvUnitInfo::getDamageTypeResist(int i) const
 {
 	return m_piDamageTypeResist ? m_piDamageTypeResist[i] : 0;
 }

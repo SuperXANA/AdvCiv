@@ -148,6 +148,7 @@ int CvGameAI::AI_magicCombatValue(UnitTypes eUnit) const
 	FOR_EACH_ENUM(DamageType)
 	{
 		iCombat += kUnitInfo.getDamageTypeCombat(eLoopDamageType);
+		iCombat += kUnitInfo.getDamageTypeResist(eLoopDamageType) / 100;
 	}
 	
 	if (iCombat > 0)
@@ -160,11 +161,11 @@ int CvGameAI::AI_magicCombatValue(UnitTypes eUnit) const
 
 int CvGameAI::AI_combatValue(UnitTypes eUnit) /* K-Mod: */ const
 {
-	int iMagicCombat = AI_magicCombatValue(eUnit);
+	int iMagicPower = AI_magicCombatValue(eUnit);
 	int iValue = 100
-	if (iMagicCombat > 0)
+	if (iMagicPower > 0)
 	{
-		iValue *= iMagicCombat
+		iValue *= iMagicPower;
 	}
 	if (GC.getInfo(eUnit).getDomainType() == DOMAIN_AIR)
 		iValue *= GC.getInfo(eUnit).getAirCombat();
