@@ -98,6 +98,7 @@
 			<bCtrlDown>0</bCtrlDown>
 			<iHotKeyPriority>0</iHotKeyPriority>
 			<Button>,Art/Interface/Buttons/Promotions/Combat1.dds,Art/Interface/Buttons/Promotions_Atlas.dds,8,2</Button>
+			<iExpireTurns>3</iExpireTurns>
 		</PromotionInfo>
 		<PromotionInfo>
 			<Type>PROMOTION_COMBAT2</Type>
@@ -197,6 +198,7 @@
 			<bCtrlDown>0</bCtrlDown>
 			<iHotKeyPriority>0</iHotKeyPriority>
 			<Button>,Art/Interface/Buttons/Promotions/Combat2.dds,Art/Interface/Buttons/Promotions_Atlas.dds,1,6</Button>
+			<iExpireTurns>7</iExpireTurns>
 		</PromotionInfo>
 		<PromotionInfo>
 			<Type>PROMOTION_COMBAT3</Type>
@@ -296,6 +298,7 @@
 			<bCtrlDown>0</bCtrlDown>
 			<iHotKeyPriority>0</iHotKeyPriority>
 			<Button>,Art/Interface/Buttons/Promotions/Combat3.dds,Art/Interface/Buttons/Promotions_Atlas.dds,2,6</Button>
+			<iExpireTurns>16</iExpireTurns>
 		</PromotionInfo>
 		<PromotionInfo>
 			<Type>PROMOTION_COMBAT4</Type>

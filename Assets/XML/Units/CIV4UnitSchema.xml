@@ -860,6 +860,9 @@
 	<ElementType name="FeatureDoubleMoves" content="eltOnly">
 		<element type="FeatureDoubleMove" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
+	<!-- 05-17-2025 Timed Promotion Expiry Turns -->
+	<ElementType name="iExpireTurns" content="textOnly" dt:type="int"/>
+	<!-- 05-17-2025 Timed Promotion Expiry Turns -->
 	<ElementType name="PromotionInfo" content="eltOnly">
 		<element type="Type"/>
 		<element type="Description"/>
@@ -927,6 +930,9 @@
 		<element type="iHotKeyPriority"/>
 		<element type="Button" maxOccurs="*"/>
 		<element type="iOrderPriority" minOccurs="0"/>
+	<!-- 05-17-2025 Timed Promotion Expiry Turns -->
+		<element type="iExpireTurns" minOccurs="0"/>
+	<!-- 05-17-2025 Timed Promotion Expiry Turns -->
 	</ElementType>
 	<ElementType name="PromotionInfos" content="eltOnly">
 		<element type="PromotionInfo" maxOccurs="*"/>
