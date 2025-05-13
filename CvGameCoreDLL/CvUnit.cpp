@@ -698,6 +698,10 @@ void CvUnit::doTurn()
 
 	setMadeAttack(false);
 	setMadeInterception(false);
+	
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	doExpireTempPromotions();
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 	//setReconPlot(NULL); // advc.029: Handled at end of turn now
 	// <advc.001b> Allow double spent moves to carry over to the next turn
@@ -712,6 +716,28 @@ void CvUnit::doTurnPost()
 	if(GC.getGame().getGameTurn() > m_iLastReconTurn)
 		setReconPlot(NULL);
 }
+
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+void CvUnit::doExpireTempPromotions()
+{
+	FOR_EACH_ENUM(Promotion)
+	{
+		if (!isHasPromotion(eLoopPromotion))
+			continue;
+		
+		if (GC.getInfo(ePromotion).getExpireTurns() == -1) // XANA (note): Infinite Duration Promotion
+			continue;
+		
+		int iTurnsLeft = getPromotionExpireTurnCount(eLoopPromotion);
+		
+		if (iTurnsLeft == 0)
+			setHasPromotion(eLoopPromotion, false);
+		
+		if (iTurnsLeft > 0)
+			changePromotionExpireTurnCount(eLoopPromotion, -1);
+	}
+}
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 // advc.004c: Return type was void. Now returns false when intercepted.
 bool CvUnit::updateAirStrike(CvPlot& kPlot, bool bQuick, bool bFinish)
@@ -10444,6 +10470,19 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 		changeExtraDomainModifier(eLoopDomain,
 				GC.getInfo(ePromotion).getDomainModifierPercent(eLoopDomain) * iChange);
 	}
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	if (GC.getInfo(ePromotion).getExpireTurns() != -1)
+	{
+		if (iChange < 0)
+		{
+			setPromotionExpireTurnCount(ePromotion, 0);
+		}
+		if (iChange > 0)
+		{
+			setPromotionExpireTurnCount(ePromotion, GC.getInfo(ePromotion).getExpireTurns());
+		}
+	}
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 	if (IsSelected())
 	{
@@ -10477,6 +10516,23 @@ int CvUnit::getSubUnitsAlive(int iDamage) const
 }
 
 
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+void CvUnit::setPromotionExpireTurnCount(PromotionTypes ePromo, int iNewValue)
+{
+	m_aiPromotionExpireTurnCount.set(ePromo, iNewValue);
+	FAssert(getPromotionExpireTurnCount(ePromo) >= 0);
+}
+
+
+void CvUnit::changePromotionExpireTurnCount(PromotionTypes ePromo, int iChange)
+{
+	if (iChange != 0)
+	{
+		m_aiPromotionExpireTurnCount.add(ePromo, iChange);
+		FAssert(getPromotionExpireTurnCount(ePromo) >= 0);
+	}
+}
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 void CvUnit::read(FDataStreamBase* pStream)
 {
 	uint uiFlag=0;
@@ -10634,6 +10690,9 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.read(pStream);
 		m_aiExtraFeatureDefensePercent.read(pStream);
 		m_aiExtraUnitCombatModifier.read(pStream);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+		m_aiPromotionExpireTurnCount.read(pStream);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 	}
 	else
 	{
@@ -10644,6 +10703,9 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.readArray<int>(pStream);
 		m_aiExtraFeatureDefensePercent.readArray<int>(pStream);
 		m_aiExtraUnitCombatModifier.readArray<int>(pStream);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+		m_aiPromotionExpireTurnCount.readArray<int>(pStream);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 	}
 }
 
@@ -10756,6 +10818,9 @@ void CvUnit::write(FDataStreamBase* pStream)
 	m_aiExtraFeatureAttackPercent.write(pStream);
 	m_aiExtraFeatureDefensePercent.write(pStream);
 	m_aiExtraUnitCombatModifier.write(pStream);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	m_aiPromotionExpireTurnCount.write(pStream);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 	REPRO_TEST_END_WRITE();
 }
 

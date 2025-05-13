@@ -1073,6 +1073,14 @@ public:
 	bool LFBisBetterDefenderThan(const CvUnit* pDefender, const CvUnit* pAttacker, int* pBestDefenderRank) const;
 	// (advc: LFBgetDefenderCombatOdds deleted, use 1000 minus calculateCombatOdds instead.)
 	// Lead From Behind: END
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	int getPromotionExpireTurnCount(PromotionTypes ePromo) const										// Exposed to Python
+	{
+		return m_aiPromotionExpireTurnCount.get(ePromo);
+	}
+	void setPromotionExpireTurnCount(PromotionTypes ePromo, int iNewValue);
+	void changePromotionExpireTurnCount(PromotionTypes ePromo, int iChange);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 	// <advc.003u>
 	// virtual for FFreeListTrashArray
@@ -1205,6 +1213,9 @@ protected:
 	ArrayEnumMap<FeatureTypes,int,short> m_aiExtraFeatureDefensePercent;
 	ArrayEnumMap<UnitCombatTypes,int,short> m_aiExtraUnitCombatModifier;
 	// </advc.enum>
+// XABA: 05-17-2025 Timed Promotion Expiry Turns
+	ArrayEnumMap<PromotionTypes,int,short> m_aiPromotionExpireTurnCount;
+// XABA: 05-17-2025 Timed Promotion Expiry Turns
 
 	PlayerTypes getCombatOwner_bulk(TeamTypes eForTeam, CvPlot const& kPlot) const; // advc
 	// <advc.111>

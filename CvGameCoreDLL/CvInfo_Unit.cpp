@@ -1812,7 +1812,10 @@ m_piUnitCombatModifierPercent(NULL),
 m_piDomainModifierPercent(NULL),
 m_pbTerrainDoubleMove(NULL),
 m_pbFeatureDoubleMove(NULL),
-m_pbUnitCombat(NULL)
+m_pbUnitCombat(NULL),
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+m_iExpireTurns(-1) //XANA (note): if -1, then [Promotion Does Not Expire]
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 {}
 
 CvPromotionInfo::~CvPromotionInfo()
@@ -2112,6 +2115,12 @@ bool CvPromotionInfo::getUnitCombat(int i) const
 	FAssertBounds(0, GC.getNumUnitCombatInfos(), i);
 	return m_pbUnitCombat ? m_pbUnitCombat[i] : false;
 }
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+int CvPromotionInfo::getExpireTurns() const
+{
+	return m_iExpireTurns;
+}
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 #if ENABLE_XML_FILE_CACHE
 void CvPromotionInfo::read(FDataStreamBase* stream)
 {
@@ -2191,6 +2200,9 @@ void CvPromotionInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_pbUnitCombat);
 	m_pbUnitCombat = new bool[GC.getNumUnitCombatInfos()];
 	stream->Read(GC.getNumUnitCombatInfos(), m_pbUnitCombat);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	stream->Read(&m_iExpireTurns);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 }
 
 void CvPromotionInfo::write(FDataStreamBase* stream)
@@ -2253,6 +2265,9 @@ void CvPromotionInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumTerrainInfos(), m_pbTerrainDoubleMove);
 	stream->Write(GC.getNumFeatureInfos(), m_pbFeatureDoubleMove);
 	stream->Write(GC.getNumUnitCombatInfos(), m_pbUnitCombat);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	stream->Write(m_iExpireTurns);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 }
 #endif
 bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
@@ -2313,6 +2328,9 @@ bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pbTerrainDoubleMove, "TerrainDoubleMoves", GC.getNumTerrainInfos());
 	pXML->SetVariableListTagPair(&m_pbFeatureDoubleMove, "FeatureDoubleMoves", GC.getNumFeatureInfos());
 	pXML->SetVariableListTagPair(&m_pbUnitCombat, "UnitCombats", GC.getNumUnitCombatInfos());
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	pXML->GetChildXmlValByName(&m_iExpireTurns, "iExpireTurns");
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 	return true;
 }
