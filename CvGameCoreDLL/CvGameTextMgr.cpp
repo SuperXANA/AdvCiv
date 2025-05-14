@@ -596,9 +596,8 @@ void CvGameTextMgr::setUnitHelp(CvWStringBuffer &szString, const CvUnit* pUnit,
 				// <advc.004>
 				if (bAlt && /*(gDLL->getChtLvl() > 0))*/ /* advc.135c: */ bDebugMode)
 				{
-					if (GC.getInfo(eLoopPromotion).getExpireTurns() > 0)
-						if (pUnit.getPromotionExpireTurnCount(eLoopPromotion) > 0)	
-							szTempBuffer.append((L" (%d) "), pUnit.getPromotionExpireTurnCount(eLoopPromotion));
+					if (pUnit.getPromotionExpireTurnCount(eLoopPromotion) > 0)
+						szTempBuffer.append((L" (%d) "), pUnit.getPromotionExpireTurnCount(eLoopPromotion));
 				}
 				if (bFirst)
 				{

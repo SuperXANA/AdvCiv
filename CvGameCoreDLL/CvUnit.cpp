@@ -10520,7 +10520,7 @@ int CvUnit::getSubUnitsAlive(int iDamage) const
 void CvUnit::setPromotionExpireTurnCount(PromotionTypes ePromo, int iNewValue)
 {
 	m_aiPromotionExpireTurnCount.set(ePromo, iNewValue);
-	FAssert(getPromotionExpireTurnCount(ePromo) >= 0);
+	FAssert(getPromotionExpireTurnCount(ePromo) >= -1);
 }
 
 
@@ -10529,7 +10529,7 @@ void CvUnit::changePromotionExpireTurnCount(PromotionTypes ePromo, int iChange)
 	if (iChange != 0)
 	{
 		m_aiPromotionExpireTurnCount.add(ePromo, iChange);
-		FAssert(getPromotionExpireTurnCount(ePromo) >= 0);
+		FAssert(getPromotionExpireTurnCount(ePromo) >= -1);
 	}
 }
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
@@ -11719,6 +11719,10 @@ void CvUnit::applyEvent(EventTypes eEvent)
 
 	if (kEvent.getUnitPromotion() != NO_PROMOTION)
 		setHasPromotion((PromotionTypes)kEvent.getUnitPromotion(), true);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+		if (kEvent.getPromotionExpireTurns() != 0)
+			setPromotionExpireTurnCount((PromotionTypes)kEvent.getUnitPromotion(), kEvent.getPromotionExpireTurns());
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 	if (kEvent.getUnitImmobileTurns() > 0)
 	{
