@@ -725,7 +725,7 @@ void CvUnit::doExpireTempPromotions()
 		if (!isHasPromotion(eLoopPromotion))
 			continue;
 		
-		if (GC.getInfo(ePromotion).getExpireTurns() == -1) // XANA (note): Infinite Duration Promotion
+		if (GC.getInfo(eLoopPromotion).getExpireTurns() == -1) // XANA (note): Infinite Duration Promotion
 			continue;
 		
 		int iTurnsLeft = getPromotionExpireTurnCount(eLoopPromotion);
