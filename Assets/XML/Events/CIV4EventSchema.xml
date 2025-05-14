@@ -50,6 +50,9 @@
 	<ElementType name="iUnitExperience" content="textOnly" dt:type="int"/>
 	<ElementType name="iUnitImmobileTurns" content="textOnly" dt:type="int"/>
 	<ElementType name="UnitPromotion" content="textOnly"/>
+<!-- XANA: 05-17-2025 Timed Promotion Expiry Turns -->
+	<ElementType name="iUnitPromotionExpireTurns" content="textOnly" dt:type="int"/>
+<!-- XANA: 05-17-2025 Timed Promotion Expiry Turns -->
 	<ElementType name="UnitCombat" content="textOnly"/>
 	<ElementType name="UnitCombatPromotion" content="eltOnly">
 		<element type="UnitCombat"/>
@@ -380,6 +383,9 @@
 		<element type="iUnitExperience"/>
 		<element type="iUnitImmobileTurns"/>
 		<element type="UnitPromotion"/>
+<!-- XANA: 05-17-2025 Timed Promotion Expiry Turns -->
+		<element type="iUnitPromotionExpireTurns" minOccurs="0"/>
+<!-- XANA: 05-17-2025 Timed Promotion Expiry Turns -->
 		<element type="UnitName"/>
 		<element type="UnitCombatPromotions"/>
 		<element type="UnitClassPromotions"/>

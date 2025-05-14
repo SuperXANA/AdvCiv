@@ -772,7 +772,7 @@ bool CvEventInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(m_szPythonCanDo, "PythonCanDo");
 	pXML->GetChildXmlValByName(m_szPythonHelp, "PythonHelp");
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
-	pXML->GetChildXmlValByName(&m_iExpireTurns, "UnitPromotionExpireTurns");
+	pXML->GetChildXmlValByName(&m_iExpireTurns, "iUnitPromotionExpireTurns");
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 	m_aszWorldNews.clear();

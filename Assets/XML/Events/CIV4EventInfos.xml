@@ -42,7 +42,10 @@
 			<bDisbandUnit>0</bDisbandUnit>
 			<iUnitExperience>0</iUnitExperience>
 			<iUnitImmobileTurns>0</iUnitImmobileTurns>
-			<UnitPromotion/>
+			<UnitPromotion>PROMOTION_AMBUSH</UnitPromotion>
+<!-- XANA: 05-17-2025 Timed Promotion Expiry Turns -->
+			<iUnitPromotionExpireTurns>7</iUnitPromotionExpireTurns>
+<!-- XANA: 05-17-2025 Timed Promotion Expiry Turns -->
 			<UnitName/>
 			<UnitCombatPromotions/>
 			<UnitClassPromotions/>
