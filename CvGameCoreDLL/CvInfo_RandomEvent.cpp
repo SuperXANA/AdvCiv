@@ -68,7 +68,10 @@ CvEventInfo::CvEventInfo() :
 	m_piAdditionalEventTime(NULL),
 	m_piClearEventChance(NULL),
 	m_piUnitCombatPromotions(NULL),
-	m_piUnitClassPromotions(NULL)
+	m_piUnitClassPromotions(NULL),
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	m_iExpireTurns(0)
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 {}
 
 CvEventInfo::~CvEventInfo()
@@ -458,6 +461,13 @@ const wchar* CvEventInfo::getOtherPlayerPopup() const
 {
 	return m_szOtherPlayerPopup;
 }
+
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+int CvEventInfo::getPromotionExpireTurns() const
+{
+	return m_iExpireTurns;
+}
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 #if ENABLE_XML_FILE_CACHE
 void CvEventInfo::read(FDataStreamBase* stream)
 {
@@ -566,6 +576,9 @@ void CvEventInfo::read(FDataStreamBase* stream)
 	stream->ReadString(m_szPythonExpireCheck);
 	stream->ReadString(m_szPythonCanDo);
 	stream->ReadString(m_szPythonHelp);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	stream->Read(&m_iExpireTurns);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 }
 
 void CvEventInfo::write(FDataStreamBase* stream)
@@ -653,6 +666,9 @@ void CvEventInfo::write(FDataStreamBase* stream)
 	stream->WriteString(m_szPythonExpireCheck);
 	stream->WriteString(m_szPythonCanDo);
 	stream->WriteString(m_szPythonHelp);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	stream->Write(m_iExpireTurns);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 }
 #endif
 bool CvEventInfo::read(CvXMLLoadUtility* pXML)
@@ -755,6 +771,9 @@ bool CvEventInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(m_szPythonExpireCheck, "PythonExpireCheck");
 	pXML->GetChildXmlValByName(m_szPythonCanDo, "PythonCanDo");
 	pXML->GetChildXmlValByName(m_szPythonHelp, "PythonHelp");
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	pXML->GetChildXmlValByName(&m_iExpireTurns, "UnitPromotionExpireTurns");
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 	m_aszWorldNews.clear();
 	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "WorldNewsTexts"))

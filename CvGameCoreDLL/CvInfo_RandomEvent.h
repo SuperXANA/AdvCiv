@@ -101,6 +101,9 @@ public: // All the const functions returning primitive types are exposed to Pyth
 	const wchar* getQuestFailTextKey() const;
 	const wchar* getOtherPlayerPopup() const;
 	const wchar* getLocalInfoTextKey() const;
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	int getPromotionExpireTurns() const;
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* );
 	void write(FDataStreamBase* );
@@ -165,6 +168,9 @@ private:
 	int m_iInflationModifier;
 	int m_iSpaceProductionModifier;
 	int m_iAIValue;
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	int m_iExpireTurns;
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 	int* m_piTechFlavorValue;
 	int* m_piPlotExtraYields;
