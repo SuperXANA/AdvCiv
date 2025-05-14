@@ -583,6 +583,7 @@ void CvGameTextMgr::setUnitHelp(CvWStringBuffer &szString, const CvUnit* pUnit,
 				PLAYER_TEXT_COLOR(kOwner), kOwner.getName());
 		szString.append(szTempBuffer);
 	}
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 	{
 		bool bFirst = true; // advc.004
 		FOR_EACH_ENUM(Promotion)
@@ -593,6 +594,12 @@ void CvGameTextMgr::setUnitHelp(CvWStringBuffer &szString, const CvUnit* pUnit,
 				szTempBuffer.Format(L"<img=%S size=16 />",
 						GC.getInfo(eLoopPromotion).getButton());
 				// <advc.004>
+				if (bAlt && /*(gDLL->getChtLvl() > 0))*/ /* advc.135c: */ bDebugMode)
+				{
+					if (GC.getInfo(eLoopPromotion).getExpireTurns() > 0)
+						if (pUnit.getPromotionExpireTurnCount(eLoopPromotion) > 0)	
+							szTempBuffer.append((L" (%d) "), pUnit.getPromotionExpireTurnCount(eLoopPromotion));
+				}
 				if (bFirst)
 				{
 					szString.append(' ');
@@ -602,6 +609,7 @@ void CvGameTextMgr::setUnitHelp(CvWStringBuffer &szString, const CvUnit* pUnit,
 			}
 		}
 	}
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 	if (bAlt && /*(gDLL->getChtLvl() > 0))*/ /* advc.135c: */ bDebugMode)
 	{
 		CvSelectionGroup const* pGroup = pUnit->getGroup();
@@ -7052,6 +7060,11 @@ void CvGameTextMgr::parsePromotionHelp(CvWStringBuffer &szBuffer,
 					GC.getInfo(eLoopDomain).getTextKeyWide()));
 		}
 	}
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+	if (kPromo.getExpireTurns() > 0)
+		szBuffer.append(pcNewline);
+		szBuffer.append(gDLL->getText("TXT_KEY_PROMOTION_EXPIRE_TURNS", kPromo.getExpireTurns()));
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 	if (wcslen(kPromo.getHelp()) > 0)
 	{
