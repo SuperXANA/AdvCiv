@@ -725,10 +725,10 @@ void CvUnit::doExpireTempPromotions()
 		if (!isHasPromotion(eLoopPromotion))
 			continue;
 		
-		if (GC.getInfo(eLoopPromotion).getExpireTurns() == -1) // XANA (note): Infinite Duration Promotion
-			continue;
-		
 		int iTurnsLeft = getPromotionExpireTurnCount(eLoopPromotion);
+		
+		if (iTurnsLeft == -1) // XANA (note): Infinite Duration Promotion
+			continue;
 		
 		if (iTurnsLeft == 0)
 			setHasPromotion(eLoopPromotion, false);
@@ -10471,7 +10471,7 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 				GC.getInfo(ePromotion).getDomainModifierPercent(eLoopDomain) * iChange);
 	}
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
-	if (GC.getInfo(ePromotion).getExpireTurns() != -1)
+	if (GC.getInfo(ePromotion).getExpireTurns() != 0)
 	{
 		if (iChange < 0)
 		{
