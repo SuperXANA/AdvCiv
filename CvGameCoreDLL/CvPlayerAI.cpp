@@ -7683,13 +7683,15 @@ void CvPlayerAI::AI_updateAttitude(PlayerTypes ePlayer, /* advc.130e: */ bool bU
 
 	//iAttitude += AI_getColonyAttitude(ePlayer); // advc.130r
 	iAttitude += AI_getAttitudeExtra(ePlayer);
-	/*  advc.sha: Moved to the end and added parameter; the partial result for
-		iAttitude now factors in. */
-	iAttitude += AI_getWarAttitude(ePlayer, iAttitude);
+	
 	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 	FOR_EACH_ENUM(Bonus)
 		iAttitude += AI_getBonusPreferenceAttitude(ePlayer, eLoopBonus);
 	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+	
+	/*  advc.sha: Moved to the end and added parameter; the partial result for
+		iAttitude now factors in. */
+	iAttitude += AI_getWarAttitude(ePlayer, iAttitude);
 
 	m_aiAttitude[ePlayer] = range(iAttitude, -100, 100);
 	// <advc.130e>
