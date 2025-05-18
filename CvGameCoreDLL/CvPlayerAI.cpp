@@ -13394,7 +13394,18 @@ DenialTypes CvPlayerAI::AI_civicTrade(CivicTypes eCivic, PlayerTypes ePlayer) co
 			getCivicPercentAnger(eCivic))
 		{
 			return DENIAL_ANGER_CIVIC;
-		}
+		}	
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+		CivicTypes const eHateCivic = getHateCivic();
+		if (eHateCivic != NO_CIVIC)
+		{
+			if (GET_PLAYER(ePlayer).isCivic(eHateCivic) &&
+				eCivicOption == GC.getInfo(eHateCivic).getCivicOptionType())
+			{
+				return DENIAL_FAVORITE_CIVIC;
+			}
+		}	
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		CivicTypes const eFavoriteCivic = getFavoriteCivic();
 		if (eFavoriteCivic != NO_CIVIC)
 		{
@@ -13471,6 +13482,18 @@ DenialTypes CvPlayerAI::AI_religionTrade(ReligionTypes eReligion,
 
 	if (GET_PLAYER(ePlayer).getTeam() == getTeam())
 		return NO_DENIAL;
+	
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	ReligionTypes const eHateReligion = getHateReligion();
+	if (eHateReligion != NO_RELIGION)
+	{
+		if (eReligion == eHateReligion &&
+		GET_PLAYER(ePlayer).isHasReligion(eReligion))
+		{
+			return DENIAL_FAVORITE_CIVIC;
+		}
+	}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 
 	if (getStateReligion() != NO_RELIGION &&
 		// advc.132: Original code moved into isMajorReligion
