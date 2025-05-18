@@ -172,6 +172,9 @@
 					<DiploScriptId>AS2D_DIPLO_BARBARIAN_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges/>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		
 		<!-- advc.xmldefault (start)
@@ -1116,6 +1119,9 @@
 					<DiploScriptId>AS2D_DIPLO_DECA_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges/>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--ADAGIO DAZZLE [EQUESTRIA GIRLS]-->
 			<Type>LEADER_ADAGIO</Type> <!-- MANA KNOWLEDGE: WATER, LVL 1 -->
@@ -1385,6 +1391,14 @@
 					<DiploScriptId>AS2D_DIPLO_SIRENS_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_ARIA</Type>
+					<iFirstImpressionAttitudeChange>-1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--AEQUILIBEIUS ZE AETERNUM, ETERNAL GODDESS OF BALANCE (ALTERNATIVE PERSONALITY OF PIMEDASUS HELENDAV)-->
 			<Type>LEADER_AEQUILIBRIUS</Type>  <!-- MANA KNOWLEDGE: LIFE, LVL 1 & HARMONY, LVL 2 & COSMOS, LVL 3 -->
@@ -2115,6 +2129,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_DERPY</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--ANGEL WINGS-->
 			<Type>LEADER_ANGEL</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
@@ -3095,6 +3117,14 @@
 					<DiploScriptId>AS2D_DIPLO_SIRENS_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_SONATA</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--ARIANI, AKA ARYANNE, IMPERIALIST WARHAWK [OC]-->
 			<Type>LEADER_ARIANI</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 1 -->
@@ -4089,6 +4119,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_AURORA</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--BLANK CHECK, AKA LESLIE FAIRE, MILITANT CAPITIALIST [OC]-->
 			<Type>LEADER_LF</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
@@ -8031,6 +8069,14 @@
 					<DiploScriptId>AS2D_DIPLO_SOLAR_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_NMM</Type>
+					<iFirstImpressionAttitudeChange>-1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--DEMONIC SUNSET SHIMMER [EQUESTRIA GIRLS]-->
 			<Type>LEADER_DEMONSUNSET</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 1 & CHAOS, LVL 1 -->
@@ -8548,6 +8594,14 @@
 					<DiploScriptId>AS2D_DIPLO_DERPY_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_RAINDROPS</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--DISCORD, GOD OF CHAOS-->
 			<Type>LEADER_DISCORD</Type> <!-- MANA KNOWLEDGE: CHAOS, LVL 3 -->
@@ -10056,6 +10110,14 @@
 					<DiploScriptId>AS2D_DIPLO_MFS_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_MTS</Type>
+					<iFirstImpressionAttitudeChange>-1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--EVIL RARITY, MEAN-SIX CHARACTER CLONE OF RARITY [OC]-->
 			<Type>LEADER_ER</Type> <!-- MANA KNOWLEDGE: EARTH, LVL 1 -->
@@ -11717,6 +11779,18 @@
 					<DiploScriptId>AS2D_DIPLO_FH_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_CADANCE</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+				<FirstImpressionChange>
+					<Type>LEADER_SHININGARMOR</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--FLUTTERBAT, BAT PONY ALTER EGO OF FLUTTERSHY-->
 			<Type>LEADER_FLUTTERBAT</Type> <!-- MANA KNOWLEDGE: LIFE, LVL 1 -->
@@ -12456,6 +12530,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_FLUTTERBAT</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--GAEA EVERFREE [EQUESTRIA GIRLS]-->
 			<Type>LEADER_GAEA</Type> <!-- MANA KNOWLEDGE: EARTH, LVL 2 -->
@@ -15584,6 +15666,14 @@
 					<DiploScriptId>AS2D_DIPLO_CRYSTAL_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_GROGAR</Type>
+					<iFirstImpressionAttitudeChange>-1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--KING THORAX OF THE CHANGELINGS-->
 			<Type>LEADER_THORAX</Type> <!-- MANA KNOWLEDGE: LIFE, LVL 1 -->
@@ -17507,6 +17597,14 @@
 					<DiploScriptId>AS2D_DIPLO_LULLABY_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_AURORA</Type>
+					<iFirstImpressionAttitudeChange>2</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--LUSTER DAWN-->
 			<Type>LEADER_LUSTERDAWN</Type> <!-- MANA KNOWLEDGE: HARMONY, LVL 1 -->
@@ -21123,6 +21221,18 @@
 					<DiploScriptId>AS2D_DIPLO_NMM_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_DAYBREAKER</Type>
+					<iFirstImpressionAttitudeChange>-1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+				<FirstImpressionChange>
+					<Type>LEADER_CELESTIA</Type>
+					<iFirstImpressionAttitudeChange>-1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--NIGHTMARE RARITY, EVIL ALTER EGO OF RARITY [OC]-->
 			<Type>LEADER_NR</Type> <!-- MANA KNOWLEDGE: MIND, LVL 1 -->
@@ -22063,6 +22173,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_BAYBREEZE</Type>
+					<iFirstImpressionAttitudeChange>2</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PEACHY MEADOWS [OC]-->
 			<Type>LEADER_PEACHY</Type> <!-- MANA KNOWLEDGE: EARTH, LVL 1 -->
@@ -22572,6 +22690,14 @@
 					<DiploScriptId>AS2D_DIPLO_PIMEDASUS_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_SUNNYSKIES</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PINKIE PIE-->
 			<Type>LEADER_PINKIE</Type> <!-- MANA KNOWLEDGE: CHAOS, LVL 2 -->
@@ -22840,6 +22966,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_DISCORD</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PIXEL PIZZAZ [EQUESTRIA GIRLS]-->
 			<Type>LEADER_PIXEL</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
@@ -23313,6 +23447,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_SHININGARMOR</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PRINCESS CELESTIA-->
 			<Type>LEADER_CELESTIA</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 1 & HARMONY, LVL 1 -->
@@ -23581,6 +23723,14 @@
 					<DiploScriptId>AS2D_DIPLO_CELESTIA_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_LUNA</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PRINCESS CHRONO [OC]-->
 			<Type>LEADER_CHRONO</Type> <!-- MANA KNOWLEDGE: COSMOS, LVL 1 -->
@@ -24060,6 +24210,14 @@
 					<DiploScriptId>AS2D_DIPLO_DARKMATTER_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_TWILIGHT</Type>
+					<iFirstImpressionAttitudeChange>-2</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PRINCESS FLUTTERSHY, COLD AND CRAZY CURSED-IMMORTAL VERSION OF FLUTTERSHY-->
 			<Type>LEADER_FLUTTERQUIET</Type> <!-- MANA KNOWLEDGE: LIFE, LVL 3 -->
@@ -24308,6 +24466,14 @@
 					<DiploScriptId>AS2D_DIPLO_FLUTTERQUIET_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_DISCORD</Type>
+					<iFirstImpressionAttitudeChange>-2</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PRINCESS LUNA-->
 			<Type>LEADER_LUNA</Type> <!-- MANA KNOWLEDGE: WATER, LVL 1 & HARMONY, LVL 1 -->
@@ -24560,6 +24726,14 @@
 					<DiploScriptId>AS2D_DIPLO_LUNA_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_CELESTIA</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PRINCESS PLATINUM-->
 			<Type>LEADER_PLATINUM</Type> <!-- MANA KNOWLEDGE: EARTH, LVL 1 -->
@@ -25049,6 +25223,14 @@
 					<DiploScriptId>AS2D_DIPLO_CHANGELING_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_STARLIGHT</Type>
+					<iFirstImpressionAttitudeChange>-1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--RAINBOW DASH-->
 			<Type>LEADER_RAINBOWDASH</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
@@ -27205,6 +27387,14 @@
 					<DiploScriptId>AS2D_DIPLO_FIREREALM_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_GARBLE</Type>
+					<iFirstImpressionAttitudeChange>-1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SCREWBALL, DAUGHTER OF DISCORD-->
 			<Type>LEADER_SCREWBALL</Type> <!-- MANA KNOWLEDGE: CHAOS, LVL 2 -->
@@ -27446,6 +27636,14 @@
 					<DiploScriptId>AS2D_DIPLO_SCREWBALL_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_PINKIE</Type>
+					<iFirstImpressionAttitudeChange>2</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SENFINA ZONO, MQ9-REAPER UAV PONYBOT [OC]-->
 			<Type>LEADER_MQ9</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
@@ -27975,6 +28173,14 @@
 					<DiploScriptId>AS2D_DIPLO_SHININGARMOR_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_CADANCE</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SNOWFALL FROST-->
 			<Type>LEADER_SNOWFALL</Type> <!-- MANA KNOWLEDGE: CHAOS, LVL 1 -->
@@ -28492,6 +28698,14 @@
 					<DiploScriptId>AS2D_DIPLO_SOLAIS_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_AEQUILIBRIUS</Type>
+					<iFirstImpressionAttitudeChange>-1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SONATA DUSK [EQUESTRIA GIRLS]-->
 			<Type>LEADER_SONATA</Type> <!-- MANA KNOWLEDGE: WATER, LVL 1 -->
@@ -28765,6 +28979,18 @@
 					<DiploScriptId>AS2D_DIPLO_SIRENS_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_ADAGIO</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+				<FirstImpressionChange>
+					<Type>LEADER_ARIA</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SOUR SWEET [EQUESTRIA GIRLS]-->
 			<Type>LEADER_SOURSWEET</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
@@ -29955,6 +30181,14 @@
 					<DiploScriptId>AS2D_DIPLO_STARSWIRL_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_PIMEDASUS</Type>
+					<iFirstImpressionAttitudeChange>-1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--LIGHT GODDESS STELLAR SPARK [OC]-->
 			<Type>LEADER_STELLARSPARK</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 & CHAOS, LVL 1-->
@@ -31093,6 +31327,14 @@
 					<DiploScriptId>AS2D_DIPLO_STRAWBERRY_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_APPLEJACK</Type>
+					<iFirstImpressionAttitudeChange>-1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SUNNY SKIES, THE CONVERSION BUREAU PERSONALITY VERSION OF CELESTIA [OC]-->
 			<Type>LEADER_SUNNYSKIES</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 2 & LIFE, LVL 1 & MIND, LVL 1 -->
@@ -32353,6 +32595,14 @@
 					<DiploScriptId>AS2D_DIPLO_SWEETTREAT_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_TWILIGHT</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SWEETIEBOT [OC]-->
 			<Type>LEADER_SB</Type> <!-- MANA KNOWLEDGE: EARTH, LVL 1 -->
@@ -32825,6 +33075,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_LYRA</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SWEETIE.AI MARK-3000 PONYBOT [OC]-->
 			<Type>LEADER_SM3000</Type> <!-- MANA KNOWLEDGE: AIR, LVL 2 -->
@@ -33768,6 +34026,14 @@
 					<DiploScriptId>AS2D_DIPLO_TRIXIE_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_TWILIGHT</Type>
+					<iFirstImpressionAttitudeChange>-1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--TSUMETAI HOUSEKI, MYSTICAL QUEEN OF ICE [OC]-->
 			<Type>LEADER_TSUMETAI</Type> <!-- MANA KNOWLEDGE: ICE, LVL 2 -->
@@ -34983,6 +35249,14 @@
 					<DiploScriptId>AS2D_DIPLO_UHANE_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_FLUTTERQUIET</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--UPPER CRUST-->
 			<Type>LEADER_UPPERCRUST</Type> <!-- MANA KNOWLEDGE: WATER, LVL 1 -->
@@ -35224,6 +35498,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_DISCORD</Type>
+					<iFirstImpressionAttitudeChange>-2</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--VAPOR TRAIL-->
 			<Type>LEADER_VAPOR</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
@@ -35931,6 +36213,14 @@
 					<DiploScriptId>AS2D_DIPLO_VIRTUS_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+			<FirstImpressionChanges>
+				<FirstImpressionChange>
+					<Type>LEADER_KARYS</Type>
+					<iFirstImpressionAttitudeChange>1</iFirstImpressionAttitudeChange>
+				</FirstImpressionChange>
+			</FirstImpressionChanges>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--WALLFLOWER BLUSH [EQUESTRIA GIRLS]-->
 			<Type>LEADER_WALLFLOWER</Type> <!-- MANA KNOWLEDGE: MIND, LVL 1 -->

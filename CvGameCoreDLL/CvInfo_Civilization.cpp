@@ -1096,7 +1096,7 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 // XANA: 05-31-2025 First Impression Modified By Other Leader
 bool CvLeaderHeadInfo::readPass2(CvXMLLoadUtility* pXML)
 {
-	pXML->SetVariableListTagPair(&m_piFirstImpressionModifier, "FirstImpressionModifers", GC.getNumLeaderHeadInfos());
+	pXML->SetVariableListTagPair(&m_piFirstImpressionModifier, "FirstImpressionChanges", GC.getNumLeaderHeadInfos());
 
 	#ifdef FASSERT_ENABLE
 	if (!isDefaultsType())

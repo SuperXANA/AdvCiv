@@ -197,6 +197,16 @@
 	<ElementType name="DiplomacyIntroMusicWar" content="eltOnly">
 		<element type="DiploMusicWarEra" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+	<ElementType name="iFirstImpressionAttitudeChange" content="textOnly" dt:type="int"/>
+	<ElementType name="FirstImpressionChange" content="eltOnly">
+		<element type="Type"/>
+		<element type="iFirstImpressionAttitudeChange"/>
+	</ElementType>
+	<ElementType name="FirstImpressionChanges" content="eltOnly" minOccurs="0">
+		<element type="FirstImpressionChange" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 	<!-- advc.xmldefault: Made many subelements optional (minOccurs 0).
 		 None were optional before except the ones added by advc.ctr. -->
 	<ElementType name="LeaderHeadInfo" content="eltOnly">
@@ -304,6 +314,9 @@
 		<element type="DiplomacyMusicPeace"/>
 		<element type="DiplomacyIntroMusicWar"/>
 		<element type="DiplomacyMusicWar"/>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
+		<element type="FirstImpressionChanges"/>
+		<!-- XANA: 05-31-2025 First Impression Modified By Other Leader -->
 	</ElementType>
 	<ElementType name="LeaderHeadInfos" content="eltOnly">
 		<element type="LeaderHeadInfo" maxOccurs="*"/>
