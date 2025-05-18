@@ -6876,6 +6876,17 @@ bool CvPlayer::isFavoriteReligionKnown() const
 	return isAlive(); // (as in BtS)
 } // </advc.130n>
 
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+CivicTypes CvPlayer::getHateCivic() const
+{
+	return GC.getInfo(getLeaderType()).getHateCivic();
+}
+ReligionTypes CvPlayer::getHateReligion() const
+{
+	return GC.getInfo(getLeaderType()).getHateReligion();
+}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+
 
 bool CvPlayer::canChangeReligion() const
 {

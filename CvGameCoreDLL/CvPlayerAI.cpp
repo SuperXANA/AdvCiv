@@ -58,6 +58,10 @@ CvPlayerAI::CvPlayerAI(/* advc.003u: */ PlayerTypes eID) : CvPlayer(eID)
 	m_aiSameReligionCounter = new int[MAX_PLAYERS];
 	m_aiDifferentReligionCounter = new int[MAX_PLAYERS];
 	m_aiFavoriteCivicCounter = new int[MAX_PLAYERS];
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	m_aiHateCivicCounter = new int[MAX_PLAYERS];
+	m_aiHateReligionCounter = new int[MAX_PLAYERS];
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	m_aiBonusTradeCounter = new int[MAX_PLAYERS];
 	m_aiPeacetimeTradeValue = new int[MAX_PLAYERS];
 	m_aiPeacetimeGrantValue = new int[MAX_PLAYERS];
@@ -105,6 +109,10 @@ CvPlayerAI::~CvPlayerAI()
 	SAFE_DELETE_ARRAY(m_aiSameReligionCounter);
 	SAFE_DELETE_ARRAY(m_aiDifferentReligionCounter);
 	SAFE_DELETE_ARRAY(m_aiFavoriteCivicCounter);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	SAFE_DELETE_ARRAY(m_aiHateCivicCounter);
+	SAFE_DELETE_ARRAY(m_aiHateReligionCounter);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	SAFE_DELETE_ARRAY(m_aiBonusTradeCounter);
 	SAFE_DELETE_ARRAY(m_aiPeacetimeTradeValue);
 	SAFE_DELETE_ARRAY(m_aiPeacetimeGrantValue);
@@ -203,6 +211,10 @@ void CvPlayerAI::AI_reset(bool bConstructor)
 		m_aiSameReligionCounter[iI] = 0;
 		m_aiDifferentReligionCounter[iI] = 0;
 		m_aiFavoriteCivicCounter[iI] = 0;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+		m_aiHateCivicCounter[iI] = 0;
+		m_aiHateReligionCounter[iI] = 0;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		m_aiBonusTradeCounter[iI] = 0;
 		m_aiPeacetimeTradeValue[iI] = 0;
 		m_aiPeacetimeGrantValue[iI] = 0;
@@ -231,6 +243,10 @@ void CvPlayerAI::AI_reset(bool bConstructor)
 			kLoopPlayer.m_aiSameReligionCounter[getID()] = 0;
 			kLoopPlayer.m_aiDifferentReligionCounter[getID()] = 0;
 			kLoopPlayer.m_aiFavoriteCivicCounter[getID()] = 0;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+			kLoopPlayer.m_aiHateCivicCounter[getID()] = 0;
+			kLoopPlayer.m_aiHateReligionCounter[getID()] = 0;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 			kLoopPlayer.m_aiBonusTradeCounter[getID()] = 0;
 			kLoopPlayer.m_aiPeacetimeTradeValue[getID()] = 0;
 			kLoopPlayer.m_aiPeacetimeGrantValue[getID()] = 0;
@@ -6969,6 +6985,9 @@ int CvPlayerAI::AI_techReligionValue(TechTypes eTech, int iPathLength,
 {
 	CvTechInfo const& kTech = GC.getInfo(eTech);
 	ReligionTypes const eFavoriteReligion = getFavoriteReligion();
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	ReligionTypes const eHateReligion = getHateReligion();
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	// <advc.171>
 	bool bLateFavoriteReligion = false;
 	bool bLateReligion = false; // </advc.171>
@@ -7108,6 +7127,15 @@ int CvPlayerAI::AI_techReligionValue(TechTypes eTech, int iPathLength,
 			}
 			else iReligionValue += iRoll / 2; // advc
 		}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+		if (eHateReligion != NO_RELIGION)
+		{
+			if (eLoopReligion == eHateReligion)
+			{
+				iReligionValue /= 3;
+			}
+		}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	}
 	if (iReligionValue <= 0)
 		return 0;
@@ -7677,6 +7705,10 @@ void CvPlayerAI::AI_updateAttitude(PlayerTypes ePlayer, /* advc.130e: */ bool bU
 	iAttitude += AI_getFavoriteCivicAttitude(ePlayer);
 	iAttitude += AI_getTradeAttitude(ePlayer);
 	iAttitude += AI_getRivalTradeAttitude(ePlayer);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	iAttitude += AI_getHateReligionAttitude(ePlayer);
+	iAttitude += AI_getHateCivicAttitude(ePlayer);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 
 	FOR_EACH_ENUM(Memory)
 		iAttitude += AI_getMemoryAttitude(ePlayer, eLoopMemory);
@@ -8035,6 +8067,29 @@ int CvPlayerAI::AI_getDifferentReligionAttitude(PlayerTypes ePlayer) const
 }
 
 
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+int CvPlayerAI::AI_getHateReligionAttitude(PlayerTypes ePlayer) const
+{
+	ReligionTypes eHateReligion = getHateReligion();
+	if (eHateReligion == NO_RELIGION ||
+		getStateReligion() == eHateReligion ||
+		eHateReligion != GET_PLAYER(ePlayer).getStateReligion())
+	{
+		return 0;
+	}
+	int iAttitude = GC.getInfo(getPersonalityType()).getHateReligionAttitudeChange();
+	if (GET_PLAYER(ePlayer).hasHolyCity(eHateReligion))
+		iAttitude--;
+	CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+	iAttitude += AI_ideologyAttitudeChange(ePlayer, ENEMY_RELIGION,
+			AI_getHateReligionCounter(ePlayer),
+			kPersonality.getHateReligionAttitudeDivisor(),
+			kPersonality.getHateReligionAttitudeChangeLimit());
+	return iAttitude;
+}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+
+
 int CvPlayerAI::AI_getBonusTradeAttitude(PlayerTypes ePlayer) const
 {
 	if (!atWar(getTeam(), GET_PLAYER(ePlayer).getTeam()))
@@ -8170,6 +8225,10 @@ void CvPlayerAI::AI_updateIdeologyAttitude(int iChange, CvCity const& kCity)
 		AI_changeCachedAttitude(eOther, iChange * AI_getSameReligionAttitude(eOther));
 		AI_changeCachedAttitude(eOther, iChange * AI_getDifferentReligionAttitude(eOther));
 		AI_changeCachedAttitude(eOther, iChange * AI_getFavoriteCivicAttitude(eOther));
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+		AI_changeCachedAttitude(eOther, iChange * AI_getHateReligionAttitude(eOther));
+		AI_changeCachedAttitude(eOther, iChange * AI_getHateCivicAttitude(eOther));
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	}
 }
 
@@ -8351,6 +8410,24 @@ int CvPlayerAI::AI_getFavoriteCivicAttitude(PlayerTypes ePlayer) const
 	}
 	return 0;
 }
+
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+int CvPlayerAI::AI_getHateCivicAttitude(PlayerTypes ePlayer) const
+{
+	CivicTypes const eHateCivic = getHateCivic();
+	if (eHateCivic != NO_CIVIC &&
+		!isCivic(eHateCivic) && GET_PLAYER(ePlayer).isCivic(eHateCivic))
+	{
+		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+		return kPersonality.getHateCivicAttitudeChange() +
+				AI_ideologyAttitudeChange(ePlayer, ENEMY_CIVIC,
+				AI_getHateCivicCounter(ePlayer),
+				kPersonality.getHateCivicAttitudeDivisor(),
+				kPersonality.getHateCivicAttitudeChangeLimit());
+	}
+	return 0;
+}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 
 // <advc.130p>
 namespace { int const PEACETIME_TRADE_RELATIONS_LIMIT = 4; }
@@ -17959,6 +18036,14 @@ int CvPlayerAI::AI_civicValue(CivicTypes eCivic) const
 			iValue += 6 * iCities;
 		}
 	}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	if (getHateCivic() == eCivic &&
+		iValue > 0)
+	{
+		iValue /= 167;
+		iValue *= 100;
+	}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 
 	/* if (AI_atVictoryStage(AI_VICTORY_CULTURE2) && kCivic.isNoNonStateReligionSpread())
 		iValue /= 10;*/ // what the lol...
@@ -17991,6 +18076,7 @@ ReligionTypes CvPlayerAI::AI_bestReligion() const
 	ReligionTypes eBestReligion = NO_RELIGION;
 	int iBestValue = 0;
 	ReligionTypes const eFavorite = getFavoriteReligion();
+	ReligionTypes const eEnemy = getHateReligion();
 	FOR_EACH_ENUM(Religion)
 	{
 		if (canDoReligion(eLoopReligion))
@@ -18019,6 +18105,12 @@ ReligionTypes CvPlayerAI::AI_bestReligion() const
 				iValue *= 5;
 				iValue /= 4;
 			}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+			if (eLoopReligion == eEnemy)
+			{
+				iValue /= 3;
+			}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 			if (iValue > iBestValue)
 			{
 				iBestValue = iValue;
@@ -18088,6 +18180,9 @@ int CvPlayerAI::AI_religionValue(ReligionTypes eReligion) const
 	// diplomatic modifier
 	int iTotalCivs = 0; // x2
 	int iLikedReligionCivs = 0; // x2 for friendly
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	int iHatedReligionCivs = 0; // x2 for furious
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	for (PlayerIter<MAJOR_CIV,OTHER_KNOWN_TO> itOther(getTeam());
 		itOther.hasNext(); ++itOther)
 	{
@@ -18101,6 +18196,14 @@ int CvPlayerAI::AI_religionValue(ReligionTypes eReligion) const
 				if (eAttitude >= ATTITUDE_FRIENDLY)
 					iLikedReligionCivs++;
 			}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+			if (eAttitude <= ATTITUDE_ANNOYED)
+			{
+				iHatedReligionCivs++;
+				if (eAttitude <= ATTITUDE_FURIOUS)
+					iHatedReligionCivs++;
+			}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		}
 	}
 
@@ -18115,8 +18218,10 @@ int CvPlayerAI::AI_religionValue(ReligionTypes eReligion) const
 		50 + 5*9 (Zara Yaqob). For most leaders its roughly 50 + 5*5. No one gets 100.
 		also, most civs with a high base modifier also have iReligionFlavor > 0;
 		and so their final modifier will be reduced. */
-	int iDiplomaticModifier = 10 * iDiplomaticBase * iLikedReligionCivs /
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	int iDiplomaticModifier = 10 * iDiplomaticBase * (iLikedReligionCivs / iHatedReligionCivs) /
 			std::max(1, iTotalCivs);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	iDiplomaticModifier /= 10 + iReligionFlavor;
 	// advc.131: AP matters even if diplo modifier already high
 	//if (iDiplomaticModifier < iDiplomaticBase/3) {
@@ -18603,6 +18708,25 @@ void CvPlayerAI::AI_changeDifferentReligionCounter(PlayerTypes eIndex, int iChan
 }
 
 
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+int CvPlayerAI::AI_getHateReligionCounter(PlayerTypes eIndex) const
+{
+	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+	return m_aiHateReligionCounter[eIndex];
+}
+
+
+void CvPlayerAI::AI_changeHateReligionCounter(PlayerTypes eIndex, int iChange)
+{
+	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+	m_aiHateReligionCounter[eIndex] = (m_aiHateReligionCounter[eIndex] + iChange);
+	FAssert(AI_getHateReligionCounter(eIndex) >= 0);
+}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+
+
 int CvPlayerAI::AI_getFavoriteCivicCounter(PlayerTypes eIndex) const
 {
 	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
@@ -18618,6 +18742,25 @@ void CvPlayerAI::AI_changeFavoriteCivicCounter(PlayerTypes eIndex, int iChange)
 	m_aiFavoriteCivicCounter[eIndex] = (m_aiFavoriteCivicCounter[eIndex] + iChange);
 	FAssert(AI_getFavoriteCivicCounter(eIndex) >= 0);
 }
+
+
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+int CvPlayerAI::AI_getHateCivicCounter(PlayerTypes eIndex) const
+{
+	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+	return m_aiHateCivicCounter[eIndex];
+}
+
+
+void CvPlayerAI::AI_changeHateCivicCounter(PlayerTypes eIndex, int iChange)
+{
+	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+	m_aiFavoriteCivicCounter[eIndex] = (m_aiFavoriteCivicCounter[eIndex] + iChange);
+	FAssert(AI_getHateCivicCounter(eIndex) >= 0);
+}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 
 
 int CvPlayerAI::AI_getBonusTradeCounter(PlayerTypes eIndex) const
@@ -18807,10 +18950,27 @@ void CvPlayerAI::AI_setDifferentReligionCounter(PlayerTypes eIndex, int iValue)
 }
 
 
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+void CvPlayerAI::AI_setHateReligionCounter(PlayerTypes eIndex, int iValue)
+{
+	m_aiHateReligionCounter[eIndex] = iValue;
+}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+
+
+
 void CvPlayerAI::AI_setFavoriteCivicCounter(PlayerTypes eIndex, int iValue)
 {
 	m_aiFavoriteCivicCounter[eIndex] = iValue;
 }
+
+
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+void CvPlayerAI::AI_setHateCivicCounter(PlayerTypes eIndex, int iValue)
+{
+	m_aiHateCivicCounter[eIndex] = iValue;
+}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 
 
 void CvPlayerAI::AI_setBonusTradeCounter(PlayerTypes eIndex, int iValue)
@@ -18854,6 +19014,25 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
 		iTotal += iCities;
 		switch (eMarker)
 		{
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+		case ENEMY_RELIGION:
+			ReligionTypes eHateReligion = getHateReligion();
+			if (eHateReligion != NO_RELIGION &&
+				getStateReligion() != eHateReligion &&
+				eHateReligion == itPlayer->getStateReligion())
+			{
+				iMatching += iCities;
+			}
+			break;
+		case ENEMY_CIVIC:
+			CivicTypes eHateCivic = getHateCivic();
+			if (eHateCivic != NO_CIVIC && !isCivic(eHateCivic) &&
+				itPlayer->isCivic(eHateCivic))
+			{
+				iMatching += iCities;
+			}
+			break;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		case SAME_RELIGION:
 			if (getStateReligion() != NO_RELIGION &&
 				getStateReligion() == itPlayer->getStateReligion())
@@ -19367,6 +19546,32 @@ void CvPlayerAI::AI_doCounter()
 						(AI_getFavoriteCivicCounter(ePlayer) * rDecayFactor).floor());
 			}
 		}  // <advc.130p>
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+		if (getHateCivic() != NO_CIVIC)
+		{
+			CivicTypes eHateCivic = getHateCivic();
+			if (!isCivic(eHateCivic) && kPlayer.isCivic(eHateCivic))
+				AI_changeHateCivicCounter(ePlayer, kOurTeam.AI_randomCounterChange());
+			else
+			{
+				AI_setHateCivicCounter(ePlayer,
+						(AI_getHateCivicCounter(ePlayer) * rDecayFactor).floor());
+			}
+		}
+		if (getHateReligion() != NO_RELIGION)
+		{
+			ReligionTypes eHateReligion = getHateReligion();
+			if (getStateReligion() != eHateReligion &&
+				kPlayer.getStateReligion() == eHateReligion &&
+				kOurTeam.AI_getHasMetCounter(kPlayer.getTeam()) >
+				2 * -kPersonality.getHateReligionAttitudeDivisor())
+			{
+				AI_changeHateReligionCounter(ePlayer, kOurTeam.AI_randomCounterChange());
+			}
+			else AI_setHateReligionCounter(ePlayer,
+				(AI_getHateReligionCounter(ePlayer) * rDecayFactor).floor());
+		}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		AI_setPeacetimeGrantValue(ePlayer,
 				(AI_getPeacetimeGrantValue(ePlayer) * rDecayFactor).floor());
 		AI_setPeacetimeTradeValue(ePlayer,
@@ -22954,6 +23159,10 @@ void CvPlayerAI::read(FDataStreamBase* pStream)
 	pStream->Read(MAX_PLAYERS, m_aiSameReligionCounter);
 	pStream->Read(MAX_PLAYERS, m_aiDifferentReligionCounter);
 	pStream->Read(MAX_PLAYERS, m_aiFavoriteCivicCounter);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	pStream->Read(MAX_PLAYERS, m_aiHateCivicCounter);
+	pStream->Read(MAX_PLAYERS, m_aiHateReligionCounter);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	pStream->Read(MAX_PLAYERS, m_aiBonusTradeCounter);
 	pStream->Read(MAX_PLAYERS, m_aiPeacetimeTradeValue);
 	pStream->Read(MAX_PLAYERS, m_aiPeacetimeGrantValue);
@@ -23160,6 +23369,10 @@ void CvPlayerAI::write(FDataStreamBase* pStream)
 	pStream->Write(MAX_PLAYERS, m_aiSameReligionCounter);
 	pStream->Write(MAX_PLAYERS, m_aiDifferentReligionCounter);
 	pStream->Write(MAX_PLAYERS, m_aiFavoriteCivicCounter);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	pStream->Write(MAX_PLAYERS, m_aiHateCivicCounter);
+	pStream->Write(MAX_PLAYERS, m_aiHateReligionCounter);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	pStream->Write(MAX_PLAYERS, m_aiBonusTradeCounter);
 	pStream->Write(MAX_PLAYERS, m_aiPeacetimeTradeValue);
 	pStream->Write(MAX_PLAYERS, m_aiPeacetimeGrantValue);
@@ -25401,6 +25614,14 @@ void CvPlayerAI::AI_updateStrategyHash()
 				{
 					iMissionary += 20;
 				}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+				ReligionTypes eReligion = GC.getInfo(getPersonalityType()).getHateReligion();
+				if (eReligion != NO_RELIGION &&
+					isHasReligion(eReligion))
+				{
+					iMissionary /= 20;
+				}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 				iMissionary += (iHolyCityCount - 1) * 5;
 				iMissionary += std::min(iMetCount, 5) * 7;
 				for (PlayerIter<MAJOR_CIV,OTHER_KNOWN_TO> itOther(getTeam());
@@ -25525,6 +25746,34 @@ void CvPlayerAI::AI_updateStrategyHash()
 		iParanoia *= 3;
 		iParanoia /= 2;
 	}*/
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	CivicTypes eCivic = GC.getInfo(getPersonalityType()).getHateCivic();
+	if (eCivic != NO_CIVIC &&
+		!isCivic(eReligion))
+	{
+		for (PlayerAIIter<FREE_MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getTeam());
+			itRival.hasNext(); ++itRival)
+		{
+			if (itRival.isCivic(eCivic))
+			{	
+				iParanoia += 10;
+			}
+		}
+	}
+	ReligionTypes eReligion = GC.getInfo(getPersonalityType()).getHateReligion();
+	if (eReligion != NO_RELIGION &&
+		getStateReligion() != eReligion)
+	{
+		for (PlayerAIIter<FREE_MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getTeam());
+			itRival.hasNext(); ++itRival)
+		{
+			if (itRival.getStateReligion() == eReligion)
+			{
+				iParanoia += 10;
+			}
+		}
+	}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	int const iCurrentEra = getCurrentEra();
 	// Scale paranoia in later eras/larger games
 	//iParanoia -= (100*(iCurrentEra + 1)) / std::max(1, GC.getNumEraInfos());
@@ -28783,6 +29032,10 @@ ReligionTypes CvPlayerAI::AI_chooseReligion()
 	{
 		if (GC.getGame().isReligionFounded(eLoopReligion))
 			continue;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+		if (getHateReligion() == eLoopReligion) // XANA (note): AI won't willingly adopt its Enemy Religion!
+			continue;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		//aeReligions.push_back(eLoopReligion); // BtS
 		// <advc.171>
 		int iValue = 0;

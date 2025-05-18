@@ -72,6 +72,11 @@ void CyInfoPythonInterface3()
 		.def("getDifferentReligionAttitudeChange", &CvLeaderHeadInfo::getDifferentReligionAttitudeChange, "int ()")
 		.def("getDifferentReligionAttitudeDivisor", &CvLeaderHeadInfo::getDifferentReligionAttitudeDivisor, "int ()")
 		.def("getDifferentReligionAttitudeChangeLimit", &CvLeaderHeadInfo::getDifferentReligionAttitudeChangeLimit, "int ()")
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+		.def("getHateReligionAttitudeChange", &CvLeaderHeadInfo::getHateReligionAttitudeChange, "int ()")
+		.def("getHateReligionAttitudeDivisor", &CvLeaderHeadInfo::getHateReligionAttitudeDivisor, "int ()")
+		.def("getHateReligionAttitudeChangeLimit", &CvLeaderHeadInfo::getHateReligionAttitudeChangeLimit, "int ()")
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		.def("getBonusTradeAttitudeDivisor", &CvLeaderHeadInfo::getBonusTradeAttitudeDivisor, "int ()")
 		.def("getBonusTradeAttitudeChangeLimit", &CvLeaderHeadInfo::getBonusTradeAttitudeChangeLimit, "int ()")
 		.def("getOpenBordersAttitudeDivisor", &CvLeaderHeadInfo::getOpenBordersAttitudeDivisor, "int ()")
@@ -84,6 +89,11 @@ void CyInfoPythonInterface3()
 		.def("getFavoriteCivicAttitudeChange", &CvLeaderHeadInfo::getFavoriteCivicAttitudeChange, "int ()")
 		.def("getFavoriteCivicAttitudeDivisor", &CvLeaderHeadInfo::getFavoriteCivicAttitudeDivisor, "int ()")
 		.def("getFavoriteCivicAttitudeChangeLimit", &CvLeaderHeadInfo::getFavoriteCivicAttitudeChangeLimit, "int ()")
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+		.def("getHateCivicAttitudeChange", &CvLeaderHeadInfo::getHateCivicAttitudeChange, "int ()")
+		.def("getHateCivicAttitudeDivisor", &CvLeaderHeadInfo::getHateCivicAttitudeDivisor, "int ()")
+		.def("getHateCivicAttitudeChangeLimit", &CvLeaderHeadInfo::getHateCivicAttitudeChangeLimit, "int ()")
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		.def("getDemandTributeAttitudeThreshold", &CvLeaderHeadInfo::getDemandTributeAttitudeThreshold, "int ()")
 		.def("getNoGiveHelpAttitudeThreshold", &CvLeaderHeadInfo::getNoGiveHelpAttitudeThreshold, "int ()")
 		.def("getTechRefuseAttitudeThreshold", &CvLeaderHeadInfo::getTechRefuseAttitudeThreshold, "int ()")
@@ -103,6 +113,10 @@ void CyInfoPythonInterface3()
 		.def("getVassalRefuseAttitudeThreshold", &CvLeaderHeadInfo::getVassalRefuseAttitudeThreshold, "int ()")
 		.def("getFavoriteCivic", &CvLeaderHeadInfo::getFavoriteCivic, "int ()")
 		.def("getFavoriteReligion", &CvLeaderHeadInfo::getFavoriteReligion, "int ()")
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+		.def("getHateCivic", &CvLeaderHeadInfo::getHateCivic, "int ()")
+		.def("getHateReligion", &CvLeaderHeadInfo::getHateReligion, "int ()")
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		.def("getVassalPowerModifier", &CvLeaderHeadInfo::getVassalPowerModifier, "int ()")
 		.def("getFreedomAppreciation", &CvLeaderHeadInfo::getFreedomAppreciation, "int ()")
 

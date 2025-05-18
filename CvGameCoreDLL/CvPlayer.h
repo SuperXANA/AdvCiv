@@ -408,6 +408,10 @@ public:
 	ReligionTypes getFavoriteReligion() const;
 	bool isFavoriteReligionKnown() const;
 	// </advc.130n>
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	CivicTypes getHateCivic() const;
+	ReligionTypes getHateReligion() const;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	bool canDoReligion(ReligionTypes eReligion) const																// Exposed to Python
 	{	//return (GET_TEAM(getTeam()).getHasReligionCount(eReligion) != 0);
 		return (getHasReligionCount(eReligion) > 0); // advc.132c

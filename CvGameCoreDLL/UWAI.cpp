@@ -155,13 +155,20 @@ void UWAI::applyPersonalityWeight()
 			&kLeader.m_iAtPeaceAttitudeChangeLimit, &kLeader.m_iSameReligionAttitudeChange,
 			&kLeader.m_iSameReligionAttitudeDivisor, &kLeader.m_iSameReligionAttitudeChangeLimit,
 			&kLeader.m_iDifferentReligionAttitudeChange, &kLeader.m_iDifferentReligionAttitudeDivisor,
-			&kLeader.m_iDifferentReligionAttitudeChangeLimit,
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+			&kLeader.m_iDifferentReligionAttitudeChangeLimit, &kLeader.m_iHateReligionAttitudeChange,
+			&kLeader.m_iHateReligionAttitudeDivisor, &kLeader.m_iHateReligionAttitudeChangeLimit,
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 			&kLeader.m_iBonusTradeAttitudeDivisor, &kLeader.m_iBonusTradeAttitudeChangeLimit,
 			&kLeader.m_iOpenBordersAttitudeDivisor, &kLeader.m_iOpenBordersAttitudeChangeLimit,
 			&kLeader.m_iDefensivePactAttitudeDivisor, &kLeader.m_iDefensivePactAttitudeChangeLimit,
 			&kLeader.m_iShareWarAttitudeChange, &kLeader.m_iShareWarAttitudeDivisor,
 			&kLeader.m_iShareWarAttitudeChangeLimit, &kLeader.m_iFavoriteCivicAttitudeChange,
 			&kLeader.m_iFavoriteCivicAttitudeDivisor, &kLeader.m_iFavoriteCivicAttitudeChangeLimit,
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+			&kLeader.m_iHateCivicAttitudeChange, &kLeader.m_iHateCivicAttitudeDivisor,
+			&kLeader.m_iHateCivicAttitudeChangeLimit,
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 			&kLeader.m_iDemandTributeAttitudeThreshold, &kLeader.m_iNoGiveHelpAttitudeThreshold,
 			&kLeader.m_iTechRefuseAttitudeThreshold, &kLeader.m_iStrategicBonusRefuseAttitudeThreshold,
 			&kLeader.m_iCityRefuseAttitudeThreshold, &kLeader.m_iNativeCityRefuseAttitudeThreshold, // advc.ctr
@@ -217,6 +224,10 @@ void UWAI::applyPersonalityWeight()
 		{
 			kLeader.m_eFavoriteCivic = NO_CIVIC;
 			kLeader.m_eFavoriteReligion = NO_RELIGION;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+			kLeader.m_eHateCivic = NO_CIVIC;
+			kLeader.m_eHateReligion = NO_RELIGION;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		}
 	}
 	for (int j = 0; j < iMembers; j++)

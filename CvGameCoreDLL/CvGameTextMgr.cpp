@@ -16192,6 +16192,11 @@ void CvGameTextMgr::getAttitudeString(CvWStringBuffer& szBuffer, PlayerTypes ePl
 		appendToAttitudeBreakdown(szBreakdown, iPass,
 				kPlayer.AI_getDifferentReligionAttitude(eTargetPlayer), iTotal,
 				"TXT_KEY_MISC_ATTITUDE_DIFFERENT_RELIGION");
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+		appendToAttitudeBreakdown(szBreakdown, iPass,
+				kPlayer.AI_getHateReligionAttitude(eTargetPlayer), iTotal,
+				"TXT_KEY_MISC_ATTITUDE_ENEMY_RELIGION");
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		appendToAttitudeBreakdown(szBreakdown, iPass,
 				kPlayer.AI_getBonusTradeAttitude(eTargetPlayer), iTotal,
 				"TXT_KEY_MISC_ATTITUDE_BONUS_TRADE");
@@ -16222,6 +16227,11 @@ void CvGameTextMgr::getAttitudeString(CvWStringBuffer& szBuffer, PlayerTypes ePl
 		appendToAttitudeBreakdown(szBreakdown, iPass,
 				kPlayer.AI_getFavoriteCivicAttitude(eTargetPlayer), iTotal,
 				"TXT_KEY_MISC_ATTITUDE_FAVORITE_CIVIC");
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+		appendToAttitudeBreakdown(szBreakdown, iPass,
+				kPlayer.AI_getHateCivicAttitude(eTargetPlayer), iTotal,
+				"TXT_KEY_MISC_ATTITUDE_ENEMY_CIVIC");
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		appendToAttitudeBreakdown(szBreakdown, iPass,
 				kPlayer.AI_getTradeAttitude(eTargetPlayer), iTotal,
 				"TXT_KEY_MISC_ATTITUDE_TRADE");

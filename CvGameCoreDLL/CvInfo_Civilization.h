@@ -163,6 +163,11 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getDifferentReligionAttitudeChange() const { return m_iDifferentReligionAttitudeChange; }
 	int getDifferentReligionAttitudeDivisor() const { return m_iDifferentReligionAttitudeDivisor; }
 	int getDifferentReligionAttitudeChangeLimit() const { return m_iDifferentReligionAttitudeChangeLimit; }
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	int getHateReligionAttitudeChange() const { return m_iHateReligionAttitudeChange; }
+	int getHateReligionAttitudeDivisor() const { return m_iHateReligionAttitudeDivisor; }
+	int getHateReligionAttitudeChangeLimit() const { return m_iHateReligionAttitudeChangeLimit; }
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	int getBonusTradeAttitudeDivisor() const { return m_iBonusTradeAttitudeDivisor; }
 	int getBonusTradeAttitudeChangeLimit() const { return m_iBonusTradeAttitudeChangeLimit; }
 	int getOpenBordersAttitudeDivisor() const { return m_iOpenBordersAttitudeDivisor; }
@@ -175,6 +180,11 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getFavoriteCivicAttitudeChange() const { return m_iFavoriteCivicAttitudeChange; }
 	int getFavoriteCivicAttitudeDivisor() const { return m_iFavoriteCivicAttitudeDivisor; }
 	int getFavoriteCivicAttitudeChangeLimit() const { return m_iFavoriteCivicAttitudeChangeLimit; }
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	int getHateCivicAttitudeChange() const { return m_iHateCivicAttitudeChange; }
+	int getHateCivicAttitudeDivisor() const { return m_iHateCivicAttitudeDivisor; }
+	int getHateCivicAttitudeChangeLimit() const { return m_iHateCivicAttitudeChangeLimit; }
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	int getDemandTributeAttitudeThreshold() const { return m_iDemandTributeAttitudeThreshold; }
 	int getNoGiveHelpAttitudeThreshold() const { return m_iNoGiveHelpAttitudeThreshold; }
 	int getTechRefuseAttitudeThreshold() const { return m_iTechRefuseAttitudeThreshold; }
@@ -199,6 +209,10 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getVassalPowerModifier() const { return m_iVassalPowerModifier; }
 	CivicTypes getFavoriteCivic() const { return m_eFavoriteCivic; }
 	ReligionTypes getFavoriteReligion() const { return m_eFavoriteReligion; }
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	CivicTypes getHateCivic() const { return m_eHateCivic; }
+	ReligionTypes getHateReligion() const { return m_eHateReligion; }
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	int getFreedomAppreciation() const { return m_iFreedomAppreciation; }
 	int getLoveOfPeace() const { return m_iLoveOfPeace; } // advc.104
 
@@ -283,6 +297,11 @@ protected:
 	int m_iDifferentReligionAttitudeChange;
 	int m_iDifferentReligionAttitudeDivisor;
 	int m_iDifferentReligionAttitudeChangeLimit;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	int m_iHateReligionAttitudeChange;
+	int m_iHateReligionAttitudeDivisor;
+	int m_iHateReligionAttitudeChangeLimit;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	int m_iBonusTradeAttitudeDivisor;
 	int m_iBonusTradeAttitudeChangeLimit;
 	int m_iOpenBordersAttitudeDivisor;
@@ -295,6 +314,11 @@ protected:
 	int m_iFavoriteCivicAttitudeChange;
 	int m_iFavoriteCivicAttitudeDivisor;
 	int m_iFavoriteCivicAttitudeChangeLimit;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	int m_iHateCivicAttitudeChange;
+	int m_iHateCivicAttitudeDivisor;
+	int m_iHateCivicAttitudeChangeLimit;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	int m_iDemandTributeAttitudeThreshold;
 	int m_iNoGiveHelpAttitudeThreshold;
 	int m_iTechRefuseAttitudeThreshold;
@@ -320,6 +344,10 @@ protected:
 	int m_iLoveOfPeace; // advc.104
 	CivicTypes m_eFavoriteCivic;
 	ReligionTypes m_eFavoriteReligion;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	CivicTypes m_eHateCivic;
+	ReligionTypes m_eHateReligion;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 
 	CvString m_szArtDefineTag;
 

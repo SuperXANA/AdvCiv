@@ -707,6 +707,20 @@ bool CyPlayer::isFavoriteReligionKnown()
 			m_pPlayer->isFavoriteReligionKnown());
 } // </advc.130n>
 
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+CivicTypes CyPlayer::getHateCivic()
+{
+	return (m_pPlayer == NULL || !m_pPlayer->isAlive() ? NO_CIVIC :
+			m_pPlayer->getHateCivic());
+}
+
+ReligionTypes CyPlayer::getHateReligion()
+{
+	return (m_pPlayer == NULL || !m_pPlayer->isAlive() ? NO_RELIGION :
+			m_pPlayer->getHateReligion());
+}
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+
 bool CyPlayer::canDoReligion(int /*ReligionTypes*/ eReligion)
 {
 	return m_pPlayer ? m_pPlayer->canDoReligion((ReligionTypes) eReligion) : false;

@@ -497,7 +497,17 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL)
+m_piDiploWarMusicScriptIds(NULL),
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+m_eHateCivic(NO_CIVIC),
+m_iHateCivicAttitudeChange(0),
+m_iHateCivicAttitudeDivisor(0),
+m_iHateCivicAttitudeChangeLimit(0),
+m_eHateReligion(NO_RELIGION),
+m_iHateReligionAttitudeChange(0),
+m_iHateReligionAttitudeDivisor(0),
+m_iHateReligionAttitudeChangeLimit(0)
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 {}
 
 // <advc.xmldefault>
@@ -711,6 +721,11 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	stream->Read(&m_iDifferentReligionAttitudeChange);
 	stream->Read(&m_iDifferentReligionAttitudeDivisor);
 	stream->Read(&m_iDifferentReligionAttitudeChangeLimit);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	stream->Read(&m_iHateReligionAttitudeChange);
+	stream->Read(&m_iHateReligionAttitudeDivisor);
+	stream->Read(&m_iHateReligionAttitudeChangeLimit);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	stream->Read(&m_iBonusTradeAttitudeDivisor);
 	stream->Read(&m_iBonusTradeAttitudeChangeLimit);
 	stream->Read(&m_iOpenBordersAttitudeDivisor);
@@ -723,6 +738,11 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	stream->Read(&m_iFavoriteCivicAttitudeChange);
 	stream->Read(&m_iFavoriteCivicAttitudeDivisor);
 	stream->Read(&m_iFavoriteCivicAttitudeChangeLimit);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	stream->Read(&m_iHateCivicAttitudeChange);
+	stream->Read(&m_iHateCivicAttitudeDivisor);
+	stream->Read(&m_iHateCivicAttitudeChangeLimit);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	stream->Read(&m_iDemandTributeAttitudeThreshold);
 	stream->Read(&m_iNoGiveHelpAttitudeThreshold);
 	stream->Read(&m_iTechRefuseAttitudeThreshold);
@@ -748,6 +768,10 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	stream->Read(&m_iLoveOfPeace); // advc.104
 	stream->Read((int*)&m_eFavoriteCivic);
 	stream->Read((int*)&m_eFavoriteReligion);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	stream->Read((int*)&m_eHateCivic);
+	stream->Read((int*)&m_eHateReligion);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	stream->ReadString(m_szArtDefineTag);
 	SAFE_DELETE_ARRAY(m_pbTraits);
 	m_pbTraits = new bool[GC.getNumTraitInfos()];
@@ -847,6 +871,11 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(m_iDifferentReligionAttitudeChange);
 	stream->Write(m_iDifferentReligionAttitudeDivisor);
 	stream->Write(m_iDifferentReligionAttitudeChangeLimit);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	stream->Write(m_iHateReligionAttitudeChange);
+	stream->Write(m_iHateReligionAttitudeDivisor);
+	stream->Write(m_iHateeligionAttitudeChangeLimit);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	stream->Write(m_iBonusTradeAttitudeDivisor);
 	stream->Write(m_iBonusTradeAttitudeChangeLimit);
 	stream->Write(m_iOpenBordersAttitudeDivisor);
@@ -859,6 +888,11 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(m_iFavoriteCivicAttitudeChange);
 	stream->Write(m_iFavoriteCivicAttitudeDivisor);
 	stream->Write(m_iFavoriteCivicAttitudeChangeLimit);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	stream->Write(m_iHateCivicAttitudeChange);
+	stream->Write(m_iHateCivicAttitudeDivisor);
+	stream->Write(m_iHateCivicAttitudeChangeLimit);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	stream->Write(m_iDemandTributeAttitudeThreshold);
 	stream->Write(m_iNoGiveHelpAttitudeThreshold);
 	stream->Write(m_iTechRefuseAttitudeThreshold);
@@ -884,6 +918,10 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(m_iLoveOfPeace); // advc.104
 	stream->Write(m_eFavoriteCivic);
 	stream->Write(m_eFavoriteReligion);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	stream->Write(m_eHateCivic);
+	stream->Write(m_eHateReligion);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	stream->WriteString(m_szArtDefineTag);
 	stream->Write(GC.getNumTraitInfos(), m_pbTraits);
 	stream->Write(GC.getNumFlavorTypes(), m_piFlavorValue);
@@ -967,6 +1005,11 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	GetChildXmlValByName(m_iDifferentReligionAttitudeChange, "iDifferentReligionAttitudeChange");
 	GetChildXmlValByName(m_iDifferentReligionAttitudeDivisor, "iDifferentReligionAttitudeDivisor");
 	GetChildXmlValByName(m_iDifferentReligionAttitudeChangeLimit, "iDifferentReligionAttitudeChangeLimit");
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	GetChildXmlValByName(m_iHateReligionAttitudeChange, "iHateReligionAttitudeChange");
+	GetChildXmlValByName(m_iHateReligionAttitudeDivisor, "iHateReligionAttitudeDivisor");
+	GetChildXmlValByName(m_iHateReligionAttitudeChangeLimit, "iHateReligionAttitudeChangeLimit");
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	GetChildXmlValByName(m_iBonusTradeAttitudeDivisor, "iBonusTradeAttitudeDivisor");
 	GetChildXmlValByName(m_iBonusTradeAttitudeChangeLimit, "iBonusTradeAttitudeChangeLimit");
 	GetChildXmlValByName(m_iOpenBordersAttitudeDivisor, "iOpenBordersAttitudeDivisor");
@@ -979,6 +1022,11 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	GetChildXmlValByName(m_iFavoriteCivicAttitudeChange, "iFavoriteCivicAttitudeChange");
 	GetChildXmlValByName(m_iFavoriteCivicAttitudeDivisor, "iFavoriteCivicAttitudeDivisor");
 	GetChildXmlValByName(m_iFavoriteCivicAttitudeChangeLimit, "iFavoriteCivicAttitudeChangeLimit");
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	GetChildXmlValByName(m_iHateCivicAttitudeChange, "iHateCivicAttitudeChange");
+	GetChildXmlValByName(m_iHateCivicAttitudeDivisor, "iHateCivicAttitudeDivisor");
+	GetChildXmlValByName(m_iHateCivicAttitudeChangeLimit, "iHateCivicAttitudeChangeLimit");
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	GetChildXmlValByName(m_iVassalPowerModifier, "iVassalPowerModifier");
 	GetChildXmlValByName(m_iFreedomAppreciation, "iFreedomAppreciation");
 	GetChildXmlValByName(m_iLoveOfPeace, "iLoveOfPeace", 0); // advc.104
@@ -1031,6 +1079,12 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 			"FavoriteCivic");
 	pXML->SetInfoIDFromChildXmlVal(m_eFavoriteReligion,
 			"FavoriteReligion");
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	pXML->SetInfoIDFromChildXmlVal(m_eHateCivic,
+			"HateCivic");
+	pXML->SetInfoIDFromChildXmlVal(m_eHateReligion,
+			"HateReligion");
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 
 	pXML->SetVariableListTagPair(&m_pbTraits, "Traits", GC.getNumTraitInfos());
 	pXML->SetVariableListTagPair(&m_piFlavorValue, "Flavors", GC.getNumFlavorTypes());

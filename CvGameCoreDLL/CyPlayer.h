@@ -180,6 +180,10 @@ public:
 	bool isFavoriteCivicKnown();
 	ReligionTypes getFavoriteReligion();
 	bool isFavoriteReligionKnown(); // </advc.130n>
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	CivicTypes getHateCivic();
+	ReligionTypes getHateReligion();
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	bool canDoReligion(int /*ReligionTypes*/ eReligion);
 	bool canChangeReligion();
 	bool canConvert(int /*ReligionTypes*/ iIndex);

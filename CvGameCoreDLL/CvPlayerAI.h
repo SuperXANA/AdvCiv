@@ -231,6 +231,9 @@ public:
 	int AI_getPeaceAttitude(PlayerTypes ePlayer) const;
 	int AI_getSameReligionAttitude(PlayerTypes ePlayer) const;
 	int AI_getDifferentReligionAttitude(PlayerTypes ePlayer) const;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	int AI_getHateReligionAttitude(PlayerTypes ePlayer) const;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	int AI_getBonusTradeAttitude(PlayerTypes ePlayer) const;
 	int AI_getOpenBordersAttitude(PlayerTypes ePlayer) const;
 	int AI_getDefensivePactAttitude(PlayerTypes ePlayer) const;
@@ -238,6 +241,9 @@ public:
 	int AI_getRivalVassalAttitude(PlayerTypes ePlayer) const;
 	int AI_getShareWarAttitude(PlayerTypes ePlayer) const;
 	int AI_getFavoriteCivicAttitude(PlayerTypes ePlayer) const;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	int AI_getHateCivicAttitude(PlayerTypes ePlayer) const;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	int AI_getTradeAttitude(PlayerTypes ePlayer) const;
 	int AI_getRivalTradeAttitude(PlayerTypes ePlayer) const;
 	int AI_getBonusTradeCounter(TeamTypes eTo) const; // advc.130p
@@ -505,9 +511,19 @@ public:
 
 	int AI_getDifferentReligionCounter(PlayerTypes eIndex) const;
 	void AI_changeDifferentReligionCounter(PlayerTypes eIndex, int iChange);
+	
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	int AI_getHateReligionCounter(PlayerTypes eIndex) const;
+	void AI_changeHateReligionCounter(PlayerTypes eIndex, int iChange);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 
 	int AI_getFavoriteCivicCounter(PlayerTypes eIndex) const;
 	void AI_changeFavoriteCivicCounter(PlayerTypes eIndex, int iChange);
+	
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	int AI_getHateCivicCounter(PlayerTypes eIndex) const;
+	void AI_changeHateCivicCounter(PlayerTypes eIndex, int iChange);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 
 	int AI_getBonusTradeCounter(PlayerTypes eIndex) const;
 	void AI_changeBonusTradeCounter(PlayerTypes eIndex, int iChange);
@@ -529,7 +545,13 @@ public:
 	// <advc.130k> To make exponential decay more convenient
 	void AI_setSameReligionCounter(PlayerTypes eIndex, int iValue);
 	void AI_setDifferentReligionCounter(PlayerTypes eIndex, int iValue);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	void AI_setHateReligionCounter(PlayerTypes eIndex, int iValue);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	void AI_setFavoriteCivicCounter(PlayerTypes eIndex, int iValue);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	void AI_setHateCivicCounter(PlayerTypes eIndex, int iValue);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	void AI_setBonusTradeCounter(PlayerTypes eIndex, int iValue);
 	// </advc.130k>
 	int AI_getGoldTradedTo(PlayerTypes eIndex) const;
@@ -804,6 +826,10 @@ protected:
 	int* m_aiSameReligionCounter;
 	int* m_aiDifferentReligionCounter;
 	int* m_aiFavoriteCivicCounter;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	int* m_aiHateCivicCounter;
+	int* m_aiHateReligionCounter;
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	int* m_aiBonusTradeCounter;
 	int* m_aiPeacetimeTradeValue;
 	int* m_aiPeacetimeGrantValue;
@@ -873,7 +899,7 @@ protected:
 	void AI_setPeacetimeGrantValue(PlayerTypes eIndex, int iVal);
 	// </advc.130p>
 	// <advc.130n>
-	enum IdeologicMarker { SAME_RELIGION, DIFFERENT_RELIGION, SAME_CIVIC };
+	enum IdeologicMarker { ENEMY_RELIGION, ENEMY_CIVIC, SAME_RELIGION, DIFFERENT_RELIGION, SAME_CIVIC }; // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	int AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eMarker,
 			int iCounter, int iDivisor, int iLimit) const; // </advc.130n>
 	// advc.130r: Are they at war with a partner of ours?
