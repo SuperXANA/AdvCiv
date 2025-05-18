@@ -497,7 +497,10 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL)
+m_piDiploWarMusicScriptIds(NULL),
+// XANA: 05-31-2025 First Impression Modified By Other Leader
+m_piFirstImpressionModifier(NULL)
+// XANA: 05-31-2025 First Impression Modified By Other Leader
 {}
 
 // <advc.xmldefault>
@@ -533,6 +536,9 @@ CvLeaderHeadInfo::CvLeaderHeadInfo(CvLeaderHeadInfo const& kOther)
 	allocCopy(m_piDiploPeaceMusicScriptIds, kOther.m_piDiploPeaceMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarIntroMusicScriptIds, kOther.m_piDiploWarIntroMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarMusicScriptIds, kOther.m_piDiploWarMusicScriptIds, GC.getNumEraInfos());
+// XANA: 05-31-2025 First Impression Modified By Other Leader
+	allocCopy(m_piFirstImpressionModifier, kOther.m_piFirstImpressionModifier, GC.getNumLeaderHeadInfos());
+// XANA: 05-31-2025 First Impression Modified By Other Leader
 } // </advc.xmldefault>
 
 CvLeaderHeadInfo::~CvLeaderHeadInfo()
@@ -550,6 +556,9 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploPeaceMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
+// XANA: 05-31-2025 First Impression Modified By Other Leader
+	SAFE_DELETE_ARRAY(m_piFirstImpressionModifier);
+// XANA: 05-31-2025 First Impression Modified By Other Leader
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const
@@ -656,6 +665,14 @@ const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 
 	return NULL;
 }
+
+// XANA: 05-31-2025 First Impression Modified By Other Leader
+int CvLeaderHeadInfo::getFirstImpressionModifier(LeaderHeadTypes eOtherLeader) const
+{
+	FAssertBounds(0, GC.getNumLeaderHeadInfos(), eOtherLeader);
+	return m_piFirstImpressionModifier ? m_piFirstImpressionModifier[eOtherLeader] : 0;
+}
+// XANA: 05-31-2025 First Impression Modified By Other Leader
 
 #if ENABLE_XML_FILE_CACHE
 void CvLeaderHeadInfo::read(FDataStreamBase* stream)
@@ -792,6 +809,11 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
 	m_piDiploWarMusicScriptIds = new int[GC.getNumEraInfos()];
 	stream->Read(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 05-31-2025 First Impression Modified By Other Leader
+	SAFE_DELETE_ARRAY(m_piFirstImpressionModifier);
+	m_piFirstImpressionModifier = new int[GC.getNumLeaderHeadInfos()];
+	stream->Read(GC.getNumLeaderHeadInfos(), m_piFirstImpressionModifier);
+// XANA: 05-31-2025 First Impression Modified By Other Leader
 }
 
 void CvLeaderHeadInfo::write(FDataStreamBase* stream)
@@ -898,6 +920,9 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumEraInfos(), m_piDiploPeaceMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarIntroMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 05-31-2025 First Impression Modified By Other Leader
+	stream->Write(GC.getNumLeaderHeadInfos(), m_piFirstImpressionModifier);
+// XANA: 05-31-2025 First Impression Modified By Other Leader
 }
 #endif
 
@@ -1067,6 +1092,26 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	m_pXML = NULL; // advc.xmldefault
 	return true;
 }
+
+// XANA: 05-31-2025 First Impression Modified By Other Leader
+bool CvLeaderHeadInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	pXML->SetVariableListTagPair(&m_piFirstImpressionModifier, "FirstImpressionModifers", GC.getNumLeaderHeadInfos());
+
+	#ifdef FASSERT_ENABLE
+	if (!isDefaultsType())
+	{
+		if (m_piFirstImpressionModifier != NULL)
+		{
+			FOR_EACH_ENUM(LeaderHead)
+				FAssert(m_piFirstImpressionModifier[eLoopLeaderHead] >= 0);
+		}
+	#endif
+	
+	return true;
+}
+// XANA: 05-31-2025 First Impression Modified By Other Leader
+
 // <advc.xmldefault>
 CvXMLLoadUtility* CvLeaderHeadInfo::m_pXML = NULL;
 

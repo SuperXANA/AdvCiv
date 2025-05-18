@@ -220,6 +220,9 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getDiploPeaceMusicScriptIds(int i) const;
 	int getDiploWarIntroMusicScriptIds(int i) const;
 	int getDiploWarMusicScriptIds(int i) const;
+	// XANA: 05-31-2025 First Impression Modified By Other Leader
+	int getFirstImpressionModifier(LeaderHeadTypes eOtherLeader) const;
+	// XANA: 05-31-2025 First Impression Modified By Other Leader
 
 	// (not exposed to Python)
 	DllExport const CvArtInfoLeaderhead* getArtInfo() const;
@@ -230,6 +233,9 @@ public: // advc: All the const functions are exposed to Python except those adde
 	void write(FDataStreamBase* stream);
 	#endif
 	bool read(CvXMLLoadUtility* pXML);
+	// XANA: 05-31-2025 First Impression Modified By Other Leader
+	bool readPass2(CvXMLLoadUtility* pXML);
+	// XANA: 05-31-2025 First Impression Modified By Other Leader
 
 protected:
 	/*	advc.xmldefault (note): The copy-ctor relies on m_iWonderConstructRand
@@ -339,6 +345,9 @@ protected:
 	int* m_piDiploPeaceMusicScriptIds;
 	int* m_piDiploWarIntroMusicScriptIds;
 	int* m_piDiploWarMusicScriptIds;
+	// XANA: 05-31-2025 First Impression Modified By Other Leader
+	int* m_piFirstImpressionModifier;
+	// XANA: 05-31-2025 First Impression Modified By Other Leader
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;
 	static void GetChildXmlValByName(int& r, TCHAR const* szName, int iDefault = MIN_INT);

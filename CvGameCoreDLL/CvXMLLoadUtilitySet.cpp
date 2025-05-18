@@ -692,7 +692,9 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paCivicInfo, "CIV4CivicInfos", "GameInfo", "Civ4CivicInfos/CivicInfos/CivicInfo", false, &CvDLLUtilityIFaceBase::createCivicInfoCacheObject);
 	FOR_EACH_ENUM(VoteSource)
 		GC.getInfo(eLoopVoteSource).readPass3();
-	LoadGlobalClassInfo(GC.m_paLeaderHeadInfo, "CIV4LeaderHeadInfos", "Civilizations", "Civ4LeaderHeadInfos/LeaderHeadInfos/LeaderHeadInfo", false, &CvDLLUtilityIFaceBase::createLeaderHeadInfoCacheObject);
+// XANA: 05-31-2025 First Impression Modified By Other Leader
+	LoadGlobalClassInfo(GC.m_paLeaderHeadInfo, "CIV4LeaderHeadInfos", "Civilizations", "Civ4LeaderHeadInfos/LeaderHeadInfos/LeaderHeadInfo", true, &CvDLLUtilityIFaceBase::createLeaderHeadInfoCacheObject);
+// XANA: 05-31-2025 First Impression Modified By Other Leader
 	LoadGlobalClassInfo(GC.m_paColorInfo, "CIV4ColorVals", "Interface", "Civ4ColorVals/ColorVals/ColorVal", false);
 	LoadGlobalClassInfo(GC.m_paPlayerColorInfo, "CIV4PlayerColorInfos", "Interface", "Civ4PlayerColorInfos/PlayerColorInfos/PlayerColorInfo", false);
 	LoadGlobalClassInfo(GC.m_paEffectInfo, "CIV4EffectInfos", "Misc", "Civ4EffectInfos/EffectInfos/EffectInfo", false);

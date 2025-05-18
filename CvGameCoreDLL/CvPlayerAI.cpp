@@ -8515,6 +8515,9 @@ int CvPlayerAI::AI_getFirstImpressionAttitude(PlayerTypes ePlayer) const
 	CvHandicapInfo const& kTheirHandicap = GC.getInfo(kPlayer.getHandicapType());
 	CvLeaderHeadInfo const& kOurPersonality = GC.getInfo(getPersonalityType());
 	int iAttitude = kOurPersonality.getBaseAttitude();
+// XANA: 05-31-2025 First Impression Modified By Other Leader
+	iAttitude += kOurPersonality.getFirstImpressionModifier(kPlayer.getPersonalityType());
+// XANA: 05-31-2025 First Impression Modified By Other Leader
 	iAttitude += kTheirHandicap.getAttitudeChange();
 	if(!kPlayer.isHuman())
 	{	// <advc.130b>
