@@ -1424,6 +1424,14 @@ bool CvDiplomacyTextInfo::read(CvXMLLoadUtility* pXML)
 			pXML->SetVariableListTagPair(&m_pResponses[j].m_pbAttitudeTypes, "Attitudes", NUM_ATTITUDE_TYPES);
 			// PowerTypes
 			pXML->SetVariableListTagPair(&m_pResponses[j].m_pbDiplomacyPowerTypes, "DiplomacyPowers", NUM_DIPLOMACYPOWER_TYPES);
+			// Player Civilizations
+			pXML->SetVariableListTagPair(&m_pResponses[j].m_pbOtherCivilizationTypes, "OtherCivilizations", GC.getNumCivilizationInfos());
+			// Player Not Civilizations
+			pXML->SetVariableListTagPair(&m_pResponses[j].m_pbOtherNotCivilizationTypes, "OtherNotCivilizations", GC.getNumCivilizationInfos());
+			// Player Leaders
+			pXML->SetVariableListTagPair(&m_pResponses[j].m_pbOtherLeaderHeadTypes, "OtherLeaders", GC.getNumLeaderHeadInfos());
+			// Player Not Leaders
+			pXML->SetVariableListTagPair(&m_pResponses[j].m_pbOtherNotLeaderHeadTypes, "OtherNotLeaders", GC.getNumLeaderHeadInfos());
 			// DiplomacyText
 			if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),"DiplomacyText"))
 			{
