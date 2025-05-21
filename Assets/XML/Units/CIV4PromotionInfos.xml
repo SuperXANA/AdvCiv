@@ -98,6 +98,20 @@
 			<bCtrlDown>0</bCtrlDown>
 			<iHotKeyPriority>0</iHotKeyPriority>
 			<Button>,Art/Interface/Buttons/Promotions/Combat1.dds,Art/Interface/Buttons/Promotions_Atlas.dds,8,2</Button>
+	<!-- XANA: 04-19-2025 FfH Damage Types for AdvancedCiv -->
+			<DamageTypeCombats>
+				<DamageTypeCombat>
+					<DamageType>DAMAGE_FIRE</DamageType>
+					<iExtraStrength>2</iExtraStrength>
+				</DamageTypeCombat>
+			</DamageTypeCombats>
+			<DamageTypeResists>
+				<DamageTypeResist>
+					<DamageType>DAMAGE_AIR</DamageType>
+					<iExtraDefense>1</iExtraDefense>
+				</DamageTypeResist>
+			</DamageTypeResists>
+	<!-- XANA: 04-19-2025 FfH Damage Types for AdvancedCiv -->
 		</PromotionInfo>
 		<PromotionInfo>
 			<Type>PROMOTION_COMBAT2</Type>
@@ -197,6 +211,10 @@
 			<bCtrlDown>0</bCtrlDown>
 			<iHotKeyPriority>0</iHotKeyPriority>
 			<Button>,Art/Interface/Buttons/Promotions/Combat2.dds,Art/Interface/Buttons/Promotions_Atlas.dds,1,6</Button>
+	<!-- XANA: 04-19-2025 FfH Damage Types for AdvancedCiv -->
+			<DamageTypeCombats/>
+			<DamageTypeResists/>
+	<!-- XANA: 04-19-2025 FfH Damage Types for AdvancedCiv -->
 		</PromotionInfo>
 		<PromotionInfo>
 			<Type>PROMOTION_COMBAT3</Type>
