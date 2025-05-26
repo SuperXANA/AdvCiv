@@ -17384,6 +17384,10 @@ bool CvPlayer::splitEmpire(CvArea& kArea) // advc: was iAreaId
 				int iValue = 1 + SyncRandNum(100);
 				if (GC.getInfo(getCivilizationType()).getDerivativeCiv() == it->first)
 					iValue += 1000;
+				// XANA: 05-25-2025 Leader-Specific Colony Split
+				if (GC.getInfo(getLeaderType()).getDerivativeLeader() == it->second)
+					iValue += 1000;
+				// XANA: 05-25-2025 Leader-Specific Colony Split
 
 				if (iValue > iBestValue)
 				{

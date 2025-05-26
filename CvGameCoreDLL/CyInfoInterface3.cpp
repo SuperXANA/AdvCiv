@@ -107,6 +107,9 @@ void CyInfoPythonInterface3()
 		.def("getFreedomAppreciation", &CvLeaderHeadInfo::getFreedomAppreciation, "int ()")
 
 		.def("getArtDefineTag", &CvLeaderHeadInfo::getArtDefineTag, "string ()")
+		// XANA: 05-25-2025 Leader-Specific Colony Split
+		.def("getDerivativeLeader", &CvLeaderHeadInfo::getDerivativeLeader, "int ()")
+		// XANA: 05-25-2025 Leader-Specific Colony Split
 
 		// Arrays
 

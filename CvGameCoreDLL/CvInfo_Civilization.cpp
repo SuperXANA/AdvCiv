@@ -497,7 +497,10 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL)
+m_piDiploWarMusicScriptIds(NULL),
+// XANA: 05-25-2025 Leader-Specific Colony Split
+m_iDerivativeLeader(NO_LEADER)
+// XANA: 05-25-2025 Leader-Specific Colony Split
 {}
 
 // <advc.xmldefault>
@@ -657,6 +660,13 @@ const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 	return NULL;
 }
 
+// XANA: 05-25-2025 Leader-Specific Colony Split
+int CvLeaderHeadInfo::getDerivativeLeader() const
+{
+	return m_iDerivativeLeader;
+}
+// XANA: 05-25-2025 Leader-Specific Colony Split
+
 #if ENABLE_XML_FILE_CACHE
 void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 {
@@ -792,6 +802,9 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
 	m_piDiploWarMusicScriptIds = new int[GC.getNumEraInfos()];
 	stream->Read(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 05-25-2025 Leader-Specific Colony Split
+	stream->Read(&m_iDerivativeLeader);
+// XANA: 05-25-2025 Leader-Specific Colony Split
 }
 
 void CvLeaderHeadInfo::write(FDataStreamBase* stream)
@@ -898,6 +911,9 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumEraInfos(), m_piDiploPeaceMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarIntroMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 05-25-2025 Leader-Specific Colony Split
+	stream->Write(m_iDerivativeLeader);
+// XANA: 05-25-2025 Leader-Specific Colony Split
 }
 #endif
 
@@ -1068,6 +1084,15 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	return true;
 }
 // <advc.xmldefault>
+
+// XANA: 05-25-2025 Leader-Specific Colony Split
+bool CvLeaderHeadInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	pXML->SetInfoIDFromChildXmlVal(m_iDerivativeLeader, "DerivativeLeader");
+	return true;
+}
+// XANA: 05-25-2025 Leader-Specific Colony Split
+
 CvXMLLoadUtility* CvLeaderHeadInfo::m_pXML = NULL;
 
 void CvLeaderHeadInfo::GetChildXmlValByName(int& r, TCHAR const* szName, int iDefault)
