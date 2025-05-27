@@ -444,10 +444,13 @@ public:
 	}
 
 	void setBaseCombatStr(int iCombat);																		// Exposed to Python
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	int baseCombatStr() const																				// Exposed to Python
 	{
-		return m_iBaseCombat;
-	}  // advc: Default values - to make clear that these can be NULL.
+		return m_iBaseCombat + calculateTotalDamageTypeCombat();
+	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv	
+	// advc: Default values - to make clear that these can be NULL.
 	int maxCombatStr(CvPlot const* pPlot = NULL, CvUnit const* pAttacker = NULL,							// Exposed to Python
 			CombatDetails* pCombatDetails = NULL,
 			bool bGarrisonStrength = false) const; // advc.500b
@@ -1254,6 +1257,7 @@ protected:
 	int calculateDamageTypeResist(DamageTypes eIndex) const;
 	void changeDamageTypeResist(DamageTypes eIndex, int iChange);
 	void setDamageTypeResist(DamageTypes eIndex, int iValue);
+	int calculateTotalDamageTypeCombat() const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 // <advc.003u>
 private:

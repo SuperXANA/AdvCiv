@@ -10536,6 +10536,14 @@ void CvUnit::setDamageTypeResist(DamageTypes eIndex, int iValue)
 {
 	m_aiDamageTypeResist.set(eIndex, iValue);
 }
+
+int CvUnit::calculateTotalDamageTypeCombat() const
+{
+	int iMagicPower = 0;
+	FOR_EACH_ENUM(DamageType)
+		iMagicPower += getDamageTypeCombat(eLoopDamageType);
+	return iMagicPower;
+}
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 void CvUnit::read(FDataStreamBase* pStream)
