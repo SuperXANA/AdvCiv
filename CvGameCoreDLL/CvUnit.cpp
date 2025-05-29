@@ -10479,7 +10479,16 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 		}
 		if (iChange > 0)
 		{
-			setPromotionExpireTurnCount(ePromotion, GC.getInfo(ePromotion).getExpireTurns());
+			int iExpireTurns = GC.getInfo(ePromotion).getExpireTurns();
+			
+			if (iExpireTurns == 0)
+				iExpireTurns = -1; // XNAA (note): Infinite Duration Promotion
+				
+			if (iExpireTurns > 1) // XANA (note): Only values greater than one can be successfully scaled by game speed.
+				iExpireTurns *= GC.getInfo(GC.getGame().getGameSpeedType()).getTrainPercent();
+				iExpireTurns /= 100;
+				
+			setPromotionExpireTurnCount(ePromotion, iExpireTurns);
 		}
 	}
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
