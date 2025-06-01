@@ -541,7 +541,7 @@ void CvGame::reset(HandicapTypes eHandicap, bool bConstructorCall)
 	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	m_iGlobalCounter = 0;
 	m_iMaxGlobalCounter = 0;
-	m_iGlobalCounterLimit = 50;
+	m_iGlobalCounterLimit = GC.getDefineINT("GlOBAL_COUNTER_INITIAL_LIMIT"));;
 	m_bGlobalCounterFrozen = false;
 	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 

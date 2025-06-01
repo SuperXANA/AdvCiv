@@ -194,6 +194,10 @@ bool CvXMLLoadUtility::SetGlobalDefines()
 		return false;
 	if(!ReadGlobalDefines("xml\\GlobalDefines_advc.xml", cache))
 		return false; // </advc.009>
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if(!ReadGlobalDefines("xml\\GlobalDefines_ffh.xml", cache))
+		return false;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	// BETTER_BTS_AI_MOD, XML Options, 02/21/10, jdog5000: START
 	ReadGlobalDefines("xml\\BBAI_Game_Options_GlobalDefines.xml", cache);
