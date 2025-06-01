@@ -25,6 +25,10 @@ public: // All the const functions are exposed to Python
 	const TCHAR* getMovieFile() const;
 	const TCHAR* getMovieSound() const;
 	const TCHAR* getSound() const;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getGlobalCounterModifier() const { return m_iGlobalCounterModifier; }
+	int getGlobalCounterModifierOnSpread() const { return m_iGlobalCounterModifierOnSpread; }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	bool read(CvXMLLoadUtility* pXML);
 
@@ -34,6 +38,10 @@ protected:
 	UnitClassTypes m_eFreeUnitClass;
 	MissionTypes m_eMissionType;
 	int m_iSpreadFactor;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iGlobalCounterModifier;
+	int m_iGlobalCounterModifierOnSpread;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	CvString m_szMovieFile;
 	CvString m_szMovieSound;

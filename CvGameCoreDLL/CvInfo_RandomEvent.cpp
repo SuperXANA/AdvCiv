@@ -68,7 +68,11 @@ CvEventInfo::CvEventInfo() :
 	m_piAdditionalEventTime(NULL),
 	m_piClearEventChance(NULL),
 	m_piUnitCombatPromotions(NULL),
-	m_piUnitClassPromotions(NULL)
+	m_piUnitClassPromotions(NULL),
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	m_iPrereqGlobalCounter(0),
+	m_iGlobalCounterModifier(0)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 CvEventInfo::~CvEventInfo()
@@ -419,6 +423,18 @@ int CvEventInfo::getNumWorldNews() const
 	return m_aszWorldNews.size();
 }
 
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+int CvEventInfo::getPrereqGlobalCounter() const
+{
+	return m_iPrereqGlobalCounter;
+}
+
+int CvEventInfo::getGlobalCounterModifier() const
+{
+	return m_iGlobalCounterModifier;
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+
 const char* CvEventInfo::getPythonCallback() const
 {
 	return m_szPythonCallback;
@@ -566,6 +582,10 @@ void CvEventInfo::read(FDataStreamBase* stream)
 	stream->ReadString(m_szPythonExpireCheck);
 	stream->ReadString(m_szPythonCanDo);
 	stream->ReadString(m_szPythonHelp);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Read(&m_iPrereqGlobalCounter);
+	stream->Read(&m_iGlobalCounterModifier);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 void CvEventInfo::write(FDataStreamBase* stream)
@@ -653,6 +673,10 @@ void CvEventInfo::write(FDataStreamBase* stream)
 	stream->WriteString(m_szPythonExpireCheck);
 	stream->WriteString(m_szPythonCanDo);
 	stream->WriteString(m_szPythonHelp);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Write(m_iPrereqGlobalCounter);
+	stream->Write(m_iGlobalCounterModifier);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 #endif
 bool CvEventInfo::read(CvXMLLoadUtility* pXML)
@@ -784,6 +808,10 @@ bool CvEventInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagRate(BuildingCommerceChange(), "BuildingExtraCommerce");
 	pXML->SetVariableListTagPair(BuildingHappyChange(), "BuildingExtraHappies");
 	pXML->SetVariableListTagPair(BuildingHealthChange(), "BuildingExtraHealths");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iPrereqGlobalCounter, "iPrereqGlobalCounter");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifier, "iGlobalCounterModifier");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// </advc.003t>
 	return true;
 }
@@ -845,7 +873,10 @@ CvEventTriggerInfo::CvEventTriggerInfo() :
 	m_bHeadquarters(false),
 	m_bProbabilityUnitMultiply(false),
 	m_bProbabilityBuildingMultiply(false),
-	m_bPrereqEventCity(false)
+	m_bPrereqEventCity(false),
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	m_iPrereqGlobalCounter(0)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 int CvEventTriggerInfo::getPercentGamesActive() const
@@ -1277,6 +1308,13 @@ bool CvEventTriggerInfo::isPlotEventTrigger() const  // advc: refactored
 	return false;
 }
 
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+int CvEventTriggerInfo::getPrereqGlobalCounter() const
+{
+	return m_iPrereqGlobalCounter;
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+
 const char* CvEventTriggerInfo::getPythonCallback() const
 {
 	return m_szPythonCallback;
@@ -1478,6 +1516,9 @@ void CvEventTriggerInfo::read(FDataStreamBase* stream)
 	stream->ReadString(m_szPythonCanDo);
 	stream->ReadString(m_szPythonCanDoCity);
 	stream->ReadString(m_szPythonCanDoUnit);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Read(&m_iPrereqGlobalCounter);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 void CvEventTriggerInfo::write(FDataStreamBase* stream)
@@ -1622,6 +1663,9 @@ void CvEventTriggerInfo::write(FDataStreamBase* stream)
 	stream->WriteString(m_szPythonCanDo);
 	stream->WriteString(m_szPythonCanDoCity);
 	stream->WriteString(m_szPythonCanDoUnit);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Write(m_iPrereqGlobalCounter);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 #endif
 bool CvEventTriggerInfo::read(CvXMLLoadUtility* pXML)
@@ -2094,6 +2138,9 @@ bool CvEventTriggerInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(m_szPythonCanDo, "PythonCanDo");
 	pXML->GetChildXmlValByName(m_szPythonCanDoCity, "PythonCanDoCity");
 	pXML->GetChildXmlValByName(m_szPythonCanDoUnit, "PythonCanDoUnit");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iPrereqGlobalCounter, "iPrereqGlobalCounter");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	return true;
 }

@@ -225,6 +225,10 @@ public: // advc: All the const functions are exposed to Python except those adde
 	DllExport const CvArtInfoLeaderhead* getArtInfo() const;
 	const TCHAR* getLeaderHead() const;
 	const TCHAR* getButton() const;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	bool isHeraldOfElysium() const { return m_bHeraldOfElysium; } // XANA (note): Agent of MyLittlePony Ragnarok (Heaven)
+	bool isHeraldOfGehenna() const { return m_bHeraldOfGehenna; } // XANA (note): Agent of MyLittlePony Ragnarok (Hell)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
 	void write(FDataStreamBase* stream);
@@ -339,6 +343,10 @@ protected:
 	int* m_piDiploPeaceMusicScriptIds;
 	int* m_piDiploWarIntroMusicScriptIds;
 	int* m_piDiploWarMusicScriptIds;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	bool m_bHeraldOfElysium;
+	bool m_bHeraldOfGehenna;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;
 	static void GetChildXmlValByName(int& r, TCHAR const* szName, int iDefault = MIN_INT);

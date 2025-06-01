@@ -85,6 +85,11 @@ public: // All the const functions returning primitive types are exposed to Pyth
 	int getUnitClassPromotion(int i) const;
 	const CvWString& getWorldNews(int i) const;
 	int getNumWorldNews() const;
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getPrereqGlobalCounter() const;
+	int getGlobalCounterModifier() const;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	// <advc.003t> Replacing vectors of tuples
 	DEF_INFO_ENUM2SHORT_MAP(BuildingYieldChange, BuildingClass, Yield, YieldChangeMap, NonDefaultEnumMap);
@@ -165,6 +170,10 @@ private:
 	int m_iInflationModifier;
 	int m_iSpaceProductionModifier;
 	int m_iAIValue;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iPrereqGlobalCounter;
+	int m_iGlobalCounterModifier;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	int* m_piTechFlavorValue;
 	int* m_piPlotExtraYields;
@@ -282,6 +291,10 @@ public: // All the const functions returning primitive types are exposed to Pyth
 	bool isPrereqEventCity() const;
 
 	bool isPlotEventTrigger() const; // advc.003w: Moved from CvGameCoreUtils
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getPrereqGlobalCounter() const;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	const char* getPythonCallback() const;
 	const char* getPythonCanDo() const;
@@ -320,6 +333,9 @@ private:
 	int m_iUnitDistanceWeight;
 	int m_iUnitExperienceWeight;
 	int m_iMinTreasury;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iPrereqGlobalCounter;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	std::vector<int> m_aiUnitsRequired;
 	std::vector<int> m_aiBuildingsRequired;

@@ -105,6 +105,9 @@ CvUnit::CvUnit() // advc.003u: Body cut from the deleted reset function
 	m_iBaseCombat = 0;
 	m_iCargoCapacity = 0;
 	m_iLastReconTurn = -1; // advc.029
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	m_iGlobalCounterCombatPercent = 0;
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 // advc.003u: Param eUnitAI moved to CvUnitAI::init
@@ -302,6 +305,10 @@ void CvUnit::finalizeInit() // advc.003u: Body cut from init
 			kGame.setBestLandUnit(getUnitType());
 		}
 	}
+	
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	kOwner.changeGlobalCounterContrib(m_pUnitInfo->getGlobalCounterModifier());
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if (isActiveOwned())
 		gDLL->UI().setDirty(GameData_DIRTY_BIT, true);
@@ -504,6 +511,17 @@ void CvUnit::kill(bool bDelay, PlayerTypes ePlayer)
 		startDelayedDeath();
 		return;
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+    if (ePlayer != NO_PLAYER)
+    {
+	    GET_PLAYER(ePlayer).changeGlobalCounterContrib(-1 * m_pUnitInfo->getGlobalCounterModifier());
+	}
+	else
+	{
+	    kOwner.changeGlobalCounterContrib(-1 * m_pUnitInfo->getGlobalCounterModifier());
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if (isMadeAttack() && isNuke())
 	{
@@ -1539,6 +1557,10 @@ void CvUnit::updateCombat(bool bQuick, /* <advc.004c> */ bool* pbIntercepted,
 			}
 		} // <advc.130m>
 
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+        pDefender->combatVictory(this, false);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+
 		addDefenseSuccessMessages(*pDefender); // advc: Moved into new function
 		// report event to Python, along with some other key state
 		CvEventReporter::getInstance().combatResult(pDefender, this);
@@ -1587,6 +1609,9 @@ void CvUnit::updateCombat(bool bQuick, /* <advc.004c> */ bool* pbIntercepted,
 					iWS, getTeam(), pDefender->getTeam(), true);
 			}
 		} // <advc.130m>
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		combatVictory(pDefender, true);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 		// report event to Python, along with some other key state
 		CvEventReporter::getInstance().combatResult(this, pDefender);
 		bool bAdvance = false;
@@ -7564,6 +7589,19 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 			if (pCombatDetails != NULL)
 				pCombatDetails->iKamikazeModifier = iExtraModifier;
 		}
+		
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		const int iGlobalCounter = GC.getGame().getGlobalCounter();
+		iExtraModifier = getGlobalCounterCombatPercent() * iGlobalCounter;
+		iTempModifier += iExtraModifier;
+		if (pCombatDetails != NULL)
+			pCombatDetails->iGlobalCounterModifierA = iExtraModifier;
+
+		iExtraModifier = -pAttacker->getGlobalCounterCombatPercent() * iGlobalCounter;
+		iTempModifier += iExtraModifier;
+		if (pCombatDetails != NULL)
+			pCombatDetails->iGlobalCounterModifierT = iExtraModifier;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 		// if we are attacking an unknown defender, then use the reverse of the modifier
 		if (bAttackingUnknownDefender)
@@ -10444,6 +10482,10 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 		changeExtraDomainModifier(eLoopDomain,
 				GC.getInfo(ePromotion).getDomainModifierPercent(eLoopDomain) * iChange);
 	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	GET_PLAYER(getOwner()).changeGlobalCounterContrib(GC.getInfo(ePromotion).getGlobalCounterModifier() * iChange);
+	changeGlobalCounterCombatPercent(GC.getInfo(ePromotion).getGlobalCounterCombatPercent() * iChange);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if (IsSelected())
 	{
@@ -10645,6 +10687,9 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureDefensePercent.readArray<int>(pStream);
 		m_aiExtraUnitCombatModifier.readArray<int>(pStream);
 	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pStream->Read(&m_iGlobalCounterCombatPercent);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 
@@ -10756,6 +10801,9 @@ void CvUnit::write(FDataStreamBase* pStream)
 	m_aiExtraFeatureAttackPercent.write(pStream);
 	m_aiExtraFeatureDefensePercent.write(pStream);
 	m_aiExtraUnitCombatModifier.write(pStream);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pStream->Read(m_iGlobalCounterCombatPercent);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	REPRO_TEST_END_WRITE();
 }
 
@@ -11893,6 +11941,59 @@ bool CvUnit::isWorker() const
 {
 	return (AI_getUnitAIType() == UNITAI_WORKER || AI_getUnitAIType() == UNITAI_WORKER_SEA);
 }
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+void CvUnit::combatVictory(CvUnit* pLoser, bool bAttacking)
+{
+	CvPlayerAI& kAttackingPlayer = GET_PLAYER(getOwner());
+	CvPlayerAI& kDefendingPlayer = GET_PLAYER(pLoser->getOwner());
+	
+	// XANA (note): Check Promotions of Attacking Unit for Special Modifiers
+	FOR_EACH_ENUM(Promotion)
+	{
+		if (!isHasPromotion(eLoopPromotion))
+			continue;
+		CvPromotionInfo const& kLoopPromo = GC.getInfo(eLoopPromotion);
+		
+		if (kLoopPromo.getGlobalCounterModifierOnCombat() != 0)
+		{
+			kAttackingPlayer.changeGlobalCounterContrib(kLoopPromo.getGlobalCounterModifierOnCombat());
+		}
+		if (kLoopPromo.getGlobalCounterModifierOnCombatWon() != 0)
+		{
+			kAttackingPlayer.changeGlobalCounterContrib(kLoopPromo.getGlobalCounterModifierOnCombatWon());
+		}
+	}
+	
+	// XANA (note): Check Promotions of Defending Unit for Special Modifiers
+	FOR_EACH_ENUM(Promotion)
+	{
+		if (!(pLoser->isHasPromotion(eLoopPromotion)))
+			continue;
+		CvPromotionInfo const& kLoopPromo = GC.getInfo(eLoopPromotion);
+		
+		if (kLoopPromo.getGlobalCounterModifierOnCombatLost() != 0)
+		{
+			kDefendingPlayer.changeGlobalCounterContrib(kLoopPromo.getGlobalCounterModifierOnCombatLost());
+		}
+	}
+}
+
+int CvUnit::getGlobalCounterCombatPercent() const
+{
+	return m_iGlobalCounterCombatPercent;
+}
+
+void CvUnit::changeGlobalCounterCombatPercent(int iChange)
+{
+	if (iChange != 0)
+	{
+		m_iGlobalCounterCombatPercent = (m_iGlobalCounterCombatPercent + iChange);
+		setInfoBarDirty(true);
+	}
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+
 
 /*	BETTER_BTS_AI_MOD, Lead From Behind (UncutDragon), 02/21/10, jdog5000: START
 	Original isBetterDefenderThan call (without the extra parameter) -

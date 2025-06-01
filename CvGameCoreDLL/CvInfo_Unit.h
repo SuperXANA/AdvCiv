@@ -335,6 +335,10 @@ public: /*  All const functions are exposed to Python except some related to art
 	void updateArtDefineButton();
 
 	const CvArtInfoUnit* getArtInfo(int i, EraTypes eEra, UnitArtStyleTypes eStyle) const;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getPrereqGlobalCounter() const { return m_iPrereqGlobalCounter; }
+	int getGlobalCounterModifier() const { return m_iGlobalCounterModifier; }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase*);
 	void write(FDataStreamBase*);
@@ -467,6 +471,10 @@ protected:
 	bool m_bAlwaysHostile;
 	bool m_bNoRevealMap;
 	int m_iLeaderPromotion;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iPrereqGlobalCounter;
+	int m_iGlobalCounterModifier;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	float m_fUnitMaxSpeed;
 	float m_fUnitPadTime;
@@ -648,6 +656,15 @@ public: // All the const functions are exposed to Python
 	bool getTerrainDoubleMove(int i) const;
 	bool getFeatureDoubleMove(int i) const;
 	bool getUnitCombat(int i) const;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getPrereqGlobalCounter() const { return m_iPrereqGlobalCounter; }
+	int getGlobalCounterModifier() const { return m_iGlobalCounterModifier; }
+	int getGlobalCounterCombatPercent() const { return m_iGlobalCounterCombatPercent; }
+	int getGlobalCounterCombatStrength() const { return m_iGlobalCounterCombatPercent / 100; }
+	int getGlobalCounterModifierOnCombat() const { return m_iGlobalCounterModifierOnCombat; }
+	int getGlobalCounterModifierOnCombatWon() const { return m_iGlobalCounterModifierOnCombatWon; }
+	int getGlobalCounterModifierOnCombatLost() const { return m_iGlobalCounterModifierOnCombatLost; }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
 	void write(FDataStreamBase* stream);
@@ -693,6 +710,13 @@ protected:
 	int m_iUpgradeDiscount;
 	int m_iExperiencePercent;
 	int m_iKamikazePercent;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iPrereqGlobalCounter;
+	int m_iGlobalCounterModifier;
+	int m_iGlobalCounterModifierOnCombat;
+	int m_iGlobalCounterModifierOnCombatWon;
+	int m_iGlobalCounterModifierOnCombatLost;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	bool m_bLeader;
 	//bool m_bBlitz;

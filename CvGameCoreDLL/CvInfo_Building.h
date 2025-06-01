@@ -332,6 +332,11 @@ public:
 	const TCHAR* getMovie() const;
 
 	bool nameNeedsArticle() const; // advc.008e
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getPrereqGlobalCounter() const { return m_iPrereqGlobalCounter; }
+	int getGlobalCounterModifier() const { return m_iGlobalCounterModifier; }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase*);
@@ -432,6 +437,10 @@ protected:
 	int m_iAllCityDefenseModifier;
 	int m_iEspionageDefenseModifier;
 	int m_iUnhealthyPopulationModifier; // K-Mod: was m_bNoUnhealthyPopulation
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iPrereqGlobalCounter;
+	int m_iGlobalCounterModifier;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	MissionTypes m_eMissionType;
 	VoteSourceTypes m_eVoteSourceType;
 

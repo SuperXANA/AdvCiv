@@ -9586,6 +9586,29 @@ int CvUnitAI::AI_promotionValue(PromotionTypes ePromotion)
 		}
 		else iValue += (iTemp / 8);
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	iTemp = GC.getInfo(ePromotion).getGlobalCounterCombatPercent();
+	if (iTemp != 0)
+	{
+		iExtra = (getUnitInfo().getGlobalCounterModifier() + (GC.getGame().getGlobalCounter() * 4));
+		iTemp *= (100 + iExtra);
+		iTemp /= 100;
+		if (AI_getUnitAIType() == UNITAI_ATTACK)
+		{
+			iValue += (iTemp * 4) / 3;
+		}
+		else if (AI_getUnitAIType() == UNITAI_COUNTER ||
+			AI_getUnitAIType() == UNITAI_CITY_COUNTER ||
+			AI_getUnitAIType() == UNITAI_RESERVE ||
+			getLeaderUnitType() != NO_UNIT)
+		{
+			iValue += iTemp * 1;
+		}
+		else iValue += (iTemp / 4);
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	
 	if (iValue > 0)
 		iValue += SyncRandNum(15);
 	return iValue;

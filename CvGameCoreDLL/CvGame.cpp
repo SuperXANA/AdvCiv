@@ -538,6 +538,12 @@ void CvGame::reset(HandicapTypes eHandicap, bool bConstructorCall)
 	// </advc.opt>
 	m_uiInitialTime = 0;
 	m_uiSaveFlag = 0; // advc
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	m_iGlobalCounter = 0;
+	m_iMaxGlobalCounter = 0;
+	m_iGlobalCounterLimit = 50;
+	m_bGlobalCounterFrozen = false;
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	m_bScoreDirty = false;
 	m_bCircumnavigated = false;
@@ -593,6 +599,10 @@ void CvGame::reset(HandicapTypes eHandicap, bool bConstructorCall)
 		m_aiSecretaryGeneralTimer.reset();
 		m_aiVoteTimer.reset();
 		getBarbarianWeightMap().getActivityMap().reset(); // advc.304
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		m_aiPlayerGlobalCounterContrib.reset();
+		m_aiPlayerGlobalCounterContribPerTurn.reset();
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	}
 
 	m_deals.removeAll();
@@ -2915,6 +2925,9 @@ void CvGame::updateUnprofiled()
 	updateMoves();
 	updateTimers();
 	updateTurnTimer();
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	updateGlobalCounter();
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	AI().AI_updateAssignWork();
 	testAlive();
 	if (getAIAutoPlay() == 0 && !gDLL->GetAutorun() &&
@@ -8878,6 +8891,10 @@ void CvGame::read(FDataStreamBase* pStream)
 		m_aiBuildingClassCreatedCount.read(pStream);
 		m_aiProjectCreatedCount.read(pStream);
 		m_aiForceCivicCount.read(pStream);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		m_aiPlayerGlobalCounterContrib.read(pStream);
+		m_aiPlayerGlobalCounterContribPerTurn.read(pStream);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	}
 	else
 	{
@@ -8892,6 +8909,10 @@ void CvGame::read(FDataStreamBase* pStream)
 		m_aiBuildingClassCreatedCount.readArray<int>(pStream);
 		m_aiProjectCreatedCount.readArray<int>(pStream);
 		m_aiForceCivicCount.readArray<int>(pStream);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		m_aiPlayerGlobalCounterContrib.readArray<int>(pStream);
+		m_aiPlayerGlobalCounterContribPerTurn.readArray<int>(pStream);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	}
 	if (uiFlag >= 11)
 		m_aiVoteOutcome.read(pStream);
@@ -9248,6 +9269,10 @@ void CvGame::write(FDataStreamBase* pStream)
 	m_aiBuildingClassCreatedCount.write(pStream);
 	m_aiProjectCreatedCount.write(pStream);
 	m_aiForceCivicCount.write(pStream);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	m_aiPlayerGlobalCounterContrib.write(pStream);
+	m_aiPlayerGlobalCounterContribPerTurn.write(pStream);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	m_aiVoteOutcome.write(pStream);
 	m_aiReligionGameTurnFounded.write(pStream);
 	m_aiCorporationGameTurnFounded.write(pStream);
@@ -10728,3 +10753,115 @@ std::set<int>& CvGame::getActivePlayerCycledGroups()
 {
 	return m_aiActivePlayerCycledGroups; // Was public; now protected.
 }
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+int CvGame::getGlobalCounter(bool bUseNormalizedValue) const
+{
+	return (bUseNormalizedValue ? (m_iGlobalCounter * 100 / m_iGlobalCounterLimit) : m_iGlobalCounter);
+}
+
+void CvGame::setGlobalCounter(int iNewValue)
+{
+	m_iGlobalCounter = iNewValue;
+}
+
+void CvGame::changeGlobalCounter(int iChange)
+{
+    if (iChange != 0)
+    {
+		int iNewValue = (getGlobalCounter(false) + iChange);
+		if (iNewValue > getGlobalCounterLimit())
+		{
+			iNewValue = getGlobalCounterLimit();
+		}
+		setGlobalCounter(iNewValue);
+		if (iNewValue > getMaxGlobalCounter(false))
+		{
+			setMaxGlobalCounter(iNewValue);
+		}
+		if (iChange < 0)
+		{
+			gDLL->getInterfaceIFace()->playGeneralSound("AS2D_ARMAGEDDON_DECREASE");
+		}
+		if (iChange > 0)
+		{
+			gDLL->getInterfaceIFace()->playGeneralSound("AS2D_ARMAGEDDON_INCREASE");
+		}
+	}
+}
+
+int CvGame::getMaxGlobalCounter(bool bUseNormalizedValue) const
+{
+	return (bUseNormalizedValue ? (m_iMaxGlobalCounter * 100 / m_iGlobalCounterLimit) : m_iMaxGlobalCounter);
+}
+
+void CvGame::setMaxGlobalCounter(int iNewValue)
+{
+	m_iMaxGlobalCounter = iNewValue;
+}
+
+void CvGame::changeGlobalCounterLimit(int iChange)
+{
+	m_iGlobalCounterLimit += iChange;
+}
+
+void CvGame::setGlobalCounterFrozen(bool b)
+{
+	m_bGlobalCounterFrozen = b;
+}
+
+void CvGame::isGlobalCounterFrozen()
+{
+	return m_bGlobalCounterFrozen;
+}
+
+void CvGame::changeGlobalCounterContrib(PlayerTypes ePlayer, int iChange)
+{
+	if (iChange == 0)
+		return;
+	m_aiPlayerGlobalCounterContrib.add(ePlayer, iChange);
+	FAssert(getGlobalCounterContrib(ePlayer) >= 0);
+}
+
+void CvGame::changeGlobalCounterContribPerTurn(PlayerTypes ePlayer, int iChange)
+{
+	if (iChange == 0)
+		return;
+	m_aiPlayerGlobalCounterContribPerTurn.add(ePlayer, iChange);
+	FAssert(getGlobalCounterContribPerTurn(ePlayer) >= 0);
+}
+
+void CvGame::updateGlobalCounter()
+{
+	if (!isGlobalCounterFrozen())
+	{
+		int iGlobalCounterTotalChange = 0;
+		FOR_EACH_ENUM(Player)
+		{
+			const int iPlayerID = GET_PLAYER(eLoopPlayer).getID();
+			const int iPlayerContribPerTurn = getGlobalCounterContribPerTurn(iPlayerID);
+			if (iPlayerContribPerTurn == 0)
+				continue;
+			if (iPlayerContribPerTurn != 0)
+			{
+				bool bTheEndApproaches = (iPlayerContribPerTurn > 0)
+				const int iGlobalCounterChange = bTheEndApproaches ? 1 : -1;
+				
+				// XANA (note): Changes to the Armageddon Counter occur over time and are not immediately reflected in-game.
+				// This is a per-turn player contribution tracker that slowly empowers/depowers the forces of Ragnarok in response to in-game actions.
+				// My idea is to provide a slow build-up of tension as events come into confluence and factors mysteriously align towards the End of the World.
+				// 
+				// Usage Info:
+				// If the contribution is positive (razing enemy cites, etc.), this tracker is decreased by one each turn until it reaches 0.
+				// if the contribution is negative (sanctifying city ruins, etc.), this tracker is increased by one each turn until it reaches 0.
+				const int iPerPlayerChange = bTheEndApproaches ? -1 : 1;
+				
+				changeGlobalCounterContrib(iPlayerID, iGlobalCounterChange);
+				changeGlobalCounterContribPerTurn(iPlayerID, iPerPlayerChange);
+				iGlobalCounterTotalChange += iGlobalCounterChange;
+			}
+		}
+		changeGlobalCounter(iGlobalCounterTotalChange);
+	}
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv

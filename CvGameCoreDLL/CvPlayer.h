@@ -1451,6 +1451,11 @@ public:
 	DllExport bool hasSpaceshipArrived() const;
 	void announceGameNameChange(CvWString szOldName, CvWString szNewName); // advc.135c
 	bool showGoodyOnResourceLayer() const; // advc.004z
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	bool isHeraldOfProphecy() const; // XANA (note): Agent of MyLittlePony Ragnarok (Non-Specific)
+	void setHeraldOfProphecy(bool b);
+	void changeGlobalCounterContrib(int iChange);
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// <advc.003u>
 	CvPlayerAI& AI()
 	{	//return *static_cast<CvPlayerAI*>(const_cast<CvPlayer*>(this));
@@ -1592,6 +1597,9 @@ protected:  // <advc.210>
 	bool m_bSavingReplay; // advc.106i
 	bool m_bScoreboardExpanded; // advc.085
 	bool m_bRandomWBStart; // advc.027
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	bool m_bHeraldOfProphecy;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	LeaderHeadTypes m_ePersonalityType; // advc (tbd.): Move to CvPlayerAI
 	EraTypes m_eCurrentEra;

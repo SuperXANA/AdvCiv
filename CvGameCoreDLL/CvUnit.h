@@ -1058,6 +1058,11 @@ public:
 	DllExport int getSelectionSoundScript() const;
 
 	bool isWorker() const; // advc.154  (Exposed to Python)
+	
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getGlobalCounterCombatPercent() const;
+	void changeGlobalCounterCombatPercent(int iChange);
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	bool isBetterDefenderThan(const CvUnit* pDefender, const CvUnit* pAttacker,
 	// Lead From Behind (UncutDragon, edited for K-Mod): START
@@ -1286,6 +1291,10 @@ struct CombatDetails											// Exposed to Python
 	int iCombatModifierA;
 	int iDomainModifierA;
 	int iDomainModifierT;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int iGlobalCounterModifierA;
+	int iGlobalCounterModifierT;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	int iAnimalCombatModifierA;
 	int iAnimalCombatModifierT;
 	int iRiverAttackModifier;

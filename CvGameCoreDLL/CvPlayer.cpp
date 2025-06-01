@@ -132,6 +132,11 @@ bool CvPlayer::initOtherData()
 	/*  advc.003q: Moved into a (sub-)subroutine - except for the setCivics code;
 		that's handled (only) by resetCivTypeEffects. */
 	processTraits(1);
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	GC.getGame().changeGlobalCounterLimit(12);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+
 	return true;
 }
 
@@ -438,6 +443,9 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 	m_bSavingReplay = false; // advc.106i
 	m_bScoreboardExpanded = false; // advc.085
 	m_bRandomWBStart = false; // advc.027
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	m_bHeraldOfProphecy = false;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	m_eID = eID;
 	updateTeamType();
@@ -14674,6 +14682,9 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		}
 		else GC.getGame().getRiseFall().setPlayerHandicap(getID(), isHuman(), true);
 	} // </advc.708>
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pStream->Read(&m_bHeraldOfProphecy);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 // save object to a stream
@@ -15039,6 +15050,9 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	pStream->Write(m_iPopRushHurryCount);
 	pStream->Write(m_iGoldRushHurryCount); // advc.064b
 	pStream->Write(m_iInflationModifier);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pStream->Write(m_bHeraldOfProphecy);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	REPRO_TEST_END_WRITE();
 }
 
@@ -19685,6 +19699,36 @@ bool CvPlayer::showGoodyOnResourceLayer() const
 	return (/*isOption(PLAYEROPTION_NO_UNIT_RECOMMENDATIONS) &&*/
 			BUGOption::isEnabled("MainInterface__TribalVillageIcons", true));
 }
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+bool CvPlayer::isHeraldOfProphecy()
+{
+	return m_bHeraldOfProphecy;
+}
+
+void CvPlayer::setHeraldOfProphecy(bool b)
+{
+	m_bHeraldOfProphecy = b;
+}
+
+void CvPlayer::changeGlobalCounterContrib(int iChange)
+{
+	if (iChange != 0)
+	{
+		CvLeaderHeadInfo const& kOurLeader = GC.getInfo(getLeaderType()); // XANA (note): Mystical natures aren't linked to personality, but the actual character in play.
+		int iValue = 0;
+		
+		if (iChange > 0)
+			iValue += (kOurLeader.isHeraldOfGehenna() || isHeraldOfProphecy()) ? (iChange * 2) : iChange;
+		
+		if (iChange < 0)
+			iValue -= (kOurLeader.isHeraldOfElysium() || isHeraldOfProphecy()) ? (iChange * 2) : iChange;
+		
+		CvGame const& kGame = GC.getGame();
+		kGame.changeGlobalCounterContribPerTurn(getID(), iValue)
+	}
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 // Used by Globeview resource layer
 void CvPlayer::getResourceLayerColors(GlobeLayerResourceOptionTypes eOption,

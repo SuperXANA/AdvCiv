@@ -9,7 +9,11 @@ m_wcSymbol(0),
 m_eTechPrereq(NO_TECH),
 m_eFreeUnitClass(NO_UNITCLASS),
 m_eMissionType(NO_MISSION),
-m_iSpreadFactor(0)
+m_iSpreadFactor(0),
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_iGlobalCounterModifier(0),
+m_iGlobalCounterModifierOnSpread(0)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 wchar CvOrganizationInfo::getChar() const
@@ -56,6 +60,10 @@ bool CvOrganizationInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(m_szMovieFile, "MovieFile");
 	pXML->GetChildXmlValByName(m_szMovieSound, "MovieSound");
 	pXML->GetChildXmlValByName(m_szSound, "Sound");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifier, "iGlobalCounterModifier");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifierOnSpread, "iGlobalCounterModifierOnSpread");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	return true;
 }
