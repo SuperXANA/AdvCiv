@@ -499,8 +499,7 @@ m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
 m_piDiploWarMusicScriptIds(NULL),
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-m_bHeraldOfElysium(false),
-m_bHeraldOfGehenna(false)
+m_eFavoriteProphecy(NO_PROPHECY)
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
@@ -797,8 +796,7 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	m_piDiploWarMusicScriptIds = new int[GC.getNumEraInfos()];
 	stream->Read(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	stream->Read(&m_bHeraldOfElysium);
-	stream->Read(&m_bHeraldOfGehenna);
+	stream->Read((int*)&m_eFavoriteProphecy);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
@@ -907,8 +905,7 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarIntroMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	stream->Write(m_bHeraldOfElysium);
-	stream->Write(m_bHeraldOfGehenna);
+	stream->Write(m_eFavoriteProphecy);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 #endif
@@ -1056,8 +1053,8 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploPeaceIntroMusicScriptIds, "DiplomacyIntroMusicPeace", GC.getNumEraInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploPeaceMusicScriptIds, "DiplomacyMusicPeace", GC.getNumEraInfos());
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	pXML->GetChildXmlValByName(m_bHeraldOfElysium, "bHeraldOfElysium");
-	pXML->GetChildXmlValByName(m_bHeraldOfGehenna, "bHeraldOfGehenna");
+	pXML->SetInfoIDFromChildXmlVal(m_eFavoriteProphecy,
+			"FavoritePhrophecy");
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// <advc.xmldefault>
 	#ifdef FASSERT_ENABLE
@@ -1577,3 +1574,63 @@ bool CvDiplomacyInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+CvProphecyInfo::CvProphecyInfo() :
+m_iGlobalCounterModifier(0),
+m_bDoubleGlobalCounterContrib(false),
+m_eHatedProphecy(NO_PROPHECY)
+{}
+
+CvProphecyInfo::~CvProphecyInfo()
+{
+	
+}
+
+int CvProphecyInfo::getGlobalCounterModifier() const
+{
+	return m_iGlobalCounterModifier;
+}
+
+bool CvProphecyInfo::isDoubleGlobalCounterContrib() const
+{
+	return m_bDoubleGlobalCounterContrib;
+}
+
+ProphecyTypes CvProphecyInfo::getHatedProphecy() const
+{
+	return m_eHatedProphecy;
+}
+
+const TCHAR* CvProphecyInfo::getShortDescription() const
+{
+	return m_szShortDescription;
+}
+
+void CvProphecyInfo::setShortDescription(const TCHAR* szVal)
+{
+	m_szShortDescription = szVal;
+}
+
+bool CvProphecyInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+	{
+		CvString szTextVal;
+		pXML->GetChildXmlValByName(szTextVal, "ShortDescription");
+		setShortDescription(szTextVal);
+	}
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifier, "iGlobalCounterModifier");
+	pXML->GetChildXmlValByName(&m_bDoubleGlobalCounterContrib, "bDoubleGlobalCounterContrib");
+
+	return true;
+}
+
+bool CvProphecyInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	pXML->SetInfoIDFromChildXmlVal(m_eHatedProphecy,
+			"HatedProphecy");
+	return true;
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv

@@ -226,8 +226,7 @@ public: // advc: All the const functions are exposed to Python except those adde
 	const TCHAR* getLeaderHead() const;
 	const TCHAR* getButton() const;
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	bool isHeraldOfElysium() const { return m_bHeraldOfElysium; } // XANA (note): Agent of MyLittlePony Ragnarok (Heaven)
-	bool isHeraldOfGehenna() const { return m_bHeraldOfGehenna; } // XANA (note): Agent of MyLittlePony Ragnarok (Hell)
+	ProphecyTypes getFavoriteProphecy() const { return m_eFavoriteProphecy; }
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
@@ -344,8 +343,7 @@ protected:
 	int* m_piDiploWarIntroMusicScriptIds;
 	int* m_piDiploWarMusicScriptIds;
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	bool m_bHeraldOfElysium;
-	bool m_bHeraldOfGehenna;
+	ProphecyTypes m_eHeraldOfProphecy;
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;
@@ -513,5 +511,51 @@ public: // advc: All the const functions are exposed to Python
 protected:
 	std::vector<CvDiplomacyResponse*> m_pResponses;
 };
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvProphecyInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvProphecyInfo : public CvXMLInfo
+{
+	typedef CvXMLInfo base_t;
+protected:
+	void addElements(ElementList& kElements) const
+	{
+		base_t::addElements(kElements);
+	}
+public:
+	enum IntElementTypes
+	{
+		NUM_INT_ELEMENT_TYPES
+	};
+	int get(IntElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::IntElementTypes>(e));
+	}
+
+	CvProphecyInfo();
+	~CvProphecyInfo();
+
+	int getGlobalCounterModifier() const;
+	bool isDoubleGlobalCounterContrib() const;
+	ProphecyTypes getHatedProphecy() const;
+
+	const TCHAR* getShortDescription() const;
+	void setShortDescription(const TCHAR* szVal);
+
+	// Array access:
+
+	bool read(CvXMLLoadUtility* pXML);
+	bool readPass2(CvXMLLoadUtility* pXML);
+
+protected:
+	int m_iGlobalCounterModifier;
+	int m_bDoubleGlobalCounterContrib;
+	ProphecyTypes m_eHatedProphecy;
+
+	CvString m_szShortDescription;
+};
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 #endif

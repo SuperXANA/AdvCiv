@@ -994,12 +994,18 @@ public:
 	void setHallOfFame(CvHallOfFameInfo* pHallOfFame); // advc.106i
 	std::set<int>& getActivePlayerCycledGroups(); // advc
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	int getGlobalCounter(bool bUseNormalizedValue=true) const;
-	void setGlobalCounter(int iNewValue);
-	void changeGlobalCounter(int iChange);
-	int getMaxGlobalCounter(bool bUseNormalizedValue=true) const;
+	int getProphecyCounter(ProphecyTypes eProphecy, bool bUseNormalizedValue=true) const												// Exposed to Python
+	{
+		return bUseNormalizedValue ? (m_aiProphecyGlobalCounters.get(eProphecy) / 100) : m_aiProphecyGlobalCounters.get(eProphecy);
+	}
+	int getProphecyMaxCounter(ProphecyTypes eProphecy, bool bUseNormalizedValue=true) const												// Exposed to Python
+	{
+		return bUseNormalizedValue ? (m_aiProphecyMaxGlobalCounters.get(eProphecy) / 100) : m_aiProphecyMaxGlobalCounters.get(eProphecy);
+	}
+	void setProphecyCounter(ProphecyTypes eProphecy, int iNewValue);
+	void changeGlobalCounter(ProphecyTypes eProphecy, int iChange);
 	int getGlobalCounterLimit() const { return m_iGlobalCounterLimit; }
-	void setMaxGlobalCounter(int iNewValue);
+	void setProphecyMaxCounter(ProphecyTypes eProphecy, int iNewValue);
 	void changeGlobalCounterLimit(int iChange);
 	void setGlobalCounterFrozen(bool b);
 	bool isGlobalCounterFrozen();
@@ -1066,8 +1072,6 @@ protected:
 	unsigned int m_uiInitialTime;
 	unsigned int m_uiSaveFlag; // advc
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	int m_iGlobalCounter;
-	int m_iMaxGlobalCounter;
 	int m_iGlobalCounterLimit;
 	bool m_bGlobalCounterFrozen;
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
@@ -1137,6 +1141,8 @@ protected:
 	ArrayEnumMap<ReligionTypes,PlotNumTypes> m_aeHolyCity;
 	ArrayEnumMap<CorporationTypes,PlotNumTypes> m_aeHeadquarters;
 	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	EagerEnumMap<ProphecyTypes,int> m_aiProphecyGlobalCounters;
+	EagerEnumMap<ProphecyTypes,int> m_aiProphecyMaxGlobalCounters;
 	EagerEnumMap<PlayerTypes,int> m_aiPlayerGlobalCounterContrib;
 	EagerEnumMap<PlayerTypes,int> m_aiPlayerGlobalCounterContribPerTurn;
 	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv

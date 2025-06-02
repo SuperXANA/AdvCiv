@@ -513,9 +513,15 @@ void CvUnit::kill(bool bDelay, PlayerTypes ePlayer)
 	}
 	
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-    if (ePlayer != NO_PLAYER)
+	if (ePlayer != NO_PLAYER)
     {
-	    GET_PLAYER(ePlayer).changeGlobalCounterContrib(-1 * m_pUnitInfo->getGlobalCounterModifier());
+		int iCost = -1;
+		if (getFavoriteProphecy() != NO_PROPHECY)
+			CvProphecyInfo const& kProphecy = GC.getInfo(getFavoriteProphecy());
+			if (kProphecy.getHatedProphecy() == GET_PLAYER(ePlayer).getFavoriteProphecy())
+				iCost = 1; // XANA (note): Roleplaying for characters. Hastening the End of the World we fortold is "bad" when battling against an opposing prophecy.
+	    
+		GET_PLAYER(ePlayer).changeGlobalCounterContrib(iCost * m_pUnitInfo->getGlobalCounterModifier());
 	}
 	else
 	{

@@ -539,9 +539,7 @@ void CvGame::reset(HandicapTypes eHandicap, bool bConstructorCall)
 	m_uiInitialTime = 0;
 	m_uiSaveFlag = 0; // advc
 	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	m_iGlobalCounter = 0;
-	m_iMaxGlobalCounter = 0;
-	m_iGlobalCounterLimit = GC.getDefineINT("GlOBAL_COUNTER_INITIAL_LIMIT"));;
+	m_iGlobalCounterLimit = 50;
 	m_bGlobalCounterFrozen = false;
 	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
@@ -600,6 +598,8 @@ void CvGame::reset(HandicapTypes eHandicap, bool bConstructorCall)
 		m_aiVoteTimer.reset();
 		getBarbarianWeightMap().getActivityMap().reset(); // advc.304
 	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		m_aiProphecyGlobalCounters.reset();
+		m_aiProphecyMaxGlobalCounters.reset();
 		m_aiPlayerGlobalCounterContrib.reset();
 		m_aiPlayerGlobalCounterContribPerTurn.reset();
 	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
@@ -8892,6 +8892,8 @@ void CvGame::read(FDataStreamBase* pStream)
 		m_aiProjectCreatedCount.read(pStream);
 		m_aiForceCivicCount.read(pStream);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		m_aiProphecyGlobalCounters.read(pStream);
+		m_aiProphecyMaxGlobalCounters.read(pStream);
 		m_aiPlayerGlobalCounterContrib.read(pStream);
 		m_aiPlayerGlobalCounterContribPerTurn.read(pStream);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
@@ -8910,6 +8912,8 @@ void CvGame::read(FDataStreamBase* pStream)
 		m_aiProjectCreatedCount.readArray<int>(pStream);
 		m_aiForceCivicCount.readArray<int>(pStream);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		m_aiProphecyGlobalCounters.readArray<int>(pStream);
+		m_aiProphecyMaxGlobalCounters.readArray<int>(pStream);
 		m_aiPlayerGlobalCounterContrib.readArray<int>(pStream);
 		m_aiPlayerGlobalCounterContribPerTurn.readArray<int>(pStream);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
@@ -9270,6 +9274,8 @@ void CvGame::write(FDataStreamBase* pStream)
 	m_aiProjectCreatedCount.write(pStream);
 	m_aiForceCivicCount.write(pStream);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	m_aiProphecyGlobalCounters.write(pStream);
+	m_aiProphecyMaxGlobalCounters.write(pStream);
 	m_aiPlayerGlobalCounterContrib.write(pStream);
 	m_aiPlayerGlobalCounterContribPerTurn.write(pStream);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
@@ -10755,29 +10761,24 @@ std::set<int>& CvGame::getActivePlayerCycledGroups()
 }
 
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-int CvGame::getGlobalCounter(bool bUseNormalizedValue) const
+void CvGame::setProphecyCounter(ProphecyTypes eProphecy, int iNewValue);
 {
-	return (bUseNormalizedValue ? (m_iGlobalCounter * 100 / m_iGlobalCounterLimit) : m_iGlobalCounter);
+	m_aiProphecyGlobalCounters.set(eProphecy, iNewValue);
 }
 
-void CvGame::setGlobalCounter(int iNewValue)
-{
-	m_iGlobalCounter = iNewValue;
-}
-
-void CvGame::changeGlobalCounter(int iChange)
+void CvGame::changeGlobalCounter(ProphecyTypes eProphecy, int iChange)
 {
     if (iChange != 0)
     {
-		int iNewValue = (getGlobalCounter(false) + iChange);
+		int iNewValue = (getProphecyCounter(eProphecy, false) + iChange);
 		if (iNewValue > getGlobalCounterLimit())
 		{
 			iNewValue = getGlobalCounterLimit();
 		}
-		setGlobalCounter(iNewValue);
-		if (iNewValue > getMaxGlobalCounter(false))
+		setProphecyCounter(eProphecy, iNewValue);
+		if (iNewValue > getProphecyMaxCounter(eProphecy, false))
 		{
-			setMaxGlobalCounter(iNewValue);
+			setProphecyMaxCounter(eProphecy, iNewValue);
 		}
 		if (iChange < 0)
 		{
@@ -10790,14 +10791,9 @@ void CvGame::changeGlobalCounter(int iChange)
 	}
 }
 
-int CvGame::getMaxGlobalCounter(bool bUseNormalizedValue) const
+void CvGame::setProphecyMaxCounter(ProphecyTypes eProphecy, int iNewValue);
 {
-	return (bUseNormalizedValue ? (m_iMaxGlobalCounter * 100 / m_iGlobalCounterLimit) : m_iMaxGlobalCounter);
-}
-
-void CvGame::setMaxGlobalCounter(int iNewValue)
-{
-	m_iMaxGlobalCounter = iNewValue;
+	m_aiProphecyMaxGlobalCounters.set(eProphecy, iNewValue);
 }
 
 void CvGame::changeGlobalCounterLimit(int iChange)
@@ -10835,17 +10831,17 @@ void CvGame::updateGlobalCounter()
 {
 	if (!isGlobalCounterFrozen())
 	{
-		int iGlobalCounterTotalChange = 0;
 		FOR_EACH_ENUM(Player)
 		{
-			const int iPlayerID = GET_PLAYER(eLoopPlayer).getID();
-			const int iPlayerContribPerTurn = getGlobalCounterContribPerTurn(iPlayerID);
+			int iPlayerID = GET_PLAYER(eLoopPlayer).getID();
+			int iPlayerContribPerTurn = getGlobalCounterContribPerTurn(iPlayerID);
 			if (iPlayerContribPerTurn == 0)
 				continue;
 			if (iPlayerContribPerTurn != 0)
 			{
+				int iProphecyID = GET_PLAYER(eLoopPlayer).getFavoriteProphecy();
 				bool bTheEndApproaches = (iPlayerContribPerTurn > 0)
-				const int iGlobalCounterChange = bTheEndApproaches ? 1 : -1;
+				int iGlobalCounterChange = bTheEndApproaches ? 1 : -1;
 				
 				// XANA (note): Changes to the Armageddon Counter occur over time and are not immediately reflected in-game.
 				// This is a per-turn player contribution tracker that slowly empowers/depowers the forces of Ragnarok in response to in-game actions.
@@ -10854,14 +10850,13 @@ void CvGame::updateGlobalCounter()
 				// Usage Info:
 				// If the contribution is positive (razing enemy cites, etc.), this tracker is decreased by one each turn until it reaches 0.
 				// if the contribution is negative (sanctifying city ruins, etc.), this tracker is increased by one each turn until it reaches 0.
-				const int iPerPlayerChange = bTheEndApproaches ? -1 : 1;
+				int iPerPlayerChange = bTheEndApproaches ? -1 : 1;
 				
 				changeGlobalCounterContrib(iPlayerID, iGlobalCounterChange);
 				changeGlobalCounterContribPerTurn(iPlayerID, iPerPlayerChange);
-				iGlobalCounterTotalChange += iGlobalCounterChange;
+				changeGlobalCounter(iProphecyID, iGlobalCounterChange);
 			}
 		}
-		changeGlobalCounter(iGlobalCounterTotalChange);
 	}
 }
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv

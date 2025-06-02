@@ -443,9 +443,6 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 	m_bSavingReplay = false; // advc.106i
 	m_bScoreboardExpanded = false; // advc.085
 	m_bRandomWBStart = false; // advc.027
-// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	m_bHeraldOfProphecy = false;
-// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	m_eID = eID;
 	updateTeamType();
@@ -4500,6 +4497,21 @@ void CvPlayer::raze(CvCity& kCity) // advc: param was CvCity*
 	FAssert(kCity.getOwner() == getID());
 
 	AI().AI_processRazeMemory(kCity); // advc.003n: Moved into subroutine
+	
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int iCost = 1;
+	if ((kCity.getPopulation() - 5) > 0)
+	{
+		iCost += (kCity.getPopulation() - 5) * 1;
+	}
+	
+	if (getFavoriteProphecy() != NO_PROPHECY)
+		CvProphecyInfo const& kOurProphecy = GC.getInfo(getFavoriteProphecy());
+		if (kOurProphecy.getHatedProphecy() == GET_PLAYER(kCity.getOwner()).getFavoriteProphecy())
+			iCost *= -1; // XANA (note): Roleplaying for characters. Delaying the End of the World is "good" when battling against an opposing prophecy.
+		
+	changeGlobalCounterContrib(iCost);
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	wchar szBuffer[1024];
 	swprintf(szBuffer, gDLL->getText("TXT_KEY_MISC_DESTROYED_CITY",
@@ -14682,9 +14694,6 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		}
 		else GC.getGame().getRiseFall().setPlayerHandicap(getID(), isHuman(), true);
 	} // </advc.708>
-// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	pStream->Read(&m_bHeraldOfProphecy);
-// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 // save object to a stream
@@ -15050,9 +15059,6 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	pStream->Write(m_iPopRushHurryCount);
 	pStream->Write(m_iGoldRushHurryCount); // advc.064b
 	pStream->Write(m_iInflationModifier);
-// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	pStream->Write(m_bHeraldOfProphecy);
-// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	REPRO_TEST_END_WRITE();
 }
 
@@ -19701,28 +19707,24 @@ bool CvPlayer::showGoodyOnResourceLayer() const
 }
 
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-bool CvPlayer::isHeraldOfProphecy()
-{
-	return m_bHeraldOfProphecy;
-}
-
-void CvPlayer::setHeraldOfProphecy(bool b)
-{
-	m_bHeraldOfProphecy = b;
-}
 
 void CvPlayer::changeGlobalCounterContrib(int iChange)
 {
 	if (iChange != 0)
 	{
 		CvLeaderHeadInfo const& kOurLeader = GC.getInfo(getLeaderType()); // XANA (note): Mystical natures aren't linked to personality, but the actual character in play.
-		int iValue = 0;
+		int iValue = iChange;
 		
-		if (iChange > 0)
-			iValue += (kOurLeader.isHeraldOfGehenna() || isHeraldOfProphecy()) ? (iChange * 2) : iChange;
+		if (kOurLeader.getFavoriteProphecy() != NO_PROPHECY)
+		{
+			CvProphecyInfo const& kProphecy = GC.getInfo(kOurLeader.getFavoriteProphecy());
 		
-		if (iChange < 0)
-			iValue -= (kOurLeader.isHeraldOfElysium() || isHeraldOfProphecy()) ? (iChange * 2) : iChange;
+			if (kProphecy.getGlobalCounterModifier() != 0)
+				iValue += kProphecy.getGlobalCounterModifier();
+		
+			if (kProphecy.isDoubleGlobalCounterContrib())
+				iValue *= 2;
+		}
 		
 		CvGame const& kGame = GC.getGame();
 		kGame.changeGlobalCounterContribPerTurn(getID(), iValue)

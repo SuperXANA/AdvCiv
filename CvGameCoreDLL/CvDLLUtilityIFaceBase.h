@@ -192,7 +192,10 @@ public:
 	virtual CvCacheObject* createCivicInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createHandicapInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createBonusInfoCacheObject(const TCHAR* szCacheFileName) = 0;
-	virtual CvCacheObject* createImprovementInfoCacheObject(const TCHAR* szCacheFileName) = 0;
+	virtual CvCacheObject* createImprovementInfoCacheObject(const TCHAR* szCacheFileName) = 0;	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	virtual CvCacheObject* createProphecyInfoCacheObject(const TCHAR* szCacheFileName) = 0;	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	virtual bool cacheRead(CvCacheObject* pCache, const TCHAR* szSourceFileName=NULL) = 0;
 	virtual bool cacheWrite(CvCacheObject* pCache) = 0;
