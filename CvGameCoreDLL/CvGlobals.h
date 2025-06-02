@@ -753,6 +753,11 @@ public:
 
 	DllExport bool readEventTriggerInfoArray(FDataStreamBase* pStream);
 	DllExport void writeEventTriggerInfoArray(FDataStreamBase* pStream);
+		
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	bool readProphecyInfoArray(FDataStreamBase* pStream);
+	void writeProphecyInfoArray(FDataStreamBase* pStream);	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 #pragma endregion ReadInfoArrays
 
 	// additional accessors for initializing globals ...

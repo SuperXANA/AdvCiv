@@ -1328,6 +1328,18 @@ void CvGlobals::writeEventTriggerInfoArray(FDataStreamBase* pStream)
 {
 	writeInfoArray(pStream, m_paEventTriggerInfo);
 }
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+bool CvGlobals::readProphecyInfoArray(FDataStreamBase* pStream)
+{
+	return readInfoArray(pStream, m_paProphecyInfo, "CvProphecyInfo");
+}
+
+void CvGlobals::writeProphecyInfoArray(FDataStreamBase* pStream)
+{
+	writeInfoArray(pStream, m_paProphecyInfo);
+}	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 int CvGlobals::getNUM_ENGINE_DIRTY_BITS() const
 {
