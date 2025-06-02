@@ -5185,6 +5185,16 @@ bool CvPlayer::canTrain(UnitTypes eUnit, bool bContinue, bool bTestVisible, bool
 	if (!GC.getGame().canTrain(eUnit, bIgnoreCost, bTestVisible))
 		return false; // </advc>
 
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eUnit).getPrereqGlobalCounter() != 0)
+	{
+        if (GC.getGame().getProphecyCounter(getFavoriteProphecy()) < GC.getInfo(eUnit).getPrereqGlobalCounter())
+        {
+            return false;
+        }
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	
 	/*if (GET_TEAM(getTeam()).isUnitClassMaxedOut(eUnitClass))
 		return false;
 	if (isUnitClassMaxedOut(eUnitClass))
@@ -5351,6 +5361,14 @@ bool CvPlayer::canCreate(ProjectTypes eProject, bool bContinue, bool bTestVisibl
 			return false;
 		}
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eProject).getPrereqGlobalCounter() != 0)
+	{
+		if (GC.getGame().getProphecyCounter(getFavoriteProphecy()) < GC.getInfo(eProject).getPrereqGlobalCounter()))
+			return false;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if (GC.getGame().isProjectMaxedOut(eProject))
 		return false;
@@ -7028,6 +7046,11 @@ void CvPlayer::foundReligion(ReligionTypes eReligion, ReligionTypes eSlotReligio
 				initUnit(eFreeUnit, pBestCity->getX(), pBestCity->getY());
 		}
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eReligion).getGlobalCounterModifier() != 0)
+		changeGlobalCounterContrib(GC.getInfo(eReligion).getGlobalCounterModifier());
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 

@@ -118,7 +118,7 @@ m_bCenterInCity(false),
 m_bStateReligion(false),
 m_bAllowsNukes(false),
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-m_iPrereqGlobalCounter(0)
+m_iPrereqGlobalCounter(0),
 m_iGlobalCounterModifier(0)
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
@@ -1130,6 +1130,10 @@ bool CvProjectInfo::read(CvXMLLoadUtility* pXML)
 	} // </advc.003t>
 	pXML->GetChildXmlValByName(&m_iVictoryDelayPercent, "iVictoryDelayPercent");
 	pXML->GetChildXmlValByName(&m_iSuccessRate, "iSuccessRate");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iPrereqGlobalCounter, "iPrereqGlobalCounter");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifier, "iGlobalCounterModifier");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	CvString szTextVal;
 	pXML->GetChildXmlValByName(szTextVal, "CreateSound");

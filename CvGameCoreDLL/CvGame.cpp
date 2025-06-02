@@ -5901,6 +5901,10 @@ void CvGame::setHolyCity(ReligionTypes eReligion, CvCity* pCity, bool bAnnounce)
 	pHolyCity->setHasReligion(eReligion, true, bAnnounce, true);
 	pHolyCity->changeReligionInfluence(eReligion, GC.getDefineINT("HOLY_CITY_INFLUENCE"));
 	pHolyCity->updateReligionCommerce();
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eReligion).getGlobalCounterModifier() != 0)
+		changeGlobalCounterContribPerTurn(pHolyCity->getOwner(), GC.getInfo(eReligion).getGlobalCounterModifier());
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	pHolyCity->setInfoDirty(true);
 	if (!bAnnounce || !isFinalInitialized() || gDLL->GetWorldBuilderMode())
 		return;

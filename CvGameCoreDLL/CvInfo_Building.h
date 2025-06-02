@@ -676,6 +676,11 @@ public: // All const functions are exposed to Python
 	void setCreateSound(const TCHAR* szVal);
 
 	bool nameNeedsArticle() const;
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getPrereqGlobalCounter() const { return m_iPrereqGlobalCounter; }
+	int getGlobalCounterModifier() const { return m_iGlobalCounterModifier; }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	// Arrays access ...
 	DEF_INFO_ENUM_MAP(BonusProductionModifier, Bonus, int, short, NonDefaultEnumMap);
@@ -699,6 +704,10 @@ protected:
 	SpecialBuildingTypes m_eEveryoneSpecialBuilding;
 	int m_iVictoryDelayPercent;
 	int m_iSuccessRate;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iPrereqGlobalCounter;
+	int m_iGlobalCounterModifier;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	bool m_bSpaceship;
 	bool m_bAllowsNukes;
