@@ -359,10 +359,8 @@ bool isCorporationTech(TechTypes eTech)
 
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 CvProphecyInfo::CvProphecyInfo() :
-m_bDoubleGlobalCounterContrib(false),
 m_eHatedProphecy(NO_PROPHECY),
-m_iProphecyHastenWorldsEndMultiplier(0),
-m_iProphecyAvertWorldsEndMultiplier(0)
+m_bOppositeCounterActions(false)
 {}
 
 CvProphecyInfo::~CvProphecyInfo()
@@ -370,24 +368,19 @@ CvProphecyInfo::~CvProphecyInfo()
 	
 }
 
-bool CvProphecyInfo::isDoubleGlobalCounterContrib() const
-{
-	return m_bDoubleGlobalCounterContrib;
-}
-
 ProphecyTypes CvProphecyInfo::getHatedProphecy() const
 {
 	return m_eHatedProphecy;
 }
 
-int CvProphecyInfo::getProphecyHastenWorldsEndMultiplier() const
+int CvProphecyInfo::getProphecyHastenWorldsEndValue() const
 {
-	return m_iProphecyHastenWorldsEndMultiplier;
+	return (m_bOppositeCounterActions == false) ? 1 : -1;
 }
 
-int CvProphecyInfo::getProphecyAvertWorldsEndMultiplier() const
+int CvProphecyInfo::getProphecyAvertWorldsEndValue() const
 {
-	return m_iProphecyAvertWorldsEndMultiplier;
+	return (m_bOppositeCounterActions == false) ? -1 : 1;
 }
 
 const TCHAR* CvProphecyInfo::getShortDescription() const
@@ -409,9 +402,7 @@ bool CvProphecyInfo::read(CvXMLLoadUtility* pXML)
 		pXML->GetChildXmlValByName(szTextVal, "ShortDescription");
 		setShortDescription(szTextVal);
 	}
-	pXML->GetChildXmlValByName(&m_bDoubleGlobalCounterContrib, "bDoubleGlobalCounterContrib");
-	pXML->GetChildXmlValByName(&m_iProphecyHastenWorldsEndMultiplier, "iHastenWorldsEndMultiplier");
-	pXML->GetChildXmlValByName(&m_iProphecyAvertWorldsEndMultiplier, "iAvertWorldsEndMultiplier");
+	pXML->GetChildXmlValByName(&m_bOppositeCounterActions, "bOppositeCounterActions");
 
 	return true;
 }

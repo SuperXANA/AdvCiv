@@ -174,10 +174,9 @@ public:
 	CvProphecyInfo();
 	~CvProphecyInfo();
 
-	bool isDoubleGlobalCounterContrib() const;
 	ProphecyTypes getHatedProphecy() const;
-	int getProphecyHastenWorldsEndMultiplier() const;
-	int getProphecyAvertWorldsEndMultiplier() const;
+	int getProphecyHastenWorldsEndValue() const;
+	int getProphecyAvertWorldsEndValue() const;
 
 	const TCHAR* getShortDescription() const;
 	void setShortDescription(const TCHAR* szVal);
@@ -188,10 +187,8 @@ public:
 	bool readPass2(CvXMLLoadUtility* pXML);
 
 protected:
-	int m_bDoubleGlobalCounterContrib;
 	ProphecyTypes m_eHatedProphecy;
-	int m_iProphecyHastenWorldsEndMultiplier;
-	int m_iProphecyAvertWorldsEndMultiplier;
+	bool m_bOppositeCounterActions;
 
 	CvString m_szShortDescription;
 };
