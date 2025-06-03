@@ -4505,10 +4505,10 @@ void CvPlayer::raze(CvCity& kCity) // advc: param was CvCity*
 		iCost += (kCity.getPopulation() - 5) * 1;
 	}
 	
-	if (getFavoriteProphecy() != NO_PROPHECY)
+	if (getProphecyFollowed() != NO_PROPHECY && GET_PLAYER(ePlayer).getProphecyFollowed() != NO_PROPHECY)
 		CvProphecyInfo const& kOurProphecy = GC.getInfo(getProphecyFollowed());
 		if (kOurProphecy.getHatedProphecy() == GET_PLAYER(kCity.getOwner()).getProphecyFollowed())
-			iCost *= -1; // XANA (note): Roleplaying for characters. Delaying the End of the World is "good" when battling against an opposing prophecy.
+			iCost *= -1; // XANA (note): Roleplaying for characters. Delaying the End of the World by removing influence among the population is "good" when battling against an opposing prophecy.
 		
 	changeGlobalCounterContrib(iCost);
 	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
@@ -5306,6 +5306,14 @@ bool CvPlayer::canConstruct(BuildingTypes eBuilding, bool bContinue, bool bTestV
 			return false;
 		}
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eBuilding).getPrereqGlobalCounter() != 0)
+	{
+		if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < GC.getInfo(eBuilding).getPrereqGlobalCounter()))
+			return false;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if(bTestVisible)
 		return true;
@@ -7049,8 +7057,7 @@ void CvPlayer::foundReligion(ReligionTypes eReligion, ReligionTypes eSlotReligio
 	
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	if (GC.getInfo(eReligion).getGlobalCounterModifier() != 0)
-		const int iHasten = getProphecyHastenEndOfTheWorldChange();
-		changeGlobalCounterContrib(iHasten * GC.getInfo(eReligion).getGlobalCounterModifier());
+		changeGlobalCounterContrib(GC.getInfo(eReligion).getGlobalCounterModifier());
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 

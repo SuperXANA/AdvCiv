@@ -9349,7 +9349,7 @@ void CvCity::setHasReligion(ReligionTypes eReligion, bool bNewValue, bool bAnnou
 		}
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 		if (GC.getInfo(eReligion).getGlobalCounterModifierOnSpread() != 0)
-			kOwner.changeGlobalCounterContrib(GC.getInfo(eReligion).getGlobalCounterModifierOnSpread());
+			kOwner.changeGlobalCounterContrib(-1 * GC.getInfo(eReligion).getGlobalCounterModifierOnSpread());
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	} // K-Mod end
 	if (bNewValue)

@@ -43,7 +43,10 @@
 	DO(Hurry, HURRY) \
 	DO(Upkeep, UPKEEP) \
 	DO(CultureLevel, CULTURELEVEL) \
-	DO(CivicOption, CIVICOPTION)
+	DO(CivicOption, CIVICOPTION) \
+/* XANA: 06-17-2025 Armageddon Counter for AdvancedCiv */ \
+	DO(Prophecy, PROPHECY)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 // Number of instances not known at compile time; can be greater than MAX_CHAR.
 #define DO_FOR_EACH_BIG_DYN_INFO_TYPE(DO) \
@@ -81,10 +84,7 @@
 	/* <advc.tsl> (not exposed to Python) */ \
 	DO(TruCiv, TRUCIV) \
 	DO(TruLeader, TRULEADER) \
-	DO(TruBonus, TRUBONUS) /* </advc.tsl> */ \
-/* XANA: 06-17-2025 Armageddon Counter for AdvancedCiv */ \
-	DO(Prophecy, PROPHECY)
-// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	DO(TruBonus, TRUBONUS) /* </advc.tsl> */
 
 // Number of instances not known at compile time
 #define DO_FOR_EACH_DYN_INFO_TYPE(DO) \

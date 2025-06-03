@@ -516,10 +516,10 @@ void CvUnit::kill(bool bDelay, PlayerTypes ePlayer)
 	if (ePlayer != NO_PLAYER)
     {
 		int iCost = -1;
-		if (getFavoriteProphecy() != NO_PROPHECY)
-			CvProphecyInfo const& kProphecy = GC.getInfo(getFavoriteProphecy());
-			if (kProphecy.getHatedProphecy() == GET_PLAYER(ePlayer).getFavoriteProphecy())
-				iCost = 1; // XANA (note): Roleplaying for characters. Hastening the End of the World we fortold is "bad" when battling against an opposing prophecy.
+		if (getProphecyFollowed() != NO_PROPHECY && GET_PLAYER(ePlayer).getProphecyFollowed() != NO_PROPHECY)
+			CvProphecyInfo const& kProphecy = GC.getInfo(getProphecyFollowed());
+			if (kProphecy.getHatedProphecy() == GET_PLAYER(ePlayer).getProphecyFollowed())
+				iCost = 1; // XANA (note): Roleplaying for characters. Hastening the End of the World by killing enemy units is "bad" when battling against an opposing prophecy.
 	    
 		GET_PLAYER(ePlayer).changeGlobalCounterContrib(iCost * m_pUnitInfo->getGlobalCounterModifier());
 	}
