@@ -76,6 +76,10 @@ public: // All the const functions are exposed to Python
 	int* getHolyCityCommerceArray() const;
 	int getStateReligionCommerce(int i) const;
 	int* getStateReligionCommerceArray() const;
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	ProphecyTypes getProphecyFollowed() const;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	bool read(CvXMLLoadUtility* pXML);
 
@@ -92,6 +96,10 @@ protected:
 	int* m_paiGlobalReligionCommerce;
 	int* m_paiHolyCityCommerce;
 	int* m_paiStateReligionCommerce;
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	ProphecyTypes eProphecyFollowed;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 };
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -140,5 +148,53 @@ protected:
 	int* m_paiCommerceProduced;
 	int* m_paiYieldProduced;
 };
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvProphecyInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvProphecyInfo : public CvXMLInfo
+{
+	typedef CvXMLInfo base_t;
+protected:
+	void addElements(ElementList& kElements) const
+	{
+		base_t::addElements(kElements);
+	}
+public:
+	enum IntElementTypes
+	{
+		NUM_INT_ELEMENT_TYPES
+	};
+	int get(IntElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::IntElementTypes>(e));
+	}
+
+	CvProphecyInfo();
+	~CvProphecyInfo();
+
+	bool isDoubleGlobalCounterContrib() const;
+	ProphecyTypes getHatedProphecy() const;
+	int getProphecyHastenWorldsEndMultiplier() const;
+	int getProphecyAvertWorldsEndMultiplier() const;
+
+	const TCHAR* getShortDescription() const;
+	void setShortDescription(const TCHAR* szVal);
+
+	// Array access:
+
+	bool read(CvXMLLoadUtility* pXML);
+	bool readPass2(CvXMLLoadUtility* pXML);
+
+protected:
+	int m_bDoubleGlobalCounterContrib;
+	ProphecyTypes m_eHatedProphecy;
+	int m_iProphecyHastenWorldsEndMultiplier;
+	int m_iProphecyAvertWorldsEndMultiplier;
+
+	CvString m_szShortDescription;
+};
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 #endif

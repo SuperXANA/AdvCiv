@@ -4506,8 +4506,8 @@ void CvPlayer::raze(CvCity& kCity) // advc: param was CvCity*
 	}
 	
 	if (getFavoriteProphecy() != NO_PROPHECY)
-		CvProphecyInfo const& kOurProphecy = GC.getInfo(getFavoriteProphecy());
-		if (kOurProphecy.getHatedProphecy() == GET_PLAYER(kCity.getOwner()).getFavoriteProphecy())
+		CvProphecyInfo const& kOurProphecy = GC.getInfo(getProphecyFollowed());
+		if (kOurProphecy.getHatedProphecy() == GET_PLAYER(kCity.getOwner()).getProphecyFollowed())
 			iCost *= -1; // XANA (note): Roleplaying for characters. Delaying the End of the World is "good" when battling against an opposing prophecy.
 		
 	changeGlobalCounterContrib(iCost);
@@ -5188,7 +5188,7 @@ bool CvPlayer::canTrain(UnitTypes eUnit, bool bContinue, bool bTestVisible, bool
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	if (GC.getInfo(eUnit).getPrereqGlobalCounter() != 0)
 	{
-        if (GC.getGame().getProphecyCounter(getFavoriteProphecy()) < GC.getInfo(eUnit).getPrereqGlobalCounter())
+        if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < GC.getInfo(eUnit).getPrereqGlobalCounter())
         {
             return false;
         }
@@ -5365,7 +5365,7 @@ bool CvPlayer::canCreate(ProjectTypes eProject, bool bContinue, bool bTestVisibl
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	if (GC.getInfo(eProject).getPrereqGlobalCounter() != 0)
 	{
-		if (GC.getGame().getProphecyCounter(getFavoriteProphecy()) < GC.getInfo(eProject).getPrereqGlobalCounter()))
+		if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < GC.getInfo(eProject).getPrereqGlobalCounter()))
 			return false;
 	}
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
@@ -7049,7 +7049,8 @@ void CvPlayer::foundReligion(ReligionTypes eReligion, ReligionTypes eSlotReligio
 	
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	if (GC.getInfo(eReligion).getGlobalCounterModifier() != 0)
-		changeGlobalCounterContrib(GC.getInfo(eReligion).getGlobalCounterModifier());
+		const int iHasten = getProphecyHastenEndOfTheWorldChange();
+		changeGlobalCounterContrib(iHasten * GC.getInfo(eReligion).getGlobalCounterModifier());
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
@@ -19731,26 +19732,37 @@ bool CvPlayer::showGoodyOnResourceLayer() const
 
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
+ProphecyTypes CvPlayer::getProphecyFollowed() const
+{
+	if (GC.getInfo(getLeaderType()).getFavoriteProphecy() != NO_PROPHECY)  // XANA (note): Mystical natures aren't linked to personality, but the actual character in play.
+	{
+		return GC.getInfo(getLeaderType()).getFavoriteProphecy(); // XANA (note): Roleplaying. Characters with a favorite Prophecy can't easily escape their destiny.  
+	}
+	return GC.getInfo(getStateReligion()).getProphecyFollowed();
+}
+
 void CvPlayer::changeGlobalCounterContrib(int iChange)
 {
 	if (iChange != 0)
 	{
-		CvLeaderHeadInfo const& kOurLeader = GC.getInfo(getLeaderType()); // XANA (note): Mystical natures aren't linked to personality, but the actual character in play.
-		int iValue = iChange;
-		
-		if (kOurLeader.getFavoriteProphecy() != NO_PROPHECY)
+		const int eOurProphecy = getProphecyFollowed();
+		if (eOurProphecy != NO_PROPHECY)
 		{
-			CvProphecyInfo const& kProphecy = GC.getInfo(kOurLeader.getFavoriteProphecy());
-		
+			CvProphecyInfo const& kProphecy = GC.getInfo(eOurProphecy);
+			int iValue = iChange;
+			
+			iMultiplier = (iValue > 0) ? kProphecy.getProphecyHastenWorldsEndMultiplier() : kProphecy.getProphecyAvertWorldsEndMultiplier();
+			iValue *= iMultiplier;
+			
 			if (kProphecy.getGlobalCounterModifier() != 0)
 				iValue += kProphecy.getGlobalCounterModifier();
-		
+			
 			if (kProphecy.isDoubleGlobalCounterContrib())
 				iValue *= 2;
+			
+			CvGame const& kGame = GC.getGame();
+			kGame.changeGlobalCounterContribPerTurn(getID(), iValue)
 		}
-		
-		CvGame const& kGame = GC.getGame();
-		kGame.changeGlobalCounterContribPerTurn(getID(), iValue)
 	}
 }
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv

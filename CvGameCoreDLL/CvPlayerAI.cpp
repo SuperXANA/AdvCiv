@@ -25540,7 +25540,7 @@ void CvPlayerAI::AI_updateStrategyHash()
 			//GC.getInfo(GC.getMap().getWorldSize()).getDefaultPlayers()));
 			kGame.getRecommendedPlayers()); // advc.137
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	iParanoia += kGame.getGlobalCounter() * 2;
+	iParanoia += kGame.getProphecyCounter(getProphecyFollowed()) * 2;
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// Alert strategy
 	if (iParanoia >= 200)

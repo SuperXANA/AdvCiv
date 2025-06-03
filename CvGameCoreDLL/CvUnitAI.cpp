@@ -9591,7 +9591,8 @@ int CvUnitAI::AI_promotionValue(PromotionTypes ePromotion)
 	iTemp = GC.getInfo(ePromotion).getGlobalCounterCombatPercent();
 	if (iTemp != 0)
 	{
-		iExtra = (getUnitInfo().getGlobalCounterModifier() + (GC.getGame().getGlobalCounter() * 4));
+		ProphecyTypes const& eOurProphecy = GET_PLAYER(getOwner()).getProphecyFollowed();
+		iExtra = (getUnitInfo().getGlobalCounterModifier() + (GC.getGame().getProphecyCounter(eOurProphecy) * 4));
 		iTemp *= (100 + iExtra);
 		iTemp /= 100;
 		if (AI_getUnitAIType() == UNITAI_ATTACK)

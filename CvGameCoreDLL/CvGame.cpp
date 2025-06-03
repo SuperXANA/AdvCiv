@@ -5903,7 +5903,8 @@ void CvGame::setHolyCity(ReligionTypes eReligion, CvCity* pCity, bool bAnnounce)
 	pHolyCity->updateReligionCommerce();
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	if (GC.getInfo(eReligion).getGlobalCounterModifier() != 0)
-		changeGlobalCounterContribPerTurn(pHolyCity->getOwner(), GC.getInfo(eReligion).getGlobalCounterModifier());
+		CvPlayer const& kOwner = GET_PLAYER(pHolyCity->getOwner());
+		kOwner.changeGlobalCounterContrib(GC.getInfo(eReligion).getGlobalCounterModifier());
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	pHolyCity->setInfoDirty(true);
 	if (!bAnnounce || !isFinalInitialized() || gDLL->GetWorldBuilderMode())
@@ -10843,9 +10844,9 @@ void CvGame::updateGlobalCounter()
 				continue;
 			if (iPlayerContribPerTurn != 0)
 			{
-				int iProphecyID = GET_PLAYER(eLoopPlayer).getFavoriteProphecy();
+				int iProphecyID = GET_PLAYER(eLoopPlayer).getProphecyFollowed();
 				bool bTheEndApproaches = (iPlayerContribPerTurn > 0)
-				int iGlobalCounterChange = bTheEndApproaches ? 1 : -1;
+				int iGlobalCounterChange = (bTheEndApproaches) ? 1 : -1;
 				
 				// XANA (note): Changes to the Armageddon Counter occur over time and are not immediately reflected in-game.
 				// This is a per-turn player contribution tracker that slowly empowers/depowers the forces of Ragnarok in response to in-game actions.
@@ -10854,10 +10855,10 @@ void CvGame::updateGlobalCounter()
 				// Usage Info:
 				// If the contribution is positive (razing enemy cites, etc.), this tracker is decreased by one each turn until it reaches 0.
 				// if the contribution is negative (sanctifying city ruins, etc.), this tracker is increased by one each turn until it reaches 0.
-				int iPerPlayerChange = bTheEndApproaches ? -1 : 1;
+				int iTurnCounterChange = (bTheEndApproaches) ? -1 : 1;
 				
 				changeGlobalCounterContrib(iPlayerID, iGlobalCounterChange);
-				changeGlobalCounterContribPerTurn(iPlayerID, iPerPlayerChange);
+				changeGlobalCounterContribPerTurn(iPlayerID, iTurnCounterChange);
 				changeGlobalCounter(iProphecyID, iGlobalCounterChange);
 			}
 		}

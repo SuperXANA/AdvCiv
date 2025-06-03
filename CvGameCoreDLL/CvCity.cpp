@@ -9320,7 +9320,7 @@ void CvCity::setHasReligion(ReligionTypes eReligion, bool bNewValue, bool bAnnou
 		}
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 		if (GC.getInfo(eReligion).getGlobalCounterModifierOnSpread() != 0)
-			kOnwer.changeGlobalCounterContrib(iCost * GC.getInfo(eReligion).getGlobalCounterModifierOnSpread());
+			kOwner.changeGlobalCounterContrib(GC.getInfo(eReligion).getGlobalCounterModifierOnSpread());
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	} // K-Mod start
 	else // religion removed
@@ -9349,7 +9349,7 @@ void CvCity::setHasReligion(ReligionTypes eReligion, bool bNewValue, bool bAnnou
 		}
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 		if (GC.getInfo(eReligion).getGlobalCounterModifierOnSpread() != 0)
-			kOnwer.changeGlobalCounterContrib(-1 * GC.getInfo(eReligion).getGlobalCounterModifierOnSpread());
+			kOwner.changeGlobalCounterContrib(GC.getInfo(eReligion).getGlobalCounterModifierOnSpread());
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	} // K-Mod end
 	if (bNewValue)
@@ -9572,7 +9572,7 @@ void CvCity::setHasCorporation(CorporationTypes eCorp, bool bNewValue, bool bAnn
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 		if (GC.getInfo(eCorp).getGlobalCounterModifierOnSpread() != 0)
 			int iCost = (bNewValue) ? 1 : -1;
-			kOnwer.changeGlobalCounterContrib(iCost * GC.getInfo(eCorp).getGlobalCounterModifierOnSpread());
+			kOwner.changeGlobalCounterContrib(iCost * GC.getInfo(eCorp).getGlobalCounterModifierOnSpread());
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if (bNewValue)
