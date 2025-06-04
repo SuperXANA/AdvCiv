@@ -77,6 +77,9 @@ CvPlot::CvPlot() // advc: Merged with the deleted reset function
 	m_iRiverCrossingCount = 0;
 	m_iLatitude = -1; // advc.tsl
 	m_iTotalCulture = 0; // advc.opt
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	m_iPlotCounter = 0;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	m_bStartingPlot = false;
 	m_bNOfRiver = false;
@@ -8523,3 +8526,36 @@ wchar const* CvPlot::debugStr() const
 		out << L" (" << GET_PLAYER(getOwner()).getCivilizationShortDescription() << L")";
 	return out.str().c_str();
 }
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+int CvPlot::getPlotCounter() const
+{
+	return m_iPlotCounter;
+}
+
+void CvPlot::changePlotCounter(int iChange)
+{
+	if (iChange != 0)
+	{
+		if (abs(m_iPlotCounter) < 100)
+		{
+			CvArea const& kArea = getArea();
+			if (!kArea.isMysticalThresholdLocked())
+			{
+				const int iMysticalThreshold = abs(kArea.getMysticalThreshold());
+				bool bAtThresholdBefore = (abs(m_iPlotCounter) > iMysticalThreshold);
+				m_iPlotCounter += iChange;
+				bool bAtThresholdAfter = (abs(m_iPlotCounter) > iMysticalThreshold);
+
+				if (bAtThresholdBefore != bAtThresholdAfter)
+				{
+					if (iChange > 0) //XANA (note): World is Closer to Gehenna (hell)
+						kArea.changeNumMysticalTiles(bAtThresholdBefore ? -1 : 1);
+					else // XANA (note): World is Closer to Elysium (heaven)
+						kArea.changeNumMysticalTiles(bAtThresholdBefore ? 1 : -1);
+				}
+			}
+		}
+	}
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
