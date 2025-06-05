@@ -47,8 +47,18 @@ public: // All the const functions are exposed to Python except for those relate
 
 	const CvArtInfoTerrain* getArtInfo() const;
 	const TCHAR* getButton() const;
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getLightTerrainThreshold() const { return m_iLightTerrainThreshold; }
+	TerrainTypes getLightTerrainType() const { return m_eLightTerrain; }
+	int getDarkTerrainThreshold() const { return m_iDarkTerrainThreshold; }
+	TerrainTypes getDarkTerrainType() const { return m_eDarkTerrain; }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	bool read(CvXMLLoadUtility* pXML);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	bool readPass2(CvXMLLoadUtility* pXML);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 protected:
 	int m_iMovementCost;
@@ -64,6 +74,12 @@ protected:
 	bool m_bFoundFreshWater;
 
 	int m_iWorldSoundscapeScriptId;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iLightTerrainLimit;
+	TerrainTypes m_eLightTerrain;
+	int m_iDarkTerrainLimit;
+	TerrainTypes m_eDarkTerrain;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	int* m_piYields;
 	int* m_piRiverYieldChange;

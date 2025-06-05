@@ -8537,22 +8537,68 @@ void CvPlot::changePlotCounter(int iChange)
 {
 	if (iChange != 0)
 	{
-		if (abs(m_iPlotCounter) < 100)
+		CvArea const& kArea = getArea();
+		if (!kArea.isMysticalThresholdFrozen())
 		{
-			CvArea const& kArea = getArea();
-			if (!kArea.isMysticalThresholdLocked())
+			const int iMysticalThreshold = kArea.getMysticalThreshold();
+			bool bAtThresholdBefore = (m_iPlotCounter > iMysticalThreshold);
+			
+			if ((m_iPlotCounter + iChange) > 100)
 			{
-				const int iMysticalThreshold = abs(kArea.getMysticalThreshold());
-				bool bAtThresholdBefore = (abs(m_iPlotCounter) > iMysticalThreshold);
+				m_iPlotCounter = 100;
+			}
+			else if ((m_iPlotCounter + iChange) < -100)
+			{
+				m_iPlotCounter = -100;
+			}
+			else
+			{
 				m_iPlotCounter += iChange;
-				bool bAtThresholdAfter = (abs(m_iPlotCounter) > iMysticalThreshold);
+			}
+			
+			bool bAtThresholdAfter = (m_iPlotCounter > iMysticalThreshold);
 
-				if (bAtThresholdBefore != bAtThresholdAfter)
+			if (bAtThresholdBefore != bAtThresholdAfter)
+			{
+				if (iChange > 0) //XANA (note): World is Closer to Gehenna (hell)
+					kArea.changeNumMysticalTiles(bAtThresholdBefore ? -1 : 1);
+				else // XANA (note): World is Closer to Elysium (heaven)
+					kArea.changeNumMysticalTiles(bAtThresholdBefore ? 1 : -1);
+			}
+			
+			if (!GC.getGame().isGlobalCounterFrozen())
+			{
+				const int eTerrain = getTerrainType();
+				CvTerrainInfo const& kTerrain = GC.getInfo(eTerrain);
+				bool bPlotWasAltered = false;
+				
+				if (m_iPlotCounter < 0 &&
+				m_iPlotCounter > kTerrain.getLightTerrainThreshold() &&
+				kTerrain.getLightTerrainType() != NO_TERRAIN &&
+				!bAtThresholdBefore && bAtThresholdAfter) // XANA (note): If the plot counter just now reached the magical threshold of its area, we need to update the graphics to the new terrain type.
 				{
-					if (iChange > 0) //XANA (note): World is Closer to Gehenna (hell)
-						kArea.changeNumMysticalTiles(bAtThresholdBefore ? -1 : 1);
-					else // XANA (note): World is Closer to Elysium (heaven)
-						kArea.changeNumMysticalTiles(bAtThresholdBefore ? 1 : -1);
+					setTerrainType(kTerrain.getLightTerrainType(), true, true);
+					bPlotWasAltered = (getTerrainType() != eTerrain); // XANA (note): Only true if plot's terrain was different before being altered by magical forces.
+				}
+				
+				else if (m_iPlotCounter > 0 &&
+				m_iPlotCounter > kTerrain.getDarkTerrainThreshold() &&
+				kTerrain.getDarkTerrainType() != NO_TERRAIN &&
+				!bAtThresholdBefore && bAtThresholdAfter) // XANA (note): If the plot counter just now reached the magical threshold of its area, we need to update the graphics to the new terrain type.
+				{
+					setTerrainType(kTerrain.getDarkTerrainType(), true, true);
+					bPlotWasAltered = (getTerrainType() != eTerrain); // XANA (note): Only true if plot's terrain was different before being altered by magical forces.
+				}
+				
+				if (bPlotWasAltered)
+				{
+					if (getFeatureType() != NO_FEATURE)
+					{
+						if (!GC.getInfo(getFeatureType()).isTerrain(getTerrainType()))
+						{
+							setFeatureType(NO_FEATURE);
+						}
+					}
 				}
 			}
 		}

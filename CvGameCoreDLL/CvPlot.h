@@ -821,7 +821,7 @@ public:
 	
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	int getPlotCounter() const;
-	bool changePlotCounter(int iChange);
+	void changePlotCounter(int iChange);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	void read(FDataStreamBase* pStream);

@@ -78,7 +78,7 @@ void CvArea::reset(int iID, bool bWater, bool bConstructorCall)
 	m_aaiNumAIUnits.reset();
 	
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	m_bMysticalThresholdLocked = false;
+	m_bMysticalThresholdFrozen = false;
 	m_iMysticalThreshold = 0;
 	m_iNumMysticalTiles = 0;
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
@@ -582,9 +582,9 @@ void CvArea::changeMysticalThreshold(int iChange)
 		m_iMysticalThreshold += iChange;
 	}
 }
-void CvArea::setMysticalThresholdLocked(bool b)
+void CvArea::setMysticalThresholdFrozen(bool b)
 {
-	m_bMysticalThresholdLocked = b;
+	m_bMysticalThresholdFrozen = b;
 }
 void CvArea::changeNumMysticalTiles(int iChange)
 {

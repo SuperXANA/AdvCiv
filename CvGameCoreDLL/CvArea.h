@@ -198,8 +198,8 @@ public:
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	int getMysticalThreshold() const { return m_iMysticalThreshold; }
 	void changeMysticalThreshold(int iChange);
-	bool isMysticalThresholdLocked() const { return m_bMysticalThresholdLocked; }
-	void setMysticalThresholdLocked(bool b);
+	bool isMysticalThresholdFrozen() const { return m_bMysticalThresholdFrozen; }
+	void setMysticalThresholdFrozen(bool b);
 	void changeNumMysticalTiles(int iChange);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
@@ -245,7 +245,7 @@ protected:
 	ArrayEnumMap2D<PlayerTypes,UnitAITypes,int,short> m_aaiNumAIUnits; // </advc.enum>
 	
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	bool m_bMysticalThresholdLocked;
+	bool m_bMysticalThresholdFrozen;
 	int m_iMysticalThreshold;
 	int m_iNumMysticalTiles;
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
