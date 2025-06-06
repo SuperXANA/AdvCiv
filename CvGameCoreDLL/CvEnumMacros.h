@@ -167,6 +167,9 @@
 #define CvDenialInfo CvInfoBase
 // This one just has an irregular, exported name.
 #define CvThroneRoomCameraInfo CvThroneRoomCamera
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+#define CvDamageInfo CvInfoBase
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 /*	Static enum types without any associated CvInfo data.
 	Not a complete list; add types here if their traits need to be accessed. */
