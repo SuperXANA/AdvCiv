@@ -54,6 +54,9 @@ void CyInfoPythonInterface2()
 		.def("getButton", &CvCivilizationInfo::getButton, "string ()")
 
 		.def("getDerivativeCiv", &CvCivilizationInfo::getDerivativeCiv, "int ()")
+// XANA: 06-21-2025 Racial Marks
+		.def("getDefaultRace", &CvCivilizationInfo::getDefaultRace, "int ()")
+// XANA: 06-21-2025 Racial Marks
 
 		// Arrays
 
@@ -449,4 +452,10 @@ void CyInfoPythonInterface2()
 		.def("getRiverYieldChange", &CvTerrainInfo::getRiverYieldChange, "int (int i)")
 		.def("getHillsYieldChange", &CvTerrainInfo::getHillsYieldChange, "int (int i)")
 		;
+		
+// XANA: 06-21-2025 Racial Marks
+	python::class_<CvRaceInfo, boost::noncopyable, python::bases<CvInfoBase> >("CvRaceInfo")
+		.def("getSubRaceType", &CvRaceInfo::getSubRaceType, "int ()")
+		;
+// XANA: 06-21-2025 Racial Marks
 }

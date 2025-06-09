@@ -396,6 +396,11 @@ public:
 
 	const CvArtInfoUnit* getArtInfo(int i, EraTypes eEra) const;
 	std::string getButton() const;
+	
+// XANA: 06-21-2025 Racial Marks
+	int /*RaceTypes*/ getRace();
+	bool isRace(int /*RaceTypes*/ eIndex);
+// XANA: 06-21-2025 Racial Marks
 
 	// Python Helper Functions
 

@@ -365,6 +365,10 @@ void CyInfoPythonInterface1()
 		.def("getMiddleArtDefineTag", &CvUnitInfo::getMiddleArtDefineTag, "string (int i, UnitArtStyleTypes eStyle)")
 		.def("getUnitNames", &CvUnitInfo::getUnitNames, "string (int i)")
 		.def("getArtInfo", &CvUnitInfo::getArtInfo,  python::return_value_policy<python::reference_existing_object>(), "CvArtInfoUnit* (int i, bool bLate)")
+		
+// XANA: 06-21-2025 Racial Marks
+		.def("getDefaultRace", &CvUnitInfo::getDefaultRace, "int ()")
+// XANA: 06-21-2025 Racial Marks
 		;
 
 	python::class_<CvSpecialUnitInfo, boost::noncopyable, python::bases<CvInfoBase> >("CvSpecialUnitInfo")

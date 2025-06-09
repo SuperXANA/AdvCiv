@@ -163,7 +163,10 @@ m_pbFreePromotions(NULL),
 m_paszEarlyArtDefineTags(NULL),
 m_paszLateArtDefineTags(NULL),
 m_paszMiddleArtDefineTags(NULL),
-m_paszUnitNames(NULL)
+m_paszUnitNames(NULL),
+// XANA: 06-21-2025 Racial Marks
+m_eDefaultRace(NO_RACE)
+// XANA: 06-21-2025 Racial Marks
 {}
 
 

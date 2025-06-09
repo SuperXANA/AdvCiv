@@ -181,6 +181,9 @@ public:
 	virtual CvCacheObject* createGlobalDefinesCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createTechInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createBuildingInfoCacheObject(const TCHAR* szCacheFileName) = 0;
+// XANA: 06-21-2025 Racial Marks
+	virtual CvCacheObject* createRaceCacheObject(const TCHAR* szCacheFileName) = 0;
+// XANA: 06-21-2025 Racial Marks
 	virtual CvCacheObject* createUnitInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createLeaderHeadInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createCivilizationInfoCacheObject(const TCHAR* szCacheFileName) = 0;

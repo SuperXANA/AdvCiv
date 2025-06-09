@@ -63,6 +63,10 @@ public: // advc: All the const functions are exposed to Python
 
 	const CvArtInfoCivilization* getArtInfo() const; // (not exposed to Python)
 	const TCHAR* getButton() const;
+	
+// XANA: 06-21-2025 Racial Marks
+	RaceTypes getDefaultRace() const { return m_eDefaultRace; }
+// XANA: 06-21-2025 Racial Marks
 
 	bool read(CvXMLLoadUtility* pXML);
 	bool readPass2(CvXMLLoadUtility* pXML);
@@ -87,6 +91,10 @@ protected:
 	CvString m_szArtDefineTag;
 	CvWString m_szShortDescriptionKey;
 	CvWString m_szAdjectiveKey;
+	
+// XANA: 06-21-2025 Racial Marks
+	RaceTypes m_eDefaultRace;
+// XANA: 06-21-2025 Racial Marks
 
 	int* m_piCivilizationBuildings;
 	int* m_piCivilizationUnits;
@@ -505,5 +513,43 @@ public: // advc: All the const functions are exposed to Python
 protected:
 	std::vector<CvDiplomacyResponse*> m_pResponses;
 };
+
+// XANA: 06-21-2025 Racial Marks
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvRaceInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvRaceInfo : public CvXMLInfo
+{
+	typedef CvXMLInfo base_t;
+protected:
+	void addElements(ElementList& kElements) const
+	{
+		base_t::addElements(kElements);
+	}
+public:
+	enum IntElementTypes
+	{
+		NUM_INT_ELEMENT_TYPES
+	};
+	int get(IntElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::IntElementTypes>(e));
+	}
+
+	CvRaceInfo();
+	~CvRaceInfo();
+	
+	RaceTypes getSubRaceType() const { return m_eSubRaceType; }
+
+	// Array access:
+
+	bool read(CvXMLLoadUtility* pXML);
+	bool readPass2(CvXMLLoadUtility* pXML);
+
+protected:
+RaceTypes m_eSubRaceType;
+
+};
+// XANA: 06-21-2025 Racial Marks
 
 #endif

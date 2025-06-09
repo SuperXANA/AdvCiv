@@ -1073,6 +1073,18 @@ public:
 	bool LFBisBetterDefenderThan(const CvUnit* pDefender, const CvUnit* pAttacker, int* pBestDefenderRank) const;
 	// (advc: LFBgetDefenderCombatOdds deleted, use 1000 minus calculateCombatOdds instead.)
 	// Lead From Behind: END
+	
+// XANA: 06-21-2025 Racial Marks
+	RaceTypes getRace() const
+	{
+		return (m_pUnitInfo->getDefaultRace() != NO_RACE) ? m_pUnitInfo->getDefaultRace() : GC.getInfo(getCivilizationType()).getDefaultRace();
+	}
+	bool isRace(RaceTypes eRace) const;
+	bool pyIsRace(const int iRace) const
+	{
+		return isRace((RaceTypes)iRace);
+	}
+// XANA: 06-21-2025 Racial Marks
 
 	// <advc.003u>
 	// virtual for FFreeListTrashArray

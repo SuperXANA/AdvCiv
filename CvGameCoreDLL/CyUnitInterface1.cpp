@@ -385,5 +385,9 @@ void CyUnitPythonInterface1(python::class_<CyUnit>& x)
 
 		.def("getArtInfo", &CyUnit::getArtInfo,  python::return_value_policy<python::reference_existing_object>(), "CvArtInfoUnit* (int i, eEra)")
 		.def("getButton", &CyUnit::getButton, "std::string ()")
+// XANA: 06-21-2025 Racial Marks
+		.def("getRace", &CyUnit::getRace, "int () - returns the int value of the RaceType")
+		.def("isRace", &CyUnit::isRace, "bool (int /*RaceTypes*/ eIndex)")
+// XANA: 06-21-2025 Racial Marks
 		;
 }

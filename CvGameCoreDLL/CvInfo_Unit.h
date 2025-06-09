@@ -335,6 +335,9 @@ public: /*  All const functions are exposed to Python except some related to art
 	void updateArtDefineButton();
 
 	const CvArtInfoUnit* getArtInfo(int i, EraTypes eEra, UnitArtStyleTypes eStyle) const;
+// XANA: 06-21-2025 Racial Marks
+	RaceTypes getDefaultRace() const { return m_eDefaultRace; }
+// XANA: 06-21-2025 Racial Marks
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase*);
 	void write(FDataStreamBase*);
@@ -474,6 +477,9 @@ protected:
 	std::vector<TechTypes> m_aePrereqAndTechs; // advc.003t: was int*
 	std::vector<BonusTypes> m_aePrereqOrBonuses; // advc.003t: was int*
 	std::vector<std::pair<BonusTypes,int> > m_aeiSpeedBonuses; // advc.905b
+// XANA: 06-21-2025 Racial Marks
+	RaceTypes m_eDefaultRace;
+// XANA: 06-21-2025 Racial Marks
 	int* m_piProductionTraits;
 	int* m_piFlavorValue;
 	int* m_piTerrainAttackModifier;

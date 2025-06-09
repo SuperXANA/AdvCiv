@@ -1702,3 +1702,15 @@ std::string CyUnit::getButton() const
 {
 	return m_pUnit ? m_pUnit->getButton() : "";
 }
+
+// XANA: 06-21-2025 Racial Marks
+int /*RaceTypes*/ CyUnit::getRace()
+{
+	return m_pUnit ? m_pUnit->getRace() : (int) NO_RACE;
+}
+
+bool CyUnit::isRace(int /*RaceTypes*/ eIndex)
+{
+	return m_pUnit ? m_pUnit->pyIsRace(eIndex) : false;
+}
+// XANA: 06-21-2025 Racial Marks

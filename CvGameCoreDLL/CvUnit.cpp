@@ -10476,6 +10476,12 @@ int CvUnit::getSubUnitsAlive(int iDamage) const
 			(maxHitPoints() / ((m_pUnitInfo->getGroupSize() * 2) + 1))) / maxHitPoints());
 }
 
+// XANA: 06-21-2025 Racial Marks
+bool CvUnit::isRace(RaceTypes eRace) const
+{
+	return getRace() == eRace || GC.getInfo(getRace()).getSubRaceType() == eRace;
+}
+// XANA: 06-21-2025 Racial Marks
 
 void CvUnit::read(FDataStreamBase* pStream)
 {

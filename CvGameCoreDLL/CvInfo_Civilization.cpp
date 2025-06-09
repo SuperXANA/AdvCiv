@@ -389,6 +389,10 @@ bool CvCivilizationInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pbLeaders, "Leaders", GC.getNumLeaderHeadInfos());
 	CvString szTextVal;
 	pXML->GetChildXmlValByName(szTextVal, "CivilizationSelectionSound");
+// XANA: 06-21-2025 Racial Marks
+	pXML->SetInfoIDFromChildXmlVal(m_eDefaultRace,
+			"DefaultRace");
+// XANA: 06-21-2025 Racial Marks
 
 	return true;
 }
@@ -1561,3 +1565,27 @@ bool CvDiplomacyInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+// XANA: 06-21-2025 Racial Marks
+CvRaceInfo::CvRaceInfo() :
+m_eSubRaceType(NO_RACE)
+{}
+
+CvRaceInfo::~CvRaceInfo()
+{
+	// XANA (note): Nothing here yet.
+}
+
+bool CvRaceInfo::read(CvXMLLoadUtility* pXML)
+{
+	//pXML->GetChildXmlValByName(&m_iHealth, "iHealth"); // XANA (note): Nothing here yet.
+	return true;
+}
+
+bool CvRaceInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	pXML->SetInfoIDFromChildXmlVal(m_eSubRaceType,
+			"SubRaceOfType");
+	return true;
+}
+// XANA: 06-21-2025 Racial Marks
