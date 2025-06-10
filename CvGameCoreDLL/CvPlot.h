@@ -982,17 +982,17 @@ protected:
 	void doCulture();
 	
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-    int m_iTempTerrainTimer;
-	short /*TerrainTypes*/ m_eRealTerrainType;
-	int m_iTempFeatureTimer;
-	int m_iTempBonusTimer;
-	int m_iTempImprovementTimer;
-	int m_iTempRouteTimer;
+    	short m_iTempTerrainTimer;
+	char /*TerrainTypes*/ m_eRealTerrainType;
+	short m_iTempFeatureTimer;
+	short m_iTempBonusTimer;
+	short m_iTempImprovementTimer;
+	short m_iTempRouteTimer;
 	short m_eRealFeatureType;
-	int m_iRealFeatureVariety;
+	short m_iRealFeatureVariety;
 	short m_eRealBonusType;
-	short /*ImprovementTypes*/ m_eRealImprovementType;
-	short /*RouteTypes*/ m_eRealRouteType;
+	char /*ImprovementTypes*/ m_eRealImprovementType;
+	char /*RouteTypes*/ m_eRealRouteType;
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 	int areaID() const;

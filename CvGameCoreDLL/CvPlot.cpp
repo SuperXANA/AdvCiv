@@ -372,7 +372,7 @@ void CvPlot::doTurn()
     if (isHasTempTerrain())
     {
         changeTempTerrainTimer(-1);
-        if (getTempTerrainTimer() == 0)
+        if (getTempTerrainTimer() <= 0)
         {
 			if (getRealTerrainType() != NO_TERRAIN)
 			{
@@ -386,7 +386,7 @@ void CvPlot::doTurn()
 	{
 		changeTempFeatureTimer(-1);
 
-		if (getTempFeatureTimer() == 0)
+		if (getTempFeatureTimer() <= 0)
 		{
 			setFeatureType(getRealFeatureType(), getRealFeatureVariety());
 			setRealFeatureType(NO_FEATURE);
@@ -397,7 +397,7 @@ void CvPlot::doTurn()
 	{
 		changeTempBonusTimer(-1);
 
-		if (getTempBonusTimer() == 0)
+		if (getTempBonusTimer() <= 0)
 		{
 			CvCity* pCity;
 			pCity = GC.getMap().findCity(getX(), getY(), kOwner.getID(), NO_TEAM, false);
@@ -439,7 +439,7 @@ void CvPlot::doTurn()
 	if (isHasTempImprovement())
     {
         changeTempImprovementTimer(-1);
-        if (getTempImprovementTimer() == 0)
+        if (getTempImprovementTimer() <= 0)
         {
 			setImprovementType(getRealImprovementType());
 			setRealImprovementType(NO_IMPROVEMENT);
@@ -449,7 +449,7 @@ void CvPlot::doTurn()
 	if (isHasTempRoute())
     {
         changeTempRouteTimer(-1);
-        if (getTempRouteTimer() == 0)
+        if (getTempRouteTimer() <= 0)
         {
 			setRouteType(getRealRouteType(), true);
 			setRealRouteType(NO_ROUTE);
