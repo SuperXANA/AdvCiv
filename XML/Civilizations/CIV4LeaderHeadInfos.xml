@@ -172,6 +172,9 @@
 					<DiploScriptId>AS2D_DIPLO_BARBARIAN_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers/>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		
 		<!-- advc.xmldefault (start)
@@ -850,6 +853,9 @@
 					<DiploScriptId></DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers/>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<!-- advc.xmldefault (end) -->
 		
@@ -1116,6 +1122,14 @@
 					<DiploScriptId>AS2D_DIPLO_DECA_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_COMPUTERS</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--ADAGIO DAZZLE [EQUESTRIA GIRLS]-->
 			<Type>LEADER_ADAGIO</Type> <!-- MANA KNOWLEDGE: WATER, LVL 1 -->
@@ -1385,6 +1399,14 @@
 					<DiploScriptId>AS2D_DIPLO_SIRENS_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_MUSIC</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--AEQUILIBEIUS ZE AETERNUM, ETERNAL GODDESS OF BALANCE (ALTERNATIVE PERSONALITY OF PIMEDASUS HELENDAV)-->
 			<Type>LEADER_AEQUILIBRIUS</Type>  <!-- MANA KNOWLEDGE: LIFE, LVL 1 & HARMONY, LVL 2 & COSMOS, LVL 3 -->
@@ -1652,6 +1674,14 @@
 					<DiploScriptId>AS2D_DIPLO_AEQUILIBRIUS_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_DIVINE_RIGHT</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--AMETHYST GLEAM-->
 			<Type>LEADER_AMETHYST</Type> <!-- MANA KNOWLEDGE: EARTH, LVL 1 -->
@@ -1886,6 +1916,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_CURRENCY</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--AMETHYST STAR-->
 			<Type>LEADER_AMETHYSTSTAR</Type> <!-- MANA KNOWLEDGE: EARTH, LVL 1 -->
@@ -2592,6 +2630,14 @@
 					<DiploScriptId>AS2D_DIPLO_APPLEJACK_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_HORSEBACK_RIDING</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--AQASHA, GODDESS OF DESTRUCTION [OC]-->
 			<Type>LEADER_AQASHA</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 1 & LIFE, LVL 2 -->
@@ -3095,6 +3141,14 @@
 					<DiploScriptId>AS2D_DIPLO_SIRENS_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_DRAMA</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--ARIANI, AKA ARYANNE, IMPERIALIST WARHAWK [OC]-->
 			<Type>LEADER_ARIANI</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 1 -->
@@ -4813,6 +4867,14 @@
 					<DiploScriptId>AS2D_DIPLO_OLDEQUESTRIA_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_WRITING</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--CHEERILEE-->
 			<Type>LEADER_CHEERILEE</Type> <!-- MANA KNOWLEDGE: LIFE, LVL 1 -->
@@ -5056,6 +5118,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_EDUCATION</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--CHROMIA, THE GOOGLE CHROME BROWSER PONY [OC]-->
 			<Type>LEADER_CBP</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
@@ -9546,6 +9616,14 @@
 					<DiploScriptId>AS2D_DIPLO_EQUALIS_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_GUILDS</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--EVENING LOVE, SUPER MAID EXTRAORDINAIRE [OC]-->
 			<Type>LEADER_EVENINGLOVE</Type> <!-- MANA KNOWLEDGE: WATER, LVL 1 & LIFE, LVL 1 -->
@@ -9813,6 +9891,14 @@
 					<DiploScriptId>AS2D_DIPLO_EVENINGLOVE_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_FASCISM</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--MEAN FLUTTERSHY, DARK-HEART/'MEAN-SIX' CHARACTER VERSION OF FLUTTERSHY-->
 			<Type>LEADER_MFS</Type> <!-- MANA KNOWLEDGE: EARTH, LVL 1 -->
@@ -10056,6 +10142,14 @@
 					<DiploScriptId>AS2D_DIPLO_MFS_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_AGRICULTURE</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--EVIL RARITY, MEAN-SIX CHARACTER CLONE OF RARITY [OC]-->
 			<Type>LEADER_ER</Type> <!-- MANA KNOWLEDGE: EARTH, LVL 1 -->
@@ -10289,6 +10383,14 @@
 					<DiploScriptId>AS2D_DIPLO_ER_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_ECONOMICS</TechType>
+					<iWeightModifier>50</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--FLASH SENTRY [EQUESTRIA GIRLS]-->
 			<Type>LEADER_FLASH</Type> <!-- MANA KNOWLEDGE: AIR, LVL 1 -->
@@ -10753,6 +10855,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_ECONOMICS</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--MOZILLA FIREFOX BROWSER PONY [OC]-->
 			<Type>LEADER_FFBP</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 1 -->
@@ -12696,6 +12806,14 @@
 					<DiploScriptId>AS2D_DIPLO_GAEA_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_AGRICULTURE</TechType>
+					<iWeightModifier>25</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--GARBLE THE DRAGON-->
 			<Type>LEADER_GARBLE</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 1 -->
@@ -14633,6 +14751,14 @@
 					<DiploScriptId>AS2D_DIPLO_INFINITE_ECLIPSE_GOOD_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_CIVIL_SERVICE</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--KELPAQUATIS, SEAPONY PRINCESS [OC]-->
 			<Type>LEADER_SEAPONY</Type> <!-- MANA KNOWLEDGE: WATER, LVL 2 -->
@@ -15584,6 +15710,14 @@
 					<DiploScriptId>AS2D_DIPLO_CRYSTAL_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_FEDUALISM</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--KING THORAX OF THE CHANGELINGS-->
 			<Type>LEADER_THORAX</Type> <!-- MANA KNOWLEDGE: LIFE, LVL 1 -->
@@ -16517,6 +16651,18 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_DRAMA</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+				<TechWeightModifier>
+					<TechType>TECH_ECONOMICS</TechType>
+					<iWeightModifier>25</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--LITTLE STRONGHEART-->
 			<Type>LEADER_STRONGHEART</Type> <!-- MANA KNOWLEDGE: EARTH, LVL 1 -->
@@ -19178,6 +19324,14 @@
 					<DiploScriptId>AS2D_DIPLO_MTS_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_EDUCATION</TechType>
+					<iWeightModifier>50</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--MIDNIGHT SPARKLE, EVIL ALTER EGO OF TWILIGHT SPARKLE [EQUESTRIA GIRLS]-->
 			<Type>LEADER_MIDNIGHT</Type> <!-- MANA KNOWLEDGE: AIR, LVL 2 & COSMOS, LVL 1 -->
@@ -19662,6 +19816,14 @@
 					<DiploScriptId>AS2D_DIPLO_MC_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_ARTILLERY</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--MINUETTE, AKA COLGATE-->
 			<Type>LEADER_MINUETTE</Type> <!-- MANA KNOWLEDGE: WATER, LVL 1 & CHAOS, LVL 1 -->
@@ -23313,6 +23475,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_LIBERALISM</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PRINCESS CELESTIA-->
 			<Type>LEADER_CELESTIA</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 1 & HARMONY, LVL 1 -->
@@ -23581,6 +23751,18 @@
 					<DiploScriptId>AS2D_DIPLO_CELESTIA_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_EDUCATION</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+				<TechWeightModifier>
+					<TechType>TECH_FEDUALISM</TechType>
+					<iWeightModifier>25</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PRINCESS CHRONO [OC]-->
 			<Type>LEADER_CHRONO</Type> <!-- MANA KNOWLEDGE: COSMOS, LVL 1 -->
@@ -24560,6 +24742,18 @@
 					<DiploScriptId>AS2D_DIPLO_LUNA_WAR</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_WRITING</TechType>
+					<iWeightModifier>50</iWeightModifier>
+				</TechWeightModifier>
+				<TechWeightModifier>
+					<TechType>TECH_FASCISM</TechType>
+					<iWeightModifier>25</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--PRINCESS PLATINUM-->
 			<Type>LEADER_PLATINUM</Type> <!-- MANA KNOWLEDGE: EARTH, LVL 1 -->
@@ -26244,6 +26438,14 @@
 					<DiploScriptId>AS2D_DIPLO_RUSA_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_GUNPOWDER</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SAFFRON SOUL [OC]-->
 			<Type>LEADER_SAFFRON</Type> <!-- MANA KNOWLEDGE: CHAOS, LVL 1 -->
@@ -26970,6 +27172,14 @@
 					<DiploScriptId>AS2D_DIPLO_PONY_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_DRAMA</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SCARLET AURA, FIRE PONY ALTER EGO OF TWILIGHT SPARKLE-->
 			<Type>LEADER_FURY</Type> <!-- MANA KNOWLEDGE: FIRE, LVL 2 & HARMONY, LVL 1 -->
@@ -27731,6 +27941,14 @@
 					<DiploScriptId>AS2D_DIPLO_MQ9_WAR3</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_FLIGHT</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--SHINING ARMOR, TWILIGHT SPARKLE'S OLDER BROTHER-->
 			<Type>LEADER_SHININGARMOR</Type> <!-- MANA KNOWLEDGE: LIFE, LVL 1 & HARMONY, LVL 1 -->
@@ -34262,6 +34480,14 @@
 					<DiploScriptId>AS2D_DIPLO_TWILIGHT_WAR2</DiploScriptId>
 				</DiploMusicWarEra>
 			</DiplomacyMusicWar>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+			<TechWeightModifiers>
+				<TechWeightModifier>
+					<TechType>TECH_WRITING</TechType>
+					<iWeightModifier>100</iWeightModifier>
+				</TechWeightModifier>
+			</TechWeightModifiers>
+	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
 		</LeaderHeadInfo>
 		<LeaderHeadInfo><!--TWINKLESHINE-->
 			<Type>LEADER_TWINKLESHINE</Type> <!-- MANA KNOWLEDGE: WATER, LVL 1 -->
