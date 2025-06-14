@@ -58,6 +58,9 @@ public: // advc: All the const functions are exposed to Python
 	bool isCivilizationFreeBuildingClass(int i) const;
 	bool isCivilizationFreeTechs(int i) const;
 	bool isCivilizationDisableTechs(int i) const;
+// XANA: 07-12-2025 City Population Trait
+	int getExtraPopulation() const { return m_bExtraPopulation ? 1 : 0; }
+// XANA: 07-12-2025 City Population Trait
 
 	std::string getCityNames(int i) const;
 
@@ -83,6 +86,9 @@ protected:
 
 	bool m_bAIPlayable;
 	bool m_bPlayable;
+// XANA: 07-12-2025 City Population Trait
+	bool m_bExtraPopulation;
+// XANA: 07-12-2025 City Population Trait
 
 	CvString m_szArtDefineTag;
 	CvWString m_szShortDescriptionKey;
@@ -383,6 +389,9 @@ public:
 	int getMaxGlobalBuildingProductionModifier() const;
 	int getMaxTeamBuildingProductionModifier() const;
 	int getMaxPlayerBuildingProductionModifier() const;
+// XANA: 07-12-2025 City Population Trait
+	int getExtraPopulation() const { return m_bExtraPopulation ? 1 : 0; }
+// XANA: 07-12-2025 City Population Trait
 
 	const TCHAR* getShortDescription() const;
 	void setShortDescription(const TCHAR* szVal);
@@ -414,6 +423,9 @@ protected:
 	int m_iMaxGlobalBuildingProductionModifier;
 	int m_iMaxTeamBuildingProductionModifier;
 	int m_iMaxPlayerBuildingProductionModifier;
+// XANA: 07-12-2025 City Population Trait
+	bool m_bExtraPopulation;
+// XANA: 07-12-2025 City Population Trait
 
 	CvString m_szShortDescription;
 

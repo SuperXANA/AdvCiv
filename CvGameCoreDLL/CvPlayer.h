@@ -781,6 +781,11 @@ public:
 
 	int getStateReligionFreeExperience() const { return m_iStateReligionFreeExperience; }							// Exposed to Python
 	void changeStateReligionFreeExperience(int iChange);
+	
+// XANA: 07-12-2025 City Population Trait
+	int getExtraPopulation() const { return m_iExtraPopulation; }
+	void changeExtraPopulation(int iChange);
+// XANA: 07-12-2025 City Population Trait
 
 	CvCity* getCapital() const // advc: abbreviate
 	{
@@ -1571,6 +1576,9 @@ protected:  // <advc.210>
 	int m_iInflationModifier;
 	int m_iChoosingFreeTechCount; // K-Mod (based on the 'Unofficial Patch'
 	int m_iButtonPopupsRelaunching; // advc.004x
+// XANA: 07-12-2025 City Population Trait
+	int m_iExtraPopulation;
+// XANA: 07-12-2025 City Population Trait
 
 	uint m_uiStartTime;  // XXX save these?
 

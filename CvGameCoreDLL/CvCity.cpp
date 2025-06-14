@@ -13145,7 +13145,11 @@ void CvCity::getBuildQueue(std::vector<std::string>& astrQueue) const
 int CvCity::initialPopulation()
 {
 	return GC.getDefineINT("INITIAL_CITY_POPULATION") +
-			GC.getInfo(GC.getGame().getStartEra()).getFreePopulation();
+			GC.getInfo(GC.getGame().getStartEra()).getFreePopulation() +
+// XANA: 07-12-2025 City Population Trait
+			GC.getInfo(getCivilization()).getExtraPopulation() +
+			GET_PLAYER(getOwner()).getExtraPopulation();
+// XANA: 07-12-2025 City Population Trait
 }
 
 // advc.004b, advc.104: Parameters added

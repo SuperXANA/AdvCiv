@@ -23,7 +23,10 @@ m_pbLeaders(NULL),
 m_pbCivilizationFreeBuildingClass(NULL),
 m_pbCivilizationFreeTechs(NULL),
 m_pbCivilizationDisableTechs(NULL),
-m_paszCityNames(NULL)
+m_paszCityNames(NULL),
+// XANA: 07-12-2025 City Population Trait
+m_bExtraPopulation(false)
+// XANA: 07-12-2025 City Population Trait
 {}
 
 CvCivilizationInfo::~CvCivilizationInfo()
@@ -1094,7 +1097,10 @@ m_paiTradeYieldModifier(NULL),
 m_paiCommerceChange(NULL),
 m_paiCommerceModifier(NULL),
 m_pabFreePromotionUnitCombat(NULL),
-m_pabFreePromotion(NULL)
+m_pabFreePromotion(NULL),
+// XANA: 07-12-2025 City Population Trait
+m_bExtraPopulation(false)
+// XANA: 07-12-2025 City Population Trait
 {}
 
 CvTraitInfo::~CvTraitInfo()

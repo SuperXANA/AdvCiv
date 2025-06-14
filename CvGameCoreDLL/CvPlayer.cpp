@@ -422,6 +422,9 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 	m_iButtonPopupsRelaunching = 0; // advc.004x
 	m_uiStartTime = 0;
 	m_eReminderPending = NO_CIVIC; // advc.004x
+// XANA: 07-12-2025 City Population Trait
+	m_iExtraPopulation = 0;
+// XANA: 07-12-2025 City Population Trait
 
 	m_bAlive = false;
 	m_bEverAlive = false;
@@ -584,6 +587,9 @@ void CvPlayer::processTraits(int iChange)
 		changeMaxGlobalBuildingProductionModifier(iChange * kTrait.getMaxGlobalBuildingProductionModifier());
 		changeMaxTeamBuildingProductionModifier(iChange * kTrait.getMaxTeamBuildingProductionModifier());
 		changeMaxPlayerBuildingProductionModifier(iChange * kTrait.getMaxPlayerBuildingProductionModifier());
+// XANA: 07-12-2025 City Population Trait
+		changeExtraPopulation(iChange * kTrait.getExtraPopulation());
+// XANA: 07-12-2025 City Population Trait
 
 		FOR_EACH_ENUM(Yield)
 		{
@@ -8359,6 +8365,14 @@ void CvPlayer::changeStateReligionFreeExperience(int iChange)
 {
 	m_iStateReligionFreeExperience += iChange;
 }
+
+
+// XANA: 07-12-2025 City Population Trait
+void CvPlayer::changeExtraPopulation(int iChange)
+{
+	m_iExtraPopulation += iChange;
+}
+// XANA: 07-12-2025 City Population Trait
 
 // advc: Renamed from "setCapitalCity"
 void CvPlayer::setCapital(CvCity* pNewCapital)
