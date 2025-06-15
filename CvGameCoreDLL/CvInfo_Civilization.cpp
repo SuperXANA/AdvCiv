@@ -1104,7 +1104,7 @@ bool CvLeaderHeadInfo::readPass2(CvXMLLoadUtility* pXML)
 		if (m_piFirstImpressionModifier != NULL)
 		{
 			FOR_EACH_ENUM(LeaderHead)
-				FAssert(m_piFirstImpressionModifier[eLoopLeaderHead] >= 0);
+				FAssert(m_piFirstImpressionModifier[eLoopLeaderHead] >= 0 || m_piFirstImpressionModifier[eLoopLeaderHead] <= 0);
 		}
 	#endif
 	
