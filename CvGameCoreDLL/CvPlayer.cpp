@@ -10575,9 +10575,14 @@ void CvPlayer::changeDamageTypePoints(DamageTypes eDamage, int iChange)
 {
 	if (iChange != 0)
 	{
-		m_aiDamageTypePoints.add(eDamage, iChange);
+		if ((m_aiDamageTypePoints.get(eDamage) + iChange) > 100)
+			m_aiDamageTypePoints.set(eDamage, 100)
+		else if ((m_aiDamageTypePoints.get(eDamage) + iChange) < -100)
+			m_aiDamageTypePoints.set(eDamage, -100)
+		else
+			m_aiDamageTypePoints.add(eDamage, iChange);
 	}
-}	
+}
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 

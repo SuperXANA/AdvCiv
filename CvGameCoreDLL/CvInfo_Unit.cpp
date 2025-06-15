@@ -707,18 +707,12 @@ void CvUnitInfo::setMiddleArtDefineTag(int i, const TCHAR* szVal)
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 int CvUnitInfo::getDamageTypeCombat(DamageTypes eDamage) const
 {
-	const int iSubTypeExtra = (m_piDamageTypeCombat && GC.getInfo(eDamage).getDamageType() != NO_DAMAGE) ?
-	m_piDamageTypeCombat[GC.getInfo(eDamage).getDamageType()] : 0;
-	
-	return m_piDamageTypeCombat ? m_piDamageTypeCombat[eDamage] + iSubTypeExtra : 0;
+	return m_piDamageTypeCombat ? m_piDamageTypeCombat[eDamage] : 0;
 }
 
 int CvUnitInfo::getDamageTypeResist(DamageTypes eDamage) const
 {
-	const int iSubTypeExtra = (m_piDamageTypeResist && GC.getInfo(eDamage).getDamageType() != NO_DAMAGE) ?
-	m_piDamageTypeResist[GC.getInfo(eDamage).getDamageType()] : 0;
-	
-	return m_piDamageTypeResist ? m_piDamageTypeResist[eDamage] + iSubTypeExtra : 0;
+	return m_piDamageTypeResist ? m_piDamageTypeResist[eDamage] : 0;
 }
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
@@ -2167,18 +2161,12 @@ bool CvPromotionInfo::getUnitCombat(int i) const
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 int CvPromotionInfo::getDamageTypeCombat(DamageTypes eDamage) const
 {
-	const int iSubTypeExtra = (m_piDamageTypeCombat && GC.getInfo(eDamage).getDamageType() != NO_DAMAGE) ?
-	m_piDamageTypeCombat[GC.getInfo(eDamage).getDamageType()] : 0;
-	
-	return m_piDamageTypeCombat ? m_piDamageTypeCombat[eDamage] + iSubTypeExtra : 0;
+	return m_piDamageTypeCombat ? m_piDamageTypeCombat[eDamage] : 0;
 }
 
 int CvPromotionInfo::getDamageTypeResist(DamageTypes eDamage) const
 {
-	const int iSubTypeExtra = (m_piDamageTypeResist && GC.getInfo(eDamage).getDamageType() != NO_DAMAGE) ?
-	m_piDamageTypeResist[GC.getInfo(eDamage).getDamageType()] : 0;
-	
-	return m_piDamageTypeResist ? m_piDamageTypeResist[eDamage] + iSubTypeExtra : 0;
+	return m_piDamageTypeResist ? m_piDamageTypeResist[eDamage] : 0;
 }
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 #if ENABLE_XML_FILE_CACHE
@@ -2639,7 +2627,7 @@ bool CvEspionageMissionInfo::read(CvXMLLoadUtility* pXML)
 
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 CvDamageInfo::CvDamageInfo() :
-m_eSharedDamageType(NO_DAMAGE)
+
 {}
 
 CvDamageInfo::~CvDamageInfo()
@@ -2650,13 +2638,6 @@ CvDamageInfo::~CvDamageInfo()
 bool CvDamageInfo::read(CvXMLLoadUtility* pXML)
 {
 	//pXML->GetChildXmlValByName(&m_iHealth, "iHealth"); // XANA (note): Nothing here yet.
-	return true;
-}
-
-bool CvDamageInfo::readPass2(CvXMLLoadUtility* pXML)
-{
-	pXML->SetInfoIDFromChildXmlVal(m_eSharedDamageType,
-			"SharedDamageType");
 	return true;
 }
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv

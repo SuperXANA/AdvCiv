@@ -851,16 +851,12 @@ public:
 
 	CvDamageInfo();
 	~CvDamageInfo();
-	
-	DamageTypes getSharedDamageType() const { return m_eSharedDamageType; }
 
 	// Array access:
 
 	bool read(CvXMLLoadUtility* pXML);
-	bool readPass2(CvXMLLoadUtility* pXML);
 
 protected:
-DamageTypes m_eSharedDamageType;
 
 };
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
