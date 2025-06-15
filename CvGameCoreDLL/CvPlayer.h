@@ -1168,6 +1168,14 @@ public:
 		return m_aeeiImprovementYieldChange.get(eImprov, eYield);
 	}
 	void changeImprovementYieldChange(ImprovementTypes eImprov, YieldTypes eYield, int iChange);
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getDamageTypePoints(DamageTypes eDamage) const
+	{
+		return m_aiDamageTypePoints.get(eDamage);
+	}
+	void changeDamageTypePoints(DamageTypes eDamage, int iChange);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	//void updateGroupCycle(CvUnit* pUnit);
 	void updateGroupCycle(CvSelectionGroup const& kGroup); // K-Mod
@@ -1647,6 +1655,9 @@ protected:  // <advc.210>
 	ArrayEnumMap<CorporationTypes,int,char> m_aiHasCorporationCount;
 	ArrayEnumMap<UpkeepTypes,int,char> m_aiUpkeepCount; // advc (comment): unused (but accessible)
 	ArrayEnumMap<SpecialistTypes,int,char> m_aiSpecialistValidCount;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	ArrayEnumMap<DamageTypes,int,short> m_aiDamageTypePoints;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	/*int** m_paiExtraBuildingYield;
 	int** m_paiExtraBuildingCommerce;*/ // advc: unused
 

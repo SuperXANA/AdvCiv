@@ -410,6 +410,9 @@ void CvBuildingInfo::read(FDataStreamBase* stream)
 	BuildingClassNeededInCity().read(stream);
 	SpecialistYieldChange().read(stream);
 	BonusYieldModifier().read(stream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	DamageTypePoints().read(stream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// </advc.003t>
 }
 
@@ -585,6 +588,9 @@ void CvBuildingInfo::write(FDataStreamBase* stream)
 	BuildingClassNeededInCity().write(stream);
 	SpecialistYieldChange().write(stream);
 	BonusYieldModifier().write(stream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	DamageTypePoints().write(stream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// </advc.003t>
 }
 #endif
@@ -812,6 +818,9 @@ bool CvBuildingInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(FlavorValue(), "Flavors");
 	pXML->SetVariableListTagPair(ImprovementFreeSpecialist(), "ImprovementFreeSpecialists");
 	pXML->SetVariableListTagPair(BuildingHappinessChanges(), "BuildingHappinessChanges");
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	pXML->SetVariableListTagPair(DamageTypePoints(), "DamageTypePoints");
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	return true;
 }

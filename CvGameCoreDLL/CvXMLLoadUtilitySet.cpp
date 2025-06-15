@@ -634,9 +634,6 @@ bool CvXMLLoadUtility::LoadBasicInfos()
 	LoadGlobalClassInfo(GC.m_paUnitAIInfo, "CIV4UnitAIInfos", "BasicInfos", "Civ4UnitAIInfos/UnitAIInfos/UnitAIInfo", false);
 	LoadGlobalClassInfo(GC.m_paAttitudeInfo, "CIV4AttitudeInfos", "BasicInfos", "Civ4AttitudeInfos/AttitudeInfos/AttitudeInfo", false);
 	LoadGlobalClassInfo(GC.m_paMemoryInfo, "CIV4MemoryInfos", "BasicInfos", "Civ4MemoryInfos/MemoryInfos/MemoryInfo", false);
-// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	LoadGlobalClassInfo(GC.m_paDamageInfo, "CIV4DamageInfos", "BasicInfos", "Civ4DamageInfos/DamageInfos/DamageInfo", false);
-// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	DestroyFXml();
 	return true;
@@ -659,6 +656,9 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paClimateInfo, "CIV4ClimateInfo", "GameInfo", "Civ4ClimateInfo/ClimateInfos/ClimateInfo", false);
 	LoadGlobalClassInfo(GC.m_paSeaLevelInfo, "CIV4SeaLevelInfo", "GameInfo", "Civ4SeaLevelInfo/SeaLevelInfos/SeaLevelInfo", false);
 	LoadGlobalClassInfo(GC.m_paAdvisorInfo, "CIV4AdvisorInfos", "Interface", "Civ4AdvisorInfos/AdvisorInfos/AdvisorInfo", false);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	LoadGlobalClassInfo(GC.m_paDamageInfo, "CIV4DamageInfos", "Units", "Civ4DamageInfos/DamageInfos/DamageInfo", true, &CvDLLUtilityIFaceBase::createDamageInfoCacheObject);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paTerrainInfo, "CIV4TerrainInfos", "Terrain", "Civ4TerrainInfos/TerrainInfos/TerrainInfo", false);
 	LoadGlobalClassInfo(GC.m_paEraInfo, "CIV4EraInfos", "GameInfo", "Civ4EraInfos/EraInfos/EraInfo", false);
 	LoadGlobalClassInfo(GC.m_paUnitClassInfo, "CIV4UnitClassInfos", "Units", "Civ4UnitClassInfos/UnitClassInfos/UnitClassInfo", false);

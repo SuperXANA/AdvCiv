@@ -1283,17 +1283,17 @@ void CvGameTextMgr::setUnitHelp(CvWStringBuffer &szString, const CvUnit* pUnit,
 	{
 		CvWString szTempBuffer;
 		bool bFirst = true;
-		FOR_EACH_ENUM(DamageType)
+		FOR_EACH_ENUM(Damage)
 		{
-			if (pUnit->getDamageTypeCombat(eLoopDamageType) != 0)
+			if (pUnit->getDamageTypeCombat(eLoopDamage) != 0)
 			{
-				const int iMagicPower = pUnit->getDamageTypeCombat(eLoopDamageType);
+				const int iMagicPower = pUnit->getDamageTypeCombat(eLoopDamage);
 				if (bFirst)
 					bFirst = false;
 				else szTempBuffer += L", ";
 				szTempBuffer.Format((iMagicPower < 0) ? L", %d " : L", +%d ", iMagicPower;
 				szTempBuffer += CvWString::format(L"<link=literal>%s</link>",
-						GC.getInfo(eLoopDamageType).getDescription());
+						GC.getInfo(eLoopDamage).getDescription());
 				szTempBuffer += L" Strength";
 			}
 		}
@@ -1307,17 +1307,17 @@ void CvGameTextMgr::setUnitHelp(CvWStringBuffer &szString, const CvUnit* pUnit,
 	{
 		CvWString szTempBuffer;
 		bool bFirst = true;
-		FOR_EACH_ENUM(DamageType)
+		FOR_EACH_ENUM(Damage)
 		{
-			if (pUnit->getDamageTypeResist(eLoopDamageType) != 0)
+			if (pUnit->getDamageTypeResist(eLoopDamage) != 0)
 			{
-				const int iMagicResistance = pUnit->getDamageTypeResist(eLoopDamageType);
+				const int iMagicResistance = pUnit->getDamageTypeResist(eLoopDamage);
 				if (bFirst)
 					bFirst = false;
 				else szTempBuffer += L", ";
 				szTempBuffer.Format((iMagicResistance == 100) ? L", Immunue To " : L", %d ", iMagicResistance);
 				szTempBuffer += CvWString::format(L"<link=literal>%s</link>",
-						GC.getInfo(eLoopDamageType).getDescription());
+						GC.getInfo(eLoopDamage).getDescription());
 				if (iMagicResistance < 100)
 					szTempBuffer += L" Resistance";
 			}

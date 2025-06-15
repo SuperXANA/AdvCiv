@@ -44,6 +44,12 @@ public: // All the const functions are exposed to Python except for those relate
 	int getRiverYieldChange(int i) const;
 	int getHillsYieldChange(int i) const;
 	int get3DAudioScriptFootstepIndex(int i) const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getDamageTypePoints(int i) const
+	{
+		FAssertBounds(0, GC.getNumDamageInfos(), i);
+		return m_piDamageTypePoints[i];
+	}
 
 	const CvArtInfoTerrain* getArtInfo() const;
 	const TCHAR* getButton() const;
@@ -69,6 +75,9 @@ protected:
 	int* m_piRiverYieldChange;
 	int* m_piHillsYieldChange;
 	int* m_pi3DAudioScriptFootstepIndex;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int* m_piDamageTypePoints;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 private:
 	CvString m_szArtDefineTag;

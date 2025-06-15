@@ -43,7 +43,10 @@
 	DO(Hurry, HURRY) \
 	DO(Upkeep, UPKEEP) \
 	DO(CultureLevel, CULTURELEVEL) \
-	DO(CivicOption, CIVICOPTION)
+	DO(CivicOption, CIVICOPTION) \
+/* XANA: 04-19-2025 FfH Damage Types for AdvancedCiv */ \
+	DO(Damage, DAMAGE)
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 // Number of instances not known at compile time; can be greater than MAX_CHAR.
 #define DO_FOR_EACH_BIG_DYN_INFO_TYPE(DO) \
@@ -167,9 +170,6 @@
 #define CvDenialInfo CvInfoBase
 // This one just has an irregular, exported name.
 #define CvThroneRoomCameraInfo CvThroneRoomCamera
-// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-#define CvDamageInfo CvInfoBase
-// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 /*	Static enum types without any associated CvInfo data.
 	Not a complete list; add types here if their traits need to be accessed. */

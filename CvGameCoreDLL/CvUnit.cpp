@@ -10446,12 +10446,12 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 	}
 	
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	FOR_EACH_ENUM(DamageType)
+	FOR_EACH_ENUM(Damage)
 	{
-		changeDamageTypeCombat(eLoopDamageType,
-				GC.getInfo(ePromotion).getDamageTypeCombat(eLoopDamageType) * iChange);
+		changeDamageTypeCombat(eLoopDamage,
+				GC.getInfo(ePromotion).getDamageTypeCombat(eLoopDamage) * iChange);
 		changeDamageTypeResist(eLoopDamageType,
-				GC.getInfo(ePromotion).getDamageTypeResist(eLoopDamageType) * iChange);
+				GC.getInfo(ePromotion).getDamageTypeResist(eLoopDamage) * iChange);
 	}
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
@@ -10540,8 +10540,8 @@ void CvUnit::setDamageTypeResist(DamageTypes eIndex, int iValue)
 int CvUnit::calculateTotalDamageTypeCombat() const
 {
 	int iMagicPower = 0;
-	FOR_EACH_ENUM(DamageType)
-		iMagicPower += getDamageTypeCombat(eLoopDamageType);
+	FOR_EACH_ENUM(Damage)
+		iMagicPower += getDamageTypeCombat(eLoopDamage);
 	return iMagicPower;
 }
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv

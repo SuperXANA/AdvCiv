@@ -182,6 +182,9 @@ public:
 	virtual CvCacheObject* createTechInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createBuildingInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createUnitInfoCacheObject(const TCHAR* szCacheFileName) = 0;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	virtual CvCacheObject* createDamageInfoCacheObject(const TCHAR* szCacheFileName) = 0;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	virtual CvCacheObject* createLeaderHeadInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createCivilizationInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createPromotionInfoCacheObject(const TCHAR* szCacheFileName) = 0;

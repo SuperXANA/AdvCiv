@@ -129,6 +129,11 @@ bool CvPlayer::initOtherData()
 	FOR_EACH_ENUM2(Commerce, eCommerce)
 		setCommercePercent(eCommerce, GC.getInfo(eCommerce).getInitialPercent(), true);
 
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	FOR_EACH_ENUM2(Damage, eDamage)
+		changeDamageTypePoints(eDamage, GC.getInfo(getPersonalityType()).getDamageTypePoints(eDamage));
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		
 	/*  advc.003q: Moved into a (sub-)subroutine - except for the setCivics code;
 		that's handled (only) by resetCivTypeEffects. */
 	processTraits(1);
@@ -10564,6 +10569,17 @@ void CvPlayer::changeImprovementYieldChange(ImprovementTypes eImprov, YieldTypes
 	}
 }
 
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+void CvPlayer::changeDamageTypePoints(DamageTypes eDamage, int iChange)
+{
+	if (iChange != 0)
+	{
+		m_aiDamageTypePoints.add(eDamage, iChange);
+	}
+}	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
 
 /*	K-Mod. I've changed this function from using pUnit to using pGroup.
 	I've also rewritten most of the code, to give more natural ordering,
@@ -14308,6 +14324,9 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		m_aiHasCorporationCount.read(pStream);
 		m_aiUpkeepCount.read(pStream);
 		m_aiSpecialistValidCount.read(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		m_aiDamageTypePoints.read(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 		if (uiFlag >= 21)
 			m_abResearchingTech.read(pStream);
 		else LegacyArrayEnumMap<TechTypes,bool>::convert(m_abResearchingTech, pStream);
@@ -14333,6 +14352,9 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		m_aiHasCorporationCount.readArray<int>(pStream);
 		m_aiUpkeepCount.readArray<int>(pStream);
 		m_aiSpecialistValidCount.readArray<int>(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		m_aiDamageTypePoints.readArray<int>(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 		m_abResearchingTech.readArray<bool>(pStream);
 	}
 	// <advc.091>
@@ -14874,6 +14896,9 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	m_aiHasCorporationCount.write(pStream);
 	m_aiUpkeepCount.write(pStream);
 	m_aiSpecialistValidCount.write(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	m_aiDamageTypePoints.write(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	m_abResearchingTech.write(pStream);
 	m_abEverSeenDemographics.write(pStream); // advc.091
 	m_abLoyalMember.write(pStream);
@@ -16442,6 +16467,14 @@ void CvPlayer::applyEvent(EventTypes eEvent, int iEventTriggeredId, bool bUpdate
 			}
 		}
 	}
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	FOR_EACH_NON_DEFAULT_PAIR(kEvent.
+		getDamageTypePoints(), Damage, int)
+	{
+		changeDamageTypePoints(perDamageVal.first, perDamageVal.second)
+	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	GC.getPythonCaller()->applyEvent(eEvent, *pTriggeredData);
 

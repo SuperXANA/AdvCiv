@@ -6899,10 +6899,10 @@ int CvPlayerAI::AI_techUnitValue(TechTypes eTech, int iPathLength, bool& bEnable
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	if (kLoopUnit.getDomainType() != DOMAIN_SEA)
 	{
-		FOR_EACH_ENUM(DamageType)
+		FOR_EACH_ENUM(Damage)
 		{
-			iValue += kLoopUnit.getDamageTypeCombat(eLoopDamageType);
-			iValue += kLoopUnit.getDamageTypeResist(eLoopDamageType) / 100;
+			iValue += kLoopUnit.getDamageTypeCombat(eLoopDamage);
+			iValue += kLoopUnit.getDamageTypeResist(eLoopDamage) / 100;
 		}
 	}
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv

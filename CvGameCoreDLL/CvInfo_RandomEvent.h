@@ -91,6 +91,9 @@ public: // All the const functions returning primitive types are exposed to Pyth
 	DEF_INFO_ENUM2SHORT_MAP(BuildingCommerceChange, BuildingClass, Commerce, CommerceChangeMap, NonDefaultEnumMap);
 	DEF_INFO_ENUM_MAP(BuildingHappyChange, BuildingClass, int, char, NonDefaultEnumMap);
 	DEF_INFO_ENUM_MAP(BuildingHealthChange, BuildingClass, int, char, NonDefaultEnumMap);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	DEF_INFO_ENUM_MAP(DamageTypePoints, Damage, int, short, NonDefaultEnumMap);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// </advc.003t>
 
 	const char* getPythonCallback() const;

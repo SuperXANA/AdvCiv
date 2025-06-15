@@ -558,6 +558,9 @@ void CvEventInfo::read(FDataStreamBase* stream)
 	BuildingCommerceChange().read(stream);
 	BuildingHappyChange().read(stream);
 	BuildingHealthChange().read(stream); // </advc.003t>
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	DamageTypePoints().read(stream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	stream->ReadString(m_szUnitName);
 	stream->ReadString(m_szOtherPlayerPopup);
 	stream->ReadString(m_szQuestFailText);
@@ -645,6 +648,9 @@ void CvEventInfo::write(FDataStreamBase* stream)
 	BuildingCommerceChange().write(stream);
 	BuildingHappyChange().write(stream);
 	BuildingHealthChange().write(stream); // </advc.003t>
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	DamageTypePoints().write(stream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	stream->WriteString(m_szUnitName);
 	stream->WriteString(m_szOtherPlayerPopup);
 	stream->WriteString(m_szQuestFailText);
@@ -784,6 +790,9 @@ bool CvEventInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagRate(BuildingCommerceChange(), "BuildingExtraCommerce");
 	pXML->SetVariableListTagPair(BuildingHappyChange(), "BuildingExtraHappies");
 	pXML->SetVariableListTagPair(BuildingHealthChange(), "BuildingExtraHealths");
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	pXML->SetVariableListTagPair(DamageTypePoints(), "DamageTypePoints");
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// </advc.003t>
 	return true;
 }

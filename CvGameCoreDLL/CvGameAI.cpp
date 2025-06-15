@@ -145,10 +145,10 @@ int CvGameAI::AI_magicCombatValue(UnitTypes eUnit) const
 
 	CvUnitInfo& kUnitInfo = GC.getInfo(eUnit);
 	
-	FOR_EACH_ENUM(DamageType)
+	FOR_EACH_ENUM(Damage)
 	{
-		iCombat += kUnitInfo.getDamageTypeCombat(eLoopDamageType);
-		iCombat += kUnitInfo.getDamageTypeResist(eLoopDamageType) / 100;
+		iCombat += kUnitInfo.getDamageTypeCombat(eLoopDamage);
+		iCombat += kUnitInfo.getDamageTypeResist(eLoopDamage) / 100;
 	}
 	
 	if (iCombat > 0)
@@ -162,7 +162,7 @@ int CvGameAI::AI_magicCombatValue(UnitTypes eUnit) const
 int CvGameAI::AI_combatValue(UnitTypes eUnit) /* K-Mod: */ const
 {
 	int iMagicPower = AI_magicCombatValue(eUnit);
-	int iValue = 100
+	int iValue = 100;
 	if (iMagicPower > 0)
 	{
 		iValue *= iMagicPower;

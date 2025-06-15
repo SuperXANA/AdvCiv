@@ -497,7 +497,10 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL)
+m_piDiploWarMusicScriptIds(NULL),
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+m_piDamageTypePoints(NULL)
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 {}
 
 // <advc.xmldefault>
@@ -533,6 +536,9 @@ CvLeaderHeadInfo::CvLeaderHeadInfo(CvLeaderHeadInfo const& kOther)
 	allocCopy(m_piDiploPeaceMusicScriptIds, kOther.m_piDiploPeaceMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarIntroMusicScriptIds, kOther.m_piDiploWarIntroMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarMusicScriptIds, kOther.m_piDiploWarMusicScriptIds, GC.getNumEraInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	allocCopy(m_piDamageTypePoints, kOther.m_piDamageTypePoints, GC.getNumDamageInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 } // </advc.xmldefault>
 
 CvLeaderHeadInfo::~CvLeaderHeadInfo()
@@ -550,6 +556,9 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploPeaceMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piDamageTypePoints);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const
@@ -792,6 +801,11 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
 	m_piDiploWarMusicScriptIds = new int[GC.getNumEraInfos()];
 	stream->Read(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piDamageTypePoints);
+	m_piDamageTypePoints = new int[GC.getNumDamageInfos()];
+	stream->Read(GC.getNumDamageInfos(), m_piDamageTypePoints);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 void CvLeaderHeadInfo::write(FDataStreamBase* stream)
@@ -898,6 +912,9 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumEraInfos(), m_piDiploPeaceMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarIntroMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	stream->Write(GC.getNumDamageInfos(), m_piDamageTypePoints);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 #endif
 
@@ -1043,6 +1060,9 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_piImprovementWeightModifier, "ImprovementWeightModifiers", GC.getNumImprovementInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploPeaceIntroMusicScriptIds, "DiplomacyIntroMusicPeace", GC.getNumEraInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploPeaceMusicScriptIds, "DiplomacyMusicPeace", GC.getNumEraInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	pXML->SetVariableListTagPair(&m_piDamageTypePoints, "DamageTypePoints", GC.getNumDamageInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// <advc.xmldefault>
 	#ifdef FASSERT_ENABLE
 	if (!isDefaultsType())

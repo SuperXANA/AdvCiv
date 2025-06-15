@@ -464,6 +464,9 @@ public:
 	int getSurroundingGoodHealth() const { return m_iSurroundingGoodHealth; }									// Exposed to Python
 	int getSurroundingBadHealth() const { return m_iSurroundingBadHealth; }										// Exposed to Python
 	void updateSurroundingHealthHappiness();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	void updateSurroundingDamageTypePoints();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// <advc.901>
 	void calculateHealthHappyChange(CvPlot const& kPlot, ImprovementTypes eNewImprov,
 			ImprovementTypes eOldImprov, bool bRemoveFeature, int& iHappyChange,
@@ -1085,6 +1088,9 @@ public:
 		return m_aiImprovementFreeSpecialists.isAnyNonDefault();
 	}
 	void changeImprovementFreeSpecialists(ImprovementTypes eImprov, int iChange);								// Exposed to Python
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	void changeDamageTypePoints(DamageTypes eDamage, int iChange);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	int getReligionInfluence(ReligionTypes eReligion) const														// Exposed to Python
 	{

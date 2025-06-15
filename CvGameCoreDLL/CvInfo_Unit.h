@@ -335,8 +335,8 @@ public: /*  All const functions are exposed to Python except some related to art
 	void updateArtDefineButton();
 	
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	int getDamageTypeCombat(int i) const;
-	int getDamageTypeResist(int i) const;
+	int getDamageTypeCombat(DamageTypes eDamage) const;
+	int getDamageTypeResist(DamageTypes eDamage) const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	const CvArtInfoUnit* getArtInfo(int i, EraTypes eEra, UnitArtStyleTypes eStyle) const;
@@ -660,8 +660,8 @@ public: // All the const functions are exposed to Python
 	bool getUnitCombat(int i) const;
 	
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	int getDamageTypeCombat(int i) const;
-	int getDamageTypeResist(int i) const;
+	int getDamageTypeCombat(DamageTypes eDamage) const;
+	int getDamageTypeResist(DamageTypes eDamage) const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	#if ENABLE_XML_FILE_CACHE
@@ -826,5 +826,43 @@ protected:
 	int m_iDifficultyMod;
 	bool m_bReturnToCapital; // advc.103
 };
+
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvDamageInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvDamageInfo : public CvXMLInfo
+{
+	typedef CvXMLInfo base_t;
+protected:
+	void addElements(ElementList& kElements) const
+	{
+		base_t::addElements(kElements);
+	}
+public:
+	enum IntElementTypes
+	{
+		NUM_INT_ELEMENT_TYPES
+	};
+	int get(IntElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::IntElementTypes>(e));
+	}
+
+	CvDamageInfo();
+	~CvDamageInfo();
+	
+	DamageTypes getSharedDamageType() const { return m_eSharedDamageType; }
+
+	// Array access:
+
+	bool read(CvXMLLoadUtility* pXML);
+	bool readPass2(CvXMLLoadUtility* pXML);
+
+protected:
+DamageTypes m_eSharedDamageType;
+
+};
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 #endif

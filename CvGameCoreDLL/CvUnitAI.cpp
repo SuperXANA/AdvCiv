@@ -9589,13 +9589,13 @@ int CvUnitAI::AI_promotionValue(PromotionTypes ePromotion)
 	// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	const int iMPLimit = getLevel(); // XANA (note): Experienced spellweavers are focused on mastering their particular magical domains.
 	const int iMRLimit = 100; // XANA (note): Spellweavers seek to develop immunity to the magical domains that they focus upon.
-	FOR_EACH_ENUM(DamageType)
+	FOR_EACH_ENUM(Damage)
 	{
-		int iMagicPower = getDamageTypeCombat(eLoopDamageType);
-		int iMagicResistance = getDamageTypeResist(eLoopDamageType);
+		int iMagicPower = getDamageTypeCombat(eLoopDamage);
+		int iMagicResistance = getDamageTypeResist(eLoopDamage);
 		if (iMagicPower != iMPLimit)
 		{
-			iTemp = GC.getInfo(ePromotion).getDamageTypeCombat(eLoopDamageType);
+			iTemp = GC.getInfo(ePromotion).getDamageTypeCombat(eLoopDamage);
 			if (iTemp != 0)
 			{
 				iValue += ((iTemp * 10) + iMagicPower);
@@ -9603,7 +9603,7 @@ int CvUnitAI::AI_promotionValue(PromotionTypes ePromotion)
 		}
 		if (iMagicResistance != iMRLimit)
 		{
-			iTemp = GC.getInfo(ePromotion).getDamageTypeResist(eLoopDamageType);
+			iTemp = GC.getInfo(ePromotion).getDamageTypeResist(eLoopDamage);
 			if (iTemp != 0)
 			{
 				iValue += ((iTemp / 10) + (iMagicResistance / 100));
