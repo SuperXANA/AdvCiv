@@ -4505,7 +4505,7 @@ void CvPlayer::raze(CvCity& kCity) // advc: param was CvCity*
 		iCost += (kCity.getPopulation() - 5) * 1;
 	}
 	
-	if (getProphecyFollowed() != NO_PROPHECY && GET_PLAYER(ePlayer).getProphecyFollowed() != NO_PROPHECY)
+	if (getProphecyFollowed() != NO_PROPHECY && GET_PLAYER(kCity.getOwner()).getProphecyFollowed() != NO_PROPHECY)
 		CvProphecyInfo const& kOurProphecy = GC.getInfo(getProphecyFollowed());
 		if (kOurProphecy.getHatedProphecy() == GET_PLAYER(kCity.getOwner()).getProphecyFollowed())
 			iCost *= -1; // XANA (note): Roleplaying for characters. Delaying the End of the World by removing influence among the population is "good" when battling against an opposing prophecy.
@@ -15778,6 +15778,14 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
 	}
 
 	CvEventInfo& kEvent = GC.getInfo(eEvent);
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (kEvent.getPrereqGlobalCounter() != 0)
+	{
+        if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < kEvent.getPrereqGlobalCounter())
+            return false;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	int const iGold = std::min(getEventCost(eEvent, kTriggeredData.m_eOtherPlayer, false),
 			getEventCost(eEvent, kTriggeredData.m_eOtherPlayer, true));
@@ -17122,6 +17130,14 @@ int CvPlayer::getEventTriggerWeight(EventTriggerTypes eTrigger) const
 		if (isTriggerFired(eTrigger))
 			return 0;
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (kTrigger.getPrereqGlobalCounter() != 0)
+	{
+        if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < kTrigger.getPrereqGlobalCounter())
+            return 0;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if (kTrigger.getNumPrereqOrTechs() > 0)
 	{
