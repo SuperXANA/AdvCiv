@@ -1578,6 +1578,9 @@ CvRaceInfo::~CvRaceInfo()
 
 bool CvRaceInfo::read(CvXMLLoadUtility* pXML)
 {
+	if (!base_t::read(pXML))
+		return false;
+
 	//pXML->GetChildXmlValByName(&m_iHealth, "iHealth"); // XANA (note): Nothing here yet.
 	return true;
 }
