@@ -701,6 +701,11 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	// <advc.003w>
 	FOR_EACH_ENUM(Bonus)
 		GC.getInfo(eLoopBonus).updateCache(eLoopBonus); // </advc.003w>
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	LoadGlobalClassInfo(GC.m_paEquipmentInfo, "CIV4EquipmentInfos", "Units", "Civ4EquipmentInfos/EquipmentInfos/EquipmentInfo", true, &CvDLLUtilityIFaceBase::createEquipmentInfoCacheObject);
+	FOR_EACH_ENUM(Promotion)
+		GC.getInfo(eLoopPromotion).readPass3();
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paUnitInfo, "CIV4UnitInfos", "Units", "Civ4UnitInfos/UnitInfos/UnitInfo", false, &CvDLLUtilityIFaceBase::createUnitInfoCacheObject);
 	FOR_EACH_ENUM(UnitClass)
 		GC.getInfo(eLoopUnitClass).readPass3();

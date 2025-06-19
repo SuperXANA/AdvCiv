@@ -181,6 +181,9 @@ public:
 	virtual CvCacheObject* createGlobalDefinesCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createTechInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createBuildingInfoCacheObject(const TCHAR* szCacheFileName) = 0;
+	// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	virtual CvCacheObject* createEquipmentInfoCacheObject(const TCHAR* szCacheFileName) = 0;
+	// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	virtual CvCacheObject* createUnitInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createLeaderHeadInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createCivilizationInfoCacheObject(const TCHAR* szCacheFileName) = 0;

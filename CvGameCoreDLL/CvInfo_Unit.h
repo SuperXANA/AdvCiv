@@ -654,6 +654,9 @@ public: // All the const functions are exposed to Python
 	#endif
 	bool read(CvXMLLoadUtility* pXML);
 	bool readPass2(CvXMLLoadUtility* pXML);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	bool readPass3(CvXMLLoadUtility* pXML);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 protected:
 	int m_iLayerAnimationPath;
@@ -806,5 +809,40 @@ protected:
 	int m_iDifficultyMod;
 	bool m_bReturnToCapital; // advc.103
 };
+
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvEquipmentInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvEquipmentInfo : public CvXMLInfo
+{
+	typedef CvXMLInfo base_t;
+protected:
+	void addElements(ElementList& kElements) const
+	{
+		base_t::addElements(kElements);
+	}
+public:
+	enum IntElementTypes
+	{
+		NUM_INT_ELEMENT_TYPES
+	};
+	int get(IntElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::IntElementTypes>(e));
+	}
+
+	CvEquipmentInfo();
+	~CvEquipmentInfo();
+
+	// Array access:
+
+	bool read(CvXMLLoadUtility* pXML);
+	bool readPass2(CvXMLLoadUtility* pXML);
+
+protected:
+
+};
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 #endif

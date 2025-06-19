@@ -2333,6 +2333,15 @@ bool CvPromotionInfo::readPass2(CvXMLLoadUtility* pXML)
 	return true;
 }
 
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+bool CvPromotionInfo::readPass3(CvXMLLoadUtility* pXML)
+{
+	// XNAA (note): Nothing here yet.
+
+	return true;
+}
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+
 CvEspionageMissionInfo::CvEspionageMissionInfo() // <kmodx>
 	: m_iCost(0),
 	m_bIsPassive(false),
@@ -2551,3 +2560,32 @@ bool CvEspionageMissionInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+CvEquipmentInfo::CvEquipmentInfo() : 
+
+{}
+
+
+CvEquipmentInfo::~CvEquipmentInfo()
+{
+	// XNAA (note): Nothing here yet.
+}
+
+bool CvEquipmentInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	//pXML->GetChildXmlValByName(&m_iCost, "iCost"); // XNAA (note): Nothing here yet.
+
+	return true;
+}
+bool CvEquipmentInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	// XNAA (note): Nothing here yet.
+
+	return true;
+}
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+
