@@ -478,6 +478,19 @@
 	<ElementType name="CivilizationSelectionSound" content="textOnly"/>
 	<ElementType name="CivilizationActionSound" content="textOnly"/>
 	<ElementType name="UnitArtStyleType" content="textOnly"/>
+	<!-- XANA: 10-18-2025 FfH Civilization Feauture Yield Changes for AdvancedCiv -->
+	<ElementType name="FeatureType" content="textOnly"/>
+	<ElementType name="FeatureYields" content="eltOnly">
+		<element type="iYield" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="FeatureYieldChange" content="eltOnly">
+		<element type="FeatureType"/>
+		<element type="FeatureYields" minOccurs="0" maxOccurs="1"/>
+	</ElementType>
+	<ElementType name="FeatureYieldChanges" content="eltOnly">
+		<element type="FeatureYieldChange" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv -->
 	<ElementType name="CivilizationInfo" content="eltOnly">
 		<element type="Type"/>
 		<element type="Description"/>
