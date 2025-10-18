@@ -23,7 +23,11 @@ m_pbLeaders(NULL),
 m_pbCivilizationFreeBuildingClass(NULL),
 m_pbCivilizationFreeTechs(NULL),
 m_pbCivilizationDisableTechs(NULL),
-m_paszCityNames(NULL)
+m_paszCityNames(NULL),
+
+// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
+m_ppiFeatureYieldChanges(NULL)
+// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
 {}
 
 CvCivilizationInfo::~CvCivilizationInfo()
@@ -37,6 +41,17 @@ CvCivilizationInfo::~CvCivilizationInfo()
 	SAFE_DELETE_ARRAY(m_pbCivilizationFreeTechs);
 	SAFE_DELETE_ARRAY(m_pbCivilizationDisableTechs);
 	SAFE_DELETE_ARRAY(m_paszCityNames);
+	
+	// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
+	if (m_ppiFeatureYieldChanges != NULL)
+	{
+		FOR_EACH_ENUM(Terrain)
+		{
+			SAFE_DELETE_ARRAY(m_ppiFeatureYieldChanges[eLoopTerrain]);
+		}
+		SAFE_DELETE_ARRAY(m_ppiFeatureYieldChanges);
+	}
+	// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
 }
 
 void CvCivilizationInfo::reset()
@@ -195,6 +210,26 @@ std::string CvCivilizationInfo::getCityNames(int i) const
 	return m_paszCityNames[i];
 }
 
+// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
+int CvCivilizationInfo::getFeatureYieldChanges(int i, int j) const
+{
+	FAssertMsg(i < GC.getNumFeatureInfos(), "Index out of bounds");
+	FAssertMsg(i > -1, "Index out of bounds");
+	FAssertMsg(j < NUM_YIELD_TYPES, "Index out of bounds");
+	FAssertMsg(j > -1, "Index out of bounds");
+	return m_ppiTerrainYieldChanges[i][j];
+}
+
+void CvCivilizationInfo::setFeatureYieldChanges(int i, int j, int k) const
+{
+	FAssertMsg(i < GC.getNumFeatureInfos(), "Index out of bounds");
+	FAssertMsg(i > -1, "Index out of bounds");
+	FAssertMsg(j < NUM_YIELD_TYPES, "Index out of bounds");
+	FAssertMsg(j > -1, "Index out of bounds");
+	m_ppiTerrainYieldChanges[i][j] = k;
+}
+// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
+
 #if ENABLE_XML_FILE_CACHE
 void CvCivilizationInfo::read(FDataStreamBase* stream)
 {
@@ -283,6 +318,54 @@ bool CvCivilizationInfo::read(CvXMLLoadUtility* pXML)
 	// Get the Text from Text/Civ4GameTextXML.xml
 	pXML->GetChildXmlValByName(m_szShortDescriptionKey, "ShortDescription");
 	pXML->GetChildXmlValByName(m_szAdjectiveKey, "Adjective");
+	
+	// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
+	FAssertMsg((GC.getNumFeatureInfos() > 0) && (NUM_YIELD_TYPES) > 0, "either the number of feature infos is zero or less or the number of yield types is zero or less");
+	pXML->Init2DIntList(&m_ppiTerrainYieldChanges, GC.getNumFeatureInfos(), NUM_YIELD_TYPES);
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "FeatureYieldChanges"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+			{
+				if (0 < iNumSibs)
+				{
+					int iIndex;
+					CvString szTextVal;
+					
+					for (int j = 0; j < iNumSibs; j++)
+					{
+						pXML->GetChildXmlValByName(szTextVal, "FeatureType");
+						iIndex = pXML->FindInInfoClass(szTextVal);
+						if (iIndex > -1)
+						{
+							// Delete the array since it will be reallocated.
+							SAFE_DELETE_ARRAY(m_ppiFeatureYieldChanges[iIndex]);
+							// if we can set the current XML node to it's next sibling.
+							if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),"FeatureYields"))
+							{
+								// call the function that sets the yield change variable
+								pXML->SetYields(&m_ppiTerrainYieldChanges[iIndex]);
+								gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+							}
+							else
+							{
+								pXML->InitList(&m_ppiFeatureYieldChanges[iIndex], NUM_YIELD_TYPES);
+							}
+						}
+						if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+						{
+							break;
+						}
+					}
+				}
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+	// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
 
 	pXML->SetInfoIDFromChildXmlVal(m_iDefaultPlayerColor, "DefaultPlayerColor");
 

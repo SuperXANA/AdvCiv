@@ -1949,6 +1949,10 @@ void CvGame::normalizeRemoveBadTerrain()
 				CvTerrainInfo const& kTerrain = GC.getInfo(p.getTerrainType());
 				int iPlotFood = kTerrain.getYield(YIELD_FOOD);
 				int iPlotProduction = kTerrain.getYield(YIELD_PRODUCTION);
+				// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
+				iPlotFood += GC.getCivilizationInfo(itPlayer->getCivilizationType()).getFeatureYieldChanges(p.getFeatureType(), YIELD_FOOD);
+				iPlotProduction += GC.getCivilizationInfo(itPlayer->getCivilizationType()).getFeatureYieldChanges(p.getFeatureType(), YIELD_PRODUCTION);
+				// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
 				if (iPlotFood + iPlotProduction > 1)
 					continue;
 				// <advc.108>
@@ -1975,7 +1979,7 @@ void CvGame::normalizeRemoveBadTerrain()
 					}
 				} // </advc.108>
 				int const iTargetTotal = 2;
-				int iTargetFood=0;
+				int iTargetFood= 0;
 				if (p.getBonusType(itPlayer->getTeam()) != NO_BONUS)
 					iTargetFood = 1;
 				else if (iPlotFood == 1 || iDistance <= iCityRange)
@@ -1983,14 +1987,23 @@ void CvGame::normalizeRemoveBadTerrain()
 					iTargetFood = 1 + MapRandNum(2);
 				}
 				else iTargetFood = (p.isCoastalLand() ? 2 : 1);
+				
+				// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
+				int iCivSpecificFoodChange = 0;
+				int iCivSpecificProductionChange = 0;
+				if (p.isFeature())
+				{
+					iCivSpecificFoodChange = GC.getCivilizationInfo(itPlayer->getCivilizationType()).getFeatureYieldChanges(p.getFeatureType(), YIELD_FOOD);
+					iCivSpecificProductionChange = GC.getCivilizationInfo(itPlayer->getCivilizationType()).getFeatureYieldChanges(p.getFeatureType(), YIELD_PRODUCTION);
+				}
 				FOR_EACH_ENUM(Terrain)
 				{
 					CvTerrainInfo const& kRepl = GC.getInfo(eLoopTerrain);
 					if (kRepl.isWater())
 						continue;
-					if (kRepl.getYield(YIELD_FOOD) == iTargetFood && // advc.108: was >=
+					if (kRepl.getYield(YIELD_FOOD) + iCivSpecificFoodChange == iTargetFood && // advc.108: was >=
 						kRepl.getYield(YIELD_FOOD) +
-						kRepl.getYield(YIELD_PRODUCTION) == iTargetTotal)
+						kRepl.getYield(YIELD_PRODUCTION) + iCivSpecificProductionChange == iTargetTotal)
 					{
 						if (!p.isFeature() ||
 							GC.getInfo(p.getFeatureType()).isTerrain(eLoopTerrain))
@@ -2000,6 +2013,7 @@ void CvGame::normalizeRemoveBadTerrain()
 						}
 					}
 				}
+				// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
 			}
 		}
 	}
@@ -2245,11 +2259,14 @@ void CvGame::normalizeAddGoodTerrain()
 			}
 			if (kPlot.calculateNatureYield(YIELD_PRODUCTION, kPlayer.getTeam()) == 0)
 			{
+				// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
 				FOR_EACH_ENUM(Feature)
 				{
 					CvFeatureInfo const& kLoopFeature = GC.getInfo(eLoopFeature);
-					if (kLoopFeature.getYieldChange(YIELD_FOOD) >= 0 &&
-						kLoopFeature.getYieldChange(YIELD_PRODUCTION) > 0 &&
+					if (kLoopFeature.getYieldChange(YIELD_FOOD) + 
+						GC.getCivilizationInfo(kPlayer.getCivilizationType()).getFeatureYieldChanges(eLoopFeature, YIELD_FOOD) >= 0 &&
+						kLoopFeature.getYieldChange(YIELD_PRODUCTION) + 
+						GC.getCivilizationInfo(kPlayer.getCivilizationType()).getFeatureYieldChanges(eLoopFeature, YIELD_PRODUCTION) > 0 &&
 						kLoopFeature.isTerrain(kPlot.getTerrainType()))
 					{
 						kPlot.setFeatureType(eLoopFeature);
@@ -2257,6 +2274,7 @@ void CvGame::normalizeAddGoodTerrain()
 						break;
 					}
 				}
+				// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
 			}
 			if (bChanged)
 				iGoodPlot++;

@@ -6397,6 +6397,45 @@ void CvGameTextMgr::parseCivInfos(CvWStringBuffer &szInfoText, CivilizationTypes
 			szInfoText.append(szBuffer);
 		}
 	}
+	// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
+	bool bFirst = true;
+	FOR_EACH_ENUM(Feature)
+	{
+		FOR_EACH_ENUM(Yield)
+		{
+			int iTerrainYieldChange = GC.getCivilizationInfo(eCivilization).getFeatureYieldChanges(eLoopFeature, eLoopYield);
+			if (iTerrainYieldChange != 0) {
+				if (bFirst)
+				{
+					CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN");
+					if (bDawnOfMan)
+					{
+						szBuffer.Format(L"%s:\n", szText.GetCString());
+						szInfoText.append(szBuffer);
+					}
+					else
+					{
+						szBuffer.Format(NEWLINE SETCOLR L"%s" ENDCOLR , TEXT_COLOR("COLOR_ALT_HIGHLIGHT_TEXT"), szText.GetCString());
+						szInfoText.append(szBuffer);
+					}
+					bFirst = false;
+				}
+				
+				CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN_MOD", iTerrainYieldChange, GC.getYieldInfo(eLoopYield).getChar(), GC.getFeatureInfo(eLoopFeature).getTextKeyWide());
+				if (bDawnOfMan)
+				{
+					szBuffer.Format(L"    %s\n", szText.GetCString());
+					szInfoText.append(szBuffer);
+				}
+				else
+				{
+					szBuffer.Format(L"%s  %c%s", NEWLINE, gDLL->getSymbolID(BULLET_CHAR), szText.GetCString());
+					szInfoText.append(szBuffer);
+				}
+			}
+		}
+	}
+	// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
 
 	// Free Units
 	CvWString szText = gDLL->getText("TXT_KEY_FREE_UNITS");

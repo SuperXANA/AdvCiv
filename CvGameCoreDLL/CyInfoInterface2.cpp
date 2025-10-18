@@ -68,6 +68,11 @@ void CyInfoPythonInterface2()
 		.def("isCivilizationDisableTechs", &CvCivilizationInfo::isCivilizationDisableTechs, "bool (int i)")
 
 		.def("getCityNames", &CvCivilizationInfo::getCityNames, "string (int i)")
+		
+		// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
+		.def("getFeatureYieldChanges", &CvCivilizationInfo::getFeatureYieldChanges, "int (int i, int j)")
+		.def("setFeatureYieldChanges", &CvCivilizationInfo::setFeatureYieldChanges, "void (int i, int j, int k)")
+		// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
 		;
 
 	python::class_<CvVictoryInfo, boost::noncopyable, python::bases<CvInfoBase> >("CvVictoryInfo")
