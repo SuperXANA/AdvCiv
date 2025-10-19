@@ -478,6 +478,19 @@
 	<ElementType name="CivilizationSelectionSound" content="textOnly"/>
 	<ElementType name="CivilizationActionSound" content="textOnly"/>
 	<ElementType name="UnitArtStyleType" content="textOnly"/>
+	<!-- XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv -->
+	<ElementType name="BonusType" content="textOnly"/>
+	<ElementType name="BonusYields" content="eltOnly">
+		<element type="iYield" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="BonusYieldChange" content="eltOnly">
+		<element type="BonusType"/>
+		<element type="BonusYields" minOccurs="0" maxOccurs="1"/>
+	</ElementType>
+	<ElementType name="BonusYieldChanges" content="eltOnly">
+		<element type="BonusYieldChange" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv -->
 	<ElementType name="CivilizationInfo" content="eltOnly">
 		<element type="Type"/>
 		<element type="Description"/>
