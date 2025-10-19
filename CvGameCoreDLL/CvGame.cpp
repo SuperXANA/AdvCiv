@@ -1952,8 +1952,8 @@ void CvGame::normalizeRemoveBadTerrain()
 				// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 				if (p.getBonusType(itPlayer->getTeam()) != NO_BONUS)
 				{
-					iPlotFood += GC.getCivilizationInfo(itPlayer->getCivilizationType()).getBonusYieldChanges(itPlayer->getTeam()), YIELD_FOOD);
-					iPlotProduction += GC.getCivilizationInfo(itPlayer->getCivilizationType()).getBonusYieldChanges(itPlayer->getTeam()), YIELD_PRODUCTION);
+					iPlotFood += GC.getCivilizationInfo(itPlayer->getCivilizationType()).getBonusYieldChanges(p.getBonusType(itPlayer->getTeam())), YIELD_FOOD);
+					iPlotProduction += GC.getCivilizationInfo(itPlayer->getCivilizationType()).getBonusYieldChanges(p.getBonusType(itPlayer->getTeam())), YIELD_PRODUCTION);
 				}
 				// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 				if (iPlotFood + iPlotProduction > 1)
