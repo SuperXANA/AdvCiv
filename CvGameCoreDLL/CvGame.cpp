@@ -1949,6 +1949,13 @@ void CvGame::normalizeRemoveBadTerrain()
 				CvTerrainInfo const& kTerrain = GC.getInfo(p.getTerrainType());
 				int iPlotFood = kTerrain.getYield(YIELD_FOOD);
 				int iPlotProduction = kTerrain.getYield(YIELD_PRODUCTION);
+				// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+				if (p.getBonusType(itPlayer->getTeam()) != NO_BONUS)
+				{
+					iPlotFood += GC.getCivilizationInfo(itPlayer->getCivilizationType()).getBonusYieldChanges(itPlayer->getTeam()), YIELD_FOOD);
+					iPlotProduction += GC.getCivilizationInfo(itPlayer->getCivilizationType()).getBonusYieldChanges(itPlayer->getTeam()), YIELD_PRODUCTION);
+				}
+				// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 				if (iPlotFood + iPlotProduction > 1)
 					continue;
 				// <advc.108>
@@ -2234,13 +2241,16 @@ void CvGame::normalizeAddGoodTerrain()
 				FOR_EACH_ENUM(Terrain)
 				{
 					CvTerrainInfo const& kLoopTerrain = GC.getInfo(eLoopTerrain);
-					if (!kLoopTerrain.isWater() && kLoopTerrain.getYield(YIELD_FOOD) >=
+					// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
+					if (!kLoopTerrain.isWater() && kLoopTerrain.getYield(YIELD_FOOD) + 
+					GC.getCivilizationInfo(kPlayer.getCivilizationType()).getBonusYieldChanges(kPlot.getBonusType(kPlayer.getTeam()), YIELD_FOOD)) >=
 						GC.getFOOD_CONSUMPTION_PER_POPULATION())
 					{
 						kPlot.setTerrainType(eLoopTerrain);
 						bChanged = true;
 						break;
 					}
+					// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 				}
 			}
 			if (kPlot.calculateNatureYield(YIELD_PRODUCTION, kPlayer.getTeam()) == 0)

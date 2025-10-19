@@ -63,6 +63,11 @@ public: // advc: All the const functions are exposed to Python
 
 	const CvArtInfoCivilization* getArtInfo() const; // (not exposed to Python)
 	const TCHAR* getButton() const;
+	
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+	int getBonusYieldChanges(int i, int j) const;
+	void setBonusYieldChanges(int i, int j, int k) const;
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 
 	bool read(CvXMLLoadUtility* pXML);
 	bool readPass2(CvXMLLoadUtility* pXML);
@@ -97,6 +102,10 @@ protected:
 	bool* m_pbCivilizationFreeBuildingClass;
 	bool* m_pbCivilizationFreeTechs;
 	bool* m_pbCivilizationDisableTechs;
+	
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+	int** m_ppiBonusYieldChanges;
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 
 	CvString* m_paszCityNames;
 
