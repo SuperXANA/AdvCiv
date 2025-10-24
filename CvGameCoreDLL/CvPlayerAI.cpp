@@ -8685,9 +8685,9 @@ int CvPlayerAI::AI_knownRankDifference(PlayerTypes eOther,
 // XANA: 05-11-2025 City Bonus Diplomacy Modifier
 int CvPlayerAI::AI_getBonusPreferenceAttitude(PlayerTypes ePlayer, BonusTypes eBonus) const
 {
-	const int iCityBonusAttitudeModifier = GC.getInfo(getPersonalityType()).getCityBonusDiplomacyModifier(eBonus);
 	if (!GET_PLAYER(ePlayer).hasBonus(eBonus))
 		return 0;
+	const int iCityBonusAttitudeModifier = GC.getInfo(getPersonalityType()).getCityBonusDiplomacyModifier(eBonus);
 	return (iCityBonusAttitudeModifier != 0) ? iCityBonusAttitudeModifier : 0;
 }
 // XANA: 05-11-2025 City Bonus Diplomacy Modifier
