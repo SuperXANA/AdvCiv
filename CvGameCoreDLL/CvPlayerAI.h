@@ -231,6 +231,10 @@ public:
 	int AI_getPeaceAttitude(PlayerTypes ePlayer) const;
 	int AI_getSameReligionAttitude(PlayerTypes ePlayer) const;
 	int AI_getDifferentReligionAttitude(PlayerTypes ePlayer) const;
+		// XANA: 10-25-2025 Gender Specific Diplomacy
+	int AI_getFavoriteGenderAttitude(PlayerTypes ePlayer) const;
+	int AI_getHateGenderAttitude(PlayerTypes ePlayer) const;
+		// XANA: 10-25-2025 Gender Specific Diplomacy
 	int AI_getBonusTradeAttitude(PlayerTypes ePlayer) const;
 	int AI_getOpenBordersAttitude(PlayerTypes ePlayer) const;
 	int AI_getDefensivePactAttitude(PlayerTypes ePlayer) const;
@@ -509,6 +513,14 @@ public:
 	int AI_getFavoriteCivicCounter(PlayerTypes eIndex) const;
 	void AI_changeFavoriteCivicCounter(PlayerTypes eIndex, int iChange);
 
+	// XANA: 10-25-2025 Gender Specific Diplomacy
+	int AI_getFavoriteGenderCounter(PlayerTypes eIndex) const;
+	void AI_changeFavoriteGenderCounter(PlayerTypes eIndex, int iChange);
+	
+	int AI_getFavoriteGenderCounter(PlayerTypes eIndex) const;
+	void AI_changeFavoriteGenderCounter(PlayerTypes eIndex, int iChange);
+	// XANA: 10-25-2025 Gender Specific Diplomacy
+	
 	int AI_getBonusTradeCounter(PlayerTypes eIndex) const;
 	void AI_changeBonusTradeCounter(PlayerTypes eIndex, int iChange);
 	/*	<advc.130p> For code shared by AI_processPeacetimeTradeValue and
@@ -530,6 +542,10 @@ public:
 	void AI_setSameReligionCounter(PlayerTypes eIndex, int iValue);
 	void AI_setDifferentReligionCounter(PlayerTypes eIndex, int iValue);
 	void AI_setFavoriteCivicCounter(PlayerTypes eIndex, int iValue);
+	// XANA: 10-25-2025 Gender Specific Diplomacy
+	void AI_setFavoriteGenderCounter(PlayerTypes eIndex, int iValue);
+	void AI_setHateGenderCounter(PlayerTypes eIndex, int iValue);
+	// XANA: 10-25-2025 Gender Specific Diplomacy
 	void AI_setBonusTradeCounter(PlayerTypes eIndex, int iValue);
 	// </advc.130k>
 	int AI_getGoldTradedTo(PlayerTypes eIndex) const;
@@ -804,6 +820,10 @@ protected:
 	int* m_aiSameReligionCounter;
 	int* m_aiDifferentReligionCounter;
 	int* m_aiFavoriteCivicCounter;
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	int* m_aiHateCivicCounter;
+	int* m_aiHateReligionCounter;
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	int* m_aiBonusTradeCounter;
 	int* m_aiPeacetimeTradeValue;
 	int* m_aiPeacetimeGrantValue;
@@ -873,7 +893,7 @@ protected:
 	void AI_setPeacetimeGrantValue(PlayerTypes eIndex, int iVal);
 	// </advc.130p>
 	// <advc.130n>
-	enum IdeologicMarker { SAME_RELIGION, DIFFERENT_RELIGION, SAME_CIVIC };
+	enum IdeologicMarker { ALLY_GENDER, ENEMY_GENDER, SAME_RELIGION, DIFFERENT_RELIGION, SAME_CIVIC }; // XANA: 10-25-2025 Gender Specific Diplomacy
 	int AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eMarker,
 			int iCounter, int iDivisor, int iLimit) const; // </advc.130n>
 	// advc.130r: Are they at war with a partner of ours?

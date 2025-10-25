@@ -6876,6 +6876,20 @@ bool CvPlayer::isFavoriteReligionKnown() const
 	return isAlive(); // (as in BtS)
 } // </advc.130n>
 
+// XANA: 10-25-2025 Gender Specific Diplomacy
+GenderTypes CvPlayer::getGender() const
+{
+	return GC.getInfo(getLeaderType()).getGender();
+}
+GenderTypes CvPlayer::getFavoriteGender() const
+{
+	return GC.getInfo(getLeaderType()).getFavoriteGender();
+}
+GenderTypes CvPlayer::getHateGender() const
+{
+	return GC.getInfo(getLeaderType()).getHateGender();
+}
+// XANA: 10-25-2025 Gender Specific Diplomacy
 
 bool CvPlayer::canChangeReligion() const
 {

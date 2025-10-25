@@ -163,6 +163,14 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getDifferentReligionAttitudeChange() const { return m_iDifferentReligionAttitudeChange; }
 	int getDifferentReligionAttitudeDivisor() const { return m_iDifferentReligionAttitudeDivisor; }
 	int getDifferentReligionAttitudeChangeLimit() const { return m_iDifferentReligionAttitudeChangeLimit; }
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	int getFavoriteGenderAttitudeChange() const { return m_iFavoriteGenderAttitudeChange; }
+	int getFavoriteGenderAttitudeDivisor() const { return m_iFavoriteGenderAttitudeDivisor; }
+	int getFavoriteGenderAttitudeChangeLimit() const { return m_iFavoriteGenderAttitudeChangeLimit; }
+	int getHateGenderAttitudeChange() const { return m_iHateGenderAttitudeChange; }
+	int getHateGenderAttitudeDivisor() const { return m_iHateGenderAttitudeDivisor; }
+	int getHateGenderAttitudeChangeLimit() const { return m_iHateGenderAttitudeChangeLimit; }
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	int getBonusTradeAttitudeDivisor() const { return m_iBonusTradeAttitudeDivisor; }
 	int getBonusTradeAttitudeChangeLimit() const { return m_iBonusTradeAttitudeChangeLimit; }
 	int getOpenBordersAttitudeDivisor() const { return m_iOpenBordersAttitudeDivisor; }
@@ -199,6 +207,11 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getVassalPowerModifier() const { return m_iVassalPowerModifier; }
 	CivicTypes getFavoriteCivic() const { return m_eFavoriteCivic; }
 	ReligionTypes getFavoriteReligion() const { return m_eFavoriteReligion; }
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	GenderTypes getGender() const { return m_eGender; }
+	GenderTypes getFavoriteGender() const { return m_eFavoriteGender; }
+	GenderTypes getHateGender() const { return m_eHateGender; }
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	int getFreedomAppreciation() const { return m_iFreedomAppreciation; }
 	int getLoveOfPeace() const { return m_iLoveOfPeace; } // advc.104
 
@@ -283,6 +296,14 @@ protected:
 	int m_iDifferentReligionAttitudeChange;
 	int m_iDifferentReligionAttitudeDivisor;
 	int m_iDifferentReligionAttitudeChangeLimit;
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	int m_iFavoriteGenderAttitudeChange;
+	int m_iFavoriteGenderAttitudeDivisor;
+	int m_iFavoriteGenderAttitudeChangeLimit;
+	int m_iHateGenderAttitudeChange;
+	int m_iHateGenderAttitudeDivisor;
+	int m_iHateGenderAttitudeChangeLimit;
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	int m_iBonusTradeAttitudeDivisor;
 	int m_iBonusTradeAttitudeChangeLimit;
 	int m_iOpenBordersAttitudeDivisor;
@@ -320,6 +341,11 @@ protected:
 	int m_iLoveOfPeace; // advc.104
 	CivicTypes m_eFavoriteCivic;
 	ReligionTypes m_eFavoriteReligion;
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	GenderTypes m_eGender;
+	GenderTypes m_eFavoriteGender;
+	GenderTypes m_eHateGender;
+// XANA: 10-25-2025 Gender Specific Diplomacy
 
 	CvString m_szArtDefineTag;
 

@@ -634,6 +634,9 @@ bool CvXMLLoadUtility::LoadBasicInfos()
 	LoadGlobalClassInfo(GC.m_paUnitAIInfo, "CIV4UnitAIInfos", "BasicInfos", "Civ4UnitAIInfos/UnitAIInfos/UnitAIInfo", false);
 	LoadGlobalClassInfo(GC.m_paAttitudeInfo, "CIV4AttitudeInfos", "BasicInfos", "Civ4AttitudeInfos/AttitudeInfos/AttitudeInfo", false);
 	LoadGlobalClassInfo(GC.m_paMemoryInfo, "CIV4MemoryInfos", "BasicInfos", "Civ4MemoryInfos/MemoryInfos/MemoryInfo", false);
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	LoadGlobalClassInfo(GC.m_paGenderInfo, "CIV4GenderInfos", "BasicInfos", "Civ4GenderInfos/GenderInfos/GenderInfo", false);
+// XANA: 10-25-2025 Gender Specific Diplomacy
 
 	DestroyFXml();
 	return true;

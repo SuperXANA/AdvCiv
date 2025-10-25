@@ -58,6 +58,10 @@ CvPlayerAI::CvPlayerAI(/* advc.003u: */ PlayerTypes eID) : CvPlayer(eID)
 	m_aiSameReligionCounter = new int[MAX_PLAYERS];
 	m_aiDifferentReligionCounter = new int[MAX_PLAYERS];
 	m_aiFavoriteCivicCounter = new int[MAX_PLAYERS];
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	m_aiFavoriteGenderCounter = new int[MAX_PLAYERS];
+	m_aiHateGenderCounter = new int[MAX_PLAYERS];
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	m_aiBonusTradeCounter = new int[MAX_PLAYERS];
 	m_aiPeacetimeTradeValue = new int[MAX_PLAYERS];
 	m_aiPeacetimeGrantValue = new int[MAX_PLAYERS];
@@ -105,6 +109,10 @@ CvPlayerAI::~CvPlayerAI()
 	SAFE_DELETE_ARRAY(m_aiSameReligionCounter);
 	SAFE_DELETE_ARRAY(m_aiDifferentReligionCounter);
 	SAFE_DELETE_ARRAY(m_aiFavoriteCivicCounter);
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	SAFE_DELETE_ARRAY(m_aiFavoriteGenderCounter);
+	SAFE_DELETE_ARRAY(m_aiHateGenderCounter);
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	SAFE_DELETE_ARRAY(m_aiBonusTradeCounter);
 	SAFE_DELETE_ARRAY(m_aiPeacetimeTradeValue);
 	SAFE_DELETE_ARRAY(m_aiPeacetimeGrantValue);
@@ -203,6 +211,10 @@ void CvPlayerAI::AI_reset(bool bConstructor)
 		m_aiSameReligionCounter[iI] = 0;
 		m_aiDifferentReligionCounter[iI] = 0;
 		m_aiFavoriteCivicCounter[iI] = 0;
+// XANA: 10-25-2025 Gender Specific Diplomacy
+		m_aiFavoriteGenderCounter[iI] = 0;
+		m_aiHateGenderCounter[iI] = 0;
+// XANA: 10-25-2025 Gender Specific Diplomacy
 		m_aiBonusTradeCounter[iI] = 0;
 		m_aiPeacetimeTradeValue[iI] = 0;
 		m_aiPeacetimeGrantValue[iI] = 0;
@@ -231,6 +243,10 @@ void CvPlayerAI::AI_reset(bool bConstructor)
 			kLoopPlayer.m_aiSameReligionCounter[getID()] = 0;
 			kLoopPlayer.m_aiDifferentReligionCounter[getID()] = 0;
 			kLoopPlayer.m_aiFavoriteCivicCounter[getID()] = 0;
+// XANA: 10-25-2025 Gender Specific Diplomacy
+			kLoopPlayer.m_aiFavoriteGenderCounter[getID()] = 0;
+			kLoopPlayer.m_aiHateGenderCounter[getID()] = 0;
+// XANA: 10-25-2025 Gender Specific Diplomacy
 			kLoopPlayer.m_aiBonusTradeCounter[getID()] = 0;
 			kLoopPlayer.m_aiPeacetimeTradeValue[getID()] = 0;
 			kLoopPlayer.m_aiPeacetimeGrantValue[getID()] = 0;
@@ -7677,6 +7693,10 @@ void CvPlayerAI::AI_updateAttitude(PlayerTypes ePlayer, /* advc.130e: */ bool bU
 	iAttitude += AI_getFavoriteCivicAttitude(ePlayer);
 	iAttitude += AI_getTradeAttitude(ePlayer);
 	iAttitude += AI_getRivalTradeAttitude(ePlayer);
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	iAttitude += AI_getFavoriteGenderAttitude(ePlayer);
+	iAttitude += AI_getHateGenderAttitude(ePlayer);
+// XANA: 10-25-2025 Gender Specific Diplomacy
 
 	FOR_EACH_ENUM(Memory)
 		iAttitude += AI_getMemoryAttitude(ePlayer, eLoopMemory);
@@ -8034,6 +8054,60 @@ int CvPlayerAI::AI_getDifferentReligionAttitude(PlayerTypes ePlayer) const
 	return iAttitude;
 }
 
+// XANA: 10-25-2025 Gender Specific Diplomacy
+int CvPlayerAI::AI_getFavoriteGenderAttitude(PlayerTypes ePlayer) const
+{
+	GenderTypes const eWeLike = getFavoriteGender();
+	GenderTypes const eTheyAre = GET_PLAYER(ePlayer).getGender();
+	if (eWeLike == NO_GENDER ||
+	eWeLike == getHateGender() ||
+	eWeLike != eTheyAre)
+		return 0;
+	GenderTypes const eWeAre = getGender();
+	bool const bPreferOwn = (eWeAre == eWeLike);
+	CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+	int iAttitude = kPersonality.getFavoriteGenderAttitudeChange();
+	if (eWeLike == GET_PLAYER(ePlayer).getHateGender() &&
+		(bPreferOwn ? eWeAre != eTheyAre : eWeAre == eTheyAre))
+		-iAttitude;
+	if (eWeLike == GET_PLAYER(ePlayer).getFavoriteGender() &&
+		(bPreferOwn ? eWeAre == eTheyAre : eWeAre != eTheyAre))
+		iAttitude++;
+	// advc.130n: Moved into new function
+	iAttitude += AI_ideologyAttitudeChange(ePlayer, ALLY_GENDER,
+			AI_getFavoriteGenderCounter(ePlayer),
+			kPersonality.getFavoriteGenderAttitudeDivisor(),
+			kPersonality.getFavoriteGenderAttitudeChangeLimit());
+	return iAttitude;
+}
+
+
+int CvPlayerAI::AI_getHateGenderAttitude(PlayerTypes ePlayer) const
+{
+	GenderTypes const eWeHate = getHateGender();
+	GenderTypes const eTheyAre = GET_PLAYER(ePlayer).getGender();
+	if (eWeHate == NO_GENDER ||
+	eWeHate == getFavoriteGender() ||
+	eWeHate != eTheyAre)
+		return 0;
+	GenderTypes const eWeAre = getGender();
+	bool const bPreferOwn = (eWeAre != eWeHate);
+	CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+	int iAttitude = kPersonality.getHateGenderAttitudeChange();
+	if (eWeHate == GET_PLAYER(ePlayer).getHateGender() && 
+		(bPreferOwn ? eWeAre == eTheyAre : eWeAre != eTheyAre))
+		-iAttitude;
+	if (eWeHate == GET_PLAYER(ePlayer).getFavoriteGender() && 
+		(bPreferOwn ? eWeAre != eTheyAre : eWeAre == eTheyAre))
+		iAttitude--;
+	// advc.130n: Moved into new function
+	iAttitude += AI_ideologyAttitudeChange(ePlayer, ENEMY_GENDER,
+			AI_getHateGenderCounter(ePlayer),
+			kPersonality.getHateGenderAttitudeDivisor(),
+			kPersonality.getHateGenderAttitudeChangeLimit());
+	return iAttitude;
+}
+// XANA: 10-25-2025 Gender Specific Diplomacy
 
 int CvPlayerAI::AI_getBonusTradeAttitude(PlayerTypes ePlayer) const
 {
@@ -8170,6 +8244,10 @@ void CvPlayerAI::AI_updateIdeologyAttitude(int iChange, CvCity const& kCity)
 		AI_changeCachedAttitude(eOther, iChange * AI_getSameReligionAttitude(eOther));
 		AI_changeCachedAttitude(eOther, iChange * AI_getDifferentReligionAttitude(eOther));
 		AI_changeCachedAttitude(eOther, iChange * AI_getFavoriteCivicAttitude(eOther));
+// XANA: 10-25-2025 Gender Specific Diplomacy
+		AI_changeCachedAttitude(eOther, iChange * AI_getFavoriteGenderAttitude(eOther));
+		AI_changeCachedAttitude(eOther, iChange * AI_getHateGenderAttitude(eOther));
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	}
 }
 
@@ -18620,6 +18698,45 @@ void CvPlayerAI::AI_changeFavoriteCivicCounter(PlayerTypes eIndex, int iChange)
 }
 
 
+// XANA: 10-25-2025 Gender Specific Diplomacy
+int CvPlayerAI::AI_getFavoriteGenderCounter(PlayerTypes eIndex) const
+{
+	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+	return m_aiFavoriteGenderCounter[eIndex];
+}
+
+
+
+oid CvPlayerAI::AI_changeFavoriteGenderCounter(PlayerTypes eIndex, int iChange)
+{
+	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+	m_aiHateReligionCounter[eIndex] = (m_aiHateReligionCounter[eIndex] + iChange);
+	FAssert(AI_getFavoriteGenderCounter(eIndex) >= 0);
+}
+
+
+
+int CvPlayerAI::AI_getHateGenderCounter(PlayerTypes eIndex) const
+{
+	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+	return m_aiHateGenderCounter[eIndex];
+}
+
+
+
+void CvPlayerAI::AI_changeHateGenderCounter(PlayerTypes eIndex, int iChange)
+{
+	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+	m_aiHateReligionCounter[eIndex] = (m_aiHateReligionCounter[eIndex] + iChange);
+	FAssert(AI_getHateGemderCounter(eIndex) >= 0);
+}
+// XANA: 10-25-2025 Gender Specific Diplomacy
+
+
 int CvPlayerAI::AI_getBonusTradeCounter(PlayerTypes eIndex) const
 {
 	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
@@ -18813,6 +18930,20 @@ void CvPlayerAI::AI_setFavoriteCivicCounter(PlayerTypes eIndex, int iValue)
 }
 
 
+// XANA: 10-25-2025 Gender Specific Diplomacy
+void CvPlayerAI::AI_setFavoriteGenderCounter(PlayerTypes eIndex, int iValue)
+{
+	m_aiFavoriteGenderCounter[eIndex] = iValue;
+}
+
+
+void CvPlayerAI::AI_setHateGenderCounter(PlayerTypes eIndex, int iValue)
+{
+	m_aiHateGenderCounter[eIndex] = iValue;
+}
+// XANA: 10-25-2025 Gender Specific Diplomacy
+
+
 void CvPlayerAI::AI_setBonusTradeCounter(PlayerTypes eIndex, int iValue)
 {
 	m_aiBonusTradeCounter[eIndex] = iValue;
@@ -18854,6 +18985,24 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
 		iTotal += iCities;
 		switch (eMarker)
 		{
+// XANA: 10-25-2025 Gender Specific Diplomacy
+		case ALLY_GENDER:
+			GenderTypes eFavGender = getFavoriteGender();
+			if (eFavGender != NO_GENDER &&
+				eFavGender == itPlayer->getFavoriteGender())
+			{
+				iMatching += iCities;
+			}
+			break;
+		case ENEMY_GENDER:
+			GenderTypes eHateGender = getHateGender();
+			if (eHateGender != NO_GENDER &&
+				eHateGender == itPlayer->getHateGender())
+			{
+				iMatching += iCities;
+			}
+			break;
+// XANA: 10-25-2025 Gender Specific Diplomacy
 		case SAME_RELIGION:
 			if (getStateReligion() != NO_RELIGION &&
 				getStateReligion() == itPlayer->getStateReligion())
@@ -19367,6 +19516,31 @@ void CvPlayerAI::AI_doCounter()
 						(AI_getFavoriteCivicCounter(ePlayer) * rDecayFactor).floor());
 			}
 		}  // <advc.130p>
+// XANA: 10-25-2025 Gender Specific Diplomacy
+		if (getFavoriteGender() != NO_GENDER)
+		{
+			if (kPlayer.getGender() == getFavoriteGender() &&
+				kOurTeam.AI_getHasMetCounter(kPlayer.getTeam()) >
+				2 * -kPersonality.getFavoriteGenderAttitudeDivisor())
+				AI_changeFavoriteGenderCounter(ePlayer, kOurTeam.AI_randomCounterChange());
+			else
+			{
+				AI_setFavoriteGenderCounter(ePlayer,
+						(AI_getHateCivicCounter(ePlayer) * rDecayFactor).floor());
+			}
+		}
+		if (getHateGender() != NO_GENDER)
+		{
+			if (kPlayer.getGender() == getHateGender() &&
+				kOurTeam.AI_getHasMetCounter(kPlayer.getTeam()) >
+				2 * -kPersonality.getHateGenderAttitudeDivisor())
+			{
+				AI_changeHateGenderCounter(ePlayer, kOurTeam.AI_randomCounterChange());
+			}
+			else AI_setHateGenderCounter(ePlayer,
+				(AI_getHateGenderCounter(ePlayer) * rDecayFactor).floor());
+		}
+// XANA: 10-25-2025 Gender Specific Diplomacy
 		AI_setPeacetimeGrantValue(ePlayer,
 				(AI_getPeacetimeGrantValue(ePlayer) * rDecayFactor).floor());
 		AI_setPeacetimeTradeValue(ePlayer,
@@ -22954,6 +23128,10 @@ void CvPlayerAI::read(FDataStreamBase* pStream)
 	pStream->Read(MAX_PLAYERS, m_aiSameReligionCounter);
 	pStream->Read(MAX_PLAYERS, m_aiDifferentReligionCounter);
 	pStream->Read(MAX_PLAYERS, m_aiFavoriteCivicCounter);
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	pStream->Read(MAX_PLAYERS, m_aiFavoriteGenderCounter);
+	pStream->Read(MAX_PLAYERS, m_aiHateHateCounter);
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	pStream->Read(MAX_PLAYERS, m_aiBonusTradeCounter);
 	pStream->Read(MAX_PLAYERS, m_aiPeacetimeTradeValue);
 	pStream->Read(MAX_PLAYERS, m_aiPeacetimeGrantValue);
@@ -23160,6 +23338,10 @@ void CvPlayerAI::write(FDataStreamBase* pStream)
 	pStream->Write(MAX_PLAYERS, m_aiSameReligionCounter);
 	pStream->Write(MAX_PLAYERS, m_aiDifferentReligionCounter);
 	pStream->Write(MAX_PLAYERS, m_aiFavoriteCivicCounter);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+	pStream->Write(MAX_PLAYERS, m_aiFavoriteGenderCounter);
+	pStream->Write(MAX_PLAYERS, m_aiHateGenderCounter);
+// XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	pStream->Write(MAX_PLAYERS, m_aiBonusTradeCounter);
 	pStream->Write(MAX_PLAYERS, m_aiPeacetimeTradeValue);
 	pStream->Write(MAX_PLAYERS, m_aiPeacetimeGrantValue);
@@ -25525,6 +25707,38 @@ void CvPlayerAI::AI_updateStrategyHash()
 		iParanoia *= 3;
 		iParanoia /= 2;
 	}*/
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+	GenderTypes const eFavGender = kPersonality.getFavoriteGender();
+	GenderTypes const eHateGender = kPersonality.getHateGender();
+	GenderTypes const eWeAre = kPersonality.getGender();
+	if (eFavGender != NO_GENDER)
+	{
+		bool bPreferOwn = (eWeAre == eFavGender);
+		for (PlayerAIIter<FREE_MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getTeam());
+			itRival.hasNext(); ++itRival)
+		{
+			GenderTypes eTheyAre = GET_PLAYER(itRival).getGender();
+			if (bPreferOwn ? eTheyAre == eWeAre : eTheyAre != eWeAre)
+			{	
+				iParanoia -= 10;
+			}
+		}
+	}
+	if (eHateGender != NO_GENDER)
+	{
+		bPreferOwn = (eWeAre != eHateGender);
+		for (PlayerAIIter<FREE_MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getTeam());
+			itRival.hasNext(); ++itRival)
+		{
+			GenderTypes eTheyAre = GET_PLAYER(itRival).getGender();
+			if (bPreferOwn ? eTheyAre != eWeAre : eTheyAre == eWeAre)
+			{	
+				iParanoia += 10;
+			}
+		}
+	}
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	int const iCurrentEra = getCurrentEra();
 	// Scale paranoia in later eras/larger games
 	//iParanoia -= (100*(iCurrentEra + 1)) / std::max(1, GC.getNumEraInfos());

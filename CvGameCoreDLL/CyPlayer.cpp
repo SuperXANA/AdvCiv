@@ -707,6 +707,25 @@ bool CyPlayer::isFavoriteReligionKnown()
 			m_pPlayer->isFavoriteReligionKnown());
 } // </advc.130n>
 
+// XANA: 10-25-2025 Gender Specific Diplomacy
+GenderTypes CyPlayer::getGender()
+{
+	return (m_pPlayer == NULL || !m_pPlayer->isAlive() ? NO_GENDER :
+			m_pPlayer->getGender());
+}
+GenderTypes CyPlayer::getFavoriteGender()
+{
+	return (m_pPlayer == NULL || !m_pPlayer->isAlive() ? NO_GENDER :
+			m_pPlayer->getFavoriteGender());
+}
+
+GenderTypes CyPlayer::getHateGender()
+{
+	return (m_pPlayer == NULL || !m_pPlayer->isAlive() ? NO_GENDER :
+			m_pPlayer->getHateGender());
+}
+// XANA: 10-25-2025 Gender Specific Diplomacy
+
 bool CyPlayer::canDoReligion(int /*ReligionTypes*/ eReligion)
 {
 	return m_pPlayer ? m_pPlayer->canDoReligion((ReligionTypes) eReligion) : false;

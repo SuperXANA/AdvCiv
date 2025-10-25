@@ -43,7 +43,10 @@
 	DO(Hurry, HURRY) \
 	DO(Upkeep, UPKEEP) \
 	DO(CultureLevel, CULTURELEVEL) \
-	DO(CivicOption, CIVICOPTION)
+	DO(CivicOption, CIVICOPTION) \
+	/* XANA: 10-25-2025 Gender Specific Diplomacy */ \
+	DO(Gender, GENDER)
+	/* XANA: 10-25-2025 Gender Specific Diplomacy */
 
 // Number of instances not known at compile time; can be greater than MAX_CHAR.
 #define DO_FOR_EACH_BIG_DYN_INFO_TYPE(DO) \

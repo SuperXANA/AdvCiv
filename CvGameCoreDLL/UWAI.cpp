@@ -174,6 +174,11 @@ void UWAI::applyPersonalityWeight()
 			&kLeader.m_iPermanentAllianceRefuseAttitudeThreshold, &kLeader.m_iVassalRefuseAttitudeThreshold,
 			&kLeader.m_iVassalPowerModifier, &kLeader.m_iFreedomAppreciation,
 			&kLeader.m_iLoveOfPeace,
+// XANA: 10-25-2025 Gender Specific Diplomacy
+			&kLeader.m_iFavoriteGenderAttitudeChange, &kLeader.m_iFavoriteGenderAttitudeDivisor, 
+			&kLeader.m_iFavoriteGenderAttitudeChangeLimit, &kLeader.m_iHateGenderAttitudeChange, 
+			&kLeader.m_iHateGenderAttitudeDivisor, &kLeader.m_iHateGenderAttitudeChangeLimit,
+// XANA: 10-25-2025 Gender Specific Diplomacy
 		};
 		int const iPrimitiveMembers = ARRAYSIZE(aiPrimitiveMembers);
 		std::vector<int*>* paiPersonalityVector = new std::vector<int*>(

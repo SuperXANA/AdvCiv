@@ -32,6 +32,9 @@ void CyInfoPythonInterface3()
 		;
 
 	python::class_<CvLeaderHeadInfo, boost::noncopyable, python::bases<CvInfoBase> >("CvLeaderHeadInfo")
+// XANA: 10-25-2025 Gender Specific Diplomacy
+		.def("getGender", &CvLeaderHeadInfo::getGender, "int ()")
+// XANA: 10-25-2025 Gender Specific Diplomacy
 		.def("getWonderConstructRand", &CvLeaderHeadInfo::getWonderConstructRand, "int ()")
 		.def("getBaseAttitude", &CvLeaderHeadInfo::getBaseAttitude, "int ()")
 		.def("getBasePeaceWeight", &CvLeaderHeadInfo::getBasePeaceWeight, "int ()")
@@ -72,6 +75,14 @@ void CyInfoPythonInterface3()
 		.def("getDifferentReligionAttitudeChange", &CvLeaderHeadInfo::getDifferentReligionAttitudeChange, "int ()")
 		.def("getDifferentReligionAttitudeDivisor", &CvLeaderHeadInfo::getDifferentReligionAttitudeDivisor, "int ()")
 		.def("getDifferentReligionAttitudeChangeLimit", &CvLeaderHeadInfo::getDifferentReligionAttitudeChangeLimit, "int ()")
+// XANA: 10-25-2025 Gender Specific Diplomacy
+		.def("getFavoriteGenderAttitudeChange", &CvLeaderHeadInfo::getFavoriteGenderAttitudeChange, "int ()")
+		.def("getFavoriteGenderAttitudeDivisor", &CvLeaderHeadInfo::getFavoriteGenderAttitudeDivisor, "int ()")
+		.def("getFavoriteGenderAttitudeChangeLimit", &CvLeaderHeadInfo::getFavoriteGenderAttitudeChangeLimit, "int ()")
+		.def("getHateGenderAttitudeChange", &CvLeaderHeadInfo::getHateGenderAttitudeChange, "int ()")
+		.def("getHateGenderAttitudeDivisor", &CvLeaderHeadInfo::getHateGenderAttitudeDivisor, "int ()")
+		.def("getHateGenderAttitudeChangeLimit", &CvLeaderHeadInfo::getHateGenderAttitudeChangeLimit, "int ()")
+// XANA: 10-25-2025 Gender Specific Diplomacy
 		.def("getBonusTradeAttitudeDivisor", &CvLeaderHeadInfo::getBonusTradeAttitudeDivisor, "int ()")
 		.def("getBonusTradeAttitudeChangeLimit", &CvLeaderHeadInfo::getBonusTradeAttitudeChangeLimit, "int ()")
 		.def("getOpenBordersAttitudeDivisor", &CvLeaderHeadInfo::getOpenBordersAttitudeDivisor, "int ()")
@@ -103,6 +114,10 @@ void CyInfoPythonInterface3()
 		.def("getVassalRefuseAttitudeThreshold", &CvLeaderHeadInfo::getVassalRefuseAttitudeThreshold, "int ()")
 		.def("getFavoriteCivic", &CvLeaderHeadInfo::getFavoriteCivic, "int ()")
 		.def("getFavoriteReligion", &CvLeaderHeadInfo::getFavoriteReligion, "int ()")
+// XANA: 10-25-2025 Gender Specific Diplomacy
+		.def("getFavoriteGender", &CvLeaderHeadInfo::getFavoriteGender, "int ()")
+		.def("getHateGender", &CvLeaderHeadInfo::getHateGender, "int ()")
+// XANA: 10-25-2025 Gender Specific Diplomacy
 		.def("getVassalPowerModifier", &CvLeaderHeadInfo::getVassalPowerModifier, "int ()")
 		.def("getFreedomAppreciation", &CvLeaderHeadInfo::getFreedomAppreciation, "int ()")
 

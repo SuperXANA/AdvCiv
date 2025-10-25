@@ -497,7 +497,18 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL)
+m_piDiploWarMusicScriptIds(NULL),
+// XANA: 10-25-2025 Gender Specific Diplomacy
+m_eGender(NO_GENDER),
+m_eFavoriteGender(NO_GENDER),
+m_iFavoriteGenderAttitudeChange(0),
+m_iFavoriteGenderAttitudeDivisor(0),
+m_iFavoriteGenderAttitudeChangeLimit(0),
+m_eHateGender(NO_GENDER),
+m_iHateGenderAttitudeChange(0),
+m_iHateGenderAttitudeDivisor(0),
+m_iHateGenderAttitudeChangeLimit(0)
+// XANA: 10-25-2025 Gender Specific Diplomacy
 {}
 
 // <advc.xmldefault>
@@ -664,6 +675,9 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	uint uiFlag=0;
 	stream->Read(&uiFlag);
 
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	stream->Read((int*)&m_eGender);
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	stream->Read(&m_iWonderConstructRand);
 	stream->Read(&m_iBaseAttitude);
 	stream->Read(&m_iBasePeaceWeight);
@@ -711,6 +725,14 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	stream->Read(&m_iDifferentReligionAttitudeChange);
 	stream->Read(&m_iDifferentReligionAttitudeDivisor);
 	stream->Read(&m_iDifferentReligionAttitudeChangeLimit);
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	stream->Read(&m_iFavoriteGenderAttitudeChange);
+	stream->Read(&m_iFavoriteGenderAttitudeDivisor);
+	stream->Read(&m_iFavoriteGenderAttitudeChangeLimit);
+	stream->Read(&m_iHateGenderAttitudeChange);
+	stream->Read(&m_iHateGenderAttitudeDivisor);
+	stream->Read(&m_iHateGenderAttitudeChangeLimit);
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	stream->Read(&m_iBonusTradeAttitudeDivisor);
 	stream->Read(&m_iBonusTradeAttitudeChangeLimit);
 	stream->Read(&m_iOpenBordersAttitudeDivisor);
@@ -748,6 +770,10 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	stream->Read(&m_iLoveOfPeace); // advc.104
 	stream->Read((int*)&m_eFavoriteCivic);
 	stream->Read((int*)&m_eFavoriteReligion);
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	stream->Read((int*)&m_eFavoriteGender);
+	stream->Read((int*)&m_eHateGender);
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	stream->ReadString(m_szArtDefineTag);
 	SAFE_DELETE_ARRAY(m_pbTraits);
 	m_pbTraits = new bool[GC.getNumTraitInfos()];
@@ -800,6 +826,9 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	uint uiFlag = 0;
 	stream->Write(uiFlag);
 
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	stream->Write(m_eGender);
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	stream->Write(m_iWonderConstructRand);
 	stream->Write(m_iBaseAttitude);
 	stream->Write(m_iBasePeaceWeight);
@@ -847,6 +876,14 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(m_iDifferentReligionAttitudeChange);
 	stream->Write(m_iDifferentReligionAttitudeDivisor);
 	stream->Write(m_iDifferentReligionAttitudeChangeLimit);
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	stream->Write(m_iFavoriteGenderAttitudeChange);
+	stream->Write(m_iFavoriteGenderAttitudeDivisor);
+	stream->Write(m_iFavoriteGenderAttitudeChangeLimit);
+	stream->Write(m_iHateGenderAttitudeChange);
+	stream->Write(m_iHateGenderAttitudeDivisor);
+	stream->Write(m_iHateGenderAttitudeChangeLimit);
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	stream->Write(m_iBonusTradeAttitudeDivisor);
 	stream->Write(m_iBonusTradeAttitudeChangeLimit);
 	stream->Write(m_iOpenBordersAttitudeDivisor);
@@ -884,6 +921,10 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(m_iLoveOfPeace); // advc.104
 	stream->Write(m_eFavoriteCivic);
 	stream->Write(m_eFavoriteReligion);
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	stream->Write(m_eFavoriteGender);
+	stream->Write(m_eHateGender);
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	stream->WriteString(m_szArtDefineTag);
 	stream->Write(GC.getNumTraitInfos(), m_pbTraits);
 	stream->Write(GC.getNumFlavorTypes(), m_piFlavorValue);
@@ -917,6 +958,10 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	/*	advc.xmldefault: Redirect the CvXMLLoadUtility::GetChildXmlValByName
 		calls through CvLeaderHeadInfo::GetChildXmlValByName. */
 	m_pXML = pXML;
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	pXML->SetInfoIDFromChildXmlVal(m_eGender,
+			"Gender");
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	GetChildXmlValByName(m_iWonderConstructRand, "iWonderConstructRand");
 	GetChildXmlValByName(m_iBaseAttitude, "iBaseAttitude");
 	GetChildXmlValByName(m_iBasePeaceWeight, "iBasePeaceWeight");
@@ -967,6 +1012,14 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	GetChildXmlValByName(m_iDifferentReligionAttitudeChange, "iDifferentReligionAttitudeChange");
 	GetChildXmlValByName(m_iDifferentReligionAttitudeDivisor, "iDifferentReligionAttitudeDivisor");
 	GetChildXmlValByName(m_iDifferentReligionAttitudeChangeLimit, "iDifferentReligionAttitudeChangeLimit");
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	GetChildXmlValByName(m_iFavoriteGenderAttitudeChange, "iFavoriteGenderAttitudeChange");
+	GetChildXmlValByName(m_iFavoriteGenderAttitudeDivisor, "iFavoriteGenderAttitudeDivisor");
+	GetChildXmlValByName(m_iFavoriteGenderAttitudeChangeLimit, "iFavoriteGenderAttitudeChangeLimit");
+	GetChildXmlValByName(m_iHateGenderAttitudeChange, "iHateGenderAttitudeChange");
+	GetChildXmlValByName(m_iHateGenderAttitudeDivisor, "iHateGenderAttitudeDivisor");
+	GetChildXmlValByName(m_iHateGenderAttitudeChangeLimit, "iHateGenderAttitudeChangeLimit");
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	GetChildXmlValByName(m_iBonusTradeAttitudeDivisor, "iBonusTradeAttitudeDivisor");
 	GetChildXmlValByName(m_iBonusTradeAttitudeChangeLimit, "iBonusTradeAttitudeChangeLimit");
 	GetChildXmlValByName(m_iOpenBordersAttitudeDivisor, "iOpenBordersAttitudeDivisor");
@@ -1031,6 +1084,12 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 			"FavoriteCivic");
 	pXML->SetInfoIDFromChildXmlVal(m_eFavoriteReligion,
 			"FavoriteReligion");
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	pXML->SetInfoIDFromChildXmlVal(m_eFavoriteGender,
+			"FavoriteGender");
+	pXML->SetInfoIDFromChildXmlVal(m_eHateGender,
+			"HateGender");
+// XANA: 10-25-2025 Gender Specific Diplomacy
 
 	pXML->SetVariableListTagPair(&m_pbTraits, "Traits", GC.getNumTraitInfos());
 	pXML->SetVariableListTagPair(&m_piFlavorValue, "Flavors", GC.getNumFlavorTypes());

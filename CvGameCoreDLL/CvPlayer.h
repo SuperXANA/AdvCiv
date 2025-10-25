@@ -408,6 +408,11 @@ public:
 	ReligionTypes getFavoriteReligion() const;
 	bool isFavoriteReligionKnown() const;
 	// </advc.130n>
+// XANA: 10-25-2025 Gender Specific Diplomacy
+	GenderTypes getGender() const;
+	GenderTypes getFavoriteGender() const;
+	GenderTypes getHateGender() const;
+// XANA: 10-25-2025 Gender Specific Diplomacy
 	bool canDoReligion(ReligionTypes eReligion) const																// Exposed to Python
 	{	//return (GET_TEAM(getTeam()).getHasReligionCount(eReligion) != 0);
 		return (getHasReligionCount(eReligion) > 0); // advc.132c

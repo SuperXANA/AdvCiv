@@ -16156,6 +16156,26 @@ void CvGameTextMgr::appendToAttitudeBreakdown(CvWStringBuffer& szBreakdown, int 
 		iTotal += iAttitudeChange;
 	}
 }
+// XANA: 10-25-2025 Gender Specific Diplomacy
+void CvGameTextMgr::appendToAttitudeBreakdownWithExtraDescription(CvWStringBuffer& szBreakdown, int iPass,
+	int iAttitudeChange, int& iTotal, char const* szTextKey, char const* szTextKeyAlt,
+	char const* szExtraDescription)
+{
+	if ((iPass == 0) ? (iAttitudeChange > 0) : (iAttitudeChange < 0))
+	{
+		CvWString szTempBuffer;
+		szTempBuffer.Format(SETCOLR L"%s" ENDCOLR,
+				TEXT_COLOR(iAttitudeChange > 0 ?
+				"COLOR_POSITIVE_TEXT" : "COLOR_NEGATIVE_TEXT"),
+				gDLL->getText(iAttitudeChange > 0 || szTextKeyAlt == NULL ?
+				szTextKey : szTextKeyAlt, iAttitudeChange,
+				szExtraDescription).GetCString());
+		szBreakdown.append(NEWLINE);
+		szBreakdown.append(szTempBuffer);
+		iTotal += iAttitudeChange;
+	}
+}
+// XANA: 10-25-2025 Gender Specific Diplomacy
 
 
 void CvGameTextMgr::getAttitudeString(CvWStringBuffer& szBuffer, PlayerTypes ePlayer,
@@ -16236,6 +16256,18 @@ void CvGameTextMgr::getAttitudeString(CvWStringBuffer& szBuffer, PlayerTypes ePl
 				kPlayer.AI_getAttitudeExtra(eTargetPlayer), iTotal,
 				"TXT_KEY_MISC_ATTITUDE_EXTRA_GOOD",
 				"TXT_KEY_MISC_ATTITUDE_EXTRA_BAD");
+		// XANA: 10-25-2025 Gender Specific Diplomacy
+		appendToAttitudeBreakdownWithExtraDescription(szBreakdown, iPass,
+				kPlayer.AI_getFavoriteGenderAttitude(eTargetPlayer), iTotal,
+				"TXT_KEY_MISC_ATTITUDE_FAVORED_GENDER",
+				"TXT_KEY_MISC_ATTITUDE_DISFAVORED_GENDER",
+				GC.getInfo(GET_PLAYER(eTargetPlayer).getGender()).getDescription());
+		appendToAttitudeBreakdownWithExtraDescription(szBreakdown, iPass,
+				kPlayer.AI_getHateGenderAttitude(eTargetPlayer), iTotal,
+				"TXT_KEY_MISC_ATTITUDE_GENDER_ALLY",
+				"TXT_KEY_MISC_ATTITUDE_GENDER_ENEMY",
+				GC.getInfo(GET_PLAYER(eTargetPlayer).getGender()).getDescription());
+		// XANA: 10-25-2025 Gender Specific Diplomacy
 		// <advc.sha> (based on: Show Hidden Attitude Mod 01/22/2010)
 		if (bSHowHiddenAttitude)
 		{
