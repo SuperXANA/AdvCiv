@@ -8,6 +8,9 @@
 	<ElementType name="Civilopedia" content="textOnly"/>
 	<ElementType name="Strategy" content="textOnly"/>
 	<ElementType name="ArtDefineTag" content="textOnly"/>
+	<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+	<ElementType name="Gender" content="textOnly"/>
+	<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 	<ElementType name="iWonderConstructRand" content="textOnly" dt:type="int"/>
 	<ElementType name="iBaseAttitude" content="textOnly" dt:type="int"/>
 	<ElementType name="iBasePeaceWeight" content="textOnly" dt:type="int"/>
@@ -55,6 +58,14 @@
 	<ElementType name="iDifferentReligionAttitudeChange" content="textOnly" dt:type="int"/>
 	<ElementType name="iDifferentReligionAttitudeDivisor" content="textOnly" dt:type="int"/>
 	<ElementType name="iDifferentReligionAttitudeChangeLimit" content="textOnly" dt:type="int"/>
+	<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+	<ElementType name="iFavoriteGenderAttitudeChange" content="textOnly" dt:type="int"/>
+	<ElementType name="iFavoriteGenderAttitudeDivisor" content="textOnly" dt:type="int"/>
+	<ElementType name="iFavoriteGenderAttitudeChangeLimit" content="textOnly" dt:type="int"/>
+	<ElementType name="iHateGenderAttitudeChange" content="textOnly" dt:type="int"/>
+	<ElementType name="iHateGenderAttitudeDivisor" content="textOnly" dt:type="int"/>
+	<ElementType name="iHateGenderAttitudeLimit" content="textOnly" dt:type="int"/>
+	<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 	<ElementType name="iBonusTradeAttitudeDivisor" content="textOnly" dt:type="int"/>
 	<ElementType name="iBonusTradeAttitudeChangeLimit" content="textOnly" dt:type="int"/>
 	<ElementType name="iOpenBordersAttitudeDivisor" content="textOnly" dt:type="int"/>
@@ -94,6 +105,10 @@
 	<ElementType name="iFreedomAppreciation" content="textOnly" dt:type="int"/>
 	<ElementType name="FavoriteCivic" content="textOnly"/>
 	<ElementType name="FavoriteReligion" content="textOnly"/>
+	<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+	<ElementType name="FavoriteGender" content="textOnly"/>
+	<ElementType name="HateGender" content="textOnly"/>
+	<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 	<ElementType name="TraitType" content="textOnly"/>
 	<ElementType name="bTrait" content="textOnly" dt:type="boolean"/>
 	<ElementType name="Trait" content="eltOnly">
@@ -204,6 +219,9 @@
 		<element type="Description"/>
 		<element type="Civilopedia"/>
 		<element type="ArtDefineTag"/>
+	<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+		<element type="Gender"/>
+	<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 		<element type="iWonderConstructRand"/>
 		<element type="iBaseAttitude"/>
 		<element type="iBasePeaceWeight"/>
@@ -252,6 +270,14 @@
 		<element type="iDifferentReligionAttitudeChange" minOccurs="0"/>
 		<element type="iDifferentReligionAttitudeDivisor" minOccurs="0"/>
 		<element type="iDifferentReligionAttitudeChangeLimit" minOccurs="0"/>
+	<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+		<element type="iFavoriteGenderAttitudeChange" minOccurs="0"/>
+		<element type="iFavoriteGenderAttitudeDivisor" minOccurs="0"/>
+		<element type="iFavoriteGenderAttitudeChangeLimit" minOccurs="0"/>
+		<element type="iHateGenderAttitudeChange" minOccurs="0"/>
+		<element type="iHateGenderAttitudeDivisor" minOccurs="0"/>
+		<element type="iHateGenderAttitudeChangeLimit" minOccurs="0"/>
+	<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 		<element type="iBonusTradeAttitudeDivisor" minOccurs="0"/>
 		<element type="iBonusTradeAttitudeChangeLimit" minOccurs="0"/>
 		<element type="iOpenBordersAttitudeDivisor" minOccurs="0"/>
@@ -289,6 +315,10 @@
 		<element type="iFreedomAppreciation" minOccurs="0"/>
 		<element type="FavoriteCivic"/>
 		<element type="FavoriteReligion"/>
+	<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+		<element type="FavoriteGender"/>
+		<element type="HateGender"/>
+	<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 		<element type="Traits"/>
 		<element type="Flavors"/>
 		<element type="ContactRands"/>

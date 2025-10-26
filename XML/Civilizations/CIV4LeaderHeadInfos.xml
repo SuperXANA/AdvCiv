@@ -11,6 +11,9 @@
 			<Description>TXT_KEY_LEADER_BARBARIAN</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_BARBARIAN</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>NONE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -60,6 +63,14 @@
 			<iDifferentReligionAttitudeChange>0</iDifferentReligionAttitudeChange>
 			<iDifferentReligionAttitudeDivisor>0</iDifferentReligionAttitudeDivisor>
 			<iDifferentReligionAttitudeChangeLimit>0</iDifferentReligionAttitudeChangeLimit>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<iFavoriteGenderAttitudeChange>0</iFavoriteGenderAttitudeChange>
+			<iFavoriteGenderAttitudeDivisor>0</iFavoriteGenderAttitudeDivisor>
+			<iFavoriteGenderAttitudeChangeLimit>0</iFavoriteGenderAttitudeChangeLimit>
+			<iHateGenderAttitudeChange>0</iHateGenderAttitudeChange>
+			<iHateGenderAttitudeDivisor>0</iHateGenderAttitudeDivisor>
+			<iHateGenderAttitudeChangeLimit>0</iHateGenderAttitudeChangeLimit>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iBonusTradeAttitudeDivisor>0</iBonusTradeAttitudeDivisor>
 			<iBonusTradeAttitudeChangeLimit>0</iBonusTradeAttitudeChangeLimit>
 			<iOpenBordersAttitudeDivisor>0</iOpenBordersAttitudeDivisor>
@@ -97,6 +108,10 @@
 			<iFreedomAppreciation>0</iFreedomAppreciation>
 			<FavoriteCivic>NONE</FavoriteCivic>
 			<FavoriteReligion>NONE</FavoriteReligion>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<FavoriteGender>NONE</FavoriteGender>
+			<HateGender>NONE</HateGender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<!--<FavoriteTechnology>NONE</FavoriteTechnology>-->
 			<!--<HatedCivic>NONE</HatedCivic>-->
 			<!--<HatedReligion>NONE</HatedReligion>-->
@@ -187,6 +202,9 @@
 			<Description></Description>
 			<Civilopedia></Civilopedia>
 			<ArtDefineTag></ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>NONE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -239,6 +257,14 @@
 			<iDifferentReligionAttitudeDivisor>-15</iDifferentReligionAttitudeDivisor>
 			<!-- advc.130n: Was -1 for all leaders, now leader-specific. -->
 			<iDifferentReligionAttitudeChangeLimit>0</iDifferentReligionAttitudeChangeLimit>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<iFavoriteGenderAttitudeChange>1</iFavoriteGenderAttitudeChange>
+			<iFavoriteGenderAttitudeDivisor>15</iFavoriteGenderAttitudeDivisor>
+			<iFavoriteGenderAttitudeChangeLimit>0</iFavoriteGenderAttitudeChangeLimit>
+			<iHateGenderAttitudeChange>-1</iHateGenderAttitudeChange>
+			<iHateGenderAttitudeDivisor>-10-</iHateGenderAttitudeDivisor>
+			<iHateGenderAttitudeChangeLimit>0</iHateGenderAttitudeChangeLimit>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iBonusTradeAttitudeDivisor>50</iBonusTradeAttitudeDivisor>
 			<iBonusTradeAttitudeChangeLimit>2</iBonusTradeAttitudeChangeLimit>
 			<iOpenBordersAttitudeDivisor>25</iOpenBordersAttitudeDivisor>
@@ -276,6 +302,10 @@
 			<iFreedomAppreciation>10</iFreedomAppreciation>
 			<FavoriteCivic>NONE</FavoriteCivic>
 			<FavoriteReligion>NONE</FavoriteReligion>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<FavoriteGender>NONE</FavoriteGender>
+			<HateGender>NONE</HateGender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<!--<FavoriteTechnology>NONE</FavoriteTechnology>-->
 			<!--<HatedCivic>NONE</HatedCivic>-->
 			<!--<HatedReligion>NONE</HatedReligion>-->
@@ -858,6 +888,9 @@
 			<Description>TXT_KEY_LEADER_DECA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_DECA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>7</iBasePeaceWeight>
@@ -1122,6 +1155,9 @@
 			<Description>TXT_KEY_LEADER_ADAGIO</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_ADAGIO</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>3</iBasePeaceWeight>
@@ -1391,6 +1427,9 @@
 			<Description>TXT_KEY_LEADER_AEQUILIBRIUS</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_AEQUILIBRIUS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>-2</iBaseAttitude>
 			<iBasePeaceWeight>-1</iBasePeaceWeight>
@@ -1658,6 +1697,9 @@
 			<Description>TXT_KEY_LEADER_AMETHYST</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_AMETHYST</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -1892,6 +1934,9 @@
 			<Description>TXT_KEY_LEADER_AMETHYSTSTAR</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_AMETHYSTSTAR</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>10</iBasePeaceWeight>
@@ -2121,6 +2166,9 @@
 			<Description>TXT_KEY_LEADER_ANGEL</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_ANGEL</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>50</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -2363,6 +2411,9 @@
 			<Description>TXT_KEY_LEADER_APPLEJACK</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_APPLEJACK</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -2598,6 +2649,9 @@
 			<Description>TXT_KEY_LEADER_AQASHA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_AQASHA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -2835,6 +2889,9 @@
 			<Description>TXT_KEY_LEADER_ARIA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_ARIA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -3101,6 +3158,9 @@
 			<Description>TXT_KEY_LEADER_ARIANI</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_ARIANI</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -3343,6 +3403,9 @@
 			<Description>TXT_KEY_LEADER_AURORA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_AURORA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>35</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>4</iBasePeaceWeight>
@@ -3596,6 +3659,9 @@
 			<Description>TXT_KEY_LEADER_AUTUMN</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_AUTUMN</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -3848,6 +3914,9 @@
 			<Description>TXT_KEY_LEADER_AYZAT</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_AYZAT</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -4083,6 +4152,9 @@
 			<Description>TXT_KEY_LEADER_BAYBREEZE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_BAYBREEZE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>10</iBasePeaceWeight>
@@ -4330,6 +4402,9 @@
 			<Description>TXT_KEY_LEADER_LF</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_LF</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>1</iBasePeaceWeight>
@@ -4573,6 +4648,9 @@
 			<Description>TXT_KEY_LEADER_PUDDINGHEAD</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_PUDDINGHEAD</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -4818,6 +4896,9 @@
 			<Description>TXT_KEY_LEADER_CHEERILEE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_CHEERILEE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -5061,6 +5142,9 @@
 			<Description>TXT_KEY_LEADER_CBP</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_CBP</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>15</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -5313,6 +5397,9 @@
 			<Description>TXT_KEY_LEADER_CLEARSKIES</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_CLEARSKIES</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -5545,6 +5632,9 @@
 			<Description>TXT_KEY_LEADER_CLOUDY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_CLOUDY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>3</iBasePeaceWeight>
@@ -5781,6 +5871,9 @@
 			<Description>TXT_KEY_LEADER_COCO</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_COCO</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>3</iBasePeaceWeight>
@@ -6057,6 +6150,9 @@
 			<Description>TXT_KEY_LEADER_BLACKWING</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_BLACKWING</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -6289,6 +6385,9 @@
 			<Description>TXT_KEY_LEADER_HURRICANE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_HURRICANE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -6537,6 +6636,9 @@
 			<Description>TXT_KEY_LEADER_CG</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_CG</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -6802,6 +6904,9 @@
 			<Description>TXT_KEY_LEADER_RAGE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_RAGE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -7035,6 +7140,9 @@
 			<Description>TXT_KEY_LEADER_CUTENOTE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_CUTENOTE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>4</iBaseAttitude>
 			<iBasePeaceWeight>10</iBasePeaceWeight>
@@ -7293,6 +7401,9 @@
 			<Description>TXT_KEY_LEADER_DARINGDO</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_DARINGDO</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>50</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -7540,6 +7651,9 @@
 			<Description>TXT_KEY_LEADER_TARALICIOUS</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_TARALICIOUS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -7780,6 +7894,9 @@
 			<Description>TXT_KEY_LEADER_DAYBREAKER</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_DAYBREAKER</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>2</iBasePeaceWeight>
@@ -8036,6 +8153,9 @@
 			<Description>TXT_KEY_LEADER_DEMONSUNSET</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_DEMONSUNSET</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>2</iBasePeaceWeight>
@@ -8295,6 +8415,9 @@
 			<Description>TXT_KEY_LEADER_DERPY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_DERPY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>7</iBasePeaceWeight>
@@ -8553,6 +8676,9 @@
 			<Description>TXT_KEY_LEADER_DISCORD</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_DISCORD</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>2</iBasePeaceWeight>
@@ -8789,6 +8915,9 @@
 			<Description>TXT_KEY_LEADER_EMADUSE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_EMADUSE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>5</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>1</iBasePeaceWeight>
@@ -9065,6 +9194,9 @@
 			<Description>TXT_KEY_LEADER_EMBER</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_EMBER</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -9305,6 +9437,9 @@
 			<Description>TXT_KEY_LEADER_EQUALIS</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_EQUALIS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>9</iBasePeaceWeight>
@@ -9551,6 +9686,9 @@
 			<Description>TXT_KEY_LEADER_EVENINGLOVE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_EVENINGLOVE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>4</iBaseAttitude>
 			<iBasePeaceWeight>2</iBasePeaceWeight>
@@ -9818,6 +9956,9 @@
 			<Description>TXT_KEY_LEADER_MFS</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_MFS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>-2</iBaseAttitude>
 			<iBasePeaceWeight>-1</iBasePeaceWeight>
@@ -10061,6 +10202,9 @@
 			<Description>TXT_KEY_LEADER_ER</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_ER</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>4</iBasePeaceWeight>
@@ -10294,6 +10438,9 @@
 			<Description>TXT_KEY_LEADER_FILTHYRICH</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_FILTHYRICH</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>7</iBasePeaceWeight>
@@ -10527,6 +10674,9 @@
 			<Description>TXT_KEY_LEADER_FFBP</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_FFBP</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -10757,6 +10907,9 @@
 			<Description>TXT_KEY_LEADER_FLEUR</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_FLEUR</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>4</iBasePeaceWeight>
@@ -10994,6 +11147,9 @@
 			<Description>TXT_KEY_LEADER_FLITTER</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_FLITTER</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -11252,6 +11408,9 @@
 			<Description>TXT_KEY_LEADER_FH</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_FH</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>9</iBasePeaceWeight>
@@ -11491,6 +11650,9 @@
 			<Description>TXT_KEY_LEADER_FLUTTERBAT</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_FLUTTERBAT</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>4</iBasePeaceWeight>
@@ -11735,6 +11897,9 @@
 			<Description>TXT_KEY_LEADER_YANDERESHY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_YANDERESHY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>3</iBaseAttitude>
 			<iBasePeaceWeight>4</iBasePeaceWeight>
@@ -11971,6 +12136,9 @@
 			<Description>TXT_KEY_LEADER_FLUTTERSHY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_FLUTTERSHY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>10</iBasePeaceWeight>
@@ -12230,6 +12398,9 @@
 			<Description>TXT_KEY_LEADER_GAEA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_GAEA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>2</iBasePeaceWeight>
@@ -12470,6 +12641,9 @@
 			<Description>TXT_KEY_LEADER_GARBLE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_GARBLE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>2</iBasePeaceWeight>
@@ -12706,6 +12880,9 @@
 			<Description>TXT_KEY_LEADER_GILDA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_GILDA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>4</iBasePeaceWeight>
@@ -12937,6 +13114,9 @@
 			<Description>TXT_KEY_LEADER_HARMONY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_HARMONY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -13190,6 +13370,9 @@
 			<Description>TXT_KEY_LEADER_HONEYDEW</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_HONEYDEW</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -13435,6 +13618,9 @@
 			<Description>TXT_KEY_LEADER_IKVAALIS</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_IKVAALIS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>-2</iBaseAttitude>
 			<iBasePeaceWeight>3</iBasePeaceWeight>
@@ -13690,6 +13876,9 @@
 			<Description>TXT_KEY_LEADER_IEBP</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_IEBP</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -13925,6 +14114,9 @@
 			<Description>TXT_KEY_LEADER_JUNIPER</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_JUNIPER</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -14161,6 +14353,9 @@
 			<Description>TXT_KEY_LEADER_KARYS</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_KARYS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -14407,6 +14602,9 @@
 			<Description>TXT_KEY_LEADER_SEAPONY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SEAPONY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -14651,6 +14849,9 @@
 			<Description>TXT_KEY_LEADER_KERFUFFLE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_KERFUFFLE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>10</iBasePeaceWeight>
@@ -14895,6 +15096,9 @@
 			<Description>TXT_KEY_LEADER_GROGAR</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_GROGAR</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -15130,6 +15334,9 @@
 			<Description>TXT_KEY_LEADER_SOMBRA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SOMBRA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -15358,6 +15565,9 @@
 			<Description>TXT_KEY_LEADER_THORAX</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_THORAX</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -15591,6 +15801,9 @@
 			<Description>TXT_KEY_LEADER_LAVENDERF</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_LAVENDERF</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>9</iBasePeaceWeight>
@@ -15816,6 +16029,9 @@
 			<Description>TXT_KEY_LEADER_LEMON</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_LEMON</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -16049,6 +16265,9 @@
 			<Description>TXT_KEY_LEADER_LILYLACE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_LILYLACE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -16291,6 +16510,9 @@
 			<Description>TXT_KEY_LEADER_STRONGHEART</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_STRONGHEART</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -16530,6 +16752,9 @@
 			<Description>TXT_KEY_LEADER_LOPUTU</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_LOPUTU</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>1</iBasePeaceWeight>
@@ -16780,6 +17005,9 @@
 			<Description>TXT_KEY_LEADER_TIREK</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_TIREK</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -17006,6 +17234,9 @@
 			<Description>TXT_KEY_LEADER_LULLABY</Description>
 			<Civilopedia>TXT_KEY_LEADER_LULLABY_HC_INFO</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_LULLABY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -17281,6 +17512,9 @@
 			<Description>TXT_KEY_LEADER_LUSTERDAWN</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_LUSTERDAWN</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -17518,6 +17752,9 @@
 			<Description>TXT_KEY_LEADER_LYRA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_LYRA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -17751,6 +17988,9 @@
 			<Description>TXT_KEY_LEADER_MALLUMA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_MALLUMA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>3</iBasePeaceWeight>
@@ -17983,6 +18223,9 @@
 			<Description>TXT_KEY_LEADER_MARSHMALLOW</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_MARSHMALLOW</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>9</iBasePeaceWeight>
@@ -18212,6 +18455,9 @@
 			<Description>TXT_KEY_LEADER_MARUSSIA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_MARUSSIA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -18460,6 +18706,9 @@
 			<Description>TXT_KEY_LEADER_MM</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_MM</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>10</iBasePeaceWeight>
@@ -18702,6 +18951,9 @@
 			<Description>TXT_KEY_LEADER_MTS</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_MTS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -18952,6 +19204,9 @@
 			<Description>TXT_KEY_LEADER_MIDNIGHT</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_MIDNIGHT</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -19193,6 +19448,9 @@
 			<Description>TXT_KEY_LEADER_MC</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_MC</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -19436,6 +19694,9 @@
 			<Description>TXT_KEY_LEADER_MINUETTE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_MINUETTE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -19671,6 +19932,9 @@
 			<Description>TXT_KEY_LEADER_SECRET</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SECRET</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -19927,6 +20191,9 @@
 			<Description>TXT_KEY_LEADER_MOONGAZE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_MOONGAZE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -20158,6 +20425,9 @@
 			<Description>TXT_KEY_LEADER_THINGPONY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_THINGPONY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>2</iBasePeaceWeight>
@@ -20407,6 +20677,9 @@
 			<Description>TXT_KEY_LEADER_NAEGISSA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_NAEGISSA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -20642,6 +20915,9 @@
 			<Description>TXT_KEY_LEADER_NERATH</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_NERATH</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -20879,6 +21155,9 @@
 			<Description>TXT_KEY_LEADER_NMM</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_NMM</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>4</iBasePeaceWeight>
@@ -21136,6 +21415,9 @@
 			<Description>TXT_KEY_LEADER_NR</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_NR</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>3</iBasePeaceWeight>
@@ -21370,6 +21652,9 @@
 			<Description>TXT_KEY_LEADER_OCTAVIA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_OCTAVIA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>15</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>4</iBasePeaceWeight>
@@ -21615,6 +21900,9 @@
 			<Description>TXT_KEY_LEADER_ODESSA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_ODESSA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>7</iBasePeaceWeight>
@@ -21848,6 +22136,9 @@
 			<Description>TXT_KEY_LEADER_OBP</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_OBP</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -22084,6 +22375,9 @@
 			<Description>TXT_KEY_LEADER_ORCHIDBREEZE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_ORCHIDBREEZE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>9</iBasePeaceWeight>
@@ -22309,6 +22603,9 @@
 			<Description>TXT_KEY_LEADER_PEACHY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_PEACHY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>7</iBasePeaceWeight>
@@ -22551,6 +22848,9 @@
 			<Description>TXT_KEY_LEADER_PIMEDASUS</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_PIMEDASUS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>-2</iBaseAttitude>
 			<iBasePeaceWeight>-1</iBasePeaceWeight>
@@ -22818,6 +23118,9 @@
 			<Description>TXT_KEY_LEADER_PINKIE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_PINKIE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -23086,6 +23389,9 @@
 			<Description>TXT_KEY_LEADER_PIXEL</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_PIXEL</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>7</iBasePeaceWeight>
@@ -23312,6 +23618,9 @@
 			<Description>TXT_KEY_LEADER_CADANCE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_CADANCE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -23559,6 +23868,9 @@
 			<Description>TXT_KEY_LEADER_CELESTIA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_CELESTIA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>9</iBasePeaceWeight>
@@ -23827,6 +24139,9 @@
 			<Description>TXT_KEY_LEADER_CHRONO</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_CHRONO</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -24069,6 +24384,9 @@
 			<Description>TXT_KEY_LEADER_DARKMATTER</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_DARKMATTER</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>-1</iBasePeaceWeight>
@@ -24306,6 +24624,9 @@
 			<Description>TXT_KEY_LEADER_FLUTTERQUIET</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_FLUTTERQUIET</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -24554,6 +24875,9 @@
 			<Description>TXT_KEY_LEADER_LUNA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_LUNA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>7</iBasePeaceWeight>
@@ -24806,6 +25130,9 @@
 			<Description>TXT_KEY_LEADER_PLATINUM</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_PLATINUM</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -25046,6 +25373,9 @@
 			<Description>TXT_KEY_LEADER_CHRYSALIS</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_CHRYSALIS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>3</iBasePeaceWeight>
@@ -25295,6 +25625,9 @@
 			<Description>TXT_KEY_LEADER_ULTIMATEDARKMATTER</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_ULTIMATEDARKMATTER</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>-1</iBasePeaceWeight>
@@ -25536,6 +25869,9 @@
 			<Description>TXT_KEY_LEADER_RAINBOWDASH</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_RAINBOWDASH</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -25772,6 +26108,9 @@
 			<Description>TXT_KEY_LEADER_RARITY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_RARITY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>9</iBasePeaceWeight>
@@ -26013,6 +26352,9 @@
 			<Description>TXT_KEY_LEADER_ROSELUCK</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_ROSELUCK</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -26243,6 +26585,9 @@
 			<Description>TXT_KEY_LEADER_RUBYAURA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_RUBYAURA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>7</iBasePeaceWeight>
@@ -26481,6 +26826,9 @@
 			<Description>TXT_KEY_LEADER_RUSA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_RUSA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>-1</iBasePeaceWeight>
@@ -26731,6 +27079,9 @@
 			<Description>TXT_KEY_LEADER_SAFFRON</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SAFFRON</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>2</iBasePeaceWeight>
@@ -26976,6 +27327,9 @@
 			<Description>TXT_KEY_LEADER_SAPPHIREBLUE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SAPPHIREBLUE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -27231,6 +27585,9 @@
 			<Description>TXT_KEY_LEADER_FURY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_FURY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>9</iBasePeaceWeight>
@@ -27466,6 +27823,9 @@
 			<Description>TXT_KEY_LEADER_SCREWBALL</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SCREWBALL</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -27707,6 +28067,9 @@
 			<Description>TXT_KEY_LEADER_MQ9</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_MQ9</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>2</iBasePeaceWeight>
@@ -27992,6 +28355,9 @@
 			<Description>TXT_KEY_LEADER_SHININGARMOR</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SHININGARMOR</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>9</iBasePeaceWeight>
@@ -28236,6 +28602,9 @@
 			<Description>TXT_KEY_LEADER_SNOWFALL</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SNOWFALL</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -28485,6 +28854,9 @@
 			<Description>TXT_KEY_LEADER_SOLAIS</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SOLAIS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>25</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>3</iBasePeaceWeight>
@@ -28753,6 +29125,9 @@
 			<Description>TXT_KEY_LEADER_SONATA</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SONATA</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -29026,6 +29401,9 @@
 			<Description>TXT_KEY_LEADER_SOURSWEET</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SOURSWEET</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -29247,6 +29625,9 @@
 			<Description>TXT_KEY_LEADER_SPIKE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SPIKE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>9</iBasePeaceWeight>
@@ -29492,6 +29873,9 @@
 			<Description>TXT_KEY_LEADER_STARLIGHT</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_STARLIGHT</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>4</iBasePeaceWeight>
@@ -29749,6 +30133,9 @@
 			<Description>TXT_KEY_LEADER_STARSTORM</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_STARSTORM</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -29980,6 +30367,9 @@
 			<Description>TXT_KEY_LEADER_STARSWIRL</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_STARSWIRL</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>9</iBasePeaceWeight>
@@ -30216,6 +30606,9 @@
 			<Description>TXT_KEY_LEADER_STELLARSPARK</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_STELLARSPARK</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>1</iBasePeaceWeight>
@@ -30457,6 +30850,9 @@
 			<Description>TXT_KEY_LEADER_STORMKING</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_STORMKING</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -30674,6 +31070,9 @@
 			<Description>TXT_KEY_LEADER_STORMY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_STORMY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>4</iBasePeaceWeight>
@@ -30912,6 +31311,9 @@
 			<Description>TXT_KEY_LEADER_SHADOWPONY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SHADOWPONY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>3</iBasePeaceWeight>
@@ -31128,6 +31530,9 @@
 			<Description>TXT_KEY_LEADER_STRAWBERRY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_STRAWBERRY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>4</iBasePeaceWeight>
@@ -31354,6 +31759,9 @@
 			<Description>TXT_KEY_LEADER_SUNNYSKIES</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SUNNYSKIES</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>-1</iBasePeaceWeight>
@@ -31597,6 +32005,9 @@
 			<Description>TXT_KEY_LEADER_SUNSET</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SUNSET</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -31845,6 +32256,9 @@
 			<Description>TXT_KEY_LEADER_RAINDROPS</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_RAINDROPS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -32076,6 +32490,9 @@
 			<Description>TXT_KEY_LEADER_SWEETDREAMS</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SWEETDREAMS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>3</iBaseAttitude>
 			<iBasePeaceWeight>3</iBasePeaceWeight>
@@ -32356,6 +32773,9 @@
 			<Description>TXT_KEY_LEADER_SWEETTREAT</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SWEETTREAT</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>2</iBaseAttitude>
 			<iBasePeaceWeight>10</iBasePeaceWeight>
@@ -32614,6 +33034,9 @@
 			<Description>TXT_KEY_LEADER_SB</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SB</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>50</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -32852,6 +33275,9 @@
 			<Description>TXT_KEY_LEADER_BONBON</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_BONBON</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -33086,6 +33512,9 @@
 			<Description>TXT_KEY_LEADER_SM3000</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_SM3000</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>4</iBasePeaceWeight>
@@ -33325,6 +33754,9 @@
 			<Description>TXT_KEY_LEADER_TANTABUS</Description>
 			<Civilopedia>TXT_KEY_LEADER_TANTABUS_S5_E13_INFO</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_TANTABUS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>3</iBasePeaceWeight>
@@ -33561,6 +33993,9 @@
 			<Description>TXT_KEY_LEADER_TEMPEST</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_TEMPEST</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>4</iBasePeaceWeight>
@@ -33789,6 +34224,9 @@
 			<Description>TXT_KEY_LEADER_TRIXIE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_TRIXIE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>3</iBasePeaceWeight>
@@ -34029,6 +34467,9 @@
 			<Description>TXT_KEY_LEADER_TSUMETAI</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_TSUMETAI</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -34283,6 +34724,9 @@
 			<Description>TXT_KEY_LEADER_TWILIGHT</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_TWILIGHT</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>7</iBasePeaceWeight>
@@ -34523,6 +34967,9 @@
 			<Description>TXT_KEY_LEADER_TWIVINE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_TWIVINE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>0</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>0</iBasePeaceWeight>
@@ -34754,6 +35201,9 @@
 			<Description>TXT_KEY_LEADER_UHANE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_UHANE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>1</iBaseAttitude>
 			<iBasePeaceWeight>11</iBasePeaceWeight>
@@ -35010,6 +35460,9 @@
 			<Description>TXT_KEY_LEADER_UPPERCRUST</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_UPPERCRUST</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -35251,6 +35704,9 @@
 			<Description>TXT_KEY_LEADER_VAPOR</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_VAPOR</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -35480,6 +35936,9 @@
 			<Description>TXT_KEY_LEADER_VV</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_VV</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>40</iWonderConstructRand>
 			<iBaseAttitude>-1</iBaseAttitude>
 			<iBasePeaceWeight>6</iBasePeaceWeight>
@@ -35706,6 +36165,9 @@
 			<Description>TXT_KEY_LEADER_VIRTUS</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_VIRTUS</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_MALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>20</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>7</iBasePeaceWeight>
@@ -35958,6 +36420,9 @@
 			<Description>TXT_KEY_LEADER_WALLFLOWER</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_WALLFLOWER</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>5</iBasePeaceWeight>
@@ -36202,6 +36667,9 @@
 			<Description>TXT_KEY_LEADER_WILDFIRE</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_WILDFIRE</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>10</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>8</iBasePeaceWeight>
@@ -36431,6 +36899,9 @@
 			<Description>TXT_KEY_LEADER_WIRLY</Description>
 			<Civilopedia>TXT_KEY_LEADER_GENERIC_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_LEADER_WIRLY</ArtDefineTag>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
+			<Gender>GENDER_FEMALE</Gender>
+			<!-- XANA: 10-25-2025 Gender Specific Diplomacy -->
 			<iWonderConstructRand>30</iWonderConstructRand>
 			<iBaseAttitude>0</iBaseAttitude>
 			<iBasePeaceWeight>3</iBasePeaceWeight>
