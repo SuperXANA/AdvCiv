@@ -8057,8 +8057,9 @@ int CvPlayerAI::AI_getDifferentReligionAttitude(PlayerTypes ePlayer) const
 // XANA: 10-25-2025 Gender Specific Diplomacy
 int CvPlayerAI::AI_getFavoriteGenderAttitude(PlayerTypes ePlayer) const
 {
+	CvPlayer const& kPlayer = GET_PLAYER(ePlayer);
 	GenderTypes const eWeLike = getFavoriteGender();
-	GenderTypes const eTheyAre = GET_PLAYER(ePlayer).getGender();
+	GenderTypes const eTheyAre = kPlayer.getGender();
 	if (eWeLike == NO_GENDER ||
 	eWeLike == getHateGender() ||
 	eWeLike != eTheyAre)
@@ -8067,25 +8068,29 @@ int CvPlayerAI::AI_getFavoriteGenderAttitude(PlayerTypes ePlayer) const
 	bool const bPreferOwn = (eWeAre == eWeLike);
 	CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
 	int iAttitude = kPersonality.getFavoriteGenderAttitudeChange();
-	if (eWeLike == GET_PLAYER(ePlayer).getHateGender() &&
+	if (eWeLike == kPlayer.getHateGender() &&
 		(bPreferOwn ? eWeAre != eTheyAre : eWeAre == eTheyAre))
 		-iAttitude;
-	if (eWeLike == GET_PLAYER(ePlayer).getFavoriteGender() &&
+	if (eWeLike == kPlayer.getFavoriteGender() &&
 		(bPreferOwn ? eWeAre == eTheyAre : eWeAre != eTheyAre))
 		iAttitude++;
+	bool const bEnemyAgainstType = (iAttitude < 0);
+	int const iAttitudeDivisor = (bEnemyAgainstType ? -kPersonality.getFavoriteGenderAttitudeDivisor() : kPersonality.getFavoriteGenderAttitudeDivisor());
+	int const iAttitudeLimit = (bEnemyAgainstType ? -kPersonality.getFavoriteGenderAttitudeChangeLimit() : kPersonality.getFavoriteGenderAttitudeChangeLimit();
 	// advc.130n: Moved into new function
 	iAttitude += AI_ideologyAttitudeChange(ePlayer, ALLY_GENDER,
 			AI_getFavoriteGenderCounter(ePlayer),
-			kPersonality.getFavoriteGenderAttitudeDivisor(),
-			kPersonality.getFavoriteGenderAttitudeChangeLimit());
+			iAttitudeDivisor,
+			iAttitudeLimit);
 	return iAttitude;
 }
 
 
 int CvPlayerAI::AI_getHateGenderAttitude(PlayerTypes ePlayer) const
 {
+	CvPlayer const& kPlayer = GET_PLAYER(ePlayer);
 	GenderTypes const eWeHate = getHateGender();
-	GenderTypes const eTheyAre = GET_PLAYER(ePlayer).getGender();
+	GenderTypes const eTheyAre = kPlayer.getGender();
 	if (eWeHate == NO_GENDER ||
 	eWeHate == getFavoriteGender() ||
 	eWeHate != eTheyAre)
@@ -8094,17 +8099,20 @@ int CvPlayerAI::AI_getHateGenderAttitude(PlayerTypes ePlayer) const
 	bool const bPreferOwn = (eWeAre != eWeHate);
 	CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
 	int iAttitude = kPersonality.getHateGenderAttitudeChange();
-	if (eWeHate == GET_PLAYER(ePlayer).getHateGender() && 
+	if (eWeHate == kPlayer.getHateGender() && 
 		(bPreferOwn ? eWeAre == eTheyAre : eWeAre != eTheyAre))
 		-iAttitude;
-	if (eWeHate == GET_PLAYER(ePlayer).getFavoriteGender() && 
+	if (eWeHate == kPlayer.getFavoriteGender() && 
 		(bPreferOwn ? eWeAre != eTheyAre : eWeAre == eTheyAre))
 		iAttitude--;
+	bool const bAllyAgainstType = (iAttitude > 0);
+	int const iAttitudeDivisor = (bAllyAgainstType ? -kPersonality.getHateGenderAttitudeDivisor() : kPersonality.getHateGenderAttitudeDivisor());
+	int const iAttitudeLimit = (bAllyAgainstType ? -kPersonality.getHateGenderAttitudeChangeLimit() : kPersonality.getHateGenderAttitudeChangeLimit();
 	// advc.130n: Moved into new function
 	iAttitude += AI_ideologyAttitudeChange(ePlayer, ENEMY_GENDER,
 			AI_getHateGenderCounter(ePlayer),
-			kPersonality.getHateGenderAttitudeDivisor(),
-			kPersonality.getHateGenderAttitudeChangeLimit());
+			iAttitudeDivisor,
+			iAttitudeLimit);
 	return iAttitude;
 }
 // XANA: 10-25-2025 Gender Specific Diplomacy
