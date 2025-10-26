@@ -575,23 +575,9 @@ void CvArea::changeNumImprovements(ImprovementTypes eImprovement, int iChange)
 }*/
 
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-void CvArea::changeMysticalThreshold(int iChange)
-{
-	if (iChange != 0)
-	{
-		m_iMysticalThreshold += iChange;
-	}
-}
 void CvArea::setMysticalThresholdFrozen(bool b)
 {
 	m_bMysticalThresholdFrozen = b;
-}
-void CvArea::changeNumMysticalTiles(int iChange)
-{
-	if (iChange != 0)
-	{
-		m_iNumMysticalTiles += iChange;
-	}
 }
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 

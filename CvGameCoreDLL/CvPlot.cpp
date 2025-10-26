@@ -16,6 +16,9 @@
 #include "CvDLLSymbolIFaceBase.h"
 #include "CvDLLPlotBuilderIFaceBase.h"
 #include "CvDLLFlagEntityIFaceBase.h"
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+#include "MagicWeightMap.h"
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 /*	advc.make: I've added safeIntCast calls in a few places that looked at least
 	slightly hazardous. Beyond that, explicit casts would only add clutter.
@@ -8528,20 +8531,14 @@ wchar const* CvPlot::debugStr() const
 }
 
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-int CvPlot::getPlotCounter() const
-{
-	return m_iPlotCounter;
-}
-
 void CvPlot::changePlotCounter(int iChange)
 {
 	if (iChange != 0)
 	{
-		CvArea const& kArea = getArea();
-		if (!kArea.isMysticalThresholdFrozen())
+		if (!GC.getGame().isGlobalCounterFrozen())
 		{
-			const int iMysticalThreshold = kArea.getMysticalThreshold();
-			bool bAtThresholdBefore = (m_iPlotCounter > iMysticalThreshold);
+			bool const bHeavenlyWorld = (iChange < 0 && m_iPlotCounter >= 0 && m_iPlotCounter + iChange <= 0); // XANA (note): Did iChange cause the plot counter to go negative?
+			bool const bHellishWorld = (iChange > 0 && m_iPlotCounter <= 0 && m_iPlotCounter + iChange >= 0); // XANA (note): Did iChange cause the plot counter to go positive?
 			
 			if ((m_iPlotCounter + iChange) > 100)
 			{
@@ -8556,17 +8553,9 @@ void CvPlot::changePlotCounter(int iChange)
 				m_iPlotCounter += iChange;
 			}
 			
-			bool bAtThresholdAfter = (m_iPlotCounter > iMysticalThreshold);
-
-			if (bAtThresholdBefore != bAtThresholdAfter)
-			{
-				if (iChange > 0) //XANA (note): World is Closer to Gehenna (hell)
-					kArea.changeNumMysticalTiles(bAtThresholdBefore ? -1 : 1);
-				else // XANA (note): World is Closer to Elysium (heaven)
-					kArea.changeNumMysticalTiles(bAtThresholdBefore ? 1 : -1);
-			}
+			GC.getGame().getMagicWeightMap().getActivityMap().setinfluencedPlot(this, iChange);
 			
-			if (!GC.getGame().isGlobalCounterFrozen())
+			if (!getArea().isMysticalThresholdFrozen())
 			{
 				const int eTerrain = getTerrainType();
 				CvTerrainInfo const& kTerrain = GC.getInfo(eTerrain);
@@ -8575,7 +8564,7 @@ void CvPlot::changePlotCounter(int iChange)
 				if (m_iPlotCounter < 0 &&
 				m_iPlotCounter > kTerrain.getLightTerrainThreshold() &&
 				kTerrain.getLightTerrainType() != NO_TERRAIN &&
-				!bAtThresholdBefore && bAtThresholdAfter) // XANA (note): If the plot counter just now reached the magical threshold of its area, we need to update the graphics to the new terrain type.
+				bHeavenlyWorld)
 				{
 					setTerrainType(kTerrain.getLightTerrainType(), true, true);
 					bPlotWasAltered = (getTerrainType() != eTerrain); // XANA (note): Only true if plot's terrain was different before being altered by magical forces.
@@ -8584,7 +8573,7 @@ void CvPlot::changePlotCounter(int iChange)
 				else if (m_iPlotCounter > 0 &&
 				m_iPlotCounter > kTerrain.getDarkTerrainThreshold() &&
 				kTerrain.getDarkTerrainType() != NO_TERRAIN &&
-				!bAtThresholdBefore && bAtThresholdAfter) // XANA (note): If the plot counter just now reached the magical threshold of its area, we need to update the graphics to the new terrain type.
+				bHellishWorld)
 				{
 					setTerrainType(kTerrain.getDarkTerrainType(), true, true);
 					bPlotWasAltered = (getTerrainType() != eTerrain); // XANA (note): Only true if plot's terrain was different before being altered by magical forces.

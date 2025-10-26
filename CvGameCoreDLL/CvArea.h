@@ -196,11 +196,8 @@ public:
 	void changeNumImprovements(ImprovementTypes eImprovement, int iChange);*/
 	
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	int getMysticalThreshold() const { return m_iMysticalThreshold; }
-	void changeMysticalThreshold(int iChange);
 	bool isMysticalThresholdFrozen() const { return m_bMysticalThresholdFrozen; }
 	void setMysticalThresholdFrozen(bool b);
-	void changeNumMysticalTiles(int iChange);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 protected:
@@ -246,8 +243,6 @@ protected:
 	
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	bool m_bMysticalThresholdFrozen;
-	int m_iMysticalThreshold;
-	int m_iNumMysticalTiles;
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	IDInfo* m_aTargetCities;

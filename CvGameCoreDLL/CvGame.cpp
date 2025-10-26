@@ -28,6 +28,9 @@
 #include "CvHallOfFameInfo.h" // advc.106i
 #include "BBAILog.h" // BBAI
 #include "CvBugOptions.h" // K-Mod
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+#include "MagicWeightMap.h"
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 /*	<advc.007c> Use this CvGame instance instead of GC.getGame() for RNG calls.
 	(Won't matter so long as CvGame is a singleton class.) */
@@ -2926,6 +2929,7 @@ void CvGame::updateUnprofiled()
 	updateTimers();
 	updateTurnTimer();
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	getMagicWeightMap().getActivityMap().updateinfluencedPlots();
 	updateGlobalCounter();
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	AI().AI_updateAssignWork();

@@ -820,7 +820,7 @@ public:
 	wchar const* debugStr() const; // advc.031c
 	
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	int getPlotCounter() const;
+	int getPlotCounter() const { return m_iPlotCounter; };
 	void changePlotCounter(int iChange);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
