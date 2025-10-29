@@ -3,6 +3,9 @@
 #ifndef UWAI_H
 #define UWAI_H
 
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+#include "WarUtilityAspectAI.h"
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 class FDataStreamBase;
 
 /*  advc.104: AI functionality for decisions on war and peace.
@@ -55,55 +58,26 @@ public:
 	int preparationTimeTotalNaval() const { return 20; }
 
 	void doXML();
-	#define DO_FOR_EACH_WAR_UTILITY_ASPECT(DO)\
-		DO(GREED_FOR_ASSETS) \
-		DO(GREED_FOR_VASSALS) \
-		DO(GREED_FOR_SPACE) \
-		DO(GREED_FOR_CASH) \
-		DO(LOATHING) \
-		DO(MILITARY_VICTORY) \
-		DO(PRESERVATION_OF_PARTNERS) \
-		DO(RECONQUISTA) \
-		DO(REBUKE) \
-		DO(FIDELITY) \
-		DO(HIRED_HAND) \
-		DO(BORDER_DISPUTES) \
-		DO(SUCKING_UP) \
-		DO(PREEMPTIVE_WAR) \
-		DO(KING_MAKING) \
-		DO(EFFORT) \
-		DO(RISK) \
-		DO(ILL_WILL) \
-		DO(AFFECTION) \
-		DO(DISTRACTION) \
-		DO(PUBLIC_OPPOSITION) \
-		DO(REVOLTS) \
-		DO(ULTERIOR_MOTIVES) \
-		DO(FAIR_PLAY) \
-		DO(BELLICOSITY) \
-		DO(TACTICAL_SITUATION) \
-		DO(LOVE_OF_PEACE) \
-		DO(THIRD_PARTY_INTERVENTION) \
-		DO(DRAMATIC_ARC)
-	enum AspectTypes
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	scaled aspectWeight(WarUtilityAspectAITypes eAspect) const
 	{
-		DO_FOR_EACH_WAR_UTILITY_ASPECT(MAKE_ENUMERATOR)
-		NUM_ASPECTS
-	};
-	scaled aspectWeight(AspectTypes eAspect) const
-	{
-		FAssertBounds(0, NUM_ASPECTS, eAspect);
-		return per100(m_aiXmlWeights[eAspect]);
+		FAssertBounds(0, GC.getNumWarUtilityAspectAIInfos(), eAspect);
+		return per100(GC.getInfo(eAspect).getAIWeight());
 	}
-	char const* aspectName(AspectTypes eAspect) const
+	char const* aspectName(WarUtilityAspectAITypes eAspect) const
 	{
-		FAssertBounds(0, NUM_ASPECTS, eAspect);
-		return m_aszAspectNames[eAspect];
+		FAssertBounds(0, GC.getNumWarUtilityAspectAIInfos(), eAspect);
+		return GC.getInfo(eAspect).getDescription();
 	}
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 
 private:
+	// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	/*
 	std::vector<int> m_aiXmlWeights;
 	std::vector<char const*> m_aszAspectNames;
+	*/
+	// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 	bool m_bEnabled; // false iff Legacy AI enabled through game option
 	bool m_bInBackground; // status of background switch in XML
 

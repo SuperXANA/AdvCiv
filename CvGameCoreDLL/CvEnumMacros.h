@@ -43,7 +43,10 @@
 	DO(Hurry, HURRY) \
 	DO(Upkeep, UPKEEP) \
 	DO(CultureLevel, CULTURELEVEL) \
-	DO(CivicOption, CIVICOPTION)
+	DO(CivicOption, CIVICOPTION) \
+	/* XANA: 11-01-2025 Leader Specific War Utility Aspect Weights */ \
+	DO(WarUtilityAspectAI, WARUTILITYASPECTAI)
+	/* XANA: 11-01-2025 Leader Specific War Utility Aspect Weights */
 
 // Number of instances not known at compile time; can be greater than MAX_CHAR.
 #define DO_FOR_EACH_BIG_DYN_INFO_TYPE(DO) \

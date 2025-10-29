@@ -497,7 +497,11 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL)
+m_piDiploWarMusicScriptIds(NULL),
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+m_prWarUtilityAspects(NULL)
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+
 {}
 
 // <advc.xmldefault>
@@ -533,6 +537,9 @@ CvLeaderHeadInfo::CvLeaderHeadInfo(CvLeaderHeadInfo const& kOther)
 	allocCopy(m_piDiploPeaceMusicScriptIds, kOther.m_piDiploPeaceMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarIntroMusicScriptIds, kOther.m_piDiploWarIntroMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarMusicScriptIds, kOther.m_piDiploWarMusicScriptIds, GC.getNumEraInfos());
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	allocCopy(m_prWarUtilityAspects, kOther.m_prWarUtilityAspects, GC.getNumWarUtilityAspectAIInfos());
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 } // </advc.xmldefault>
 
 CvLeaderHeadInfo::~CvLeaderHeadInfo()
@@ -550,6 +557,9 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploPeaceMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	SAFE_DELETE_ARRAY(m_prWarUtilityAspects);
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const
@@ -646,6 +656,14 @@ int CvLeaderHeadInfo::getDiploWarMusicScriptIds(int i) const
 	FAssertBounds(0, GC.getNumEraInfos(), i);
 	return m_piDiploWarMusicScriptIds ? m_piDiploWarMusicScriptIds[i] : 0; // advc.003t
 }
+
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+scaled CvLeaderHeadInfo::getWarUtilityAspect(int i) const
+{
+	FAssertBounds(0, GC.getNumWarUtilityAspectAIInfos(), i);
+	return m_prWarUtilityAspects ? per100(m_prWarUtilityAspects[i]) : 0; // advc.003t
+}
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 
 const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 {
@@ -792,6 +810,11 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
 	m_piDiploWarMusicScriptIds = new int[GC.getNumEraInfos()];
 	stream->Read(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	SAFE_DELETE_ARRAY(m_prWarUtilityAspects);
+	m_prWarUtilityAspects = new int[GC.getNumWarUtilityAspectAIInfos()];
+	stream->Read(GC.getNumWarUtilityAspectAIInfos(), m_prWarUtilityAspects);
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 }
 
 void CvLeaderHeadInfo::write(FDataStreamBase* stream)
@@ -898,6 +921,9 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumEraInfos(), m_piDiploPeaceMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarIntroMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	stream->Write(GC.getNumWarUtilityAspectAIInfos(), m_prWarUtilityAspects);
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 }
 #endif
 
@@ -1063,6 +1089,9 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	#endif // </advc.xmldefault>
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploWarIntroMusicScriptIds, "DiplomacyIntroMusicWar", GC.getNumEraInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploWarMusicScriptIds, "DiplomacyMusicWar", GC.getNumEraInfos());
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	pXML->SetVariableTagListPair(&m_prWarUtilityAspects, "WarUtilityAspects", GC.getNumWarUtilityAspectAIInfos());
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 
 	m_pXML = NULL; // advc.xmldefault
 	return true;

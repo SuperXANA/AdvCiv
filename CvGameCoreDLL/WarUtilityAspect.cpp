@@ -41,7 +41,7 @@ WarUtilityAspect::WarUtilityAspect(WarEvalParameters const& kParams)
 	m_eGameEra(m_kGame.getCurrentEra()),
 	m_rGameEraAIFactor(m_kGame.AI_getCurrEraFactor()),
 	m_kSpeed(GC.getInfo(m_kGame.getGameSpeedType())),
-	m_iU(0)
+	m_iU(0), m_eXMLID(NO_WARUTILITYASPECTAI) // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 {
 	reset();
 }
@@ -92,7 +92,10 @@ int WarUtilityAspect::evaluate(MilitaryAnalyst const& kMilitaryAnalyst)
 		log("*%s (from no one in particular): %d*", aspectName(), iOverallUtility);
 		m_iU += iOverallUtility;
 	}
-	scaled rXMLAdjust = getUWAI().aspectWeight(xmlID());
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	scaled rXMLAdjustPerLeader = kOurPersonality.getWarUtilityAspect(xmlID());
+	scaled rXMLAdjust = (rXMLAdjustPerLeader != 0) ? rXMLAdjustPerLeader : getUWAI().aspectWeight(xmlID());
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 	if (m_iU != 0 && rXMLAdjust != 1)
 	{
 		log("Adjustment from XML: %d percent", rXMLAdjust.getPercent());

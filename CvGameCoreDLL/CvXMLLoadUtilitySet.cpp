@@ -717,6 +717,9 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paGameOptionInfo, "CIV4GameOptionInfos", "GameInfo", "Civ4GameOptionInfos/GameOptionInfos/GameOptionInfo", false);
 	LoadGlobalClassInfo(GC.m_paMPOptionInfo, "CIV4MPOptionInfos", "GameInfo", "Civ4MPOptionInfos/MPOptionInfos/MPOptionInfo", false);
 	LoadGlobalClassInfo(GC.m_paForceControlInfo, "CIV4ForceControlInfos", "GameInfo", "Civ4ForceControlInfos/ForceControlInfos/ForceControlInfo", false);
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	LoadGlobalClassInfo(GC.m_paWarUtilityAspectAIInfo, "CIV4WarUtilityAspectAIInfos", "GameInfo", "Civ4WarUtilityAspectAIInfos/WarUtilityAspectAIInfos/WarUtilityAspectAIInfo", false);
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 
 	// Allow data to be cached
 	CvEraInfo::allInfosRead(); // advc.erai

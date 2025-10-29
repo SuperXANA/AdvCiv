@@ -356,7 +356,9 @@ void WarEvaluator::fillWithAspects(vector<WarUtilityAspect*>& kAspects)
 	v.push_back(new LoveOfPeace(params));
 	v.push_back(new ThirdPartyIntervention(params));
 	v.push_back(new DramaticArc(params));
-	FAssert(UWAI::NUM_ASPECTS - (params.isIgnoreDistraction() ? 1 : 0) == (int)v.size());
+	// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	FAssert(GC.getNumWarUtilityAspectAIInfos() - (params.isIgnoreDistraction() ? 1 : 0) == (int)v.size());
+	// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 }
 
 

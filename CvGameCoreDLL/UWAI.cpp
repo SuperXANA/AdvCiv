@@ -89,11 +89,17 @@ bool UWAI::isReady() const
 }
 
 
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+/*
 #define MAKE_TAG_NAME(VAR) "UWAI_WEIGHT_"#VAR,
 #define MAKE_REPORT_NAME(VAR) #VAR,
+*/
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 
 void UWAI::doXML()
 {
+	// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	/*
 	char const* const aszAspectTagNames[] = {
 		DO_FOR_EACH_WAR_UTILITY_ASPECT(MAKE_TAG_NAME)
 	};
@@ -107,6 +113,8 @@ void UWAI::doXML()
 	FAssert(ARRAYSIZE(aszAspectReportNames) == NUM_ASPECTS);
 	for (int i = 0; i < NUM_ASPECTS; i++)
 		m_aszAspectNames.push_back(aszAspectReportNames[i]);
+	*/
+	// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 
 	applyPersonalityWeight();
 }

@@ -220,6 +220,9 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getDiploPeaceMusicScriptIds(int i) const;
 	int getDiploWarIntroMusicScriptIds(int i) const;
 	int getDiploWarMusicScriptIds(int i) const;
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	scaled getWarUtilityAspect(int i) const;
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 
 	// (not exposed to Python)
 	DllExport const CvArtInfoLeaderhead* getArtInfo() const;
@@ -339,6 +342,10 @@ protected:
 	int* m_piDiploPeaceMusicScriptIds;
 	int* m_piDiploWarIntroMusicScriptIds;
 	int* m_piDiploWarMusicScriptIds;
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	scaled* m_prWarUtilityAspects;
+// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;
 	static void GetChildXmlValByName(int& r, TCHAR const* szName, int iDefault = MIN_INT);
