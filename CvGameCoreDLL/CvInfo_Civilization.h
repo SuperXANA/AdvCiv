@@ -175,6 +175,9 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getFavoriteCivicAttitudeChange() const { return m_iFavoriteCivicAttitudeChange; }
 	int getFavoriteCivicAttitudeDivisor() const { return m_iFavoriteCivicAttitudeDivisor; }
 	int getFavoriteCivicAttitudeChangeLimit() const { return m_iFavoriteCivicAttitudeChangeLimit; }
+// XANA: 11-06-2025 Leader Specific Team Size Attitude Change
+	int getTeamSizeAttitudeChange() const { return m_iTeamSizeAttitudeChange; }
+// XANA: 11-06-2025 Leader Specific Team Size Attitude Change
 	int getDemandTributeAttitudeThreshold() const { return m_iDemandTributeAttitudeThreshold; }
 	int getNoGiveHelpAttitudeThreshold() const { return m_iNoGiveHelpAttitudeThreshold; }
 	int getTechRefuseAttitudeThreshold() const { return m_iTechRefuseAttitudeThreshold; }
@@ -295,6 +298,9 @@ protected:
 	int m_iFavoriteCivicAttitudeChange;
 	int m_iFavoriteCivicAttitudeDivisor;
 	int m_iFavoriteCivicAttitudeChangeLimit;
+// XANA: 11-06-2025 Leader Specific Team Size Attitude Change
+	int m_iTeamSizeAttitudeChange;
+// XANA: 11-06-2025 Leader Specific Team Size Attitude Change
 	int m_iDemandTributeAttitudeThreshold;
 	int m_iNoGiveHelpAttitudeThreshold;
 	int m_iTechRefuseAttitudeThreshold;

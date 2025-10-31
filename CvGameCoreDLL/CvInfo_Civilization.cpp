@@ -497,7 +497,10 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL)
+m_piDiploWarMusicScriptIds(NULL),
+// XANA: 11-06-2025 Leader Specific Team Size Attitude Change
+m_iTeamSizeAttitudeChange(0)
+// XANA: 11-06-2025 Leader Specific Team Size Attitude Change
 {}
 
 // <advc.xmldefault>
@@ -723,6 +726,9 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	stream->Read(&m_iFavoriteCivicAttitudeChange);
 	stream->Read(&m_iFavoriteCivicAttitudeDivisor);
 	stream->Read(&m_iFavoriteCivicAttitudeChangeLimit);
+// XANA: 11-06-2025 Leader Specific Team Size Attitude Change
+	stream->Read(&m_iTeamSizeAttitudeChange);
+// XANA: 11-06-2025 Leader Specific Team Size Attitude Change
 	stream->Read(&m_iDemandTributeAttitudeThreshold);
 	stream->Read(&m_iNoGiveHelpAttitudeThreshold);
 	stream->Read(&m_iTechRefuseAttitudeThreshold);
@@ -859,6 +865,9 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(m_iFavoriteCivicAttitudeChange);
 	stream->Write(m_iFavoriteCivicAttitudeDivisor);
 	stream->Write(m_iFavoriteCivicAttitudeChangeLimit);
+// XANA: 11-06-2025 Leader Specific Team Size Attitude Change
+	stream->Write(m_iTeamSizeAttitudeChange);
+// XANA: 11-06-2025 Leader Specific Team Size Attitude Change
 	stream->Write(m_iDemandTributeAttitudeThreshold);
 	stream->Write(m_iNoGiveHelpAttitudeThreshold);
 	stream->Write(m_iTechRefuseAttitudeThreshold);
@@ -979,6 +988,9 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	GetChildXmlValByName(m_iFavoriteCivicAttitudeChange, "iFavoriteCivicAttitudeChange");
 	GetChildXmlValByName(m_iFavoriteCivicAttitudeDivisor, "iFavoriteCivicAttitudeDivisor");
 	GetChildXmlValByName(m_iFavoriteCivicAttitudeChangeLimit, "iFavoriteCivicAttitudeChangeLimit");
+// XANA: 11-06-2025 Leader Specific Team Size Attitude Change
+	GetChildXmlValByName(m_iTeamSizeAttitudeChange, "iTeamSizeAttitudeChange");
+// XANA: 11-06-2025 Leader Specific Team Size Attitude Change
 	GetChildXmlValByName(m_iVassalPowerModifier, "iVassalPowerModifier");
 	GetChildXmlValByName(m_iFreedomAppreciation, "iFreedomAppreciation");
 	GetChildXmlValByName(m_iLoveOfPeace, "iLoveOfPeace", 0); // advc.104
