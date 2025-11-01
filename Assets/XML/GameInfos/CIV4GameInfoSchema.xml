@@ -1596,6 +1596,7 @@
 	<!-- XANA: 11-01-2025 Leader Specific War Utility Aspect Weights -->
 	<ElementType name="WarUtilityAspectAIInfo" content="eltOnly">
 		<element type="Type"/>
+		<element type="Description"/>
 		<!-- XANA (note): Set 100 by default in the DLL-->
 		<element type="iAIWeight" minOccurs="0"/>
 	</ElementType>

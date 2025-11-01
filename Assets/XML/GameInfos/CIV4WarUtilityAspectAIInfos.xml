@@ -4,122 +4,239 @@
 <!-- Copyright Firaxis Games 2005 -->
 <!-- -->
 <!-- AI Settings -->
+<!-- Four aspects - Reconquista, Rebuke, Fidelity and Hired Hand - are about
+	   upholding a reputation. Since Civ 4 doesn't have a reputation system,
+	   this is mostly (irrational) role-playing. -->
 <Civ4WarUtilityAspectAIInfos xmlns="x-schema:CIV4GameInfoSchema.xml">
 	<WarUtilityAspectAIInfos>
+		<!-- The cities we expect to conquer as economic assets. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_GREED_FOR_ASSETS</Type>
+			<Type>WARUTILITYASPECTAI_GREED_FOR_ASSETS</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>GREED_FOR_ASSETS</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- The economic value of accepted capitulations. 
+			 (Not: Getting closer to a Conquest victory; that's handled under
+			  MILITARY_VICTORY.) -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_GREED_FOR_VASSALS</Type>
+			<Type>WARUTILITYASPECTAI_GREED_FOR_VASSALS</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>GREED_FOR_VASSALS</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- By eliminating a civ early in the game, some of the unsettled land
+			 near it can be settled and exploited. Lebensraum if you will (and
+			 in Civ, it actually works).  -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_GREED_FOR_SPACE</Type>
+			<Type>WARUTILITYASPECTAI_GREED_FOR_SPACE</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>GREED_FOR_SPACE</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- Just the value of expected reparations really. Sponsored war is
+			 covered by HIRED_HAND. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_GREED_FOR_CASH</Type>
+			<Type>WARUTILITYASPECTAI_GREED_FOR_CASH</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>GREED_FOR_CASH</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- The satisfaction of seeing our (worst) enemies devastated. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_LOATHING</Type>
+			<Type>WARUTILITYASPECTAI_LOATHING</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>LOATHING</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- The prospect of a speedy military victory incites us to wage war.
+			 This covers Domination, Conquest and Diplomatic victory; Diplo
+			 victory also factors into ILL_WILL. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_MILITARY_VICTORY</Type>
+			<Type>WARUTILITYASPECTAI_MILITARY_VICTORY</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>VICTORY</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- Protect our partners because we want to continue trading with
+			 them, and don't want to become isolated. Assistance for more
+			 principled reasons is covered by FIDELITY, the "mutual struggle"
+			 diplo bonus by SUCKING_UP. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_PRESERVATION_OF_PARTNERS</Type>
+			<Type>WARUTILITYASPECTAI_PRESERVATION_OF_PARTNERS</Type> <!-- XANA (note): Aspect is SUBTRACTED from the overall war consideration value ("utility"), thus it is a negative contribution and makes war less likely. -->
+			<Description>PRESERVATION_OF_PARTNERS</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- By reconquering previously owned cities, we show that it's not
+			 worthwhile to conquer our cities; we'll get them back. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_RECONQUISTA</Type>
+			<Type>WARUTILITYASPECTAI_RECONQUISTA</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>RECONQUISTA</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- We show we can take by force what was denied to us when we
+			 demanded tribute. I.e. increased war utility if we remember how
+			 they "refused to give us tribute". A rebuked demand can also lead
+			 to an immediate change in war planning, but that's handled by
+			 WarAndPeaceAI::Team::respondToRebuke, not in XML. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_REBUKE</Type>
+			<Type>WARUTILITYASPECTAI_REBUKE</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>REBUKE</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- By declaring war on a civ that recently attacked one of our
+			 partners, we demonstrate that it's worthwhile to be our partner,
+			 and dangerous to attack our partners. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_FIDELITY</Type>
+			<Type>WARUTILITYASPECTAI_FIDELITY</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>FIDELITY</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- We continue a war because we've been paid for it. (Or maybe, rather,
+			 to prove that we're a reliable hireling.) -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_HIRED_HAND</Type>
+			<Type>WARUTILITYASPECTAI_HIRED_HAND</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>HIRED_HAND</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- By conquering cities, we reduce culture pressure on our cities. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_BORDER_DISPUTES</Type>
+			<Type>WARUTILITYASPECTAI_BORDER_DISPUTES</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>BORDER_DISPUTES</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- Fight a joint war for the "mutual struggle" diplo bonus. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_SUCKING_UP</Type>
+			<Type>WARUTILITYASPECTAI_SUCKING_UP</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>SUCKING_UP</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- To weaken a civ that we perceive as a long-term military threat. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_PREEMPTIVE_WAR</Type>
+			<Type>WARUTILITYASPECTAI_PREEMPTIVE_WAR</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>PREEMPTIVE_WAR</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- Stop civs that we don't like from winning the game, or even civs
+			 that we're Pleased with if we're in contention ourselves. Likely
+			 winners can be civs close to a victory condition, but also civs
+			 that have gotten ahead in score or that we expect to get ahead
+			 through an ongoing war. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_KING_MAKING</Type>
+			<Type>WARUTILITYASPECTAI_KING_MAKING</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>KING_MAKING</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- Our military build-up, lost units and ravages of war. Adjusted
+			 based on our opportunities for peaceful development (i.e. it's an
+			 opportunity cost). Also takes into account whether we'll have
+			 further use of units surviving the war and whether lost units
+			 will have to be replaced. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_EFFORT</Type>
+			<Type>WARUTILITYASPECTAI_EFFORT</Type> <!-- XANA (note): Aspect is SUBTRACTED from the overall war consideration value ("utility"), thus it is a negative contribution and makes war less likely. -->
+			<Description>EFFORT</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- The risk of losing cities or vassals in the war, or even having to
+			 capitulate or being eliminated. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_RISK</Type>
+			<Type>WARUTILITYASPECTAI_RISK</Type> <!-- XANA (note): Aspect is SUBTRACTED from the overall war consideration value ("utility"), thus it is a negative contribution and makes war less likely. -->
+			<Description>RISK</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- The negative diplomatic consequences of war: angering the civ
+			 we're fighting against and third parties. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_ILL_WIL</Type>
+			<Type>WARUTILITYASPECTAI_ILL_WIL</Type> <!-- XANA (note): Aspect is SUBTRACTED from the overall war consideration value ("utility"), thus it is a negative contribution and makes war less likely. -->
+			<Description>ILL_WIL</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- Don't want to plan war against civs that we like. This is only
+			 role-playing; ILL_WILL handles the rational reasons for not
+			 attacking partners. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_AFFECTION</Type>
+			<Type>WARUTILITYASPECTAI_AFFECTION</Type> <!-- XANA (note): Aspect is SUBTRACTED from the overall war consideration value ("utility"), thus it is a negative contribution and makes war less likely. -->
+			<Description>AFFECTION</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- Distractions from fighting multiple wars are already covered by
+			 the military analysis, but not quite reliably, so this is an
+			 extra cost to discourage wars on multiple fronts. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_DISTRACTION</Type>
+			<Type>WARUTILITYASPECTAI_DISTRACTION</Type> <!-- XANA (note): Aspect is SUBTRACTED from the overall war consideration value ("utility"), thus it is a negative contribution and makes war less likely. -->
+			<Description>DISTRACTION</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- Anger from war weariness and bonds of faith. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_PUBLIC_OPPOSITION</Type>
+			<Type>WARUTILITYASPECTAI_PUBLIC_OPPOSITION</Type> <!-- XANA (note): Aspect is SUBTRACTED from the overall war consideration value ("utility"), thus it is a negative contribution and makes war less likely. -->
+			<Description>PUBLIC_OPPOSITION</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- War leaves fewer units stationed in cities, which can lead to
+			 revolts in cities conquered in some previous war. Due to the
+			 "Immortal Culture" changes, this consideration is sometimes
+			 significant. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_REVOLTS</Type>
+			<Type>WARUTILITYASPECTAI_REVOLTS</Type> <!-- XANA (note): Aspect is SUBTRACTED from the overall war consideration value ("utility"), thus it is a negative contribution and makes war less likely. -->
+			<Description>REVOLTS</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- Applies only when we're paid to start a war and the sponsor isn't
+			 apparently in need of assistance (or not even at war). Why hire
+			 us then? Will have to pay extra to allay our suspicions. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_ULTERIOR_MOTIVES</Type>
+			<Type>WARUTILITYASPECTAI_ULTERIOR_MOTIVES</Type> <!-- XANA (note): Aspect is SUBTRACTED from the overall war consideration value ("utility"), thus it is a negative contribution and makes war less likely. -->
+			<Description>ULTERIOR_MOTIVES</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- Discourages early war against humans; not fair when the AI has a
+			 head start. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_FAIR_PLAY</Type>
+			<Type>WARUTILITYASPECTAI_FAIR_PLAY</Type> <!-- XANA (note): Aspect is SUBTRACTED from the overall war consideration value ("utility"), thus it is a negative contribution and makes war less likely. -->
+			<Description>FAIR_PLAY</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- War as its own purpose. Before this aspect was added, there was too
+			 little war before the Medieval era on spacious maps.
+			 Especially affects AI leaders with aggressive/ suicidal
+			 personalities. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_BELLICOSITY</Type>
+			<Type>WARUTILITYASPECTAI_BELLICOSITY</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>BELLICOSITY</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- Is the tactical situation favorable, i.e. do we/ do they have
+			 exposed damaged units, cities that are about to fall, or
+			 reinforcements coming up. When in doubt, entangled units lead to
+			 increased war utility. If still preparing war: Do we have suffi-
+			 cient units to start the war; is there still enough time to build
+			 them? -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_TACTICAL_SITUATION</Type>
+			<Type>WARUTILITYASPECTAI_TACTICAL_SITUATION</Type> <!-- XANA (note): if engaged in a war, the aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. Else, the aspect is SUBTRACTED from the overall war consideration value ("utility"). -->
+			<Description>TACTICAL_SITUATION</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+		<!-- Pacifism for humanitarian reasons (roleplaying). This is different
+			 from Affection, which only applies if we don't dislike them too
+			 much and, in particular, not when already at war.
+			 Love of Peace subtracts our iLoveOfPeace (Civ4LeaderHeadInfos.xml)
+			 from our war utility. When already at war, only half of that is
+			 subtracted. iLoveOfPeace is unused in AdvCiv, so this aspect
+			 exists only for mod-mods. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_LOVE_OF_PEACE</Type>
+			<Type>WARUTILITYASPECTAI_LOVE_OF_PEACE</Type> <!-- XANA (note): Aspect is SUBTRACTED from the overall war consideration value ("utility"), thus it is a negative contribution and makes war less likely. -->
+			<Description>LOVE_OF_PEACE</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+	<!-- We're wary of waging war when a dangerous third party appears likely
+		 to intervene against us. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_THIRD_PARTY_INTERVENTION</Type>
+			<Type>WARUTILITYASPECTAI_THIRD_PARTY_INTERVENTION</Type> <!-- XANA (note): Aspect is SUBTRACTED from the overall war consideration value ("utility"), thus it is a negative contribution and makes war less likely. -->
+			<Description>THIRD_PARTY_INTERVENTION</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
+	<!-- To keep the game entertaining for human players, we're more inclined
+		 to start a war if none has been fought among civs known to us for a
+		 long time. Conversely, we're more inclined to make peace if many wars
+		 have been ongoing for a long time. -->
 		<WarUtilityAspectAIInfo>
-			<Type>WARUTILITYASPECTAI_DRAMATIC_ARC</Type>
+			<Type>WARUTILITYASPECTAI_DRAMATIC_ARC</Type> <!-- XANA (note): Aspect is ADDED to the overall war consideration value ("utility"), thus it is a positive contribution and makes war more likely. -->
+			<Description>DRAMATIC_ARC</Description>
 			<iAIWeight>100</iAIWeight>
 		</WarUtilityAspectAIInfo>
 	</WarUtilityAspectAIInfos>
