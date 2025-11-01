@@ -197,6 +197,16 @@
 	<ElementType name="DiplomacyIntroMusicWar" content="eltOnly">
 		<element type="DiploMusicWarEra" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
+	<!-- XANA: 11-01-2025 Leader Specific War Utility Aspect Weights -->
+	<ElementType name="WarAspectType" content="textOnly"/>
+	<ElementType name="WarAspectWeightModifier" content="eltOnly">
+		<element type="WarAspectType"/>
+		<element type="iWeightModifier"/>
+	</ElementType>
+	<ElementType name="WarAspectWeightModifiers" content="eltOnly">
+		<element type="WarAspectWeightModifier" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 11-01-2025 Leader Specific War Utility Aspect Weights -->
 	<!-- advc.xmldefault: Made many subelements optional (minOccurs 0).
 		 None were optional before except the ones added by advc.ctr. -->
 	<ElementType name="LeaderHeadInfo" content="eltOnly">
@@ -300,6 +310,9 @@
 		<element type="iLoveOfPeace" minOccurs="0"/>
 		<element type="UnitAIWeightModifiers"/>
 		<element type="ImprovementWeightModifiers"/>
+	<!-- XANA: 11-01-2025 Leader Specific War Utility Aspect Weights -->
+		<element type="WarAspectWeightModifiers" minOccurs="0"/>
+	<!-- XANA: 11-01-2025 Leader Specific War Utility Aspect Weights -->
 		<element type="DiplomacyIntroMusicPeace"/>
 		<element type="DiplomacyMusicPeace"/>
 		<element type="DiplomacyIntroMusicWar"/>
