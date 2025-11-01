@@ -1090,7 +1090,7 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploWarIntroMusicScriptIds, "DiplomacyIntroMusicWar", GC.getNumEraInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploWarMusicScriptIds, "DiplomacyMusicWar", GC.getNumEraInfos());
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	pXML->SetVariableTagListPair(&m_prWarUtilityAspects, "WarUtilityAspects", GC.getNumWarUtilityAspectAIInfos());
+	pXML->SetVariableTagListPair(&m_prWarUtilityAspects, "WarAspectWeightModifiers", GC.getNumWarUtilityAspectAIInfos());
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 
 	m_pXML = NULL; // advc.xmldefault
