@@ -10815,7 +10815,7 @@ void CvGame::setGlobalCounterFrozen(bool b)
 	m_bGlobalCounterFrozen = b;
 }
 
-void CvGame::isGlobalCounterFrozen()
+bool CvGame::isGlobalCounterFrozen() const
 {
 	return m_bGlobalCounterFrozen;
 }
