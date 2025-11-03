@@ -105,6 +105,10 @@ CvUnit::CvUnit() // advc.003u: Body cut from the deleted reset function
 	m_iBaseCombat = 0;
 	m_iCargoCapacity = 0;
 	m_iLastReconTurn = -1; // advc.029
+	
+	// XANA: 11-15-2025 Promotion HP Changes
+	m_iMaxHPValueModifier = 0;
+	// XANA: 11-15-2025 Promotion HP Changes
 }
 
 // advc.003u: Param eUnitAI moved to CvUnitAI::init
@@ -10412,6 +10416,9 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 	changeExperiencePercent(GC.getInfo(ePromotion).getExperiencePercent() * iChange);
 	changeKamikazePercent((GC.getInfo(ePromotion).getKamikazePercent()) * iChange);
 	changeCargoSpace(GC.getInfo(ePromotion).getCargoChange() * iChange);
+	// XANA: 11-15-2025 Promotion HP Changes
+	changeMaxHPValueModifier(GC.getInfo(ePromotion).getMaxHPValueChange() * iChange);
+	// XANA: 11-15-2025 Promotion HP Changes
 
 	FOR_EACH_ENUM(Terrain)
 	{
@@ -10476,6 +10483,20 @@ int CvUnit::getSubUnitsAlive(int iDamage) const
 			(maxHitPoints() / ((m_pUnitInfo->getGroupSize() * 2) + 1))) / maxHitPoints());
 }
 
+// XANA: 11-15-2025 Promotion HP Changes
+int CvUnit::getMaxHPValueModifier()
+{
+	return m_iMaxHPValueModifier;
+}
+
+void CvUnit::changeMaxHPValueModifier(int iChange)
+{
+	if (iChange != 0)
+	{
+		m_iMaxHPValueModifier += iChange;
+	}
+}
+// XANA: 11-15-2025 Promotion HP Changes
 
 void CvUnit::read(FDataStreamBase* pStream)
 {

@@ -1812,7 +1812,10 @@ m_piUnitCombatModifierPercent(NULL),
 m_piDomainModifierPercent(NULL),
 m_pbTerrainDoubleMove(NULL),
 m_pbFeatureDoubleMove(NULL),
-m_pbUnitCombat(NULL)
+m_pbUnitCombat(NULL),
+// XANA: 11-15-2025 Promotion HP Changes
+getMaxHPValueChange(0)
+// XANA: 11-15-2025 Promotion HP Changes
 {}
 
 CvPromotionInfo::~CvPromotionInfo()
@@ -2112,6 +2115,12 @@ bool CvPromotionInfo::getUnitCombat(int i) const
 	FAssertBounds(0, GC.getNumUnitCombatInfos(), i);
 	return m_pbUnitCombat ? m_pbUnitCombat[i] : false;
 }
+// XANA: 11-15-2025 Promotion HP Changes
+int CvPromotionInfo::getMaxHPValueChange() const
+{
+	return m_iMaxHPValueChange;
+}
+// XANA: 11-15-2025 Promotion HP Changes
 #if ENABLE_XML_FILE_CACHE
 void CvPromotionInfo::read(FDataStreamBase* stream)
 {
@@ -2191,6 +2200,9 @@ void CvPromotionInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_pbUnitCombat);
 	m_pbUnitCombat = new bool[GC.getNumUnitCombatInfos()];
 	stream->Read(GC.getNumUnitCombatInfos(), m_pbUnitCombat);
+	// XANA: 11-15-2025 Promotion HP Changes
+	stream->Read(&m_iMaxHPValueChange);
+	// XANA: 11-15-2025 Promotion HP Changes
 }
 
 void CvPromotionInfo::write(FDataStreamBase* stream)
@@ -2253,6 +2265,9 @@ void CvPromotionInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumTerrainInfos(), m_pbTerrainDoubleMove);
 	stream->Write(GC.getNumFeatureInfos(), m_pbFeatureDoubleMove);
 	stream->Write(GC.getNumUnitCombatInfos(), m_pbUnitCombat);
+	// XANA: 11-15-2025 Promotion HP Changes
+	stream->Write(m_iMaxHPValueChange);
+	// XANA: 11-15-2025 Promotion HP Changes
 }
 #endif
 bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
@@ -2313,6 +2328,9 @@ bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pbTerrainDoubleMove, "TerrainDoubleMoves", GC.getNumTerrainInfos());
 	pXML->SetVariableListTagPair(&m_pbFeatureDoubleMove, "FeatureDoubleMoves", GC.getNumFeatureInfos());
 	pXML->SetVariableListTagPair(&m_pbUnitCombat, "UnitCombats", GC.getNumUnitCombatInfos());
+	// XANA: 11-15-2025 Promotion HP Changes
+	pXML->GetChildXmlValByName(&m_iMaxHPValueChange, "iMaxHPValueChange");
+	// XANA: 11-15-2025 Promotion HP Changes
 
 	return true;
 }

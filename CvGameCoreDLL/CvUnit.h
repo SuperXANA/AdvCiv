@@ -423,7 +423,7 @@ public:
 
 	DllExport int maxHitPoints() const																		// Exposed to Python
 	{
-		return GC.getMAX_HIT_POINTS();
+		return GC.getMAX_HIT_POINTS() + getMaxHPValueModifier(); // XANA: 11-15-2025 Promotion HP Changes
 	}
 	int currHitPoints() const																				// Exposed to Python
 	{
@@ -1091,7 +1091,11 @@ public:
 	/*  Keep one pure virtual function to make the class abstract; remove all
 		the others - the EXE doesn't call them. */ // </advc.003u>
 	virtual UnitAITypes AI_getUnitAIType() const = 0;
-
+	
+	// XANA: 11-15-2025 Promotion HP Changes
+	int getMaxHPValueModifier() const;
+	// XANA: 11-15-2025 Promotion HP Changes
+	
 protected:
 	// <advc.003u>
 	CvUnit();
@@ -1242,6 +1246,11 @@ protected:
 	void resolveAirCombat(CvUnit* pInterceptor, CvPlot* pPlot, CvAirMissionDefinition& kBattle);
 	void checkRemoveSelectionAfterAttack();
 	void updateFlatMovement();
+	
+	// XANA: 11-15-2025 Promotion HP Changes
+	int m_iMaxHPValueModifier;
+	// XANA: 11-15-2025 Promotion HP Changes
+	
 // <advc.003u>
 private:
 	void uninitEntity(); // I don't think subclasses should ever call this

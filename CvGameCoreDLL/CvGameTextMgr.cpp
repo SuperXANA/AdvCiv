@@ -7052,7 +7052,16 @@ void CvGameTextMgr::parsePromotionHelp(CvWStringBuffer &szBuffer,
 					GC.getInfo(eLoopDomain).getTextKeyWide()));
 		}
 	}
-
+	
+	// XANA: 11-15-2025 Promotion HP Changes
+	if (kPromo.getMaxHPValueChange() != 0)
+	{
+		szBuffer.append(pcNewline);
+		szBuffer.append(gDLL->getText("TXT_KEY_PROMOTION_GIVES_EXTRA_MAX_HP",
+				kPromo.getMaxHPValueChange()));
+	}
+	// XANA: 11-15-2025 Promotion HP Changes
+	
 	if (wcslen(kPromo.getHelp()) > 0)
 	{
 		szBuffer.append(pcNewline);
