@@ -23,7 +23,11 @@ m_pbLeaders(NULL),
 m_pbCivilizationFreeBuildingClass(NULL),
 m_pbCivilizationFreeTechs(NULL),
 m_pbCivilizationDisableTechs(NULL),
-m_paszCityNames(NULL)
+m_paszCityNames(NULL),
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+m_piDamageTypeCombatPoints(NULL),
+m_piDamageTypeResistPoints(NULL)
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 {}
 
 CvCivilizationInfo::~CvCivilizationInfo()
@@ -37,6 +41,10 @@ CvCivilizationInfo::~CvCivilizationInfo()
 	SAFE_DELETE_ARRAY(m_pbCivilizationFreeTechs);
 	SAFE_DELETE_ARRAY(m_pbCivilizationDisableTechs);
 	SAFE_DELETE_ARRAY(m_paszCityNames);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piDamageTypeCombatPoints);
+	SAFE_DELETE_ARRAY(m_piDamageTypeResistPoints);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 void CvCivilizationInfo::reset()
@@ -242,6 +250,14 @@ void CvCivilizationInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_paszCityNames);
 	m_paszCityNames = new CvString[m_iNumCityNames];
 	stream->ReadString(m_iNumCityNames, m_paszCityNames);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piDamageTypeCombatPoints);
+	m_piDamageTypeCombatPoints = new int[GC.getNumDamageInfos()];
+	stream->Read(GC.getNumDamageInfos(), m_piDamageTypeCombatPoints);
+	SAFE_DELETE_ARRAY(m_piDamageTypeResistPoints);
+	m_piDamageTypeResistPoints = new int[GC.getNumDamageInfos()];
+	stream->Read(GC.getNumDamageInfos(), m_piDamageTypeResistPoints);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 void CvCivilizationInfo::write(FDataStreamBase* stream)
@@ -272,6 +288,10 @@ void CvCivilizationInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumTechInfos(), m_pbCivilizationFreeTechs);
 	stream->Write(GC.getNumTechInfos(), m_pbCivilizationDisableTechs);
 	stream->WriteString(m_iNumCityNames, m_paszCityNames);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	stream->Write(GC.getNumDamageInfos(), m_piDamageTypeCombatPoints);
+	stream->Write(GC.getNumDamageInfos(), m_piDamageTypeResistPoints);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 #endif
 
@@ -389,6 +409,10 @@ bool CvCivilizationInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pbLeaders, "Leaders", GC.getNumLeaderHeadInfos());
 	CvString szTextVal;
 	pXML->GetChildXmlValByName(szTextVal, "CivilizationSelectionSound");
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	pXML->SetVariableListTagPair(&m_piDamageTypeCombatPoints, "DamageTypeCombatPoints", GC.getNumDamageInfos());
+	pXML->SetVariableListTagPair(&m_piDamageTypeResistPoints, "DamageTypeResistPoints", GC.getNumDamageInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	return true;
 }
@@ -499,7 +523,8 @@ m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
 m_piDiploWarMusicScriptIds(NULL),
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-m_piDamageTypePoints(NULL)
+m_piDamageTypeCombatPoints(NULL),
+m_piDamageTypeResistPoints(NULL)
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 {}
 
@@ -537,7 +562,8 @@ CvLeaderHeadInfo::CvLeaderHeadInfo(CvLeaderHeadInfo const& kOther)
 	allocCopy(m_piDiploWarIntroMusicScriptIds, kOther.m_piDiploWarIntroMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarMusicScriptIds, kOther.m_piDiploWarMusicScriptIds, GC.getNumEraInfos());
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	allocCopy(m_piDamageTypePoints, kOther.m_piDamageTypePoints, GC.getNumDamageInfos());
+	allocCopy(m_piDamageTypeCombatPoints, kOther.m_piDamageTypeCombatPoints, GC.getNumDamageInfos());
+	allocCopy(m_piDamageTypeResistPoints, kOther.m_piDamageTypeResistPoints, GC.getNumDamageInfos());
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 } // </advc.xmldefault>
 
@@ -557,7 +583,8 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	SAFE_DELETE_ARRAY(m_piDamageTypePoints);
+	SAFE_DELETE_ARRAY(m_piDamageTypeCombatPoints);
+	SAFE_DELETE_ARRAY(m_piDamageTypeResistPoints);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
@@ -802,9 +829,12 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	m_piDiploWarMusicScriptIds = new int[GC.getNumEraInfos()];
 	stream->Read(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	SAFE_DELETE_ARRAY(m_piDamageTypePoints);
-	m_piDamageTypePoints = new int[GC.getNumDamageInfos()];
-	stream->Read(GC.getNumDamageInfos(), m_piDamageTypePoints);
+	SAFE_DELETE_ARRAY(m_piDamageTypeCombatPoints);
+	m_piDamageTypeCombatPoints = new int[GC.getNumDamageInfos()];
+	stream->Read(GC.getNumDamageInfos(), m_piDamageTypeCombatPoints);
+	SAFE_DELETE_ARRAY(m_piDamageTypeResistPoints);
+	m_piDamageTypeResistPoints = new int[GC.getNumDamageInfos()];
+	stream->Read(GC.getNumDamageInfos(), m_piDamageTypeResistPoints);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
@@ -913,7 +943,8 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarIntroMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	stream->Write(GC.getNumDamageInfos(), m_piDamageTypePoints);
+	stream->Write(GC.getNumDamageInfos(), m_piDamageTypeCombatPoints);
+	stream->Write(GC.getNumDamageInfos(), m_piDamageTypeResistPoints);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 #endif
@@ -1061,7 +1092,8 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploPeaceIntroMusicScriptIds, "DiplomacyIntroMusicPeace", GC.getNumEraInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploPeaceMusicScriptIds, "DiplomacyMusicPeace", GC.getNumEraInfos());
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	pXML->SetVariableListTagPair(&m_piDamageTypePoints, "DamageTypePoints", GC.getNumDamageInfos());
+	pXML->SetVariableListTagPair(&m_piDamageTypeCombatPoints, "DamageTypeCombatPoints", GC.getNumDamageInfos());
+	pXML->SetVariableListTagPair(&m_piDamageTypeResistPoints, "DamageTypeResistPoints", GC.getNumDamageInfos());
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// <advc.xmldefault>
 	#ifdef FASSERT_ENABLE

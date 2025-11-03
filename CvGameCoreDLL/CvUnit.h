@@ -1254,7 +1254,6 @@ protected:
 	void changeDamageTypeCombat(DamageTypes eIndex, int iChange);
 	void setDamageTypeCombat(DamageTypes eIndex, int iValue);
 	int getDamageTypeResist(DamageTypes eIndex) const { return m_aiDamageTypeResist.get(eIndex); }
-	int calculateDamageTypeResist(DamageTypes eIndex) const;
 	void changeDamageTypeResist(DamageTypes eIndex, int iChange);
 	void setDamageTypeResist(DamageTypes eIndex, int iValue);
 	int calculateTotalDamageTypeCombat() const;

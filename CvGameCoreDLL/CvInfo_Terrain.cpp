@@ -22,7 +22,8 @@ m_piRiverYieldChange(NULL),
 m_piHillsYieldChange(NULL),
 m_pi3DAudioScriptFootstepIndex(NULL),
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-m_piDamageTypePoints(NULL)
+m_piDamageTypeCombatPoints(NULL),
+m_piDamageTypeResistPoints(NULL)
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 {}
 
@@ -33,7 +34,8 @@ CvTerrainInfo::~CvTerrainInfo()
 	SAFE_DELETE_ARRAY(m_piHillsYieldChange);
 	SAFE_DELETE_ARRAY(m_pi3DAudioScriptFootstepIndex);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	SAFE_DELETE_ARRAY(m_piDamageTypePoints);
+	SAFE_DELETE_ARRAY(m_piDamageTypeCombatPoints);
+	SAFE_DELETE_ARRAY(m_piDamageTypeResistPoints);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
@@ -114,7 +116,8 @@ bool CvTerrainInfo::read(CvXMLLoadUtility* pXML)
 
 	pXML->SetVariableListTagPairForAudioScripts(&m_pi3DAudioScriptFootstepIndex, "FootstepSounds", GC.getNumFootstepAudioTypes());
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	pXML->SetVariableListTagPair(&m_piDamageTypePoints, "DamageTypePoints", GC.getNumDamageInfos());
+	pXML->SetVariableListTagPair(&m_piDamageTypeCombatPoints, "DamageTypeCombatPoints", GC.getNumDamageInfos());
+	pXML->SetVariableListTagPair(&m_piDamageTypeResistPoints, "DamageTypeResistPoints", GC.getNumDamageInfos());
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	{
 		CvString szTextVal;

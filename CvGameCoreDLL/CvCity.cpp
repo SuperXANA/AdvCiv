@@ -3124,9 +3124,15 @@ void CvCity::processBuilding(BuildingTypes eBuilding, int iChange, bool bObsolet
 		}
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 		FOR_EACH_NON_DEFAULT_PAIR(kBuilding.
-			getDamageTypePoints(), Damage, int)
+			getDamageTypeCombatPoints(), Damage, int)
 		{
-			changeDamageTypePoints(perDamageVal.first,
+			changeDamageTypeCombatPoints(perDamageVal.first,
+					perDamageVal.second * iChange);
+		}
+		FOR_EACH_NON_DEFAULT_PAIR(kBuilding.
+			getDamageTypeResistPoints(), Damage, int)
+		{
+			changeDamageTypeResistPoints(perDamageVal.first,
 					perDamageVal.second * iChange);
 		}
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
@@ -5087,9 +5093,13 @@ void CvCity::updateSurroundingDamageTypePoints()
 			CvTerrainInfo const& kAdjTerrain = GC.getInfo(kPlot.getTerrainType());
 			FOR_EACH_ENUM(Damage)
 			{
-				if (kAdjTerrain.getDamageTypePoints(eLoopDamage) != 0)
+				if (kAdjTerrain.getDamageTypeCombatPoints(eLoopDamage) != 0)
 				{	
-					changeDamageTypePoints(eLoopDamage, kAdjTerrain.getDamageTypePoints(eLoopDamage));
+					changeDamageTypeCombatPoints(eLoopDamage, kAdjTerrain.getDamageTypeCombatPoints(eLoopDamage));
+				}
+				if (kAdjTerrain.getDamageTypeResistPoints(eLoopDamage) != 0)
+				{	
+					changeDamageTypeResistPoints(eLoopDamage, kAdjTerrain.getDamageTypeResistPoints(eLoopDamage));
 				}
 			}
 		}

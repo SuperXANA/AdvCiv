@@ -1170,11 +1170,16 @@ public:
 	void changeImprovementYieldChange(ImprovementTypes eImprov, YieldTypes eYield, int iChange);
 	
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	int getDamageTypePoints(DamageTypes eDamage) const
+	int getDamageTypeCombatPoints(DamageTypes eDamage) const
 	{
-		return m_aiDamageTypePoints.get(eDamage);
+		return m_aiDamageTypeCombatPoints.get(eDamage);
 	}
 	void changeDamageTypePoints(DamageTypes eDamage, int iChange);
+	int getDamageTypeResistPoints(DamageTypes eDamage) const
+	{
+		return m_aiDamageTypeResistPoints.get(eDamage);
+	}
+	void changeDamageTypeResistPoints(DamageTypes eDamage, int iChange);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	//void updateGroupCycle(CvUnit* pUnit);
@@ -1656,7 +1661,8 @@ protected:  // <advc.210>
 	ArrayEnumMap<UpkeepTypes,int,char> m_aiUpkeepCount; // advc (comment): unused (but accessible)
 	ArrayEnumMap<SpecialistTypes,int,char> m_aiSpecialistValidCount;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	ArrayEnumMap<DamageTypes,int,short> m_aiDamageTypePoints;
+	ArrayEnumMap<DamageTypes,int,short> m_aiDamageTypeCombatPoints;
+	ArrayEnumMap<DamageTypes,int,short> m_aiDamageTypeResistPoints;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	/*int** m_paiExtraBuildingYield;
 	int** m_paiExtraBuildingCommerce;*/ // advc: unused

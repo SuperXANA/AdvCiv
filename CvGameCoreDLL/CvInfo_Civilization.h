@@ -53,6 +53,10 @@ public: // advc: All the const functions are exposed to Python
 	UnitTypes getCivilizationUnits(int i) const;
 	int getCivilizationFreeUnitsClass(int i) const;
 	int getCivilizationInitialCivics(int i) const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getDamageTypeCombatPoints(int i) const;
+	int getDamageTypeResistPoints(int i) const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	DllExport bool isLeaders(int i) const;
 	bool isCivilizationFreeBuildingClass(int i) const;
@@ -92,6 +96,10 @@ protected:
 	int* m_piCivilizationUnits;
 	int* m_piCivilizationFreeUnitsClass;
 	int* m_piCivilizationInitialCivics;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int* m_piDamageTypeCombatPoints;
+	int* m_piDamageTypeResistPoints;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	bool* m_pbLeaders;
 	bool* m_pbCivilizationFreeBuildingClass;
@@ -221,7 +229,8 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getDiploWarIntroMusicScriptIds(int i) const;
 	int getDiploWarMusicScriptIds(int i) const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	int getDamageTypePoints(int i) const;
+	int getDamageTypeCombatPoints(int i) const;
+	int getDamageTypeResistPoints(int i) const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	// (not exposed to Python)
@@ -343,7 +352,8 @@ protected:
 	int* m_piDiploWarIntroMusicScriptIds;
 	int* m_piDiploWarMusicScriptIds;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	int* m_piDamageTypePoints;
+	int* m_piDamageTypeCombatPoints;
+	int* m_piDamageTypeResistPoints;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;

@@ -7204,7 +7204,10 @@ void CvUnit::setBaseCombatStr(int iCombat)
 		but we want to calc approx str.
 		Note, in this last case, it is expected pCombatDetails == NULL,
 		it does not have to be, but some values may be unexpectedly
-		reversed in this case (iModifierTotal will be the negative sum). */
+		reversed in this case (iModifierTotal will be the negative sum).
+	lfgr note 05/2020: In FfH, we have this:
+		pPlot == NULL, pAttacher != NULL - This is the attacker, pAttacker is the defender.
+		pPlot == NULL, pAttacker == NULL should probably not be used anymore, as the defender can influence strength via damage resistance/immunity */
 int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 	CombatDetails* pCombatDetails,
 	bool bGarrisonStrength) const // advc.500b
@@ -7212,6 +7215,18 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 	PROFILE_FUNC(); // advc: This does get called a lot. Not all that slow though.
 	FAssert(pPlot == NULL || pPlot->getTerrainType() != NO_TERRAIN);
 
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+    const CvUnit* pDefender = NULL;
+    if (pPlot == NULL)
+    {
+        if (pAttacker != NULL)
+        {
+            pDefender = pAttacker;
+            pAttacker = NULL;
+        }
+    }
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	
 	// handle our new special case
 	CvPlot const* pAttackedPlot = NULL;
 	bool bAttackingUnknownDefender = false;
@@ -7231,8 +7246,17 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 	if (pCombatDetails != NULL)
 		pCombatDetails->reset(getOwner(), getVisualOwner(), getName().c_str()); // advc
 
-	if (baseCombatStr() == 0)
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+    int iBaseCombat = baseCombatStr();
+    } /* XANA (note): Commented out because AdvCiv doesn't separate defense/attack unit strength values.
+    else
+    {
+        iStr = baseCombatStrDefense();
+    } */
+
+	if (iBaseCombat == 0) // was baseCombatStr()
 		return 0;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	int iModifier = 0;
 	int iExtraModifier;
@@ -7574,12 +7598,22 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 	if (pCombatDetails != NULL)
 	{
 		pCombatDetails->iModifierTotal = iModifier;
-		pCombatDetails->iBaseCombatStr = baseCombatStr();
+		pCombatDetails->iBaseCombatStr = iBaseCombat; // was baseCombatStr()
 	}
+	
+	if (!bAttackingUnknownDefender) // XANA (note): We are the defender fighting against a known attacking unit
+		iBaseCombat *= 100;
+		FOR_EACH_ENUM(Damage)
+			int iDamageAmount = getDamageTypeCombat(eLoopDamage);
+			int iResistancePercent = pAttacker->getDamageTypeResist(eLoopDamageType);
+			// 'iBaseCombat' is increased by the damage amount, factored by the attacker's resistance.
+			// If resistance is 100, no change. If resistance is 0, full damage amount added.
+			iBaseCombat += iDamageAmount * (100 - iResistancePercent) / 100;
+	
 	int iCombat;
 	if (iModifier > 0)
-		iCombat = (baseCombatStr() * (iModifier + 100));
-	else iCombat = ((baseCombatStr() * 10000) / (100 - iModifier));
+		iCombat = (iBaseCombat * (iModifier + 100)); // was baseCombatStr()
+	else iCombat = ((iBaseCombat * 10000) / (100 - iModifier)); // was baseCombatStr()
 
 	if (pCombatDetails != NULL)
 	{
@@ -10450,7 +10484,7 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 	{
 		changeDamageTypeCombat(eLoopDamage,
 				GC.getInfo(ePromotion).getDamageTypeCombat(eLoopDamage) * iChange);
-		changeDamageTypeResist(eLoopDamageType,
+		changeDamageTypeResist(eLoopDamage,
 				GC.getInfo(ePromotion).getDamageTypeResist(eLoopDamage) * iChange);
 	}
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
@@ -10496,6 +10530,15 @@ void CvUnit::changeDamageTypeCombat(DamageTypes eIndex, int iChange)
 {
 	if (iChange != 0)
 	{
+		int iStrength = getDamageTypeCombat(eIndex);
+		if (iStrength + iChange <= -100)
+		{
+			setDamageTypeCombat(eIndex, -100); // Weakened by Magic!
+		}
+    	if (iStrength + iChange >= 100)
+    	{
+        	setDamageTypeCombat(eIndex, 100); // Super-Effective!
+    	}
 		m_aiDamageTypeCombat.add(eIndex, iChange);
 	}
 }
@@ -10510,24 +10553,19 @@ int CvUnit::getDamageTypeResist(DamageTypes eIndex) const
 	return m_aiDamageTypeResist.get(eIndex); 
 }
 
-int CvUnit::calculateDamageTypeResist(DamageTypes eIndex) const
-{
-	int iResistance = getDamageTypeResist(eIndex);
-	if (iResistance <= -100)
-    {
-        return -100; // Super-Effective!
-    }
-    if (iResistance >= 100)
-    {
-        return 100; // Immunity!
-    }
-	return iResistance;
-}
-
 void CvUnit::changeDamageTypeResist(DamageTypes eIndex, int iChange)
 {
 	if (iChange != 0)
 	{
+		int iResistance = getDamageTypeResist(eIndex);
+		if (iResistance + iChange <= -100)
+    	{
+        	setDamageTypeResist(eIndex, -100); // Super-Effective!
+    	}
+    	if (iResistance + iChange >= 100)
+    	{
+        	setDamageTypeResist(eIndex, 100); // Immune to Magic!
+    	}
 		m_aiDamageTypeResist.add(eIndex, iChange);
 	}
 }
