@@ -1814,7 +1814,7 @@ m_pbTerrainDoubleMove(NULL),
 m_pbFeatureDoubleMove(NULL),
 m_pbUnitCombat(NULL),
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
-m_iExpireTurns(-1) //XANA (note): if -1, then [Promotion Does Not Expire]
+m_iExpireTurns(0)
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
 {}
 
@@ -2329,7 +2329,7 @@ bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pbFeatureDoubleMove, "FeatureDoubleMoves", GC.getNumFeatureInfos());
 	pXML->SetVariableListTagPair(&m_pbUnitCombat, "UnitCombats", GC.getNumUnitCombatInfos());
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
-	pXML->GetChildXmlValByName(&m_iExpireTurns, "iExpireTurns");
+	pXML->GetChildXmlValByName(&m_iExpireTurns, "iExpireTurns", -1 /* XANA (note): if iExpireTurns == 0, promotion won't expire & is marked with [-1] for identification */);
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 	return true;

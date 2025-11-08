@@ -1074,12 +1074,11 @@ public:
 	// (advc: LFBgetDefenderCombatOdds deleted, use 1000 minus calculateCombatOdds instead.)
 	// Lead From Behind: END
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
-	int getPromotionExpireTurnCount(PromotionTypes ePromo) const										// Exposed to Python
+	int getPromotionExpireTurn(PromotionTypes ePromo) const
 	{
-		return m_aiPromotionExpireTurnCount.get(ePromo);
+		return m_aiPromotionExpireTurns.get(ePromo);
 	}
-	void setPromotionExpireTurnCount(PromotionTypes ePromo, int iNewValue);
-	void changePromotionExpireTurnCount(PromotionTypes ePromo, int iChange);
+	void setPromotionExpireTurn(PromotionTypes ePromo, int iNewValue);
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 	// <advc.003u>
@@ -1214,7 +1213,7 @@ protected:
 	ArrayEnumMap<UnitCombatTypes,int,short> m_aiExtraUnitCombatModifier;
 	// </advc.enum>
 // XABA: 05-17-2025 Timed Promotion Expiry Turns
-	ArrayEnumMap<PromotionTypes,int,short> m_aiPromotionExpireTurnCount;
+	ArrayEnumMap<PromotionTypes,int,short> m_aiPromotionExpireTurns;
 // XABA: 05-17-2025 Timed Promotion Expiry Turns
 
 	PlayerTypes getCombatOwner_bulk(TeamTypes eForTeam, CvPlot const& kPlot) const; // advc
