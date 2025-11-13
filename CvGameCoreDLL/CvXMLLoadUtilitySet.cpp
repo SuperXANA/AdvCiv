@@ -706,6 +706,9 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 		GC.getInfo(eLoopUnitClass).readPass3();
 	LoadGlobalClassInfo(GC.m_paUnitArtStyleInfo, "CIV4UnitArtStyleTypeInfos", "Civilizations", "Civ4UnitArtStyleTypeInfos/UnitArtStyleTypeInfos/UnitArtStyleTypeInfo", false);
 	LoadGlobalClassInfo(GC.m_paCivilizationInfo, "CIV4CivilizationInfos", "Civilizations", "Civ4CivilizationInfos/CivilizationInfos/CivilizationInfo", true, &CvDLLUtilityIFaceBase::createCivilizationInfoCacheObject);
+	// XANA: 11-15-2025 Reputation System for Advanced Civ
+	LoadGlobalClassInfo(GC.m_paReputationInfo, "CIV4ReputationInfos", "Civilizations", "Civ4ReputationInfos/ReputationInfos/ReputationInfo", true, &CvDLLUtilityIFaceBase::createReputationInfoCacheObject);
+	// XANA: 11-15-2025 Reputation System for Advanced Civ
 	LoadGlobalClassInfo(GC.m_paHintInfo, "CIV4Hints", "GameInfo", "Civ4Hints/HintInfos/HintInfo", false);
 	LoadGlobalClassInfo(GC.m_paMainMenuInfo, "CIV4MainMenus", "Art", "Civ4MainMenus/MainMenus/MainMenu", false);
 	LoadGlobalClassInfo(GC.m_paSlideShowInfo, "CIV4SlideShowInfos", "Interface", "Civ4SlideShowInfos/SlideShowInfos/SlideShowInfo", false);

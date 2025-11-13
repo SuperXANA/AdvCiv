@@ -43,7 +43,10 @@
 	DO(Hurry, HURRY) \
 	DO(Upkeep, UPKEEP) \
 	DO(CultureLevel, CULTURELEVEL) \
-	DO(CivicOption, CIVICOPTION)
+	DO(CivicOption, CIVICOPTION) \
+	/* XANA: 11-15-2025 Reputation System for Advanced Civ */ \
+	DO(Reputation, REPUTATION) \
+	/* XANA: 11-15-2025 Reputation System for Advanced Civ */
 
 // Number of instances not known at compile time; can be greater than MAX_CHAR.
 #define DO_FOR_EACH_BIG_DYN_INFO_TYPE(DO) \
@@ -141,7 +144,10 @@
 	DO(CityTab, CITYTAB) \
 	DO(Calendar, CALENDAR) \
 	DO(UnitAI, UNITAI) \
-	DO(Denial, DENIAL)
+	DO(Denial, DENIAL) \
+	/* XANA: 11-15-2025 Reputation System for Advanced Civ */ \
+	DO(ReputationEffect, REPUTATION_EFFECT) \
+	/* XANA: 11-15-2025 Reputation System for Advanced Civ */
 
 #define DO_FOR_EACH_INFO_TYPE(DO) \
 	DO_FOR_EACH_DYN_INFO_TYPE(DO) \

@@ -1610,6 +1610,14 @@ ENUM_START(PlayerHistory, PLAYER_HISTORY)
 	PLAYER_HISTORY_ESPIONAGE,
 ENUM_END(PlayerHistory, PLAYER_HISTORY)
 
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+ENUM_START(ReputationEffect, REPUTATION_EFFECT)
+// XANA (note): First value is NO_REPUTATION_EFFECT [set as: -1].
+	REPUTATION_EFFECT_INCREASE,
+	REPUTATION_EFFECT_DECREASE,
+ENUM_END(ReputationEffect, REPUTATION_EFFECT)
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+
 
 enum CivilopediaWidgetShowTypes
 {

@@ -1561,3 +1561,66 @@ bool CvDiplomacyInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+CvReputationInfo::CvReputationInfo() :
+m_paiEffectOnModify(NULL)
+{}
+
+CvReputationInfo::~CvReputationInfo()
+{
+	SAFE_DELETE_ARRAY(m_paiEffectOnModify);
+}
+
+ReputationEffect CvReputationInfo::getEffectOnModify(int i) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), i);
+	const int v = m_paiEffectOnModify ? m_paiEffectOnModify[i] : 0;
+	if (v < 0) // XANA (note): Is the sub value being decremented by a negative number?
+	{
+		return REPUTATION_EFFECT_DECREASE; // XANA (note): This reputation by itself doesn't decide how much to decrease sub-values by, that is the job of the AI player code and the CvLeaderHeadInfo class values.
+	}
+	else if (v > 0) // XANA (note): Is the sub value being incremented by a positive number?
+	{
+		return REPUTATION_EFFECT_INCREASE; // XANA (note): This reputation by itself doesn't decide how much to increase sub-values by, that is the job of the AI player code and the CvLeaderHeadInfo class values.
+	}
+	else  // XANA (note): Fallback value if nothing else found.
+	{
+		return NO_REPUTATION_EFFECT;  // XANA (note): Fallback value which creates no effects upon sub reputation values.
+	}
+}
+
+bool CvReputationInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!CvInfoBase::read(pXML))
+		return false;
+	
+	//pXML->GetChildXmlValByName(&m_iHealth, "iHealth"); XANA (note): Nothing here yet.
+	
+	return true;
+}
+
+bool CvReputationInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	pXML->SetVariableListTagPair(&m_paiEffectOnModify, "ReputationSecondaryEffects", GC.getNumReputationInfos());
+	return true;
+}
+
+#if ENABLE_XML_FILE_CACHE
+void CvReputationInfo::read(FDataStreamBase* stream)
+{
+	CvInfoBase::read(stream);
+	uint uiFlag=0;
+	stream->Read(&uiFlag);
+	SAFE_DELETE_ARRAY(m_paiEffectOnModify);
+	m_paiEffectOnModify = new int[GC.getNumReputationInfos()];
+	stream->Read(GC.getNumReputationInfos(), m_paiEffectOnModify);
+}
+
+void CvReputationInfo::write(FDataStreamBase* stream)
+{
+	CvInfoBase::write(stream);
+	uint uiFlag=0;
+	stream->Write(uiFlag);
+	stream->Write(GC.getNumReputationInfos(), m_paiEffectOnModify);
+}
+#endif

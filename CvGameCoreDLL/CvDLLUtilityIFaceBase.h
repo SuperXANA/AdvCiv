@@ -184,6 +184,9 @@ public:
 	virtual CvCacheObject* createUnitInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createLeaderHeadInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createCivilizationInfoCacheObject(const TCHAR* szCacheFileName) = 0;
+	// XANA: 11-15-2025 Reputation System for Advanced Civ
+	virtual CvCacheObject* createReputationInfoCacheObject(const TCHAR* szCacheFileName) = 0;
+	// XANA: 11-15-2025 Reputation System for Advanced Civ
 	virtual CvCacheObject* createPromotionInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createDiplomacyInfoCacheObject(const TCHAR* szCacheFileName) = 0;
 	virtual CvCacheObject* createEventInfoCacheObject(const TCHAR* szCacheFileName) = 0;

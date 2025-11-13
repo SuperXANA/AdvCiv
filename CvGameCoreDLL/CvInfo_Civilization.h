@@ -506,4 +506,30 @@ protected:
 	std::vector<CvDiplomacyResponse*> m_pResponses;
 };
 
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvReputationInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvReputationInfo : public CvInfoBase
+{
+	typedef CvInfoBase base_t;
+public:
+	CvReputationInfo();
+	~CvReputationInfo();
+	
+	ReputationEffect getEffectOnModify(int i) const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+	bool readPass2(CvXMLLoadUtility* pXML);
+	
+	#if ENABLE_XML_FILE_CACHE
+	void read(FDataStreamBase* stream);
+	void write(FDataStreamBase* stream);
+	#endif
+
+protected:
+    // Stores the effect on all other ReputationTypes when 'this' reputation value is modified
+    int* m_paiEffectOnModify;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+
 #endif
