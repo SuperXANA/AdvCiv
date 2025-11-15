@@ -424,6 +424,10 @@ protected:
 
 	bool* m_pabFreePromotion;
 	bool* m_pabFreePromotionUnitCombat;
+
+// XANA: 11-22-2025 Free Promotions per Unit Combats
+	ArrayEnumMap2D<PromotionTypes,UnitCombatTypes,bool> m_abFreePromotionsPerUnitCombats;
+// XANA: 11-22-2025 Free Promotions per Unit Combats
 };
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

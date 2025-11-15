@@ -1269,6 +1269,14 @@ bool CvTraitInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pabFreePromotion, "FreePromotions", GC.getNumPromotionInfos());
 
 	pXML->SetVariableListTagPair(&m_pabFreePromotionUnitCombat, "FreePromotionUnitCombats", GC.getNumUnitCombatInfos());
+	
+// XANA: 11-22-2025 Free Promotions per Unit Combats
+	pXML->SetVariableListTagPairFor2DEnumMaps(m_abFreePromotionsPerUnitCombats /* Passed as reference parameter, don't prefix with '&' */,
+			"FreePromotionsPerUnitCombats" /* RootTagName */,
+			GC.getNumPromotionInfos() /* X (outer array) */,
+			GC.getNumUnitCombatInfos() /* Y (inner array) */,
+			true /* XML is reverse mapped: schema expects UnitCombats, then Promotions */);
+// XANA: 11-22-2025 Free Promotions per Unit Combats
 
 	return true;
 }

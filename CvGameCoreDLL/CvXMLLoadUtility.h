@@ -187,6 +187,13 @@ public:
 			int iInfoBaseLength, CvString szDefaultListVal = "");
 	void SetVariableListTagPairForAudioScripts(int **ppiList, TCHAR const* szRootTagName,
 			int iInfoBaseLength, int iDefaultListVal = -1);
+	
+// XANA: 11-22-2025 Free Promotions per Unit Combats		
+	template <typename TwoDimensionalMap>
+	void SetVariableListTagPairFor2DEnumMaps(TwoDimensionalMap& map, const char* szRootTagName,
+			int iInfoBaseLengthX, int iInfoBaseLengthY, bool bReverseMapped = false)
+// XANA: 11-22-2025 Free Promotions per Unit Combats
+			
 	/*	advc (19 Feb 2021): Deleted four versions (a fifth - AudioScripts - deleted
 		much earlier) that took a param CvString* m_paszTagList.
 		Those functions were for global non-info types. Now the versions above

@@ -2041,6 +2041,99 @@ void CvXMLLoadUtility::SetVariableListTagPairForAudioScripts(int **ppiList, TCHA
 	}
 }
 
+// XANA: 11-22-2025 Free Promotions per Unit Combats
+template <typename TwoDimensionalMap>
+void CvXMLLoadUtility::SetVariableListTagPairFor2DEnumMaps(TwoDimensionalMap& map, const char* szRootTagName,
+	int iInfoBaseLengthK1, int iInfoBaseLengthK2, bool bReverseMapped)
+{
+	map.reset();
+	typename TwoDimensionalMap::ValueType defValue = map.defaultValue;
+	
+    if (iInfoBaseLengthK1 <= 0 || iInfoBaseLengthK2 <= 0)
+    {
+        char szMessage[1024];
+        sprintf(szMessage, "Allocating zero or less memory.\nCurrent XML file is: %s",
+            GC.getCurrentXMLFile().GetCString());
+        errorMessage(szMessage);
+    }
+
+    if (gDLL->getXMLIFace()->SetToChildByTagName(m_pFXml, szRootTagName))
+    {
+        if (SkipToNextVal())
+        {
+            int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(m_pFXml);
+            if (iNumSibs > (bReverseMapped ? iInfoBaseLengthK2 : iInfoBaseLengthK1))
+            {
+                char szMessage[1024];
+                sprintf(szMessage, "There are more siblings (%d) than memory allocated (%d) for them.\nCurrent XML file is: %s",
+                    iNumSibs, (bReverseMapped ? iInfoBaseLengthK2 : iInfoBaseLengthK1), GC.getCurrentXMLFile().GetCString());
+                errorMessage(szMessage);
+            }
+            if (gDLL->getXMLIFace()->SetToChild(m_pFXml))
+            {
+                do
+                {
+                    TCHAR szTextXVal[256];
+                    if (SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
+						GetChildXmlVal(szTextXVal))
+                    {
+                        int iIndexXVal = getGlobalEnumFromString(szTextXVal);
+                        if (gDLL->getXMLIFace()->NextSibling(m_pFXml))
+                        {
+                            int iNumCSibs = gDLL->getXMLIFace()->GetNumChildren(m_pFXml);
+                            if (iNumCSibs > (bReverseMapped ? iInfoBaseLengthK1 : iInfoBaseLengthK2))
+                            {
+                                char szMessage[1024];
+                                sprintf(szMessage, "There are more siblings (%d) than memory allocated (%d) for them.\nCurrent XML file is: %s",
+                                    iNumCSibs, (bReverseMapped ? iInfoBaseLengthK1 : iInfoBaseLengthK2), GC.getCurrentXMLFile().GetCString());
+                                errorMessage(szMessage);
+                            }
+                            if (gDLL->getXMLIFace()->SetToChild(m_pFXml))
+                            {
+                                do
+                                {
+                                    TCHAR szTextYVal[256];
+                                    if (SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
+										GetChildXmlVal(szTextYVal))
+                                    {
+                                        int iIndexYVal = getGlobalEnumFromString(szTextYVal);
+                                        if (gDLL->getXMLIFace()->NextSibling(m_pFXml))
+                                        {
+                                            if (iIndexXVal >= 0 && iIndexYVal >= 0)
+                                            {
+                                                FAssert(iIndexXVal < (bReverseMapped ? iInfoBaseLengthK2 : iInfoBaseLengthK1));
+                                                FAssert(iIndexYVal < (bReverseMapped ? iInfoBaseLengthK1 : iInfoBaseLengthK2));
+                                                
+												typename TwoDimensionalMap::ValueType vXMLData = defValue;
+                                                GetNextXmlVal(vXMLData);
+												
+												if (vXMLData != defValue)
+												{
+													if (bReverseMapped)
+													{
+														map.insert(iIndexYVal, iIndexXVal, vXMLData);
+													}
+													else map.insert(iIndexXVal, iIndexYVal, vXMLData);
+												}
+                                            }
+                                        }
+                                        gDLL->getXMLIFace()->SetToParent(m_pFXml);
+                                    }
+                                } while (gDLL->getXMLIFace()->NextSibling(m_pFXml));
+                                
+                                gDLL->getXMLIFace()->SetToParent(m_pFXml);
+                            }
+                        }
+                        gDLL->getXMLIFace()->SetToParent(m_pFXml);
+                    }
+                } while (gDLL->getXMLIFace()->NextSibling(m_pFXml));
+            }
+        }
+        gDLL->getXMLIFace()->SetToParent(m_pFXml);
+    }
+}
+// XANA: 11-22-2025 Free Promotions per Unit Combats
+
 DllExport bool CvXMLLoadUtility::LoadPlayerOptions()
 {
 	if (!CreateFXml())
