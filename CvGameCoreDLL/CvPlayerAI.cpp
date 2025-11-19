@@ -7680,6 +7680,11 @@ void CvPlayerAI::AI_updateAttitude(PlayerTypes ePlayer, /* advc.130e: */ bool bU
 
 	FOR_EACH_ENUM(Memory)
 		iAttitude += AI_getMemoryAttitude(ePlayer, eLoopMemory);
+	
+// XANA: 11-15-2025 Reputation System for Advanced Civ	
+	FOR_EACH_ENUM(Reputation)
+		iAttitude += AI_getReputationAttitude(ePlayer, eLoopReputation);
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 	//iAttitude += AI_getColonyAttitude(ePlayer); // advc.130r
 	iAttitude += AI_getAttitudeExtra(ePlayer);

@@ -533,6 +533,9 @@ CvLeaderHeadInfo::CvLeaderHeadInfo(CvLeaderHeadInfo const& kOther)
 	allocCopy(m_piDiploPeaceMusicScriptIds, kOther.m_piDiploPeaceMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarIntroMusicScriptIds, kOther.m_piDiploWarIntroMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarMusicScriptIds, kOther.m_piDiploWarMusicScriptIds, GC.getNumEraInfos());
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	allocCopy(m_pReputationAttitudeChanges, kOther.m_pReputationAttitudeChanges, GC.getNumReputationInfos());
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 } // </advc.xmldefault>
 
 CvLeaderHeadInfo::~CvLeaderHeadInfo()
@@ -550,6 +553,9 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploPeaceMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	SAFE_DELETE_ARRAY(m_pReputationAttitudeChanges);
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const
@@ -646,6 +652,44 @@ int CvLeaderHeadInfo::getDiploWarMusicScriptIds(int i) const
 	FAssertBounds(0, GC.getNumEraInfos(), i);
 	return m_piDiploWarMusicScriptIds ? m_piDiploWarMusicScriptIds[i] : 0; // advc.003t
 }
+
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+int CvLeaderHeadInfo::getGoodReputationAttitudeChange(int iStruct) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), iStruct);
+	return m_pReputationAttitudeChanges ? m_pReputationAttitudeChanges[iStruct].iGoodChange : 0;
+}
+
+int CvLeaderHeadInfo::getGoodReputationAttitudeChangeDivisor(int iStruct) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), iStruct);
+	return m_pReputationAttitudeChanges ? m_pReputationAttitudeChanges[iStruct].iGoodDivisor : 0;
+}
+
+int CvLeaderHeadInfo::getGoodReputationAttitudeChangeLimit(int iStruct) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), iStruct);
+	return m_pReputationAttitudeChanges ? m_pReputationAttitudeChanges[iStruct].iGoodLimit : 0;
+}
+
+int CvLeaderHeadInfo::getBadReputationAttitudeChange(int iStruct) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), iStruct);
+	return m_pReputationAttitudeChanges ? m_pReputationAttitudeChanges[iStruct].iBadChange : 0;
+}
+
+int CvLeaderHeadInfo::getBadReputationAttitudeChangeDivisor(int iStruct) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), iStruct);
+	return m_pReputationAttitudeChanges ? m_pReputationAttitudeChanges[iStruct].iBadDivisor : 0;
+}
+
+int CvLeaderHeadInfo::getBadReputationAttitudeChangeLimit(int iStruct) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), iStruct);
+	return m_pReputationAttitudeChanges ? m_pReputationAttitudeChanges[iStruct].iBadChangeLimit : 0;
+}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 {
@@ -792,6 +836,14 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
 	m_piDiploWarMusicScriptIds = new int[GC.getNumEraInfos()];
 	stream->Read(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	SAFE_DELETE_ARRAY(m_pReputationAttitudeChanges);
+	m_pReputationAttitudeChanges = new ReputationAttitudeChangeInfo[GC.getNumReputationInfos()];
+	FOR_EACH_ENUM(Reputation)
+	{
+		m_pReputationAttitudeChanges[eLoopReputation].read(stream);
+	}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 }
 
 void CvLeaderHeadInfo::write(FDataStreamBase* stream)
@@ -898,6 +950,12 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumEraInfos(), m_piDiploPeaceMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarIntroMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	FOR_EACH_ENUM(Reputation)
+	{
+		m_pReputationAttitudeChanges[eLoopReputation].write(stream);
+	}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 }
 #endif
 
@@ -1063,6 +1121,10 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	#endif // </advc.xmldefault>
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploWarIntroMusicScriptIds, "DiplomacyIntroMusicWar", GC.getNumEraInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploWarMusicScriptIds, "DiplomacyMusicWar", GC.getNumEraInfos());
+	
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	pXML->SetReputationAttitudeChanges(&m_pReputationAttitudeChanges, "ReputationAttitudeChanges", GC.getNumReputationInfos());
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 	m_pXML = NULL; // advc.xmldefault
 	return true;

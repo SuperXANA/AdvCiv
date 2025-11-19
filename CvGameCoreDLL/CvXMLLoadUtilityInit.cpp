@@ -175,7 +175,7 @@ void CvXMLLoadUtility::initReputationAttitudeStructList(ReputationAttitudeChange
 {
     if (ppStructList == NULL)
         return;
-    // Use a temporary pointer for clarity
+    // Use a temporary pointer to access the array
     ReputationAttitudeChangeInfo*& pStructList = *ppStructList;
     // Ensure any existing memory is freed to prevent memory leaks
     if (pStructList != NULL)

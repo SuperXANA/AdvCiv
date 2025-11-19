@@ -576,4 +576,21 @@ struct DealItemData
 	int iData, iDeal;
 };
 
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+struct ReputationAttitudeInfo
+{
+    int iGoodChange;
+    int iGoodDivisor;
+    int iGoodLimit;
+    int iBadChange;
+    int iBadDivisor;
+    int iBadLimit;
+	
+	#if ENABLE_XML_FILE_CACHE
+	void read(FDataStreamBase* pStream);
+	void write(FDataStreamBase* pStream);
+	#endif
+};
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+
 #endif	// CVSTRUCTS_H

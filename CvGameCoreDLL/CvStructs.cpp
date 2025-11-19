@@ -603,3 +603,27 @@ FirstContactData::FirstContactData(CvPlot const* pAt1, CvPlot const* pAt2,
 		u2.iID = pUnit2->getID();
 	}
 }
+
+#if ENABLE_XML_FILE_CACHE
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+void ReputationAttitudeInfo::read(FDataStreamBase* pStream)
+{
+	pStream->Read(&iGoodChange);
+	pStream->Read(&iGoodDivisor);
+	pStream->Read(&iGoodLimit);
+	pStream->Read(&iBadChange);
+	pStream->Read(&iBadDivisor);
+	pStream->Read(&iBadLimit);
+}
+
+void ReputationAttitudeInfo::write(FDataStreamBase* pStream)
+{
+	pStream->Write(iGoodChange);
+	pStream->Write(iGoodDivisor);
+	pStream->Write(iGoodLimit);
+	pStream->Write(iBadChange);
+	pStream->Write(iBadDivisor);
+	pStream->Write(iBadLimit);
+}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+#endif

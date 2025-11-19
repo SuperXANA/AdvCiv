@@ -220,6 +220,14 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getDiploPeaceMusicScriptIds(int i) const;
 	int getDiploWarIntroMusicScriptIds(int i) const;
 	int getDiploWarMusicScriptIds(int i) const;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	int getGoodReputationAttitudeChange(int iStruct) const;
+	int getGoodReputationAttitudeChangeDivisor(int iStruct) const;
+	int getGoodReputationAttitudeChangeLimit(int iStruct) const;
+	int getBadReputationAttitudeChange(int iStruct) const;
+	int getBadReputationAttitudeChangeDivisor(int iStruct) const;
+	int getBadReputationAttitudeChangeLimit(int iStruct) const;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 	// (not exposed to Python)
 	DllExport const CvArtInfoLeaderhead* getArtInfo() const;
@@ -339,6 +347,9 @@ protected:
 	int* m_piDiploPeaceMusicScriptIds;
 	int* m_piDiploWarIntroMusicScriptIds;
 	int* m_piDiploWarMusicScriptIds;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	ReputationAttitudeChangeInfo* m_pReputationAttitudeChanges;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;
 	static void GetChildXmlValByName(int& r, TCHAR const* szName, int iDefault = MIN_INT);

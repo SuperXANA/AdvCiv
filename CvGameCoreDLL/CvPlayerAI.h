@@ -242,6 +242,9 @@ public:
 	int AI_getRivalTradeAttitude(PlayerTypes ePlayer) const;
 	int AI_getBonusTradeCounter(TeamTypes eTo) const; // advc.130p
 	int AI_getMemoryAttitude(PlayerTypes ePlayer, MemoryTypes eMemory) const;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	int AI_getReputationAttitude(PlayerTypes ePlayer, ReputationTypes eReputation) const;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 	//int AI_getColonyAttitude(PlayerTypes ePlayer) const; // advc.130r
 	// BEGIN: Show Hidden Attitude Mod 01/22/2010
 	int AI_getFirstImpressionAttitude(PlayerTypes ePlayer) const;

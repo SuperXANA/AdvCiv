@@ -2044,6 +2044,70 @@ void CvXMLLoadUtility::SetVariableListTagPairForAudioScripts(int **ppiList, TCHA
 	}
 }
 
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+void CvXMLLoadUtility::SetReputationAttitudeChanges(ReputationAttitudeChangeInfo **ppStructList, TCHAR const* szRootTagName, 
+	int iInfoBaseLength)
+{
+	// <advc.xmldefault>
+	if (*ppStructList != NULL)
+		return; // </advc.xmldefault>
+	if(iInfoBaseLength <= 0)
+	{
+		char szMessage[1024];
+		sprintf(szMessage, "Allocating zero or less memory.\nCurrent XML file is: %s",
+				GC.getCurrentXMLFile().GetCString());
+		errorMessage(szMessage);
+	}
+	initReputationAttitudeStructList(ppStructList, iInfoBaseLength);
+	if (gDLL->getXMLIFace()->SetToChildByTagName(m_pFXml,szRootTagName))
+	{
+		if (SkipToNextVal())
+		{
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(m_pFXml);
+			ReputationAttitudeChangeInfo* pStructList = *ppStructList;
+			if (iNumSibs > 0)
+			{
+				if(iNumSibs > iInfoBaseLength)
+				{
+					char szMessage[1024];
+					sprintf(szMessage, "There are more siblings than memory allocated for them.\nCurrent XML file is: %s",
+							GC.getCurrentXMLFile().GetCString());
+					errorMessage(szMessage);
+				}
+				if (gDLL->getXMLIFace()->SetToChild(m_pFXml))
+				{
+					TCHAR szTextVal[256];
+					for (int i = 0; i < iNumSibs; i++)
+					{
+						if (SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
+							GetChildXmlVal(szTextVal))
+						{
+							int iIndexVal = getGlobalEnumFromString(szTextVal);
+							if (iIndexVal >= 0)
+							{
+								FAssert(iIndexVal < iInfoBaseLength); // advc.006
+								ReputationAttitudeChangeInfo& kStruct = pStructList[iIndexVal];
+								GetNextXmlVal(kStruct.iGoodChange);
+								GetNextXmlVal(kStruct.iGoodDivisor);
+								GetNextXmlVal(kStruct.iGoodLimit);
+								GetNextXmlVal(kStruct.iBadChange);
+								GetNextXmlVal(kStruct.iBadDivisor);
+								GetNextXmlVal(kStruct.iBadLimit);
+							}
+							gDLL->getXMLIFace()->SetToParent(m_pFXml);
+						}
+						if (!gDLL->getXMLIFace()->NextSibling(m_pFXml))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(m_pFXml);
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(m_pFXml);
+	}
+}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+
 DllExport bool CvXMLLoadUtility::LoadPlayerOptions()
 {
 	if (!CreateFXml())
