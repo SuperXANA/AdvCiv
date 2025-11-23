@@ -2071,7 +2071,7 @@ void CvXMLLoadUtility::SetVariableListTagPairFor2DEnumMaps(TwoDimensionalMap& ma
             }
             if (gDLL->getXMLIFace()->SetToChild(m_pFXml))
             {
-                do
+                for (int i = 0; i < iNumSibs; i++)
                 {
                     TCHAR szTextXVal[256];
                     if (SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
@@ -2090,7 +2090,7 @@ void CvXMLLoadUtility::SetVariableListTagPairFor2DEnumMaps(TwoDimensionalMap& ma
                             }
                             if (gDLL->getXMLIFace()->SetToChild(m_pFXml))
                             {
-                                do
+                                for (int ii = 0; ii < iNumCSibs; ii++)
                                 {
                                     TCHAR szTextYVal[256];
                                     if (SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
@@ -2119,14 +2119,18 @@ void CvXMLLoadUtility::SetVariableListTagPairFor2DEnumMaps(TwoDimensionalMap& ma
                                         }
                                         gDLL->getXMLIFace()->SetToParent(m_pFXml);
                                     }
-                                } while (gDLL->getXMLIFace()->NextSibling(m_pFXml));
+									if (!gDLL->getXMLIFace()->NextSibling(m_pFXml))
+										break;
+                                }
                                 
                                 gDLL->getXMLIFace()->SetToParent(m_pFXml);
                             }
                         }
                         gDLL->getXMLIFace()->SetToParent(m_pFXml);
                     }
-                } while (gDLL->getXMLIFace()->NextSibling(m_pFXml));
+					if (!gDLL->getXMLIFace()->NextSibling(m_pFXml))
+						break;
+                }
             }
         }
         gDLL->getXMLIFace()->SetToParent(m_pFXml);
