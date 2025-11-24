@@ -19,6 +19,21 @@
 	delete (p); \
 } // </advc.006>
 
+// Deletes a 2D array (array of pointers to arrays)
+// p: The double pointer array (e.g., m_aiiDoubleArray)
+// size: The size of the outer array (e.g., numRows, or GC.getNumTraitInfos())
+#define SAFE_DELETE_2D_ARRAY(p, size) \
+ /* XANA (note): The do {...} while(false) loop causes the macro statement to run only once, and forces the macro to require a semicolon after it */ \
+    do { \
+        if (p) { \
+            for (int i = 0; i < (size); ++i) { \
+                SAFE_DELETE_ARRAY(p[i]); /* Reuse the simple array macro */ \
+            } \
+            delete[] (p); \
+            (p) = NULL; \
+        } \
+    } while (false)
+
 #ifdef _DEBUG
 //#define MEMORY_TRACKING
 #endif
