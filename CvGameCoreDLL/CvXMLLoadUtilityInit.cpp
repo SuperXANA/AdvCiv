@@ -185,12 +185,13 @@ void CvXMLLoadUtility::initReputationAttitudeStructList(ReputationAttitudeChange
     pStructList = new ReputationAttitudeChangeInfo[iSize];
     for (int iCount = 0; iCount < iSize; ++iCount)
     {
-        pStructList[iCount].iGoodChange = 0;
-        pStructList[iCount].iGoodDivisor = 0;
-        pStructList[iCount].iGoodLimit = 0;
-        pStructList[iCount].iBadChange = 0;
-        pStructList[iCount].iBadDivisor = 0;
-        pStructList[iCount].iBadLimit = 0;
+		ReputationAttitudeChangeInfo& kStruct = pStructList[iCount];
+        kStruct.iGoodChange = 0;
+        kStruct.iGoodDivisor = 0;
+        kStruct.iGoodLimit = 0;
+        kStruct.iBadChange = 0;
+        kStruct.iBadDivisor = 0;
+        kStruct.iBadLimit = 0;
     }
 }
 // XANA: 11-15-2025 Reputation System for Advanced Civ
