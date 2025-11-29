@@ -876,9 +876,14 @@ protected:
 	void AI_setPeacetimeGrantValue(PlayerTypes eIndex, int iVal);
 	// </advc.130p>
 	// <advc.130n>
-	enum IdeologicMarker { SAME_RELIGION, DIFFERENT_RELIGION, SAME_CIVIC };
+	enum IdeologicMarker { GOOD_REPUTATION, BAD_REPUTATION, SAME_RELIGION, DIFFERENT_RELIGION, SAME_CIVIC }; // XANA: 11-15-2025 Reputation System for Advanced Civ
 	int AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eMarker,
 			int iCounter, int iDivisor, int iLimit) const; // </advc.130n>
+	// XANA: 11-15-2025 Reputation System for Advanced Civ
+	int AI_reputationAttitudeChange(PlayerTypes eOther, ReputationTypes eReputation, IdeologicMarker eMarker,
+			int iCounter, int iDivisor, int iLimit, int iGameTurn) const;
+	void AI_updateLinkedReputationValues(PlayerTypes eOtherPlayer, MemoryTypes eDecisionMemory, int iGameTurn);
+	// XANA: 11-15-2025 Reputation System for Advanced Civ
 	// advc.130r: Are they at war with a partner of ours?
 	bool AI_atWarWithPartner(TeamTypes eOtherTeam,
 			/*  advc.130h: If CheckPartnerAttacked==true, then only partners with

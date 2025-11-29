@@ -8504,6 +8504,26 @@ int CvPlayerAI::AI_getMemoryAttitude(PlayerTypes ePlayer, MemoryTypes eMemory) c
 	return scaled(AI_getMemoryCount(ePlayer, eMemory) * iAttitudePercent, iDiv).round();
 }
 
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+int CvPlayerAI::AI_getReputationAttitude(PlayerTypes ePlayer, ReputationTypes eReputation) const
+{
+	int const iTurn = GC.getGame().getGameTurn();
+	int const iScore = getReputationScore(ePlayer, eReputation, iTurn);
+	if (iScore == 0)
+		return 0;
+	CvLeaderHeadInfo const& kOurPersonality = GC.getInfo(getPersonalityType());
+	bool const bGoodReputation = (iScore > 0);
+	int iAttitude = bGoodReputation ? kOurPersonality.getGoodReputationAttitudeChange(eReputation) : kOurPersonality.getBadReputationAttitudeChange(eReputation);
+	iAttitude += AI_reputationAttitudeChange(ePlayer, eReputation,
+			bGoodReputation ? GOOD_REPUTATION : BAD_REPUTATION,
+			abs(iScore) / 3,
+			bGoodReputation ? kOurPersonality.getGoodReputationAttitudeChangeDivisor(eReputation) : kOurPersonality.getBadReputationAttitudeChangeDivisor(eReputation),
+			bGoodReputation ? kOurPersonality.getGoodReputationAttitudeChangeLimit(eReputation) : kOurPersonality.getBadReputationAttitudeChangeLimit(eReputation),
+			iTurn);
+	return iAttitude;
+}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+
 // advc.130r: Now handled through MemoryAttitude
 /*int CvPlayerAI::AI_getColonyAttitude(PlayerTypes ePlayer) const {
 	int iAttitude = 0;
@@ -18917,6 +18937,97 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
 	// </advc.130x>
 }
 
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+int CvPlayerAI::AI_reputationAttitudeChange(PlayerTypes eOther, ReputationTypes eReputation, IdeologicMarker eMarker,
+	int iCounter, int iDivisor, int iLimit, int iGameTurn) const
+{
+	if (iDivisor == 0 || iLimit == 0 || iCounter < abs(iDivisor))
+		return 0;
+	FAssert((iLimit < 0) == (iDivisor < 0));
+
+	int iTotal = 0;
+	int iMatching = 0;
+	for (PlayerIter<MAJOR_CIV,KNOWN_TO> itPlayer(getTeam());
+		itPlayer.hasNext(); ++itPlayer)
+	{
+		if (GET_TEAM(itPlayer->getTeam()).isCapitulated())
+			continue;
+		int iCities = itPlayer->getNumCities();
+		iTotal += iCities;
+		switch (eMarker)
+		{
+		case GOOD_REPUTATION:
+			if (itPlayer->getReputationScore(eOther, eReputation, iGameTurn) > 0)
+			{
+				iMatching += iCities;
+			}
+			break;
+		case BAD_REPUTATION:
+		{
+			if (itPlayer->getReputationScore(eOther, eReputation, iGameTurn) < 0)
+			{
+				iMatching += iCities;
+			}
+		}
+		}
+	}
+	scaled rRatio = fixp(0.5);
+	if (iTotal > 0)
+		rRatio = scaled(iMatching, iTotal);
+	scaled const rWeight = fixp(0.35));
+	if (iLimit > 0)
+		iLimit -= (rWeight * rRatio * iLimit).round();
+	else
+	{
+		/*	Decreased dislike when the ratio is either small (their ideology is
+			not threatening) or large (can't kill the world). */
+		if (rRatio > fixp(0.5))
+			rRatio = 1 - rRatio;
+		rRatio.decreaseTo(rWeight);
+		iLimit = (iLimit * rRatio / rWeight).round();
+	}
+	int iAbsDiv = abs(iDivisor);
+	int const iIncr = (iDivisor > 0 ? 1 : -1);
+	int iChange = 0;
+	while (iCounter >= iAbsDiv &&
+		(iDivisor > 0 ? iChange < iLimit : iChange > iLimit))
+	{
+		iChange += iIncr;
+		iCounter -= iAbsDiv;
+		iAbsDiv++;
+	}
+	return iChange;
+}
+
+
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+void CvPlayerAI::AI_updateLinkedReputationValues(PlayerTypes eOtherPlayer, MemoryTypes eDecisionMemory, int iGameTurn)
+{	
+	CvLeaderHeadInfo const& kOurPersonality = GC.getInfo(getPersonalityType());
+	FOR_EACH_ENUM(Reputation)
+	{
+		CvReputationInfo const& kLoopReputation = GC.getInfo(eLoopReputation);
+		bool bRefreshLinkedReputations = false;
+		
+		if (kLoopReputation.getLinkedMemory(eDecisionMemory) == REPUTATION_EFFECT_INCREASE)
+		{
+			setReputationScore(eOtherPlayer, eLoopReputation, iGameTurn, kOurPersonality.getGoodReputationScoreChange(eLoopReputation));
+			bRefreshLinkedReputations = true;
+		}
+		else if (kLoopReputation.getLinkedMemory(eDecisionMemory) == REPUTATION_EFFECT_DECREASE)
+		{
+			setReputationScore(eOtherPlayer, eLoopReputation, iGameTurn, kOurPersonality.getBadReputationScoreChange(eLoopReputation));
+			bRefreshLinkedReputations = true;
+		}
+		
+		if (bRefreshLinkedReputations)
+		{
+			updateSubReputationScores(eOtherPlayer, eLoopReputation, iGameTurn);
+		}
+	}
+}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+
 
 int CvPlayerAI::AI_getGoldTradedTo(PlayerTypes eIndex) const
 {
@@ -19524,7 +19635,17 @@ void CvPlayerAI::AI_doCounter()
 			}
 			rProb.decreaseTo(fixp(0.5)); // </advc.145>
 			if (SyncRandSuccess(rProb)) // advc.130j
-				AI_changeMemoryCount(ePlayer, eMem, -1);
+				AI_changeMemoryCount(ePlayer, eMem, -1);	
+
+			// XANA: 11-15-2025 Reputation System for Advanced Civ
+			if (iCount > 0 &&
+			eMem != MEMORY_REJECTED_DEMAND /* XANA (note): Need to avoid counting this one twice */ && 
+			AI_getMemoryCount(ePlayer, eMem) == 0)
+			{
+				AI_updateLinkedReputationValues(ePlayer, eMem, kGame.getGameTurn());
+			}
+			// XANA: 11-15-2025 Reputation System for Advanced Civ
+			
 		}
 		// <advc.130g>
 		int iRebuke = AI_getMemoryCount(ePlayer, MEMORY_REJECTED_DEMAND);
@@ -19533,6 +19654,13 @@ void CvPlayerAI::AI_doCounter()
 		{
 			AI_changeMemoryCount(ePlayer, MEMORY_REJECTED_DEMAND, -iRebuke);
 		} // </advc.130g>
+		
+		// XANA: 11-15-2025 Reputation System for Advanced Civ
+		if ((iRebuke > 0  && AI_getMemoryCount(ePlayer, MEMORY_REJECTED_DEMAND) == 0)
+		{
+			AI_updateLinkedReputationValues(ePlayer, MEMORY_REJECTED_DEMAND, kGame.getGameTurn());
+		}
+		// XANA: 11-15-2025 Reputation System for Advanced Civ
 	}
 }
 

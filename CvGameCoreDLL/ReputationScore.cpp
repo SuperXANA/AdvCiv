@@ -9,10 +9,10 @@ void ReputationScore::grow(int iSize)
 }
 
 
-void ReputationScore::set(int iTurn, int iValue)
+void ReputationScore::set(int iTurn, int iValue, bool bSmoothOverOldOpinions)
 {
 	grow(iTurn);
-	if (m_iMovingAvgSamples <= 0)
+	if (m_iMovingAvgSamples <= 0 || !bSmoothOverOldOpinions)
 	{
 		m_aiValues[iTurn] = iValue;
 		return;
@@ -25,9 +25,12 @@ void ReputationScore::set(int iTurn, int iValue)
 		iSum += iValue;
 		iSamples++;
 	}
+	int const iGameSpeedPercent = GC.getInfo(GC.getGame().getGameSpeedType()).get(CvGameSpeedInfo::AIMemoryRandPercent);
 	for (int i = iTurn - 1; i >= iTurn - iOldSamples; i--)
-		iSum += std::max(m_aiValues[i], 0);
-	m_aiValues[iTurn] = intdiv::round(iSum, std::max(1, iSamples));
+		iSum += int(m_aiValues[i] * (iGameSpeedPercent / 100));
+	if (iSum != 0)
+		m_aiValues[iTurn] = intdiv::round(iSum, std::max(1, iSamples));
+	else m_aiValues[iTurn] = 0;
 }
 
 
@@ -38,22 +41,20 @@ void ReputationScore::read(FDataStreamBase* pStream, bool bLegacy)
 	{
 		size_t iSize;
 		pStream->Read(&iSize);
-		// Temporarily disable moving average
-		int iMovingAvgSamples = m_iMovingAvgSamples;
-		m_iMovingAvgSamples = 0;
+		pStream->Read(&m_iMovingAvgSamples);
 		for (size_t i = 0; i < iSize; i++)
 		{
 			int iTurn;
 			int iValue;
 			pStream->Read(&iTurn);
 			pStream->Read(&iValue);
-			set(iTurn, iValue);
+			set(iTurn, iValue, false);
 		}
-		m_iMovingAvgSamples = iMovingAvgSamples;
 		return;
 	}
 	int iSize;
 	pStream->Read(&iSize);
+	pStream->Read(&m_iMovingAvgSamples);
 	if (iSize > 0)
 	{
 		m_aiValues.resize(iSize);
@@ -66,6 +67,7 @@ void ReputationScore::write(FDataStreamBase* pStream)
 {
 	int iSize = size();
 	pStream->Write(iSize);
+	pStream->Write(m_iMovingAvgSamples);
 	if (iSize > 0)
 		pStream->Write(iSize, &m_aiValues[0]);
 }

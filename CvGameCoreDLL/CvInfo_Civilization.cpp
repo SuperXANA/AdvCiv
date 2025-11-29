@@ -1651,12 +1651,31 @@ ReputationEffect CvReputationInfo::getEffectOnModify(int i) const
 	}
 }
 
+
+ReputationEffect CvReputationInfo::getLinkedMemory(int i) const
+{
+	FAssertBounds(0, NUM_MEMORY_TYPES, i);
+	const int v = m_paiLinkedMemory ? m_paiLinkedMemory[i] : 0;
+	if (v < 0) // XANA (note): Is the memory value associated with negative feelings towards this reputation type?
+	{
+		return REPUTATION_EFFECT_DECREASE; // XANA (note): This reputation by itself doesn't decide how much players feel about memories.
+	}
+	else if (v > 0) // XANA (note): Is the memory value associated with positive feelings towards this reputation type?
+	{
+		return REPUTATION_EFFECT_INCREASE; // XANA (note): This reputation by itself doesn't decide how much players feel about memories.
+	}
+	else  // XANA (note): Fallback value if nothing else found.
+	{
+		return NO_REPUTATION_EFFECT;  // XANA (note): Fallback value which states there is no link between this reputation and a particular memory value.
+	}
+}
+
 bool CvReputationInfo::read(CvXMLLoadUtility* pXML)
 {
 	if (!CvInfoBase::read(pXML))
 		return false;
 	
-	//pXML->GetChildXmlValByName(&m_iHealth, "iHealth"); XANA (note): Nothing here yet.
+	pXML->SetVariableListTagPair(&m_paiLinkedMemory, "ReputationLinkedMemories", NUM_MEMORY_TYPES);
 	
 	return true;
 }

@@ -529,6 +529,7 @@ public:
 	~CvReputationInfo();
 	
 	ReputationEffect getEffectOnModify(int i) const;
+	bool getLinkedMemory(int i) const;
 	
 	bool read(CvXMLLoadUtility* pXML);
 	bool readPass2(CvXMLLoadUtility* pXML);
@@ -541,6 +542,8 @@ public:
 protected:
     // Stores the effect on all other ReputationTypes when 'this' reputation value is modified
     int* m_paiEffectOnModify;
+    // Defines how Reputations are linked with Memories to form opinions
+    int* m_paiLinkedMemory;
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 
 #endif
