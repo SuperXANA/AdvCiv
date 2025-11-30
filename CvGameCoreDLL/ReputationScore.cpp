@@ -25,9 +25,12 @@ void ReputationScore::set(int iTurn, int iValue, bool bSmoothOverOldOpinions)
 		iSum += iValue;
 		iSamples++;
 	}
-	int const iGameSpeedPercent = GC.getInfo(GC.getGame().getGameSpeedType()).get(CvGameSpeedInfo::AIMemoryRandPercent);
+	/* XANA (note): We need to create a new game speed XML value where a percentage integer can be defined as the decay value for reputation score values.
+	int const iReputationDecayPercent = 100 - GC.getInfo(GC.getGame().getGameSpeedType()).get(CvGameSpeedInfo::AIReputationDecayPercent);
+	*/
+	int const iReputationDecayPercent = 100 - 5; /* XANA (note): at below division by 100, this means 5% reputation decay per turn */
 	for (int i = iTurn - 1; i >= iTurn - iOldSamples; i--)
-		iSum += int(m_aiValues[i] * (iGameSpeedPercent / 100));
+		iSum += int((m_aiValues[i] * iReputationDecayPercent) / 100);
 	if (iSum != 0)
 		m_aiValues[iTurn] = intdiv::round(iSum, std::max(1, iSamples));
 	else m_aiValues[iTurn] = 0;
