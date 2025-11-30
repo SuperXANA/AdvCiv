@@ -19000,6 +19000,31 @@ int CvPlayerAI::AI_reputationAttitudeChange(PlayerTypes eOther, ReputationTypes 
 }
 
 
+void CvPlayerAI::AI_updateSubReputationScores(PlayerTypes ePlayer, ReputationTypes eReputation, int iTurn)
+{
+	CvLeaderHeadInfo const& kOurPersonality = GC.getInfo(getPersonalityType());
+	CvReputationInfo const& kReputation = GC.getInfo(eReputation);
+	FOR_EACH_ENUM(Reputation)
+	{
+		if (eLoopReputation != eReputation)
+		{
+			if (kReputation.getEffectOnModify(eLoopReputation) == REPUTATION_EFFECT_INCREASE)
+			{
+				int iOldValue = getReputationScore(ePlayer, eLoopReputation, iTurn);
+				setReputationScore(ePlayer, eLoopReputation, iTurn, 
+					(iOldValue + (kOurPersonality.getGoodReputationScoreChange(eLoopReputation) / 3)), false);
+			}
+			else if (kReputation.getEffectOnModify(eLoopReputation) == REPUTATION_EFFECT_DECREASE)
+			{
+				int iOldValue = getReputationScore(ePlayer, eLoopReputation, iTurn);
+				setReputationScore(ePlayer, eLoopReputation, iTurn, 
+					(iOldValue + (kOurPersonality.getBadReputationScoreChange(eLoopReputation) / 3)), false);
+			}
+		}
+	}
+}
+
+
 void CvPlayerAI::AI_updateLinkedReputationValues(PlayerTypes eOtherPlayer, MemoryTypes eDecisionMemory, int iGameTurn)
 {	
 	CvLeaderHeadInfo const& kOurPersonality = GC.getInfo(getPersonalityType());
@@ -19021,7 +19046,7 @@ void CvPlayerAI::AI_updateLinkedReputationValues(PlayerTypes eOtherPlayer, Memor
 		
 		if (bRefreshLinkedReputations)
 		{
-			updateSubReputationScores(eOtherPlayer, eLoopReputation, iGameTurn);
+			AI_updateSubReputationScores(eOtherPlayer, eLoopReputation, iGameTurn);
 		}
 	}
 }

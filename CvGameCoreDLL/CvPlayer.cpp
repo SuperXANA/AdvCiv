@@ -11546,31 +11546,6 @@ void CvPlayer::setReputationScore(PlayerTypes ePlayer, ReputationTypes eReputati
 	int const iClassIndex = ePlayer * GC.getNumReputationInfos() + eReputation;
 	m_reputationScores[iClassIndex].set(iTurn, iNewValue, bSmoothOverOldOpinions);
 }
-
-
-void CvPlayer::updateSubReputationScores(PlayerTypes ePlayer, ReputationTypes eReputation, int iTurn)
-{
-	CvReputationInfo const& kReputation = GC.getInfo(eReputation);
-	CvLeaderHeadInfo const& kOurPersonality = GC.getInfo(getPersonalityType());
-	FOR_EACH_ENUM(Reputation)
-	{
-		if (eLoopReputation != eReputation)
-		{
-			if (kReputation.getEffectOnModify(eLoopReputation) == REPUTATION_EFFECT_INCREASE)
-			{
-				int iOldValue = getReputationScore(ePlayer, eLoopReputation, iTurn);
-				setReputationScore(ePlayer, eLoopReputation, iTurn, 
-					(iOldValue + (kOurPersonality.getGoodReputationScoreChange(eLoopReputation) / 3)), false);
-			}
-			else if (kReputation.getEffectOnModify(eLoopReputation) == REPUTATION_EFFECT_DECREASE)
-			{
-				int iOldValue = getReputationScore(ePlayer, eLoopReputation, iTurn);
-				setReputationScore(ePlayer, eLoopReputation, iTurn, 
-					(iOldValue + (kOurPersonality.getBadReputationScoreChange(eLoopReputation) / 3)), false);
-			}
-		}
-	}
-}
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 
 

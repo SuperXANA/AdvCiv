@@ -1355,7 +1355,6 @@ public:
 	}
 	void setReputationScore(PlayerTypes ePlayer, ReputationTypes eReputation, int iTurn, int iNewValue, bool bSmoothOverOldOpinions = true);
 	// XANA (note): changeReputationScore is not needed here because the reputation score automatically gets smoothed out over time and new values are set within the container every turn.
-	void updateSubReputationScores(PlayerTypes ePlayer, ReputationTypes eReputation, int iTurn);
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 
 	// Script data needs to be a narrow string for pickling in Python
