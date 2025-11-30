@@ -11543,7 +11543,7 @@ void CvPlayer::setReputationScore(PlayerTypes ePlayer, ReputationTypes eReputati
 {
 	FAssertBounds(0, MAX_CIV_PLAYERS, ePlayer);
 	FAssertBounds(0, GC.getNumReputationInfos(), eReputation);
-	int iClassIndex = ePlayer * GC.getNumReputationInfos() + eReputation;
+	int const iClassIndex = ePlayer * GC.getNumReputationInfos() + eReputation;
 	m_reputationScores[iClassIndex].set(iTurn, iNewValue, bSmoothOverOldOpinions);
 }
 
