@@ -19000,7 +19000,6 @@ int CvPlayerAI::AI_reputationAttitudeChange(PlayerTypes eOther, ReputationTypes 
 }
 
 
-// XANA: 11-15-2025 Reputation System for Advanced Civ
 void CvPlayerAI::AI_updateLinkedReputationValues(PlayerTypes eOtherPlayer, MemoryTypes eDecisionMemory, int iGameTurn)
 {	
 	CvLeaderHeadInfo const& kOurPersonality = GC.getInfo(getPersonalityType());
@@ -19637,15 +19636,18 @@ void CvPlayerAI::AI_doCounter()
 			if (SyncRandSuccess(rProb)) // advc.130j
 				AI_changeMemoryCount(ePlayer, eMem, -1);	
 
-			// XANA: 11-15-2025 Reputation System for Advanced Civ
-			if (iCount > 0 &&
-			eMem != MEMORY_REJECTED_DEMAND /* XANA (note): Need to avoid counting this one twice */ && 
-			AI_getMemoryCount(ePlayer, eMem) == 0)
-			{
-				AI_updateLinkedReputationValues(ePlayer, eMem, kGame.getGameTurn());
-			}
-			// XANA: 11-15-2025 Reputation System for Advanced Civ
-			
+				// XANA: 11-15-2025 Reputation System for Advanced Civ
+				if (AI_getMemoryCount(ePlayer, eMem) == 0)
+				{
+					/* XANA (note): For performance reasons, only refresh ReputationScore occasionally.
+					Do an update at the turn that eMem is forgiven (count == 0).
+					AI MemoryRand handles any opinions we're thinking about right now.
+					ReputationScore calculates the concern we have about ePlayer's diplomactic actions (eMem).
+					Ex: "You've recently declared war on my friends! Again, ePlayer...
+					You may be forgiven in due time, but this aggressiveness will be noted should we have to deal with you in the future." */
+					AI_updateLinkedReputationValues(ePlayer, eMem, kGame.getGameTurn());
+				}
+				// XANA: 11-15-2025 Reputation System for Advanced Civ
 		}
 		// <advc.130g>
 		int iRebuke = AI_getMemoryCount(ePlayer, MEMORY_REJECTED_DEMAND);
@@ -19653,14 +19655,16 @@ void CvPlayerAI::AI_doCounter()
 			GET_TEAM(getTeam()).AI_isChosenWar(kPlayer.getTeam())) || isAVassal())
 		{
 			AI_changeMemoryCount(ePlayer, MEMORY_REJECTED_DEMAND, -iRebuke);
+			
+			// XANA: 11-15-2025 Reputation System for Advanced Civ
+			if (AI_getMemoryCount(ePlayer, MEMORY_REJECTED_DEMAND) == 0)
+			{
+				/* XANA (note): For performance reasons, only refresh ReputationScore occasionally.
+					Do an update at the turn that any rejected demands are now forgiven (count == 0).*/
+				AI_updateLinkedReputationValues(ePlayer, MEMORY_REJECTED_DEMAND, kGame.getGameTurn());
+			}
+			// XANA: 11-15-2025 Reputation System for Advanced Civ
 		} // </advc.130g>
-		
-		// XANA: 11-15-2025 Reputation System for Advanced Civ
-		if ((iRebuke > 0  && AI_getMemoryCount(ePlayer, MEMORY_REJECTED_DEMAND) == 0)
-		{
-			AI_updateLinkedReputationValues(ePlayer, MEMORY_REJECTED_DEMAND, kGame.getGameTurn());
-		}
-		// XANA: 11-15-2025 Reputation System for Advanced Civ
 	}
 }
 
