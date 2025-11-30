@@ -11556,14 +11556,15 @@ void CvPlayer::updateSubReputationScores(PlayerTypes ePlayer, ReputationTypes eR
 	{
 		if (eLoopReputation != eReputation)
 		{
-			int iOldValue = getReputationScore(ePlayer, eLoopReputation, iTurn);
 			if (kReputation.getEffectOnModify(eLoopReputation) == REPUTATION_EFFECT_INCREASE)
 			{
+				int iOldValue = getReputationScore(ePlayer, eLoopReputation, iTurn);
 				setReputationScore(ePlayer, eLoopReputation, iTurn, 
 					(iOldValue + (kOurPersonality.getGoodReputationScoreChange(eLoopReputation) / 3)), false);
 			}
 			else if (kReputation.getEffectOnModify(eLoopReputation) == REPUTATION_EFFECT_DECREASE)
 			{
+				int iOldValue = getReputationScore(ePlayer, eLoopReputation, iTurn);
 				setReputationScore(ePlayer, eLoopReputation, iTurn, 
 					(iOldValue + (kOurPersonality.getBadReputationScoreChange(eLoopReputation) / 3)), false);
 			}
@@ -14516,14 +14517,13 @@ void CvPlayer::read(FDataStreamBase* pStream)
 	} // </advc.004s>
 	// XANA: 11-15-2025 Reputation System for Advanced Civ
 	m_reputationScores.clear();
-	int iSize;
+	uint iSize;
 	pStream->Read(&iSize);
 	if (iSize > 0)
 		m_reputationScores.resize(iSize);
-	for (int i = 0; i < iSize; i++)
+	for (uint i = 0; i < iSize; i++)
 	{
 		ReputationScore kRepScore;
-		kRepScore.reset();
 		kRepScore.read(pStream, uiFlag < 13);
 		m_reputationScores.push_back(kRepScore);
 	}
@@ -15024,13 +15024,12 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	FOR_EACH_ENUM(PlayerHistory)
 		m_playerHistory[eLoopPlayerHistory].write(pStream); // </advc.004s>
 // XANA: 11-15-2025 Reputation System for Advanced Civ
-	uint uiSize = m_reputationScores.size();
-	pStream->Write(uiSize);
-	for (std::vector<ReputationScore>::const_iterator it = m_reputationScores.begin();
-		it != m_reputationScores.end(); ++it)
+	uint iSize = m_reputationScores.size();
+	pStream->Write(iSize);
+	std::vector<ReputationScore>::const_iterator it;
+	for (it = m_reputationScores.begin(); it != m_reputationScores.end(); ++it)
 	{
-		ReputationScore const& kRepScore = *it;
-		kRepScore.write(pStream);
+		(*it).write(pStream);
 	}
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 
