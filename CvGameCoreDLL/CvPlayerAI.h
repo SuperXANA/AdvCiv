@@ -882,7 +882,7 @@ protected:
 	// XANA: 11-15-2025 Reputation System for Advanced Civ
 	int AI_reputationAttitudeChange(PlayerTypes eOther, ReputationTypes eReputation, IdeologicMarker eMarker,
 			int iCounter, int iDivisor, int iLimit, int iGameTurn) const;
-	void updateSubReputationScores(PlayerTypes ePlayer, ReputationTypes eReputation, int iTurn);
+	void updateSubReputationScores(PlayerTypes ePlayer, ReputationTypes eReputation, int iGameTurn);
 	void AI_updateLinkedReputationValues(PlayerTypes eOtherPlayer, MemoryTypes eDecisionMemory, int iGameTurn);
 	// XANA: 11-15-2025 Reputation System for Advanced Civ
 	// advc.130r: Are they at war with a partner of ours?
