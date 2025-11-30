@@ -248,6 +248,9 @@ public:
 	int AI_getTeamSizeAttitude(PlayerTypes ePlayer) const;
 	// advc.sha: One function for both BetterRank and WorseRank
 	int AI_getRankDifferenceAttitude(PlayerTypes ePlayer) const;
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	int AI_getShareRelativeProgressAttitude(PlayerTypes ePlayer, int iPartialSum) const;
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	/*int AI_getLowRankAttitude(PlayerTypes ePlayer) const;
 	int AI_getLostWarAttitude(PlayerTypes ePlayer) const;
 	int AI_getKnownPlayerRank(PlayerTypes ePlayer) const;*/ // advc.sha
@@ -511,6 +514,12 @@ public:
 
 	int AI_getBonusTradeCounter(PlayerTypes eIndex) const;
 	void AI_changeBonusTradeCounter(PlayerTypes eIndex, int iChange);
+	
+	// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	int AI_getShareRelativeProgressCounter(PlayerTypes eIndex) const;
+	void AI_changeShareRelativeProgressCounter(PlayerTypes eIndex, int iChange);
+	// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+
 	/*	<advc.130p> For code shared by AI_processPeacetimeTradeValue and
 		AI_processPeacetimeGrantValue. The third parameter says which of the two
 		should be changed. */
@@ -531,6 +540,9 @@ public:
 	void AI_setDifferentReligionCounter(PlayerTypes eIndex, int iValue);
 	void AI_setFavoriteCivicCounter(PlayerTypes eIndex, int iValue);
 	void AI_setBonusTradeCounter(PlayerTypes eIndex, int iValue);
+	// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	void AI_setShareRelativeProgressCounter(PlayerTypes eIndex, int iValue);
+	// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	// </advc.130k>
 	int AI_getGoldTradedTo(PlayerTypes eIndex) const;
 	void AI_changeGoldTradedTo(PlayerTypes eIndex, int iChange);
@@ -805,6 +817,9 @@ protected:
 	int* m_aiDifferentReligionCounter;
 	int* m_aiFavoriteCivicCounter;
 	int* m_aiBonusTradeCounter;
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	int* m_aiShareRelativeProgressCounter;
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	int* m_aiPeacetimeTradeValue;
 	int* m_aiPeacetimeGrantValue;
 	int* m_aiGoldTradedTo;

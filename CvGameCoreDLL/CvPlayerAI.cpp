@@ -59,6 +59,9 @@ CvPlayerAI::CvPlayerAI(/* advc.003u: */ PlayerTypes eID) : CvPlayer(eID)
 	m_aiDifferentReligionCounter = new int[MAX_PLAYERS];
 	m_aiFavoriteCivicCounter = new int[MAX_PLAYERS];
 	m_aiBonusTradeCounter = new int[MAX_PLAYERS];
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	m_aiShareRelativeProgressCounter = new int[MAX_PLAYERS];
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	m_aiPeacetimeTradeValue = new int[MAX_PLAYERS];
 	m_aiPeacetimeGrantValue = new int[MAX_PLAYERS];
 	m_aiGoldTradedTo = new int[MAX_PLAYERS];
@@ -106,6 +109,9 @@ CvPlayerAI::~CvPlayerAI()
 	SAFE_DELETE_ARRAY(m_aiDifferentReligionCounter);
 	SAFE_DELETE_ARRAY(m_aiFavoriteCivicCounter);
 	SAFE_DELETE_ARRAY(m_aiBonusTradeCounter);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	SAFE_DELETE_ARRAY(m_aiShareRelativeProgressCounter);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	SAFE_DELETE_ARRAY(m_aiPeacetimeTradeValue);
 	SAFE_DELETE_ARRAY(m_aiPeacetimeGrantValue);
 	SAFE_DELETE_ARRAY(m_aiGoldTradedTo);
@@ -204,6 +210,9 @@ void CvPlayerAI::AI_reset(bool bConstructor)
 		m_aiDifferentReligionCounter[iI] = 0;
 		m_aiFavoriteCivicCounter[iI] = 0;
 		m_aiBonusTradeCounter[iI] = 0;
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+		m_aiShareRelativeProgressCounter[iI] = 0;
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 		m_aiPeacetimeTradeValue[iI] = 0;
 		m_aiPeacetimeGrantValue[iI] = 0;
 		m_aiGoldTradedTo[iI] = 0;
@@ -232,6 +241,9 @@ void CvPlayerAI::AI_reset(bool bConstructor)
 			kLoopPlayer.m_aiDifferentReligionCounter[getID()] = 0;
 			kLoopPlayer.m_aiFavoriteCivicCounter[getID()] = 0;
 			kLoopPlayer.m_aiBonusTradeCounter[getID()] = 0;
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+			kLoopPlayer.m_aiShareRelativeProgressCounter[getID()] = 0;
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 			kLoopPlayer.m_aiPeacetimeTradeValue[getID()] = 0;
 			kLoopPlayer.m_aiPeacetimeGrantValue[getID()] = 0;
 			kLoopPlayer.m_aiGoldTradedTo[getID()] = 0;
@@ -7683,6 +7695,9 @@ void CvPlayerAI::AI_updateAttitude(PlayerTypes ePlayer, /* advc.130e: */ bool bU
 
 	//iAttitude += AI_getColonyAttitude(ePlayer); // advc.130r
 	iAttitude += AI_getAttitudeExtra(ePlayer);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	iAttitude += AI_getShareRelativeProgressAttitude(ePlayer, iAttitude);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	/*  advc.sha: Moved to the end and added parameter; the partial result for
 		iAttitude now factors in. */
 	iAttitude += AI_getWarAttitude(ePlayer, iAttitude);
@@ -8643,6 +8658,42 @@ int CvPlayerAI::AI_getLostWarAttitude(PlayerTypes ePlayer) const // obsolete
 }
 #endif
 // END: Show Hidden Attitude Mod </advc.sha>
+
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+int CvPlayerAI::AI_getShareRelativeProgressAttitude(PlayerTypes ePlayer, int iPartialSum) const
+{
+	CvLeaderHeadInfo const& kOurPersonality = GC.getInfo(getPersonalityType());
+	if (kOurPersonality.getShareRelativeProgressAttitudeChangeDivisor() == 0)
+	{
+		return 0;
+	}
+	AttitudeTypes eAttitudeThreshold = (AttitudeTypes)kOurPersonality.getShareRelativeProgressCooperationAttitudeThreshold(); /* ex: ATTITUDE_CAUTIOUS */
+	if (eAttitudeThreshold <= 0 || AI_getAttitudeFromValue(iPartialSum) <= eAttitudeThreshold)
+	{
+		return 0;
+	}
+	CvGame const& kGame = GC.getGame();
+	int const iOurRank = kGame.getPlayerRank(getID());
+	int const iTheirRank = kGame.getPlayerRank(ePlayer);
+	int const iTotalPlayers = kGame.getCivPlayersEverAlive();
+	bool const bBothPlayersAreDoingPoorly = (iOurRank * eAttitudeThreshold >= iTotalPlayers) && (iTheirRank * eAttitudeThreshold >= iTotalPlayers);
+	if (!bBothPlayersAreDoingPoorly)
+	{
+		return 0;
+	}
+	// XANA (note): rAttitude states how worried/annoyed we are that both we and ePlayer are doing poorly in the overall rankings.
+	scaled const rAttitude = kOurPersonality.getShareRelativeProgressAttitudeChange() + 
+                    ((fixp(((iOurRank + iTheirRank) / (iTotalPlayers - 1)) / 2) - 
+                    fixp(0.5)) * 
+                   (AI_getShareRelativeProgressCounter(ePlayer) / kOurPersonality.getShareRelativeProgressAttitudeChangeDivisor()));
+	if (kOurPersonality.getShareRelativeProgressAttitudeChangeLimit() == 0)
+	{
+		return rAttitude;
+	}
+	int const iAbsChangeLimit = abs(kOurPersonality.getShareRelativeProgressAttitudeChangeLimit());
+	return range(rAttitude, -iAbsChangeLimit, iAbsChangeLimit);
+}
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 
 // advc.130c:
 int CvPlayerAI::AI_knownRankDifference(PlayerTypes eOther,
@@ -18637,6 +18688,25 @@ void CvPlayerAI::AI_changeBonusTradeCounter(PlayerTypes eIndex, int iChange)
 }
 
 
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+int CvPlayerAI::AI_getShareRelativeProgressCounter(PlayerTypes eIndex) const
+{
+	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+	return m_aiShareRelativeProgressCounter[eIndex];
+}
+
+
+void CvPlayerAI::AI_changeShareRelativeProgressCounter(PlayerTypes eIndex, int iChange)
+{
+	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+	m_aiShareRelativeProgressCounter[eIndex] = (m_aiShareRelativeProgressCounter[eIndex] + iChange);
+	FAssert(AI_getShareRelativeProgressCounter(eIndex) >= 0);
+}
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+
+
 int CvPlayerAI::AI_getPeacetimeTradeValue(PlayerTypes eIndex) const
 {
 	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
@@ -18817,6 +18887,14 @@ void CvPlayerAI::AI_setBonusTradeCounter(PlayerTypes eIndex, int iValue)
 {
 	m_aiBonusTradeCounter[eIndex] = iValue;
 } // </advc.130k>
+
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+void CvPlayerAI::AI_setShareRelativeProgressCounter(PlayerTypes eIndex, int iValue)
+{
+	m_aiShareRelativeProgressCounter[eIndex] = iValue;
+}
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+
 
 // advc.130n:
 int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eMarker,
@@ -19325,6 +19403,11 @@ void CvPlayerAI::AI_doCounter()
 	CvGame& kGame = GC.getGame();
 	CvTeamAI const& kOurTeam = GET_TEAM(getTeam());
 	CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+	// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	int const iTotalPlayers = kGame.getCivPlayersEverAlive();
+	AttitudeTypes eCooperationAttitudeThreshold = (AttitudeTypes)kPersonality.getShareRelativeProgressCooperationAttitudeThreshold();
+	bool const bWeAreDoingBadly = kGame.getPlayerRank(getID()) * eCooperationAttitudeThreshold >= iTotalPlayers;
+	// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	// <advc.130k>
 	scaled rDecayFactor = 1 - GET_TEAM(getTeam()).AI_getDiploDecay();
 	for (PlayerAIIter<MAJOR_CIV,KNOWN_TO> it(getTeam()); it.hasNext(); ++it)
@@ -19425,6 +19508,22 @@ void CvPlayerAI::AI_doCounter()
 				AI_changeGoldTradedTo(ePlayer, iNewGoldTraded - iOldGoldTraded);
 			} // </advc.036>
 		} // </advc.149> </advc.130k>
+		// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+		if (bWeAreDoingBadly &&
+			kGame.getPlayerRank(ePlayer) * eCooperationAttitudeThreshold >= iTotalPlayers &&
+			// Don't cooperate immediately if just met
+			kOurTeam.AI_getHasMetCounter(kPlayer.getTeam()) >
+			2 * abs(kPersonality.getShareRelativeProgressAttitudeDivisor()))
+		{
+			AI_changeShareRelativeProgressCounter(ePlayer,
+					kOurTeam.AI_randomCounterChange());
+		}
+		else
+		{
+			AI_setShareRelativeProgressCounter(ePlayer,
+					(AI_getShareRelativeProgressCounter(ePlayer) * rDecayFactor).floor());
+		}
+		// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	}
 
 	for (PlayerIter<MAJOR_CIV,KNOWN_TO> it(getTeam()); it.hasNext(); ++it) // advc.003n
@@ -22955,6 +23054,9 @@ void CvPlayerAI::read(FDataStreamBase* pStream)
 	pStream->Read(MAX_PLAYERS, m_aiDifferentReligionCounter);
 	pStream->Read(MAX_PLAYERS, m_aiFavoriteCivicCounter);
 	pStream->Read(MAX_PLAYERS, m_aiBonusTradeCounter);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	pStream->Read(MAX_PLAYERS, m_aiShareRelativeProgressCounter);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	pStream->Read(MAX_PLAYERS, m_aiPeacetimeTradeValue);
 	pStream->Read(MAX_PLAYERS, m_aiPeacetimeGrantValue);
 	pStream->Read(MAX_PLAYERS, m_aiGoldTradedTo);
@@ -23161,6 +23263,9 @@ void CvPlayerAI::write(FDataStreamBase* pStream)
 	pStream->Write(MAX_PLAYERS, m_aiDifferentReligionCounter);
 	pStream->Write(MAX_PLAYERS, m_aiFavoriteCivicCounter);
 	pStream->Write(MAX_PLAYERS, m_aiBonusTradeCounter);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	pStream->Write(MAX_PLAYERS, m_aiShareRelativeProgressCounter);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	pStream->Write(MAX_PLAYERS, m_aiPeacetimeTradeValue);
 	pStream->Write(MAX_PLAYERS, m_aiPeacetimeGrantValue);
 	pStream->Write(MAX_PLAYERS, m_aiGoldTradedTo);

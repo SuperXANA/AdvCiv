@@ -175,6 +175,11 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getFavoriteCivicAttitudeChange() const { return m_iFavoriteCivicAttitudeChange; }
 	int getFavoriteCivicAttitudeDivisor() const { return m_iFavoriteCivicAttitudeDivisor; }
 	int getFavoriteCivicAttitudeChangeLimit() const { return m_iFavoriteCivicAttitudeChangeLimit; }
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	int getShareRelativeProgressAttitudeChange() const { return m_iShareRelativeProgressAttitudeChange; }
+	int getShareRelativeProgressAttitudeChangeDivisor() const { return m_iShareRelativeProgressAttitudeChangeDivisor; }
+	int getShareRelativeProgressAttitudeChangeLimit() const { return m_iShareRelativeProgressAttitudeChangeLimit; }
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	int getDemandTributeAttitudeThreshold() const { return m_iDemandTributeAttitudeThreshold; }
 	int getNoGiveHelpAttitudeThreshold() const { return m_iNoGiveHelpAttitudeThreshold; }
 	int getTechRefuseAttitudeThreshold() const { return m_iTechRefuseAttitudeThreshold; }
@@ -196,6 +201,9 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getDefensivePactRefuseAttitudeThreshold() const { return m_iDefensivePactRefuseAttitudeThreshold; }
 	int getPermanentAllianceRefuseAttitudeThreshold() const { return m_iPermanentAllianceRefuseAttitudeThreshold; }
 	int getVassalRefuseAttitudeThreshold() const { return m_iVassalRefuseAttitudeThreshold; }
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	int getShareRelativeProgressCooperationAttitudeThreshold() const { return m_iShareRelativeProgressCooperationAttitudeThreshold; }
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	int getVassalPowerModifier() const { return m_iVassalPowerModifier; }
 	CivicTypes getFavoriteCivic() const { return m_eFavoriteCivic; }
 	ReligionTypes getFavoriteReligion() const { return m_eFavoriteReligion; }
@@ -295,6 +303,11 @@ protected:
 	int m_iFavoriteCivicAttitudeChange;
 	int m_iFavoriteCivicAttitudeDivisor;
 	int m_iFavoriteCivicAttitudeChangeLimit;
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	int m_iShareRelativeProgressAttitudeChange;
+	int m_iShareRelativeProgressAttitudeChangeDivisor;
+	int m_iShareRelativeProgressAttitudeChangLimit;
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	int m_iDemandTributeAttitudeThreshold;
 	int m_iNoGiveHelpAttitudeThreshold;
 	int m_iTechRefuseAttitudeThreshold;
@@ -315,6 +328,9 @@ protected:
 	int m_iDefensivePactRefuseAttitudeThreshold;
 	int m_iPermanentAllianceRefuseAttitudeThreshold;
 	int m_iVassalRefuseAttitudeThreshold;
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	int m_iShareRelativeProgressCooperationAttitudeThreshold;
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	int m_iVassalPowerModifier;
 	int m_iFreedomAppreciation;
 	int m_iLoveOfPeace; // advc.104

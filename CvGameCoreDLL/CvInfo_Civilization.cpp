@@ -459,6 +459,11 @@ m_iShareWarAttitudeChangeLimit(0),
 m_iFavoriteCivicAttitudeChange(0),
 m_iFavoriteCivicAttitudeDivisor(0),
 m_iFavoriteCivicAttitudeChangeLimit(0),
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+m_iShareRelativeProgressAttitudeChange(0),
+m_iShareRelativeProgressAttitudeDivisor(0),
+m_iShareRelativeProgressAttitudeChangeLimit(0),
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 m_iDemandTributeAttitudeThreshold(NO_ATTITUDE),
 m_iNoGiveHelpAttitudeThreshold(NO_ATTITUDE),
 m_iTechRefuseAttitudeThreshold(NO_ATTITUDE),
@@ -480,6 +485,9 @@ m_iOpenBordersRefuseAttitudeThreshold(NO_ATTITUDE),
 m_iDefensivePactRefuseAttitudeThreshold(NO_ATTITUDE),
 m_iPermanentAllianceRefuseAttitudeThreshold(NO_ATTITUDE),
 m_iVassalRefuseAttitudeThreshold(NO_ATTITUDE),
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+m_iShareRelativeProgressCooperationAttitudeThreshold(NO_ATTITUDE),
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 m_iVassalPowerModifier(0),
 m_iFreedomAppreciation(0),
 m_iLoveOfPeace(0),
@@ -723,6 +731,11 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	stream->Read(&m_iFavoriteCivicAttitudeChange);
 	stream->Read(&m_iFavoriteCivicAttitudeDivisor);
 	stream->Read(&m_iFavoriteCivicAttitudeChangeLimit);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	stream->Read(&m_iShareRelativeProgressAttitudeChange);
+	stream->Read(&m_iShareRelativeProgressAttitudeDivisor);
+	stream->Read(&m_iShareRelativeProgressAttitudeChangeLimit);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	stream->Read(&m_iDemandTributeAttitudeThreshold);
 	stream->Read(&m_iNoGiveHelpAttitudeThreshold);
 	stream->Read(&m_iTechRefuseAttitudeThreshold);
@@ -743,6 +756,9 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	stream->Read(&m_iDefensivePactRefuseAttitudeThreshold);
 	stream->Read(&m_iPermanentAllianceRefuseAttitudeThreshold);
 	stream->Read(&m_iVassalRefuseAttitudeThreshold);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	stream->Read(&m_iShareRelativeProgressCooperationAttitudeThreshold);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	stream->Read(&m_iVassalPowerModifier);
 	stream->Read(&m_iFreedomAppreciation);
 	stream->Read(&m_iLoveOfPeace); // advc.104
@@ -859,6 +875,11 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(m_iFavoriteCivicAttitudeChange);
 	stream->Write(m_iFavoriteCivicAttitudeDivisor);
 	stream->Write(m_iFavoriteCivicAttitudeChangeLimit);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	stream->Write(m_iShareRelativeProgressAttitudeChange);
+	stream->Write(m_iShareRelativeProgressAttitudeDivisor);
+	stream->Write(m_iShareRelativeProgressAttitudeChangeLimit);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	stream->Write(m_iDemandTributeAttitudeThreshold);
 	stream->Write(m_iNoGiveHelpAttitudeThreshold);
 	stream->Write(m_iTechRefuseAttitudeThreshold);
@@ -879,6 +900,9 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(m_iDefensivePactRefuseAttitudeThreshold);
 	stream->Write(m_iPermanentAllianceRefuseAttitudeThreshold);
 	stream->Write(m_iVassalRefuseAttitudeThreshold);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	stream->Write(m_iShareRelativeProgressCooperationAttitudeThreshold);
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	stream->Write(m_iVassalPowerModifier);
 	stream->Write(m_iFreedomAppreciation);
 	stream->Write(m_iLoveOfPeace); // advc.104
@@ -979,6 +1003,11 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	GetChildXmlValByName(m_iFavoriteCivicAttitudeChange, "iFavoriteCivicAttitudeChange");
 	GetChildXmlValByName(m_iFavoriteCivicAttitudeDivisor, "iFavoriteCivicAttitudeDivisor");
 	GetChildXmlValByName(m_iFavoriteCivicAttitudeChangeLimit, "iFavoriteCivicAttitudeChangeLimit");
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	GetChildXmlValByName(m_iShareRelativeProgressAttitudeChange, "iShareRelativeProgressAttitudeChange");
+	GetChildXmlValByName(m_iShareRelativeProgressAttitudeDivisor, "iShareRelativeProgressAttitudeDivisor");
+	GetChildXmlValByName(m_iShareRelativeProgressAttitudeChangeLimit, "iShareRelativeProgressAttitudeChangeLimit");
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	GetChildXmlValByName(m_iVassalPowerModifier, "iVassalPowerModifier");
 	GetChildXmlValByName(m_iFreedomAppreciation, "iFreedomAppreciation");
 	GetChildXmlValByName(m_iLoveOfPeace, "iLoveOfPeace", 0); // advc.104
@@ -1027,6 +1056,10 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 			"PermanentAllianceRefuseAttitudeThreshold");
 	pXML->SetInfoIDFromChildXmlVal(m_iVassalRefuseAttitudeThreshold,
 			"VassalRefuseAttitudeThreshold");
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
+	pXML->SetInfoIDFromChildXmlVal(m_iShareRelativeProgressCooperationAttitudeThreshold,
+			"ShareRelativeProgressCooperationAttitudeThreshold");
+// XANA: 11-29-2025 Leader Specific Dyanmic Rank Diplomacy
 	pXML->SetInfoIDFromChildXmlVal(m_eFavoriteCivic,
 			"FavoriteCivic");
 	pXML->SetInfoIDFromChildXmlVal(m_eFavoriteReligion,
