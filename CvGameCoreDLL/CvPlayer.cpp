@@ -98,14 +98,12 @@ void CvPlayer::initContainers()
 		m_playerHistory[eLoopPlayerHistory].grow(GC.getGame().getGameTurn());
 	} // </advc.004s>
 // XANA: 11-15-2025 Reputation System for Advanced Civ
-	for (int iLoopCounter = 0; iLoopCounter < MAX_CIV_PLAYERS; iLoopCounter++)
+	m_reputationScores.reserve(MAX_CIV_PLAYERS * GC.getNumReputationInfos()); // XANA (note): Help preserve O(1) speed by reserving calculated memory size in advance
+	for (int iLoopCounter = 0; iLoopCounter < (MAX_CIV_PLAYERS * GC.getNumReputationInfos()); iLoopCounter++)
 	{
-		for (int iiLoopCounter = 0; iiLoopCounter < GC.getNumReputationInfos(); iiLoopCounter++)
-		{
-			ReputationScore kRepScore;
-			kRepScore.reset();
-			m_reputationScores.push_back(kRepScore); /* XANA (note): one-dimensional vector sized at: MAX_CIV_PLAYERS * GC.getNumReputationInfos() */
-		}
+		ReputationScore kRepScore;
+		kRepScore.reset();
+		m_reputationScores.push_back(kRepScore); /* XANA (note): one-dimensional vector sized at: MAX_CIV_PLAYERS * GC.getNumReputationInfos() */
 	}
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 }
