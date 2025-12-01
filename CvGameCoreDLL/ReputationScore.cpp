@@ -9,31 +9,53 @@ void ReputationScore::grow(int iSize)
 }
 
 
-void ReputationScore::set(int iTurn, int iValue, bool bSmoothOverOldOpinions)
+int ReputationScore::get(int iTurn) const
+{
+	FAssertBounds(0, size(), iTurn);
+	if (iTurn >= size())
+	{
+		return 0;
+	}
+	int const iLastValidIndex = iTurn - 1;
+	int const iSampleSize = std::min(m_iMovingAvgSamples - 1, iLastValidIndex);
+	int const iHistoryTurnsConsidered = iTurn - iSampleSize;
+	if (iSampleSize <= 0 || iHistoryTurnsConsidered <= 0)
+	{
+		return 0;
+	}
+    int iSum = 0;
+    for (int i = iLastValidIndex; i >= iHistoryTurnsConsidered; --i)
+		iSum += m_aiValues[i];
+    return intdiv::round(iSum, std::max(1, iSampleSize));
+}
+
+
+void ReputationScore::set(int iTurn, int iValue)
 {
 	grow(iTurn);
-	if (m_iMovingAvgSamples <= 0 || !bSmoothOverOldOpinions)
+	m_aiValues[iTurn] = iValue;
+}
+
+
+void ReputationScore::decay()
+{
+	FAssert(size() >= 0);
+	if (m_aiValues.empty())
 	{
-		m_aiValues[iTurn] = iValue;
 		return;
 	}
-	int iOldSamples = std::min(m_iMovingAvgSamples - 1, iTurn - 1);
-	int iSamples = iOldSamples;
-	int iSum = 0;
-	if (iTurn == 0)
+	int const iSize = size();
+	int const iLastValidIndex = iSize - 1;
+	int const iGameTurns = iSize - std::min(m_iMovingAvgSamples - 1, iLastValidIndex);
+	if (iGameTurns <= 0)
 	{
-		iSum += iValue;
-		iSamples++;
+		return;
 	}
-	/* XANA (note): We need to create a new game speed XML value where a percentage integer can be defined as the decay value for reputation score values.
-	int const iReputationDecayPercent = 100 - GC.getInfo(GC.getGame().getGameSpeedType()).get(CvGameSpeedInfo::AIReputationDecayPercent);
-	*/
-	int const iReputationDecayPercent = 100 - 5; /* XANA (note): at below division by 100, this means 5% reputation decay per turn */
-	for (int i = iTurn - 1; i >= iTurn - iOldSamples; i--)
-		iSum += int((m_aiValues[i] * iReputationDecayPercent) / 100);
-	if (iSum != 0)
-		m_aiValues[iTurn] = intdiv::round(iSum, std::max(1, iSamples));
-	else m_aiValues[iTurn] = 0;
+	scaled const rSmoothFactor = per100(95);
+	for (int i = iLastValidIndex; i >= iGameTurns; --i)
+		if (iLastValidIndex - i != 0)
+			int const iScale = iLastValidIndex - i;
+			m_aiValues[i] *= rSmoothFactor.pow(iScale);
 }
 
 
@@ -51,7 +73,7 @@ void ReputationScore::read(FDataStreamBase* pStream, bool bLegacy)
 			int iValue;
 			pStream->Read(&iTurn);
 			pStream->Read(&iValue);
-			set(iTurn, iValue, false);
+			set(iTurn, iValue);
 		}
 		return;
 	}
@@ -68,7 +90,7 @@ void ReputationScore::read(FDataStreamBase* pStream, bool bLegacy)
 
 void ReputationScore::write(FDataStreamBase* pStream)
 {
-	int iSize = size();
+	int const iSize = size();
 	pStream->Write(iSize);
 	pStream->Write(m_iMovingAvgSamples);
 	if (iSize > 0)

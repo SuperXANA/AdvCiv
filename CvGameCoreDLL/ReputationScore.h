@@ -17,12 +17,9 @@ public:
 	void clear() { m_aiValues.clear(); }
 	void grow(int iSize);
 	int size() const { return (int)m_aiValues.size(); }
-	int get(int iTurn) const
-	{
-		FAssertBounds(0, size(), iTurn);
-		return (iTurn > size()) ? 0 : m_aiValues[iTurn];
-	}
-	void set(int iTurn, int iValue, bool bSmoothOverOldOpinions);
+	int get(int iTurn) const;
+	void set(int iTurn, int iValue);
+	void decay();
 	void read(FDataStreamBase* pStream, bool bLegacy = false);
 	void write(FDataStreamBase* pStream);
 	void setSampleSize(char iNewValue) { (iNewValue <= 0 || iNewValue > 100) ? resetSampleSize() : m_iMovingAvgSamples = iNewValue; }

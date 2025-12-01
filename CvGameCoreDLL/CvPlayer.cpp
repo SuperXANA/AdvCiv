@@ -11539,12 +11539,12 @@ void CvPlayer::updateHistory(PlayerHistoryTypes eHistory, int iTurn)
 
 
 // XANA: 11-15-2025 Reputation System for Advanced Civ
-void CvPlayer::setReputationScore(PlayerTypes ePlayer, ReputationTypes eReputation, int iTurn, int iNewValue, bool bSmoothOverOldOpinions)
+void CvPlayer::setReputationScore(PlayerTypes ePlayer, ReputationTypes eReputation, int iTurn, int iNewValue)
 {
 	FAssertBounds(0, MAX_CIV_PLAYERS, ePlayer);
 	FAssertBounds(0, GC.getNumReputationInfos(), eReputation);
 	int const iClassIndex = ePlayer * GC.getNumReputationInfos() + eReputation;
-	m_reputationScores[iClassIndex].set(iTurn, iNewValue, bSmoothOverOldOpinions);
+	m_reputationScores[iClassIndex].set(iTurn, iNewValue);
 }
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 

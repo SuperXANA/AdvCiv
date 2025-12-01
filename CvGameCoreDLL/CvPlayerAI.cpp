@@ -19012,13 +19012,13 @@ void CvPlayerAI::AI_updateSubReputationScores(PlayerTypes ePlayer, ReputationTyp
 			{
 				int const iScore = getReputationScore(ePlayer, eLoopReputation, iGameTurn);
 				setReputationScore(ePlayer, eLoopReputation, iGameTurn, 
-					(iScore + (kOurPersonality.getGoodReputationScoreChange(eLoopReputation) / 3)), false);
+					(iScore + (kOurPersonality.getGoodReputationScoreChange(eLoopReputation) / 3)));
 			}
 			else if (kReputation.getEffectOnModify(eLoopReputation) == REPUTATION_EFFECT_DECREASE)
 			{
 				int const iScore = getReputationScore(ePlayer, eLoopReputation, iGameTurn);
 				setReputationScore(ePlayer, eLoopReputation, iGameTurn, 
-					(iScore + (kOurPersonality.getBadReputationScoreChange(eLoopReputation) / 3)), false);
+					(iScore + (kOurPersonality.getBadReputationScoreChange(eLoopReputation) / 3)));
 			}
 		}
 	}
