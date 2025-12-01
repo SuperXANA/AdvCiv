@@ -19690,6 +19690,11 @@ void CvPlayerAI::AI_doCounter()
 			}
 			// XANA: 11-15-2025 Reputation System for Advanced Civ
 		} // </advc.130g>
+		
+		// XANA: 11-15-2025 Reputation System for Advanced Civ
+		// (Note) This must run even if AI memory counts were not updated, thus ensuring that the opinions we have about ePlayer trend towards zero for all ReputationTypes
+		decayReputationScores(ePlayer);
+		// XANA: 11-15-2025 Reputation System for Advanced Civ
 	}
 }
 

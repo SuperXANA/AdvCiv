@@ -1354,6 +1354,16 @@ public:
 		return m_reputationScores[iClassIndex].get(iTurn);
 	}
 	void setReputationScore(PlayerTypes ePlayer, ReputationTypes eReputation, int iTurn, int iNewValue);
+	void decayReputationScores(PlayerTypes ePlayer)
+	{
+		FAssertBounds(0, MAX_CIV_PLAYERS, ePlayer);
+		int const iNumReputationInfos = GC.getNumReputationInfos();
+		FOR_EACH_ENUM(Reputation)
+		{
+			int const iClassIndex = ePlayer * iNumReputationInfos + eLoopReputation;
+			m_reputationScores[iClassIndex].decay();
+		}
+	}
 	// XANA (note): changeReputationScore is not needed here because the reputation score automatically gets smoothed out over time and new values are set within the container every turn.
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 
