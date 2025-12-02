@@ -26,7 +26,7 @@ int ReputationScore::get(int iTurn) const
     int iSum = 0;
     for (int i = iLastValidIndex; i >= iHistoryTurnsConsidered; --i)
 		iSum += m_aiValues[i];
-    return intdiv::round(iSum, std::max(1, iSampleSize));
+	return (iSum ! 0) ? intdiv::round(iSum, std::max(1, iSampleSize)) : 0;
 }
 
 
@@ -52,10 +52,12 @@ void ReputationScore::decay()
 		return;
 	}
 	scaled const rSmoothFactor = per100(95);
-	for (int i = iLastValidIndex; i >= iGameTurns; --i)
-		if (iLastValidIndex - i != 0)
-			int const iScale = iLastValidIndex - i;
-			m_aiValues[i] *= rSmoothFactor.pow(iScale);
+	for (int iTurn = iLastValidIndex; iTurn >= iGameTurns; --iTurn)
+		if (iLastValidIndex - iTurn != 0)
+		{
+			m_aiValues[iTurn] *= rSmoothFactor.pow(iLastValidIndex - iTurn);
+		}
+		else continue;
 }
 
 

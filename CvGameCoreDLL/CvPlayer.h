@@ -1350,7 +1350,7 @@ public:
 	{
 		FAssertBounds(0, MAX_CIV_PLAYERS, ePlayer);
 		FAssertBounds(0, GC.getNumReputationInfos(), eReputation);
-        int const iClassIndex = ePlayer * GC.getNumReputationInfos() + eReputation;
+		int const iClassIndex = ePlayer * GC.getNumReputationInfos() + eReputation;
 		return m_reputationScores[iClassIndex].get(iTurn);
 	}
 	void setReputationScore(PlayerTypes ePlayer, ReputationTypes eReputation, int iTurn, int iNewValue);

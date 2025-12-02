@@ -19661,18 +19661,9 @@ void CvPlayerAI::AI_doCounter()
 			if (SyncRandSuccess(rProb)) // advc.130j
 				AI_changeMemoryCount(ePlayer, eMem, -1);	
 
-				// XANA: 11-15-2025 Reputation System for Advanced Civ
-				if (AI_getMemoryCount(ePlayer, eMem) == 0)
-				{
-					/* XANA (note): For performance reasons, only refresh ReputationScore occasionally.
-					Do an update at the turn that eMem is forgiven (count == 0).
-					AI MemoryRand handles any opinions we're thinking about right now.
-					ReputationScore calculates the concern we have about ePlayer's diplomactic actions (eMem).
-					Ex: "You've recently declared war on my friends! Again, ePlayer...
-					You may be forgiven in due time, but this aggressiveness will be noted should we have to deal with you in the future." */
-					AI_updateLinkedReputationValues(ePlayer, eMem, kGame.getGameTurn());
-				}
-				// XANA: 11-15-2025 Reputation System for Advanced Civ
+			// XANA: 11-15-2025 Reputation System for Advanced Civ
+			AI_updateLinkedReputationValues(ePlayer, eMem, kGame.getGameTurn());
+			// XANA: 11-15-2025 Reputation System for Advanced Civ
 		}
 		// <advc.130g>
 		int iRebuke = AI_getMemoryCount(ePlayer, MEMORY_REJECTED_DEMAND);
@@ -19680,19 +19671,9 @@ void CvPlayerAI::AI_doCounter()
 			GET_TEAM(getTeam()).AI_isChosenWar(kPlayer.getTeam())) || isAVassal())
 		{
 			AI_changeMemoryCount(ePlayer, MEMORY_REJECTED_DEMAND, -iRebuke);
-			
-			// XANA: 11-15-2025 Reputation System for Advanced Civ
-			if (AI_getMemoryCount(ePlayer, MEMORY_REJECTED_DEMAND) == 0)
-			{
-				/* XANA (note): For performance reasons, only refresh ReputationScore occasionally.
-					Do an update at the turn that any rejected demands are now forgiven (count == 0).*/
-				AI_updateLinkedReputationValues(ePlayer, MEMORY_REJECTED_DEMAND, kGame.getGameTurn());
-			}
-			// XANA: 11-15-2025 Reputation System for Advanced Civ
 		} // </advc.130g>
 		
 		// XANA: 11-15-2025 Reputation System for Advanced Civ
-		// (Note) This must run even if AI memory counts were not updated, thus ensuring that the opinions we have about ePlayer trend towards zero for all ReputationTypes
 		decayReputationScores(ePlayer);
 		// XANA: 11-15-2025 Reputation System for Advanced Civ
 	}
