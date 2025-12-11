@@ -42,6 +42,9 @@ class CvMap;
 class CvPlayerAI;
 class CvTeamAI;
 class CvWorldInfo;
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+class CvDatabase;
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 // <advc.enum>
 #define FORWARD_DECLARE_INFO_CLASS(Name, Dummy) class Cv##Name##Info;
 DO_FOR_EACH_INFO_TYPE(FORWARD_DECLARE_INFO_CLASS) // </advc.enum>
@@ -211,6 +214,9 @@ public:
 	DllExport int& getNumPlayableCivilizationInfos();
 	DllExport int& getNumAIPlayableCivilizationInfos();
 // <advc.enum>
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+	CvDatabaseManager& CvGlobals::getDatabaseInstance() { return *m_db; }
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 #pragma region InfoAccessors
 	// DllExports turned into wrappers/adapters
 	// Start with those that have no associated enum type
@@ -961,6 +967,10 @@ protected:
 
 	FProfiler* m_Profiler;
 	CvString m_szDllProfileText;
+	
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+	CvDatabase* m_db;
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 private:
 	// <advc.opt>

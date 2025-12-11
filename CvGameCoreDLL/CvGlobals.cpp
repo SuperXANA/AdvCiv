@@ -9,6 +9,9 @@
 #include "FAStarFunc.h" // advc: only for getPlotGroupFinder
 #include "CvInfo_All.h"
 #include "CvXMLLoadUtility.h" // advc.003v
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+#include "CvDatabase.h"
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 // <advc.003o>
 #ifdef USE_TSC_PROFILER
 #include "TSCProfiler.h"
@@ -217,6 +220,10 @@ void CvGlobals::init() // allocate
 	CvPlayer::initStatics();
 	CvTeam::initStatics();
 	m_agents = new CvAgents(MAX_PLAYERS, MAX_TEAMS); // advc.agent
+	
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+	m_db = new CvDatabase();
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 	//m_pt3Origin = NiPoint3(0.0f, 0.0f, 0.0f); // advc.003j: unused
 
@@ -265,6 +272,10 @@ void CvGlobals::uninit() // free
 	SAFE_DELETE(m_iniInitCore);
 	gDLL->uninitGlobals();	// free globals allocated outside the dll
 	SAFE_DELETE(m_VarSystem);
+	
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+	SAFE_DELETE(m_db);
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 	// already deleted outside of the dll, set to null for safety
 	m_messageQueue=NULL; m_hotJoinMsgQueue=NULL; m_messageControl=NULL;
@@ -1410,3 +1421,4 @@ void CvGlobals::setBorderFinder(FAStar* pVal) { m_borderFinder = pVal; }
 void CvGlobals::setAreaFinder(FAStar* pVal) { m_areaFinder = pVal; }
 void CvGlobals::setPlotGroupFinder(FAStar* pVal) { m_plotGroupFinder = pVal; }
 CvDLLUtilityIFaceBase* CvGlobals::getDLLIFaceNonInl() { return m_pDLL; }
+CvDLLUtilityIFaceBase* CvGlobals::getSQLIFace() { return m_pSQL; }
