@@ -11,7 +11,7 @@ public:
 	~SQLiteConnection() { close(); }
 	sqlite3* getDatabase() const { return m_database; }
 	void close();
-	bool ready() const { return m_database != NULL && m_bAvailable == true; }
+	bool ready() const { return m_database != NULL && m_bAvailable; }
 private:
 	sqlite3* m_database;
 	bool m_bAvailable;

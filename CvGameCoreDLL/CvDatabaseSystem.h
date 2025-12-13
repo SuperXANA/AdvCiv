@@ -55,7 +55,7 @@ public:
 		return kDataMap;
 	}
 	bool ready() const { return m_sqlite ? m_sqlite->ready() : false; }
-	sqlite3* getSQLite() { return (ready() == true) ? m_sqlite->getDatabase() : NULL; }
+	sqlite3* getSQLite() { return (ready()) ? m_sqlite->getDatabase() : NULL; }
 
 private:
 	int exec(CvString const& szSQL)
@@ -63,10 +63,11 @@ private:
 		int const sqliteReturnCode = sqlite3_exec(getSQLite(), szSQL.c_str(), NULL, NULL, NULL);
 		if (sqliteReturnCode != SQLITE_OK)
 		{
-			log(sqliteReturnCode, "SQLiteTransaction: Failed executing SQL statement on database!");
+			log(sqliteReturnCode, "SQLite: Failed executing SQL statement on database!");
 		}
 		return sqliteReturnCode;
 	}
+	bool optimize() { return exec("PRAGMA optimize;") == SQLITE_OK; }
 	void log(int const iReturnCode, const char* szContext)
     SQLiteConnection* m_sqlite = NULL;
 };

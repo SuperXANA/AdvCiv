@@ -20,7 +20,7 @@ public:
 		}
 	}
 	~SQLiteStatement();
-	bool ready() const { return DB.ready() == true && m_statement != NULL && m_bPrepared == true && m_bFinalized == false; }
+	bool ready() const { return m_statement != NULL && m_bPrepared && m_bFinalized == false; }
 	template <typename ValueType>
 	static bool bindNamedParamToValue(CvString const& sSQLParam, ValueType const& tValue)
 	{

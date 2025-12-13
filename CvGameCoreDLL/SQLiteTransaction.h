@@ -9,7 +9,7 @@ class SQLiteTransaction : private boost::noncopyable
 public:
 	SQLiteTransaction();
 	~SQLiteTransaction();
-	bool ready() { return DB.ready() == true && m_bProcessing == true; }
+	bool ready() { return m_bProcessing; }
 	template <typename DataType>
 	bool process(std::vector<SQLiteStatement>& statementVector, std::vector<DataType>& resultVector, bool const bWaitToCommit = false)
 	{
