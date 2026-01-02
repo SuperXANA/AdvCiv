@@ -10842,13 +10842,10 @@ void CvGame::updateGlobalCounter()
 	{
 		FOR_EACH_ENUM(Player)
 		{
-			int iPlayerID = GET_PLAYER(eLoopPlayer).getID();
-			int iPlayerContribPerTurn = getGlobalCounterContribPerTurn(iPlayerID);
-			if (iPlayerContribPerTurn == 0)
-				continue;
+			int iPlayerContribPerTurn = getGlobalCounterContribPerTurn(eLoopPlayer);
 			if (iPlayerContribPerTurn != 0)
 			{
-				int iProphecyID = GET_PLAYER(eLoopPlayer).getProphecyFollowed();
+				ProphecyTypes eProphecy = GET_PLAYER(eLoopPlayer).getProphecyFollowed();
 				bool bTheEndApproaches = (iPlayerContribPerTurn > 0)
 				int iGlobalCounterChange = (bTheEndApproaches) ? 1 : -1;
 				
@@ -10861,9 +10858,9 @@ void CvGame::updateGlobalCounter()
 				// if the contribution is negative (sanctifying city ruins, etc.), this tracker is increased by one each turn until it reaches 0.
 				int iTurnCounterChange = (bTheEndApproaches) ? -1 : 1;
 				
-				changeGlobalCounterContrib(iPlayerID, iGlobalCounterChange);
-				changeGlobalCounterContribPerTurn(iPlayerID, iTurnCounterChange);
-				changeGlobalCounter(iProphecyID, iGlobalCounterChange);
+				changeGlobalCounterContrib(eLoopPlayer, iGlobalCounterChange);
+				changeGlobalCounterContribPerTurn(eLoopPlayer, iTurnCounterChange);
+				changeGlobalCounter(eProphecy, iGlobalCounterChange);
 			}
 		}
 	}

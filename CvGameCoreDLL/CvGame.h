@@ -1141,8 +1141,8 @@ protected:
 	ArrayEnumMap<ReligionTypes,PlotNumTypes> m_aeHolyCity;
 	ArrayEnumMap<CorporationTypes,PlotNumTypes> m_aeHeadquarters;
 	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	EagerEnumMap<ProphecyTypes,int> m_aiProphecyGlobalCounters;
-	EagerEnumMap<ProphecyTypes,int> m_aiProphecyMaxGlobalCounters;
+	ArrayEnumMap<ProphecyTypes,int> m_aiProphecyGlobalCounters;
+	ArrayEnumMap<ProphecyTypes,int> m_aiProphecyMaxGlobalCounters;
 	EagerEnumMap<PlayerTypes,int> m_aiPlayerGlobalCounterContrib;
 	EagerEnumMap<PlayerTypes,int> m_aiPlayerGlobalCounterContribPerTurn;
 	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
