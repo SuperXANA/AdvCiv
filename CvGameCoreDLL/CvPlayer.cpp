@@ -135,13 +135,17 @@ bool CvPlayer::initOtherData()
 	
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	m_aAlignmentAxis.reserve(GC.getNumAlignmentAxisInfos());
+	m_aPermanentAlignmentChanges.reserve(GC.getNumAlignmentAxisInfos());
 	FOR_EACH_ENUM2(AlignmentAxis, eAxis)
-	(
-		m_aAlignmentAxis.push_back(std::make_pair(
-				(GC.getInfo(getCivilizationType()).getAlignmentValues(eAxis).first + GC.getInfo(getLeaderType()).getAlignmentValues(eAxis).first),
-				(GC.getInfo(getCivilizationType()).getAlignmentValues(eAxis).second + GC.getInfo(getLeaderType()).getAlignmentValues(eAxis).second)));	
-	)
-	m_aPermanentAlignmentChanges.assign(GC.getNumAlignmentAxisInfos(), std::make_pair(0,0);
+	{
+		AlignmentData kAlignmentData(
+			(GC.getInfo(getCivilizationType()).getAlignmentValues(eAxis).iHigh + GC.getInfo(getLeaderType()).getAlignmentValues(eAxis).iHigh),
+			(GC.getInfo(getCivilizationType()).getAlignmentValues(eAxis).iLow + GC.getInfo(getLeaderType()).getAlignmentValues(eAxis).iLow));
+		m_aAlignmentAxis.push_back(kAlignmentData);
+			
+		AlignmentData kPermanentAlignmentData();
+		m_aPermanentAlignmentChanges.push_back(kPermanentAlignmentData);
+	}
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 		
 	return true;
@@ -14701,11 +14705,9 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		pStream->Read(&iSize);
 		for (uint i = 0; i < iSize; i++)
 		{
-			int iAxisHigh;
-			int iAxisLow;
-			pStream->Read(&iAxisHigh);
-			pStream->Read(&iAxisLow);
-			m_aAlignmentAxis.push_back(std::make_pair(iAxisHigh, iAxisLow));
+			AlignmentData kAlignmentData();
+			kAlignmentData.read(pStream);
+			m_aAlignmentAxis.push_back(kAlignmentData);
 		}
 	}
 	{
@@ -14714,11 +14716,9 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		pStream->Read(&iSize);
 		for (uint i = 0; i < iSize; i++)
 		{
-			int iAxisHigh;
-			int iAxisLow;
-			pStream->Read(&iAxisHigh);
-			pStream->Read(&iAxisLow);
-			m_aPermanentAlignmentChanges.push_back(std::make_pair(iAxisHigh, iAxisLow));
+			AlignmentData kAlignmentData();
+			kAlignmentData.read(pStream);
+			m_aPermanentAlignmentChanges.push_back(kAlignmentData);
 		}
 	}
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -15092,21 +15092,19 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	{
 		uint iSize = m_aAlignmentAxis.size();
 		pStream->Write(iSize);
-		std::vector< std::pair<int, int> >::iterator it;
+		std::vector<AlignmentData>::iterator it;
 		for (it = m_aAlignmentAxis.begin(); it != m_aAlignmentAxis.end(); ++it)
 		{
-			pStream->Write(it->first);
-			pStream->Write(it->second);
+			it.write(pStream);
 		}
 	}
 	{
 		uint iSize = m_aPermanentAlignmentChanges.size();
 		pStream->Write(iSize);
-		std::vector< std::pair<int, int> >::iterator it;
+		std::vector<AlignmentData>::iterator it;
 		for (it = m_aPermanentAlignmentChanges.begin(); it != m_aPermanentAlignmentChanges.end(); ++it)
 		{
-			pStream->Write(it->first);
-			pStream->Write(it->second);
+			it.write(pStream);
 		}
 	}
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -19765,19 +19763,19 @@ AlignmentTypes CvPlayer::getAlignment(AlignmentAxisTypes eAxis) const
     AlignmentTypes eBestAlignment = NO_ALIGNMENT;
     FOR_EACH_ENUM(Alignment)
     {
-        CvAlignmentInfo& kAlignment = GC.getInfo(eAlignment);
+        CvAlignmentInfo const& kLoopAlignment = GC.getInfo(eLoopAlignment);
 		
-        if (kAlignment.getAxis() != eAxis) continue;
-        if (kAlignment.getPrereqCivilization() != NO_CIVILIZATION && kAlignment.getPrereqCivilization() != getCivilizationType()) continue;
-        if (kAlignment.getPrereqLeader() != NO_LEADER && kAlignment.getPrereqLeader() != getLeaderType()) continue;
+        if (kLoopAlignment.getAxis() != eAxis) continue;
+        if (getStateReligion() != NO_RELIGION && 
+			GC.getInfo(getStateReligion()).isDisallowedAlignment(eLoopAlignment)) continue;
 		
 		// Check if we fall within this alignment's "Zone"
-        if (rBalance >= kAlignment.getMinThreshold() && rBalance <= kAlignment.getMaxThreshold())
+        if (rBalance >= kLoopAlignment.get(CvAlignmentInfo::MinAligmentThreshold) && rBalance <= kLoopAlignment.get(CvAlignmentInfo::MaxAligmentThreshold))
         {
-            if (kAlignment.getTier() > iBestAlignmentTier)
+            if (kLoopAlignment.get(CvAlignmentInfo::AligmentTier) > iBestAlignmentTier)
             {
-                iBestAlignmentTier = kAlignment.getTier();
-                eBestAlignment = eAlignment;
+                iBestAlignmentTier = kLoopAlignment.get(CvAlignmentInfo::AligmentTier);
+                eBestAlignment = eLoopAlignment;
             }
         }
     }
@@ -19786,8 +19784,8 @@ AlignmentTypes CvPlayer::getAlignment(AlignmentAxisTypes eAxis) const
 
 scaled CvPlayer::getAlignmentBalance(AlignmentAxisTypes eAxis) const
 {
-    int const iAxisHigh = m_aAlignmentAxis[eAxis].first;
-    int const iAxisLow = m_aAlignmentAxis[eAxis].second;
+    int const iAxisHigh = m_aAlignmentAxis[eAxis].iHigh;
+    int const iAxisLow = m_aAlignmentAxis[eAxis].iLow;
     int const iPositionX = (iAxisHigh - iAxisLow);
     int const iPositionY = (iAxisHigh + iAxisLow);
     if (iPositionY <= 0) return 0; // Give true neutral since dividing against 0 isn't possible, and a Leader with Position Y at zero doesn't have alignment history stored yet
@@ -19808,12 +19806,13 @@ void CvPlayer::changeAlignmentTowardsPositive(AlignmentAxisTypes eAxis, int iCha
 	}
 	else
 	{
-		int const iMaxAlignmentPoints = GC.getInfo(eAxis).getMaxAlignmentPoints();
-		m_aAlignmentAxis[eAxis].first = std::max(0, std::min(iMaxAlignmentPoints, m_aAlignmentAxis[eAxis].first + iChange));
-	}
-	if (bPermanent)
-	{
-		m_aPermanentAlignmentChanges[eAxis].first = std::max(0, std::min(iMaxAlignmentPoints, m_aPermanentAlignmentChanges[eAxis].first + iChange));
+		int const iMaxAlignmentPoints = GC.getInfo(eAxis).get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS);
+		m_aAlignmentAxis[eAxis].iHigh = std::max(0, std::min(iMaxAlignmentPoints, m_aAlignmentAxis[eAxis].iHigh + iChange));
+		
+		if (bPermanent)
+		{
+			m_aPermanentAlignmentChanges[eAxis].iHigh = std::max(0, std::min(iMaxAlignmentPoints, m_aPermanentAlignmentChanges[eAxis].iHigh + iChange));
+		}
 	}
 }
 void CvPlayer::changeAlignmentTowardsNegative(AlignmentAxisTypes eAxis, int iChange, bool bPermanent)
@@ -19824,12 +19823,13 @@ void CvPlayer::changeAlignmentTowardsNegative(AlignmentAxisTypes eAxis, int iCha
 	}
 	else
 	{
-		int const iMaxAlignmentPoints = GC.getInfo(eAxis).getMaxAlignmentPoints();
-		m_aAlignmentAxis[eAxis].second = std::max(0, std::min(iMaxAlignmentPoints, m_aAlignmentAxis[eAxis].second + iChange));
-	}
-	if (bPermanent)
-	{
-		m_aPermanentAlignmentChanges[eAxis].second = std::max(0, std::min(iMaxAlignmentPoints, m_aPermanentAlignmentChanges[eAxis].second + iChange));
+		int const iMaxAlignmentPoints = GC.getInfo(eAxis).get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS);
+		m_aAlignmentAxis[eAxis].iLow = std::max(0, std::min(iMaxAlignmentPoints, m_aAlignmentAxis[eAxis].iLow + iChange));
+		
+		if (bPermanent)
+		{
+			m_aPermanentAlignmentChanges[eAxis].second = std::max(0, std::min(iMaxAlignmentPoints, m_aPermanentAlignmentChanges[eAxis].iLow + iChange));
+		}
 	}
 }
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -20455,23 +20455,23 @@ void CvPlayer::doAlignmentDecay()
 	CvLeaderHeadInfo const& kLeader = GC.getInfo(getLeaderType());
     FOR_EACH_ENUM2(AlignmentAxis, eAxis)
     {
-		int iAxisHigh = ((m_aPermanentAlignmentChanges(eAxis).first != 0) ? m_aPermanentAlignmentChanges(eAxis).first : 0);
-		int iAxisLow = ((m_aPermanentAlignmentChanges(eAxis).second != 0) ? m_aPermanentAlignmentChanges(eAxis).second : 0);
+		int iAxisHigh = ((m_aPermanentAlignmentChanges(eAxis).iHigh != 0) ? m_aPermanentAlignmentChanges(eAxis).iHigh : 0);
+		int iAxisLow = ((m_aPermanentAlignmentChanges(eAxis).iLow != 0) ? m_aPermanentAlignmentChanges(eAxis).iLow : 0);
 		
 		if (kCiv.getAlignment(eAxis) != NO_ALIGNMENT)
 		{
-			iAxisHigh += kCiv.getAlignmentValues(eAxis).first;
-			iAxisLow += kCiv.getAlignmentValues(eAxis).second;
+			iAxisHigh += kCiv.getAlignmentValues(eAxis).iHigh;
+			iAxisLow += kCiv.getAlignmentValues(eAxis).iLow;
 		}
 		
 		if (kLeader.getAlignment(eAxis) != NO_ALIGNMENT)
 		{
-			iAxisHigh += kLeader.getAlignmentValues(eAxis).first;
-			iAxisLow += kLeader.getAlignmentValues(eAxis).second;
+			iAxisHigh += kLeader.getAlignmentValues(eAxis).iHigh;
+			iAxisLow += kLeader.getAlignmentValues(eAxis).iLow;
 		}
 		
-        m_aAlignmentAxis[eAxis].first = decayAlignmentValue(m_aAlignmentAxis[eAxis].first, iAxisHigh, kLeader.getAlignmentAxisDecay(eAxis).first);
-        m_aAlignmentAxis[eAxis].second = decayAlignmentValue(m_aAlignmentAxis[eAxis].second, iAxisLow, kLeader.getAlignmentAxisDecay(eAxis).second);
+        m_aAlignmentAxis[eAxis].iHigh = decayAlignmentValue(m_aAlignmentAxis[eAxis].iHigh, iAxisHigh, kLeader.getAlignmentAxisDecay(eAxis).iHigh);
+        m_aAlignmentAxis[eAxis].iLow = decayAlignmentValue(m_aAlignmentAxis[eAxis].iLow, iAxisLow, kLeader.getAlignmentAxisDecay(eAxis).iLow);
     }
 }
 
@@ -20508,3 +20508,18 @@ CvUnit* getUnitExternal(IDInfo unit)
 		return NULL;
 	return getUnit(unit);
 } // </advc.opt>
+
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+bool CvAlignmentInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	pXML->SetInfoIDFromChildXmlVal(m_eAlignmentCategory,
+			"Category");
+	pXML->SetInfoIDFromChildXmlVal(m_eAlignmentAxis,
+			"Axis");
+
+	return true;
+}
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ

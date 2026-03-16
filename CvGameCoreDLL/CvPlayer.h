@@ -1698,8 +1698,8 @@ protected:  // <advc.210>
 	std::vector<std::pair<int, PlayerVoteTypes> > m_aVote;
 	std::vector<std::pair<UnitClassTypes,int> > m_aUnitExtraCosts;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-	std::vector<std::pair<int, int> > m_aAlignmentAxis;
-	std::vector<std::pair<int, int> > m_aPermanentAlignmentChanges;
+	std::vector<AlignmentData> m_aAlignmentAxis;
+	std::vector<AlignmentData> m_aPermanentAlignmentChanges;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	CvMessageQueue m_listGameMessages;
@@ -1876,5 +1876,67 @@ CvUnit* getUnitExternal(IDInfo unit); // exported through .def file
 
 // advc.enum: For calculatePollution. (Needs to be outside the class definition.)
 OVERLOAD_BITWISE_OPERATORS(CvPlayer::PollutionFlags)
+
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+class CvAlignmentAxisInfo : public CvXMLInfo
+{
+	typedef CvXMLInfo base_t;
+protected:
+	void addElements(ElementList& kElements) const
+	{
+		base_t::addElements(kElements);
+		kElements.addInt(MAX_ALIGNMENT_POINTS, "iMaxAlignmentPoints", MAX_INT);
+	}
+public:
+	enum IntElementTypes
+	{
+		MAX_ALIGNMENT_POINTS = base_t::NUM_INT_ELEMENT_TYPES,
+		NUM_INT_ELEMENT_TYPES
+	};
+	int get(IntElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::IntElementTypes>(e));
+	}
+	CvAlignmentAxisInfo() {}
+	bool read(CvXMLLoadUtility* pXML)
+	{
+		if (!base_t::read(pXML))
+			return false;
+		else return true;
+	}
+};
+
+class CvAlignmentInfo : public CvXMLInfo
+{
+	typedef CvXMLInfo base_t;
+protected:
+	void addElements(ElementList& kElements) const
+	{
+		base_t::addElements(kElements);
+		kElements.addInt(AligmentTier, "iTier");
+		kElements.addInt(MinAligmentThreshold, "iMinThreshold");
+		kElements.addInt(MaxAligmentThreshold, "iMaxThreshold");
+	}
+public:
+	enum IntElementTypes
+	{
+		AligmentTier = base_t::NUM_INT_ELEMENT_TYPES,
+		MinAligmentThreshold,
+		MaxAligmentThreshold,
+		NUM_INT_ELEMENT_TYPES
+	};
+	int get(IntElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::IntElementTypes>(e));
+	}
+	CvAlignmentInfo() {}
+	AlignmentClassTypes getCategory() const { return m_eAlignmentCategory; }
+	AlignmentAxisTypes getAxis() const { return m_eAlignmentAxis; }
+	bool read(CvXMLLoadUtility* pXML)
+};
+protected:
+	AlignmentClassTypes m_eAlignmentCategory;
+	AlignmentAxisTypes m_eAlignmentAxis;
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 #endif

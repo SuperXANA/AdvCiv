@@ -102,7 +102,7 @@ protected:
 	bool* m_pbCivilizationDisableTechs;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	AlignmentTypes* m_paeAlignments;
-	std::vector<std::pair<int,int> > m_aiiAlignmentValues;
+	std::vector<AlignmentData> m_aAlignmentValues;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	CvString* m_paszCityNames;
@@ -352,7 +352,7 @@ protected:
 	int* m_piDiploWarMusicScriptIds;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	AlignmentTypes* m_paeAlignments;
-	std::vector<std::pair<int,int> > m_aiiAlignmentValues;
+	std::vector<AlignmentData> m_aAlignmentValues;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;

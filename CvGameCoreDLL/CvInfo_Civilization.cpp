@@ -416,42 +416,39 @@ bool CvCivilizationInfo::read(CvXMLLoadUtility* pXML)
 	{
 		if (pXML->SkipToNextVal())
 		{
-			m_aiiAlignmentValues.assign(GC.getNumAlignmentAxisInfos(), std::make_pair(0, 0));
+			m_aAlignmentValues.assign(GC.getNumAlignmentAxisInfos(), AlignmentData());
 			pXML->InitAlignmentDefaults(&m_paeAlignmentAxis);
-
 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 			{
-				FAssert(iNumSibs <= GC.getNumAlignmentAxisInfos());
-
-				char szAxisVal[256]; 
-				CvString szTypeVal;
-
 				for (int j = 0; j < iNumSibs; j++)
 				{
-					if (pXML->GetChildXmlVal(szAxisVal))
+					if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML())) 
 					{
-						AlignmentAxisTypes eAxis = (AlignmentAxisTypes)pXML->FindInInfoClass(szAxisVal);
-						if (eAxis != NO_ALIGNMENTAXIS)
+						if (pXML->GetChildXmlVal(szAxisVal))
 						{
-							pXML->GetNextXmlVal(szTypeVal);
-							m_paeAlignmentAxis[eAxis] = (AlignmentTypes)pXML->FindInInfoClass(szTypeVal);
-							int iStartX, iStartY;
-							pXML->GetNextXmlVal(&iStartX);
-							pXML->GetNextXmlVal(&iStartY);
-							m_aiiAlignmentValues[eAxis] = std::make_pair(iStartX, iStartY);
+							AlignmentAxisTypes eAxis = (AlignmentAxisTypes)pXML->FindInInfoClass(szAxisVal);
+							if (eAxis != NO_ALIGNMENTAXIS)
+							{
+								pXML->GetNextXmlVal(szTypeVal);
+								m_paeAlignmentAxis[eAxis] = (AlignmentTypes)pXML->FindInInfoClass(szTypeVal);
+								int iStartX = 0;
+								int iStartY = 0;
+								pXML->GetNextXmlVal(&iStartX);
+								pXML->GetNextXmlVal(&iStartY);
+								m_aAlignmentValues[eAxis] = AlignmentData(iStartX, iStartY);
+							}
+							else FAssert(eAxis != NO_ALIGNMENTAXIS);
 						}
-						else FAssert(eAxis != NO_ALIGNMENTAXIS);
 						gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 					}
-
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
 						break;
 				}
 				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 			}
+			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 		}
-		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 	}
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
@@ -1126,42 +1123,39 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	{
 		if (pXML->SkipToNextVal())
 		{
-			m_aiiAlignmentValues.assign(GC.getNumAlignmentAxisInfos(), std::make_pair(0, 0));
+			m_aAlignmentValues.assign(GC.getNumAlignmentAxisInfos(), AlignmentData());
 			pXML->InitAlignmentDefaults(&m_paeAlignmentAxis);
-
 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 			{
-				FAssert(iNumSibs <= GC.getNumAlignmentAxisInfos());
-
-				char szAxisVal[256]; 
-				CvString szTypeVal;
-
 				for (int j = 0; j < iNumSibs; j++)
 				{
-					if (pXML->GetChildXmlVal(szAxisVal))
+					if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML())) 
 					{
-						AlignmentAxisTypes eAxis = (AlignmentAxisTypes)pXML->FindInInfoClass(szAxisVal);
-						if (eAxis != NO_ALIGNMENTAXIS)
+						if (pXML->GetChildXmlVal(szAxisVal))
 						{
-							pXML->GetNextXmlVal(szTypeVal);
-							m_paeAlignmentAxis[eAxis] = (AlignmentTypes)pXML->FindInInfoClass(szTypeVal);
-							int iStartX, iStartY;
-							pXML->GetNextXmlVal(&iStartX);
-							pXML->GetNextXmlVal(&iStartY);
-							m_aiiAlignmentValues[eAxis] = std::make_pair(iStartX, iStartY);
+							AlignmentAxisTypes eAxis = (AlignmentAxisTypes)pXML->FindInInfoClass(szAxisVal);
+							if (eAxis != NO_ALIGNMENTAXIS)
+							{
+								pXML->GetNextXmlVal(szTypeVal);
+								m_paeAlignmentAxis[eAxis] = (AlignmentTypes)pXML->FindInInfoClass(szTypeVal);
+								int iStartX = 0;
+								int iStartY = 0;
+								pXML->GetNextXmlVal(&iStartX);
+								pXML->GetNextXmlVal(&iStartY);
+								m_aAlignmentValues[eAxis] = AlignmentData(iStartX, iStartY);
+							}
+							else FAssert(eAxis != NO_ALIGNMENTAXIS);
 						}
-						else FAssert(eAxis != NO_ALIGNMENTAXIS);
 						gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 					}
-
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
 						break;
 				}
 				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 			}
+			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 		}
-		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 	}
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	pXML->SetVariableListTagPair(&m_piContactRand, "ContactRands", NUM_CONTACT_TYPES);

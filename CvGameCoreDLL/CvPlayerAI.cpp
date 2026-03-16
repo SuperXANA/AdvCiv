@@ -8156,6 +8156,27 @@ int CvPlayerAI::AI_getExpansionistAttitude(PlayerTypes ePlayer) const
 			round());
 }
 
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+AlignmentFactionTypes CvPlayerAI::AI_getAlignmentFaction(PlayerTypes ePlayer) const;
+{
+    CvPlayer const& kUs = GET_PLAYER(getID());
+    CvLeaderHeadInfo const& kThem = GC.getInfo(GET_PLAYER(ePlayer).getPersonalityType());
+    int iWeightedTotal = 0;
+	int iTotalWeight = 0;
+    FOR_EACH_ENUM(AlignmentAxis)
+	{   
+		iWeightedTotal += (kUs.getAlignmentBalance(eLoopAlignmentAxis) * kThem.getAlignmentAxisWeight(eLoopAlignmentAxis));
+		iTotalWeight += kThem.getAlignmentWeight(eLoopAlignmentAxis);
+	}
+    if (iTotalWeight <= 0) return NO_ALIGNMENTFACTION;
+    scaled const rAverage = fixp(iWeightedTotal / iTotalWeight);
+    // Determine the state based on the AI's "Perception"
+    if (rAverage >= kThem.getAlignmentPerception().iHigh) return ALIGNMENTFACTION_LIGHT;
+    if (rAverage <= kThem.getAlignmentPerception().iLow) return ALIGNMENTFACTION_DARK;
+    return ALIGNMENTFACTION_NEUTRAL;
+}
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+
 // advc.130n:
 void CvPlayerAI::AI_updateIdeologyAttitude(int iChange, CvCity const& kCity)
 {

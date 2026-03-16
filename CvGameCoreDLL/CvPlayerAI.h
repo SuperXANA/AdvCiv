@@ -253,6 +253,9 @@ public:
 	int AI_getKnownPlayerRank(PlayerTypes ePlayer) const;*/ // advc.sha
 	// END: Show Hidden Attitude Mod
 	int AI_getExpansionistAttitude(PlayerTypes ePlayer) const; // advc.130w
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	AlignmentFactionTypes CvPlayerAI::AI_getAlignmentFaction(PlayerTypes ePlayer) const;
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	void AI_updateIdeologyAttitude(int iChange, CvCity const& kCity); // advc.130n
 
 	PlayerVoteTypes AI_diploVote(const VoteSelectionSubData& kVoteData, VoteSourceTypes eVoteSource, bool bPropose);
