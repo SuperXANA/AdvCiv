@@ -58,6 +58,9 @@ public: // advc: All the const functions are exposed to Python
 	bool isCivilizationFreeBuildingClass(int i) const;
 	bool isCivilizationFreeTechs(int i) const;
 	bool isCivilizationDisableTechs(int i) const;
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	AlignmentTypes getAlignment(int i) const;
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	std::string getCityNames(int i) const;
 
@@ -97,6 +100,10 @@ protected:
 	bool* m_pbCivilizationFreeBuildingClass;
 	bool* m_pbCivilizationFreeTechs;
 	bool* m_pbCivilizationDisableTechs;
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	AlignmentTypes* m_paeAlignments;
+	std::vector<std::pair<int,int> > m_aiiAlignmentValues;
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	CvString* m_paszCityNames;
 
@@ -220,6 +227,10 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getDiploPeaceMusicScriptIds(int i) const;
 	int getDiploWarIntroMusicScriptIds(int i) const;
 	int getDiploWarMusicScriptIds(int i) const;
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	AlignmentTypes getAlignment(int i) const;
+	std::pair<int,int> getAlignmentValues(int i) const;
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	// (not exposed to Python)
 	DllExport const CvArtInfoLeaderhead* getArtInfo() const;
@@ -339,6 +350,10 @@ protected:
 	int* m_piDiploPeaceMusicScriptIds;
 	int* m_piDiploWarIntroMusicScriptIds;
 	int* m_piDiploWarMusicScriptIds;
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	AlignmentTypes* m_paeAlignments;
+	std::vector<std::pair<int,int> > m_aiiAlignmentValues;
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;
 	static void GetChildXmlValByName(int& r, TCHAR const* szName, int iDefault = MIN_INT);

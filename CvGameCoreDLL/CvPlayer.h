@@ -1451,6 +1451,13 @@ public:
 	DllExport bool hasSpaceshipArrived() const;
 	void announceGameNameChange(CvWString szOldName, CvWString szNewName); // advc.135c
 	bool showGoodyOnResourceLayer() const; // advc.004z
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	AlignmentTypes getAlignment(AlignmentAxisTypes eAxis) const;
+	scaled getAlignmentBalance(AlignmentAxisTypes eAxis) const;
+	// XANA (note): Helpers for changing Alignment balance towards specific side based on gameplay actions
+	void changeAlignmentTowardsPositive(AlignmentAxisTypes eAxis, int iChange, bool bPermanent = false);
+	void changeAlignmentTowardsNegative(AlignmentAxisTypes eAxis, int iChange, bool bPermanent = false);
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	// <advc.003u>
 	CvPlayerAI& AI()
 	{	//return *static_cast<CvPlayerAI*>(const_cast<CvPlayer*>(this));
@@ -1690,6 +1697,10 @@ protected:  // <advc.210>
 	UnitClassPromotionArray m_aFreeUnitClassPromotions;
 	std::vector<std::pair<int, PlayerVoteTypes> > m_aVote;
 	std::vector<std::pair<UnitClassTypes,int> > m_aUnitExtraCosts;
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	std::vector<std::pair<int, int> > m_aAlignmentAxis;
+	std::vector<std::pair<int, int> > m_aPermanentAlignmentChanges;
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	CvMessageQueue m_listGameMessages;
 	CvPopupQueue m_listPopups;
@@ -1730,6 +1741,10 @@ protected:  // <advc.210>
 			bool bCheckPoints = true) const; // advc.085
 	// advc.120f:
 	void announceEspionageToThirdParties(EspionageMissionTypes eMission, PlayerTypes eTarget);
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	void doAlignmentDecay();
+	int decayAlignmentValue(int iCurrent, int iTarget, int iRate) const;
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	bool checkExpireEvent(EventTypes eEvent, const EventTriggeredData& kTriggeredData) const;
 	void expireEvent(EventTypes eEvent, const EventTriggeredData& kTriggeredData, bool bFail);
 	bool isValidTriggerReligion(const CvEventTriggerInfo& kTrigger, CvCity const* pCity,

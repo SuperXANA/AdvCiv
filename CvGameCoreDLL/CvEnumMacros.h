@@ -43,7 +43,12 @@
 	DO(Hurry, HURRY) \
 	DO(Upkeep, UPKEEP) \
 	DO(CultureLevel, CULTURELEVEL) \
-	DO(CivicOption, CIVICOPTION)
+	DO(CivicOption, CIVICOPTION) \
+	/* XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ */ \
+	DO(AlignmentAxis, ALIGNMENTAXIS) \
+	DO(AlignmentClass, ALIGNMENTCLASS) \
+	DO(Alignment, ALIGNMENT)
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 // Number of instances not known at compile time; can be greater than MAX_CHAR.
 #define DO_FOR_EACH_BIG_DYN_INFO_TYPE(DO) \

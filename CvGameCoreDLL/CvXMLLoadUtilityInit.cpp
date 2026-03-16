@@ -157,6 +157,22 @@ void CvXMLLoadUtility::InitBuildingDefaults(int **ppiDefaults)
 		piDefaults[eLoopBuildingClass] = GC.getInfo(eLoopBuildingClass).getDefaultBuilding();
 }
 
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+void CvXMLLoadUtility::InitAlignmentDefaults(AlignmentTypes **ppaeDefaults)
+{
+	PROFILE_FUNC();
+
+	FAssertMsg(*ppaeDefaults == NULL,"memory leak?");
+	*ppaeDefaults = new AlignmentTypes[GC.getNumAlignmentAxisInfos()];
+	AlignmentTypes* paeDefaults = *ppaeDefaults;
+
+	FOR_EACH_ENUM(AlignmentAxis)
+	{
+		paeDefaults[eLoopAlignmentAxis] = NO_ALIGNMENT;
+	}
+}
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+
 // allocate and initialize the civilization's default Units
 void CvXMLLoadUtility::InitUnitDefaults(int **ppiDefaults)
 {

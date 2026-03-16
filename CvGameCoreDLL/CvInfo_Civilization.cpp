@@ -23,6 +23,9 @@ m_pbLeaders(NULL),
 m_pbCivilizationFreeBuildingClass(NULL),
 m_pbCivilizationFreeTechs(NULL),
 m_pbCivilizationDisableTechs(NULL),
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+m_paeAlignments(NULL),
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 m_paszCityNames(NULL)
 {}
 
@@ -36,6 +39,9 @@ CvCivilizationInfo::~CvCivilizationInfo()
 	SAFE_DELETE_ARRAY(m_pbCivilizationFreeBuildingClass);
 	SAFE_DELETE_ARRAY(m_pbCivilizationFreeTechs);
 	SAFE_DELETE_ARRAY(m_pbCivilizationDisableTechs);
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	SAFE_DELETE_ARRAY(m_paeAlignments);
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	SAFE_DELETE_ARRAY(m_paszCityNames);
 }
 
@@ -178,6 +184,14 @@ bool CvCivilizationInfo::isCivilizationDisableTechs(int i) const
 	return m_pbCivilizationDisableTechs ? m_pbCivilizationDisableTechs[i] : false;
 }
 
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+AlignmentTypes CvCivilizationInfo::getAlignment(int i) const
+{
+	FAssertBounds(0, GC.getNumAlignmentAxisInfos(), i);
+	return m_paeAlignments ? m_paeAlignments[i] : NO_ALIGNMENT;
+}
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+
 const CvArtInfoCivilization* CvCivilizationInfo::getArtInfo() const
 {
 	return ARTFILEMGR.getCivilizationArtInfo(getArtDefineTag());
@@ -242,6 +256,11 @@ void CvCivilizationInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_paszCityNames);
 	m_paszCityNames = new CvString[m_iNumCityNames];
 	stream->ReadString(m_iNumCityNames, m_paszCityNames);
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	SAFE_DELETE_ARRAY(m_paeAlignments);
+	m_paeAlignments = new AlignmentTypes[GC.getNumAlignmentAxisInfos()];
+	stream->Read(GC.getNumAlignmentAxisInfos(), m_paeAlignments);
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 }
 
 void CvCivilizationInfo::write(FDataStreamBase* stream)
@@ -272,6 +291,9 @@ void CvCivilizationInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumTechInfos(), m_pbCivilizationFreeTechs);
 	stream->Write(GC.getNumTechInfos(), m_pbCivilizationDisableTechs);
 	stream->WriteString(m_iNumCityNames, m_paszCityNames);
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	stream->Write(GC.getNumAlignmentAxisInfos(), m_paeAlignments);
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 }
 #endif
 
@@ -389,6 +411,49 @@ bool CvCivilizationInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pbLeaders, "Leaders", GC.getNumLeaderHeadInfos());
 	CvString szTextVal;
 	pXML->GetChildXmlValByName(szTextVal, "CivilizationSelectionSound");
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "Alignments"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			m_aiiAlignmentValues.assign(GC.getNumAlignmentAxisInfos(), std::make_pair(0, 0));
+			pXML->InitAlignmentDefaults(&m_paeAlignmentAxis);
+
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+			{
+				FAssert(iNumSibs <= GC.getNumAlignmentAxisInfos());
+
+				char szAxisVal[256]; 
+				CvString szTypeVal;
+
+				for (int j = 0; j < iNumSibs; j++)
+				{
+					if (pXML->GetChildXmlVal(szAxisVal))
+					{
+						AlignmentAxisTypes eAxis = (AlignmentAxisTypes)pXML->FindInInfoClass(szAxisVal);
+						if (eAxis != NO_ALIGNMENTAXIS)
+						{
+							pXML->GetNextXmlVal(szTypeVal);
+							m_paeAlignmentAxis[eAxis] = (AlignmentTypes)pXML->FindInInfoClass(szTypeVal);
+							int iStartX, iStartY;
+							pXML->GetNextXmlVal(&iStartX);
+							pXML->GetNextXmlVal(&iStartY);
+							m_aiiAlignmentValues[eAxis] = std::make_pair(iStartX, iStartY);
+						}
+						else FAssert(eAxis != NO_ALIGNMENTAXIS);
+						gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+					}
+
+					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+						break;
+				}
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	return true;
 }
@@ -497,7 +562,10 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL)
+m_piDiploWarMusicScriptIds(NULL),
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+m_paeAlignments(NULL)
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 {}
 
 // <advc.xmldefault>
@@ -550,6 +618,9 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploPeaceMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	SAFE_DELETE_ARRAY(m_paeAlignments);
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const
@@ -646,6 +717,14 @@ int CvLeaderHeadInfo::getDiploWarMusicScriptIds(int i) const
 	FAssertBounds(0, GC.getNumEraInfos(), i);
 	return m_piDiploWarMusicScriptIds ? m_piDiploWarMusicScriptIds[i] : 0; // advc.003t
 }
+
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+AlignmentTypes CvLeaderHeadInfo::getAlignment(int i) const
+{
+	FAssertBounds(0, GC.getNumAlignmentAxisInfos(), i);
+	return m_paeAlignments ? m_paeAlignments[i] : NO_ALIGNMENT;
+}
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 {
@@ -792,6 +871,11 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
 	m_piDiploWarMusicScriptIds = new int[GC.getNumEraInfos()];
 	stream->Read(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	SAFE_DELETE_ARRAY(m_paeAlignments);
+	m_paeAlignments = new AlignmentTypes[GC.getNumAlignmentAxisInfos()];
+	stream->Read(GC.getNumAlignmentAxisInfos(), m_paeAlignments);
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 }
 
 void CvLeaderHeadInfo::write(FDataStreamBase* stream)
@@ -898,6 +982,9 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumEraInfos(), m_piDiploPeaceMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarIntroMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	stream->Write(GC.getNumAlignmentAxisInfos(), m_paeAlignments);
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 }
 #endif
 
@@ -1034,6 +1121,49 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 
 	pXML->SetVariableListTagPair(&m_pbTraits, "Traits", GC.getNumTraitInfos());
 	pXML->SetVariableListTagPair(&m_piFlavorValue, "Flavors", GC.getNumFlavorTypes());
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "Alignments"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			m_aiiAlignmentValues.assign(GC.getNumAlignmentAxisInfos(), std::make_pair(0, 0));
+			pXML->InitAlignmentDefaults(&m_paeAlignmentAxis);
+
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+			{
+				FAssert(iNumSibs <= GC.getNumAlignmentAxisInfos());
+
+				char szAxisVal[256]; 
+				CvString szTypeVal;
+
+				for (int j = 0; j < iNumSibs; j++)
+				{
+					if (pXML->GetChildXmlVal(szAxisVal))
+					{
+						AlignmentAxisTypes eAxis = (AlignmentAxisTypes)pXML->FindInInfoClass(szAxisVal);
+						if (eAxis != NO_ALIGNMENTAXIS)
+						{
+							pXML->GetNextXmlVal(szTypeVal);
+							m_paeAlignmentAxis[eAxis] = (AlignmentTypes)pXML->FindInInfoClass(szTypeVal);
+							int iStartX, iStartY;
+							pXML->GetNextXmlVal(&iStartX);
+							pXML->GetNextXmlVal(&iStartY);
+							m_aiiAlignmentValues[eAxis] = std::make_pair(iStartX, iStartY);
+						}
+						else FAssert(eAxis != NO_ALIGNMENTAXIS);
+						gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+					}
+
+					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+						break;
+				}
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	pXML->SetVariableListTagPair(&m_piContactRand, "ContactRands", NUM_CONTACT_TYPES);
 	pXML->SetVariableListTagPair(&m_piContactDelay, "ContactDelays", NUM_CONTACT_TYPES);
 	pXML->SetVariableListTagPair(&m_piMemoryDecayRand, "MemoryDecays", NUM_MEMORY_TYPES);

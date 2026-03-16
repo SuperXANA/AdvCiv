@@ -650,6 +650,11 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	/*	advc: Replaced all GC.get...Info() calls with direct accesses; see the
 		comment under the friend declaration in CvGlobals.h. */
 
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	LoadGlobalClassInfo(GC.m_paAlignmentAxisInfo, "CIV4AlignmentAxisInfo", "GameInfo", "Civ4AlignmentAxisInfo/AlignmentAxisInfos/AlignmentAxisInfo", false);
+	LoadGlobalClassInfo(GC.m_paAlignmentClassInfo, "CIV4AlignmentClassInfo", "GameInfo", "Civ4AlignmentClassInfo/AlignmentClassInfos/AlignmentClassInfo", false);
+	LoadGlobalClassInfo(GC.m_paAlignmentInfo, "CIV4AlignmentInfo", "GameInfo", "Civ4AlignmentInfo/AlignmentInfos/AlignmentInfo", false);
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	LoadGlobalClassInfo(GC.m_paGameSpeedInfo, "CIV4GameSpeedInfo", "GameInfo", "Civ4GameSpeedInfo/GameSpeedInfos/GameSpeedInfo", false);
 	LoadGlobalClassInfo(GC.m_paTurnTimerInfo, "CIV4TurnTimerInfo", "GameInfo", "Civ4TurnTimerInfo/TurnTimerInfos/TurnTimerInfo", false);
 	LoadGlobalClassInfo(GC.m_paWorldInfo, "CIV4WorldInfo", "GameInfo", "Civ4WorldInfo/WorldInfos/WorldInfo", false);
@@ -706,6 +711,10 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 		GC.getInfo(eLoopUnitClass).readPass3();
 	LoadGlobalClassInfo(GC.m_paUnitArtStyleInfo, "CIV4UnitArtStyleTypeInfos", "Civilizations", "Civ4UnitArtStyleTypeInfos/UnitArtStyleTypeInfos/UnitArtStyleTypeInfo", false);
 	LoadGlobalClassInfo(GC.m_paCivilizationInfo, "CIV4CivilizationInfos", "Civilizations", "Civ4CivilizationInfos/CivilizationInfos/CivilizationInfo", true, &CvDLLUtilityIFaceBase::createCivilizationInfoCacheObject);
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	FOR_EACH_ENUM(Alignment)
+		GC.getInfo(eLoopAlignment).readPass3();
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	LoadGlobalClassInfo(GC.m_paHintInfo, "CIV4Hints", "GameInfo", "Civ4Hints/HintInfos/HintInfo", false);
 	LoadGlobalClassInfo(GC.m_paMainMenuInfo, "CIV4MainMenus", "Art", "Civ4MainMenus/MainMenus/MainMenu", false);
 	LoadGlobalClassInfo(GC.m_paSlideShowInfo, "CIV4SlideShowInfos", "Interface", "Civ4SlideShowInfos/SlideShowInfos/SlideShowInfo", false);
