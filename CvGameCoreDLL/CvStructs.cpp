@@ -604,38 +604,39 @@ FirstContactData::FirstContactData(CvPlot const* pAt1, CvPlot const* pAt2,
 	}
 }
 
-struct AlignmentData
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+struct AlignmentValue
 {
     int iHigh;
     int iLow;
 };
 
-void AlignmentData::read(FDataStreamBase* pStream)
+void AlignmentValue::read(FDataStreamBase* pStream)
 {
 	pStream->Read(&iHigh);
 	pStream->Read(&iLow);
 }
 
-void AlignmentData::write(FDataStreamBase* pStream)
+void AlignmentValue::write(FDataStreamBase* pStream)
 {
 	pStream->Write(iHigh);
 	pStream->Write(iLow);
 }
-
-struct AlignmentPerception
+struct AlignmentScale
 {
-    int iHigh;
-    int iLow;
+    int iBase;
+    int iPercent;
 };
 
-void AlignmentPerception::read(FDataStreamBase* pStream)
+void AlignmentScale::read(FDataStreamBase* pStream)
 {
-	pStream->Read(&iHigh);
-	pStream->Read(&iLow);
+	pStream->Read(&iBase);
+	pStream->Read(&iPercent);
 }
 
-void AlignmentPerception::write(FDataStreamBase* pStream)
+void AlignmentScale::write(FDataStreamBase* pStream)
 {
-	pStream->Write(iHigh);
-	pStream->Write(iLow);
+	pStream->Write(iBase);
+	pStream->Write(iPercent);
 }
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ

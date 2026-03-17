@@ -170,9 +170,6 @@ public:
 	void InitImprovementBonusList(CvImprovementBonusInfo** ppImprovementBonus, int iListLen);
 	void InitBuildingDefaults(int **ppiDefaults);
 	void InitUnitDefaults(int **ppiDefaults);
-	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-	void InitAlignmentDefaults(AlignmentTypes **ppaeDefaults);
-	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	void Init2DIntList(int*** pppiList, int iSizeX, int iSizeY);
 	void Init2DFloatList(float*** pppfList, int iSizeX, int iSizeY);
 	void Init2DDirectionTypesList(DirectionTypes*** pppiList, int iSizeX, int iSizeY);

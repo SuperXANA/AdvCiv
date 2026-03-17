@@ -710,6 +710,10 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paAlignmentAxisInfo, "CIV4AlignmentAxisInfo", "GameInfo", "Civ4AlignmentAxisInfo/AlignmentAxisInfos/AlignmentAxisInfo", false);
 	LoadGlobalClassInfo(GC.m_paAlignmentClassInfo, "CIV4AlignmentClassInfo", "GameInfo", "Civ4AlignmentClassInfo/AlignmentClassInfos/AlignmentClassInfo", false);
 	LoadGlobalClassInfo(GC.m_paAlignmentInfo, "CIV4AlignmentInfo", "GameInfo", "Civ4AlignmentInfo/AlignmentInfos/AlignmentInfo", false);
+	FOR_EACH_ENUM(Civilization)
+		GC.getInfo(eLoopCivilization).readPass3();
+	FOR_EACH_ENUM(LeaderHead)
+		GC.getInfo(eLoopLeaderHead).readPass3();
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	LoadGlobalClassInfo(GC.m_paHintInfo, "CIV4Hints", "GameInfo", "Civ4Hints/HintInfos/HintInfo", false);
 	LoadGlobalClassInfo(GC.m_paMainMenuInfo, "CIV4MainMenus", "Art", "Civ4MainMenus/MainMenus/MainMenu", false);

@@ -1454,6 +1454,7 @@ public:
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	AlignmentTypes getAlignment(AlignmentAxisTypes eAxis) const;
 	scaled getAlignmentBalance(AlignmentAxisTypes eAxis) const;
+	AlignmentValue getAlignmentValues(AlignmentAxisTypes eAxis) const
 	// XANA (note): Helpers for changing Alignment balance towards specific side based on gameplay actions
 	void changeAlignmentTowardsPositive(AlignmentAxisTypes eAxis, int iChange, bool bPermanent = false);
 	void changeAlignmentTowardsNegative(AlignmentAxisTypes eAxis, int iChange, bool bPermanent = false);
@@ -1698,8 +1699,7 @@ protected:  // <advc.210>
 	std::vector<std::pair<int, PlayerVoteTypes> > m_aVote;
 	std::vector<std::pair<UnitClassTypes,int> > m_aUnitExtraCosts;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-	std::vector<AlignmentData> m_aAlignmentAxis;
-	std::vector<AlignmentData> m_aPermanentAlignmentChanges;
+	std::vector<AlignmentScore> m_aAlignmentAxis;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	CvMessageQueue m_listGameMessages;
@@ -1741,10 +1741,6 @@ protected:  // <advc.210>
 			bool bCheckPoints = true) const; // advc.085
 	// advc.120f:
 	void announceEspionageToThirdParties(EspionageMissionTypes eMission, PlayerTypes eTarget);
-// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-	void doAlignmentDecay();
-	int decayAlignmentValue(int iCurrent, int iTarget, int iRate) const;
-// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	bool checkExpireEvent(EventTypes eEvent, const EventTriggeredData& kTriggeredData) const;
 	void expireEvent(EventTypes eEvent, const EventTriggeredData& kTriggeredData, bool bFail);
 	bool isValidTriggerReligion(const CvEventTriggerInfo& kTrigger, CvCity const* pCity,

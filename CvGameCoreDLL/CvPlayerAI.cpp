@@ -8157,23 +8157,20 @@ int CvPlayerAI::AI_getExpansionistAttitude(PlayerTypes ePlayer) const
 }
 
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-AlignmentFactionTypes CvPlayerAI::AI_getAlignmentFaction(PlayerTypes ePlayer) const;
+AlignmentFactionTypes CvPlayerAI::AI_getAlignmentFaction(PlayerTypes eOtherPlayer) const;
 {
-    CvPlayer const& kUs = GET_PLAYER(getID());
-    CvLeaderHeadInfo const& kThem = GC.getInfo(GET_PLAYER(ePlayer).getPersonalityType());
-    int iWeightedTotal = 0;
-	int iTotalWeight = 0;
+    CvPlayer const& kOtherPlayer = GET_PLAYER(eOtherPlayer);
+    int iBalanceTotal = 0;
+	int iWeightTotal = 0;
     FOR_EACH_ENUM(AlignmentAxis)
-	{   
-		iWeightedTotal += (kUs.getAlignmentBalance(eLoopAlignmentAxis) * kThem.getAlignmentAxisWeight(eLoopAlignmentAxis));
-		iTotalWeight += kThem.getAlignmentWeight(eLoopAlignmentAxis);
+	{
+		int const iAxisDiploWeight = GC.getInfo(getPersonalityType()).getAlignmentAxisWeight(eLoopAlignmentAxis);
+		iBalanceTotal += kOtherPlayer.getAlignmentBalance(eLoopAlignmentAxis) * iAxisDiploWeight;
+		iWeightTotal += iAxisDiploWeight;
 	}
     if (iTotalWeight <= 0) return NO_ALIGNMENTFACTION;
-    scaled const rAverage = fixp(iWeightedTotal / iTotalWeight);
-    // Determine the state based on the AI's "Perception"
-    if (rAverage >= kThem.getAlignmentPerception().iHigh) return ALIGNMENTFACTION_LIGHT;
-    if (rAverage <= kThem.getAlignmentPerception().iLow) return ALIGNMENTFACTION_DARK;
-    return ALIGNMENTFACTION_NEUTRAL;
+	
+	// ? how to return either one of ALIGNMENTFACTION_LIGHT, ALIGNMENTFACTION_NEUTRAL, ALIGNMENTFACTION_DARK ?
 }
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 

@@ -576,9 +576,10 @@ struct DealItemData
 	int iData, iDeal;
 };
 
-struct AlignmentData
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+struct AlignmentValue
 {
-	AlignmentData(int highValue = 0, int lowValue = 0)
+	AlignmentValue(int highValue = 0, int lowValue = 0)
 	:	iHigh(highValue), iLow(lowValue)
 	{}
 	int iHigh;
@@ -586,14 +587,16 @@ struct AlignmentData
 	void read(FDataStreamBase* pStream);
 	void write(FDataStreamBase* pStream);
 };
-
-struct AlignmentPerception
-{	// advc:
-	AlignmentPerception() {}
-	int iHigh = 0;
-	int iLow = 0;
+struct AlignmentScale
+{
+	AlignmentScale(int baseValue = 0, int percentValue = 0)
+	:	iBase(baseValue), iPercent(percentValue)
+	{}
+	int iBase;
+	int iPercent;
 	void read(FDataStreamBase* pStream);
 	void write(FDataStreamBase* pStream);
 };
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 #endif	// CVSTRUCTS_H
