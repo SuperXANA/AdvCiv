@@ -444,10 +444,10 @@ bool CvCivilizationInfo::readPass3(CvXMLLoadUtility* pXML)
 							if (eAxis != NO_ALIGNMENTAXIS)
 							{
 								int iPercent = 0;
-								int iBase = 0;
+								int iScale = 0;
 								pXML->GetNextXmlVal(&iPercent);
-								pXML->GetNextXmlVal(&iBase);
-								m_aAlignmentValues[eAxis] = AlignmentScale(iBase, iPercent);
+								pXML->GetNextXmlVal(&iScale);
+								m_aAlignmentValues[eAxis] = AlignmentScale(iPercent, iScale);
 							}
 							else FAssert(eAxis != NO_ALIGNMENTAXIS);
 						}
@@ -564,10 +564,7 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL),
-// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-m_piAlignmentAxisWeights(NULL)
-// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+m_piDiploWarMusicScriptIds(NULL)
 {}
 
 // <advc.xmldefault>
@@ -606,7 +603,6 @@ CvLeaderHeadInfo::CvLeaderHeadInfo(CvLeaderHeadInfo const& kOther)
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	allocCopy(m_aAlignmentValues, kOther.m_aAlignmentValues, GC.getNumAlignmentAxisInfos());
 	allocCopy(m_aAlignmentAxisStability, kOther.m_aAlignmentAxisStability, GC.getNumAlignmentAxisInfos());
-	allocCopy(m_piAlignmentAxisWeights, kOther.m_piAlignmentAxisWeights, GC.getNumAlignmentAxisInfos());
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 } // </advc.xmldefault>
 
@@ -625,9 +621,6 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploPeaceMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
-	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-	SAFE_DELETE_ARRAY(m_piAlignmentAxisWeights);
-	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const
@@ -724,14 +717,6 @@ int CvLeaderHeadInfo::getDiploWarMusicScriptIds(int i) const
 	FAssertBounds(0, GC.getNumEraInfos(), i);
 	return m_piDiploWarMusicScriptIds ? m_piDiploWarMusicScriptIds[i] : 0; // advc.003t
 }
-
-// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-int CvLeaderHeadInfo::getAlignmentAxisWeight(int i) const
-{
-	FAssertBounds(0, GC.getNumAlignmentAxisInfos(), i);
-	return m_piAlignmentAxisWeights ? m_piAlignmentAxisWeights[i] : 0;
-}
-// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 {
@@ -879,12 +864,6 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	m_piDiploWarMusicScriptIds = new int[GC.getNumEraInfos()];
 	stream->Read(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-	SAFE_DELETE_ARRAY(m_paeAlignments);
-	m_paeAlignments = new AlignmentTypes[GC.getNumAlignmentAxisInfos()];
-	stream->Read(GC.getNumAlignmentAxisInfos(), m_paeAlignments);
-	SAFE_DELETE_ARRAY(m_piAlignmentAxisWeights);
-	m_piAlignmentAxisWeights = new int[GC.getNumAlignmentAxisInfos()];
-	stream->Read(GC.getNumAlignmentAxisInfos(), m_piAlignmentAxisWeights);
 	{
 		m_aAlignmentValues.clear();
 		uint iSize;
@@ -1015,8 +994,6 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarIntroMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-	stream->Write(GC.getNumAlignmentAxisInfos(), m_paeAlignments);
-	stream->Write(GC.getNumAlignmentAxisInfos(), m_piAlignmentAxisWeights);
 	{
 		uint iSize = m_aAlignmentValues.size();
 		pStream->Write(iSize);
@@ -1227,10 +1204,10 @@ bool CvLeaderHeadInfo::readPass3(CvXMLLoadUtility* pXML)
 							if (eAxis != NO_ALIGNMENTAXIS)
 							{
 								int iPercent = 0;
-								int iBase = 0;
+								int iScale = 0;
 								pXML->GetNextXmlVal(&iPercent);
-								pXML->GetNextXmlVal(&iBase);
-								m_aAlignmentValues[eAxis] = AlignmentScale(iBase, iPercent);
+								pXML->GetNextXmlVal(&iScale);
+								m_aAlignmentValues[eAxis] = AlignmentScale(iPercent, iScale);
 							}
 							else FAssert(eAxis != NO_ALIGNMENTAXIS);
 						}
@@ -1279,7 +1256,6 @@ bool CvLeaderHeadInfo::readPass3(CvXMLLoadUtility* pXML)
 			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 		}
 	}
-	pXML->SetVariableListTagPair(&m_piAlignmentAxisWeights, "AlignmentAxisWeights", GC.getNumAlignmentAxisInfos());
 	
 	return true;
 }

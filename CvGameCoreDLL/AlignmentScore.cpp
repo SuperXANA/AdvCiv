@@ -1,153 +1,124 @@
 #include "CvGameCoreDLL.h"
 #include "AlignmentScore.h"
 
-void AlignmentScore::grow(int iSize)
+void AlignmentScore::nextTurn()
 {
-	FAssert(iSize >= 0);
-	while (iSize >= size())
-		m_aValues.push_back(AlignmentValue());
+    m_iHead = (m_iHead + 1) % m_iSampleSize;
+    m_buffer[m_iHead] = AlignmentValue(); // reset slot
+    if (m_iCount < m_iSampleSize)
+        ++m_iCount;
 }
 
-
-AlignmentValue AlignmentScore::get(int iTurn) const
+void AlignmentScore::changeAlignmentTowardsPositive(int iChange)
 {
-	int const iSampleSize = std::max(1, std::min(m_iMovingAvgSamples - 1, iTurn - 1));
-	return AlignmentValue(
-		intdiv::round(getAlignmentTowardsPositive(iTurn), iSampleSize),
-		intdiv::round(getAlignmentTowardsNegative(iTurn), iSampleSize)
-		);
+	if (iChange == 0)
+		return;
+    AlignmentValue& kAlignmentValue = m_buffer[m_iHead];
+    kAlignmentValue.iHigh = std::max(-m_iMaxDelta,
+                std::min(m_iMaxDelta, kAlignmentValue.iHigh + iChange));
 }
 
-
-int AlignmentScore::getAlignmentTowardsPositive(int iTurn) const
+void AlignmentScore::changeAlignmentTowardsNegative(int iChange)
 {
-	FAssertBounds(0, size(), iTurn);
-	if (iTurn >= size())
-	{
-		return 0;
-	}
-	int const iLastValidIndex = iTurn - 1;
-	int const iSampleSize = std::min(m_iMovingAvgSamples - 1, iLastValidIndex);
-	int const iHistoryTurnsConsidered = iTurn - iSampleSize;
-	if (iSampleSize <= 0 || iHistoryTurnsConsidered <= 0)
-	{
-		return 0;
-	}
-	int iAxisHigh = 0;
-    for (int i = iLastValidIndex; i >= iHistoryTurnsConsidered; --i)
-	{
-		iAxisHigh += m_aValues[i].iHigh;
-	}
-	return iAxisHigh;
+	if (iChange == 0)
+		return;
+    AlignmentValue& kAlignmentValue = m_buffer[m_iHead];
+    kAlignmentValue.iLow = std::max(-m_iMaxDelta,
+               std::min(m_iMaxDelta, kAlignmentValue.iLow + iChange));
 }
 
-
-int AlignmentScore::getAlignmentTowardsNegative(int iTurn) const
+void AlignmentScore::changePermanentAlignmentTowardsPositive(int iChange)
 {
-	FAssertBounds(0, size(), iTurn);
-	if (iTurn >= size())
-	{
-		return 0;
-	}
-	int const iLastValidIndex = iTurn - 1;
-	int const iSampleSize = std::min(m_iMovingAvgSamples - 1, iLastValidIndex);
-	int const iHistoryTurnsConsidered = iTurn - iSampleSize;
-	if (iSampleSize <= 0 || iHistoryTurnsConsidered <= 0)
-	{
-		return 0;
-	}
-	int iAxisLow = 0;
-    for (int i = iLastValidIndex; i >= iHistoryTurnsConsidered; --i)
-	{
-		iAxisLow += m_aValues[i].iLow;
-	}
-	return iAxisLow;
+	if (iChange == 0)
+		return;
+	m_iPermHigh += iChange;
 }
 
-
-void AlignmentScore::changeAlignmentTowardsPositive(int iTurn, int iChange)
+void AlignmentScore::changePermanentAlignmentTowardsNegative(int iChange)
 {
-	grow(iTurn);
-	m_aValues[iTurn].iHigh = std::max(0, std::min(m_iMaxAlignmentPoints, getAlignmentTowardsPositive(iTurn) + iChange));
+	if (iChange == 0)
+		return;
+	m_iPermLow += iChange;
 }
-
-
-void AlignmentScore::changeAlignmentTowardsNegative(int iTurn, int iChange)
-{
-	grow(iTurn);
-	m_aValues[iTurn].iLow = std::max(0, std::min(m_iMaxAlignmentPoints, getAlignmentTowardsNegative(iTurn) + iChange));
-}
-
 
 void AlignmentScore::decay()
 {
-	FAssert(size() >= 0);
-	if (m_aValues.empty())
-	{
-		return;
-	}
-	int const iSize = size();
-	int const iLastValidIndex = iSize - 1;
-	int const iGameTurns = iSize - std::min(m_iMovingAvgSamples - 1, iLastValidIndex);
-	if (iGameTurns <= 0)
-	{
-		return;
-	}
-	std::pair<scaled,scaled> const rrSmoothFactor(per100(m_iHighDecayValue), per100(m_iLowDecayValue));
-	for (int iTurn = iLastValidIndex; iTurn >= iGameTurns; --iTurn)
-		if (iLastValidIndex - iTurn != 0)
-		{
-			m_aValues[iTurn].iHigh = std::max(iHighDecayLimit, (m_aValues[iTurn].iHigh * (rrSmoothFactor.first).pow(iLastValidIndex - iTurn)));
-			m_aValues[iTurn].iLow = std::max(iLowDecayLimit, (m_aValues[iTurn].iLow * (rrSmoothFactor.second).pow(iLastValidIndex - iTurn)));
-		}
-		else continue;
+    scaled const iHighFactor = per100(m_iHighDecay);
+    scaled const iLowFactor = per100(m_iLowDecay);
+    for (int i = 0; i < m_iCount; ++i)
+    {
+        AlignmentValue& kAlignmentValue = m_buffer[index(i)];
+        kAlignmentValue.iHigh = kAlignmentValue.iHigh * iHighFactor;
+        kAlignmentValue.iLow = kAlignmentValue.iLow  * iLowFactor;
+    }
 }
 
+AlignmentValue AlignmentScore::get() const
+{
+    if (m_iCount == 0)
+    {
+        return AlignmentValue((m_iBaseHigh + m_iPermHigh), (m_iBaseLow + m_iPermLow));
+    }
+    int iSumHigh = 0;
+    int iSumLow = 0;
+    for (int i = 0; i < m_iCount; ++i)
+    {
+        const AlignmentValue& kAlignmentValue = m_buffer[index(i)];
+        iSumHigh += kAlignmentValue.iHigh;
+        iSumLow += kAlignmentValue.iLow;
+    }
+    int const iAvgHigh = iSumHigh / m_iCount;
+    int const iAvgLow = iSumLow / m_iCount;
+    return AlignmentValue(
+        (m_iBaseHigh + m_iPermHigh) + iAvgHigh,
+        (m_iBaseLow + m_iPermLow) + iAvgLow
+    );
+}
 
 void AlignmentScore::read(FDataStreamBase* pStream)
 {
-	FAssert(size() == 0);
-	
-	m_aValues.clear();
-	int iSize;
-	pStream->Read(&iSize);
-	pStream->Read(&m_iMovingAvgSamples);
-	pStream->Read(&m_iHighDecayValue);
-	pStream->Read(&m_iHighDecayLimit);
-	pStream->Read(&m_iHighDecayInitialLimit);
-	pStream->Read(&m_iLowDecayValue);
-	pStream->Read(&m_iLowDecayLimit);
-	pStream->Read(&m_iLowDecayInitialLimit);
-	pStream->Read(&m_iMaxAlignmentPoints);
-	if (iSize > 0)
+	reset();
+
+	pStream->Read(&m_iHead);
+	pStream->Read(&m_iCount);
+	pStream->Read(&m_iBaseHigh);
+	pStream->Read(&m_iBaseLow);
+	pStream->Read(&m_iPermHigh);
+	pStream->Read(&m_iPermLow);
+	pStream->Read(&m_iHighDecay);
+	pStream->Read(&m_iLowDecay);
+	pStream->Read(&m_iMaxDelta);
 	{
-		m_aValues.resize(iSize);
-		for (int i = 0; i < iSize; i++)
+		m_buffer.clear();
+		uint iSize;
+		pStream->Read(&iSize);
+		for (uint i = 0; i < iSize; i++)
 		{
-			AlignmentValue kAlignmentValue();
+			AlignmentValue kAlignmentValue;
 			kAlignmentValue.read(pStream);
-			m_aValues.push_back(kAlignmentValue);
+			m_buffer.push_back(kAlignmentValue);
 		}
 	}
 }
 
-
 void AlignmentScore::write(FDataStreamBase* pStream)
 {
-	int const iSize = size();
-	pStream->Write(iSize);
-	pStream->Write(m_iMovingAvgSamples);
-	pStream->Write(m_iHighDecayValue);
-	pStream->Write(m_iHighDecayLimit);
-	pStream->Write(m_iHighDecayInitialLimit);
-	pStream->Write(m_iLowDecayValue);
-	pStream->Write(m_iLowDecayLimit);
-	pStream->Write(m_iLowDecayInitialLimit);
-	pStream->Write(m_iMaxAlignmentPoints);
-	if (iSize > 0)
+	PROFILE_FUNC();
+
+	pStream->Write(m_iHead);
+	pStream->Write(m_iCount);
+	pStream->Write(m_iBaseHigh);
+	pStream->Write(m_iBaseLow);
+	pStream->Write(m_iPermHigh);
+	pStream->Write(m_iPermLow);
+	pStream->Write(m_iHighDecay);
+	pStream->Write(m_iLowDecay);
+	pStream->Write(m_iMaxDelta);
 	{
+		uint iSize = m_buffer.size();
+		pStream->Write(iSize);
 		std::vector<AlignmentValue>::iterator it;
-		for (it = m_aValues.begin(); it != m_aValues.end(); ++it)
+		for (it = m_buffer.begin(); it != m_buffer.end(); ++it)
 		{
 			it.write(pStream);
 		}

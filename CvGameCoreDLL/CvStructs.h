@@ -589,11 +589,11 @@ struct AlignmentValue
 };
 struct AlignmentScale
 {
-	AlignmentScale(int baseValue = 0, int percentValue = 0)
-	:	iBase(baseValue), iPercent(percentValue)
+	AlignmentScale(int percentValue = 0, int scaleValue = 0)
+	:	iPercent(baseValue), iScale(scaleValue)
 	{}
-	int iBase;
 	int iPercent;
+	int iScale;
 	void read(FDataStreamBase* pStream);
 	void write(FDataStreamBase* pStream);
 };

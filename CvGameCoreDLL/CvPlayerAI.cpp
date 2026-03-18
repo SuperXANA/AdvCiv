@@ -8157,68 +8157,11 @@ int CvPlayerAI::AI_getExpansionistAttitude(PlayerTypes ePlayer) const
 }
 
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-AlignmentFactionTypes CvPlayerAI::AI_getAlignmentFaction(PlayerTypes ePlayer) const;
-{
-	if (ePlayer == NO_PLAYER || ePlayer == getID()) // Get our own faction, not another Player's faction
-	{
-		int iBalanceTotal = 0;
-		int iWeightTotal = 0;
-		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
-		FOR_EACH_ENUM(AlignmentAxis)
-		{
-			int const iAxisDiploWeight = kPersonality.getAlignmentAxisWeight(eLoopAlignmentAxis);
-			iBalanceTotal += getAlignmentBalance(eLoopAlignmentAxis) * iAxisDiploWeight;
-			iWeightTotal += iAxisDiploWeight;
-		}
-		if (iWeightTotal <= 0) return NO_ALIGNMENT_FACTION;
-		int const iNormalizedBalance = iBalanceTotal / iWeightTotal;
-		if (iNormalizedBalance >= 3)
-		{
-			return ALIGNMENT_FACTION_LIGHT;
-		}
-		else if (iNormalizedBalance <= -3)
-		{
-			return ALIGNMENT_FACTION_DARK;
-		}
-		return ALIGNMENT_FACTION_NEUTRAL;
-	}
-	else // Get another Player's faction, not our faction
-	{
-		CvPlayer const& kOtherPlayer = GET_PLAYER(ePlayer);
-		int iBalanceTotalThem = 0;
-		int iBalanceTotalUs = 0;
-		int iWeightTotal = 0;
-		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
-		FOR_EACH_ENUM(AlignmentAxis)
-		{
-			int const iAxisDiploWeight = kPersonality.getAlignmentAxisWeight(eLoopAlignmentAxis);
-			iBalanceTotalThem += kOtherPlayer.getAlignmentBalance(eLoopAlignmentAxis) * iAxisDiploWeight;
-			iBalanceTotalUs += getAlignmentBalance(eLoopAlignmentAxis) * iAxisDiploWeight;
-			iWeightTotal += iAxisDiploWeight;
-		}
-		if (iWeightTotal <= 0) return NO_ALIGNMENT_FACTION;
-		int const iNormalizedBalanceThem = iBalanceTotalThem / iWeightTotal;
-		int const iNormalizedBalanceUs = iBalanceTotalUs / iWeightTotal;
-		if (iNormalizedBalanceThem >= iNormalizedBalanceUs &&
-			iNormalizedBalanceThem >= 3)
-		{
-			return ALIGNMENT_FACTION_LIGHT;
-		}
-		else if (iNormalizedBalanceThem <= iNormalizedBalanceUs &&
-				 iNormalizedBalanceThem <= -3)
-		{
-			return ALIGNMENT_FACTION_DARK;
-		}
-		return ALIGNMENT_FACTION_NEUTRAL;
-	}
-}
-
-
 int CvPlayerAI::AI_getSameAlignmentFactionAttitude(PlayerTypes ePlayer) const
 {
-	AlignmentFactionTypes const eTheirFaction = AI_getAlignmentFaction(ePlayer);
+	AlignmentFactionTypes const eTheirFaction = GET_PLAYER(ePlayer).getAlignmentFaction();
 	if (eTheirFaction != NO_ALIGNMENT_FACTION && 
-		AI_getAlignmentFaction() == eTheirFaction)
+		getAlignmentFaction() == eTheirFaction)
 	{
 		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
 		int iAttitude = kPersonality.getSameAlignmentFactionAttitudeChange(eTheirFaction);
@@ -8235,8 +8178,8 @@ int CvPlayerAI::AI_getSameAlignmentFactionAttitude(PlayerTypes ePlayer) const
 
 int CvPlayerAI::AI_getDifferentAlignmentFactionAttitude(PlayerTypes ePlayer) const
 {
-	AlignmentFactionTypes const eOurFaction = AI_getAlignmentFaction();
-	AlignmentFactionTypes const eTheirFaction = AI_getAlignmentFaction(ePlayer);
+	AlignmentFactionTypes const eOurFaction = getAlignmentFaction();
+	AlignmentFactionTypes const eTheirFaction = GET_PLAYER(ePlayer).getAlignmentFaction();
 	if (eOurFaction != NO_ALIGNMENT_FACTION && 
 		eTheirFaction != NO_ALIGNMENT_FACTION && 
 		eOurFaction != eTheirFaction)
@@ -8256,7 +8199,7 @@ int CvPlayerAI::AI_getDifferentAlignmentFactionAttitude(PlayerTypes ePlayer) con
 
 int CvPlayerAI::AI_getFavoriteAlignmentFactionAttitude(PlayerTypes ePlayer) const
 {
-	AlignmentFactionTypes const eFaction = AI_getAlignmentFaction(ePlayer);
+	AlignmentFactionTypes const eFaction = GET_PLAYER(ePlayer).getAlignmentFaction();
 	if (eFaction != NO_ALIGNMENT_FACTION && eFaction == getFavoriteAlignmentFaction())
 	{
 		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
@@ -8274,7 +8217,7 @@ int CvPlayerAI::AI_getFavoriteAlignmentFactionAttitude(PlayerTypes ePlayer) cons
 
 int CvPlayerAI::AI_getHateAlignmentFactionAttitude(PlayerTypes ePlayer) const
 {
-	AlignmentFactionTypes const eFaction = AI_getAlignmentFaction(ePlayer);
+	AlignmentFactionTypes const eFaction = GET_PLAYER(ePlayer).getAlignmentFaction();
 	if (eFaction != NO_ALIGNMENT_FACTION && eFaction == getHateAlignmentFaction())
 	{
 		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());

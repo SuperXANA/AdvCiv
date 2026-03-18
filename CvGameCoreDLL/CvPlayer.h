@@ -1453,8 +1453,8 @@ public:
 	bool showGoodyOnResourceLayer() const; // advc.004z
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	AlignmentTypes getAlignment(AlignmentAxisTypes eAxis) const;
-	AlignmentFactionTypes getAlignmentFaction(AlignmentAxisTypes eAxis, PlayerTypes ePlayer = NO_PLAYER) const;
-	scaled getAlignmentBalance(AlignmentAxisTypes eAxis) const;
+	AlignmentFactionTypes getAlignmentFaction() const { return m_eAlignmentFaction; }
+	scaled getAlignmentBalancePercent(AlignmentAxisTypes eAxis) const;
 	AlignmentValue getAlignmentValues(AlignmentAxisTypes eAxis) const;
 	// XANA (note): Helpers for changing Alignment balance towards specific side based on gameplay actions
 	void changeAlignmentTowardsPositive(AlignmentAxisTypes eAxis, int iChange, bool bPermanent = false);
@@ -1701,6 +1701,8 @@ protected:  // <advc.210>
 	std::vector<std::pair<UnitClassTypes,int> > m_aUnitExtraCosts;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	std::vector<AlignmentScore> m_aAlignmentAxis;
+	std::vector<AlignmentFactionTypes> m_aAlignmentAxisFactions;
+	AlignmentFactionTypes m_eAlignmentFaction;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	CvMessageQueue m_listGameMessages;
@@ -1742,6 +1744,20 @@ protected:  // <advc.210>
 			bool bCheckPoints = true) const; // advc.085
 	// advc.120f:
 	void announceEspionageToThirdParties(EspionageMissionTypes eMission, PlayerTypes eTarget);
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	AlignmentFactionTypes calculateAxisFaction(AlignmentAxisTypes eAxis, PlayerTypes ePlayer = NO_PLAYER) const;
+	AlignmentFactionTypes getBestAlignmentFaction() const;
+	void doUpdatePlayerAlignment()
+	{
+		FOR_EACH_ENUM2(AlignmentAxis, eAxis)
+		{
+			m_aAlignmentAxis[eAxis].nextTurn();
+			m_aAlignmentAxis[eAxis].decay();
+			m_aAlignmentAxisFactions[eAxis] = calculateAxisFaction(eAxis);
+		}
+		m_eAlignmentFaction = getBestAlignmentFaction();
+	}
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	bool checkExpireEvent(EventTypes eEvent, const EventTriggeredData& kTriggeredData) const;
 	void expireEvent(EventTypes eEvent, const EventTriggeredData& kTriggeredData, bool bFail);
 	bool isValidTriggerReligion(const CvEventTriggerInfo& kTrigger, CvCity const* pCity,

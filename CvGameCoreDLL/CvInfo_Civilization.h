@@ -232,7 +232,6 @@ public: // advc: All the const functions are exposed to Python except those adde
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	AlignmentScale getAlignmentValues(int i) const { (m_aAlignmentValues.size() > 0) ? return m_aAlignmentValues[i] : return AlignmentScale(); }
 	AlignmentValue getAlignmentAxisStability(int i) const { (m_aAlignmentAxisStability.size() > 0) ? return m_aAlignmentAxisStability[i] : return AlignmentValue(); }
-	int getAlignmentAxisWeight(int i) const;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	// (not exposed to Python)
@@ -359,7 +358,6 @@ protected:
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	std::vector<AlignmentScale> m_aAlignmentValues;
 	std::vector<AlignmentValue> m_aAlignmentAxisStability;
-	int* m_piAlignmentAxisWeights;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;

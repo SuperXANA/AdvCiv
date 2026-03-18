@@ -624,19 +624,19 @@ void AlignmentValue::write(FDataStreamBase* pStream)
 }
 struct AlignmentScale
 {
-    int iBase;
     int iPercent;
+    int iScale;
 };
 
 void AlignmentScale::read(FDataStreamBase* pStream)
 {
-	pStream->Read(&iBase);
 	pStream->Read(&iPercent);
+	pStream->Read(&iScale);
 }
 
 void AlignmentScale::write(FDataStreamBase* pStream)
 {
-	pStream->Write(iBase);
 	pStream->Write(iPercent);
+	pStream->Write(iScale);
 }
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ

@@ -254,7 +254,6 @@ public:
 	// END: Show Hidden Attitude Mod
 	int AI_getExpansionistAttitude(PlayerTypes ePlayer) const; // advc.130w
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-	AlignmentFactionTypes AI_getAlignmentFaction(PlayerTypes ePlayer = NO_PLAYER) const;
 	int AI_getSameAlignmentFactionAttitude(PlayerTypes ePlayer) const;
 	int AI_getDifferentAlignmentFactionAttitude(PlayerTypes ePlayer) const;
 	int AI_getFavoriteAlignmentFactionAttitude(PlayerTypes ePlayer) const;

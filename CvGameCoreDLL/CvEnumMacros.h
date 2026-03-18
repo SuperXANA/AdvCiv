@@ -45,7 +45,7 @@
 	DO(CultureLevel, CULTURELEVEL) \
 	DO(CivicOption, CIVICOPTION) \
 	/* XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ */ \
-	DO(AlignmentAxis, ALIGNMENTAXIS) \
+	DO(AlignmentAxis, ALIGNMENT_AXIS) \
 	DO(AlignmentClass, ALIGNMENTCLASS) \
 	DO(Alignment, ALIGNMENT)
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
