@@ -359,7 +359,7 @@ protected:
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	std::vector<AlignmentScale> m_aAlignmentValues;
 	std::vector<AlignmentValue> m_aAlignmentAxisStability;
-	int* m_piDiploWarMusicScriptIds;
+	int* m_piAlignmentAxisWeights;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;

@@ -8157,20 +8157,136 @@ int CvPlayerAI::AI_getExpansionistAttitude(PlayerTypes ePlayer) const
 }
 
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-AlignmentFactionTypes CvPlayerAI::AI_getAlignmentFaction(PlayerTypes eOtherPlayer) const;
+AlignmentFactionTypes CvPlayerAI::AI_getAlignmentFaction(PlayerTypes ePlayer) const;
 {
-    CvPlayer const& kOtherPlayer = GET_PLAYER(eOtherPlayer);
-    int iBalanceTotal = 0;
-	int iWeightTotal = 0;
-    FOR_EACH_ENUM(AlignmentAxis)
+	if (ePlayer == NO_PLAYER || ePlayer == getID()) // Get our own faction, not another Player's faction
 	{
-		int const iAxisDiploWeight = GC.getInfo(getPersonalityType()).getAlignmentAxisWeight(eLoopAlignmentAxis);
-		iBalanceTotal += kOtherPlayer.getAlignmentBalance(eLoopAlignmentAxis) * iAxisDiploWeight;
-		iWeightTotal += iAxisDiploWeight;
+		int iBalanceTotal = 0;
+		int iWeightTotal = 0;
+		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+		FOR_EACH_ENUM(AlignmentAxis)
+		{
+			int const iAxisDiploWeight = kPersonality.getAlignmentAxisWeight(eLoopAlignmentAxis);
+			iBalanceTotal += getAlignmentBalance(eLoopAlignmentAxis) * iAxisDiploWeight;
+			iWeightTotal += iAxisDiploWeight;
+		}
+		if (iWeightTotal <= 0) return NO_ALIGNMENT_FACTION;
+		int const iNormalizedBalance = iBalanceTotal / iWeightTotal;
+		if (iNormalizedBalance >= 3)
+		{
+			return ALIGNMENT_FACTION_LIGHT;
+		}
+		else if (iNormalizedBalance <= -3)
+		{
+			return ALIGNMENT_FACTION_DARK;
+		}
+		return ALIGNMENT_FACTION_NEUTRAL;
 	}
-    if (iTotalWeight <= 0) return NO_ALIGNMENTFACTION;
-	
-	// ? how to return either one of ALIGNMENTFACTION_LIGHT, ALIGNMENTFACTION_NEUTRAL, ALIGNMENTFACTION_DARK ?
+	else // Get another Player's faction, not our faction
+	{
+		CvPlayer const& kOtherPlayer = GET_PLAYER(ePlayer);
+		int iBalanceTotalThem = 0;
+		int iBalanceTotalUs = 0;
+		int iWeightTotal = 0;
+		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+		FOR_EACH_ENUM(AlignmentAxis)
+		{
+			int const iAxisDiploWeight = kPersonality.getAlignmentAxisWeight(eLoopAlignmentAxis);
+			iBalanceTotalThem += kOtherPlayer.getAlignmentBalance(eLoopAlignmentAxis) * iAxisDiploWeight;
+			iBalanceTotalUs += getAlignmentBalance(eLoopAlignmentAxis) * iAxisDiploWeight;
+			iWeightTotal += iAxisDiploWeight;
+		}
+		if (iWeightTotal <= 0) return NO_ALIGNMENT_FACTION;
+		int const iNormalizedBalanceThem = iBalanceTotalThem / iWeightTotal;
+		int const iNormalizedBalanceUs = iBalanceTotalUs / iWeightTotal;
+		if (iNormalizedBalanceThem >= iNormalizedBalanceUs &&
+			iNormalizedBalanceThem >= 3)
+		{
+			return ALIGNMENT_FACTION_LIGHT;
+		}
+		else if (iNormalizedBalanceThem <= iNormalizedBalanceUs &&
+				 iNormalizedBalanceThem <= -3)
+		{
+			return ALIGNMENT_FACTION_DARK;
+		}
+		return ALIGNMENT_FACTION_NEUTRAL;
+	}
+}
+
+
+int CvPlayerAI::AI_getSameAlignmentFactionAttitude(PlayerTypes ePlayer) const
+{
+	AlignmentFactionTypes const eTheirFaction = AI_getAlignmentFaction(ePlayer);
+	if (eTheirFaction != NO_ALIGNMENT_FACTION && 
+		AI_getAlignmentFaction() == eTheirFaction)
+	{
+		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+		int iAttitude = kPersonality.getSameAlignmentFactionAttitudeChange(eTheirFaction);
+		// advc.130n: Moved into new function
+		iAttitude += AI_ideologyAttitudeChange(ePlayer, SAME_ALIGNMENT_FACTION),
+				(AI_getSameAlignmentFactionCounter(ePlayer),
+				kPersonality.getSameAlignmentFactionAttitudeDivisor(eTheirFaction),
+				kPersonality.getSameAlignmentFactionAttitudeChangeLimit(eTheirFaction));
+		return iAttitude;
+	}
+	return 0;
+}
+
+
+int CvPlayerAI::AI_getDifferentAlignmentFactionAttitude(PlayerTypes ePlayer) const
+{
+	AlignmentFactionTypes const eOurFaction = AI_getAlignmentFaction();
+	AlignmentFactionTypes const eTheirFaction = AI_getAlignmentFaction(ePlayer);
+	if (eOurFaction != NO_ALIGNMENT_FACTION && 
+		eTheirFaction != NO_ALIGNMENT_FACTION && 
+		eOurFaction != eTheirFaction)
+	{
+		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+		int iAttitude = kPersonality.getDifferentAlignmentFactionAttitudeChange(eTheirFaction);
+		// advc.130n: Moved into new function
+		iAttitude += AI_ideologyAttitudeChange(ePlayer, DIFFERENT_ALIGNMENT_FACTION),
+				(AI_getDifferentAlignmentFactionCounter(ePlayer),
+				kPersonality.getDifferentAlignmentFactionAttitudeDivisor(eTheirFaction),
+				kPersonality.getDifferentAlignmentFactionAttitudeChangeLimit(eTheirFaction));
+		return iAttitude;
+	}
+	return 0;
+}
+
+
+int CvPlayerAI::AI_getFavoriteAlignmentFactionAttitude(PlayerTypes ePlayer) const
+{
+	AlignmentFactionTypes const eFaction = AI_getAlignmentFaction(ePlayer);
+	if (eFaction != NO_ALIGNMENT_FACTION && eFaction == getFavoriteAlignmentFaction())
+	{
+		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+		int iAttitude = kPersonality.getFavoriteAlignmentFactionAttitudeChange(eFaction);
+		// advc.130n: Moved into new function
+		iAttitude += AI_ideologyAttitudeChange(ePlayer, ALLY_ALIGNMENT_FACTION),
+				(AI_getFavoriteAlignmentFactionCounter(ePlayer),
+				kPersonality.getFavoriteAlignmentFactionAttitudeDivisor(eFaction),
+				kPersonality.getFavoriteAlignmentFactionAttitudeChangeLimit(eFaction));
+		return iAttitude;
+	}
+	return 0;
+}
+
+
+int CvPlayerAI::AI_getHateAlignmentFactionAttitude(PlayerTypes ePlayer) const
+{
+	AlignmentFactionTypes const eFaction = AI_getAlignmentFaction(ePlayer);
+	if (eFaction != NO_ALIGNMENT_FACTION && eFaction == getHateAlignmentFaction())
+	{
+		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+		int iAttitude = kPersonality.getHateAlignmentFactionAttitudeChange(eFaction);
+		// advc.130n: Moved into new function
+		iAttitude += AI_ideologyAttitudeChange(ePlayer, ENEMY_ALIGNMENT_FACTION),
+				(AI_getHateAlignmentFactionCounter(ePlayer),
+				kPersonality.getHateAlignmentFactionAttitudeDivisor(eFaction),
+				kPersonality.getHateAlignmentFactionAttitudeChangeLimit(eFaction));
+		return iAttitude;
+	}
+	return 0;
 }
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 

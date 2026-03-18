@@ -1453,8 +1453,9 @@ public:
 	bool showGoodyOnResourceLayer() const; // advc.004z
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	AlignmentTypes getAlignment(AlignmentAxisTypes eAxis) const;
+	AlignmentFactionTypes getAlignmentFaction(AlignmentAxisTypes eAxis, PlayerTypes ePlayer = NO_PLAYER) const;
 	scaled getAlignmentBalance(AlignmentAxisTypes eAxis) const;
-	AlignmentValue getAlignmentValues(AlignmentAxisTypes eAxis) const
+	AlignmentValue getAlignmentValues(AlignmentAxisTypes eAxis) const;
 	// XANA (note): Helpers for changing Alignment balance towards specific side based on gameplay actions
 	void changeAlignmentTowardsPositive(AlignmentAxisTypes eAxis, int iChange, bool bPermanent = false);
 	void changeAlignmentTowardsNegative(AlignmentAxisTypes eAxis, int iChange, bool bPermanent = false);
@@ -1894,12 +1895,7 @@ public:
 		return base_t::get(static_cast<base_t::IntElementTypes>(e));
 	}
 	CvAlignmentAxisInfo() {}
-	bool read(CvXMLLoadUtility* pXML)
-	{
-		if (!base_t::read(pXML))
-			return false;
-		else return true;
-	}
+	bool read(CvXMLLoadUtility* pXML) { base_t::read(pXML) ? return true : return false; }
 };
 
 class CvAlignmentInfo : public CvXMLInfo

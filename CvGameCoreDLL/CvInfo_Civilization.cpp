@@ -249,7 +249,7 @@ void CvCivilizationInfo::read(FDataStreamBase* stream)
 		pStream->Read(&iSize);
 		for (uint i = 0; i < iSize; i++)
 		{
-			AlignmentValue kAlignmentValue();
+			AlignmentValue kAlignmentValue;
 			kAlignmentValue.read(pStream);
 			m_aAlignmentValues.push_back(kAlignmentValue);
 		}
@@ -891,7 +891,7 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 		pStream->Read(&iSize);
 		for (uint i = 0; i < iSize; i++)
 		{
-			AlignmentScale kAlignmentScale();
+			AlignmentScale kAlignmentScale;
 			kAlignmentScale.read(pStream);
 			m_aAlignmentValues.push_back(kAlignmentScale);
 		}
@@ -902,7 +902,7 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 		pStream->Read(&iSize);
 		for (uint i = 0; i < iSize; i++)
 		{
-			AlignmentValue kAlignmentValue();
+			AlignmentValue kAlignmentValue;
 			kAlignmentValue.read(pStream);
 			m_aAlignmentAxisStability.push_back(kAlignmentValue);
 		}

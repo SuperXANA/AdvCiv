@@ -146,7 +146,10 @@
 	DO(CityTab, CITYTAB) \
 	DO(Calendar, CALENDAR) \
 	DO(UnitAI, UNITAI) \
-	DO(Denial, DENIAL)
+	DO(Denial, DENIAL) \
+	/* XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ */ \
+	DO(AlignmentFaction, ALIGNMENT_FACTION)
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 #define DO_FOR_EACH_INFO_TYPE(DO) \
 	DO_FOR_EACH_DYN_INFO_TYPE(DO) \

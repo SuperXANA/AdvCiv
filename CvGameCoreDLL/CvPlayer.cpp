@@ -135,11 +135,10 @@ bool CvPlayer::initOtherData()
 	
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	m_aAlignmentAxis.reserve(GC.getNumAlignmentAxisInfos());
-	CvLeaderHeadInfo const& kLeader = GC.getInfo(getLeaderType());
 	FOR_EACH_ENUM2(AlignmentAxis, eAxis)
 	{
 		AlignmentValue kAlignmentValue = getAlignmentValues(eAxis);
-		AlignmentValue kAlignmentStability = kLeader.getAlignmentAxisStability(eAxis);
+		AlignmentValue kAlignmentStability = GC.getInfo(getLeaderType()).getAlignmentAxisStability(eAxis);
 		AlignmentScore kAlignmentScore(
 			kAlignmentValue.iHigh,
 			kAlignmentValue.iLow,
@@ -14709,7 +14708,7 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		pStream->Read(&iSize);
 		for (uint i = 0; i < iSize; i++)
 		{
-			AlignmentScore kAlignmentScore();
+			AlignmentScore kAlignmentScore;
 			kAlignmentScore.read(pStream);
 			m_aAlignmentAxis.push_back(kAlignmentScore);
 		}
@@ -19764,6 +19763,39 @@ AlignmentTypes CvPlayer::getAlignment(AlignmentAxisTypes eAxis) const
         }
     }
     return eBestAlignment;
+}
+
+AlignmentFactionTypes CvPlayer::getAlignmentFaction(AlignmentAxisTypes eAxis, PlayerTypes ePlayer) const;
+{
+	if (ePlayer == NO_PLAYER || ePlayer == getID()) // Get our own faction, not another Player's faction
+	{
+		int const iBalance = getAlignmentBalance(eAxis);
+		if (iBalance >= 30)
+		{
+			return ALIGNMENT_FACTION_LIGHT;
+		}
+		else if (iBalance <= -30)
+		{
+			return ALIGNMENT_FACTION_DARK;
+		}
+		return ALIGNMENT_FACTION_NEUTRAL;
+	}
+	else // Get another Player's faction, not our faction
+	{
+		int const iBalanceThem = GET_PLAYER(ePlayer).getAlignmentBalance(eAxis);
+		int const iBalanceUs = getAlignmentBalance(eAxis);
+		if (iBalanceThem >= iBalanceUs && 
+			iBalanceThem >= 30)
+		{
+			return ALIGNMENT_FACTION_LIGHT;
+		}
+		else if (iBalanceThem <= iBalanceUs && 
+				 iBalanceThem <= -30)
+		{
+			return ALIGNMENT_FACTION_DARK;
+		}
+		return ALIGNMENT_FACTION_NEUTRAL;
+	}
 }
 
 scaled CvPlayer::getAlignmentBalance(AlignmentAxisTypes eAxis) const

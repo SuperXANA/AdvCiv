@@ -19,7 +19,7 @@ AlignmentValue AlignmentScore::get(int iTurn) const
 }
 
 
-int AlignmentScore::getAlignmentTowardsPositive(int iTurn const
+int AlignmentScore::getAlignmentTowardsPositive(int iTurn) const
 {
 	FAssertBounds(0, size(), iTurn);
 	if (iTurn >= size())

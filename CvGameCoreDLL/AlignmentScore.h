@@ -37,7 +37,7 @@ private:
 	// XANA (note): The last 10 turns of alignment score are relevant to us, afterwards the calculated score is smoothed out for a long-term alignment overview
 	void resetSampleSize() { m_iMovingAvgSamples = 10; }
 	void grow(int iSize);
-	int size() const { return (int)m_aiValues.size(); }
+	int size() const { return (int)m_aValues.size(); }
 	void setSampleSize(char iNewValue) { (iNewValue <= 0 || iNewValue > 100) ? resetSampleSize() : m_iMovingAvgSamples = iNewValue; }
 	int getAlignmentTowardsPositive(int iTurn) const;
 	int getAlignmentTowardsNegative(int iTurn) const;
