@@ -8200,9 +8200,9 @@ int CvPlayerAI::AI_getDifferentAlignmentFactionAttitude(PlayerTypes ePlayer) con
 int CvPlayerAI::AI_getFavoriteAlignmentFactionAttitude(PlayerTypes ePlayer) const
 {
 	AlignmentFactionTypes const eFaction = GET_PLAYER(ePlayer).getAlignmentFaction();
-	if (eFaction != NO_ALIGNMENT_FACTION && eFaction == getFavoriteAlignmentFaction())
+	CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+	if (eFaction != NO_ALIGNMENT_FACTION && kPersonality.isFavoriteAlignmentFaction(eFaction))
 	{
-		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
 		int iAttitude = kPersonality.getFavoriteAlignmentFactionAttitudeChange(eFaction);
 		// advc.130n: Moved into new function
 		iAttitude += AI_ideologyAttitudeChange(ePlayer, ALLY_ALIGNMENT_FACTION),
@@ -8218,9 +8218,9 @@ int CvPlayerAI::AI_getFavoriteAlignmentFactionAttitude(PlayerTypes ePlayer) cons
 int CvPlayerAI::AI_getHateAlignmentFactionAttitude(PlayerTypes ePlayer) const
 {
 	AlignmentFactionTypes const eFaction = GET_PLAYER(ePlayer).getAlignmentFaction();
-	if (eFaction != NO_ALIGNMENT_FACTION && eFaction == getHateAlignmentFaction())
+	CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+	if (eFaction != NO_ALIGNMENT_FACTION && kPersonality.isHateAlignmentFaction(eFaction))
 	{
-		CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
 		int iAttitude = kPersonality.getHateAlignmentFactionAttitudeChange(eFaction);
 		// advc.130n: Moved into new function
 		iAttitude += AI_ideologyAttitudeChange(ePlayer, ENEMY_ALIGNMENT_FACTION),

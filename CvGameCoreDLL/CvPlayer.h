@@ -1453,6 +1453,7 @@ public:
 	bool showGoodyOnResourceLayer() const; // advc.004z
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	AlignmentTypes getAlignment(AlignmentAxisTypes eAxis) const;
+	AlignmentFactionTypes getAlignmentFaction(AlignmentAxisTypes eAxis) const { return (i >= 0 && i < (int)m_aAlignmentAxisFactions.size()) ? m_aAlignmentAxisFactions[i] : NO_ALIGNMENT_FACTION; }
 	AlignmentFactionTypes getAlignmentFaction() const { return m_eAlignmentFaction; }
 	scaled getAlignmentBalancePercent(AlignmentAxisTypes eAxis) const;
 	AlignmentValue getAlignmentValues(AlignmentAxisTypes eAxis) const;
@@ -1745,7 +1746,7 @@ protected:  // <advc.210>
 	// advc.120f:
 	void announceEspionageToThirdParties(EspionageMissionTypes eMission, PlayerTypes eTarget);
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-	AlignmentFactionTypes calculateAxisFaction(AlignmentAxisTypes eAxis, PlayerTypes ePlayer = NO_PLAYER) const;
+	AlignmentFactionTypes calculateAxisFaction(AlignmentAxisTypes eAxis) const;
 	AlignmentFactionTypes getBestAlignmentFaction() const;
 	void doUpdatePlayerAlignment()
 	{
@@ -1899,6 +1900,7 @@ protected:
 	{
 		base_t::addElements(kElements);
 		kElements.addInt(MAX_ALIGNMENT_POINTS, "iMaxAlignmentPoints", MAX_INT);
+		kElements.addBool(AXIS_ALIGNMENTS_DO_NOT_DECAY, "bAxisAlignmentsDoNotDecay");
 	}
 public:
 	enum IntElementTypes
@@ -1906,9 +1908,18 @@ public:
 		MAX_ALIGNMENT_POINTS = base_t::NUM_INT_ELEMENT_TYPES,
 		NUM_INT_ELEMENT_TYPES
 	};
+	enum BoolElementTypes
+	{
+		AXIS_ALIGNMENTS_DO_NOT_DECAY = base_t::NUM_BOOL_ELEMENT_TYPES,
+		NUM_BOOL_ELEMENT_TYPES
+	};
 	int get(IntElementTypes e) const
 	{
 		return base_t::get(static_cast<base_t::IntElementTypes>(e));
+	}
+	int get(BoolElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::BoolElementTypes>(e));
 	}
 	CvAlignmentAxisInfo() {}
 	bool read(CvXMLLoadUtility* pXML) { base_t::read(pXML) ? return true : return false; }

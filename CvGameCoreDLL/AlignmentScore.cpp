@@ -43,6 +43,10 @@ void AlignmentScore::changePermanentAlignmentTowardsNegative(int iChange)
 
 void AlignmentScore::decay()
 {
+	if (!m_bDecayAlignment)
+	{
+		return;
+	}
     scaled const iHighFactor = per100(m_iHighDecay);
     scaled const iLowFactor = per100(m_iLowDecay);
     for (int i = 0; i < m_iCount; ++i)
@@ -69,10 +73,7 @@ AlignmentValue AlignmentScore::get() const
     }
     int const iAvgHigh = iSumHigh / m_iCount;
     int const iAvgLow = iSumLow / m_iCount;
-    return AlignmentValue(
-        (m_iBaseHigh + m_iPermHigh) + iAvgHigh,
-        (m_iBaseLow + m_iPermLow) + iAvgLow
-    );
+    return AlignmentValue((m_iBaseHigh + m_iPermHigh) + iAvgHigh, (m_iBaseLow + m_iPermLow) + iAvgLow);
 }
 
 void AlignmentScore::read(FDataStreamBase* pStream)
@@ -92,6 +93,7 @@ void AlignmentScore::read(FDataStreamBase* pStream)
 		m_buffer.clear();
 		uint iSize;
 		pStream->Read(&iSize);
+		m_buffer.reserve(iSize);
 		for (uint i = 0; i < iSize; i++)
 		{
 			AlignmentValue kAlignmentValue;
@@ -120,7 +122,7 @@ void AlignmentScore::write(FDataStreamBase* pStream)
 		std::vector<AlignmentValue>::iterator it;
 		for (it = m_buffer.begin(); it != m_buffer.end(); ++it)
 		{
-			it.write(pStream);
+			it->write(pStream);
 		}
 	}
 }

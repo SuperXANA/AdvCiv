@@ -3,12 +3,14 @@ class AlignmentScore
 public:
     AlignmentScore(int baseHigh = 0, int baseLow = 0,
                    int highDecay = 100, int lowDecay = 100,
-                   int maxDelta = MAX_INT)
+                   int maxDelta = MAX_INT,
+                   bool decay = true)
     : m_iBaseHigh(baseHigh),
       m_iBaseLow(baseLow),
       m_iHighDecay(highDecay),
       m_iLowDecay(lowDecay),
-      m_iMaxDelta(maxDelta),
+      m_iMaxDelta(maxDelta),,
+      m_bDecayAlignment(decay),
       m_iPermHigh(0),
       m_iPermLow(0),
       m_iHead(0),
@@ -47,4 +49,5 @@ private:
     int m_iHighDecay;
     int m_iLowDecay;
     int m_iMaxDelta;
+    bool m_bDecayAlignment:1;
 };

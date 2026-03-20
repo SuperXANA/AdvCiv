@@ -22,6 +22,9 @@
 #include "BBAILog.h"
 #include "RiseFall.h" // advc.708: Needed only for savegame compatibility
 #include "SelfMod.h" // advc.092b
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+#include "AlignmentScore.h"
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 // advc.003u: Statics moved from CvPlayerAI
 CvPlayerAI** CvPlayer::m_aPlayers = NULL;
@@ -138,14 +141,26 @@ bool CvPlayer::initOtherData()
 	FOR_EACH_ENUM2(AlignmentAxis, eAxis)
 	{
 		AlignmentValue kAlignmentValue = getAlignmentValues(eAxis);
-		AlignmentValue kAlignmentStability = GC.getInfo(getLeaderType()).getAlignmentAxisStability(eAxis);
-		AlignmentScore kAlignmentScore(
-			kAlignmentValue.iHigh,
-			kAlignmentValue.iLow,
-			kAlignmentStability.iHigh,
-			kAlignmentStability.iLow,
-			GC.getInfo(eAxis).get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS)
-			);
+		CvAlignmentAxisInfo& kAlignmentAxis = GC.getInfo(eAxis);
+		if (kAlignmentAxis.get(CvAlignmentAxisInfo::AXIS_ALIGNMENTS_DO_NOT_DECAY))
+		{
+			AlignmentScore kAlignmentScore(
+				kAlignmentValue.iHigh,
+				kAlignmentValue.iLow,
+				kAlignmentAxis.get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS)
+				false // XANA (note): If there's no decay (bDecay=false), we don't need to store default player values.
+				);
+		}
+		else
+		{
+			AlignmentValue kAlignmentStability = GC.getInfo(getLeaderType()).getAlignmentAxisStability(eAxis);
+			AlignmentScore kAlignmentScore(
+				kAlignmentValue.iHigh,
+				kAlignmentValue.iLow,
+				kAlignmentStability.iHigh,
+				kAlignmentStability.iLow,
+				kAlignmentAxis.get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS));
+		}
 		kAlignmentScore.reset();
 		m_aAlignmentAxis.push_back(kAlignmentScore);
 	}
@@ -20435,63 +20450,39 @@ void CvPlayer::announceEspionageToThirdParties(EspionageMissionTypes eMission,
 }
 
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-AlignmentFactionTypes CvPlayer::calculateAxisFaction(AlignmentAxisTypes eAxis, PlayerTypes ePlayer) const;
+AlignmentFactionTypes CvPlayer::calculateAxisFaction(AlignmentAxisTypes eAxis) const;
 {
-	if (ePlayer == NO_PLAYER || ePlayer == getID()) // Get our own faction, not another Player's faction
+	int const iBalance = getAlignmentBalancePercent(eAxis);
+	if (iBalance >= 30)
 	{
-		int const iBalance = getAlignmentBalancePercent(eAxis);
-		if (iBalance >= 30)
-		{
-			return ALIGNMENT_FACTION_LIGHT;
-		}
-		else if (iBalance <= -30)
-		{
-			return ALIGNMENT_FACTION_DARK;
-		}
-		return ALIGNMENT_FACTION_SHADOW;
+		return ALIGNMENT_FACTION_LIGHT;
 	}
-	else // Get another Player's faction, not our faction
+	else if (iBalance <= -30)
 	{
-		int const iBalanceUs = getAlignmentBalancePercent(eAxis);
-		int const iBalanceThem = GET_PLAYER(ePlayer).getAlignmentBalancePercent(eAxis);
-		if (iBalanceThem >= iBalanceUs && 
-			iBalanceThem >= 30)
-		{
-			return ALIGNMENT_FACTION_LIGHT;
-		}
-		else if (iBalanceThem <= iBalanceUs && 
-				 iBalanceThem <= -30)
-		{
-			return ALIGNMENT_FACTION_DARK;
-		}
-		return ALIGNMENT_FACTION_SHADOW;
+		return ALIGNMENT_FACTION_DARK;
 	}
+	return ALIGNMENT_FACTION_SHADOW;
 }
 
 AlignmentFactionTypes CvPlayer::getBestAlignmentFaction() const;
 {
-	int iCount[NUM_ALIGNMENT_FACTION_TYPES];
-    FOR_EACH_ENUM(AlignmentAxis)
-    {
-        AlignmentFactionTypes eFaction = m_aAlignmentAxisFactions[eLoopAlignmentAxis];
+	int iCount[NUM_ALIGNMENT_FACTION_TYPES] = {0};
+	int iHighestCount = 0;
+	AlignmentFactionTypes eBestFaction = NO_ALIGNMENT_FACTION;
+	FOR_EACH_ENUM(AlignmentAxis)
+	{
+		AlignmentFactionTypes eFaction = getAlignmentFaction(eLoopAlignmentAxis);
 		if (eFaction != NO_ALIGNMENT_FACTION)
 		{
 			iCount[eFaction]++;
+			if (iCount[eFaction] >= iHighestCount)
+			{
+				iHighestCount = iCount[eFaction];
+				eBestFaction = eFaction;
+			}
 		}
-		else continue;
-    }
-	int iHighestCount = 0;
-	AlignmentFactionTypes eBestFaction = NO_ALIGNMENT_FACTION;
-	FOR_EACH_ENUM(AlignmentFaction)
-	{
-		if (iCount[eLoopAlignmentFaction] > iHighestCount)
-		{
-			iHighestCount = iCount[eLoopAlignmentFaction];
-			eBestFaction = eLoopAlignmentFaction;
-		}
-		else continue;
 	}
-    return eBestFaction;
+	return eBestFaction;
 }
 
 scaled CvPlayer::getAlignmentBalancePercent(AlignmentAxisTypes eAxis) const
@@ -20499,15 +20490,15 @@ scaled CvPlayer::getAlignmentBalancePercent(AlignmentAxisTypes eAxis) const
 	AlignmentValue kAlignmentValue = m_aAlignmentAxis[eAxis].get():
     int const iAxisHigh = kAlignmentValue.iHigh;
     int const iAxisLow = kAlignmentValue.iLow;
-    int const iPositionY = (iAxisHigh + iAxisLow);
-    if (iPositionY <= 0) return 0; // Give true neutral since dividing against 0 isn't possible, and a Leader with Position Y at zero doesn't have alignment history stored yet
+    int const iPositionY = (iAxisHigh - iAxisLow);
+    if (iPositionY == 0) return 0;
 	/* XANA (note): -How to Use This-
 		This function returns a scaled percentage between -100 and 100 representing how far along a Player is on the requested Axis (e.g. Morality, Order, etc.)
 		100 means "Incorruptible Good" or a similarly positive moniker on the Axis
 		0 means "True Neutral" or a similarly neutral moniker on the Axis
 		-100 means "Irredeemable Evil" or a similarly negative moniker on the Axis
 	*/
-    int const iPositionX = (iAxisHigh - iAxisLow);
+    int const iPositionX = (iAxisHigh + iAxisLow);
 	return scaled::max(-100, scaled::min(100, fixp((100 * iPositionX) / iPositionY)));
 }
 
