@@ -187,6 +187,9 @@ public:
 	{ return getInfoTypeForString(szType, bHideAssert, false); }
 	int getInfoTypeForString(const char* szType, bool bHideAssert, bool bFromPython) const;
 	// </advc.006>  // <advc>
+	// XANA: 03-21-2026 Easy Enum Lookup
+	CvEnumType getEnumForString(const char* szType, bool bHideAssert = false) const { return CvEnumType(szType,bHideAssert); } // XANA (note): Initializes new EnumType matching the provided String using proxy class
+	// XANA: 03-21-2026 Easy Enum Lookup
 	ColorTypes getColorType(const char* szType) const
 	{
 		static CvString szPrefix = "COLOR_";
@@ -971,6 +974,25 @@ private:
 	//void addToInfosVectors(void* infoVector); // advc.enum (no longer used)
 	void updateModName(); // advc.106i
 };
+
+// XANA: 03-21-2026 Easy Enum Lookup
+class CvEnumType
+{
+public:
+    CvEnumType(const char* szType, bool bHideAssert = false) : m_szType(szType), m_bHideAssert(bHideAssert) {}
+    template <typename EnumType>
+    operator EnumType() const { return static_cast<EnumType>(GC.getInfoTypeForString(m_szType,m_bHideAssert)); }
+private:
+    const char* m_szType;
+    bool const m_bHideAssert:1;
+};
+#define GET_ENUM(String) (GC.getEnumForString(String))
+#define GET_ENUM_HIDE_ASSERT(String) (GC.getEnumForString(String,true))
+// ex. BuildingTypes ePalace = GC.getEnumForString("BUILDING_PALACE"); /* copy initialization */
+// ex. UnitTypes eWarrior = GET_ENUM("UNIT_WARRIOR"); /* copy initialization */
+// ex. LeaderHeadTypes eAugustus(GC.getEnumForString("LEADER_AUGUSTUS")); /* direct initialization */
+// ex. CivicTypes ePoliceState(GET_ENUM("CIVIC_POLICE_STATE")); /* direct initialization */
+// XANA: 03-21-2026 Easy Enum Lookup
 
 extern CvGlobals gGlobals;	// for debugging
 
