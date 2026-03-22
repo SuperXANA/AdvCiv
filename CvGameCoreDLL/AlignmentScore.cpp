@@ -88,8 +88,6 @@ AlignmentValue AlignmentScore::get() const
 
 void AlignmentScore::read(FDataStreamBase* pStream)
 {
-	reset();
-
 	pStream->Read(&m_iHead);
 	pStream->Read(&m_iCount);
 	pStream->Read(&m_iBaseHigh);

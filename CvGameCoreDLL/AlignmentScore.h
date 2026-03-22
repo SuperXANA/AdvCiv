@@ -15,16 +15,6 @@ public:
       m_iPermLow(0),
       m_iHead(0),
       m_iCount(0) {}
-    void reset()
-    {
-        m_iHead = 0;
-        m_iCount = 0;
-        
-        for(int i = 0; i < m_iSampleSize; ++i)
-        {
-            m_buffer[i] = AlignmentValue();
-        }
-    }
     void nextTurn();
     void changeAlignmentTowardsPositive(int iChange);
     void changeAlignmentTowardsNegative(int iChange);

@@ -140,30 +140,27 @@ bool CvPlayer::initOtherData()
 	m_aAlignmentAxis.reserve(GC.getNumAlignmentAxisInfos());
 	FOR_EACH_ENUM(AlignmentAxis)
 	{
-		AlignmentScore kAlignmentScore;
-		AlignmentValue kAlignmentValue = getAlignmentValues(eLoopAlignmentAxis);
 		CvAlignmentAxisInfo& kAlignmentAxis = GC.getInfo(eLoopAlignmentAxis);
+		AlignmentValue kAlignmentValue = getAlignmentValues(eLoopAlignmentAxis);
 		if (kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_DO_NOT_DECAY))
 		{
-			kAlignmentScore = AlignmentScore(
+			m_aAlignmentAxis.push_back(AlignmentScore(
 				kAlignmentValue.iHigh,
 				kAlignmentValue.iLow,
-				kAlignmentAxis.get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS)
-				kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_LIGHT_DARK_INDEPENDENT));
+				kAlignmentAxis.get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS),
+				kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_LIGHT_DARK_INDEPENDENT)));
 		}
 		else
 		{
 			AlignmentValue kAlignmentStability = getAlignmentStability(eLoopAlignmentAxis);
-			kAlignmentScore = AlignmentScore(
+			m_aAlignmentAxis.push_back(AlignmentScore(
 				kAlignmentValue.iHigh,
 				kAlignmentValue.iLow,
 				kAlignmentStability.iHigh,
 				kAlignmentStability.iLow,
 				kAlignmentAxis.get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS),
-				kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_LIGHT_DARK_INDEPENDENT));
+				kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_LIGHT_DARK_INDEPENDENT)));
 		}
-		kAlignmentScore.reset();
-		m_aAlignmentAxis.push_back(kAlignmentScore);
 	}
 	m_aAlignmentAxisFactions.assign(GC.getNumAlignmentAxisInfos(), NO_ALIGNMENT_FACTION);
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
