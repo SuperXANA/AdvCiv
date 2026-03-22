@@ -981,10 +981,29 @@ class CvEnumType
 public:
     CvEnumType(const char* szType, bool bHideAssert = false) : m_szType(szType), m_bHideAssert(bHideAssert) {}
     template <typename EnumType>
-    operator EnumType() const { return static_cast<EnumType>(GC.getInfoTypeForString(m_szType,m_bHideAssert)); }
+    operator EnumType() const
+    {
+#ifdef FASSERT_ENABLE
+    	VALIDATE_ENUM(static_cast<EnumType*>(NULL));
+    	// XANA (note): We must acquire a NULL pointer of this Enum Type, in order to ensure the proper overload of the function is called, therefore the call shall reference what Enum prefix we are validating for.
+#endif
+    	return static_cast<EnumType>(GC.getInfoTypeForString(m_szType,m_bHideAssert));
+    }
 private:
+#ifdef FASSERT_ENABLE
+    template <typename T>
+    void VALIDATE_ENUM(T*) const {} // XANA (note): Required, this by-default must do nothing, we'll let the compiler generate the functions which validate Enum typing.
+    #define VALIDATE_ENUM_TYPE(Name, Prefix) \
+        void VALIDATE_ENUM(Name##Types*) const \
+        { \
+            FAssertMsg(strncmp(m_szType, #Prefix "_", sizeof(#Prefix)) == 0, \
+                "Type mismatch: Expected " #Prefix "_ prefix but m_szType didn't provide a matching Enum Type. Was the GET_ENUM function attempting to assign CIVIC_SOMETHING to a UnitTypes variable?"); \
+        }
+    DO_FOR_EACH_INFO_TYPE(VALIDATE_ENUM_TYPE) // XANA (note): We do not generate functions including "template<>" code here, this will allow the programmer to define manual overloads needed for specific Enum prefixes that don't match the usual patterns. 
+    #undef VALIDATE_ENUM_TYPE
+#endif
     const char* m_szType;
-    bool const m_bHideAssert:1;
+    bool const m_bHideAssert;
 };
 #define GET_ENUM(String) (GC.getEnumForString(String))
 #define GET_ENUM_HIDE_ASSERT(String) (GC.getEnumForString(String,true))
