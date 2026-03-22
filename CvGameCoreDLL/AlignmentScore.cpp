@@ -3,10 +3,17 @@
 
 void AlignmentScore::nextTurn()
 {
-    m_iHead = (m_iHead + 1) % m_iSampleSize;
-    m_buffer[m_iHead] = AlignmentValue(); // reset slot
+    m_iHead++;
+    if (m_iHead >= m_iSampleSize) 
+    {
+        m_iHead = 0;
+    }
+    m_buffer[m_iHead].m_iHigh = 0;
+    m_buffer[m_iHead].m_iLow = 0;
     if (m_iCount < m_iSampleSize)
+    {
         ++m_iCount;
+    }
 }
 
 void AlignmentScore::changeAlignmentTowardsPositive(int iChange)

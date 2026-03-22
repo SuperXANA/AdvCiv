@@ -26,7 +26,15 @@ public:
     void write(FDataStreamBase* pStream);
 private:
     static const int m_iSampleSize = 10; // XANA (note): default value for speed, game code can't modify
-    int index(int i) const { return (m_iHead - i + m_iSampleSize) % m_iSampleSize; }
+    int index(int i) const
+    {
+        int idx = (m_iHead - i);
+        if (idx < 0)
+        {
+            idx += m_iSampleSize;
+        }
+        return idx;
+    }
     AlignmentValue m_buffer[m_iSampleSize];
     int m_iHead;
     int m_iCount;
