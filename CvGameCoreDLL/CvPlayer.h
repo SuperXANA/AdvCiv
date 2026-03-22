@@ -1699,7 +1699,7 @@ protected:  // <advc.210>
 	std::vector<std::pair<int, PlayerVoteTypes> > m_aVote;
 	std::vector<std::pair<UnitClassTypes,int> > m_aUnitExtraCosts;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-	std::vector<AlignmentScore> m_aAlignmentAxis;
+	std::vector<AlignmentScore> m_aAlignmentAxisScores;
 	std::vector<AlignmentFactionTypes> m_aAlignmentAxisFactions;
 	AlignmentFactionTypes m_eAlignmentFaction;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -1750,8 +1750,8 @@ protected:  // <advc.210>
 	{
 		FOR_EACH_ENUM2(AlignmentAxis, eAxis)
 		{
-			m_aAlignmentAxis[eAxis].nextTurn();
-			m_aAlignmentAxis[eAxis].decay();
+			m_aAlignmentAxisScores[eAxis].nextTurn();
+			m_aAlignmentAxisScores[eAxis].decay();
 			m_aAlignmentAxisFactions[eAxis] = calculateAxisFaction(eAxis);
 		}
 		m_eAlignmentFaction = getBestAlignmentFaction();
