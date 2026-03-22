@@ -2,16 +2,14 @@ class AlignmentScore
 {
 public:
     AlignmentScore(int baseHigh = 0, int baseLow = 0,
-                   int highDecay = 100, int lowDecay = 100,
+                   int highDecay = 0, int lowDecay = 0,
                    int maxDelta = MAX_INT,
-                   bool decay = true,
                    bool independent = false)
     : m_iBaseHigh(baseHigh),
       m_iBaseLow(baseLow),
       m_iHighDecay(highDecay),
       m_iLowDecay(lowDecay),
       m_iMaxDelta(maxDelta),
-      m_bDecayAlignment(decay),
       m_bAlignmentGoodEvilIsIndependent(independent),
       m_iPermHigh(0),
       m_iPermLow(0),
@@ -27,8 +25,6 @@ public:
             m_buffer[i] = AlignmentValue();
         }
     }
-    void toggleAlignmentDecay() { m_bDecayAlignment = !m_bDecayAlignment; }
-    void setAlignmentDecay(bool b) { m_bDecayAlignment = b; }
     void nextTurn();
     void changeAlignmentTowardsPositive(int iChange);
     void changeAlignmentTowardsNegative(int iChange);
@@ -51,6 +47,5 @@ private:
     int m_iHighDecay;
     int m_iLowDecay;
     int m_iMaxDelta;
-    bool m_bDecayAlignment;
     bool m_bAlignmentGoodEvilIsIndependent;
 };

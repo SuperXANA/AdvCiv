@@ -53,7 +53,7 @@ void AlignmentScore::changePermanentAlignmentTowardsNegative(int iChange)
 
 void AlignmentScore::decay()
 {
-	if (!m_bDecayAlignment)
+	if ((m_iHighDecay <= 0) || (m_iLowDecay <= 0))
 	{
 		return;
 	}
@@ -99,7 +99,6 @@ void AlignmentScore::read(FDataStreamBase* pStream)
 	pStream->Read(&m_iHighDecay);
 	pStream->Read(&m_iLowDecay);
 	pStream->Read(&m_iMaxDelta);
-	pStream->Read(&m_bDecayAlignment);
 	pStream->Read(&m_bAlignmentGoodEvilIsIndependent);
 	
 	for(int i = 0; i < m_iSampleSize; ++i)
@@ -121,7 +120,6 @@ void AlignmentScore::write(FDataStreamBase* pStream)
 	pStream->Write(m_iHighDecay);
 	pStream->Write(m_iLowDecay);
 	pStream->Write(m_iMaxDelta);
-	pStream->Write(m_bDecayAlignment);
 	pStream->Write(m_bAlignmentGoodEvilIsIndependent);
 	
 	for(int i = 0; i < m_iSampleSize; ++i)

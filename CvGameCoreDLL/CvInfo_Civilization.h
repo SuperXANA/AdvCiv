@@ -59,7 +59,10 @@ public: // advc: All the const functions are exposed to Python
 	bool isCivilizationFreeTechs(int i) const;
 	bool isCivilizationDisableTechs(int i) const;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-	AlignmentScale getAlignmentValues(int i) const { (m_aAlignmentValues.size() > 0) ? return m_aAlignmentValues[i] : return AlignmentScale(); }
+	AlignmentScale getAlignmentValues(int i) const { return (i >= 0 && i < (int)m_aAlignmentValues.size()) ? m_aAlignmentValues[i] : AlignmentScale(); }
+	AlignmentValue getAlignmentStability(int i) const { (return (i >= 0 && i < (int)m_aAlignmentStability.size()) ? m_aAlignmentStability[i] : AlignmentValue(); }
+	bool isFavoriteAlignmentFaction(int i) const;
+	bool isHateAlignmentFaction(int i) const;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	std::string getCityNames(int i) const;
@@ -69,9 +72,6 @@ public: // advc: All the const functions are exposed to Python
 
 	bool read(CvXMLLoadUtility* pXML);
 	bool readPass2(CvXMLLoadUtility* pXML);
-	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-	bool readPass3(CvXMLLoadUtility* pXML);
-	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
 	void write(FDataStreamBase* stream);
@@ -105,6 +105,9 @@ protected:
 	bool* m_pbCivilizationDisableTechs;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	std::vector<AlignmentScale> m_aAlignmentValues;
+	std::vector<AlignmentValue> m_aAlignmentStability;
+	bool* m_pbFavoriteAlignmentFactions;
+	bool* m_pbHateAlignmentFactions;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	CvString* m_paszCityNames;
@@ -231,7 +234,7 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getDiploWarMusicScriptIds(int i) const;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	AlignmentScale getAlignmentValues(int i) const { return (i >= 0 && i < (int)m_aAlignmentValues.size()) ? m_aAlignmentValues[i] : AlignmentScale(); }
-	AlignmentValue getAlignmentAxisStability(int i) const { (return (i >= 0 && i < (int)m_aAlignmentAxisStability.size()) ? m_aAlignmentAxisStability[i] : AlignmentValue(); }
+	AlignmentValue getAlignmentStability(int i) const { (return (i >= 0 && i < (int)m_aAlignmentStability.size()) ? m_aAlignmentStability[i] : AlignmentValue(); }
 	bool isFavoriteAlignmentFaction(int i) const;
 	bool isHateAlignmentFaction(int i) const;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -245,9 +248,6 @@ public: // advc: All the const functions are exposed to Python except those adde
 	void write(FDataStreamBase* stream);
 	#endif
 	bool read(CvXMLLoadUtility* pXML);
-	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
-	bool readPass3(CvXMLLoadUtility* pXML);
-	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 protected:
 	/*	advc.xmldefault (note): The copy-ctor relies on m_iWonderConstructRand
@@ -359,7 +359,7 @@ protected:
 	int* m_piDiploWarMusicScriptIds;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	std::vector<AlignmentScale> m_aAlignmentValues;
-	std::vector<AlignmentValue> m_aAlignmentAxisStability;
+	std::vector<AlignmentValue> m_aAlignmentStability;
 	bool* m_pbFavoriteAlignmentFactions;
 	bool* m_pbHateAlignmentFactions;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ

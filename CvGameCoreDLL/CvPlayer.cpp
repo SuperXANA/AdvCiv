@@ -138,23 +138,22 @@ bool CvPlayer::initOtherData()
 	
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	m_aAlignmentAxis.reserve(GC.getNumAlignmentAxisInfos());
-	FOR_EACH_ENUM2(AlignmentAxis, eAxis)
+	FOR_EACH_ENUM(AlignmentAxis)
 	{
-		AlignmentValue kAlignmentValue = getAlignmentValues(eAxis);
-		CvAlignmentAxisInfo& kAlignmentAxis = GC.getInfo(eAxis);
 		AlignmentScore kAlignmentScore;
+		AlignmentValue kAlignmentValue = getAlignmentValues(eLoopAlignmentAxis);
+		CvAlignmentAxisInfo& kAlignmentAxis = GC.getInfo(eLoopAlignmentAxis);
 		if (kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_DO_NOT_DECAY))
 		{
 			kAlignmentScore = AlignmentScore(
 				kAlignmentValue.iHigh,
 				kAlignmentValue.iLow,
 				kAlignmentAxis.get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS)
-				false, // XANA (note): If there's no decay (bDecay=false), we don't need to store default player values.
 				kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_LIGHT_DARK_INDEPENDENT));
 		}
 		else
 		{
-			AlignmentValue kAlignmentStability = GC.getInfo(getLeaderType()).getAlignmentAxisStability(eAxis);
+			AlignmentValue kAlignmentStability = getAlignmentStability(eLoopAlignmentAxis);
 			kAlignmentScore = AlignmentScore(
 				kAlignmentValue.iHigh,
 				kAlignmentValue.iLow,
@@ -20510,9 +20509,18 @@ AlignmentValue CvPlayer::getAlignmentValues(AlignmentAxisTypes eAxis) const
     AlignmentScale kAlignmentScaleLeader = GC.getInfo(getLeaderType()).getAlignmentValues(eAxis);
     int const iPercent = std::max(-100, std::min(100, kAlignmentScaleCiv.iPercent + kAlignmentScaleLeader.iPercent));
     int const iScale = (kAlignmentScaleCiv.iScale + kAlignmentScaleLeader.iScale);
-    int const iAxisHigh = ((100 + iPercent) * iScale) / 200;
-    int const iAxisLow = ((100 - iPercent) * iScale) / 200;
-    return AlignmentValue(iAxisHigh, iAxisLow);
+    return AlignmentValue(
+		(((100 + iPercent) * iScale) / 200) /* iHigh */, 
+		(((100 - iPercent) * iScale) / 200) /* iLow */);
+}
+
+AlignmentValue CvPlayer::getAlignmentStability(AlignmentAxisTypes eAxis) const
+{
+	AlignmentValue kAlignmentStabilityCiv = GC.getInfo(getCivilizationType()).getAlignmentStability(eAxis);
+    AlignmentValue kAlignmentStabilityLeader = GC.getInfo(getLeaderType()).getAlignmentStability(eAxis);
+    return AlignmentValue(
+			(kAlignmentStabilityCiv.iHigh + kAlignmentStabilityLeader.iHigh), 
+			(kAlignmentStabilityCiv.iLow + kAlignmentStabilityLeader.iLow));
 }
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
