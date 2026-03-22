@@ -25,6 +25,7 @@ m_pbCivilizationFreeTechs(NULL),
 m_pbCivilizationDisableTechs(NULL),
 m_paszCityNames(NULL),
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+m_piAlignmentStability(NULL),
 m_pbFavoriteAlignmentFactions(NULL),
 m_pbHateAlignmentFactions(NULL)
 {}
@@ -41,6 +42,7 @@ CvCivilizationInfo::~CvCivilizationInfo()
 	SAFE_DELETE_ARRAY(m_pbCivilizationDisableTechs);
 	SAFE_DELETE_ARRAY(m_paszCityNames);
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	SAFE_DELETE_ARRAY(m_piAlignmentStability);
 	SAFE_DELETE_ARRAY(m_pbFavoriteAlignmentFactions);
 	SAFE_DELETE_ARRAY(m_pbHateAlignmentFactions);
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -203,6 +205,12 @@ std::string CvCivilizationInfo::getCityNames(int i) const
 }
 
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+bool CvCivilizationInfo::getAlignmentStability(int i) const
+{
+	FAssertBounds(0, GC.getNumAlignmentAxisInfos(), i);
+	return m_piAlignmentStability ? m_piAlignmentStability[i] : 0;
+}
+
 bool CvCivilizationInfo::isFavoriteAlignmentFaction(int i) const
 {
 	FAssertBounds(0, NUM_ALIGNMENT_FACTION_TYPES, i);
@@ -276,17 +284,9 @@ void CvCivilizationInfo::read(FDataStreamBase* stream)
 			m_aAlignmentValues.push_back(kAlignmentValue);
 		}
 	}
-	{
-		m_aAlignmentStability.clear();
-		uint iSize;
-		pStream->Read(&iSize);
-		for (uint i = 0; i < iSize; i++)
-		{
-			AlignmentValue kAlignmentValue;
-			kAlignmentValue.read(pStream);
-			m_aAlignmentStability.push_back(kAlignmentValue);
-		}
-	}
+	SAFE_DELETE_ARRAY(m_piAlignmentStability);
+	m_piAlignmentStability = new int[GC.getNumAlignmentAxisInfos()];
+	stream->Read(GC.getNumAlignmentAxisInfos(), m_piAlignmentStability);
 	SAFE_DELETE_ARRAY(m_pbFavoriteAlignmentFactions);
 	m_pbFavoriteAlignmentFactions = new bool[NUM_ALIGNMENT_FACTION_TYPES];
 	stream->Read(NUM_ALIGNMENT_FACTION_TYPES, m_pbFavoriteAlignmentFactions);
@@ -334,15 +334,7 @@ void CvCivilizationInfo::write(FDataStreamBase* stream)
 			it->write(pStream);
 		}
 	}
-	{
-		uint iSize = m_aAlignmentStability.size();
-		pStream->Write(iSize);
-		std::vector<AlignmentValue>::iterator it;
-		for (it = m_aAlignmentStability.begin(); it != m_aAlignmentStability.end(); ++it)
-		{
-			it.write(pStream);
-		}
-	}
+	stream->Write(GC.getNumAlignmentAxisInfos(), m_piAlignmentStability);
 	stream->Write(NUM_ALIGNMENT_FACTION_TYPES, m_pbFavoriteAlignmentFactions);
 	stream->Write(NUM_ALIGNMENT_FACTION_TYPES, m_pbHateAlignmentFactions);
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -500,42 +492,7 @@ bool CvCivilizationInfo::read(CvXMLLoadUtility* pXML)
 			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 		}
 	}
-	m_aAlignmentStability.assign(GC.getNumAlignmentAxisInfos(), AlignmentValue());
-	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "AlignmentStabilities"))
-	{
-		if (pXML->SkipToNextVal())
-		{
-			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
-			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
-			{
-				for (int j = 0; j < iNumSibs; j++)
-				{
-					if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML())) 
-					{
-						CvString szAxisVal;
-						if (pXML->GetChildXmlVal(szAxisVal))
-						{
-							AlignmentAxisTypes eAxis = (AlignmentAxisTypes)pXML->FindInInfoClass(szAxisVal);
-							if (eAxis != NO_ALIGNMENTAXIS)
-							{
-								int iHigh = 0;
-								int iLow = 0;
-								pXML->GetNextXmlVal(&iHigh);
-								pXML->GetNextXmlVal(&iLow);
-								m_aAlignmentStability[eAxis] = AlignmentValue(iHigh, iLow);
-							}
-							else FAssert(eAxis != NO_ALIGNMENTAXIS);
-						}
-						gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-					}
-					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
-						break;
-				}
-				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-			}
-			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-		}
-	}
+	pXML->SetVariableListTagPair(&m_piAlignmentStability, "AlignmentStabilities", GC.getNumAlignmentAxisInfos());
 	pXML->SetVariableListTagPair(&m_pbFavoriteAlignmentFactions, "FavoriteAlignmentFactions", NUM_ALIGNMENT_FACTION_TYPES);
 	pXML->SetVariableListTagPair(&m_pbHateAlignmentFactions, "HateAlignmentFactions", NUM_ALIGNMENT_FACTION_TYPES);
 
@@ -649,6 +606,7 @@ m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
 m_piDiploWarMusicScriptIds(NULL),
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+m_piAlignmentStability(NULL),
 m_pbFavoriteAlignmentFactions(NULL),
 m_pbHateAlignmentFactions(NULL)
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -689,7 +647,7 @@ CvLeaderHeadInfo::CvLeaderHeadInfo(CvLeaderHeadInfo const& kOther)
 	allocCopy(m_piDiploWarMusicScriptIds, kOther.m_piDiploWarMusicScriptIds, GC.getNumEraInfos());
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	allocCopy(m_aAlignmentValues, kOther.m_aAlignmentValues, GC.getNumAlignmentAxisInfos());
-	allocCopy(m_aAlignmentStability, kOther.m_aAlignmentStability, GC.getNumAlignmentAxisInfos());
+	allocCopy(m_piAlignmentStability, kOther.m_piAlignmentStability, GC.getNumAlignmentAxisInfos());
 	allocCopy(m_pbFavoriteAlignmentFactions, kOther.m_pbFavoriteAlignmentFactions, NUM_ALIGNMENT_FACTION_TYPES);
 	allocCopy(m_pbHateAlignmentFactions, kOther.m_pbHateAlignmentFactions, NUM_ALIGNMENT_FACTION_TYPES);
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -711,6 +669,7 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	SAFE_DELETE_ARRAY(m_piAlignmentStability);
 	SAFE_DELETE_ARRAY(m_pbFavoriteAlignmentFactions);
 	SAFE_DELETE_ARRAY(m_pbHateAlignmentFactions);
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -822,6 +781,12 @@ const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 }
 
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+bool CvLeaderHeadInfo::getAlignmentStability(int i) const
+{
+	FAssertBounds(0, GC.getNumAlignmentAxisInfos(), i);
+	return m_piAlignmentStability ? m_piAlignmentStability[i] : 0;
+}
+
 bool CvLeaderHeadInfo::isFavoriteAlignmentFaction(int i) const
 {
 	FAssertBounds(0, NUM_ALIGNMENT_FACTION_TYPES, i);
@@ -982,17 +947,9 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 			m_aAlignmentValues.push_back(kAlignmentScale);
 		}
 	}
-	{
-		m_aAlignmentStability.clear();
-		uint iSize;
-		pStream->Read(&iSize);
-		for (uint i = 0; i < iSize; i++)
-		{
-			AlignmentValue kAlignmentValue;
-			kAlignmentValue.read(pStream);
-			m_aAlignmentStability.push_back(kAlignmentValue);
-		}
-	}
+	SAFE_DELETE_ARRAY(m_piAlignmentStability);
+	m_piAlignmentStability = new int[GC.getNumAlignmentAxisInfos()];
+	stream->Read(GC.getNumAlignmentAxisInfos(), m_piAlignmentStability);
 	SAFE_DELETE_ARRAY(m_pbFavoriteAlignmentFactions);
 	m_pbFavoriteAlignmentFactions = new bool[NUM_ALIGNMENT_FACTION_TYPES];
 	stream->Read(NUM_ALIGNMENT_FACTION_TYPES, m_pbFavoriteAlignmentFactions);
@@ -1116,15 +1073,7 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 			it.write(pStream);
 		}
 	}
-	{
-		uint iSize = m_aAlignmentStability.size();
-		pStream->Write(iSize);
-		std::vector<AlignmentValue>::iterator it;
-		for (it = m_aAlignmentStability.begin(); it != m_aAlignmentStability.end(); ++it)
-		{
-			it.write(pStream);
-		}
-	}
+	stream->Write(GC.getNumAlignmentAxisInfos(), m_piAlignmentStability);
 	stream->Write(NUM_ALIGNMENT_FACTION_TYPES, m_pbFavoriteAlignmentFactions);
 	stream->Write(NUM_ALIGNMENT_FACTION_TYPES, m_pbHateAlignmentFactions);
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -1330,42 +1279,7 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 		}
 	}
-	m_aAlignmentStability.assign(GC.getNumAlignmentAxisInfos(), AlignmentValue());
-	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "AlignmentStabilities"))
-	{
-		if (pXML->SkipToNextVal())
-		{
-			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
-			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
-			{
-				for (int j = 0; j < iNumSibs; j++)
-				{
-					if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML())) 
-					{
-						CvString szAxisVal;
-						if (pXML->GetChildXmlVal(szAxisVal))
-						{
-							AlignmentAxisTypes eAxis = (AlignmentAxisTypes)pXML->FindInInfoClass(szAxisVal);
-							if (eAxis != NO_ALIGNMENTAXIS)
-							{
-								int iHigh = 0;
-								int iLow = 0;
-								pXML->GetNextXmlVal(&iHigh);
-								pXML->GetNextXmlVal(&iLow);
-								m_aAlignmentStability[eAxis] = AlignmentValue(iHigh, iLow);
-							}
-							else FAssert(eAxis != NO_ALIGNMENTAXIS);
-						}
-						gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-					}
-					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
-						break;
-				}
-				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-			}
-			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-		}
-	}
+	pXML->SetVariableListTagPair(&m_piAlignmentStability, "AlignmentStabilities", GC.getNumAlignmentAxisInfos());
 	pXML->SetVariableListTagPair(&m_pbFavoriteAlignmentFactions, "FavoriteAlignmentFactions", NUM_ALIGNMENT_FACTION_TYPES);
 	pXML->SetVariableListTagPair(&m_pbHateAlignmentFactions, "HateAlignmentFactions", NUM_ALIGNMENT_FACTION_TYPES);
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ

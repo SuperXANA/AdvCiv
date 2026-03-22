@@ -1954,7 +1954,7 @@ public:
 	CvAlignmentInfo() {}
 	AlignmentClassTypes getCategory() const { return m_eAlignmentCategory; }
 	AlignmentAxisTypes getAxis() const { return m_eAlignmentAxis; }
-	bool read(CvXMLLoadUtility* pXML)
+	bool read(CvXMLLoadUtility* pXML);
 };
 protected:
 	AlignmentClassTypes m_eAlignmentCategory;

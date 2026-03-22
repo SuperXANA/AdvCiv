@@ -60,7 +60,7 @@ public: // advc: All the const functions are exposed to Python
 	bool isCivilizationDisableTechs(int i) const;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	AlignmentScale getAlignmentValues(int i) const { return (i >= 0 && i < (int)m_aAlignmentValues.size()) ? m_aAlignmentValues[i] : AlignmentScale(); }
-	AlignmentValue getAlignmentStability(int i) const { (return (i >= 0 && i < (int)m_aAlignmentStability.size()) ? m_aAlignmentStability[i] : AlignmentValue(); }
+	int getAlignmentStability(int i) const;
 	bool isFavoriteAlignmentFaction(int i) const;
 	bool isHateAlignmentFaction(int i) const;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -105,7 +105,7 @@ protected:
 	bool* m_pbCivilizationDisableTechs;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	std::vector<AlignmentScale> m_aAlignmentValues;
-	std::vector<AlignmentValue> m_aAlignmentStability;
+	int* m_piAlignmentStability;
 	bool* m_pbFavoriteAlignmentFactions;
 	bool* m_pbHateAlignmentFactions;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -234,7 +234,7 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getDiploWarMusicScriptIds(int i) const;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	AlignmentScale getAlignmentValues(int i) const { return (i >= 0 && i < (int)m_aAlignmentValues.size()) ? m_aAlignmentValues[i] : AlignmentScale(); }
-	AlignmentValue getAlignmentStability(int i) const { (return (i >= 0 && i < (int)m_aAlignmentStability.size()) ? m_aAlignmentStability[i] : AlignmentValue(); }
+	int getAlignmentStability(int i) const;
 	bool isFavoriteAlignmentFaction(int i) const;
 	bool isHateAlignmentFaction(int i) const;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
@@ -359,7 +359,7 @@ protected:
 	int* m_piDiploWarMusicScriptIds;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	std::vector<AlignmentScale> m_aAlignmentValues;
-	std::vector<AlignmentValue> m_aAlignmentStability;
+	int* m_piAlignmentStability;
 	bool* m_pbFavoriteAlignmentFactions;
 	bool* m_pbHateAlignmentFactions;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
