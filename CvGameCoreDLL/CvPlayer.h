@@ -1900,7 +1900,8 @@ protected:
 	{
 		base_t::addElements(kElements);
 		kElements.addInt(MAX_ALIGNMENT_POINTS, "iMaxAlignmentPoints", MAX_INT);
-		kElements.addBool(AXIS_ALIGNMENTS_DO_NOT_DECAY, "bAxisAlignmentsDoNotDecay");
+		kElements.addBool(ALIGNMENTS_DO_NOT_DECAY, "bAlignmentsDoNotDecay");
+		kElements.addBool(ALIGNMENTS_LIGHT_DARK_INDEPENDENT, "bGoodEvilAlignmentsAreIndependent");
 	}
 public:
 	enum IntElementTypes
@@ -1910,7 +1911,8 @@ public:
 	};
 	enum BoolElementTypes
 	{
-		AXIS_ALIGNMENTS_DO_NOT_DECAY = base_t::NUM_BOOL_ELEMENT_TYPES,
+		ALIGNMENTS_DO_NOT_DECAY = base_t::NUM_BOOL_ELEMENT_TYPES,
+		ALIGNMENTS_LIGHT_DARK_INDEPENDENT,
 		NUM_BOOL_ELEMENT_TYPES
 	};
 	int get(IntElementTypes e) const

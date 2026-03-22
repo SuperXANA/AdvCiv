@@ -142,24 +142,26 @@ bool CvPlayer::initOtherData()
 	{
 		AlignmentValue kAlignmentValue = getAlignmentValues(eAxis);
 		CvAlignmentAxisInfo& kAlignmentAxis = GC.getInfo(eAxis);
-		if (kAlignmentAxis.get(CvAlignmentAxisInfo::AXIS_ALIGNMENTS_DO_NOT_DECAY))
+		AlignmentScore kAlignmentScore;
+		if (kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_DO_NOT_DECAY))
 		{
-			AlignmentScore kAlignmentScore(
+			kAlignmentScore = AlignmentScore(
 				kAlignmentValue.iHigh,
 				kAlignmentValue.iLow,
 				kAlignmentAxis.get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS)
-				false // XANA (note): If there's no decay (bDecay=false), we don't need to store default player values.
-				);
+				false, // XANA (note): If there's no decay (bDecay=false), we don't need to store default player values.
+				kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_LIGHT_DARK_INDEPENDENT));
 		}
 		else
 		{
 			AlignmentValue kAlignmentStability = GC.getInfo(getLeaderType()).getAlignmentAxisStability(eAxis);
-			AlignmentScore kAlignmentScore(
+			kAlignmentScore = AlignmentScore(
 				kAlignmentValue.iHigh,
 				kAlignmentValue.iLow,
 				kAlignmentStability.iHigh,
 				kAlignmentStability.iLow,
-				kAlignmentAxis.get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS));
+				kAlignmentAxis.get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS),
+				kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_LIGHT_DARK_INDEPENDENT));
 		}
 		kAlignmentScore.reset();
 		m_aAlignmentAxis.push_back(kAlignmentScore);
@@ -20488,27 +20490,28 @@ AlignmentFactionTypes CvPlayer::getBestAlignmentFaction() const;
 scaled CvPlayer::getAlignmentBalancePercent(AlignmentAxisTypes eAxis) const
 {
 	AlignmentValue kAlignmentValue = m_aAlignmentAxis[eAxis].get():
-    int const iAxisHigh = kAlignmentValue.iHigh;
-    int const iAxisLow = kAlignmentValue.iLow;
-    int const iPositionY = (iAxisHigh - iAxisLow);
-    if (iPositionY == 0) return 0;
+	int const iAxisHigh = kAlignmentValue.iHigh;
+	int const iAxisLow = kAlignmentValue.iLow;
 	/* XANA (note): -How to Use This-
 		This function returns a scaled percentage between -100 and 100 representing how far along a Player is on the requested Axis (e.g. Morality, Order, etc.)
 		100 means "Incorruptible Good" or a similarly positive moniker on the Axis
 		0 means "True Neutral" or a similarly neutral moniker on the Axis
 		-100 means "Irredeemable Evil" or a similarly negative moniker on the Axis
 	*/
-    int const iPositionX = (iAxisHigh + iAxisLow);
-	return scaled::max(-100, scaled::min(100, fixp((100 * iPositionX) / iPositionY)));
+	int const iScale = (iAxisHigh + iAxisLow);
+	if (iScale == 0) return 0;
+	int const iPosition = (iAxisHigh - iAxisLow);
+    return scaled::max(-100, scaled::min(100, fixp((100 * iPosition) / iScale)));
 }
 
 AlignmentValue CvPlayer::getAlignmentValues(AlignmentAxisTypes eAxis) const
 {
 	AlignmentScale kAlignmentScaleCiv = GC.getInfo(getCivilizationType()).getAlignmentValues(eAxis);
-	AlignmentScale kAlignmentScaleLeader = GC.getInfo(getLeaderType()).getAlignmentValues(eAxis);
-    int const iScale = kAlignmentScaleCiv.iScale + kAlignmentScaleLeader.iScale;
-    int const iAxisHigh = ((100 + std::max(-100, std::min(100, kAlignmentScaleCiv.iPercent + kAlignmentScaleLeader.iPercent))) * iScale) / 200;
-    int const iAxisLow = (iAxisHigh - iScale);
+    AlignmentScale kAlignmentScaleLeader = GC.getInfo(getLeaderType()).getAlignmentValues(eAxis);
+    int const iPercent = std::max(-100, std::min(100, kAlignmentScaleCiv.iPercent + kAlignmentScaleLeader.iPercent));
+    int const iScale = (kAlignmentScaleCiv.iScale + kAlignmentScaleLeader.iScale);
+    int const iAxisHigh = ((100 + iPercent) * iScale) / 200;
+    int const iAxisLow = ((100 - iPercent) * iScale) / 200;
     return AlignmentValue(iAxisHigh, iAxisLow);
 }
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
