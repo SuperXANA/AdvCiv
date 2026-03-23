@@ -141,23 +141,23 @@ bool CvPlayer::initOtherData()
 	FOR_EACH_ENUM(AlignmentAxis)
 	{
 		CvAlignmentAxisInfo& kAlignmentAxis = GC.getInfo(eLoopAlignmentAxis);
-		AlignmentValue kAlignmentValue = getAlignmentValues(eLoopAlignmentAxis);
+		std::pair<int,int> iiAlignmentValues = getAlignmentValues(eLoopAlignmentAxis);
 		if (kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_DO_NOT_DECAY))
 		{
 			m_aAlignmentAxisScores.push_back(AlignmentScore(
-				kAlignmentValue.iHigh,
-				kAlignmentValue.iLow,
+				iiAlignmentValues.first,
+				iiAlignmentValues.second,
 				kAlignmentAxis.get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS),
 				kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_LIGHT_DARK_INDEPENDENT)));
 		}
 		else
 		{
-			AlignmentValue kAlignmentStability = getAlignmentStability(eLoopAlignmentAxis);
+			std::pair<int,int> iiAlignmentStability = getAlignmentStability(eLoopAlignmentAxis);
 			m_aAlignmentAxisScores.push_back(AlignmentScore(
-				kAlignmentValue.iHigh,
-				kAlignmentValue.iLow,
-				kAlignmentStability.iHigh,
-				kAlignmentStability.iLow,
+				iiAlignmentValues.first,
+				iiAlignmentValues.second,
+				iiAlignmentStability.first,
+				iiAlignmentStability.second,
 				kAlignmentAxis.get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS),
 				kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_LIGHT_DARK_INDEPENDENT)));
 		}
@@ -20485,9 +20485,9 @@ AlignmentFactionTypes CvPlayer::getBestAlignmentFaction() const;
 
 scaled CvPlayer::getAlignmentBalancePercent(AlignmentAxisTypes eAxis) const
 {
-	AlignmentValue kAlignmentValue = m_aAlignmentAxisScores[eAxis].get():
-	int const iAxisHigh = kAlignmentValue.iHigh;
-	int const iAxisLow = kAlignmentValue.iLow;
+	std::pair<int,int> kAlignmentValues = m_aAlignmentAxisScores[eAxis].get():
+	int const iAxisHigh = kAlignmentValues.first;
+	int const iAxisLow = kAlignmentValues.second;
 	/* XANA (note): -How to Use This-
 		This function returns a scaled percentage between -100 and 100 representing how far along a Player is on the requested Axis (e.g. Morality, Order, etc.)
 		100 means "Incorruptible Good" or a similarly positive moniker on the Axis
@@ -20500,25 +20500,25 @@ scaled CvPlayer::getAlignmentBalancePercent(AlignmentAxisTypes eAxis) const
     return scaled::max(-100, scaled::min(100, fixp((100 * iPosition) / iScale)));
 }
 
-AlignmentValue CvPlayer::getAlignmentValues(AlignmentAxisTypes eAxis) const
+std::pair<int,int> CvPlayer::getAlignmentValues(AlignmentAxisTypes eAxis) const
 {
 	AlignmentScale kAlignmentScaleCiv = GC.getInfo(getCivilizationType()).getAlignmentValues(eAxis);
     AlignmentScale kAlignmentScaleLeader = GC.getInfo(getLeaderType()).getAlignmentValues(eAxis);
     int const iPercent = std::max(-100, std::min(100, kAlignmentScaleCiv.iPercent + kAlignmentScaleLeader.iPercent));
     int const iScale = (kAlignmentScaleCiv.iScale + kAlignmentScaleLeader.iScale);
-    return AlignmentValue(
+    return std::pair<int,int>(
 		(((100 + iPercent) * iScale) / 200) /* iHigh */, 
 		(((100 - iPercent) * iScale) / 200) /* iLow */);
 }
     
-AlignmentValue CvPlayer::getAlignmentStability(AlignmentAxisTypes eAxis) const
+std::pair<int,int> CvPlayer::getAlignmentStability(AlignmentAxisTypes eAxis) const
 {
 	int const iPlayerPercent = std::max(-100, std::min(100,
         GC.getInfo(getCivilizationType()).getAlignmentStability(eAxis) + 
         GC.getInfo(getLeaderType()).getAlignmentStability(eAxis)
     ));
     int const iTotalAlignmentStability = std::max(1, std::min(100, (100 + iPlayerPercent) / 2));
-    return AlignmentValue(
+    return std::pair<int,int>(
         (100 - (100 / ((100 - iTotalAlignmentStability) + 1))) /* iHigh */,
         (100 - (100 / ((iTotalAlignmentStability - 1) + 1))) /* iLow */
 		);

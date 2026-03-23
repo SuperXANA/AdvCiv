@@ -85,11 +85,11 @@ void AlignmentScore::decay()
 	} 
 }
 
-AlignmentValue AlignmentScore::get() const
+std::pair<int,int> AlignmentScore::get() const
 {
     if (m_iCount == 0)
     {
-        return AlignmentValue((m_iBaseHigh + m_iPermHigh),
+        return std::pair<int,int>((m_iBaseHigh + m_iPermHigh),
         	(m_iBaseLow + m_iPermLow));
     }
     int iSumHigh = 0;
@@ -100,7 +100,7 @@ AlignmentValue AlignmentScore::get() const
         iSumHigh += kAlignmentValue.iHigh;
         iSumLow += kAlignmentValue.iLow;
     }
-    return AlignmentValue((m_iBaseHigh + m_iPermHigh) + (iSumHigh / m_iCount),
+    return std::pair<int,int>((m_iBaseHigh + m_iPermHigh) + (iSumHigh / m_iCount),
 		(m_iBaseLow + m_iPermLow) + (iSumLow / m_iCount));
 }
 
