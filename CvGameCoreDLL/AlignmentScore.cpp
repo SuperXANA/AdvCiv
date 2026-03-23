@@ -60,10 +60,6 @@ void AlignmentScore::changePermanentAlignmentTowardsNegative(int iChange)
 
 void AlignmentScore::decay()
 {
-	if ((m_iHighDecay <= 0) || (m_iLowDecay <= 0))
-	{
-		return;
-	}
     scaled const iHighFactor = per100(m_iHighDecay);
     scaled const iLowFactor = per100(m_iLowDecay);
     for (int i = 0; i < m_iCount; ++i)

@@ -1751,7 +1751,10 @@ protected:  // <advc.210>
 		FOR_EACH_ENUM2(AlignmentAxis, eAxis)
 		{
 			m_aAlignmentAxisScores[eAxis].nextTurn();
-			m_aAlignmentAxisScores[eAxis].decay();
+			if (!GC.getInfo(eAxis).get(CvAlignmentAxisInfo::ALIGNMENTS_DO_NOT_DECAY))
+			{
+				m_aAlignmentAxisScores[eAxis].decay();
+			}
 			m_aAlignmentAxisFactions[eAxis] = calculateAxisFaction(eAxis);
 		}
 		m_eAlignmentFaction = getBestAlignmentFaction();
