@@ -20513,13 +20513,15 @@ AlignmentValue CvPlayer::getAlignmentValues(AlignmentAxisTypes eAxis) const
     
 AlignmentValue CvPlayer::getAlignmentStability(AlignmentAxisTypes eAxis) const
 {
-    int const iPercent = std::max(-100, std::min(100,
-    			GC.getInfo(getCivilizationType()).getAlignmentStability(eAxis) + GC.getInfo(getLeaderType()).getAlignmentStability(eAxis)
+	int const iPlayerPercent = std::max(-100, std::min(100,
+        GC.getInfo(getCivilizationType()).getAlignmentStability(eAxis) + 
+        GC.getInfo(getLeaderType()).getAlignmentStability(eAxis)
     ));
-    int const iLightAlignmentStability = (100 + iPercent) / 2;
+    int const iTotalAlignmentStability = std::max(1, std::min(100, (100 + iPlayerPercent) / 2));
     return AlignmentValue(
-    		iLightAlignmentStability,
-    		(100 - iLightAlignmentStability /* XANA (note): Any remainder left over is used for iDarkAlignmentStability */));
+        (100 - (100 / ((100 - iTotalAlignmentStability) + 1))) /* iHigh */,
+        (100 - (100 / ((iTotalAlignmentStability - 1) + 1))) /* iLow */
+		);
 }
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 

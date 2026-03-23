@@ -60,14 +60,29 @@ void AlignmentScore::changePermanentAlignmentTowardsNegative(int iChange)
 
 void AlignmentScore::decay()
 {
-    scaled const iHighFactor = per100(m_iHighDecay);
-    scaled const iLowFactor = per100(m_iLowDecay);
-    for (int i = 0; i < m_iCount; ++i)
-    {
-        AlignmentValue& kAlignmentValue = m_buffer[index(i)];
-        kAlignmentValue.iHigh *= iHighFactor;
-        kAlignmentValue.iLow *= iLowFactor;
-    }
+	if (m_iHighDecay > 0)
+	{
+		scaled const iHighFactor = per100(m_iHighDecay);
+	}
+	if (m_iLowDecay > 0)
+	{
+		scaled const iLowFactor = per100(m_iLowDecay);
+	}
+	if (m_iHighDecay > 0 || m_iLowDecay > 0)
+	{
+		for (int i = 0; i < m_iCount; ++i)
+		{
+			AlignmentValue& kAlignmentValue = m_buffer[index(i)];
+			if (m_iHighDecay > 0)
+			{
+				kAlignmentValue.iHigh *= iHighFactor;
+			}
+			if (m_iLowDecay > 0)
+			{
+				kAlignmentValue.iLow *= iLowFactor;
+			}
+		}
+	} 
 }
 
 AlignmentValue AlignmentScore::get() const
