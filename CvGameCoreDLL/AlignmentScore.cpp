@@ -21,12 +21,12 @@ void AlignmentScore::changeAlignmentTowardsPositive(int iChange)
 	if (iChange == 0)
 		return;
     AlignmentValue& kAlignmentValue = m_buffer[m_iHead];
-    kAlignmentValue.iHigh = std::max(-m_iMaxDelta,
+    kAlignmentValue.iHigh = std::max(MIN_INT,
                 std::min(m_iMaxDelta, kAlignmentValue.iHigh + iChange));
                 
     if (m_bAlignmentGoodEvilIsIndependent)
 		return;
-    kAlignmentValue.iLow = std::max(-m_iMaxDelta,
+    kAlignmentValue.iLow = std::max(MIN_INT,
                 std::min(m_iMaxDelta, kAlignmentValue.iLow - iChange));
 }
 
@@ -35,12 +35,12 @@ void AlignmentScore::changeAlignmentTowardsNegative(int iChange)
 	if (iChange == 0)
 		return;
     AlignmentValue& kAlignmentValue = m_buffer[m_iHead];
-    kAlignmentValue.iLow = std::max(-m_iMaxDelta,
+    kAlignmentValue.iLow = std::max(MIN_INT,
                std::min(m_iMaxDelta, kAlignmentValue.iLow + iChange));
     
     if (m_bAlignmentGoodEvilIsIndependent)
     	return;
-    kAlignmentValue.iHigh = std::max(-m_iMaxDelta,
+    kAlignmentValue.iHigh = std::max(MIN_INT,
                std::min(m_iMaxDelta, kAlignmentValue.iHigh - iChange));
 }
 
