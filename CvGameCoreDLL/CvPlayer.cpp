@@ -20450,12 +20450,12 @@ void CvPlayer::announceEspionageToThirdParties(EspionageMissionTypes eMission,
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 AlignmentFactionTypes CvPlayer::calculateAxisFaction(AlignmentAxisTypes eAxis) const;
 {
-	int const iBalance = getAlignmentBalancePercent(eAxis);
-	if (iBalance >= 30)
+	scaled const rBalance = getAlignmentBalancePercent(eAxis);
+	if (rBalance >= 30)
 	{
 		return ALIGNMENT_FACTION_LIGHT;
 	}
-	else if (iBalance <= -30)
+	else if (rBalance <= -30)
 	{
 		return ALIGNMENT_FACTION_DARK;
 	}
