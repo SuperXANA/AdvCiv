@@ -21,7 +21,7 @@ public:
     void changePermanentAlignmentTowardsPositive(int iChange);
     void changePermanentAlignmentTowardsNegative(int iChange);
     void decay();
-    AlignmentValue get() const;
+    std::pair<int,int> get() const;
     void read(FDataStreamBase* pStream);
     void write(FDataStreamBase* pStream);
 private:

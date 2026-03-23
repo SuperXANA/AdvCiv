@@ -1760,8 +1760,8 @@ protected:  // <advc.210>
 		m_eAlignmentFaction = getBestAlignmentFaction();
 	}
 	scaled getAlignmentBalancePercent(AlignmentAxisTypes eAxis) const;
-	AlignmentValue getAlignmentValues(AlignmentAxisTypes eAxis) const;
-	AlignmentValue getAlignmentStability(AlignmentAxisTypes eAxis) const;
+	std::pair<int,int> getAlignmentValues(AlignmentAxisTypes eAxis) const;
+	std::pair<int,int> getAlignmentStability(AlignmentAxisTypes eAxis) const;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	bool checkExpireEvent(EventTypes eEvent, const EventTriggeredData& kTriggeredData) const;
 	void expireEvent(EventTypes eEvent, const EventTriggeredData& kTriggeredData, bool bFail);
