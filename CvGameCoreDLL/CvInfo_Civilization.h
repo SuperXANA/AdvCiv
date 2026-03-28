@@ -506,4 +506,61 @@ protected:
 	std::vector<CvDiplomacyResponse*> m_pResponses;
 };
 
+// XANA: 03-28-2026 Leader-to-Leader Relationships
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvRelationInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvRelationInfo : public CvXMLInfo
+{
+	typedef CvXMLInfo base_t;
+protected:
+	void addElements(ElementList& kElements) const
+	{
+		base_t::addElements(kElements);
+		kElements.addInt(MIN_NEG_FIRST_IMPRESSION, "MinimumNegativeFirstImpression", MIN_INT);
+		kElements.addInt(MAX_NEG_FIRST_IMPRESSION, "MaximumNegativeFirstImpression");
+		kElements.addInt(MIN_POS_FIRST_IMPRESSION, "MinimumPositiveFirstImpression");
+		kElements.addInt(MAX_POS_FIRST_IMPRESSION, "MaximumPositiveFirstImpression", MAX_INT);
+	}
+public:
+	enum IntElementTypes
+	{
+		MIN_NEG_FIRST_IMPRESSION = CvXMLInfo::NUM_INT_ELEMENT_TYPES,
+		MAX_NEG_FIRST_IMPRESSION,
+		MIN_POS_FIRST_IMPRESSION,
+		MAX_POS_FIRST_IMPRESSION,
+		NUM_INT_ELEMENT_TYPES
+	};
+	int get(IntElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::IntElementTypes>(e));
+	}
+	
+	CvRelationInfo();
+	~CvRelationInfo();
+	
+	int getLeaderRelationshipAttitude(int iFirstImpressionAttitude) const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvRelationshipInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvRelationshipInfo : public CvInfoBase
+{
+	typedef CvInfoBase base_t;
+public:
+	CvRelationshipInfo();
+	~CvRelationshipInfo();
+	
+	LeaderHeadTypes getLeaderType() const { return m_eLeader; }
+	RelationTypes getRelation(LeaderHeadTypes eOtherLeader) const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+	
+protected:
+LeaderHeadTypes m_eLeader;
+RelationTypes* m_paeRelations;
+
+// XANA: 03-28-2026 Leader-to-Leader Relationships
 #endif

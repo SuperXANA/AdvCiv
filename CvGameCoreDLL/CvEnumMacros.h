@@ -81,7 +81,11 @@
 	/* <advc.tsl> (not exposed to Python) */ \
 	DO(TruCiv, TRUCIV) \
 	DO(TruLeader, TRULEADER) \
-	DO(TruBonus, TRUBONUS) /* </advc.tsl> */
+	DO(TruBonus, TRUBONUS) /* </advc.tsl> */ \
+	/* XANA: 03-28-2026 Leader-to-Leader Relationships */ \
+	DO(Relation, RELATION) \
+	DO(Relationship, RELATIONSHIP)
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
 
 // Number of instances not known at compile time
 #define DO_FOR_EACH_DYN_INFO_TYPE(DO) \

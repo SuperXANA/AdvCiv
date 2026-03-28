@@ -45,6 +45,9 @@ void CvPlayer::freeStatics()
 
 CvPlayer::CvPlayer(/* advc.003u: */ PlayerTypes eID) :
 	m_pCivilization(NULL), // advc.003w
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+	m_pRelationship(NULL),
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
 	m_aszBonusHelp(NULL) // advc.003p
 {
 	// advc: redundant
@@ -97,6 +100,9 @@ void CvPlayer::initContainers()
 	{
 		m_playerHistory[eLoopPlayerHistory].grow(GC.getGame().getGameTurn());
 	} // </advc.004s>
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+	initLeaderRelationship();
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
 }
 
 /*  advc.003q: Cut from CvPlayer::init.
@@ -6357,6 +6363,33 @@ int CvPlayer::groundbreakingPenalty(TechTypes eTech) const
 		return 0;
 	return (iMaxPenalty * (rPercentile - iHasTech) / rPercentile).round();
 }
+
+
+// XANA: 03-28-2026 Leader-to-Leader Relationships
+void CvPlayer::initLeaderRelationship(bool bForce)
+{
+	if (getPersonalityType() != NO_LEADER && (m_pRelationship == NULL || bForce))
+	{
+		FOR_EACH_ENUM(Relationship)
+		{
+			if (GC.getInfo(eLoopRelationship).getLeaderType() == getPersonalityType())
+			{
+				m_pRelationship = &GC.getInfo(eLoopRelationship);
+				break; 
+			}
+		}
+	}
+}
+
+
+
+CvRelationshipInfo const* CvPlayer::getLeaderRelationship() const
+{
+	FAssertMsg(m_pRelationship != NULL, "Player has no existing relationships");
+	return m_pRelationship;
+}
+// XANA: 03-28-2026 Leader-to-Leader Relationships
+
 
 
 int CvPlayer::calculateGoldRate() const
@@ -14674,6 +14707,9 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		}
 		else GC.getGame().getRiseFall().setPlayerHandicap(getID(), isHuman(), true);
 	} // </advc.708>
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+	initLeaderRelationship();
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
 }
 
 // save object to a stream

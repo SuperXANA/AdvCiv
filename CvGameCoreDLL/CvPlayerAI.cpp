@@ -8537,6 +8537,16 @@ int CvPlayerAI::AI_getFirstImpressionAttitude(PlayerTypes ePlayer) const
 		iAttitude += rPersonalityModifier.round();
 		// </advc.130b>
 	}
+// XANA: 03-28-2026 Leader-to-Leader Relationships
+	if (getLeaderRelationship() != NULL)
+	{
+		RelationTypes const eSharedRelationship = getLeaderRelationship()->getRelation(kPlayer.getPersonalityType());
+		if (eSharedRelationship != NO_RELATION)
+		{
+			iAttitude = GC.getInfo(eSharedRelationship).getLeaderRelationshipAttitude(iAttitude);
+		}
+	}
+// XANA: 03-28-2026 Leader-to-Leader Relationships
 	return iAttitude;
 }
 

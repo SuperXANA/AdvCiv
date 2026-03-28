@@ -1758,6 +1758,11 @@ protected:  // <advc.210>
 			std::vector<CvPlotIndicatorData>& aIndicators) const;
 	void getCultureLayerColors(std::vector<NiColorA>& aColors,
 			std::vector<CvPlotIndicatorData>& aIndicators) const;
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+	CvRelationshipInfo* m_pRelationship;
+	void initLeaderRelationship(bool bForce = false);
+	CvRelationshipInfo const* getLeaderRelationship() const;
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
 
 private:
 	/*  advc.003u: The remaining virtual functions should not be called within

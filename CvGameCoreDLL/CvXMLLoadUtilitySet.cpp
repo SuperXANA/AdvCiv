@@ -693,6 +693,10 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	FOR_EACH_ENUM(VoteSource)
 		GC.getInfo(eLoopVoteSource).readPass3();
 	LoadGlobalClassInfo(GC.m_paLeaderHeadInfo, "CIV4LeaderHeadInfos", "Civilizations", "Civ4LeaderHeadInfos/LeaderHeadInfos/LeaderHeadInfo", false, &CvDLLUtilityIFaceBase::createLeaderHeadInfoCacheObject);
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+	LoadGlobalClassInfo(GC.m_paRelationInfo, "CIV4RelationInfos", "GameInfo", "Civ4RelationInfos/RelationInfos/RelationInfo", false);
+	LoadGlobalClassInfo(GC.m_paRelationshipInfo, "CIV4RelationshipInfos", "Civilizations", "Civ4RelationshipInfos/RelationshipInfos/RelationshipInfo", false);
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
 	LoadGlobalClassInfo(GC.m_paColorInfo, "CIV4ColorVals", "Interface", "Civ4ColorVals/ColorVals/ColorVal", false);
 	LoadGlobalClassInfo(GC.m_paPlayerColorInfo, "CIV4PlayerColorInfos", "Interface", "Civ4PlayerColorInfos/PlayerColorInfos/PlayerColorInfo", false);
 	LoadGlobalClassInfo(GC.m_paEffectInfo, "CIV4EffectInfos", "Misc", "Civ4EffectInfos/EffectInfos/EffectInfo", false);

@@ -1561,3 +1561,82 @@ bool CvDiplomacyInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+// XANA: 03-28-2026 Leader-to-Leader Relationships
+CvRelationInfo::CvRelationInfo() :
+
+{}
+
+CvRelationInfo::~CvRelationInfo()
+{
+	// XANA (note): Nothing here yet.
+}
+
+int CvRelationInfo::getLeaderRelationshipAttitude(int iFirstImpressionAttitude) const
+{
+	if (iFirstImpressionAttitude > 0)
+	{
+		return range(iFirstImpressionAttitude,
+				get(CvRelationInfo::MIN_POS_FIRST_IMPRESSION /* Lower Boundary */),
+				get(CvRelationInfo::MAX_POS_FIRST_IMPRESSION /* Upper Boundary */));
+	}
+	else if (iFirstImpressionAttitude < 0)
+	{
+		return range(iFirstImpressionAttitude,
+				get(CvRelationInfo::MIN_NEG_FIRST_IMPRESSION /* Lower Boundary */),
+				get(CvRelationInfo::MAX_NEG_FIRST_IMPRESSION /* Upper Boundary */));
+	}
+	else
+	{
+		return iFirstImpressionAttitude;
+	}
+}
+
+bool CvRelationInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+	
+	//pXML->GetChildXmlValByName(&m_iHealth, "iHealth"); // XANA (note): Nothing here yet.
+	return true;
+}
+
+CvRelationshipInfo::CvRelationshipInfo() :
+m_eLeader(NO_LEADER),
+m_paeRelations(NULL)
+{}
+
+CvRelationshipInfo::~CvRelationshipInfo()
+{
+	SAFE_DELETE_ARRAY(m_paeRelations);
+}
+
+RelationTypes CvRelationshipInfo::getRelation(LeaderHeadTypes eOtherLeader) const
+{
+	FAssertBounds(0, GC.getNumLeaderHeadInfos(), eOtherLeader);
+	return m_paeRelations ? m_paeRelations[eOtherLeader] : NO_RELATION;
+}
+
+bool CvRelationshipInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	pXML->SetInfoIDFromChildXmlVal(m_eLeader,
+			"Leader");
+	
+	CvString* pszRelations = NULL;
+	pXML->SetVariableListTagPair(&pszRelations, "Relationships", GC.getNumLeaderHeadInfos());
+	if (pszRelations != NULL)
+	{
+		m_paeRelations = new RelationTypes[GC.getNumLeaderHeadInfos()];
+		for (int i = 0; i < GC.getNumLeaderHeadInfos(); ++i)
+		{
+			m_paeRelations[i] = pszRelations[i].IsEmpty() ? NO_RELATION : (RelationTypes)pXML->FindInInfoClass(pszRelations[i]);
+		}
+		SAFE_DELETE_ARRAY(pszRelations);
+	}
+	
+	return true;
+}
+// XANA: 03-28-2026 Leader-to-Leader Relationships
