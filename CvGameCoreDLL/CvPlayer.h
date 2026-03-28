@@ -1761,7 +1761,7 @@ protected:  // <advc.210>
 	// XANA: 03-28-2026 Leader-to-Leader Relationships
 	CvRelationshipInfo* m_pRelationship;
 	void initLeaderRelationship(bool bForce = false);
-	CvRelationshipInfo const* getLeaderRelationship() const;
+	CvRelationshipInfo const* getLeaderRelationship() const { return m_pRelationship; }
 	// XANA: 03-28-2026 Leader-to-Leader Relationships
 
 private:

@@ -517,8 +517,8 @@ protected:
 	void addElements(ElementList& kElements) const
 	{
 		base_t::addElements(kElements);
-		kElements.addInt(MIN_NEG_FIRST_IMPRESSION, "MinimumNegativeFirstImpression", MIN_INT);
-		kElements.addInt(MAX_NEG_FIRST_IMPRESSION, "MaximumNegativeFirstImpression");
+		kElements.addInt(MIN_NEG_FIRST_IMPRESSION, "MinimumNegativeFirstImpression");
+		kElements.addInt(MAX_NEG_FIRST_IMPRESSION, "MaximumNegativeFirstImpression", MIN_INT);
 		kElements.addInt(MIN_POS_FIRST_IMPRESSION, "MinimumPositiveFirstImpression");
 		kElements.addInt(MAX_POS_FIRST_IMPRESSION, "MaximumPositiveFirstImpression", MAX_INT);
 	}

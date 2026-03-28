@@ -6380,14 +6380,6 @@ void CvPlayer::initLeaderRelationship(bool bForce)
 		}
 	}
 }
-
-
-
-CvRelationshipInfo const* CvPlayer::getLeaderRelationship() const
-{
-	FAssertMsg(m_pRelationship != NULL, "Player has no existing relationships");
-	return m_pRelationship;
-}
 // XANA: 03-28-2026 Leader-to-Leader Relationships
 
 
