@@ -6366,16 +6366,18 @@ int CvPlayer::groundbreakingPenalty(TechTypes eTech) const
 
 
 // XANA: 03-28-2026 Leader-to-Leader Relationships
-void CvPlayer::initLeaderRelationship(bool bForce)
+void CvPlayer::initLeaderRelationship()
 {
-	if (getPersonalityType() != NO_LEADER && (m_pRelationship == NULL || bForce))
+	if (getPersonalityType() != NO_LEADER &&
+	(m_pRelationship == NULL ||
+	(m_pRelationship != NULL && m_pRelationship->getLeaderType() != getPersonalityType())))
 	{
 		FOR_EACH_ENUM(Relationship)
 		{
 			if (GC.getInfo(eLoopRelationship).getLeaderType() == getPersonalityType())
 			{
 				m_pRelationship = &GC.getInfo(eLoopRelationship);
-				break; 
+				return;
 			}
 		}
 	}
