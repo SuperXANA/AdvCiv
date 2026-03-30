@@ -8538,9 +8538,9 @@ int CvPlayerAI::AI_getFirstImpressionAttitude(PlayerTypes ePlayer) const
 		// </advc.130b>
 	}
 // XANA: 03-28-2026 Leader-to-Leader Relationships
-	if (getLeaderRelationship() != NULL)
+	if (getLeaderRelationship() != NO_RELATIONSHIP)
 	{
-		RelationTypes const eSharedRelationship = getLeaderRelationship()->getRelation(kPlayer.getPersonalityType());
+		RelationTypes const eSharedRelationship = GC.getInfo(getLeaderRelationship()).getRelation(kPlayer.getPersonalityType());
 		if (eSharedRelationship != NO_RELATION)
 		{
 			iAttitude = GC.getInfo(eSharedRelationship).getLeaderRelationshipAttitude(iAttitude);

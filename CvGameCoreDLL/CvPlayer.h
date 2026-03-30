@@ -1759,9 +1759,9 @@ protected:  // <advc.210>
 	void getCultureLayerColors(std::vector<NiColorA>& aColors,
 			std::vector<CvPlotIndicatorData>& aIndicators) const;
 	// XANA: 03-28-2026 Leader-to-Leader Relationships
-	CvRelationshipInfo* m_pRelationship;
+	RelationshipTypes m_eRelationship;
 	void initLeaderRelationship();
-	CvRelationshipInfo const* getLeaderRelationship() const { return m_pRelationship; }
+	RelationshipTypes const getLeaderRelationship() const { return m_eRelationship; }
 	// XANA: 03-28-2026 Leader-to-Leader Relationships
 
 private:

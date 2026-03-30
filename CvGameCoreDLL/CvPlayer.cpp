@@ -45,9 +45,6 @@ void CvPlayer::freeStatics()
 
 CvPlayer::CvPlayer(/* advc.003u: */ PlayerTypes eID) :
 	m_pCivilization(NULL), // advc.003w
-	// XANA: 03-28-2026 Leader-to-Leader Relationships
-	m_pRelationship(NULL),
-	// XANA: 03-28-2026 Leader-to-Leader Relationships
 	m_aszBonusHelp(NULL) // advc.003p
 {
 	// advc: redundant
@@ -100,9 +97,6 @@ void CvPlayer::initContainers()
 	{
 		m_playerHistory[eLoopPlayerHistory].grow(GC.getGame().getGameTurn());
 	} // </advc.004s>
-	// XANA: 03-28-2026 Leader-to-Leader Relationships
-	initLeaderRelationship();
-	// XANA: 03-28-2026 Leader-to-Leader Relationships
 }
 
 /*  advc.003q: Cut from CvPlayer::init.
@@ -138,6 +132,9 @@ bool CvPlayer::initOtherData()
 	/*  advc.003q: Moved into a (sub-)subroutine - except for the setCivics code;
 		that's handled (only) by resetCivTypeEffects. */
 	processTraits(1);
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+	initLeaderRelationship();
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
 	return true;
 }
 
@@ -428,6 +425,9 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 	m_iButtonPopupsRelaunching = 0; // advc.004x
 	m_uiStartTime = 0;
 	m_eReminderPending = NO_CIVIC; // advc.004x
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+	m_eRelationship = NO_RELATIONSHIP;
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
 
 	m_bAlive = false;
 	m_bEverAlive = false;
@@ -6369,14 +6369,14 @@ int CvPlayer::groundbreakingPenalty(TechTypes eTech) const
 void CvPlayer::initLeaderRelationship()
 {
 	if (getPersonalityType() != NO_LEADER &&
-	(m_pRelationship == NULL ||
-	(m_pRelationship != NULL && m_pRelationship->getLeaderType() != getPersonalityType())))
+	(m_eRelationship == NO_RELATIONSHIP ||
+	(m_eRelationship != NO_RELATIONSHIP && GC.getInfo(m_eRelationship).getLeaderType() != getPersonalityType())))
 	{
 		FOR_EACH_ENUM(Relationship)
 		{
 			if (GC.getInfo(eLoopRelationship).getLeaderType() == getPersonalityType())
 			{
-				m_pRelationship = &GC.getInfo(eLoopRelationship);
+				m_eRelationship = eLoopRelationship;
 				return;
 			}
 		}
