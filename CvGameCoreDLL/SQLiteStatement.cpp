@@ -1,8 +1,8 @@
 #include "CvDatabaseManager.h"
 #include "SQLiteStatement.h"
 
-SQLiteStatement::SQLiteStatement(sqlite3_stmt* stmt)
-	: m_statement(stmt), m_bHasRow(false), m_bMappedColumns(false) 
+SQLiteStatement::SQLiteStatement()
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false) 
 	{}
 
 SQLiteStatement::~SQLiteStatement()
@@ -19,8 +19,8 @@ bool SQLiteStatement::prepare(const char* sql)
 	{
 		return false;
 	}
-	int const rc = sqlite3_prepare_v2(GC.getDatabaseInstance().getSQLite(), sql, -1, *this, NULL);
-	if (rc != SQLITE_OK)
+	int const rc = sqlite3_prepare_v2(GC.getDatabaseInstance().getSQLite(), sql, -1, &m_statement, NULL);
+	if (rc != SQLITE_OK || m_statement == NULL)
 	{
 		return false;
 	}

@@ -21,7 +21,7 @@ bool SQLiteTransaction::commit() const
 	{
 		return false;
 	}
-    if (DB.exec("COMMIT;"))
+    if (GC.getDatabaseInstance().exec("COMMIT;"))
     {
         m_bActive = false;
         m_bCommitted = true;

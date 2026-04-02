@@ -4,7 +4,7 @@
 class SQLiteStatement : private boost::noncopyable
 {
 public:
-	explicit SQLiteStatement(sqlite3_stmt* stmt);
+	explicit SQLiteStatement();
 	~SQLiteStatement();
 	
 	bool prepare(const CvString& szSQL);
