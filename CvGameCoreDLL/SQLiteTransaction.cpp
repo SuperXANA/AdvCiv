@@ -1,16 +1,17 @@
+#include "CvDatabaseManager.h"
 #include "SQLiteTransaction.h"
 
 SQLiteTransaction::SQLiteTransaction()
     : m_bActive(false), m_bCommitted(false)
 {
-    m_bActive = DB.exec("BEGIN;");
+    m_bActive = GC.getDatabaseInstance().exec("BEGIN;");
 }
 
 SQLiteTransaction::~SQLiteTransaction()
 {
     if (m_bActive && !m_bCommitted)
     {
-        DB.exec("ROLLBACK;");
+        GC.getDatabaseInstance().exec("ROLLBACK;");
     }
 }
 
@@ -37,5 +38,5 @@ bool SQLiteTransaction::rollback() const
 	}
     m_bActive = false;
     m_bCommitted = false;
-    return DB.exec("ROLLBACK;");
+    return GC.getDatabaseInstance().exec("ROLLBACK;");
 }

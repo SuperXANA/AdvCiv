@@ -9,6 +9,12 @@
 class CvPlot;
 class CvUnit;
 // </advc.071>
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+class CvDatabaseManager;
+class SQLiteStatement;
+class SQLiteTransaction;
+class SQLiteResults;
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 // XXX these should not be in the DLL per se (if the user changes them, we are screwed...)
 

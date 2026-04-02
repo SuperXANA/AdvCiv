@@ -1,3 +1,4 @@
+#include "CvDatabaseManager.h"
 #include "SQLiteStatement.h"
 
 SQLiteStatement::SQLiteStatement(sqlite3_stmt* stmt)
@@ -14,11 +15,11 @@ SQLiteStatement::~SQLiteStatement()
 
 bool SQLiteStatement::prepare(const char* sql)
 {
-	if (!DB.getSQLite() || !sql)
+	if (!GC.getDatabaseInstance().getSQLite() || !sql)
 	{
 		return false;
 	}
-	int const rc = sqlite3_prepare_v2(DB.getSQLite(), sql, -1, *this, NULL);
+	int const rc = sqlite3_prepare_v2(GC.getDatabaseInstance().getSQLite(), sql, -1, *this, NULL);
 	if (rc != SQLITE_OK)
 	{
 		return false;

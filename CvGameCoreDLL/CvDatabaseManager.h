@@ -20,11 +20,12 @@ public:
 	}
 	int exec(const CvString& szSQL) { exec(szSQL.c_str()); }
 	
+	sqlite3* getSQLite() { return m_sqlite ? m_sqlite->getDatabase() : NULL; }
+	
 	CvString getErrorMsg() const;
 	int getErrorCode() const;
 
 private:
-	sqlite3* getSQLite() { return m_sqlite ? m_sqlite->getDatabase() : NULL; }
 	const char* getErrorInfo() const
 	{
 		if (!m_sqlite)
