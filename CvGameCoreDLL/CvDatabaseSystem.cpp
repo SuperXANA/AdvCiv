@@ -1,17 +1,54 @@
 #include "CvGameCoreDLL.h"
 #include "CvDatabaseSystem.h"
 
-CvDatabaseManager::CvDatabaseManager() : m_db(new SQLiteConnection("MLPCiv.sqlite"))
+CvDatabaseManager::CvDatabaseManager() : m_sqlite(new SQLiteConnection("MLPCiv.sqlite"))
 {}
 
-SQLiteStatement CvDatabaseManager::makeStatement(CvString const& szSQL)
+CvDatabaseManager::~CvDatabaseManager()
 {
-	SQLiteStatement kStatement(szSQL);
-	return kStatement;
+	SAFE_DELETE(m_sqlite);
 }
 
-void CvDatabaseManager::log(int const iReturnCode, const char* szContext)
+CvString CvDatabaseManager::getErrorMsg() const
 {
-	SQLiteException(iReturnCode) problem;
-	problem.log(szContext);
+	return CvString(getErrorInfo());
+}
+
+int CvDatabaseManager::getErrorCode() const
+{
+	if (!m_sqlite)
+	{
+		return SQLITE_ERROR;
+	}
+	return sqlite3_errcode(getSQLite());
+}
+
+bool CvDatabaseManager::testSQL() const
+{
+    SQLiteTransaction kTransaction(getSQLite());
+    
+    SQLiteStatement kStatement;
+    if (!kStatement.prepare(getSQLite(), "SELECT Type, Cost, bNaval FROM Units WHERE Era <= :era AND bEnabled = 1")) {
+        return;
+    }
+    
+    kStatement.bind(":era", 2);
+    
+    SQLiteResults kResults = kStatement.getResults();
+    while (kResults.step())
+	{
+        CvString type = kResults.getString("Type");
+        int cost = kResults.getInt("Cost");
+        bool bNaval = kResults.getBool("bNaval");
+        
+        // Use Civ4 data...
+        // gDLL->logMsg("SQL.log", type);
+		// m_vector.push_back(cost);
+		//if bNaval
+		//	{
+		//		return true;
+		//	}
+    }
+    kTransaction.commit();
+    return false;
 }

@@ -1,50 +1,41 @@
-#include "CvGameCoreDLL.h"
 #include "SQLiteTransaction.h"
 
-SQLiteTransaction::SQLiteTransaction() : m_bProcessing(false)
+SQLiteTransaction::SQLiteTransaction()
+    : m_bActive(false), m_bCommitted(false)
 {
-	if (DB.ready())
-	{
-		int const sqliteReturnCode = DB.exec("BEGIN TRANSACTION;");
-		if (sqliteReturnCode != SQLITE_OK)
-			DB.log(sqliteReturnCode, "SQLiteTransaction: Failed creating transaction for database!");
-		else m_bProcessing = true;
-	}
+    m_bActive = DB.exec("BEGIN;");
 }
 
 SQLiteTransaction::~SQLiteTransaction()
 {
-	if (ready())
-	{
-		rollback();
-	}
+    if (m_bActive && !m_bCommitted)
+    {
+        DB.exec("ROLLBACK;");
+    }
 }
 
-bool SQLiteTransaction::commit()
+bool SQLiteTransaction::commit() const
 {
-	if (ready())
+    if (!m_bActive || m_bCommitted)
 	{
-		int const sqliteReturnCode = DB.exec("COMMIT;");
-		if (sqliteReturnCode != SQLITE_OK)
-		{
-			DB.log(sqliteReturnCode, "SQLiteTransaction: Commit failed on database! Rolling back transction.");
-			return rollback();
-		}
-		else
-		{
-			m_bProcessing = false;
-			return sqliteReturnCode == SQLITE_OK;
-		}
+		return false;
 	}
-	else return false;
+    if (DB.exec("COMMIT;"))
+    {
+        m_bActive = false;
+        m_bCommitted = true;
+        return true;
+    }
+    return false;
 }
 
-bool SQLiteTransaction::rollback()
+bool SQLiteTransaction::rollback() const
 {
-	if (ready())
+    if (!m_bActive)
 	{
-		m_bProcessing = false;
-		return DB.exec("ROLLBACK;") == SQLITE_OK;
+		return false;
 	}
-	else return false;
+    m_bActive = false;
+    m_bCommitted = false;
+    return DB.exec("ROLLBACK;");
 }

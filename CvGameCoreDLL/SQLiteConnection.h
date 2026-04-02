@@ -1,18 +1,22 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
-extern "C" { #include "sqlite3.h" }
-
-
 class SQLiteConnection : private boost::noncopyable
 {
 public:
-	SQLiteConnection(CvString const& szFile);
-	~SQLiteConnection() { close(); }
-	sqlite3* getDatabase() const { return m_database; }
+	SQLiteConnection();
+	explicit SQLiteConnection(const char* szFilename);
+	~SQLiteConnection();
+
+	bool open(const char* szFilename);
 	void close();
-	bool ready() const { return m_database != NULL && m_bAvailable; }
+	bool isOpen() const
+	{
+		return (m_database != NULL);
+	}
+	sqlite3* getDatabase() { return isOpen() ? m_database : NULL; }
+
 private:
 	sqlite3* m_database;
-	bool m_bAvailable;
+	bool optimize() { return DB.exec("PRAGMA optimize;"); }
 };
