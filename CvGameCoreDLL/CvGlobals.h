@@ -43,7 +43,7 @@ class CvPlayerAI;
 class CvTeamAI;
 class CvWorldInfo;
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ
-class CvDatabase;
+class CvDatabaseManager;
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 // <advc.enum>
 #define FORWARD_DECLARE_INFO_CLASS(Name, Dummy) class Cv##Name##Info;
@@ -215,7 +215,7 @@ public:
 	DllExport int& getNumAIPlayableCivilizationInfos();
 // <advc.enum>
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ
-	CvDatabaseManager& CvGlobals::getDatabaseInstance() { return *m_db; }
+	CvDatabaseManager& getDatabaseInstance();
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 #pragma region InfoAccessors
 	// DllExports turned into wrappers/adapters
@@ -967,10 +967,6 @@ protected:
 
 	FProfiler* m_Profiler;
 	CvString m_szDllProfileText;
-	
-	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
-	CvDatabase* m_db;
-	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 private:
 	// <advc.opt>
@@ -980,6 +976,10 @@ private:
 	void handleUnknownTypeString(char const* szType, bool bHideAssert, bool bFromPython) const;
 	//void addToInfosVectors(void* infoVector); // advc.enum (no longer used)
 	void updateModName(); // advc.106i
+	
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+	CvDatabaseManager* m_databaseManager;
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 };
 
 extern CvGlobals gGlobals;	// for debugging
@@ -1006,6 +1006,10 @@ __inline CvGlobals const& CvGlobals::getConstInstance()
 #else
 #define gDLL GC.getDLLIFace()
 #endif
+
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+#define DB() GC.getDatabaseInstance()
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 #ifndef _USRDLL
 #define NUM_DIRECTION_TYPES (GC.getNumDirections())

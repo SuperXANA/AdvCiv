@@ -1,5 +1,4 @@
-#include "CvGameCoreDLL.h"
-#include "CvDatabaseSystem.h"
+#include "CvDatabaseManager.h"
 
 CvDatabaseManager::CvDatabaseManager() : m_sqlite(new SQLiteConnection("MLPCiv.sqlite"))
 {}
@@ -29,7 +28,7 @@ bool CvDatabaseManager::testSQL() const
     
     SQLiteStatement kStatement;
     if (!kStatement.prepare(getSQLite(), "SELECT Type, Cost, bNaval FROM Units WHERE Era <= :era AND bEnabled = 1")) {
-        return;
+        return false;
     }
     
     kStatement.bind(":era", 2);

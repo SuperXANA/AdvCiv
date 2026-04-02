@@ -12,6 +12,20 @@ SQLiteStatement::~SQLiteStatement()
 	}
 }
 
+bool SQLiteStatement::prepare(const char* sql)
+{
+	if (!DB.getSQLite() || !sql)
+	{
+		return false;
+	}
+	int const rc = sqlite3_prepare_v2(DB.getSQLite(), sql, -1, *this, NULL);
+	if (rc != SQLITE_OK)
+	{
+		return false;
+	}
+	return true;
+}
+
 bool SQLiteStatement::prepare(const CvString& szSQL)
 {
 	return prepare(szSQL.c_str());
@@ -26,7 +40,7 @@ bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on Map
 		return false;
 	}
 	int iColsMapped = 0;
-	for (int i = 0; i < count; ++i)
+	for (int i = 0; i < iCount; ++i)
 	{
 		const char* szColumn = getColumnName(i);
 		if (szColumn)

@@ -1,3 +1,5 @@
+#include "SQLiteConnection.h"
+
 SQLiteConnection::SQLiteConnection() : m_database(NULL) {}
 
 SQLiteConnection::SQLiteConnection(const char* szFilename) : m_database(NULL)
@@ -25,4 +27,9 @@ void SQLiteConnection::close()
 		sqlite3_close(m_database);
 		m_database = NULL;
 	}
+}
+
+bool SQLiteConnection::optimize()
+{
+	return DB.exec("PRAGMA optimize;");
 }

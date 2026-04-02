@@ -38,19 +38,7 @@ private:
 	ColumnsMap m_columnsMap;
 	bool m_bMappedColumns;
 
-	bool prepare(const char* sql)
-	{
-		if (!DB.getSQLite() || !sql)
-		{
-			return false;
-		}
-		int const rc = sqlite3_prepare_v2(DB.getSQLite(), sql, -1, *this, NULL);
-		if (rc != SQLITE_OK)
-		{
-			return false;
-		}
-		return true;
-	}
+	bool prepare(const char* sql);
 	
 	int getColumnCount() const
 	{

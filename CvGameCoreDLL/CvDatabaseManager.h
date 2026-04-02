@@ -2,14 +2,9 @@
 
 #include "CvGameCoreDLL.h"
 #include "SQLiteConnection.h"
-#include "SQLiteStatement.h"
-#include "SQLiteTransaction.h"
-#include "SQLiteResults.h"
 
 #ifndef CV_DATABASE_H
 #define CV_DATABASE_H
-
-#define DB() GC.getDatabaseInstance()
 
 class CvDatabaseManager : private boost::noncopyable
 {

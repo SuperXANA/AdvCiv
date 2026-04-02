@@ -18,5 +18,5 @@ public:
 
 private:
 	sqlite3* m_database;
-	bool optimize() { return DB.exec("PRAGMA optimize;"); }
+	bool optimize();
 };
