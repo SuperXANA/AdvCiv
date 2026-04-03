@@ -63,7 +63,7 @@ int SQLiteStatement::getColumnIndex(const char* szName) const
 	{
 		return -1;
 	}
-	ColumnsMap::interator it = m_columnsMap.find(name);
+	ColumnsMap::interator it = m_columnsMap.find(szName);
     if (it == m_columnsMap.end())
 	{
 		return -1;
