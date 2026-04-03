@@ -38,5 +38,4 @@ private:
 	
     SQLiteConnection* m_sqlite = NULL;
 };
-
 #endif

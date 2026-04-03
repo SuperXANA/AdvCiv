@@ -1,6 +1,10 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
+
+#ifndef CV_SQLITECONNECTION_H
+#define CV_SQLITECONNECTION_H
+
 class SQLiteConnection : private boost::noncopyable
 {
 public:
@@ -20,3 +24,4 @@ private:
 	sqlite3* m_database;
 	bool optimize();
 };
+#endif

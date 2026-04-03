@@ -1,6 +1,12 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
+
+#ifndef CV_SQLITERESULTS_H
+#define CV_SQLITERESULTS_H
+
+class SQLiteStatement;
+
 class SQLiteResults : private boost::noncopyable
 {
 public:
@@ -66,3 +72,4 @@ private:
 		return m_statement ? sqlite3_column_type(m_statement.getHandle(), col) == SQLITE_NULL : false;
 	}
 };
+#endif

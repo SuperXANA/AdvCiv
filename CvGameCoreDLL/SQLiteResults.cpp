@@ -1,6 +1,7 @@
 #include "SQLiteResults.h"
+#include "SQLiteStatement.h"
 
-SQLiteResults::SQLiteResults(CvSQLStatement& stmt) 
+SQLiteResults::SQLiteResults(SQLiteStatement& stmt) 
 	: m_statement(stmt), m_bValid(true) 
 	{}
 

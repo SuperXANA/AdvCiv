@@ -1,6 +1,10 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
+
+#ifndef CV_SQLITETRANSACTION_H
+#define CV_SQLITETRANSACTION_H
+
 class SQLiteTransaction : private boost::noncopyable
 {
 public:
@@ -15,3 +19,5 @@ private:
     bool m_bActive;
     bool m_bCommitted;
 };
+#endif
+

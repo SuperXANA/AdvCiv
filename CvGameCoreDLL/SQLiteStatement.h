@@ -1,6 +1,12 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
+
+#ifndef CV_SQLITESTATEMENT_H
+#define CV_SQLITESTATEMENT_H
+
+class SQLiteResults;
+
 class SQLiteStatement : private boost::noncopyable
 {
 public:
@@ -84,6 +90,8 @@ private:
 	}
 	const char* getColumnName(int col) const
 	{
-		return m_statement ? sqlite3_column_name(m_statement, col) : "";
+		return m_statement ? sqlite3_column_name(m_statement, col) : NULL;
 	}
 };
+#endif
+

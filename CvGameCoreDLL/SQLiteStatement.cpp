@@ -34,6 +34,10 @@ bool SQLiteStatement::prepare(const CvString& szSQL)
 
 bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on MapChildren from CvXMLloadUtility
 {
+	if (m_bMappedColumns)
+	{
+		return true;
+	}
 	m_columnsMap.clear();
 	int const iCount = getColumnCount();
 	if (iCount <= 0)
@@ -55,6 +59,10 @@ bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on Map
 
 int SQLiteStatement::getColumnIndex(const char* szName) const
 {
+	if (!m_bMappedColumns)
+	{
+		return -1;
+	}
 	ColumnsMap::interator it = m_columnsMap.find(name);
     if (it == m_columnsMap.end())
 	{
@@ -127,13 +135,12 @@ bool SQLiteStatement::hasBinding(const char* szParam) const
 
 bool SQLiteStatement::step()
 {
-	int const rc = sqlite3_step(m_statement);
-	bool const bDataReady = (rc == SQLITE_ROW);
-	m_bHasRow = bDataReady;
-	if (bDataReady && !m_bMappedColumns)
+	if (!m_bMappedColumns)
 	{
 		m_bMappedColumns = mapColumns();
 	}
+	int const rc = sqlite3_step(m_statement);
+	m_bHasRow = (rc == SQLITE_ROW);
 	return m_bHasRow;
 }
 
