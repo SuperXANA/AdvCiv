@@ -5206,7 +5206,7 @@ int CvPlot::calculateNatureYield(YieldTypes eYield, TeamTypes eTeam, bool bIgnor
 			// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 			if (isOwned())
 			{
-				iYieldRate += GC.getCivilizationInfo(GET_PLAYER(getOwner()).getCivilizationType()).getBonusYieldChanges(p.getBonusType(eTeam)), eYield);
+				iYieldRate += GC.getInfo(GET_PLAYER(getOwner()).getCivilizationType()).getBonusYieldChanges(p.getBonusType(eTeam), eYield);
 			}
 			// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 	}

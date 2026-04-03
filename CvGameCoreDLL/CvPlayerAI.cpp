@@ -27650,7 +27650,7 @@ void CvPlayerAI::AI_doAdvancedStart(bool bNoExit)
 					// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 					if (p.getBonusType() != NO_BONUS)
 					{	
-						iFoodYield += GC.getCivilizationInfo(itPlayer->getCivilizationType()).getBonusYieldChanges(p.getBonusType()), YIELD_FOOD);
+						iFoodYield += GC.getInfo(itPlayer->getCivilizationType()).getBonusYieldChanges(p.getBonusType()), YIELD_FOOD);
 					}
 					// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 					if (pAdj->isFeature())
