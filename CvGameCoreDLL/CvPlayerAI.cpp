@@ -27647,7 +27647,7 @@ void CvPlayerAI::AI_doAdvancedStart(bool bNoExit)
 					int iFoodYield = GC.getInfo(pAdj->getTerrainType()).
 							getYield(YIELD_FOOD);
 					// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
-					iFoodYield += GC.getCivilizationInfo(getCivilizationType()).
+					iFoodYield += GC.getInfo(getCivilizationType()).
 					getTerrainYieldChanges(pAdj->getTerrainType(), YIELD_FOOD, pAdj->isRiver());
 					// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 					if (pAdj->isFeature())
