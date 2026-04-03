@@ -53,6 +53,16 @@ bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on Map
 	return (iColsMapped > 0);
 }
 
+int SQLiteStatement::getColumnIndex(const char* szName) const
+{
+	ColumnsMap::interator it = m_columnsMap.find(name);
+    if (it == m_columnsMap.end())
+	{
+		return -1;
+    }
+	return it->second;
+}
+
 bool SQLiteStatement::reset()
 {
 	m_bHasRow = false;

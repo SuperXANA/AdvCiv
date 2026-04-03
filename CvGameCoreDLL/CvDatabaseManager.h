@@ -18,7 +18,7 @@ public:
 		if (!m_sqlite || !sql) return false;
 		return sqlite3_exec(getSQLite(), sql, NULL, NULL, NULL) == SQLITE_OK;
 	}
-	int exec(const CvString& szSQL) { exec(szSQL.c_str()); }
+	int exec(const CvString& szSQL) { return exec(szSQL.c_str()); }
 	
 	sqlite3* getSQLite() { return m_sqlite ? m_sqlite->getDatabase() : NULL; }
 	

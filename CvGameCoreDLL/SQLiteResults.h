@@ -26,14 +26,7 @@ private:
 		{
 			return -1;
 		}
-		int count = m_statement.getColumnCount();
-		for (int i = 0; i < count; ++i)
-		{
-			const char* szColName = m_statement.getColumnName(i);
-			if (szColName && std::strcmp(szColName, szName) == 0)
-				return i;
-		}
-		return -1;
+		return m_statement.getColumnIndex(szName);
 	}
 	int getColumnType(int iColumn) const
 	{
