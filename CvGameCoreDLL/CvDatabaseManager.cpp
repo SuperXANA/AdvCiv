@@ -8,6 +8,11 @@ CvDatabaseManager::~CvDatabaseManager()
 	SAFE_DELETE(m_sqlite);
 }
 
+sqlite3* CvDatabaseManager::getSQLite()
+{
+	return m_sqlite ? m_sqlite->getDatabase() : NULL;
+}
+
 CvString CvDatabaseManager::getErrorMsg() const
 {
 	return CvString(getErrorInfo());

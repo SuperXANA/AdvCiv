@@ -1,3 +1,4 @@
+#include "CvDatabaseManager.h"
 #include "SQLiteConnection.h"
 
 SQLiteConnection::SQLiteConnection() : m_database(NULL) {}
@@ -31,5 +32,5 @@ void SQLiteConnection::close()
 
 bool SQLiteConnection::optimize()
 {
-	return DB.exec("PRAGMA optimize;");
+	return GC.getDatabaseInstance().exec("PRAGMA optimize;");
 }

@@ -1,10 +1,11 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
-#include "SQLiteConnection.h"
 
 #ifndef CV_DATABASE_H
 #define CV_DATABASE_H
+
+class SQLiteConnection;
 
 class CvDatabaseManager : private boost::noncopyable
 {
@@ -13,14 +14,14 @@ public:
 	CvDatabaseManager();
 	~CvDatabaseManager();
 	
-	int exec(const char* sql)
+	bool exec(const char* sql)
 	{
 		if (!m_sqlite || !sql) return false;
 		return sqlite3_exec(getSQLite(), sql, NULL, NULL, NULL) == SQLITE_OK;
 	}
-	int exec(const CvString& szSQL) { return exec(szSQL.c_str()); }
+	bool exec(const CvString& szSQL) { return exec(szSQL.c_str()); }
 	
-	sqlite3* getSQLite() { return m_sqlite ? m_sqlite->getDatabase() : NULL; }
+	sqlite3* getSQLite();
 	
 	CvString getErrorMsg() const;
 	int getErrorCode() const;
