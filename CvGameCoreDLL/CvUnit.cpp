@@ -10482,10 +10482,11 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 				iExpireTurn = -1; // XNAA (note): Infinite Duration Promotion
 				
 			if (iExpireTurn >= 0)
+			{
 				iExpireTurn *= GC.getInfo(GC.getGame().getGameSpeedType()).getTrainPercent();
 				iExpireTurn /= 100;
 				iExpireTurn += GC.getGame().getGameTurn();
-				
+			}	
 			setPromotionExpireTurn(ePromotion, iExpireTurn);
 		}
 	}
@@ -11718,11 +11719,13 @@ void CvUnit::applyEvent(EventTypes eEvent)
 		setHasPromotion((PromotionTypes)kEvent.getUnitPromotion(), true);
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
 		if (kEvent.getPromotionExpireTurns() != 0)
-				int iExpireTurn = kEvent.getPromotionExpireTurns();
-				iExpireTurn *= GC.getInfo(GC.getGame().getGameSpeedType()).getTrainPercent();
-				iExpireTurn /= 100;
-				iExpireTurn += GC.getGame().getGameTurn();
-			setPromotionExpireTurn((PromotionTypes)kEvent.getUnitPromotion(), iExpireTurn);
+		{
+			int iExpireTurn = kEvent.getPromotionExpireTurns();
+			iExpireTurn *= GC.getInfo(GC.getGame().getGameSpeedType()).getTrainPercent();
+			iExpireTurn /= 100;
+			iExpireTurn += GC.getGame().getGameTurn();
+		}
+		setPromotionExpireTurn((PromotionTypes)kEvent.getUnitPromotion(), iExpireTurn);
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 	if (kEvent.getUnitImmobileTurns() > 0)
