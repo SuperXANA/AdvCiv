@@ -8545,7 +8545,7 @@ int CvPlayerAI::AI_getTeamSizeAttitude(PlayerTypes ePlayer) const
 	return -std::max(0, (GET_TEAM(ePlayer).getNumMembers() -
 			GET_TEAM(getTeam()).getNumMembers()
 // XANA: 11-06-2025 Leader Specific Team Size Attitude Change
-			* -GC.getInfo(getPersonalityType()).getTeamSizeAttitudeChange()
+			+ -GC.getInfo(getPersonalityType()).getTeamSizeAttitudeChange()
 // XANA: 11-06-2025 Leader Specific Team Size Attitude Change
 			));
 }
