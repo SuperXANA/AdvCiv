@@ -5230,7 +5230,7 @@ int CvPlot::calculateNatureYield(YieldTypes eYield, TeamTypes eTeam, bool bIgnor
 			iYieldRate += GC.getInfo(getFeatureType()).getYieldChange(eYield);
 			// XANA: 10-18-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 			if (isOwned())
-				iYieldRate += GC.getCivilizationInfo(GET_PLAYER(getOwner()).getCivilizationType()).getFeatureYieldChanges(getFeatureType(), eYield);
+				iYieldRate += GC.getInfo(GET_PLAYER(getOwner()).getCivilizationType()).getFeatureYieldChanges(getFeatureType(), eYield);
 			// XANA: 10-18-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 	}
 
