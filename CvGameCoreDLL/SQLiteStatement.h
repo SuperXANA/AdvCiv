@@ -44,31 +44,31 @@ public:
 	
 	int getColumnType(int iColumn) const
 	{
-		return m_statement ? sqlite3_column_type(m_statement, iColumn) : SQLITE_NULL;
+		return isValid() ? sqlite3_column_type(m_statement, iColumn) : SQLITE_NULL;
 	}
 	int getInt(int iColumn) const
 	{
-		return m_statement ? sqlite3_column_int(m_statement, iColumn) : 0;
+		return isValid() ? sqlite3_column_int(m_statement, iColumn) : 0;
 	}
 	scaled getFloat(int iColumn) const
 	{
-		return m_statement ? fixp(static_cast<float>(sqlite3_column_double(m_statement, iColumn))) ; scaled();
+		return isValid() ? fixp(static_cast<float>(sqlite3_column_double(m_statement, iColumn))) ; scaled();
 	}
 	double getDouble(int iColumn) const
 	{
-		return m_statement ? sqlite3_column_double(m_statement, iColumn) : 0;
+		return isValid() ? sqlite3_column_double(m_statement, iColumn) : 0;
 	}
 	scaled getScaled(int iColumn) const
 	{
-		return m_statement ? scaled(sqlite3_column_double(m_statement, iColumn)) : scaled();
+		return isValid() ? scaled(sqlite3_column_double(m_statement, iColumn)) : scaled();
 	}
 	bool getBool(int iColumn) const
 	{
-		return m_statement ? sqlite3_column_int(m_statement, iColumn) != 0 : false;
+		return isValid() ? sqlite3_column_int(m_statement, iColumn) != 0 : false;
 	}
 	const char* getText(int iColumn) const
 	{
-		return m_statement ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement, iColumn)) : NULL;
+		return isValid() ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement, iColumn)) : NULL;
 	}
 	CvString getString(int iColumn) const
 	{
@@ -77,7 +77,7 @@ public:
 	}
 	bool isNull(int iColumn) const
 	{
-		return m_statement ? sqlite3_column_type(m_statement, iColumn) == SQLITE_NULL : false;
+		return isValid() ? sqlite3_column_type(m_statement, iColumn) == SQLITE_NULL : false;
 	}
 
 private:

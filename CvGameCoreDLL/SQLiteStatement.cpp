@@ -171,6 +171,11 @@ bool SQLiteStatement::hasBinding(const char* szParam) const
 
 bool SQLiteStatement::step()
 {
+	if (!isValid())
+	{
+		m_bHasRow = false;
+		return false;
+	}
 	if (!m_bMappedColumns)
 	{
 		m_bMappedColumns = mapColumns();
