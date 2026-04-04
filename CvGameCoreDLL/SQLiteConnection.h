@@ -6,12 +6,12 @@
 #define CV_SQLITECONNECTION_H
 
 struct sqlite3;
+struct sqlite3_stmt;
 
 class SQLiteConnection : private boost::noncopyable
 {
 public:
-	SQLiteConnection();
-	explicit SQLiteConnection(const char* szFilename);
+	SQLiteConnection(const char* szFilename);
 	~SQLiteConnection();
 
 	bool open(const char* szFilename);

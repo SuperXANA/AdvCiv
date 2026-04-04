@@ -1,15 +1,17 @@
 #include "CvDatabaseManager.h"
 #include "SQLiteStatement.h"
+#include "CvDatabaseFwd.h"
 
 SQLiteStatement::SQLiteStatement()
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false) 
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false)
 	{}
 
 SQLiteStatement::~SQLiteStatement()
 {
-	if (m_statement)
+	if (m_statement && !m_bFinalized)
 	{
-		sqlite3_finalize(m_statement);
+		finalize();
+		m_statement = NULL;
 	}
 }
 
@@ -75,6 +77,15 @@ bool SQLiteStatement::reset()
 {
 	m_bHasRow = false;
 	return m_statement ? sqlite3_reset(m_statement) == SQLITE_OK : false;
+}
+
+bool SQLiteStatement::finalize()
+{
+	if (!m_bFinalized)
+	{
+		return m_statement ? sqlite3_finalize(m_statement) == SQLITE_OK : false;
+	}
+	else return true;
 }
 
 bool SQLiteStatement::clearBindings()

@@ -1,17 +1,18 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
-#include "CvDatabaseFwd.h"
 
 #ifndef CV_SQLITESTATEMENT_H
 #define CV_SQLITESTATEMENT_H
+
+struct sqlite3_stmt;
 
 class SQLiteResults;
 
 class SQLiteStatement : private boost::noncopyable
 {
 public:
-	explicit SQLiteStatement();
+	SQLiteStatement();
 	~SQLiteStatement();
 	
 	bool prepare(const CvString& szSQL);
@@ -19,6 +20,7 @@ public:
 	int getColumnIndex(const char* szName) const;
 
 	bool reset();
+	bool finalize();
 	bool clearBindings();
 
 	bool bind(const char* szParam, int iValue);
@@ -36,7 +38,43 @@ public:
 	
 	SQLiteResults getResults();
 	
-	sqlite3_stmt* getHandle() const { return m_statement; }
+	int getColumnType(int iColumn) const
+	{
+		return m_statement ? sqlite3_column_type(m_statement, iColumn) : SQLITE_NULL;
+	}
+	int getInt(int iColumn) const
+	{
+		return m_statement ? sqlite3_column_int(m_statement, iColumn) : 0;
+	}
+	scaled getFloat(int iColumn) const
+	{
+		return m_statement ? fixp(static_cast<float>(sqlite3_column_double(m_statement, iColumn))) ; scaled();
+	}
+	double getDouble(int iColumn) const
+	{
+		return m_statement ? sqlite3_column_double(m_statement, iColumn) : 0;
+	}
+	scaled getScaled(int iColumn) const
+	{
+		return m_statement ? scaled(sqlite3_column_double(m_statement, iColumn)) : scaled();
+	}
+	bool getBool(int iColumn) const
+	{
+		return m_statement ? sqlite3_column_int(m_statement, iColumn) != 0 : false;
+	}
+	const char* getText(int iColumn) const
+	{
+		return m_statement ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement, iColumn)) : NULL;
+	}
+	CvString getString(int iColumn) const
+	{
+		const char* txt = getText(iColumn);
+		return txt ? CvString(txt) : CvString();
+	}
+	bool isNull(int iColumn) const
+	{
+		return m_statement ? sqlite3_column_type(m_statement, iColumn) == SQLITE_NULL : false;
+	}
 
 private:
 	sqlite3_stmt* m_statement;
@@ -44,7 +82,8 @@ private:
 	typedef stdext::hash_map<std::string, int> ColumnsMap;
 	ColumnsMap m_columnsMap;
 	bool m_bMappedColumns;
-
+	bool m_bFinalized;
+	
 	bool prepare(const char* sql);
 	
 	int getColumnCount() const
