@@ -16,11 +16,8 @@ public:
 
 	bool open(const char* szFilename);
 	bool close();
-	bool isOpen() const
-	{
-		return (m_database != NULL);
-	}
-	sqlite3* getDatabase() { return isOpen() ? m_database : NULL; }
+	bool isValid() const { return (m_database != NULL); }
+	sqlite3* getDatabase() { return isValid() ? m_database : NULL; }
 
 private:
 	sqlite3* m_database;
