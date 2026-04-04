@@ -13,7 +13,11 @@ class SQLiteStatement : private boost::noncopyable
 {
 public:
 	SQLiteStatement();
+	SQLiteStatement(const CvString& szSQL);
+	SQLiteStatement(const char* sql);
 	~SQLiteStatement();
+	
+	bool isValid() const { return (m_statement && m_bPrepared); }
 	
 	bool prepare(const CvString& szSQL);
 	bool mapColumns();
@@ -83,6 +87,7 @@ private:
 	ColumnsMap m_columnsMap;
 	bool m_bMappedColumns;
 	bool m_bFinalized;
+	bool m_bPrepared;
 	
 	bool prepare(const char* sql);
 	

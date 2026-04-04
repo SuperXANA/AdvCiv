@@ -3,8 +3,20 @@
 #include "CvDatabaseFwd.h"
 
 SQLiteStatement::SQLiteStatement()
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false)
 	{}
+
+SQLiteStatement::SQLiteStatement(const CvString& szSQL)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false)
+	{
+		prepare(szSQL);
+	}
+
+SQLiteStatement::SQLiteStatement(const char* sql)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false)
+	{
+		prepare(sql);
+	}
 
 SQLiteStatement::~SQLiteStatement()
 {
@@ -17,15 +29,27 @@ SQLiteStatement::~SQLiteStatement()
 
 bool SQLiteStatement::prepare(const char* sql)
 {
-	if (!GC.getDatabaseInstance().getSQLite() || !sql)
+	if (!GC.getDatabaseInstance().getSQLite() || !sql || m_bFinalized)
 	{
 		return false;
+	}
+	if (m_statement != NULL) // XANA (note): If we are re-using the statement for something else, clear out the existing statement object and make sure it's ready for new SQL queries
+	{
+		finalize();
+		m_statement = NULL;
+		m_bFinalized = false;
+		m_bPrepared = false;
+	}
+	if (m_bPrepared)
+	{
+		return true;
 	}
 	int const rc = sqlite3_prepare_v2(GC.getDatabaseInstance().getSQLite(), sql, -1, &m_statement, NULL);
 	if (rc != SQLITE_OK || m_statement == NULL)
 	{
 		return false;
 	}
+	m_bPrepared = true;
 	return true;
 }
 
@@ -83,6 +107,7 @@ bool SQLiteStatement::finalize()
 {
 	if (!m_bFinalized)
 	{
+		m_bFinalized = true;
 		return m_statement ? sqlite3_finalize(m_statement) == SQLITE_OK : false;
 	}
 	else return true;
