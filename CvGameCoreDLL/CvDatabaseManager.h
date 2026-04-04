@@ -5,9 +5,12 @@
 #ifndef CV_DATABASE_H
 #define CV_DATABASE_H
 
+struct sqlite3;
+
 class SQLiteConnection;
 
 class CvDatabaseManager : private boost::noncopyable
+friend class SQLiteStatement; // XANA (note): Statement class is the only one needing access to the pointer. Better hide the sqlite pointer from the rest of the prepared game code.
 {
 public:
 
@@ -21,12 +24,12 @@ public:
 	}
 	bool exec(const CvString& szSQL) { return exec(szSQL.c_str()); }
 	
-	sqlite3* getSQLite();
-	
 	CvString getErrorMsg() const;
 	int getErrorCode() const;
 
 private:
+	sqlite3* getSQLite();
+	
 	const char* getErrorInfo() const
 	{
 		if (!m_sqlite)

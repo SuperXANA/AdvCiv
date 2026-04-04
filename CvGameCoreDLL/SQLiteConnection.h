@@ -5,6 +5,8 @@
 #ifndef CV_SQLITECONNECTION_H
 #define CV_SQLITECONNECTION_H
 
+struct sqlite3;
+
 class SQLiteConnection : private boost::noncopyable
 {
 public:
@@ -13,7 +15,7 @@ public:
 	~SQLiteConnection();
 
 	bool open(const char* szFilename);
-	void close();
+	bool close();
 	bool isOpen() const
 	{
 		return (m_database != NULL);

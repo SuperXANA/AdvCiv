@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
+#include "CvDatabaseFwd.h"
 
 #ifndef CV_SQLITESTATEMENT_H
 #define CV_SQLITESTATEMENT_H

@@ -1,5 +1,6 @@
 #include "CvDatabaseManager.h"
 #include "SQLiteConnection.h"
+#include "CvDatabaseFwd.h"
 
 SQLiteConnection::SQLiteConnection() : m_database(NULL) {}
 
@@ -16,18 +17,23 @@ SQLiteConnection::~SQLiteConnection()
 
 bool SQLiteConnection::open(const char* szFilename)
 {
-	close();
-	int rc = sqlite3_open(szFilename, &m_database);
+	if (m_database)
+	{
+		close();
+	}
+	int const rc = sqlite3_open_v2(szFilename, &m_database);
 	return (rc == SQLITE_OK);
 }
 
-void SQLiteConnection::close()
+bool SQLiteConnection::close()
 {
 	if (m_database)
 	{
-		sqlite3_close(m_database);
+		int const rc = sqlite3_close_v2(m_database);
 		m_database = NULL;
+		return (rc == SQLITE_OK);
 	}
+	return true;
 }
 
 bool SQLiteConnection::optimize()

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
+#include "CvDatabaseFwd.h"
 
 #ifndef CV_SQLITERESULTS_H
 #define CV_SQLITERESULTS_H
@@ -36,40 +37,40 @@ private:
 	}
 	int getColumnType(int iColumn) const
 	{
-		return m_statement ? sqlite3_column_type(m_statement.getHandle(), col) : SQLITE_NULL;
+		return m_statement ? sqlite3_column_type(m_statement.getHandle(), iColumn) : SQLITE_NULL;
 	}
 	int getInt(int iColumn) const
 	{
-		return m_statement ? sqlite3_column_int(m_statement.getHandle(), col) : 0;
+		return m_statement ? sqlite3_column_int(m_statement.getHandle(), iColumn) : 0;
 	}
 	scaled getFloat(int iColumn) const
 	{
-		return m_statement ? fixp(static_cast<float>(sqlite3_column_double(m_statement.getHandle(), col))) ; scaled();
+		return m_statement ? fixp(static_cast<float>(sqlite3_column_double(m_statement.getHandle(), iColumn))) ; scaled();
 	}
 	double getDouble(int iColumn) const
 	{
-		return m_statement ? sqlite3_column_double(m_statement.getHandle(), col) : 0d;
+		return m_statement ? sqlite3_column_double(m_statement.getHandle(), iColumn) : 0;
 	}
 	scaled getScaled(int iColumn) const
 	{
-		return m_statement ? scaled(sqlite3_column_double(m_statement.getHandle(), col)) : scaled();
+		return m_statement ? scaled(sqlite3_column_double(m_statement.getHandle(), iColumn)) : scaled();
 	}
 	bool getBool(int iColumn) const
 	{
-		return m_statement ? sqlite3_column_int(m_statement.getHandle(), col) != 0 : false;
+		return m_statement ? sqlite3_column_int(m_statement.getHandle(), iColumn) != 0 : false;
 	}
 	const char* getText(int iColumn) const
 	{
-		return m_statement ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement.getHandle(), col)) : "";
+		return m_statement ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement.getHandle(), iColumn)) : NULL;
 	}
 	CvString getString(int iColumn) const
 	{
-		const char* txt = getText(col);
+		const char* txt = getText(iColumn);
 		return txt ? CvString(txt) : CvString();
 	}
 	bool isNull(int iColumn) const
 	{
-		return m_statement ? sqlite3_column_type(m_statement.getHandle(), col) == SQLITE_NULL : false;
+		return m_statement ? sqlite3_column_type(m_statement.getHandle(), iColumn) == SQLITE_NULL : false;
 	}
 };
 #endif

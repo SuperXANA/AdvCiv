@@ -1,5 +1,6 @@
 #include "CvDatabaseManager.h"
 #include "SQLiteConnection.h"
+#include "CvDatabaseFwd.h"
 
 CvDatabaseManager::CvDatabaseManager() : m_sqlite(new SQLiteConnection("MLPCiv.sqlite"))
 {}
