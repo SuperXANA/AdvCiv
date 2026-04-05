@@ -1,5 +1,6 @@
 #include "CvDatabaseManager.h"
 #include "SQLiteStatement.h"
+#include "SQLiteResults.h"
 #include "CvDatabaseFwd.h"
 
 SQLiteStatement::SQLiteStatement()
@@ -20,29 +21,34 @@ SQLiteStatement::SQLiteStatement(const char* sql)
 
 SQLiteStatement::~SQLiteStatement()
 {
-	if (m_statement && !m_bFinalized)
+	if (isValid() && !m_bFinalized)
 	{
 		finalize();
 		m_statement = NULL;
 	}
 }
 
+bool SQLiteStatement::isValid() const
+{
+	return (GC.getDatabaseInstance.isValid() && m_statement != NULL);
+}
+
 bool SQLiteStatement::prepare(const char* sql)
 {
-	if (!GC.getDatabaseInstance().getSQLite() || !sql || m_bFinalized)
+	if (!GC.getDatabaseInstance.isValid() || !sql || m_bFinalized)
 	{
 		return false;
 	}
-	if (m_statement != NULL) // XANA (note): If we are re-using the statement for something else, clear out the existing statement object and make sure it's ready for new SQL queries
+	if (m_bPrepared)
+	{
+		return true;
+	}
+	if (isValid()) // XANA (note): If we are re-using the existing (prepared or not) statement for something else, clear out the existing statement object and make sure it's ready for new SQL queries
 	{
 		finalize();
 		m_statement = NULL;
 		m_bFinalized = false;
 		m_bPrepared = false;
-	}
-	if (m_bPrepared)
-	{
-		return true;
 	}
 	int const rc = sqlite3_prepare_v2(GC.getDatabaseInstance().getSQLite(), sql, -1, &m_statement, NULL);
 	if (rc != SQLITE_OK || m_statement == NULL)
@@ -63,6 +69,10 @@ bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on Map
 	if (m_bMappedColumns)
 	{
 		return true;
+	}
+	if (!isValid())
+	{
+		return false;
 	}
 	m_columnsMap.clear();
 	int const iCount = getColumnCount();
@@ -85,7 +95,7 @@ bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on Map
 
 int SQLiteStatement::getColumnIndex(const char* szName) const
 {
-	if (!m_bMappedColumns)
+	if (!m_bMappedColumns || !isValid())
 	{
 		return -1;
 	}
@@ -100,7 +110,7 @@ int SQLiteStatement::getColumnIndex(const char* szName) const
 bool SQLiteStatement::reset()
 {
 	m_bHasRow = false;
-	return m_statement ? sqlite3_reset(m_statement) == SQLITE_OK : false;
+	return isValid() ? sqlite3_reset(m_statement) == SQLITE_OK : false;
 }
 
 bool SQLiteStatement::finalize()
@@ -108,14 +118,14 @@ bool SQLiteStatement::finalize()
 	if (!m_bFinalized)
 	{
 		m_bFinalized = true;
-		return m_statement ? sqlite3_finalize(m_statement) == SQLITE_OK : false;
+		return isValid() ? sqlite3_finalize(m_statement) == SQLITE_OK : false;
 	}
 	else return true;
 }
 
 bool SQLiteStatement::clearBindings()
 {
-	return m_statement ? sqlite3_clear_bindings(m_statement) == SQLITE_OK : false;
+	return isValid() ? sqlite3_clear_bindings(m_statement) == SQLITE_OK : false;
 }
 
 bool SQLiteStatement::bind(const char* szParam, int iValue)
@@ -171,7 +181,7 @@ bool SQLiteStatement::hasBinding(const char* szParam) const
 
 bool SQLiteStatement::step()
 {
-	if (!isValid())
+	if (!isPrepared())
 	{
 		m_bHasRow = false;
 		return false;
@@ -182,17 +192,23 @@ bool SQLiteStatement::step()
 	}
 	int const rc = sqlite3_step(m_statement);
 	m_bHasRow = (rc == SQLITE_ROW);
+	if (!m_bHasRow)
+	{
+		reset();
+	}
 	return m_bHasRow;
 }
 
 bool SQLiteStatement::exec()
 {
-	int const rc = sqlite3_step(m_statement);
-	reset();
-	return (rc == SQLITE_DONE);
+	if (isPrepared())
+	{
+		return step();
+	}
+	else return false;
 }
 
 SQLiteResults SQLiteStatement::getResults()
 {
-	return SQLiteResults(*this);
+	return SQLiteResults(this);
 }

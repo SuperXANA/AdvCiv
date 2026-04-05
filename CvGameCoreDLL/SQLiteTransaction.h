@@ -14,6 +14,7 @@ public:
 	bool commit() const;
 	bool rollback() const;
 	bool isActive() const { return m_bActive; }
+	bool wasCommitted() const { return m_bCommitted; }
 
 private:
 	bool m_bActive;

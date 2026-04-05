@@ -1,8 +1,7 @@
 #include "CvDatabaseManager.h"
 #include "SQLiteConnection.h"
-#include "CvDatabaseFwd.h"
 
-CvDatabaseManager::CvDatabaseManager() : m_sqlite(new SQLiteConnection("MLPCiv.sqlite"))
+CvDatabaseManager::CvDatabaseManager() : m_sqlite(NULL)
 {}
 
 CvDatabaseManager::~CvDatabaseManager()
@@ -10,24 +9,33 @@ CvDatabaseManager::~CvDatabaseManager()
 	SAFE_DELETE(m_sqlite);
 }
 
+void CvDatabaseManager::init()
+{
+	if (m_sqlite == NULL)
+	{
+		m_sqlite = new SQLiteConnection(GC.getModName().getFullPath() + "MLPCiv.sqlite");
+	}
+}
+
 sqlite3* CvDatabaseManager::getSQLite()
 {
-	return m_sqlite ? m_sqlite->getDatabase() : NULL;
+	return isValid() ? m_sqlite->getDatabase() : NULL;
 }
 
-CvString CvDatabaseManager::getErrorMsg() const
+bool CvDatabaseManager::exec(const char* sql)
 {
-	return CvString(getErrorInfo());
-}
-
-int CvDatabaseManager::getErrorCode() const
-{
-	if (!m_sqlite)
+	if (!isValid() || !sql)
 	{
-		return SQLITE_ERROR;
+		return false;
 	}
-	return sqlite3_errcode(getSQLite());
+	else return m_sqlite->exec(sql);
 }
+
+bool CvDatabaseManager::isValid() const
+{
+	return m_sqlite ? m_sqlite->isValid() : false;
+}
+
 /* 
 XANA (note): Example of using CvSQL interface in game code which could be used to write queries elsewhere
 bool testSQL() const // write a function for this query

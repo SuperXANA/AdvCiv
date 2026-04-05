@@ -226,6 +226,10 @@ void CvGlobals::init() // allocate
 	
 	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 	m_databaseManager = new CvDatabaseManager();
+	if (m_databaseManager != NULL)
+	{
+		m_databaseManager->init();
+	}
 	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 	//m_pt3Origin = NiPoint3(0.0f, 0.0f, 0.0f); // advc.003j: unused

@@ -6,7 +6,6 @@
 #define CV_DATABASE_H
 
 struct sqlite3;
-
 class SQLiteConnection;
 
 class CvDatabaseManager : private boost::noncopyable
@@ -17,28 +16,12 @@ public:
 	CvDatabaseManager();
 	~CvDatabaseManager();
 	
-	bool exec(const char* sql)
-	{
-		if (!m_sqlite || !sql) return false;
-		return sqlite3_exec(getSQLite(), sql, NULL, NULL, NULL) == SQLITE_OK;
-	}
-	bool exec(const CvString& szSQL) { return exec(szSQL.c_str()); }
-	
-	CvString getErrorMsg() const;
-	int getErrorCode() const;
+	void init();
+	bool exec(const char* sql);
+	bool isValid() const;
 
 private:
 	sqlite3* getSQLite();
-	
-	const char* getErrorInfo() const
-	{
-		if (!m_sqlite)
-		{
-			return "Database not open";
-		}
-		return sqlite3_errmsg(getSQLite());
-	}
-	
-    SQLiteConnection* m_sqlite = NULL;
+    SQLiteConnection* m_sqlite;
 };
 #endif

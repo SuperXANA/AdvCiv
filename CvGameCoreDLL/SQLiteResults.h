@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
-#include "CvDatabaseFwd.h"
 
 #ifndef CV_SQLITERESULTS_H
 #define CV_SQLITERESULTS_H
@@ -11,8 +10,10 @@ class SQLiteStatement;
 class SQLiteResults : private boost::noncopyable
 {
 public:
-	SQLiteResults(SQLiteStatement& stmt);
+	SQLiteResults(SQLiteStatement* stmt);
 	
+	bool isValid() const;
+	bool hasRow() const;
 	bool next();
 	
 	int getInt(const char* szColName) const;
@@ -24,8 +25,7 @@ public:
 	int getColumnType(const char* szColName) const;
 	
 private:
-	SQLiteStatement& m_statement;
-	bool m_bValid;
+	SQLiteStatement* m_statement;
 	
 	int getColumnIndex(const char* szName) const;
 	int getColumnType(int iColumn) const;

@@ -14,13 +14,16 @@ public:
 	SQLiteConnection(const char* szFilename);
 	~SQLiteConnection();
 
-	bool open(const char* szFilename);
+	bool open();
 	bool close();
 	bool isValid() const { return (m_database != NULL); }
 	sqlite3* getDatabase() { return isValid() ? m_database : NULL; }
+	
+	bool exec(const char* sql);
 
 private:
 	sqlite3* m_database;
+	const char* m_szFilename;
 	bool optimize();
 };
 #endif

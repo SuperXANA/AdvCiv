@@ -9,7 +9,7 @@ SQLiteTransaction::SQLiteTransaction()
 
 SQLiteTransaction::~SQLiteTransaction()
 {
-    if (m_bActive && !m_bCommitted)
+    if (isActive() && !wasCommitted())
     {
         GC.getDatabaseInstance().exec("ROLLBACK;");
     }
@@ -17,9 +17,9 @@ SQLiteTransaction::~SQLiteTransaction()
 
 bool SQLiteTransaction::commit() const
 {
-    if (!m_bActive || m_bCommitted)
+    if (!isActive() || wasCommitted())
 	{
-		return false;
+		return true;
 	}
     if (GC.getDatabaseInstance().exec("COMMIT;"))
     {
@@ -32,10 +32,6 @@ bool SQLiteTransaction::commit() const
 
 bool SQLiteTransaction::rollback() const
 {
-    if (!m_bActive)
-	{
-		return false;
-	}
     m_bActive = false;
     m_bCommitted = false;
     return GC.getDatabaseInstance().exec("ROLLBACK;");

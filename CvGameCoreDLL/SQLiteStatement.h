@@ -6,8 +6,8 @@
 #define CV_SQLITESTATEMENT_H
 
 struct sqlite3_stmt;
-
 class SQLiteResults;
+class CvDatabaseManager;
 
 class SQLiteStatement : private boost::noncopyable
 {
@@ -17,7 +17,9 @@ public:
 	SQLiteStatement(const char* sql);
 	~SQLiteStatement();
 	
-	bool isValid() const { return (m_statement && m_bPrepared); }
+	bool isValid() const;
+	bool isPrepared() const { return isValid() && m_bPrepared; }
+	bool hasRow() const { return isPrepared() && m_bHasRow; }
 	
 	bool prepare(const CvString& szSQL);
 	bool mapColumns();
@@ -44,40 +46,35 @@ public:
 	
 	int getColumnType(int iColumn) const
 	{
-		return isValid() ? sqlite3_column_type(m_statement, iColumn) : SQLITE_NULL;
+		return isValid(false) ? sqlite3_column_type(m_statement, iColumn) : SQLITE_NULL;
 	}
 	int getInt(int iColumn) const
 	{
-		return isValid() ? sqlite3_column_int(m_statement, iColumn) : 0;
+		return isPrepared() ? sqlite3_column_int(m_statement, iColumn) : 0;
 	}
-	scaled getFloat(int iColumn) const
+	float getFloat(int iColumn) const
 	{
-		return isValid() ? fixp(static_cast<float>(sqlite3_column_double(m_statement, iColumn))) ; scaled();
+		return isPrepared() ? static_cast<float>(sqlite3_column_double(m_statement, iColumn))) : 0.0f;
 	}
 	double getDouble(int iColumn) const
 	{
-		return isValid() ? sqlite3_column_double(m_statement, iColumn) : 0;
+		return isPrepared() ? sqlite3_column_double(m_statement, iColumn) : 0;
 	}
 	scaled getScaled(int iColumn) const
 	{
-		return isValid() ? scaled(sqlite3_column_double(m_statement, iColumn)) : scaled();
+		return scaled(isPrepared() ? sqlite3_column_int(m_statement, iColumn) : 0);
 	}
 	bool getBool(int iColumn) const
 	{
-		return isValid() ? sqlite3_column_int(m_statement, iColumn) != 0 : false;
+		return isPrepared() ? sqlite3_column_int(m_statement, iColumn) != 0 : false;
 	}
 	const char* getText(int iColumn) const
 	{
-		return isValid() ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement, iColumn)) : NULL;
-	}
-	CvString getString(int iColumn) const
-	{
-		const char* txt = getText(iColumn);
-		return txt ? CvString(txt) : CvString();
+		return isPrepared() ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement, iColumn)) : NULL;
 	}
 	bool isNull(int iColumn) const
 	{
-		return isValid() ? sqlite3_column_type(m_statement, iColumn) == SQLITE_NULL : false;
+		return isPrepared() ? sqlite3_column_type(m_statement, iColumn) == SQLITE_NULL : false;
 	}
 
 private:
@@ -93,29 +90,29 @@ private:
 	
 	int getColumnCount() const
 	{
-		return m_statement ? sqlite3_column_count(m_statement) : 0;
+		return isValid() ? sqlite3_column_count(m_statement) : 0;
 	}
 	bool bind(int index, int iValue)
 	{
-		return m_statement ? sqlite3_bind_int(m_statement, index, iValue) == SQLITE_OK : false;
+		return isValid() ? sqlite3_bind_int(m_statement, index, iValue) == SQLITE_OK : false;
 	}
 	bool bind(int index, float fValue)
 	{
-		return m_statement ? sqlite3_bind_double(m_statement, index, static_cast<double>(fValue)) == SQLITE_OK : false;
+		return isValid() ? sqlite3_bind_double(m_statement, index, static_cast<double>(fValue)) == SQLITE_OK : false;
 	}
 	bool bind(int index, double dValue)
 	{
-		return m_statement ? sqlite3_bind_double(m_statement, index, dValue) == SQLITE_OK : false;
+		return isValid() ? sqlite3_bind_double(m_statement, index, dValue) == SQLITE_OK : false;
 	}
 	bool bind(int index, scaled rValue)
 	{
-		return m_statement ? sqlite3_bind_int(m_statement, index, rValue) == SQLITE_OK : false;
+		return isValid() ? sqlite3_bind_int(m_statement, index, rValue) == SQLITE_OK : false;
 	}
 	bool bind(int index, const char* szValue, bool bCopy = true)
 	{
 		if (!value) return bindNull(index);
 		sqlite3_destructor_type destructor = bCopy ? SQLITE_TRANSIENT : SQLITE_STATIC;
-		return m_statement ? sqlite3_bind_text(m_statement, index, szValue, -1, destructor) == SQLITE_OK : false;
+		return isValid() ? sqlite3_bind_text(m_statement, index, szValue, -1, destructor) == SQLITE_OK : false;
 	}
 	bool bind(int index, const std::string& szValue)
 	{
@@ -127,15 +124,15 @@ private:
 	}
 	bool bindNull(int index)
 	{
-		return m_statement ? sqlite3_bind_null(m_statement, index) == SQLITE_OK : false;
+		return isValid() ? sqlite3_bind_null(m_statement, index) == SQLITE_OK : false;
 	}
 	int getParameterIndex(const char* szName) const
 	{
-		return m_statement ? sqlite3_bind_parameter_index(m_statement, szName) : 0;
+		return isValid() ? sqlite3_bind_parameter_index(m_statement, szName) : 0;
 	}
 	const char* getColumnName(int col) const
 	{
-		return m_statement ? sqlite3_column_name(m_statement, col) : NULL;
+		return isValid() ? sqlite3_column_name(m_statement, col) : NULL;
 	}
 };
 #endif
