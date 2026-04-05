@@ -18,7 +18,6 @@ bool SQLiteConnection::open()
 		close();
 	}
 	int const rc = sqlite3_open_v2(m_szFilename, &m_database);
-	optimize(true);
 	return (rc == SQLITE_OK);
 }
 
@@ -31,7 +30,6 @@ bool SQLiteConnection::close()
 		{
 			sqlite3_finalize(pStatement);
 		}
-		optimize();
 		if ((sqlite3_close_v2(m_database) == SQLITE_OK))
 		{
 			m_database = NULL;
@@ -57,9 +55,4 @@ bool SQLiteConnection::exec(const char* sql)
 		return false;
 	}
 	return (sqlite3_exec(m_database, sql, NULL, NULL, NULL) == SQLITE_OK);
-}
-
-bool SQLiteConnection::optimize(bool bAtStartup)
-{
-	return isValid() ? exec(bAtStartup ? "PRAGMA optimize=0x10002;" : "PRAGMA optimize;") : false;
 }

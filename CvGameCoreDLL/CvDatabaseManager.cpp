@@ -17,11 +17,6 @@ void CvDatabaseManager::init()
 	}
 }
 
-bool CvDatabaseManager::optimize()
-{
-	return isValid() ? exec("PRAGMA optimize;") : false;
-}
-
 sqlite3* CvDatabaseManager::getSQLite()
 {
 	return isValid() ? m_sqlite->getDatabase() : NULL;

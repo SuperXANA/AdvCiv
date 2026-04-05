@@ -17,7 +17,6 @@ public:
 	~CvDatabaseManager();
 	
 	void init();
-	bool optimize();
 	bool exec(const char* sql);
 	bool isValid() const;
 
