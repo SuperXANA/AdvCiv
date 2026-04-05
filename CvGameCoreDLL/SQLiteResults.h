@@ -20,6 +20,7 @@ public:
 	scaled getFloat(const char* szColName) const;
 	scaled getScaled(const char* szColName) const;
 	bool getBool(const char* szColName) const;
+	const char* getText(const char* szColName) const;
 	CvString getString(const char* szColName) const;
 	bool isNull(const char* szColName) const;
 	int getColumnType(const char* szColName) const;
@@ -32,10 +33,8 @@ private:
 	int getInt(int iColumn) const;
 	scaled getFloat(int iColumn) const;
 	double getDouble(int iColumn) const;
-	scaled getScaled(int iColumn) const;
 	bool getBool(int iColumn) const;
 	const char* getText(int iColumn) const;
-	CvString getString(int iColumn) const;
 	bool isNull(int iColumn) const;
 };
 #endif

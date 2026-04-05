@@ -9,7 +9,7 @@ SQLiteTransaction::SQLiteTransaction()
 
 SQLiteTransaction::~SQLiteTransaction()
 {
-    if (isActive() && !wasCommitted())
+    if (isValid())
     {
         GC.getDatabaseInstance().exec("ROLLBACK;");
     }
@@ -17,7 +17,7 @@ SQLiteTransaction::~SQLiteTransaction()
 
 bool SQLiteTransaction::commit() const
 {
-    if (!isActive() || wasCommitted())
+    if (!isValid())
 	{
 		return true;
 	}

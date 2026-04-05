@@ -39,14 +39,13 @@ public:
 	bool bindNull(const char* szParam) const;
 	bool hasBinding(const char* szParam) const;
 
-	bool step();
 	bool exec();
 	
 	SQLiteResults getResults();
 	
 	int getColumnType(int iColumn) const
 	{
-		return isValid(false) ? sqlite3_column_type(m_statement, iColumn) : SQLITE_NULL;
+		return isValid() ? sqlite3_column_type(m_statement, iColumn) : SQLITE_NULL;
 	}
 	int getInt(int iColumn) const
 	{
@@ -59,10 +58,6 @@ public:
 	double getDouble(int iColumn) const
 	{
 		return isPrepared() ? sqlite3_column_double(m_statement, iColumn) : 0;
-	}
-	scaled getScaled(int iColumn) const
-	{
-		return scaled(isPrepared() ? sqlite3_column_int(m_statement, iColumn) : 0);
 	}
 	bool getBool(int iColumn) const
 	{
@@ -87,6 +82,7 @@ private:
 	bool m_bPrepared;
 	
 	bool prepare(const char* sql);
+	bool step();
 	
 	int getColumnCount() const
 	{

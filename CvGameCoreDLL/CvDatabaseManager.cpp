@@ -33,7 +33,7 @@ bool CvDatabaseManager::exec(const char* sql)
 	{
 		return false;
 	}
-	else return m_sqlite->exec(sql);
+	return m_sqlite->exec(sql);
 }
 
 bool CvDatabaseManager::isValid() const

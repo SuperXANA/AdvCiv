@@ -16,8 +16,8 @@ public:
 
 	bool open();
 	bool close();
-	bool isValid() const { return (m_database != NULL); }
-	sqlite3* getDatabase() { return isValid() ? m_database : NULL; }
+	bool isValid() const;
+	sqlite3* getDatabase();
 	
 	bool exec(const char* sql);
 
