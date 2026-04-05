@@ -9,13 +9,10 @@ SQLiteTransaction::SQLiteTransaction()
 
 SQLiteTransaction::~SQLiteTransaction()
 {
-    if (isValid())
-    {
-        GC.getDatabaseInstance().exec("ROLLBACK;");
-    }
+    rollback();
 }
 
-bool SQLiteTransaction::commit() const
+bool SQLiteTransaction::commit()
 {
     if (!isValid())
 	{
@@ -30,9 +27,13 @@ bool SQLiteTransaction::commit() const
     return false;
 }
 
-bool SQLiteTransaction::rollback() const
+bool SQLiteTransaction::rollback()
 {
-    m_bActive = false;
-    m_bCommitted = false;
-    return GC.getDatabaseInstance().exec("ROLLBACK;");
+    if (isValid())
+    {
+		m_bActive = false;
+		m_bCommitted = false;
+		return GC.getDatabaseInstance().exec("ROLLBACK;");
+	}
+	return false;
 }

@@ -5,19 +5,24 @@ SQLiteResults::SQLiteResults(SQLiteStatement* stmt)
 	: m_statement(stmt)
 	{}
 
-bool SQLiteResults::isValid() const
+SQLiteResults::~SQLiteResults()
 {
-	return (m_statement != NULL && m_statement->isPrepared());
+	SAFE_DELETE(m_statement);
 }
 
-bool SQLiteResults::hasRow() const
+bool SQLiteResults::isValid() const
 {
-	return isValid() && m_statement->hasRow();
+	return (m_statement != NULL);
+}
+
+bool SQLiteResults::exec()
+{
+	return isValid() ? m_statement->exec() : false;
 }
 
 bool SQLiteResults::next()
 {
-	return ((isValid() ? m_statement->exec() : false) && hasRow());
+	return exec();
 }
 	
 int SQLiteResults::getInt(const char* szColName) const
@@ -73,9 +78,9 @@ int SQLiteResults::getColumnIndex(const char* szName) const { return isValid() ?
 int SQLiteResults::getColumnType(int iColumn) const { return isValid() ? m_statement->getColumnType(iColumn) : SQLITE_NULL; }
 
 // SQL Database Private Access Functions
-int SQLiteResults::getInt(int iColumn) const { return hasRow() ? m_statement->getInt(iColumn) : 0; }
-float SQLiteResults::getFloat(int iColumn) const { return hasRow() ? m_statement->getFloat(iColumn) : 0.0f; }
-double SQLiteResults::getDouble(int iColumn) const { return hasRow() ? m_statement->getDouble(iColumn) : 0; }
-bool SQLiteResults::getBool(int iColumn) const { return hasRow() ? m_statement->getBool(iColumn) : false; }
-const char* SQLiteResults::getText(int iColumn) const { return hasRow() ? m_statement->getText(iColumn) : NULL; }
-bool SQLiteResults::isNull(int iColumn) const { return hasRow() ? m_statement->isNull(iColumn) : false; }
+int SQLiteResults::getInt(int iColumn) const { return isValid() ? m_statement->getInt(iColumn) : 0; }
+float SQLiteResults::getFloat(int iColumn) const { return isValid() ? m_statement->getFloat(iColumn) : 0.0f; }
+double SQLiteResults::getDouble(int iColumn) const { return isValid() ? m_statement->getDouble(iColumn) : 0; }
+bool SQLiteResults::getBool(int iColumn) const { return isValid() ? m_statement->getBool(iColumn) : false; }
+const char* SQLiteResults::getText(int iColumn) const { return isValid() ? m_statement->getText(iColumn) : NULL; }
+bool SQLiteResults::isNull(int iColumn) const { return isValid() ? m_statement->isNull(iColumn) : false; }

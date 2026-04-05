@@ -21,16 +21,12 @@ SQLiteStatement::SQLiteStatement(const char* sql)
 
 SQLiteStatement::~SQLiteStatement()
 {
-	if (isValid())
-	{
-		finalize();
-		m_statement = NULL;
-	}
+	finalize();
 }
 
-bool SQLiteStatement::isValid() const
+bool SQLiteStatement::isValid(bool bCheckDatabaseConnection) const
 {
-	return (GC.getDatabaseInstance.isValid() && m_statement != NULL && !m_bFinalized);
+	return (bCheckDatabaseConnection ? (GC.getDatabaseInstance.isValid() && m_statement != NULL && !m_bFinalized) : (m_statement != NULL && !m_bFinalized));
 }
 
 bool SQLiteStatement::prepare(const char* sql)
@@ -45,10 +41,8 @@ bool SQLiteStatement::prepare(const char* sql)
 	}
 	if (isValid()) // XANA (note): If we are re-using the existing (prepared or not) statement for something else, clear out the existing statement object and make sure it's ready for new SQL queries
 	{
-		finalize();
-		m_statement = NULL;
-		m_bHasRow = false;
-		m_bFinalized = true;
+		reset();
+		clearBindings();
 		m_bPrepared = false;
 	}
 	int const rc = sqlite3_prepare_v2(GC.getDatabaseInstance().getSQLite(), sql, -1, &m_statement, NULL);
@@ -57,7 +51,6 @@ bool SQLiteStatement::prepare(const char* sql)
 		return false;
 	}
 	m_bPrepared = true;
-	m_bFinalized = false;
 	if (!m_bMappedColumns)
 	{
 		m_bMappedColumns = mapColumns();
@@ -122,11 +115,16 @@ bool SQLiteStatement::reset()
 
 bool SQLiteStatement::finalize()
 {
-	if (!m_bFinalized)
+	if (isValid(false))
 	{
+		m_bFinalized = (sqlite3_finalize(m_statement) == SQLITE_OK);
+		if (m_bFinalized)
+		{
+			m_statement = NULL;
+		}
 		m_bHasRow = false;
-		m_bFinalized = true;
-		return isValid() ? sqlite3_finalize(m_statement) == SQLITE_OK : false;
+		m_bPrepared = false;
+		return (m_statement == NULL);
 	}
 	return true;
 }

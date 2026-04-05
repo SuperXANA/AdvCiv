@@ -11,8 +11,8 @@ public:
 	SQLiteTransaction();
 	~SQLiteTransaction();
 
-	bool commit() const;
-	bool rollback() const;
+	bool commit();
+	bool rollback();
 	bool isActive() const { return m_bActive; }
 	bool wasCommitted() const { return m_bCommitted; }
 	bool isValid() const { return (isActive() && !wasCommitted()); }

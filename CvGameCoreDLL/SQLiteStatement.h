@@ -17,7 +17,7 @@ public:
 	SQLiteStatement(const char* sql);
 	~SQLiteStatement();
 	
-	bool isValid() const;
+	bool isValid(bool bCheckDatabaseConnection = true) const;
 	bool isPrepared() const { return isValid() && m_bPrepared; }
 	bool hasRow() const { return isPrepared() && m_bHasRow; }
 	
@@ -45,31 +45,31 @@ public:
 	
 	int getColumnType(int iColumn) const
 	{
-		return isValid() ? sqlite3_column_type(m_statement, iColumn) : SQLITE_NULL;
+		return hasRow() ? sqlite3_column_type(m_statement, iColumn) : SQLITE_NULL;
 	}
 	int getInt(int iColumn) const
 	{
-		return isPrepared() ? sqlite3_column_int(m_statement, iColumn) : 0;
+		return hasRow() ? sqlite3_column_int(m_statement, iColumn) : 0;
 	}
 	float getFloat(int iColumn) const
 	{
-		return isPrepared() ? static_cast<float>(sqlite3_column_double(m_statement, iColumn))) : 0.0f;
+		return hasRow() ? static_cast<float>(sqlite3_column_double(m_statement, iColumn))) : 0.0f;
 	}
 	double getDouble(int iColumn) const
 	{
-		return isPrepared() ? sqlite3_column_double(m_statement, iColumn) : 0;
+		return hasRow() ? sqlite3_column_double(m_statement, iColumn) : 0;
 	}
 	bool getBool(int iColumn) const
 	{
-		return isPrepared() ? sqlite3_column_int(m_statement, iColumn) != 0 : false;
+		return hasRow() ? sqlite3_column_int(m_statement, iColumn) != 0 : false;
 	}
 	const char* getText(int iColumn) const
 	{
-		return isPrepared() ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement, iColumn)) : NULL;
+		return hasRow() ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement, iColumn)) : NULL;
 	}
 	bool isNull(int iColumn) const
 	{
-		return isPrepared() ? sqlite3_column_type(m_statement, iColumn) == SQLITE_NULL : false;
+		return hasRow() ? sqlite3_column_type(m_statement, iColumn) == SQLITE_NULL : false;
 	}
 
 private:
