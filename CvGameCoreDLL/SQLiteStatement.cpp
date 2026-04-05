@@ -58,6 +58,10 @@ bool SQLiteStatement::prepare(const char* sql)
 	}
 	m_bPrepared = true;
 	m_bFinalized = false;
+	if (!m_bMappedColumns)
+	{
+		m_bMappedColumns = mapColumns();
+	}
 	return true;
 }
 
@@ -189,10 +193,6 @@ bool SQLiteStatement::step()
 	{
 		m_bHasRow = false;
 		return false;
-	}
-	if (!m_bMappedColumns)
-	{
-		m_bMappedColumns = mapColumns();
 	}
 	int const rc = sqlite3_step(m_statement);
 	m_bHasRow = (rc == SQLITE_ROW);
