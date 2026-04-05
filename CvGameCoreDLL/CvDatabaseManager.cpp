@@ -9,12 +9,13 @@ CvDatabaseManager::~CvDatabaseManager()
 	SAFE_DELETE(m_sqlite);
 }
 
-void CvDatabaseManager::init()
+bool CvDatabaseManager::init()
 {
 	if (m_sqlite == NULL)
 	{
-		m_sqlite = new SQLiteConnection(GC.getModName().getFullPath() + "MLPCiv.sqlite");
+		m_sqlite = new SQLiteConnection(GC.getModName().getFullPath() + "Assets\CvGameDatabase.sqlite");
 	}
+	return isValid();
 }
 
 sqlite3* CvDatabaseManager::getSQLite()
