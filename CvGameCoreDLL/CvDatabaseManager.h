@@ -17,11 +17,12 @@ public:
 	~CvDatabaseManager();
 	
 	void init();
+	bool optimize();
 	bool exec(const char* sql);
 	bool isValid() const;
 
 private:
 	sqlite3* getSQLite();
-    SQLiteConnection* m_sqlite;
+	SQLiteConnection* m_sqlite;
 };
 #endif
