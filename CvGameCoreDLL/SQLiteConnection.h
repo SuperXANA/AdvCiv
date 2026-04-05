@@ -24,6 +24,6 @@ public:
 private:
 	sqlite3* m_database;
 	const char* m_szFilename;
-	bool optimize();
+	bool optimize(bool bAtStartup = false);
 };
 #endif
