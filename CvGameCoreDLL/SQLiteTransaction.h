@@ -11,6 +11,7 @@ public:
 	SQLiteTransaction();
 	~SQLiteTransaction();
 
+	bool sqlReady() const;
 	bool commit();
 	bool rollback();
 	bool isActive() const { return m_bActive; }

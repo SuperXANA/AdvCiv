@@ -215,7 +215,7 @@ public:
 	DllExport int& getNumAIPlayableCivilizationInfos();
 // <advc.enum>
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ
-	CvDatabaseManager& getDatabaseInstance();
+	CvDatabaseManager* getDatabaseInstance();
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 #pragma region InfoAccessors
 	// DllExports turned into wrappers/adapters

@@ -40,7 +40,12 @@ bool SQLiteConnection::close()
 
 bool SQLiteConnection::isValid() const
 {
-	return (m_database != NULL);
+	return (sqlReady() && (m_database != NULL));
+}
+
+bool SQLiteConnection::sqlReady() const
+{
+	return (GC.getDatabaseInstance() != NULL);
 }
 
 sqlite3* SQLiteConnection::getDatabase()

@@ -17,6 +17,7 @@ public:
 	SQLiteStatement(const char* sql);
 	~SQLiteStatement();
 	
+	bool sqlReady() const;
 	bool isValid(bool bCheckDatabaseConnection = true) const;
 	bool isPrepared() const { return isValid() && m_bPrepared; }
 	bool hasRow() const { return isPrepared() && m_bHasRow; }

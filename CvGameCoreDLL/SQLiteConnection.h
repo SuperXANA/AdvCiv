@@ -17,6 +17,7 @@ public:
 	bool open();
 	bool close();
 	bool isValid() const;
+	bool sqlReady() const;
 	sqlite3* getDatabase();
 	
 	bool exec(const char* sql);

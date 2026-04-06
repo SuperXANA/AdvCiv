@@ -10,9 +10,14 @@ SQLiteResults::~SQLiteResults()
 	SAFE_DELETE(m_statement);
 }
 
+bool SQLiteResults::sqlReady() const
+{
+	return (GC.getDatabaseInstance() != NULL);
+}
+
 bool SQLiteResults::isValid() const
 {
-	return (m_statement != NULL);
+	return (sqlReady() && (m_statement != NULL));
 }
 
 bool SQLiteResults::exec()

@@ -13,6 +13,7 @@ public:
 	SQLiteResults(SQLiteStatement* stmt);
 	~SQLiteResults();
 	
+	bool sqlReady() const;
 	bool isValid() const;
 	bool exec(); // XANA (note): Use for single queries, when loops aren't needed.
 	bool next(); // XANA (note): Use for looping queries, when a while loop is needed.

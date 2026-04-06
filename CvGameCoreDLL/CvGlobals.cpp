@@ -491,9 +491,9 @@ int& CvGlobals::getNumAIPlayableCivilizationInfos()
 }
 
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ
-CvDatabaseManager& CvGlobals::getDatabaseInstance()
+CvDatabaseManager* CvGlobals::getDatabaseInstance()
 {
-	return *m_databaseManager;
+	return m_databaseManager;
 }
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 

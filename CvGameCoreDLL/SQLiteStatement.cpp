@@ -24,14 +24,19 @@ SQLiteStatement::~SQLiteStatement()
 	finalize();
 }
 
+bool SQLiteStatement::sqlReady() const
+{
+	return (GC.getDatabaseInstance() != NULL);
+}
+
 bool SQLiteStatement::isValid(bool bCheckDatabaseConnection) const
 {
-	return (bCheckDatabaseConnection ? (GC.getDatabaseInstance.isValid() && m_statement != NULL && !m_bFinalized) : (m_statement != NULL && !m_bFinalized));
+	return (sqlReady() && (bCheckDatabaseConnection ? (GC.getDatabaseInstance()->isValid() && m_statement != NULL && !m_bFinalized) : (m_statement != NULL && !m_bFinalized)));
 }
 
 bool SQLiteStatement::prepare(const char* sql)
 {
-	if (!GC.getDatabaseInstance.isValid() || !sql || m_bFinalized)
+	if (!sqlReady() || !sql || m_bFinalized)
 	{
 		return false;
 	}
@@ -45,7 +50,7 @@ bool SQLiteStatement::prepare(const char* sql)
 		clearBindings();
 		m_bPrepared = false;
 	}
-	int const rc = sqlite3_prepare_v2(GC.getDatabaseInstance().getSQLite(), sql, -1, &m_statement, NULL);
+	int const rc = sqlite3_prepare_v2(GC.getDatabaseInstance()->getSQLite(), sql, -1, &m_statement, NULL);
 	if (rc != SQLITE_OK || m_statement == NULL)
 	{
 		return false;

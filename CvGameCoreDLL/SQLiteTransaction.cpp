@@ -4,12 +4,17 @@
 SQLiteTransaction::SQLiteTransaction()
     : m_bActive(false), m_bCommitted(false)
 {
-    m_bActive = GC.getDatabaseInstance().exec("BEGIN;");
+    m_bActive = (sqlReady() ? GC.getDatabaseInstance()->exec("BEGIN;") : false);
 }
 
 SQLiteTransaction::~SQLiteTransaction()
 {
     rollback();
+}
+
+bool SQLiteTransaction::sqlReady() const
+{
+	return (GC.getDatabaseInstance() != NULL);
 }
 
 bool SQLiteTransaction::commit()
@@ -18,7 +23,7 @@ bool SQLiteTransaction::commit()
 	{
 		return true;
 	}
-    if (GC.getDatabaseInstance().exec("COMMIT;"))
+    if (sqlReady() && GC.getDatabaseInstance()->exec("COMMIT;"))
     {
         m_bActive = false;
         m_bCommitted = true;
@@ -33,7 +38,7 @@ bool SQLiteTransaction::rollback()
     {
 		m_bActive = false;
 		m_bCommitted = false;
-		return GC.getDatabaseInstance().exec("ROLLBACK;");
+		return (sqlReady() && GC.getDatabaseInstance()->exec("ROLLBACK;"));
 	}
 	return false;
 }
