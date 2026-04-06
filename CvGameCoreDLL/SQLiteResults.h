@@ -32,7 +32,7 @@ private:
 	float getFloat(int iColumn) const;
 	double getDouble(int iColumn) const;
 	bool getBool(int iColumn) const;
-	const char* getText(int iColumn) const;
+	CvString getText(int iColumn) const;
 	bool isNull(int iColumn) const;
 };
 #endif

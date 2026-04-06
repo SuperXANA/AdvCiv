@@ -66,5 +66,5 @@ int SQLiteResults::getInt(int iColumn) const { return m_statement.getInt(iColumn
 float SQLiteResults::getFloat(int iColumn) const { return m_statement.getFloat(iColumn); }
 double SQLiteResults::getDouble(int iColumn) const { return m_statement.getDouble(iColumn); }
 bool SQLiteResults::getBool(int iColumn) const { return m_statement.getBool(iColumn); }
-const char* SQLiteResults::getText(int iColumn) const { return m_statement.getText(iColumn); }
+CvString SQLiteResults::getText(int iColumn) const { return m_statement.getText(iColumn); }
 bool SQLiteResults::isNull(int iColumn) const { return m_statement.isNull(iColumn); }
