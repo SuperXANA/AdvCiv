@@ -28,6 +28,9 @@
 #include "CvHallOfFameInfo.h" // advc.106i
 #include "BBAILog.h" // BBAI
 #include "CvBugOptions.h" // K-Mod
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+#include "CvDatabaseManager.h"
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 /*	<advc.007c> Use this CvGame instance instead of GC.getGame() for RNG calls.
 	(Won't matter so long as CvGame is a singleton class.) */
@@ -169,6 +172,10 @@ void CvGame::init(HandicapTypes eHandicap)
 		if (GC.getInfo(eLoopSpecialBuilding).isValid())
 			makeSpecialBuildingValid(eLoopSpecialBuilding);
 	}
+	
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+	GC.getDatabaseInstance().init();
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 	AI().AI_init();
 
