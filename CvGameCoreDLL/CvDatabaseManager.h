@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
-#include "SQLiteConnection.h"
 
 #ifndef CV_DATABASE_H
 #define CV_DATABASE_H
@@ -11,13 +10,14 @@ friend class SQLiteStatement; // XANA (note): The Statement class is the only on
 {
 public:
 	CvDatabaseManager()
-	~CvDatabaseManager() {}
+	~CvDatabaseManager()
 	
 	bool exec(const char* sql);
 	bool isValid() const;
+	bool init();
 
 private:
 	sqlite3* getSQLite();
-	SQLiteConnection m_sqlite;
+	SQLiteConnection* m_sqlite;
 };
 #endif
