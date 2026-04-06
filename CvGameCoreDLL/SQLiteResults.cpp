@@ -1,28 +1,13 @@
 #include "SQLiteResults.h"
 #include "SQLiteStatement.h"
 
-SQLiteResults::SQLiteResults(SQLiteStatement* stmt)
+SQLiteResults::SQLiteResults(SQLiteStatement& stmt)
 	: m_statement(stmt)
 	{}
 
-SQLiteResults::~SQLiteResults()
-{
-	SAFE_DELETE(m_statement);
-}
-
-bool SQLiteResults::sqlReady() const
-{
-	return (GC.getDatabaseInstance() != NULL);
-}
-
-bool SQLiteResults::isValid() const
-{
-	return (sqlReady() && (m_statement != NULL));
-}
-
 bool SQLiteResults::exec()
 {
-	return isValid() ? m_statement->exec() : false;
+	return m_statement.exec();
 }
 
 bool SQLiteResults::next()
@@ -54,16 +39,10 @@ bool SQLiteResults::getBool(const char* szColName) const
 	return (idx >= 0) ? getBool(idx) : false;
 }
 
-const char* SQLiteResults::getText(const char* szColName) const
+CvString SQLiteResults::getText(const char* szColName) const
 {
 	int const idx = getColumnIndex(szColName);
-	return (idx >= 0) ? getText(idx) : NULL;
-}
-
-CvString SQLiteResults::getString(const char* szColName) const
-{
-	int const idx = getColumnIndex(szColName);
-	return CvString((idx >= 0) ? getText(idx) : "");
+	return (idx >= 0) ? getText(idx) : CvString(NULL);
 }
 
 bool SQLiteResults::isNull(const char* szColName) const
@@ -79,13 +58,13 @@ int SQLiteResults::getColumnType(const char* szColName) const
 }
 
 // XANA (note): Internal functions below, you likely want to use the functions that take SQL columns by name instead
-int SQLiteResults::getColumnIndex(const char* szName) const { return isValid() ? m_statement->getColumnIndex(szName) : -1; }
-int SQLiteResults::getColumnType(int iColumn) const { return isValid() ? m_statement->getColumnType(iColumn) : SQLITE_NULL; }
+int SQLiteResults::getColumnIndex(const char* szName) const { return m_statement.getColumnIndex(szName); }
+int SQLiteResults::getColumnType(int iColumn) const { return m_statement.getColumnType(iColumn); }
 
 // SQL Database Private Access Functions
-int SQLiteResults::getInt(int iColumn) const { return isValid() ? m_statement->getInt(iColumn) : 0; }
-float SQLiteResults::getFloat(int iColumn) const { return isValid() ? m_statement->getFloat(iColumn) : 0.0f; }
-double SQLiteResults::getDouble(int iColumn) const { return isValid() ? m_statement->getDouble(iColumn) : 0; }
-bool SQLiteResults::getBool(int iColumn) const { return isValid() ? m_statement->getBool(iColumn) : false; }
-const char* SQLiteResults::getText(int iColumn) const { return isValid() ? m_statement->getText(iColumn) : NULL; }
-bool SQLiteResults::isNull(int iColumn) const { return isValid() ? m_statement->isNull(iColumn) : false; }
+int SQLiteResults::getInt(int iColumn) const { return m_statement.getInt(iColumn); }
+float SQLiteResults::getFloat(int iColumn) const { return m_statement.getFloat(iColumn); }
+double SQLiteResults::getDouble(int iColumn) const { return m_statement.getDouble(iColumn); }
+bool SQLiteResults::getBool(int iColumn) const { return m_statement.getBool(iColumn); }
+const char* SQLiteResults::getText(int iColumn) const { return m_statement.getText(iColumn); }
+bool SQLiteResults::isNull(int iColumn) const { return m_statement.isNull(iColumn); }

@@ -5,16 +5,11 @@
 #ifndef CV_SQLITERESULTS_H
 #define CV_SQLITERESULTS_H
 
-class SQLiteStatement;
-
 class SQLiteResults : private boost::noncopyable
+friend class SQLiteStatement; // XANA (note): Only the Statement class can create and manage these Result cursors, no other class should be creating or deleting this object
 {
 public:
-	SQLiteResults(SQLiteStatement* stmt);
-	~SQLiteResults();
 	
-	bool sqlReady() const;
-	bool isValid() const;
 	bool exec(); // XANA (note): Use for single queries, when loops aren't needed.
 	bool next(); // XANA (note): Use for looping queries, when a while loop is needed.
 	
@@ -22,13 +17,14 @@ public:
 	float getFloat(const char* szColName) const;
 	scaled getScaled(const char* szColName) const;
 	bool getBool(const char* szColName) const;
-	const char* getText(const char* szColName) const;
-	CvString getString(const char* szColName) const;
+	CvString getText(const char* szColName) const;
 	bool isNull(const char* szColName) const;
 	int getColumnType(const char* szColName) const;
 	
 private:
-	SQLiteStatement* m_statement;
+	SQLiteResults(SQLiteStatement& stmt)
+	~SQLiteResults() {}
+	SQLiteStatement& m_statement;
 	
 	int getColumnIndex(const char* szName) const;
 	int getColumnType(int iColumn) const;

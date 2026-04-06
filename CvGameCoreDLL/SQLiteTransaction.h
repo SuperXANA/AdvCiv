@@ -8,10 +8,10 @@
 class SQLiteTransaction : private boost::noncopyable
 {
 public:
-	SQLiteTransaction();
-	~SQLiteTransaction();
+	SQLiteTransaction()
+	~SQLiteTransaction()
 
-	bool sqlReady() const;
+	bool begin();
 	bool commit();
 	bool rollback();
 	bool isActive() const { return m_bActive; }

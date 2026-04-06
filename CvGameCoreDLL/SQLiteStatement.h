@@ -1,28 +1,28 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
+#include "SQLiteResults.h"
 
 #ifndef CV_SQLITESTATEMENT_H
 #define CV_SQLITESTATEMENT_H
 
 struct sqlite3_stmt;
-class SQLiteResults;
 class CvDatabaseManager;
 
 class SQLiteStatement : private boost::noncopyable
 {
 public:
-	SQLiteStatement();
-	SQLiteStatement(const CvString& szSQL);
-	SQLiteStatement(const char* sql);
-	~SQLiteStatement();
+	SQLiteStatement()
+	SQLiteStatement(const CvString& szSQL)
+	SQLiteStatement(const std::string& sql)
+	~SQLiteStatement()
 	
-	bool sqlReady() const;
 	bool isValid(bool bCheckDatabaseConnection = true) const;
 	bool isPrepared() const { return isValid() && m_bPrepared; }
 	bool hasRow() const { return isPrepared() && m_bHasRow; }
 	
 	bool prepare(const CvString& szSQL);
+	bool prepare(const std::string& sql);
 	bool mapColumns();
 	int getColumnIndex(const char* szName) const;
 
@@ -37,12 +37,12 @@ public:
 	bool bind(const char* szParam, const char* szValue, bool bCopy = true);
 	bool bind(const char* szParam, const std::string& szValue);
 	bool bind(const char* szParam, const CvString& szValue);
-	bool bindNull(const char* szParam) const;
+	bool bindNull(const char* szParam);
 	bool hasBinding(const char* szParam) const;
 
 	bool exec();
 	
-	SQLiteResults getResults();
+	SQLiteResults& getResults();
 	
 	int getColumnType(int iColumn) const
 	{
@@ -64,9 +64,9 @@ public:
 	{
 		return hasRow() ? sqlite3_column_int(m_statement, iColumn) != 0 : false;
 	}
-	const char* getText(int iColumn) const
+	CvString getText(int iColumn) const
 	{
-		return hasRow() ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement, iColumn)) : NULL;
+		return CvString(hasRow() ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement, iColumn)) : NULL);
 	}
 	bool isNull(int iColumn) const
 	{
@@ -74,6 +74,7 @@ public:
 	}
 
 private:
+	CvString m_szSQL;
 	sqlite3_stmt* m_statement;
 	bool m_bHasRow;
 	typedef stdext::hash_map<std::string, int> ColumnsMap;
@@ -81,8 +82,8 @@ private:
 	bool m_bMappedColumns;
 	bool m_bFinalized;
 	bool m_bPrepared;
+	SQLiteResults m_resultCursor;
 	
-	bool prepare(const char* sql);
 	bool step();
 	
 	int getColumnCount() const

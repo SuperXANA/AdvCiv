@@ -1,22 +1,22 @@
 #include "CvDatabaseManager.h"
 #include "SQLiteStatement.h"
-#include "SQLiteResults.h"
 #include "CvDatabaseFwd.h"
 
 SQLiteStatement::SQLiteStatement()
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(NULL), m_resultCursor(*this)
 	{}
 
-SQLiteStatement::SQLiteStatement(const CvString& szSQL)
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false)
-	{
-		prepare(szSQL);
-	}
 
-SQLiteStatement::SQLiteStatement(const char* sql)
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false)
+SQLiteStatement::SQLiteStatement(const CvString& szSQL)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(szSQL), m_resultCursor(*this)
 	{
-		prepare(sql);
+		prepare(m_szSQL);
+	}
+	
+SQLiteStatement::SQLiteStatement(const std::string& sql)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(sql), m_resultCursor(*this)
+	{
+		prepare(m_szSQL);
 	}
 
 SQLiteStatement::~SQLiteStatement()
@@ -24,19 +24,15 @@ SQLiteStatement::~SQLiteStatement()
 	finalize();
 }
 
-bool SQLiteStatement::sqlReady() const
-{
-	return (GC.getDatabaseInstance() != NULL);
-}
-
 bool SQLiteStatement::isValid(bool bCheckDatabaseConnection) const
 {
-	return (sqlReady() && (bCheckDatabaseConnection ? (GC.getDatabaseInstance()->isValid() && m_statement != NULL && !m_bFinalized) : (m_statement != NULL && !m_bFinalized)));
+	return (bCheckDatabaseConnection ? (GC.getDatabaseInstance().isValid() && m_statement != NULL && !m_bFinalized) : (m_statement != NULL && !m_bFinalized));
 }
 
-bool SQLiteStatement::prepare(const char* sql)
+bool SQLiteStatement::prepare(const CvString& szSQL)
 {
-	if (!sqlReady() || !sql || m_bFinalized)
+	m_szSQL = szSQL;
+	if (!GC.getDatabaseInstance().isValid() || !(m_szSQL.GetCString()) || m_bFinalized)
 	{
 		return false;
 	}
@@ -50,7 +46,7 @@ bool SQLiteStatement::prepare(const char* sql)
 		clearBindings();
 		m_bPrepared = false;
 	}
-	int const rc = sqlite3_prepare_v2(GC.getDatabaseInstance()->getSQLite(), sql, -1, &m_statement, NULL);
+	int const rc = sqlite3_prepare_v2(GC.getDatabaseInstance().getSQLite(), m_szSQL.GetCString(), -1, &m_statement, NULL);
 	if (rc != SQLITE_OK || m_statement == NULL)
 	{
 		return false;
@@ -63,9 +59,9 @@ bool SQLiteStatement::prepare(const char* sql)
 	return true;
 }
 
-bool SQLiteStatement::prepare(const CvString& szSQL)
+bool SQLiteStatement::prepare(const std::string& sql)
 {
-	return prepare(szSQL.c_str());
+	return prepare(CvString(sql));
 }
 
 bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on MapChildren from CvXMLloadUtility
@@ -198,8 +194,8 @@ bool SQLiteStatement::step()
 		return false;
 	}
 	int const rc = sqlite3_step(m_statement);
-	m_bHasRow = (rc == SQLITE_ROW);
-	if (!m_bHasRow)
+	m_bHasRow = (rc == SQLITE_ROW || rc == SQLITE_DONE);
+	if (rc != SQLITE_ROW)
 	{
 		reset();
 	}
@@ -215,7 +211,7 @@ bool SQLiteStatement::exec()
 	return false;
 }
 
-SQLiteResults SQLiteStatement::getResults()
+SQLiteResults& SQLiteStatement::getResults()
 {
-	return SQLiteResults(this);
+	return m_resultCursor;
 }

@@ -96,10 +96,7 @@ m_iMaxCityPlotPriority(-1), // advc
 // <advc.opt>
 m_iEventMessageTime(-1),
 m_eRUINS_IMPROVEMENT(NO_IMPROVEMENT),
-m_eDEFAULT_SPECIALIST(NO_SPECIALIST),
-// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
-m_databaseManager(NULL)
-// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+m_eDEFAULT_SPECIALIST(NO_SPECIALIST)
 {
 	m_aeWATER_TERRAIN[0] = m_aeWATER_TERRAIN[1] = NO_TERRAIN; // </advc.opt>
 	setCurrentXMLFile(NULL); // advc.006e
@@ -223,14 +220,6 @@ void CvGlobals::init() // allocate
 	CvPlayer::initStatics();
 	CvTeam::initStatics();
 	m_agents = new CvAgents(MAX_PLAYERS, MAX_TEAMS); // advc.agent
-	
-	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
-	m_databaseManager = new CvDatabaseManager();
-	if (m_databaseManager != NULL)
-	{
-		m_databaseManager->init();
-	}
-	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 	//m_pt3Origin = NiPoint3(0.0f, 0.0f, 0.0f); // advc.003j: unused
 
@@ -279,10 +268,6 @@ void CvGlobals::uninit() // free
 	SAFE_DELETE(m_iniInitCore);
 	gDLL->uninitGlobals();	// free globals allocated outside the dll
 	SAFE_DELETE(m_VarSystem);
-	
-	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
-	SAFE_DELETE(m_databaseManager);
-	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 	// already deleted outside of the dll, set to null for safety
 	m_messageQueue=NULL; m_hotJoinMsgQueue=NULL; m_messageControl=NULL;
@@ -491,7 +476,7 @@ int& CvGlobals::getNumAIPlayableCivilizationInfos()
 }
 
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ
-CvDatabaseManager* CvGlobals::getDatabaseInstance()
+CvDatabaseManager& CvGlobals::getDatabaseInstance()
 {
 	return m_databaseManager;
 }
