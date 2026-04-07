@@ -11,6 +11,7 @@ class CvUnit;
 // </advc.071>
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 class CvDatabaseManager;
+class CvDatabaseQuery;
 class SQLiteStatement;
 class SQLiteTransaction;
 class SQLiteResults;
