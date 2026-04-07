@@ -30,6 +30,9 @@ bool CvDatabaseManager::isValid() const
 
 bool CvDatabaseManager::init()
 {
-	m_sqlite = new SQLiteConnection(GC.getModName().getFullPath() + "Assets\CvGameDatabase.sqlite");
+	if (m_sqlite == NULL)
+	{
+		m_sqlite = new SQLiteConnection(GC.getModName().getFullPath() + "Assets\CvGameDatabase.sqlite");
+	}
 	return isValid();
 }

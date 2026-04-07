@@ -12,8 +12,8 @@ class SQLiteConnection : private boost::noncopyable
 friend class CvDatabaseManager; // XANA (note): This class is only managed by the Database Manager and is hidden from normal game code, no other class should be creating or deleting sqlite database pointers
 {
 private:
-	SQLiteConnection(const char* szFilename)
-	~SQLiteConnection()
+	SQLiteConnection(const char* szFilename);
+	~SQLiteConnection();
 	sqlite3* m_database;
 	const char* m_szFilename;
 	bool open();

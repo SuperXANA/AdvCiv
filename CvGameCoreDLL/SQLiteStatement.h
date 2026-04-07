@@ -12,10 +12,10 @@ class CvDatabaseManager;
 class SQLiteStatement : private boost::noncopyable
 {
 public:
-	SQLiteStatement()
-	SQLiteStatement(const CvString& szSQL)
-	SQLiteStatement(const std::string& sql)
-	~SQLiteStatement()
+	SQLiteStatement();
+	SQLiteStatement(const CvString& szSQL);
+	SQLiteStatement(const std::string& sql);
+	~SQLiteStatement();
 	
 	bool isValid(bool bCheckDatabaseConnection = true) const;
 	bool isPrepared() const { return isValid() && m_bPrepared; }

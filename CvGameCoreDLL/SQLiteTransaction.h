@@ -8,8 +8,8 @@
 class SQLiteTransaction : private boost::noncopyable
 {
 public:
-	SQLiteTransaction()
-	~SQLiteTransaction()
+	SQLiteTransaction();
+	~SQLiteTransaction();
 
 	bool begin();
 	bool commit();

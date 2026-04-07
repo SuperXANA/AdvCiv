@@ -22,7 +22,7 @@ public:
 	int getColumnType(const char* szColName) const;
 	
 private:
-	SQLiteResults(SQLiteStatement& stmt)
+	SQLiteResults(SQLiteStatement& stmt);
 	~SQLiteResults() {}
 	SQLiteStatement& m_statement;
 	
