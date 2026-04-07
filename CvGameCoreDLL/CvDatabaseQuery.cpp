@@ -2,14 +2,171 @@
 #include "SQLiteStatement.h"
 
 CvDatabaseQuery::CvDatabaseQuery() 
-	: m_hasWhere(false), m_hasSet(false), m_hasColumns(false) 
+	: m_hasWhere(false), m_hasSet(false), m_hasColumns(false), m_hasCreateColumns(false) 
 {}
 
 CvDatabaseQuery::CvDatabaseQuery(const char* tableName)
-	: m_hasWhere(false), m_hasSet(false), m_hasColumns(false)
+	: m_hasWhere(false), m_hasSet(false), m_hasColumns(false), m_hasCreateColumns(false) 
 {
 	m_sql = CvString::format("SELECT * FROM ");
 	m_sql += CvString::format(tableName);
+}
+
+CvDatabaseQuery& CvDatabaseQuery::createTable(const char* tableName)
+{
+	m_sql = CvString::format("CREATE TABLE ");
+	m_sql += CvString::format(tableName);
+	m_sql += CvString::format(" (");
+	m_hasWhere = false;
+	m_hasSet = false;
+	m_hasColumns = false;
+	m_hasCreateColumns = false;
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::createTableIfNotExists(const char* tableName)
+{
+	m_sql = CvString::format("CREATE TABLE IF NOT EXISTS ");
+	m_sql += CvString::format(tableName);
+	m_sql += CvString::format(" (");
+	m_hasWhere = false;
+	m_hasSet = false;
+	m_hasColumns = false;
+	m_hasCreateColumns = false;
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::column(const char* name, const char* type)
+{
+	if (m_hasCreateColumn)
+	{
+		m_sql += CvString::format(", ");
+	}
+	m_sql += CvString::format(name);
+	m_sql += CvString::format(" ");
+	m_sql += CvString::format(type);
+	m_hasCreateColumns = true;
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::notNull()
+{
+	m_sql += CvString::format(" NOT NULL");
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::unique()
+{
+	m_sql += CvString::format(" UNIQUE");
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::primaryKey()
+{
+	m_sql += CvString::format(" PRIMARY KEY");
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::autoIncrement()
+{
+	m_sql += CvString::format(" AUTOINCREMENT");
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::defaultValue(const char* value)
+{
+	m_sql += CvString::format(" DEFAULT ");
+	m_sql += CvString::format(value);
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::references(const char* table, const char* column)
+{
+	m_sql += CvString::format(" REFERENCES ");
+	m_sql += CvString::format(table);
+	m_sql += CvString::format("(");
+	m_sql += CvString::format(column);
+	m_sql += CvString::format(")");
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::foreignKey(const char* columns, const char* refTable, const char* refColumns)
+{
+	if (m_hasCreateColumn)
+	{
+		m_sql += CvString::format(", ");
+	}
+	m_sql += CvString::format("FOREIGN KEY (");
+	m_sql += CvString::format(columns);
+	m_sql += CvString::format(") REFERENCES ");
+	m_sql += CvString::format(refTable);
+	m_sql += CvString::format("(");
+	m_sql += CvString::format(refColumns);
+	m_sql += CvString::format(")");
+	m_hasCreateColumns = true;
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::onDelete(const char* action)
+{
+	m_sql += CvString::format(" ON DELETE ");
+	m_sql += CvString::format(action);
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::onUpdate(const char* action)
+{
+	m_sql += CvString::format(" ON UPDATE ");
+	m_sql += CvString::format(action);
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::endTable()
+{
+	m_sql += CvString::format(")");
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::dropTable(const char* tableName)
+{
+	m_sql = CvString::format("DROP TABLE ");
+	m_sql += CvString::format(tableName);
+	m_hasWhere = false;
+	m_hasSet = false;
+	m_hasColumns = false;
+	m_hasCreateColumns = false;
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::dropTableIfExists(const char* tableName)
+{
+	m_sql = CvString::format("DROP TABLE IF EXISTS ");
+	m_sql += CvString::format(tableName);
+	m_hasWhere = false;
+	m_hasSet = false;
+	m_hasColumns = false;
+	m_hasCreateColumns = false;
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::alterTable(const char* tableName)
+{
+	m_sql = CvString::format("ALTER TABLE ");
+	m_sql += CvString::format(tableName);
+	m_hasWhere = false;
+	m_hasSet = false;
+	m_hasColumns = false;
+	m_hasCreateColumns = false;
+	return *this;
+}
+
+CvDatabaseQuery& CvDatabaseQuery::addColumn(const char* name, const char* type)
+{
+	m_sql += CvString::format(" ADD COLUMN ");
+	m_sql += CvString::format(name);
+	m_sql += CvString::format(" ");
+	m_sql += CvString::format(type);
+	return *this;
 }
 
 CvDatabaseQuery& CvDatabaseQuery::select(const char* columns)
@@ -316,7 +473,7 @@ void CvDatabaseQuery::applyTo(SQLiteStatement& stmt) const
     stmt.prepare(m_sql);
 }
 
-std::string CvDatabaseQuery::intToString(int value) const
+static std::string CvDatabaseQuery::intToString(int value)
 {
 	std::ostringstream kStream;
 	kStream << value;

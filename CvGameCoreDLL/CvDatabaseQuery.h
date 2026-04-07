@@ -14,6 +14,27 @@ public:
 	explicit CvDatabaseQuery(const char* tableName);
 	~CvDatabaseQuery() {};
 
+	CvDatabaseQuery& createTable(const char* tableName);
+	CvDatabaseQuery& createTableIfNotExists(const char* tableName);
+	CvDatabaseQuery& column(const char* name, const char* type);
+	CvDatabaseQuery& notNull();
+	CvDatabaseQuery& unique();
+	CvDatabaseQuery& primaryKey();
+	CvDatabaseQuery& autoIncrement();
+	CvDatabaseQuery& defaultValue(const char* value);
+
+	CvDatabaseQuery& references(const char* table, const char* column);
+	CvDatabaseQuery& foreignKey(const char* columns, const char* refTable, const char* refColumns);
+	CvDatabaseQuery& onDelete(const char* action);
+	CvDatabaseQuery& onUpdate(const char* action);
+
+	CvDatabaseQuery& endTable();
+
+	CvDatabaseQuery& dropTable(const char* tableName);
+	CvDatabaseQuery& dropTableIfExists(const char* tableName);
+	CvDatabaseQuery& alterTable(const char* tableName);
+	CvDatabaseQuery& addColumn(const char* name, const char* type);
+
 	CvDatabaseQuery& select(const char* columns);
 	CvDatabaseQuery& selectDistinct(const char* columns);
 	CvDatabaseQuery& from(const char* table);
@@ -67,6 +88,7 @@ private:
 	bool m_hasWhere;
 	bool m_hasSet;
 	bool m_hasColumns;
-	static std::string intToString(int value) const;
+	bool m_hasCreateColumns;
+	static std::string intToString(int value);
 };
 #endif // CV_SQLITEQUERY_H
