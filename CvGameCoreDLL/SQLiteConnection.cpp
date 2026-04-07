@@ -11,9 +11,13 @@ SQLiteConnection::~SQLiteConnection()
 	close();
 }
 
-bool SQLiteConnection::open()
+bool SQLiteConnection::open(bool bReopen)
 {
-	if (isValid())
+	if (isValid() && !bReopen)
+	{
+		return true;
+	}
+	else if (isValid() && bReopen)
 	{
 		close();
 	}

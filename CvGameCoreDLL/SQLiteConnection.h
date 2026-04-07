@@ -16,7 +16,7 @@ private:
 	~SQLiteConnection();
 	sqlite3* m_database;
 	const char* m_szFilename;
-	bool open();
+	bool open(bool bReopen = false);
 	bool close();
 	bool isValid() const;
 	sqlite3* getDatabase();
