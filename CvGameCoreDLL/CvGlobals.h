@@ -978,7 +978,7 @@ private:
 	void updateModName(); // advc.106i
 	
 	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
-	CvDatabaseManager m_databaseManager;
+	CvDatabaseManager* m_databaseManager;
 	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 };
 
