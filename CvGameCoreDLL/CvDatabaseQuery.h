@@ -56,7 +56,7 @@ public:
 	
 	CvDatabaseQuery& deleteFrom(const char* table);
 	
-	void clear();
+	CvDatabaseQuery& clear();
 	const CvString& getSQLString() const;
 	
 	SQLiteStatement toStatement() const;

@@ -292,12 +292,13 @@ CvDatabaseQuery& CvDatabaseQuery::deleteFrom(const char* table)
 	return *this;
 }
 
-void CvDatabaseQuery::clear()
+CvDatabaseQuery& CvDatabaseQuery::clear()
 {
 	m_sql.clear();
 	m_hasWhere = false;
 	m_hasSet = false;
 	m_hasColumns = false;
+	return *this;
 }
 
 const CvString& CvDatabaseQuery::getSQLString() const
