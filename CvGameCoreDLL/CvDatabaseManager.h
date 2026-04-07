@@ -15,11 +15,12 @@ public:
 	CvDatabaseManager();
 	~CvDatabaseManager();
 	
-	bool exec(const char* sql);
+	bool exec(const CvString& szSQL);
 	bool isValid() const;
 	bool init();
 
 private:
+	bool exec(const char* sql);
 	sqlite3* getSQLite();
 	SQLiteConnection* m_sqlite;
 };

@@ -14,6 +14,11 @@ sqlite3* CvDatabaseManager::getSQLite()
 	return (isValid() ? m_sqlite->getDatabase() : NULL);
 }
 
+bool CvDatabaseManager::exec(const CvString& szSQL))
+{
+	return exec(szSQL.GetCString());
+}
+
 bool CvDatabaseManager::exec(const char* sql)
 {
 	if (!isValid() || !sql)
