@@ -41,7 +41,7 @@ public:
 	bool hasBinding(const char* szParam) const;
 
 	bool exec();
-	
+	void setPrepared(bool b) { m_bPrepared = b; }
 	SQLiteResults& getResults();
 	
 	int getColumnType(int iColumn) const;

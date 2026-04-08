@@ -44,14 +44,14 @@ bool SQLiteStatement::prepare(const CvString& szSQL)
 	{
 		reset();
 		clearBindings();
-		m_bPrepared = false;
+		m_statement = NULL;
 	}
 	int const rc = sqlite3_prepare_v2(GC.getDatabaseInstance().getSQLite(), m_szSQL.GetCString(), -1, &m_statement, NULL);
 	if (rc != SQLITE_OK || m_statement == NULL)
 	{
 		return false;
 	}
-	m_bPrepared = true;
+	setPrepared(true);
 	if (!m_bMappedColumns)
 	{
 		m_bMappedColumns = mapColumns();
@@ -95,11 +95,11 @@ bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on Map
 
 int SQLiteStatement::getColumnIndex(const char* szName) const
 {
-	if (!m_bMappedColumns || !isValid())
+	if (!m_bMappedColumns || !isValid() || !szName)
 	{
 		return -1;
 	}
-	ColumnsMap::interator it = m_columnsMap.find(szName);
+	ColumnsMap::const_interator it = m_columnsMap.find(szName);
     if (it == m_columnsMap.end())
 	{
 		return -1;
@@ -110,7 +110,7 @@ int SQLiteStatement::getColumnIndex(const char* szName) const
 bool SQLiteStatement::reset()
 {
 	m_bHasRow = false;
-	m_bPrepared = false;
+	setPrepared(false);
 	return isValid() ? sqlite3_reset(m_statement) == SQLITE_OK : false;
 }
 
@@ -124,7 +124,7 @@ bool SQLiteStatement::finalize()
 			m_statement = NULL;
 		}
 		m_bHasRow = false;
-		m_bPrepared = false;
+		setPrepared(false);
 		return (m_statement == NULL);
 	}
 	return true;
@@ -290,7 +290,7 @@ bool SQLiteStatement::bind(int index, const std::string& szValue)
 
 bool SQLiteStatement::bind(int index, const CvString& szValue)
 {
-	return bind(index, szValue.c_str(), true);
+	return bind(index, szValue.GetCString(), true);
 }
 
 bool SQLiteStatement::bindNull(int index)
@@ -300,7 +300,7 @@ bool SQLiteStatement::bindNull(int index)
 
 int SQLiteStatement::getParameterIndex(const char* szName) const
 {
-	return isValid() ? sqlite3_bind_parameter_index(m_statement, szName) : 0;
+	return (isValid() && szName) ? sqlite3_bind_parameter_index(m_statement, szName) : 0;
 }
 
 const char* SQLiteStatement::getColumnName(int col) const

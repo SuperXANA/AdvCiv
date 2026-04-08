@@ -19,7 +19,6 @@
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 #include "CvDatabaseManager.h"
 #include "CvDatabaseQuery.h"
-#include "SQLiteStatement.h"
 #include "SQLiteTransaction.h"
 #include "SQLiteResults.h"
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ

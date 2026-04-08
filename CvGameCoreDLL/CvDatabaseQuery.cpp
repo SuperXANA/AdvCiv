@@ -2,7 +2,7 @@
 #include "SQLiteStatement.h"
 
 CvDatabaseQuery::CvDatabaseQuery() 
-	: m_hasWhere(false), m_hasSet(false), m_hasColumns(false), m_hasCreateColumns(false) 
+	: m_hasWhere(false), m_hasSet(false), m_hasColumns(false), m_hasCreateColumns(false)
 {}
 
 CvDatabaseQuery::CvDatabaseQuery(const char* tableName)
@@ -463,13 +463,15 @@ const CvString& CvDatabaseQuery::getSQLString() const
     return m_sql;
 }
 
-SQLiteStatement CvDatabaseQuery::toStatement() const
+SQLiteStatement& CvDatabaseQuery::getStatement()
 {
-    return SQLiteStatement(m_sql);
+	m_queryStatement.prepare(m_sql);
+    return m_queryStatement;
 }
 
-void CvDatabaseQuery::applyTo(SQLiteStatement& stmt) const
+void CvDatabaseQuery::applyTo(SQLiteStatement& stmt)
 {
+	stmt.setPrepared(false);
     stmt.prepare(m_sql);
 }
 
