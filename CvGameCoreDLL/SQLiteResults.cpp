@@ -7,12 +7,12 @@ SQLiteResults::SQLiteResults(SQLiteStatement& stmt)
 
 bool SQLiteResults::exec()
 {
-	return m_statement.exec();
+	return m_statement.step(false);
 }
 
 bool SQLiteResults::next()
 {
-	return exec();
+	return m_statement.step();
 }
 	
 int SQLiteResults::getInt(const char* szColName) const

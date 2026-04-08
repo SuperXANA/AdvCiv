@@ -186,7 +186,7 @@ bool SQLiteStatement::hasBinding(const char* szParam) const
     return getParameterIndex(szParam) != 0;
 }
 
-bool SQLiteStatement::step()
+bool SQLiteStatement::step(bool bLooping)
 {
 	if (!isPrepared())
 	{
@@ -194,21 +194,12 @@ bool SQLiteStatement::step()
 		return false;
 	}
 	int const rc = sqlite3_step(m_statement);
-	m_bHasRow = (rc == SQLITE_ROW || rc == SQLITE_DONE);
-	if (rc != SQLITE_ROW)
+	m_bHasRow = (rc == SQLITE_ROW);
+	if (rc != SQLITE_ROW && bLooping)
 	{
 		reset();
 	}
 	return m_bHasRow;
-}
-
-bool SQLiteStatement::exec()
-{
-	if (isPrepared())
-	{
-		return step();
-	}
-	return false;
 }
 
 SQLiteResults& SQLiteStatement::getResults()

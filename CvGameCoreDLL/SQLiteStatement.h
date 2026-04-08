@@ -40,7 +40,7 @@ public:
 	bool bindNull(const char* szParam);
 	bool hasBinding(const char* szParam) const;
 
-	bool exec();
+	bool step(bool bLooping = true);
 	void setPrepared(bool b) { m_bPrepared = b; }
 	SQLiteResults& getResults();
 	
@@ -62,8 +62,6 @@ private:
 	bool m_bFinalized;
 	bool m_bPrepared;
 	SQLiteResults m_resultCursor;
-	
-	bool step();
 	
 	int getColumnCount() const;
 	bool bind(int index, int iValue);
