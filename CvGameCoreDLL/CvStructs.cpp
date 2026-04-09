@@ -18,9 +18,8 @@
 #include "CvInfo_Command.h" // advc (for NukeMissionDef)
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 #include "CvDatabaseManager.h"
-#include "CvDatabaseQuery.h"
+#include "CvDatabaseQuery.h" // XANA (note): Imports SQLiteStatement.h and SQLiteResults.h
 #include "SQLiteTransaction.h"
-#include "SQLiteResults.h"
 // XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 // advc.opt: For reading legacy savegames

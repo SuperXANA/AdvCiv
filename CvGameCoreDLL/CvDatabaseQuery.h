@@ -82,6 +82,7 @@ public:
 	const CvString& getSQLString() const;
 	
 	SQLiteStatement& getStatement();
+	SQLiteResults& getResults();
 	void applyTo(SQLiteStatement& stmt);
 
 private:
