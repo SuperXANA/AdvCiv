@@ -77,6 +77,14 @@ CvPlayerAI::CvPlayerAI(/* advc.003u: */ PlayerTypes eID) : CvPlayer(eID)
 	{
 		m_aaiMemoryCount[i] = new int[NUM_MEMORY_TYPES];
 	}
+	
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+	m_aaiVoteCounter = new int*[MAX_PLAYERS];
+	for (int i = 0; i < MAX_PLAYERS; i++)
+	{
+		m_aaiVoteCounter[i] = new int[GC.getNumVoteInfos()];
+	}
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
 	m_aiAverageYieldMultiplier = new int[NUM_YIELD_TYPES];
 	m_aiAverageCommerceMultiplier = new int[NUM_COMMERCE_TYPES];
@@ -122,6 +130,14 @@ CvPlayerAI::~CvPlayerAI()
 		SAFE_DELETE_ARRAY(m_aaiMemoryCount[i]);
 	}
 	SAFE_DELETE_ARRAY(m_aaiMemoryCount);
+
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+	for (int i = 0; i < MAX_PLAYERS; i++)
+	{
+		SAFE_DELETE_ARRAY(m_aaiVoteCounter[i]);
+	}
+	SAFE_DELETE_ARRAY(m_aaiVoteCounter);
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
 	SAFE_DELETE_ARRAY(m_aiAverageYieldMultiplier);
 	SAFE_DELETE_ARRAY(m_aiAverageCommerceMultiplier);
@@ -223,6 +239,12 @@ void CvPlayerAI::AI_reset(bool bConstructor)
 		{
 			m_aaiMemoryCount[iI][iJ] = 0;
 		}
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+		for (int iJ = 0; iJ < GC.getNumVoteInfos(); iJ++)
+		{
+			m_aaiVoteCounter[iI][iJ] = 0;
+		}
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
 		if (!bConstructor && getID() != NO_PLAYER)
 		{
@@ -252,6 +274,12 @@ void CvPlayerAI::AI_reset(bool bConstructor)
 			{
 				kLoopPlayer.m_aaiMemoryCount[getID()][iJ] = 0;
 			}
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+			for (int iJ = 0; iJ < GC.getNumVoteInfos(); iJ++)
+			{
+				kLoopPlayer.m_aaiVoteCounter[getID()][iJ] = 0;
+			}
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 		}
 	}
 	m_arExpansionistHate.reset(); // advc.130w
@@ -7681,6 +7709,11 @@ void CvPlayerAI::AI_updateAttitude(PlayerTypes ePlayer, /* advc.130e: */ bool bU
 	FOR_EACH_ENUM(Memory)
 		iAttitude += AI_getMemoryAttitude(ePlayer, eLoopMemory);
 
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+	FOR_EACH_ENUM(Vote)
+		iAttitude += AI_getVoteAttitude(ePlayer, eLoopVote);
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+		
 	//iAttitude += AI_getColonyAttitude(ePlayer); // advc.130r
 	iAttitude += AI_getAttitudeExtra(ePlayer);
 	/*  advc.sha: Moved to the end and added parameter; the partial result for
@@ -8498,6 +8531,26 @@ int CvPlayerAI::AI_getMemoryAttitude(PlayerTypes ePlayer, MemoryTypes eMemory) c
 		iAttitudePercent = 4 + (iAttitudePercent * 4) / 5; // </advc.553>
 	return scaled(AI_getMemoryCount(ePlayer, eMemory) * iAttitudePercent, iDiv).round();
 }
+
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+int CvPlayerAI::AI_getVoteAttitude(PlayerTypes ePlayer, VoteTypes eVote) const
+{
+	int iAttitudePercent = GC.getInfo(getPersonalityType()).getVoteAttitudePercent(eVote);
+	if (iAttitudePercent != 0)
+	{
+		int iDiv = 195;
+		if (eVote == (VoteTypes)GC.getInfoTypeForString("VOTE_UN_FORCE_WAR") || eVote == (VoteTypes)GC.getInfoTypeForString("VOTE_FORCE_WAR"))
+			iDiv = 295;
+		bool const bPositive = (iAttitudePercent > 0);
+		if (iAttitudePercent != 0 && (eVote == (VoteTypes)GC.getInfoTypeForString("VOTE_SECRETARY_GENERAL") || eVote == (VoteTypes)GC.getInfoTypeForString("VOTE_POPE")))
+			iAttitudePercent = (bPositive ? 4 : -4) + (iAttitudePercent * 4) / (bPositive ? 5 : -5);
+		return (bPositive ? 
+				scaled(abs(AI_getVoteCount(ePlayer, eVote) * iAttitudePercent), iDiv).round() :
+				-scaled(abs(AI_getVoteCount(ePlayer, eVote) * iAttitudePercent), iDiv).round());
+	}
+	return 0;
+}
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
 // advc.130r: Now handled through MemoryAttitude
 /*int CvPlayerAI::AI_getColonyAttitude(PlayerTypes ePlayer) const {

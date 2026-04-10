@@ -242,6 +242,9 @@ public:
 	int AI_getRivalTradeAttitude(PlayerTypes ePlayer) const;
 	int AI_getBonusTradeCounter(TeamTypes eTo) const; // advc.130p
 	int AI_getMemoryAttitude(PlayerTypes ePlayer, MemoryTypes eMemory) const;
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+	int AI_getVoteAttitude(PlayerTypes ePlayer, VoteTypes eVote) const;
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 	//int AI_getColonyAttitude(PlayerTypes ePlayer) const; // advc.130r
 	// BEGIN: Show Hidden Attitude Mod 01/22/2010
 	int AI_getFirstImpressionAttitude(PlayerTypes ePlayer) const;

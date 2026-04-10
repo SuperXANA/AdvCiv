@@ -16236,6 +16236,15 @@ void CvGameTextMgr::getAttitudeString(CvWStringBuffer& szBuffer, PlayerTypes ePl
 				kPlayer.AI_getAttitudeExtra(eTargetPlayer), iTotal,
 				"TXT_KEY_MISC_ATTITUDE_EXTRA_GOOD",
 				"TXT_KEY_MISC_ATTITUDE_EXTRA_BAD");
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+		FOR_EACH_ENUM(Vote)
+		{
+			appendToAttitudeBreakdown(szBreakdown, iPass,
+					kPlayer.AI_getVoteAttitude(eTargetPlayer, eLoopVote), iTotal,
+					"TXT_KEY_MISC_ATTITUDE_VOTE_GOOD",
+					"TXT_KEY_MISC_ATTITUDE_VOTE_BAD");
+		}
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 		// <advc.sha> (based on: Show Hidden Attitude Mod 01/22/2010)
 		if (bSHowHiddenAttitude)
 		{
