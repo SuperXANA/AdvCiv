@@ -40,7 +40,7 @@ bool SQLiteStatement::prepare(const CvString& szSQL)
 	{
 		return true;
 	}
-	if (isValid()) // XANA (note): If we are re-using the existing (prepared or not) statement for something else, clear out the existing statement object and make sure it's ready for new SQL queries
+	if (isValid(false)) // XANA (note): If we are re-using the existing (prepared or not) statement for something else, clear out the existing statement object and make sure it's ready for new SQL queries
 	{
 		reset();
 		clearBindings();

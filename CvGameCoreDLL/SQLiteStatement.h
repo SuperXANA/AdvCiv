@@ -54,7 +54,7 @@ public:
 
 private:
 	CvString m_szSQL;
-	sqlite3_stmt* m_statement;
+	mutable sqlite3_stmt* m_statement;
 	bool m_bHasRow;
 	typedef stdext::hash_map<std::string, int> ColumnsMap;
 	ColumnsMap m_columnsMap;
