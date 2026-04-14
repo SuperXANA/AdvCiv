@@ -1,7 +1,7 @@
 #include "SQLiteConnection.h"
 #include "CvDatabaseFwd.h"
 
-SQLiteConnection::SQLiteConnection(const char* szFilename) : m_database(NULL), m_szFilename(szFilename)
+SQLiteConnection::SQLiteConnection(const CvString& szFilename) : m_database(NULL), m_szFilename(szFilename)
 {
 	open();
 }
@@ -21,7 +21,7 @@ bool SQLiteConnection::open(bool bReopen)
 	{
 		close();
 	}
-	int const rc = sqlite3_open_v2(m_szFilename, &m_database);
+	int const rc = sqlite3_open_v2(m_szFilename.GetCString(), &m_database);
 	return (rc == SQLITE_OK);
 }
 
@@ -52,11 +52,7 @@ sqlite3* SQLiteConnection::getDatabase()
 	return m_database ? m_database : NULL;
 }
 
-bool SQLiteConnection::exec(const char* sql)
+bool SQLiteConnection::exec(const CvString& szSQL)
 {
-	if (!isValid() || !sql)
-	{
-		return false;
-	}
-	return (sqlite3_exec(m_database, sql, NULL, NULL, NULL) == SQLITE_OK);
+	return (sqlite3_exec(m_database, szSQL.GetCString(), NULL, NULL, NULL) == SQLITE_OK);
 }

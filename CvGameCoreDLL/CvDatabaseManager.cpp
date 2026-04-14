@@ -17,16 +17,11 @@ sqlite3* CvDatabaseManager::getSQLite()
 
 bool CvDatabaseManager::exec(const CvString& szSQL)
 {
-	return exec(szSQL.GetCString());
-}
-
-bool CvDatabaseManager::exec(const char* sql)
-{
-	if (!isValid() || !sql)
+	if (!isValid() || !szSQL.GetCString())
 	{
 		return false;
 	}
-	return m_sqlite->exec(sql);
+	return m_sqlite->exec(szSQL);
 }
 
 bool CvDatabaseManager::isValid() const
@@ -42,9 +37,10 @@ bool CvDatabaseManager::init()
 		if (!szDatabasePath.empty()) // XANA (note): If we successfully found the user's valid, writable My Documents folder (path not empty)
 		{
 			szDatabasePath += "\\Beyond the Sword\\"; // XANA (note): We'll put the game database inside the main BtS folder to keep it nominally safe from modification or deletion
+			szDatabasePath += "CvGameDatabase.sqlite"; // XANA (note): If the file somehow gets removed, that's fine for Civ4, it won't affect actual gameplay much since the game doesn't depend on SQL to function
 		}
 		else return false; // XANA (note): Can't save a database file in an invalid, empty location, so we won't initialize at all
-		m_sqlite = new SQLiteConnection(szDatabasePath + "CvGameDatabase.sqlite"); // XANA (note): If the file somehow gets removed, that's fine for Civ4, it won't affect actual gameplay much since the game doesn't depend on SQL to function
+		m_sqlite = new SQLiteConnection(szDatabasePath); 
 	}
 	return isValid();
 }

@@ -20,7 +20,6 @@ public:
 	bool init();
 
 private:
-	bool exec(const char* sql);
 	sqlite3* getSQLite();
 	SQLiteConnection* m_sqlite;
 };
