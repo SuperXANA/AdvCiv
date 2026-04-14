@@ -80,17 +80,17 @@ bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on Map
 	{
 		return false;
 	}
-	int iColsMapped = 0;
+	bool bColsMapped = false;
 	for (int i = 0; i < iCount; ++i)
 	{
 		const char* szColumn = getColumnName(i);
 		if (szColumn)
 		{
 			m_columnsMap[szColumn] = i;
-			iColsMapped++;
+			bColsMapped = true;
 		}
 	}
-	return (iColsMapped > 0);
+	return bColsMapped;
 }
 
 int SQLiteStatement::getColumnIndex(const char* szName) const
@@ -132,7 +132,14 @@ bool SQLiteStatement::finalize()
 
 bool SQLiteStatement::clearBindings()
 {
-	return isValid() ? sqlite3_clear_bindings(m_statement) == SQLITE_OK : false;
+	bool bCleared = false;
+	if (isValid())
+	{
+		bCleared = (sqlite3_clear_bindings(m_statement) == SQLITE_OK);
+		m_columnsMap.clear();
+		m_bMappedColumns = false;
+	}
+	return bCleared;
 }
 
 bool SQLiteStatement::bind(const char* szParam, int iValue)
@@ -209,37 +216,37 @@ SQLiteResults& SQLiteStatement::getResults()
 
 int SQLiteStatement::getColumnType(int iColumn) const
 {
-	return hasRow() ? sqlite3_column_type(m_statement, iColumn) : SQLITE_NULL;
+	return hasRow(iColumn) ? sqlite3_column_type(m_statement, iColumn) : SQLITE_NULL;
 }
 
 int SQLiteStatement::getInt(int iColumn) const
 {
-	return hasRow() ? sqlite3_column_int(m_statement, iColumn) : 0;
+	return hasRow(iColumn) ? sqlite3_column_int(m_statement, iColumn) : 0;
 }
 
 float SQLiteStatement::getFloat(int iColumn) const
 {
-	return hasRow() ? static_cast<float>(sqlite3_column_double(m_statement, iColumn)) : 0.0f;
+	return hasRow(iColumn) ? static_cast<float>(sqlite3_column_double(m_statement, iColumn)) : 0.0f;
 }
 
 double SQLiteStatement::getDouble(int iColumn) const
 {
-	return hasRow() ? sqlite3_column_double(m_statement, iColumn) : 0;
+	return hasRow(iColumn) ? sqlite3_column_double(m_statement, iColumn) : 0;
 }
 
 bool SQLiteStatement::getBool(int iColumn) const
 {
-	return hasRow() ? sqlite3_column_int(m_statement, iColumn) != 0 : false;
+	return hasRow(iColumn) ? sqlite3_column_int(m_statement, iColumn) != 0 : false;
 }
 
 CvString SQLiteStatement::getText(int iColumn) const
 {
-	return CvString(hasRow() ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement, iColumn)) : NULL);
+	return CvString(hasRow(iColumn) ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement, iColumn)) : NULL);
 }
 
 bool SQLiteStatement::isNull(int iColumn) const
 {
-	return hasRow() ? sqlite3_column_type(m_statement, iColumn) == SQLITE_NULL : false;
+	return hasRow(iColumn) ? sqlite3_column_type(m_statement, iColumn) == SQLITE_NULL : false;
 }
 
 int SQLiteStatement::getColumnCount() const

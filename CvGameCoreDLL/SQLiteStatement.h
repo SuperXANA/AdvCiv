@@ -19,7 +19,7 @@ public:
 	
 	bool isValid(bool bCheckDatabaseConnection = true) const;
 	bool isPrepared() const { return isValid() && m_bPrepared; }
-	bool hasRow() const { return isPrepared() && m_bHasRow; }
+	bool hasRow(int iColumn) const { return isPrepared() && m_bHasRow && (iColumn >= 0); }
 	
 	bool prepare(const CvString& szSQL);
 	bool prepare(const std::string& sql);
