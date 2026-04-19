@@ -6015,6 +6015,16 @@ void CvGame::castVote(PlayerTypes eVoter, int iVote, PlayerVoteTypes ePlayerVote
 			}
 		}
 	}
+	// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+	if (kVote.isAssignCity())
+	{
+		GET_PLAYER(eVoter).AI_updateVoteCount(pTriggeredData->kVoteOption.eVote, ePlayerVote, pTriggeredData->kVoteOption.ePlayer);
+	}
+	else
+	{
+		GET_PLAYER(eVoter).AI_updateVoteCount(pTriggeredData->kVoteOption.eVote, ePlayerVote);
+	}
+	// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 	setPlayerVote(eVoter, iVote, ePlayerVote);
 }
 
