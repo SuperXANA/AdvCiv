@@ -759,6 +759,7 @@ public:
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 	void AI_updateVoteCount(VoteTypes eVote, PlayerVoteTypes eVotingDecision, PlayerTypes eCityOwner = NO_PLAYER)) const;
 	PlayerVoteTypes AI_getPreferredVoteChoice(VoteTypes eVote) const;
+	PlayerTypes AI_getMostVotedPlayer() const;
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
 	// for serialization
@@ -844,6 +845,12 @@ protected:
 
 	bool m_bWasFinancialTrouble;
 	int m_iTurnLastProductionDirty;
+
+	// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+	int* m_aiVoteAlignment;
+	int* m_aiElectionTeamPreference;
+	int* m_aiCityAssignmentPlayerPreference;
+	// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
 	void AI_doCounter();
 	void AI_doMilitary();

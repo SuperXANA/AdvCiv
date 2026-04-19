@@ -77,14 +77,6 @@ CvPlayerAI::CvPlayerAI(/* advc.003u: */ PlayerTypes eID) : CvPlayer(eID)
 	{
 		m_aaiMemoryCount[i] = new int[NUM_MEMORY_TYPES];
 	}
-	
-// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
-	m_aaiVoteCounter = new int*[MAX_PLAYERS];
-	for (int i = 0; i < MAX_PLAYERS; i++)
-	{
-		m_aaiVoteCounter[i] = new int[GC.getNumVoteInfos()];
-	}
-// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
 	m_aiAverageYieldMultiplier = new int[NUM_YIELD_TYPES];
 	m_aiAverageCommerceMultiplier = new int[NUM_COMMERCE_TYPES];
@@ -97,6 +89,11 @@ CvPlayerAI::CvPlayerAI(/* advc.003u: */ PlayerTypes eID) : CvPlayer(eID)
 	m_aiUnitCombatWeights = NULL;
 	//m_aiCloseBordersAttitude = new int[MAX_PLAYERS];
 	m_aiCloseBordersAttitude.resize(MAX_PLAYERS); // K-Mod
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+	m_aiVoteAlignment = NULL;
+	m_aiElectionTeamPreference = NULL;
+	m_aiCityAssignmentPlayerPreference = NULL;
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
 	m_aiAttitude.resize(MAX_PLAYERS); // K-Mod
 
@@ -130,14 +127,6 @@ CvPlayerAI::~CvPlayerAI()
 		SAFE_DELETE_ARRAY(m_aaiMemoryCount[i]);
 	}
 	SAFE_DELETE_ARRAY(m_aaiMemoryCount);
-
-// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
-	for (int i = 0; i < MAX_PLAYERS; i++)
-	{
-		SAFE_DELETE_ARRAY(m_aaiVoteCounter[i]);
-	}
-	SAFE_DELETE_ARRAY(m_aaiVoteCounter);
-// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
 	SAFE_DELETE_ARRAY(m_aiAverageYieldMultiplier);
 	SAFE_DELETE_ARRAY(m_aiAverageCommerceMultiplier);
@@ -187,6 +176,11 @@ void CvPlayerAI::AI_uninit()
 	SAFE_DELETE_ARRAY(m_aiBonusValueTrade); // advc.036
 	SAFE_DELETE_ARRAY(m_aiUnitClassWeights);
 	SAFE_DELETE_ARRAY(m_aiUnitCombatWeights);
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+	SAFE_DELETE_ARRAY(m_aiVoteAlignment);
+	SAFE_DELETE_ARRAY(m_aiElectionTeamPreference);
+	SAFE_DELETE_ARRAY(m_aiCityAssignmentPlayerPreference);
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 }
 
 
@@ -239,12 +233,6 @@ void CvPlayerAI::AI_reset(bool bConstructor)
 		{
 			m_aaiMemoryCount[iI][iJ] = 0;
 		}
-// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
-		for (int iJ = 0; iJ < GC.getNumVoteInfos(); iJ++)
-		{
-			m_aaiVoteCounter[iI][iJ] = 0;
-		}
-// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
 		if (!bConstructor && getID() != NO_PLAYER)
 		{
@@ -274,12 +262,6 @@ void CvPlayerAI::AI_reset(bool bConstructor)
 			{
 				kLoopPlayer.m_aaiMemoryCount[getID()][iJ] = 0;
 			}
-// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
-			for (int iJ = 0; iJ < GC.getNumVoteInfos(); iJ++)
-			{
-				kLoopPlayer.m_aaiVoteCounter[getID()][iJ] = 0;
-			}
-// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 		}
 	}
 	m_arExpansionistHate.reset(); // advc.130w
@@ -338,6 +320,26 @@ void CvPlayerAI::AI_reset(bool bConstructor)
 		{
 			m_aiUnitCombatWeights[iI] = 0;
 		}
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+		FAssert(m_aiVoteAlignment == NULL);
+		m_aiVoteAlignment = new int[GC.getNumVoteInfos()];
+		for (iI = 0; iI < GC.getNumVoteInfos(); iI++)
+		{
+			m_aiVoteAlignment[iI] = 0;
+		}
+		FAssert(m_aiElectionTeamPreference == NULL);
+		m_aiElectionTeamPreference = new int[NUM_CIV_TEAM_TYPES];
+		for (iI = 0; iI < NUM_CIV_TEAM_TYPES; iI++)
+		{
+			m_aiElectionTeamPreference[iI] = 0;
+		}
+		FAssert(m_aiCityAssignmentPlayerPreference == NULL);
+		m_aiCityAssignmentPlayerPreference = new int[NUM_CIV_PLAYER_TYPES];
+		for (iI = 0; iI < NUM_CIV_PLAYER_TYPES; iI++)
+		{
+			m_aiCityAssignmentPlayerPreference[iI] = 0;
+		}
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 	}
 	/*for (iI = 0; iI < MAX_PLAYERS; iI++) {
 		m_aiCloseBordersAttitude[iI] = 0;
@@ -8535,33 +8537,37 @@ int CvPlayerAI::AI_getMemoryAttitude(PlayerTypes ePlayer, MemoryTypes eMemory) c
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 int CvPlayerAI::AI_getVoteAttitude(PlayerTypes ePlayer, VoteTypes eVote) const
 {
-	int iAttitude = 0;
-	CvPlayerAI const& kPlayer = GET_PLAYER(ePlayer);
+	CvLeaderHeadInfo const& kUs = GC.getInfo(getPersonalityType());
+	CvPlayerAI const& kThem = GET_PLAYER(ePlayer);
     if (GC.getGame().isTeamVote(eVote))
     {
-        PlayerVoteTypes eTeamMostVotedFor = kPlayer.AI_getPreferredVoteChoice(eVote);
-    	if (eTeamMostVotedFor != PLAYER_VOTE_ABSTAIN)
+    	if (kThem.AI_getPreferredVoteChoice(eVote) > NO_PLAYER_VOTE)
 		{
-			iAttitude += ((GET_TEAM(getTeam()).AI_getAttitude((TeamTypes)eTeamMostVotedFor) <= ATTITUDE_ANNOYED) ? -3 : 2);
+			TeamTypes const eTeamMostVotedFor = (TeamTypes)kThem.AI_getPreferredVoteChoice(eVote);
+			return ((eTeamMostVotedFor != getTeam() && GET_TEAM(getTeam()).AI_getAttitude(eTeamMostVotedFor) <= ATTITUDE_ANNOYED) ? kUs.getHatedVoteDecisionAttitude(eVote) : kUs.getFavoriteVoteDecisionAttitude(eVote));
 		}
 	}
 	else if (GC.getInfo(eVote).isAssignCity())
 	{
-
+		PlayerTypes const ePlayerMostVotedFor = kThem.AI_getMostVotedPlayer();
+		if (ePlayerMostVotedFor != NO_PLAYER)
+		{
+			return ((ePlayerMostVotedFor == getID() || AI_getAttitude(ePlayerMostVotedFor) >= ATTITUDE_PLEASED) ? kUs.getHatedVoteDecisionAttitude(eVote) : kUs.getFavoriteVoteDecisionAttitude(eVote));
+		}
 	}
     else
     {
-        PlayerVoteTypes const eDesiredVote = GC.getInfo(getPersonalityType()).getVoteDecisionPreference(eVote);
-        if (eDesiredVote != NO_PLAYER_VOTE && eDesiredVote != PLAYER_VOTE_ABSTAIN)
+        PlayerVoteTypes const eOurFavoriteVoteDecision = kUs.getFavoriteVoteDecision(eVote);
+        if (eOurFavoriteVoteDecision != NO_PLAYER_VOTE && eOurFavoriteVoteDecision != PLAYER_VOTE_ABSTAIN)
         {
-            PlayerVoteTypes const eOverallDecisionFavored = kPlayer.AI_getPreferredVoteChoice(eVote);
-			if (eOverallDecisionFavored != PLAYER_VOTE_ABSTAIN)
+            PlayerVoteTypes const eTheirFavoriteVotingDecision = kThem.AI_getPreferredVoteChoice(eVote);
+			if (eTheirFavoriteVotingDecision != NO_PLAYER_VOTE && eTheirFavoriteVotingDecision != PLAYER_VOTE_ABSTAIN)
 			{
-				iAttitude += (eOverallDecisionFavored == eDesiredVote ? 2 : -3);
+				return (eTheirFavoriteVotingDecision != eOurFavoriteVoteDecision ? kUs.getHatedVoteDecisionAttitude(eVote) : kUs.getFavoriteVoteDecisionAttitude(eVote));
     		}
 		}
     }
-	return iAttitude;
+	return 0;
 }
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
@@ -23936,13 +23942,89 @@ void CvPlayerAI::AI_doSplit(/* advc.104r: */ bool bForce)
 void CvPlayerAI::AI_updateVoteCount(VoteTypes eVote, PlayerVoteTypes eVotingDecision, PlayerTypes eCityOwner = NO_PLAYER) const
 {
 	if (eVote == NO_VOTE) return;
-	if (GC.getInfo(eVote).isAssignCity() && eCityOwner != NO_PLAYER)
-	{
-		// need a per-player integer tracker for betraying leaders
+	if (GC.getInfo(eVote).isAssignCity() && eCityOwner != NO_PLAYER && eCityOwner < MAX_CIV_PLAYERS)
+	{	
+		int iDelta = 0;
+		switch (eVotingDecision)
+		{
+			case PLAYER_VOTE_YES:
+			iDelta = 1;
+			break;
+			
+			case PLAYER_VOTE_NO:
+			iDelta = -1;
+			break;
+			
+			case PLAYER_VOTE_ABSTAIN || PLAYER_VOTE_NEVER:
+			if (m_aiVoteAlignment[eVote] > 0)
+			{
+				iDelta = -1;
+			}
+			else if (m_aiVoteAlignment[eVote] < 0)
+			{
+				iDelta = 1;
+			}
+			break;
+			
+			default:
+			break;
+		}
+		if (iDelta == 0) return;
+		m_aiVoteAlignment[eVote] = range((m_aiVoteAlignment[eVote] + iDelta), -100, 100);
+		
+		iDelta = 0;
+		switch (eVotingDecision)
+		{
+			case PLAYER_VOTE_YES:
+			iDelta = 1;
+			break;
+			
+			case PLAYER_VOTE_NO:
+			iDelta = -1;
+			break;
+			
+			case PLAYER_VOTE_ABSTAIN || PLAYER_VOTE_NEVER:
+			if (m_aiCityAssignmentPlayerPreference[(CivPlayerTypes)eCityOwner] > 0)
+			{
+				iDelta = -1;
+			}
+			else if (m_aiCityAssignmentPlayerPreference[(CivPlayerTypes)eCityOwner] < 0)
+			{
+				iDelta = 1;
+			}
+			break;
+			
+			default:
+			break;
+		}
+		if (iDelta == 0) return;
+		m_aiCityAssignmentPlayerPreference[(CivPlayerTypes)eCityOwner] = range((m_aiCityAssignmentPlayerPreference[(CivPlayerTypes)eCityOwner] + iDelta), -100, 100);
 	}
-	else if (GC.getGame().isTeamVote(eVote) && (eVotingDecision > NO_PLAYER_VOTE && (TeamTypes)eVotingDecision < MAX_TEAMS))
+	else if (GC.getGame().isTeamVote(eVote) && (eVotingDecision == PLAYER_VOTE_ABSTAIN || eVotingDecision == PLAYER_VOTE_NEVER || (eVotingDecision > NO_PLAYER_VOTE && eVotingDecision < MAX_CIV_TEAMS)))
 	{
-		// Need a per-team integer tracker for confidence in leaders
+		int iDelta = 0;
+		switch (eVotingDecision)
+		{
+			case PLAYER_VOTE_ABSTAIN || PLAYER_VOTE_NEVER:
+			if (m_aiVoteAlignment[eVote] > 0)
+			{
+				iDelta = -1;
+			}
+			else if (m_aiVoteAlignment[eVote] < 0)
+			{
+				iDelta = 1;
+			}
+			break;
+			
+			default:
+			iDelta = 1;
+			break;
+		}
+		m_aiVoteAlignment[eVote] = range((m_aiVoteAlignment[eVote] + iDelta), -100, 100);
+		if (eVotingDecision > NO_PLAYER_VOTE)
+		{
+			m_aiElectionTeamPreference[(CivTeamTypes)eVotingDecision] = range((m_aiElectionTeamPreference[(CivTeamTypes)eVotingDecision] + iDelta), -100, 100);
+		}
 	}
 	else
 	{
@@ -23958,25 +24040,48 @@ void CvPlayerAI::AI_updateVoteCount(VoteTypes eVote, PlayerVoteTypes eVotingDeci
 			break;
 			
 			case PLAYER_VOTE_ABSTAIN || PLAYER_VOTE_NEVER:
-			iDelta = (m_aiVoteAlignment[eVote] > 0) ? -1 : 1;
+			if (m_aiVoteAlignment[eVote] > 0)
+			{
+				iDelta = -1;
+			}
+			else if (m_aiVoteAlignment[eVote] < 0)
+			{
+				iDelta = 1;
+			}
 			break;
 			
 			default:
 			break;
 		}
+		if (iDelta == 0) return;
 		m_aiVoteAlignment[eVote] = range((m_aiVoteAlignment[eVote] + iDelta), -100, 100);
 	}
 }
+
+
+
 PlayerVoteTypes CvPlayerAI::AI_getPreferredVoteChoice(VoteTypes eVote) const
 {
     if (GC.getGame().isTeamVote(eVote))
     {
-    	if ( /* need a confidence tracker for teams */)
+		CivTeamTypes eTheyMostVotedFor = NO_CIV_TEAM;
+		int iCount[NUM_CIV_TEAM_TYPES] = {0};
+		int iHighestCount = 0;
+		FOR_EACH_ENUM(CivTeam)
 		{
-			return (PlayerVoteTypes)m_aeElectionVote[eVote];
+			iCount = m_aiElectionTeamPreference[eLoopCivTeam];
+			if (iCount[eLoopCivTeam] > iHighestCount)
+			{
+				iHighestCount = iCount[eLoopCivTeam];
+				eTheyMostVotedFor = eLoopCivTeam;
+			}
 		}
-    	return PLAYER_VOTE_ABSTAIN;
-    }
+		if (eTheyMostVotedFor != NO_CIV_TEAM)
+		{
+			return (PlayerVoteTypes)eTheyMostVotedFor;
+		}
+		else return NO_PLAYER_VOTE;
+	}
     else
     {
         int const iDecisionAlignment = m_aiVoteAlignment[eVote];
@@ -23993,6 +24098,25 @@ PlayerVoteTypes CvPlayerAI::AI_getPreferredVoteChoice(VoteTypes eVote) const
 			return PLAYER_VOTE_ABSTAIN;
 		}
     }
+}
+
+
+
+PlayerTypes CvPlayerAI::AI_getMostVotedPlayer() const
+{
+	int iCount[NUM_CIV_PLAYER_TYPES] = {0};
+	int iHighestCount = 0;
+	CivPlayerTypes eTheyMostVotedFor = NO_CIV_PLAYER;
+	FOR_EACH_ENUM(CivPlayer)
+	{
+		iCount = m_aiCityAssignmentPlayerPreference[eLoopCivPlayer];
+		if (iCount[eLoopCivPlayer] > iHighestCount)
+		{
+			iHighestCount = iCount[eLoopCivPlayer];
+			eTheyMostVotedFor = eLoopCivPlayer;
+		}
+	}
+	return (PlayerTypes)eTheyMostVotedFor;
 }
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
