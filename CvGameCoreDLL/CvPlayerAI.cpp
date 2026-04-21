@@ -8549,10 +8549,10 @@ int CvPlayerAI::AI_getVoteAttitude(PlayerTypes ePlayer, VoteTypes eVote) const
 	}
 	else if (GC.getInfo(eVote).isAssignCity())
 	{
-		PlayerTypes const ePlayerMostVotedFor = kThem.AI_getMostVotedPlayer();
-		if (ePlayerMostVotedFor != NO_PLAYER)
+		CivPlayerTypes const eCivPlayerMostVotedFor = kThem.AI_getMostVotedCivPlayer();
+		if (eCivPlayerMostVotedFor != NO_CIV_PLAYER)
 		{
-			return ((ePlayerMostVotedFor == getID() || AI_getAttitude(ePlayerMostVotedFor) >= ATTITUDE_PLEASED) ? kUs.getHatedVoteDecisionAttitude(eVote) : kUs.getFavoriteVoteDecisionAttitude(eVote));
+			return ((eCivPlayerMostVotedFor == (CivPlayerTypes)getID() || AI_getAttitude((PlayerTypes)eCivPlayerMostVotedFor) >= ATTITUDE_PLEASED) ? kUs.getHatedVoteDecisionAttitude(eVote) : kUs.getFavoriteVoteDecisionAttitude(eVote));
 		}
 	}
     else
@@ -23939,7 +23939,7 @@ void CvPlayerAI::AI_doSplit(/* advc.104r: */ bool bForce)
 }
 
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
-void CvPlayerAI::AI_updateVoteCount(VoteTypes eVote, PlayerVoteTypes eVotingDecision, PlayerTypes eCityOwner = NO_PLAYER) const
+void CvPlayerAI::AI_updateVoteCount(VoteTypes eVote, PlayerVoteTypes eVotingDecision, PlayerTypes eCityOwner) const
 {
 	if (eVote == NO_VOTE) return;
 	if (GC.getInfo(eVote).isAssignCity() && eCityOwner != NO_PLAYER && eCityOwner < MAX_CIV_PLAYERS)
@@ -24102,21 +24102,21 @@ PlayerVoteTypes CvPlayerAI::AI_getPreferredVoteChoice(VoteTypes eVote) const
 
 
 
-PlayerTypes CvPlayerAI::AI_getMostVotedPlayer() const
+CivPlayerTypes CvPlayerAI::AI_getMostVotedCivPlayer() const
 {
 	int iCount[NUM_CIV_PLAYER_TYPES] = {0};
 	int iHighestCount = 0;
 	CivPlayerTypes eTheyMostVotedFor = NO_CIV_PLAYER;
 	FOR_EACH_ENUM(CivPlayer)
 	{
-		iCount = m_aiCityAssignmentPlayerPreference[eLoopCivPlayer];
+		iCount[eLoopCivPlayer] = m_aiCityAssignmentPlayerPreference[eLoopCivPlayer];
 		if (iCount[eLoopCivPlayer] > iHighestCount)
 		{
 			iHighestCount = iCount[eLoopCivPlayer];
 			eTheyMostVotedFor = eLoopCivPlayer;
 		}
 	}
-	return (PlayerTypes)eTheyMostVotedFor;
+	return eTheyMostVotedFor;
 }
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 

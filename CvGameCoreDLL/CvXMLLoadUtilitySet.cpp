@@ -802,6 +802,10 @@ bool CvXMLLoadUtility::LoadPostMenuGlobals()
 
 	UpdateProgressCB("Global Vote");
 	LoadGlobalClassInfo(GC.m_paVoteInfo, "CIV4VoteInfo", "GameInfo", "Civ4VoteInfo/VoteInfos/VoteInfo", false);
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+	FOR_EACH_ENUM(LeaderHead)
+		GC.getInfo(eLoopLeaderHead).readPass3();
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
 	UpdateProgressCB("Global Interface");
 	// advc.003j:
