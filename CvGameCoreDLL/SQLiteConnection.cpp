@@ -44,7 +44,7 @@ bool SQLiteConnection::close()
 
 bool SQLiteConnection::isValid() const
 {
-	return (m_database !+ NULL);
+	return (m_database != NULL);
 }
 
 sqlite3* SQLiteConnection::getDatabase()
