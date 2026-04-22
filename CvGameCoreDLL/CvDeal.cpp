@@ -748,6 +748,8 @@ bool CvDeal::startTrade(TradeData trade, PlayerTypes eFromPlayer, PlayerTypes eT
 			for (PlayerAIIter<MAJOR_CIV,OTHER_KNOWN_TO> itThird(kToPlayer.getTeam());
 				itThird.hasNext(); ++itThird)
 			{
+				if (itThird->getID() == eToPlayer) // XANA (note): Don't Update Received Tech Memory Attitude for Self - AI should not be concerned about deals involving itself, otherwise it could be unable to trade with allies.
+					continue;
 				itThird->AI_changeMemoryCount(eToPlayer, MEMORY_RECEIVED_TECH_FROM_ANY, 1);
 			}
 		}
