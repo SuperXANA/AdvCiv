@@ -634,6 +634,9 @@ bool CvXMLLoadUtility::LoadBasicInfos()
 	LoadGlobalClassInfo(GC.m_paUnitAIInfo, "CIV4UnitAIInfos", "BasicInfos", "Civ4UnitAIInfos/UnitAIInfos/UnitAIInfo", false);
 	LoadGlobalClassInfo(GC.m_paAttitudeInfo, "CIV4AttitudeInfos", "BasicInfos", "Civ4AttitudeInfos/AttitudeInfos/AttitudeInfo", false);
 	LoadGlobalClassInfo(GC.m_paMemoryInfo, "CIV4MemoryInfos", "BasicInfos", "Civ4MemoryInfos/MemoryInfos/MemoryInfo", false);
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	LoadGlobalClassInfo(GC.m_paAlignmentClassInfo, "CIV4AlignmentClassInfo", "BasicInfos", "Civ4AlignmentClassInfo/AlignmentClassInfos/AlignmentClassInfo", false);
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	DestroyFXml();
 	return true;
@@ -652,7 +655,6 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	LoadGlobalClassInfo(GC.m_paAlignmentAxisInfo, "CIV4AlignmentAxisInfo", "GameInfo", "Civ4AlignmentAxisInfo/AlignmentAxisInfos/AlignmentAxisInfo", false);
-	LoadGlobalClassInfo(GC.m_paAlignmentClassInfo, "CIV4AlignmentClassInfo", "GameInfo", "Civ4AlignmentClassInfo/AlignmentClassInfos/AlignmentClassInfo", false);
 	LoadGlobalClassInfo(GC.m_paAlignmentInfo, "CIV4AlignmentInfo", "GameInfo", "Civ4AlignmentInfo/AlignmentInfos/AlignmentInfo", false);
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	LoadGlobalClassInfo(GC.m_paGameSpeedInfo, "CIV4GameSpeedInfo", "GameInfo", "Civ4GameSpeedInfo/GameSpeedInfos/GameSpeedInfo", false);

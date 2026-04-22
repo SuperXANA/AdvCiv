@@ -590,7 +590,7 @@ struct AlignmentValue
 struct AlignmentScale
 {
 	AlignmentScale(int percentValue = 0, int scaleValue = 0)
-	:	iPercent(baseValue), iScale(scaleValue)
+	:	iPercent(percentValue), iScale(scaleValue)
 	{}
 	int iPercent;
 	int iScale;

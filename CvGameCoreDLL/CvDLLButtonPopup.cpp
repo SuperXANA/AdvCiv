@@ -2132,7 +2132,17 @@ bool CvDLLButtonPopup::launchMainMenuPopup(CvPopup* pPopup, CvPopupInfo &info)
 	m_kUI.popupSetStyle(pPopup, "Window_NoTitleBar_Style");
 
 	// 288,72
-	m_kUI.popupAddDDS(pPopup, "Resource/Temp/civ4_title_small.dds", 192, 48);
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	AlignmentFactionTypes const eFaction = GET_PLAYER(GC.getGame().getActivePlayer()).getAlignmentFaction();
+	if (eFaction != NO_ALIGNMENT_FACTION && /* TODO, need something like: CvArtinfoAlignmentFaction.getDDS() != NULL */)
+	{
+		m_kUI.popupAddDDS(pPopup, /* TODO, ex: CvArtinfoAlignmentFaction.getDDS() for filename string */, 192, 48);
+	}
+	else
+	{
+		m_kUI.popupAddDDS(pPopup, "Resource/Temp/civ4_title_small.dds", 192, 48);
+	}
+	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 	m_kUI.popupAddSeparator(pPopup);
 

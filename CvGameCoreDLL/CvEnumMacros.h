@@ -175,6 +175,9 @@
 #define CvDenialInfo CvInfoBase
 // This one just has an irregular, exported name.
 #define CvThroneRoomCameraInfo CvThroneRoomCamera
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+#define CvAlignmentClassInfo CvInfoBase
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 /*	Static enum types without any associated CvInfo data.
 	Not a complete list; add types here if their traits need to be accessed. */

@@ -1928,7 +1928,7 @@ public:
 		return base_t::get(static_cast<base_t::BoolElementTypes>(e));
 	}
 	CvAlignmentAxisInfo() {}
-	bool read(CvXMLLoadUtility* pXML) { base_t::read(pXML) ? return true : return false; }
+	bool read(CvXMLLoadUtility* pXML) { return base_t::read(pXML) ? true : false; }
 };
 
 class CvAlignmentInfo : public CvXMLInfo
@@ -1954,14 +1954,14 @@ public:
 	{
 		return base_t::get(static_cast<base_t::IntElementTypes>(e));
 	}
-	CvAlignmentInfo() {}
-	AlignmentClassTypes getCategory() const { return m_eAlignmentCategory; }
-	AlignmentAxisTypes getAxis() const { return m_eAlignmentAxis; }
+	CvAlignmentInfo() : m_eAlignmentClassType(NO_ALIGNMENTCLASS), m_eAlignmentAxisType(NO_ALIGNMENT_AXIS) {}
+	AlignmentClassTypes getAlignmentClass() const { return m_eAlignmentClassType; }
+	AlignmentAxisTypes getAlignmentAxis() const { return m_eAlignmentAxisType; }
 	bool read(CvXMLLoadUtility* pXML);
 };
 protected:
-	AlignmentClassTypes m_eAlignmentCategory;
-	AlignmentAxisTypes m_eAlignmentAxis;
+	AlignmentClassTypes m_eAlignmentClassType;
+	AlignmentAxisTypes m_eAlignmentAxisType;
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 #endif

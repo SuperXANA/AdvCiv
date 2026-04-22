@@ -19783,7 +19783,7 @@ AlignmentTypes CvPlayer::getAlignment(AlignmentAxisTypes eAxis) const
     {
         CvAlignmentInfo const& kLoopAlignment = GC.getInfo(eLoopAlignment);
 		
-        if (kLoopAlignment.getAxis() != eAxis) continue;
+        if (kLoopAlignment.getAlignmentAxis() != eAxis) continue;
         if (getStateReligion() != NO_RELIGION && 
 			GC.getInfo(getStateReligion()).isDisallowedAlignment(eLoopAlignment)) continue;
 		
@@ -20485,9 +20485,9 @@ AlignmentFactionTypes CvPlayer::getBestAlignmentFaction() const;
 
 scaled CvPlayer::getAlignmentBalancePercent(AlignmentAxisTypes eAxis) const
 {
-	std::pair<int,int> kAlignmentValues = m_aAlignmentAxisScores[eAxis].get():
-	int const iAxisHigh = kAlignmentValues.first;
-	int const iAxisLow = kAlignmentValues.second;
+	std::pair<int,int> iiAlignmentValues = m_aAlignmentAxisScores[eAxis].get();
+	int const iAxisHigh = iiAlignmentValues.first;
+	int const iAxisLow = iiAlignmentValues.second;
 	/* XANA (note): -How to Use This-
 		This function returns a scaled percentage between -100 and 100 representing how far along a Player is on the requested Axis (e.g. Morality, Order, etc.)
 		100 means "Incorruptible Good" or a similarly positive moniker on the Axis
@@ -20546,10 +20546,10 @@ bool CvAlignmentInfo::read(CvXMLLoadUtility* pXML)
 	if (!base_t::read(pXML))
 		return false;
 
-	pXML->SetInfoIDFromChildXmlVal(m_eAlignmentCategory,
-			"Category");
-	pXML->SetInfoIDFromChildXmlVal(m_eAlignmentAxis,
-			"Axis");
+	pXML->SetInfoIDFromChildXmlVal(m_eAlignmentClassType,
+			"AlignmentClass");
+	pXML->SetInfoIDFromChildXmlVal(m_eAlignmentAxisType,
+			"AlignmentAxis");
 
 	return true;
 }
