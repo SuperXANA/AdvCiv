@@ -497,7 +497,12 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL)
+m_piDiploWarMusicScriptIds(NULL),
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+m_paeFavoriteVoteDecision(NULL),
+m_piFavoriteVoteDecisionAttitude(NULL),
+m_piHateVoteDecisionAttitude(NULL)
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 {}
 
 // <advc.xmldefault>
@@ -533,6 +538,11 @@ CvLeaderHeadInfo::CvLeaderHeadInfo(CvLeaderHeadInfo const& kOther)
 	allocCopy(m_piDiploPeaceMusicScriptIds, kOther.m_piDiploPeaceMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarIntroMusicScriptIds, kOther.m_piDiploWarIntroMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarMusicScriptIds, kOther.m_piDiploWarMusicScriptIds, GC.getNumEraInfos());
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+	allocCopy(m_paeFavoriteVoteDecision, kOther.m_paeFavoriteVoteDecision, GC.getNumVoteInfos());
+	allocCopy(m_piFavoriteVoteDecisionAttitude, kOther.m_piFavoriteVoteDecisionAttitude, GC.getNumVoteInfos());
+	allocCopy(m_piHateVoteDecisionAttitude, kOther.m_piHateVoteDecisionAttitude, GC.getNumVoteInfos());
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 } // </advc.xmldefault>
 
 CvLeaderHeadInfo::~CvLeaderHeadInfo()
@@ -550,6 +560,11 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploPeaceMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+	SAFE_DELETE_ARRAY(m_paeFavoriteVoteDecision);
+	SAFE_DELETE_ARRAY(m_piFavoriteVoteDecisionAttitude);
+	SAFE_DELETE_ARRAY(m_piHateVoteDecisionAttitude);
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const
@@ -646,6 +661,26 @@ int CvLeaderHeadInfo::getDiploWarMusicScriptIds(int i) const
 	FAssertBounds(0, GC.getNumEraInfos(), i);
 	return m_piDiploWarMusicScriptIds ? m_piDiploWarMusicScriptIds[i] : 0; // advc.003t
 }
+
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+PlayerVoteTypes CvLeaderHeadInfo::getFavoriteVoteDecision(int i) const
+{
+	FAssertBounds(0, GC.getNumVoteInfos(), i);
+	return m_paeFavoriteVoteDecision ? m_paeFavoriteVoteDecision[i] : NO_PLAYER_VOTE;
+}
+
+int CvLeaderHeadInfo::getFavoriteVoteDecisionAttitude(int i) const
+{
+	FAssertBounds(0, GC.getNumVoteInfos(), i);
+	return m_piFavoriteVoteDecisionAttitude ? m_piFavoriteVoteDecisionAttitude[i] : 0;
+}
+
+int CvLeaderHeadInfo::getHatedVoteDecisionAttitude(int i) const
+{
+	FAssertBounds(0, GC.getNumVoteInfos(), i);
+	return m_piHateVoteDecisionAttitude ? m_piHateVoteDecisionAttitude[i] : 0;
+}
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
 const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 {
@@ -1067,6 +1102,75 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	m_pXML = NULL; // advc.xmldefault
 	return true;
 }
+
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+bool CvLeaderHeadInfo::readPass3(CvXMLLoadUtility* pXML)
+{
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "VoteDecisionAttitudes"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			pXML->InitList(&m_paeFavoriteVoteDecision, GC.getNumVoteInfos(), NO_PLAYER_VOTE);
+			pXML->InitList(&m_piFavoriteVoteDecisionAttitude, GC.getNumVoteInfos());
+			pXML->InitList(&m_piHateVoteDecisionAttitude, GC.getNumVoteInfos());
+			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+			{
+				for (int i = 0; i < iNumSibs; i++)
+				{
+					if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+					{
+						CvString szTextVal;
+						if pXML->GetChildXmlVal(szTextVal)
+						{
+							PlayerVoteTypes eDecision;
+							if (szTextVal == "PLAYER_VOTE_YES")
+							{
+								eDecision = PLAYER_VOTE_YES;
+							}
+							else if (szTextVal == "PLAYER_VOTE_NO")
+							{
+								eDecision = PLAYER_VOTE_NO;
+							}
+							else if (szTextVal == "PLAYER_VOTE_ABSTAIN")
+							{
+								eDecision = PLAYER_VOTE_ABSTAIN;
+							}
+							else if (szTextVal == "PLAYER_VOTE_NEVER")
+							{
+								eDecision = PLAYER_VOTE_NEVER;
+							}
+							else
+							{
+								eDecision = NO_PLAYER_VOTE;
+							}
+							if (eDecision != NO_PLAYER_VOTE)
+							{
+								m_paeFavoriteVoteDecision[i] = eDecision;
+								
+								int iXMLVal;
+								
+								pXML->GetNextXmlVal(iXMLVal);
+								m_piFavoriteVoteDecisionAttitude[i] = iXMLVal;
+								
+								pXML->GetNextXmlVal(iXMLVal);
+								m_piHateVoteDecisionAttitude[i] = iXMLVal;
+							}
+							else FAssert(eDecision != NO_PLAYER_VOTE);
+						}
+						gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+					}
+					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+						break;
+				}
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+		}
+	}
+	return true;
+}
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 // <advc.xmldefault>
 CvXMLLoadUtility* CvLeaderHeadInfo::m_pXML = NULL;
 

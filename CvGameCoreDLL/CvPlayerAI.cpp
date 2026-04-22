@@ -8558,10 +8558,10 @@ int CvPlayerAI::AI_getVoteAttitude(PlayerTypes ePlayer, VoteTypes eVote) const
     else
     {
         PlayerVoteTypes const eOurFavoriteVoteDecision = kUs.getFavoriteVoteDecision(eVote);
-        if (eOurFavoriteVoteDecision != NO_PLAYER_VOTE && eOurFavoriteVoteDecision != PLAYER_VOTE_ABSTAIN)
+        if (eOurFavoriteVoteDecision != NO_PLAYER_VOTE)
         {
             PlayerVoteTypes const eTheirFavoriteVotingDecision = kThem.AI_getPreferredVoteChoice(eVote);
-			if (eTheirFavoriteVotingDecision != NO_PLAYER_VOTE && eTheirFavoriteVotingDecision != PLAYER_VOTE_ABSTAIN)
+			if (eTheirFavoriteVotingDecision != NO_PLAYER_VOTE)
 			{
 				return (eTheirFavoriteVotingDecision != eOurFavoriteVoteDecision ? kUs.getHatedVoteDecisionAttitude(eVote) : kUs.getFavoriteVoteDecisionAttitude(eVote));
     		}
