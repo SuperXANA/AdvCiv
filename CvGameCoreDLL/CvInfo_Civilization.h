@@ -227,6 +227,7 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getBadReputationAttitudeChange(int iStruct) const;
 	int getBadReputationAttitudeChangeDivisor(int iStruct) const;
 	int getBadReputationAttitudeChangeLimit(int iStruct) const;
+	ReputationEffect getReputationEffect(int i, int j) const;
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 
 	// (not exposed to Python)
@@ -349,6 +350,8 @@ protected:
 	int* m_piDiploWarMusicScriptIds;
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 	ReputationAttitudeChangeInfo* m_pReputationAttitudeChanges;
+    // Defines how Reputations are linked with Memories to form opinions
+    ReputationEffect* m_paeReputationEffectMemories;
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;
@@ -542,8 +545,6 @@ public:
 protected:
     // Stores the effect on all other ReputationTypes when 'this' reputation value is modified
     int* m_paiEffectOnModify;
-    // Defines how Reputations are linked with Memories to form opinions
-    int* m_paiLinkedMemory;
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 
 #endif

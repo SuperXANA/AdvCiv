@@ -18941,7 +18941,7 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
 int CvPlayerAI::AI_reputationAttitudeChange(PlayerTypes eOther, ReputationTypes eReputation, IdeologicMarker eMarker,
 	int iCounter, int iDivisor, int iLimit, int iGameTurn) const
 {
-	if (iDivisor == 0 || iLimit == 0 || iCounter < abs(iDivisor))
+	if (iDivisor == 0 || iLimit == 0 || iCounter < abs(iDivisor) || iGameTurn == 0)
 		return 0;
 	FAssert((iLimit < 0) == (iDivisor < 0));
 
@@ -19030,20 +19030,22 @@ void CvPlayerAI::AI_updateLinkedReputationValues(PlayerTypes eOtherPlayer, Memor
 	CvLeaderHeadInfo const& kOurPersonality = GC.getInfo(getPersonalityType());
 	FOR_EACH_ENUM(Reputation)
 	{
-		CvReputationInfo const& kLoopReputation = GC.getInfo(eLoopReputation);
+		ReputationEffect eOurOpinion = kOurPersonality.getReputationEffect(eDecisionMemory, eLoopReputation);
+		if eOurOpinion == NO_REPUTATION_EFFECT) continue;
+
 		bool bRefreshLinkedReputations = false;
-		
-		if (kLoopReputation.getLinkedMemory(eDecisionMemory) == REPUTATION_EFFECT_INCREASE)
+
+		if (eOurOpinion == REPUTATION_EFFECT_INCREASE)
 		{
 			setReputationScore(eOtherPlayer, eLoopReputation, iGameTurn, kOurPersonality.getGoodReputationScoreChange(eLoopReputation));
 			bRefreshLinkedReputations = true;
 		}
-		else if (kLoopReputation.getLinkedMemory(eDecisionMemory) == REPUTATION_EFFECT_DECREASE)
+		else if (eOurOpinion == REPUTATION_EFFECT_DECREASE)
 		{
 			setReputationScore(eOtherPlayer, eLoopReputation, iGameTurn, kOurPersonality.getBadReputationScoreChange(eLoopReputation));
 			bRefreshLinkedReputations = true;
 		}
-		
+
 		if (bRefreshLinkedReputations)
 		{
 			AI_updateSubReputationScores(eOtherPlayer, eLoopReputation, iGameTurn);

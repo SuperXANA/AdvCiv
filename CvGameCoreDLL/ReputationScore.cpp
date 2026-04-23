@@ -26,7 +26,7 @@ int ReputationScore::get(int iTurn) const
     int iSum = 0;
     for (int i = iLastValidIndex; i >= iHistoryTurnsConsidered; --i)
 		iSum += m_aiValues[i];
-	return (iSum ! 0) ? intdiv::round(iSum, std::max(1, iSampleSize)) : 0;
+	return (iSum != 0) ? intdiv::round(iSum, std::max(1, iSampleSize)) : 0;
 }
 
 

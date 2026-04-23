@@ -144,10 +144,7 @@
 	DO(CityTab, CITYTAB) \
 	DO(Calendar, CALENDAR) \
 	DO(UnitAI, UNITAI) \
-	DO(Denial, DENIAL) \
-	/* XANA: 11-15-2025 Reputation System for Advanced Civ */ \
-	DO(ReputationEffect, REPUTATION_EFFECT) \
-	/* XANA: 11-15-2025 Reputation System for Advanced Civ */
+	DO(Denial, DENIAL)
 
 #define DO_FOR_EACH_INFO_TYPE(DO) \
 	DO_FOR_EACH_DYN_INFO_TYPE(DO) \
@@ -189,7 +186,10 @@
 	DO(CitySize, CITYSIZE) \
 	DO(Contact, CONTACT) \
 	DO(DiplomacyPower, DIPLOMACYPOWER) \
-	DO(AIDemand, AI_DEMAND) /* advc.104m */
+	DO(AIDemand, AI_DEMAND) /* advc.104m */ \
+	/* XANA: 11-15-2025 Reputation System for Advanced Civ */ \
+	DO(ReputationEffect, REPUTATION_EFFECT) \
+	/* XANA: 11-15-2025 Reputation System for Advanced Civ */
 
 // For generating enum definitions and traits ...
 #define NUM_ENUM_TYPES(INFIX) NUM_##INFIX##_TYPES

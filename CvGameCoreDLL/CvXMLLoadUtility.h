@@ -193,6 +193,8 @@ public:
 // XANA: 11-15-2025 Reputation System for Advanced Civ	
 	void SetReputationAttitudeChanges(ReputationAttitudeChangeInfo **ppStructList, TCHAR const* szRootTagName,
 			int iInfoBaseLength);
+	void SetVariableListFlat2DTagPair(CvString** ppszList, const char* szRootTagName,
+			int iInfoBaseLengthX, int iInfoBaseLengthY, CvString szDefaultListVal = "")
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 	/*	advc (19 Feb 2021): Deleted four versions (a fifth - AudioScripts - deleted
 		much earlier) that took a param CvString* m_paszTagList.
