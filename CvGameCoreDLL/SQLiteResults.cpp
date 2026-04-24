@@ -32,7 +32,7 @@ double SQLiteResults::getDouble(const char* szColName) const
 
 scaled SQLiteResults::getScaled(const char* szColName) const
 {
-	return scaled(m_statement.getFloat(m_statement.getColumnIndex(szColName)));
+	return scaled(m_statement.getFloat(m_statement.getColumnIndex(szColName)), 100);
 }
 
 bool SQLiteResults::getBool(const char* szColName) const

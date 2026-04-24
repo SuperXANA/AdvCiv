@@ -6,8 +6,6 @@
 #ifndef CV_SQLITEQUERY_H
 #define CV_SQLITEQUERY_H
 
-class SQLiteStatement;
-
 class CvDatabaseQuery : private boost::noncopyable
 {
 public:

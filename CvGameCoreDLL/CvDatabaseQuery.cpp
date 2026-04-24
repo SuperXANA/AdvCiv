@@ -38,7 +38,7 @@ CvDatabaseQuery& CvDatabaseQuery::createTableIfNotExists(const char* tableName)
 
 CvDatabaseQuery& CvDatabaseQuery::column(const char* name, const char* type)
 {
-	if (m_hasCreateColumn)
+	if (m_hasCreateColumns)
 	{
 		m_sql += CvString::format(", ");
 	}
@@ -92,7 +92,7 @@ CvDatabaseQuery& CvDatabaseQuery::references(const char* table, const char* colu
 
 CvDatabaseQuery& CvDatabaseQuery::foreignKey(const char* columns, const char* refTable, const char* refColumns)
 {
-	if (m_hasCreateColumn)
+	if (m_hasCreateColumns)
 	{
 		m_sql += CvString::format(", ");
 	}

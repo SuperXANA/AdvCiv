@@ -2,6 +2,9 @@
 #include "SQLiteStatement.h"
 #include "CvDatabaseFwd.h"
 
+#undef GC // XANA (note): The const version of the GC instance isn't useful here, just like in the CvXMLLoadUtility class, we need to override it for this implementation to work properly
+#define GC CvGlobals::getInstance()
+
 SQLiteStatement::SQLiteStatement()
 	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(NULL), m_resultCursor(*this)
 	{}

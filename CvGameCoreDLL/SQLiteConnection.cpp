@@ -29,12 +29,7 @@ bool SQLiteConnection::close()
 {
 	if (isValid())
 	{
-		sqlite3_stmt* pStatement = NULL;
-		while ((pStatement = sqlite3_next_stmt(m_database, NULL)) != NULL)
-		{
-			sqlite3_finalize(pStatement);
-		}
-		if ((sqlite3_close_v2(m_database) == SQLITE_OK))
+		if ((sqlite3_close(m_database) == SQLITE_OK))
 		{
 			m_database = NULL;
 		}

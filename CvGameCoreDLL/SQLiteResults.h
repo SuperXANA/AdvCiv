@@ -6,8 +6,8 @@
 #define CV_SQLITERESULTS_H
 
 class SQLiteResults : private boost::noncopyable
-friend class SQLiteStatement; // XANA (note): Only the Statement class can create and manage these Result cursors, no other class should be creating or deleting this object
 {
+	friend class SQLiteStatement; // XANA (note): Only the Statement class can create and manage these Result cursors, no other class should be creating or deleting this object
 public:
 	
 	bool exec(); // XANA (note): Use for single queries, when loops aren't needed.
