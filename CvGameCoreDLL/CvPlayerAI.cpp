@@ -19031,7 +19031,7 @@ void CvPlayerAI::AI_updateLinkedReputationValues(PlayerTypes eOtherPlayer, Memor
 	FOR_EACH_ENUM(Reputation)
 	{
 		ReputationEffect eOurOpinion = kOurPersonality.getReputationEffect(eDecisionMemory, eLoopReputation);
-		if eOurOpinion == NO_REPUTATION_EFFECT) continue;
+		if (eOurOpinion == NO_REPUTATION_EFFECT) continue;
 
 		bool bRefreshLinkedReputations = false;
 
