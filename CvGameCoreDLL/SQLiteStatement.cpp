@@ -6,18 +6,18 @@
 #define GC CvGlobals::getInstance()
 
 SQLiteStatement::SQLiteStatement()
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(NULL), m_resultCursor(*this)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(NULL)
 	{}
 
 
 SQLiteStatement::SQLiteStatement(const CvString& szSQL)
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(szSQL), m_resultCursor(*this)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(szSQL)
 	{
 		prepare(m_szSQL);
 	}
 	
 SQLiteStatement::SQLiteStatement(const std::string& sql)
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(sql), m_resultCursor(*this)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(sql)
 	{
 		prepare(m_szSQL);
 	}
@@ -65,6 +65,56 @@ bool SQLiteStatement::prepare(const CvString& szSQL)
 bool SQLiteStatement::prepare(const std::string& sql)
 {
 	return prepare(CvString(sql));
+}
+
+bool SQLiteStatement::exec()
+{
+	return step(false);
+}
+
+bool SQLiteStatement::next()
+{
+	return step();
+}
+
+int SQLiteStatement::getInt(const char* szColName) const
+{
+	return getInt(getColumnIndex(szColName));
+}
+
+float SQLiteStatement::getFloat(const char* szColName) const
+{
+	return getFloat(getColumnIndex(szColName));
+}
+
+double SQLiteStatement::getDouble(const char* szColName) const
+{
+	return getDouble(getColumnIndex(szColName));
+}
+
+scaled SQLiteStatement::getScaled(const char* szColName) const
+{
+	return scaled(getFloat(getColumnIndex(szColName)), 100);
+}
+
+bool SQLiteStatement::getBool(const char* szColName) const
+{
+	return getBool(getColumnIndex(szColName));
+}
+
+CvString SQLiteStatement::getText(const char* szColName) const
+{
+	return getText(getColumnIndex(szColName));
+}
+
+bool SQLiteStatement::isNull(const char* szColName) const
+{
+	return isNull(getColumnIndex(szColName));
+}
+
+int SQLiteStatement::getColumnType(const char* szColName) const
+{
+	return getColumnType(getColumnIndex(szColName));
 }
 
 bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on MapChildren from CvXMLloadUtility
@@ -210,11 +260,6 @@ bool SQLiteStatement::step(bool bLooping)
 		reset();
 	}
 	return m_bHasRow;
-}
-
-SQLiteResults& SQLiteStatement::getResults()
-{
-	return m_resultCursor;
 }
 
 int SQLiteStatement::getColumnType(int iColumn) const

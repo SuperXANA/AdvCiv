@@ -469,11 +469,6 @@ SQLiteStatement& CvDatabaseQuery::getStatement()
     return m_queryStatement;
 }
 
-SQLiteResults& CvDatabaseQuery::getResults()
-{
-    return getStatement().getResults();
-}
-
 void CvDatabaseQuery::applyTo(SQLiteStatement& stmt)
 {
 	stmt.setPrepared(false);

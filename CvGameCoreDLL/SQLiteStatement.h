@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
-#include "SQLiteResults.h"
 
 #ifndef CV_SQLITESTATEMENT_H
 #define CV_SQLITESTATEMENT_H
@@ -23,6 +22,19 @@ public:
 	
 	bool prepare(const CvString& szSQL);
 	bool prepare(const std::string& sql);
+	
+	bool exec(); // XANA (note): Use for single queries, when loops aren't needed.
+	bool next(); // XANA (note): Use for looping queries, when a while loop is needed.
+	
+	int getInt(const char* szColName) const;
+	float getFloat(const char* szColName) const;
+	double getDouble(const char* szColName) const;
+	scaled getScaled(const char* szColName) const;
+	bool getBool(const char* szColName) const;
+	CvString getText(const char* szColName) const;
+	bool isNull(const char* szColName) const;
+	int getColumnType(const char* szColName) const;
+	
 	bool mapColumns();
 	int getColumnIndex(const char* szName) const;
 
@@ -40,9 +52,7 @@ public:
 	bool bindNull(const char* szParam);
 	bool hasBinding(const char* szParam) const;
 
-	bool step(bool bLooping = true);
 	void setPrepared(bool b) { m_bPrepared = b; }
-	SQLiteResults& getResults();
 	
 	int getColumnType(int iColumn) const;
 	int getInt(int iColumn) const;
@@ -60,9 +70,9 @@ private:
 	ColumnsMap m_columnsMap;
 	bool m_bMappedColumns;
 	bool m_bFinalized;
-	bool m_bPrepared;
-	SQLiteResults m_resultCursor;
+	bool m_bPrepared;=
 	
+	bool step(bool bLooping = true);
 	int getColumnCount() const;
 	bool bind(int index, int iValue);
 	bool bind(int index, float fValue);
