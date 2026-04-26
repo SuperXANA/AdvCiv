@@ -13,15 +13,15 @@ SQLiteConnection::~SQLiteConnection()
 
 bool SQLiteConnection::open(bool bReopen)
 {
-	if (isValid() && !bReopen)
+	if (!bReopen && isValid())
 	{
 		return true;
 	}
-	else if (isValid() && bReopen)
+	else if (bReopen && isValid())
 	{
 		close();
 	}
-	int const rc = sqlite3_open_v2(m_szFilename.GetCString(), &m_database);
+	int const rc = sqlite3_open_v2(m_szFilename.GetCString(), &m_database, (SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE), NULL);
 	return (rc == SQLITE_OK);
 }
 
