@@ -662,6 +662,9 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paSpecialistInfo, "CIV4SpecialistInfos", "GameInfo", "Civ4SpecialistInfos/SpecialistInfos/SpecialistInfo", false);
 	LoadGlobalClassInfo(GC.m_paVoteSourceInfo, "CIV4VoteSourceInfos", "GameInfo", "Civ4VoteSourceInfos/VoteSourceInfos/VoteSourceInfo", false);
 	LoadGlobalClassInfo(GC.m_paTechInfo, "CIV4TechInfos", "Technologies", "Civ4TechInfos/TechInfos/TechInfo", true, &CvDLLUtilityIFaceBase::createTechInfoCacheObject);
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	LoadGlobalClassInfo(GC.m_paMagicTechInfo, "CIV4MagicTechInfos", "Technologies", "Civ4MagicTechInfos/MagicTechInfos/MagicTechInfo", true);
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	LoadGlobalClassInfo(GC.m_paFeatureInfo, "Civ4FeatureInfos", "Terrain", "Civ4FeatureInfos/FeatureInfos/FeatureInfo", false);
 	LoadGlobalClassInfo(GC.m_paReligionInfo, "CIV4ReligionInfo", "GameInfo", "Civ4ReligionInfo/ReligionInfos/ReligionInfo", false);
 	LoadGlobalClassInfo(GC.m_paAnimationCategoryInfo, "CIV4AnimationInfos", "Units", "Civ4AnimationInfos/AnimationCategories/AnimationCategory", false);
@@ -688,6 +691,9 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	FOR_EACH_ENUM(BuildingClass)
 		GC.getInfo(eLoopBuildingClass).readPass3();
 	LoadGlobalClassInfo(GC.m_paSpecialUnitInfo, "CIV4SpecialUnitInfos", "Units", "Civ4SpecialUnitInfos/SpecialUnitInfos/SpecialUnitInfo", false);
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	LoadGlobalClassInfo(GC.m_paMagicClassInfo, "CIV4MagicClassInfos", "Units", "Civ4MagicClassInfos/MagicClassInfos/MagicClassInfo", false);
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	LoadGlobalClassInfo(GC.m_paProjectInfo, "CIV4ProjectInfo", "GameInfo", "Civ4ProjectInfo/ProjectInfos/ProjectInfo", true);
 	LoadGlobalClassInfo(GC.m_paCivicInfo, "CIV4CivicInfos", "GameInfo", "Civ4CivicInfos/CivicInfos/CivicInfo", false, &CvDLLUtilityIFaceBase::createCivicInfoCacheObject);
 	FOR_EACH_ENUM(VoteSource)
@@ -717,6 +723,13 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paGameOptionInfo, "CIV4GameOptionInfos", "GameInfo", "Civ4GameOptionInfos/GameOptionInfos/GameOptionInfo", false);
 	LoadGlobalClassInfo(GC.m_paMPOptionInfo, "CIV4MPOptionInfos", "GameInfo", "Civ4MPOptionInfos/MPOptionInfos/MPOptionInfo", false);
 	LoadGlobalClassInfo(GC.m_paForceControlInfo, "CIV4ForceControlInfos", "GameInfo", "Civ4ForceControlInfos/ForceControlInfos/ForceControlInfo", false);
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	LoadGlobalClassInfo(GC.m_paMagicInfo, "CIV4MagicInfos", "Units", "Civ4MagicInfos/MagicInfos/MagicInfo", true);
+	FOR_EACH_ENUM(Magic)
+	{
+		GC.getInfo(eLoopMagic).readPass3();
+	}
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 	// Allow data to be cached
 	CvEraInfo::allInfosRead(); // advc.erai

@@ -81,7 +81,12 @@
 	/* <advc.tsl> (not exposed to Python) */ \
 	DO(TruCiv, TRUCIV) \
 	DO(TruLeader, TRULEADER) \
-	DO(TruBonus, TRUBONUS) /* </advc.tsl> */
+	DO(TruBonus, TRUBONUS) /* </advc.tsl> */ \
+	 /* XANA: 03-28-2026 Magical Spell System for Advanced Civ */ \
+	DO(MagicClass, MAGICCLASS) \
+	DO(MagicTech, MAGIC_TECH) \
+	DO(Magic, MAGIC)
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 // Number of instances not known at compile time
 #define DO_FOR_EACH_DYN_INFO_TYPE(DO) \
