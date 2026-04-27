@@ -695,7 +695,7 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	FOR_EACH_ENUM(VoteSource)
 		GC.getInfo(eLoopVoteSource).readPass3();
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	LoadGlobalClassInfo(GC.m_paProphecyInfo, "CIV4ProphecyInfos", "Civilizations", "Civ4ProphecyInfos/ProphecyInfos/ProphecyInfo", true, &CvDLLUtilityIFaceBase::createProphecyInfoCacheObject);
+	LoadGlobalClassInfo(GC.m_paProphecyInfo, "CIV4ProphecyInfos", "Civilizations", "Civ4ProphecyInfos/ProphecyInfos/ProphecyInfo", true);
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paLeaderHeadInfo, "CIV4LeaderHeadInfos", "Civilizations", "Civ4LeaderHeadInfos/LeaderHeadInfos/LeaderHeadInfo", false, &CvDLLUtilityIFaceBase::createLeaderHeadInfoCacheObject);
 	LoadGlobalClassInfo(GC.m_paColorInfo, "CIV4ColorVals", "Interface", "Civ4ColorVals/ColorVals/ColorVal", false);
