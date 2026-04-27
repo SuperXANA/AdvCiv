@@ -83,6 +83,9 @@
 	DO(TruLeader, TRULEADER) \
 	DO(TruBonus, TRUBONUS) /* </advc.tsl> */ \
 	/* XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv */ \
+	DO(EquipmentHoldClass, EQUIPMENTHOLDCLASS) \
+	DO(EquipmentHold, EQUIPMENT_HOLD) \
+	DO(EquipmentClass, EQUIPMENTCLASS) \
 	DO(Equipment, EQUIPMENT)
 	// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
