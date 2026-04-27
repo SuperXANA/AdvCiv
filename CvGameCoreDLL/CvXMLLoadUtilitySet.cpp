@@ -708,7 +708,7 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	FOR_EACH_ENUM(Bonus)
 		GC.getInfo(eLoopBonus).updateCache(eLoopBonus); // </advc.003w>
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	LoadGlobalClassInfo(GC.m_paEquipmentInfo, "CIV4EquipmentInfos", "Units", "Civ4EquipmentInfos/EquipmentInfos/EquipmentInfo", true, &CvDLLUtilityIFaceBase::createEquipmentInfoCacheObject);  // XANA (note): The different kinds of equipment you can have, an Alicorn Amulet, a Fire Wand, etc.
+	LoadGlobalClassInfo(GC.m_paEquipmentInfo, "CIV4EquipmentInfos", "Units", "Civ4EquipmentInfos/EquipmentInfos/EquipmentInfo", true);  // XANA (note): The different kinds of equipment you can have, an Alicorn Amulet, a Fire Wand, etc.
 	FOR_EACH_ENUM(Promotion)
 		GC.getInfo(eLoopPromotion).readPass3(); // XANA (note): Defining the equipment pieces that Promotions would require a Unit to have so that the Promotion can be granted/taken away/rendered permanent etc.
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
