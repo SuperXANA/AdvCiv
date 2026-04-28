@@ -18,6 +18,16 @@
 	} \
 	delete (p); \
 } // </advc.006>
+#define SAFE_DELETE_HEADERED_ARRAY(p, hSize) \
+{ \
+	if(p) \
+	{ \
+		char* pBuffer = reinterpret_cast<char*>(p); \
+		char* pOrig = (pBuffer - hSize); \
+		delete[] pOrig; \
+		p = NULL; \
+	} \
+}
 
 #ifdef _DEBUG
 //#define MEMORY_TRACKING
