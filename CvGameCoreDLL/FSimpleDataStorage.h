@@ -7,6 +7,7 @@ static const int iHEADERSIZE = 8; /* 8 bytes for likely-safe alignment of 32-bit
 // XANA (note): if we ever get 64-bit compatibility in the DLL/EXE, I believe we would only need to double the size of the header in order to support doubles/long-long data types once more
 
 class FDataStreamBase;
+class CvXMLLoadUtility;
 
 template <typename T>
 class FDynamicArray
@@ -16,11 +17,12 @@ public:
 	~FDynamicArray() { clear(); }
 	void clear()
 	{
+		if (m_pArray == NULL) return;
 		SAFE_DELETE_HEADERED_ARRAY(m_pArray, iHEADERSIZE);
 	}
 	void init(int iSize, T defaultValue = T())
 	{
-		if (iSize <= 0 || (m_pArray != NULL && size() == iSize)) return;
+		if (iSize <= 0 || m_pArray != NULL) return;
 		// Allocate: (Size of Header) + (Size of Data)
 		// We use 8 safe bytes at the start for the 'int' size to support double/long-long values
 		char* pBuffer = new char[iHEADERSIZE + (sizeof(T) * iSize)];
@@ -53,7 +55,7 @@ public:
 			init(iSize);
 		}
 	}
-	T get(int i) const
+	T& get(int i) const
 	{
 		if (i >= 0 && i < size())
 		{
@@ -104,7 +106,7 @@ public:
 		pStream->Read(&iSize);
 		if (iSize > 0)
 		{
-			init(iSize);
+			reset(iSize);
 			pStream->Read(iSize, m_pArray);
 		}
 	}
@@ -169,12 +171,13 @@ public:
 	~FDynamic2DArray() { clear(); }
 	void clear()
 	{
+		if (m_pArray == NULL) return;
 		SAFE_DELETE_HEADERED_ARRAY(m_pArray, iHEADERSIZE);
 	}
 	void init(int iSizeX, int iSizeY, T defaultValue = T())
 	{
 		int const iSize = (iSizeX * iSizeY);
-		if ((iSize <= 0 || (m_pArray != NULL && size() == iSize)) return;
+		if ((iSize <= 0 || m_pArray != NULL)) return;
 		// Allocate: (Size of Header) + (Size of Data)
 		// We use 8 safe bytes at the start for the 'int' size to support double/long-long values
 		char* pBuffer = new char[iHEADERSIZE + (sizeof(T) * iSize)];
@@ -200,14 +203,10 @@ public:
 	}
 	void reset(int iToSizeX = 0, int iToSizeY = 0)
 	{
-		int const iToSize = size());
-		if (iToSize < (iToSizeX * iToSizeY))
-		{
-			clear();
-			init(iToSizeX, iToSizeY);
-		}
+		clear();
+		init(iToSizeX, iToSizeY);
 	}
-	T get(int i) const
+	T& get(int i) const
 	{
 		if (i >= 0 && i < size())
 		{
@@ -268,7 +267,7 @@ public:
 		pStream->Read(&iSize);
 		if (iSize > 0)
 		{
-			init(iSize);
+			reset(iSize);
 			pStream->Read(iSize, m_pArray);
 		}
 	}
@@ -326,11 +325,12 @@ public:
 	~FStaticArray() { clear(); }
 	void clear()
 	{
+		if (m_pArray == NULL) return;
 		SAFE_DELETE_ARRAY(m_pArray);
 	}
 	void init(T defaultValue = T())
 	{
-		if (m_pArray == NULL)
+		if (m_pArray == NULL && iSIZE > 0)
 		{
 			m_pArray = new T[iSIZE];
 			for (int i = 0; i < iSIZE; ++i)
@@ -397,6 +397,7 @@ public:
 	}
 	void Read(FDataStreamBase* pStream)
 	{
+		reset();
 		pStream->Read(iSIZE, m_pArray);
 	}
 	void Write(FDataStreamBase* pStream)
