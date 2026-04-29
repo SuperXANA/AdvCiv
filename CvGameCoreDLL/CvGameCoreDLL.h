@@ -90,6 +90,9 @@
 #include "EnumTraits.h"
 #include "IntegerConversion.h" // advc
 #include "CvStructs.h"
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+#include "CvSQLStructs.h"
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 #include "FProfiler.h" // (includes CvDLLUtilityIFaceBase.h)
 #include "CvGameCoreUtils.h"
 #include "ScaledNum.h"
