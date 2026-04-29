@@ -1,6 +1,7 @@
 #include "CvDatabaseManager.h"
 #include "SQLiteStatement.h"
 #include "CvDatabaseFwd.h"
+#include "SQLiteValue.h"
 
 #undef GC // XANA (note): The const version of the GC instance isn't useful here, just like in the CvXMLLoadUtility class, we need to override it for this implementation to work properly
 #define GC CvGlobals::getInstance()
@@ -75,6 +76,35 @@ bool SQLiteStatement::exec()
 bool SQLiteStatement::next()
 {
 	return step();
+}
+
+SQLiteValue SQLiteStatement::getValue(const char* szColName) const
+{
+	int const idx = getColumnIndex(szColName);
+	if (idx >= 0)
+	{
+		switch (getColumnType(idx))
+		{
+			case SQLITE_INTEGER:
+			{
+				return SQLiteValue(getInt(idx));
+			}
+			case SQLITE_FLOAT:
+			{
+				return SQLiteValue(getDouble(idx));
+			}
+			case SQLITE3_TEXT:
+			case SQLITE_TEXT:
+			{
+				return SQLiteValue(getText(idx));
+			}
+			default:
+			{
+				return SQLiteValue();
+			}
+		}
+	}
+	return SQLiteValue();
 }
 
 int SQLiteStatement::getInt(const char* szColName) const
@@ -232,7 +262,13 @@ bool SQLiteStatement::bind(const char* szParam, const std::string& szValue)
 
 bool SQLiteStatement::bind(const char* szParam, const CvString& szValue)
 {
-	return bind(szParam, szValue.c_str(), true);
+	return bind(szParam, szValue.GetCString(), true);
+}
+
+bool SQLiteStatement::bind(const char* szParam, bool bValue)
+{
+	int const idx = getParameterIndex(szParam);
+	return (idx > 0) ? bind(idx, bValue) : false;
 }
 
 bool SQLiteStatement::bindNull(const char* szParam)
@@ -284,7 +320,7 @@ double SQLiteStatement::getDouble(int iColumn) const
 
 bool SQLiteStatement::getBool(int iColumn) const
 {
-	return hasRow(iColumn) ? sqlite3_column_int(m_statement, iColumn) != 0 : false;
+	return hasRow(iColumn) ? sqlite3_column_int(m_statement, iColumn) != (static_cast<int>(false)) : false;
 }
 
 CvString SQLiteStatement::getText(int iColumn) const
@@ -337,6 +373,11 @@ bool SQLiteStatement::bind(int index, const std::string& szValue)
 bool SQLiteStatement::bind(int index, const CvString& szValue)
 {
 	return bind(index, szValue.GetCString(), true);
+}
+
+bool SQLiteStatement::bind(int index, bool bValue)
+{
+	return isValid() ? sqlite3_bind_int(m_statement, index, static_cast<int>(bValue)) == SQLITE_OK : false;
 }
 
 bool SQLiteStatement::bindNull(int index)

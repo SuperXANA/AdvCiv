@@ -7,6 +7,7 @@
 
 struct sqlite3_stmt;
 class CvDatabaseManager;
+class SQLiteValue;
 
 class SQLiteStatement : private boost::noncopyable
 {
@@ -26,6 +27,8 @@ public:
 	bool exec(); // XANA (note): Use for single queries, when loops aren't needed.
 	bool next(); // XANA (note): Use for looping queries, when a while loop is needed.
 	
+	SQLiteValue getValue(const char* szColName) const; // XANA (note): Use when you don't know the type of data stored in the database column, it converts stored column information into a supported type automatically.
+	
 	int getInt(const char* szColName) const;
 	float getFloat(const char* szColName) const;
 	double getDouble(const char* szColName) const;
@@ -33,10 +36,8 @@ public:
 	bool getBool(const char* szColName) const;
 	CvString getText(const char* szColName) const;
 	bool isNull(const char* szColName) const;
-	int getColumnType(const char* szColName) const;
 	
 	bool mapColumns();
-	int getColumnIndex(const char* szName) const;
 
 	bool reset();
 	bool finalize();
@@ -49,18 +50,11 @@ public:
 	bool bind(const char* szParam, const char* szValue, bool bCopy = true);
 	bool bind(const char* szParam, const std::string& szValue);
 	bool bind(const char* szParam, const CvString& szValue);
+	bool bind(const char* szParam, bool bValue);
 	bool bindNull(const char* szParam);
 	bool hasBinding(const char* szParam) const;
 
 	void setPrepared(bool b) { m_bPrepared = b; }
-	
-	int getColumnType(int iColumn) const;
-	int getInt(int iColumn) const;
-	float getFloat(int iColumn) const;
-	double getDouble(int iColumn) const;
-	bool getBool(int iColumn) const;
-	CvString getText(int iColumn) const;
-	bool isNull(int iColumn) const;
 
 private:
 	CvString m_szSQL;
@@ -70,7 +64,7 @@ private:
 	ColumnsMap m_columnsMap;
 	bool m_bMappedColumns;
 	bool m_bFinalized;
-	bool m_bPrepared;=
+	bool m_bPrepared;
 	
 	bool step(bool bLooping = true);
 	int getColumnCount() const;
@@ -81,9 +75,22 @@ private:
 	bool bind(int index, const char* szValue, bool bCopy = true);
 	bool bind(int index, const std::string& szValue);
 	bool bind(int index, const CvString& szValue);
+	bool bind(int index, bool bValue);
 	bool bindNull(int index);
 	int getParameterIndex(const char* szName) const;
 	const char* getColumnName(int col) const;
+	
+	int getColumnType(const char* szColName) const;
+	int getColumnType(int iColumn) const;
+	int getColumnIndex(const char* szName) const;
+	
+	int getInt(int iColumn) const;
+	float getFloat(int iColumn) const;
+	double getDouble(int iColumn) const;
+	bool getBool(int iColumn) const;
+	CvString getText(int iColumn) const;
+	bool isNull(int iColumn) const;
 };
+
 #endif
 
