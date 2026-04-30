@@ -157,10 +157,34 @@ public:
 		ProxyArray p = { m_pArray, size() };
 		return p;
 	}
+	FDynamicArray(const FDynamicArray& kOther) : m_pArray(NULL) 
+	{
+		if (kOther.m_pArray != NULL)
+		{
+			this->reset(kOther.size());
+			for (int i = 0; i < kOther.size(); ++i)
+			{
+				this->m_pArray[i] = kOther.m_pArray[i];
+			}
+		}
+	}
+	FDynamicArray& operator=(const FDynamicArray& kOther)
+	{
+		if (this != &kOther)
+		{
+			this->reset(kOther.size());
+			if (kOther.m_pArray != NULL)
+			{
+				for (int i = 0; i < kOther.size(); ++i)
+				{
+					this->m_pArray[i] = kOther.m_pArray[i];
+				}
+			}
+		}
+		return *this;
+	}
 private:
 	T* m_pArray; // Size: 4 bytes
-	FDynamicArray(const FDynamicArray&);
-	FDynamicArray& operator=(const FDynamicArray&);
 };
 
 template <typename T>
@@ -311,10 +335,34 @@ public:
 		ProxyArray p = { m_pArray, size() };
 		return p;
 	}
+	FDynamic2DArray(const FDynamic2DArray& kOther) : m_pArray(NULL) 
+	{
+		if (kOther.m_pArray != NULL)
+		{
+			this->reset(kOther.size());
+			for (int i = 0; i < kOther.size(); ++i)
+			{
+				this->m_pArray[i] = kOther.m_pArray[i];
+			}
+		}
+	}
+	FDynamic2DArray& operator=(const FDynamic2DArray& kOther)
+	{
+		if (this != &kOther)
+		{
+			this->reset(kOther.size());
+			if (kOther.m_pArray != NULL)
+			{
+				for (int i = 0; i < kOther.size(); ++i)
+				{
+					this->m_pArray[i] = kOther.m_pArray[i];
+				}
+			}
+		}
+		return *this;
+	}
 private:
 	T* m_pArray; // Size: 4 bytes
-	FDynamic2DArray(const FDynamic2DArray&);
-	FDynamic2DArray& operator=(const FDynamic2DArray&);
 };
 
 template <typename T, int iSIZE>
@@ -410,10 +458,34 @@ public:
 		pXML->SetVariableListTagPair(&tempArray, szXMLTag, iSIZE);
 		load(tempArray);
 	}
+	FStaticArray(const FStaticArray& kOther) : m_pArray(NULL) 
+	{
+		if (kOther.m_pArray != NULL)
+		{
+			this->reset();
+			for (int i = 0; i < iSIZE; ++i)
+			{
+				this->m_pArray[i] = kOther.m_pArray[i];
+			}
+		}
+	}
+	FStaticArray& operator=(const FStaticArray& kOther)
+	{
+		if (this != &kOther)
+		{
+			this->reset();
+			if (kOther.m_pArray != NULL)
+			{
+				for (int i = 0; i < iSIZE; ++i)
+				{
+					this->m_pArray[i] = kOther.m_pArray[i];
+				}
+			}
+		}
+		return *this;
+	}
 private:
 	T* m_pArray;
-	FStaticArray(const FStaticArray&);
-	FStaticArray& operator=(const FStaticArray&);
 };
 
 #endif
