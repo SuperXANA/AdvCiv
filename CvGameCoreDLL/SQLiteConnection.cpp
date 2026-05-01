@@ -21,8 +21,7 @@ bool SQLiteConnection::open(bool bReopen)
 	{
 		close();
 	}
-	int const rc = sqlite3_open_v2(m_szFilename.GetCString(), &m_database, (SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE), NULL);
-	return (rc == SQLITE_OK);
+	return (sqlite3_open_v2(m_szFilename.GetCString(), &m_database, (SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE), NULL) == SQLITE_OK);
 }
 
 bool SQLiteConnection::close()
