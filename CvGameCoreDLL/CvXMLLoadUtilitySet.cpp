@@ -713,6 +713,9 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 		GC.getInfo(eLoopUnitClass).readPass3();
 	LoadGlobalClassInfo(GC.m_paUnitArtStyleInfo, "CIV4UnitArtStyleTypeInfos", "Civilizations", "Civ4UnitArtStyleTypeInfos/UnitArtStyleTypeInfos/UnitArtStyleTypeInfo", false);
 	LoadGlobalClassInfo(GC.m_paCivilizationInfo, "CIV4CivilizationInfos", "Civilizations", "Civ4CivilizationInfos/CivilizationInfos/CivilizationInfo", true, &CvDLLUtilityIFaceBase::createCivilizationInfoCacheObject);
+	// XANA: 11-15-2025 Reputation System for Advanced Civ
+	LoadGlobalClassInfo(GC.m_paReputationInfo, "CIV4ReputationInfos", "Civilizations", "Civ4ReputationInfos/ReputationInfos/ReputationInfo", true);
+	// XANA: 11-15-2025 Reputation System for Advanced Civ
 	LoadGlobalClassInfo(GC.m_paHintInfo, "CIV4Hints", "GameInfo", "Civ4Hints/HintInfos/HintInfo", false);
 	LoadGlobalClassInfo(GC.m_paMainMenuInfo, "CIV4MainMenus", "Art", "Civ4MainMenus/MainMenus/MainMenu", false);
 	LoadGlobalClassInfo(GC.m_paSlideShowInfo, "CIV4SlideShowInfos", "Interface", "Civ4SlideShowInfos/SlideShowInfos/SlideShowInfo", false);
@@ -2047,6 +2050,170 @@ void CvXMLLoadUtility::SetVariableListTagPairForAudioScripts(int **ppiList, TCHA
 		gDLL->getXMLIFace()->SetToParent(m_pFXml);
 	}
 }
+
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+void CvXMLLoadUtility::SetReputationAttitudeChanges(ReputationAttitudeChangeInfo **ppStructList, TCHAR const* szRootTagName, 
+	int iInfoBaseLength)
+{
+	// <advc.xmldefault>
+	if (*ppStructList != NULL)
+		return; // </advc.xmldefault>
+	if(iInfoBaseLength <= 0)
+	{
+		char szMessage[1024];
+		sprintf(szMessage, "Allocating zero or less memory.\nCurrent XML file is: %s",
+				GC.getCurrentXMLFile().GetCString());
+		errorMessage(szMessage);
+	}
+	initReputationAttitudeStructList(ppStructList, iInfoBaseLength);
+	if (gDLL->getXMLIFace()->SetToChildByTagName(m_pFXml,szRootTagName))
+	{
+		if (SkipToNextVal())
+		{
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(m_pFXml);
+			ReputationAttitudeChangeInfo* pStructList = *ppStructList;
+			if (iNumSibs > 0)
+			{
+				if(iNumSibs > iInfoBaseLength)
+				{
+					char szMessage[1024];
+					sprintf(szMessage, "There are more siblings than memory allocated for them.\nCurrent XML file is: %s",
+							GC.getCurrentXMLFile().GetCString());
+					errorMessage(szMessage);
+				}
+				if (gDLL->getXMLIFace()->SetToChild(m_pFXml))
+				{
+					TCHAR szTextVal[256];
+					for (int i = 0; i < iNumSibs; i++)
+					{
+						if (SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
+							GetChildXmlVal(szTextVal))
+						{
+							int iIndexVal = getGlobalEnumFromString(szTextVal);
+							if (iIndexVal >= 0)
+							{
+								FAssert(iIndexVal < iInfoBaseLength); // advc.006
+								ReputationAttitudeChangeInfo& kStruct = pStructList[iIndexVal];
+								GetNextXmlVal(kStruct.iGoodChange);
+								GetNextXmlVal(kStruct.iGoodDivisor);
+								GetNextXmlVal(kStruct.iGoodLimit);
+								GetNextXmlVal(kStruct.iBadChange);
+								GetNextXmlVal(kStruct.iBadDivisor);
+								GetNextXmlVal(kStruct.iBadLimit);
+							}
+							gDLL->getXMLIFace()->SetToParent(m_pFXml);
+						}
+						if (!gDLL->getXMLIFace()->NextSibling(m_pFXml))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(m_pFXml);
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(m_pFXml);
+	}
+}
+
+void CvXMLLoadUtility::SetVariableListFlat2DTagPair(CvString** ppszList,
+	const char* szRootTagName, int iInfoBaseLengthX, int iInfoBaseLengthY,
+	CvString szDefaultListVal)
+{
+	// <advc.xmldefault>
+	if (*ppszList != NULL)
+		return; // </advc.xmldefault>
+	if(iInfoBaseLengthX <= 0 || iInfoBaseLengthY <= 0)
+	{
+		char szMessage[1024];
+		sprintf(szMessage, "Allocating zero or less memory.\nCurrent XML file is: %s",
+				GC.getCurrentXMLFile().GetCString());
+		errorMessage(szMessage);
+	}
+	bool bListModified = false; // advc.003t, advc.xmldefault
+	InitStringList(ppszList, (iInfoBaseLengthX * iInfoBaseLengthY), szDefaultListVal);
+	CvString* pszList = *ppszList;
+	if (gDLL->getXMLIFace()->SetToChildByTagName(m_pFXml, szRootTagName))
+	{
+		if (SkipToNextVal())
+		{
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(m_pFXml);
+			if (iNumSibs > iInfoBaseLengthX)
+			{
+				char szMessage[1024];
+				sprintf(szMessage, "There are more siblings (%d) than memory allocated (%d) for them.\nCurrent XML file is: %s",
+						iNumSibs, iInfoBaseLengthX, GC.getCurrentXMLFile().GetCString());
+				errorMessage(szMessage);
+			}
+			if (gDLL->getXMLIFace()->SetToChild(m_pFXml))
+			{
+				for (int i = 0; i < iNumSibs; i++)
+				{
+					TCHAR szTextXVal[256];
+					if (SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
+						GetChildXmlVal(szTextXVal)
+					{
+						int iIndexXVal = getGlobalEnumFromString(szTextXVal);
+						if (iIndexXVal >= 0)
+						{
+							if (gDLL->getXMLIFace()->NextSibling(m_pFXml))
+							{
+								int iNumCSibs = gDLL->getXMLIFace()->GetNumChildren(m_pFXml);
+								if (iNumCSibs > iInfoBaseLengthY)
+								{
+									char szMessage[1024];
+									sprintf(szMessage, "There are more siblings (%d) than memory allocated (%d) for them.\nCurrent XML file is: %s",
+											iNumCSibs, iInfoBaseLengthY, GC.getCurrentXMLFile().GetCString());
+									errorMessage(szMessage);
+								}
+								if (gDLL->getXMLIFace()->SetToChild(m_pFXml))
+								{
+									for (int j = 0; j < iNumCSibs; j++)
+									{
+										TCHAR szTextYVal[256];
+										if (SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
+											GetChildXmlVal(szTextYVal)
+										{
+											int iIndexYVal = getGlobalEnumFromString(szTextYVal);
+											if (iIndexYVal >= 0)
+											{
+												FAssert(iIndexXVal < iInfoBaseLengthX);
+												FAssert(iIndexYVal < iInfoBaseLengthY);
+												int iIndexFlatVal = ((iIndexXVal * iInfoBaseLengthY) + iIndexYVal);
+												GetNextXmlVal(pszList[iIndexFlatVal]);
+												/*  <advc.003t> Since bListModified will only matter
+												if szDefaultListVal is an empty string, let's
+												simply check: */
+												if (!pszList[iIndexFlatVal].empty())
+													bListModified = true;
+												/*  For the primitive types, 0-entries in XML are usually
+													deliberate (for readability), but empty strings
+													would be strange. */
+												else FErrorMsg("Empty string in list of tag pairs");
+												// </advc.003t>
+											}
+											gDLL->getXMLIFace()->SetToParent(m_pFXml);
+										}
+										if (!gDLL->getXMLIFace()->NextSibling(m_pFXml))
+											break;
+									}
+									
+									gDLL->getXMLIFace()->SetToParent(m_pFXml);
+								}
+							}
+						}
+						gDLL->getXMLIFace()->SetToParent(m_pFXml);
+					}
+					if (!gDLL->getXMLIFace()->NextSibling(m_pFXml))
+						break;
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(m_pFXml);
+	}
+	// <advc.003t>
+	if (!bListModified && szDefaultListVal.empty())
+		SAFE_DELETE_ARRAY(*ppszList); // </advc.003t>
+}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 DllExport bool CvXMLLoadUtility::LoadPlayerOptions()
 {

@@ -47,7 +47,10 @@
 	/* XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ */ \
 	DO(AlignmentAxis, ALIGNMENT_AXIS) \
 	DO(AlignmentClass, ALIGNMENTCLASS) \
-	DO(Alignment, ALIGNMENT)
+	DO(Alignment, ALIGNMENT) \
+	/* XANA: 11-15-2025 Reputation System for Advanced Civ */ \
+	DO(Reputation, REPUTATION) 
+	/* XANA: 11-15-2025 Reputation System for Advanced Civ */
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
 // Number of instances not known at compile time; can be greater than MAX_CHAR.
@@ -194,7 +197,10 @@
 	DO(CitySize, CITYSIZE) \
 	DO(Contact, CONTACT) \
 	DO(DiplomacyPower, DIPLOMACYPOWER) \
-	DO(AIDemand, AI_DEMAND) /* advc.104m */
+	DO(AIDemand, AI_DEMAND) /* advc.104m */ \
+	/* XANA: 11-15-2025 Reputation System for Advanced Civ */ \
+	DO(ReputationEffect, REPUTATION_EFFECT) \
+	/* XANA: 11-15-2025 Reputation System for Advanced Civ */
 
 // For generating enum definitions and traits ...
 #define NUM_ENUM_TYPES(INFIX) NUM_##INFIX##_TYPES

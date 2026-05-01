@@ -1345,6 +1345,27 @@ public:
 	}
 	void updateHistory(PlayerHistoryTypes eHistory, int iTurn); // </advc.004s>
 	CvPlayerRecord const* getPlayerRecord() const; // K-Mod
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	int getReputationScore(PlayerTypes ePlayer, ReputationTypes eReputation, int iTurn) const
+	{
+		FAssertBounds(0, MAX_CIV_PLAYERS, ePlayer);
+		FAssertBounds(0, GC.getNumReputationInfos(), eReputation);
+		int const iClassIndex = ePlayer * GC.getNumReputationInfos() + eReputation;
+		return m_reputationScores[iClassIndex].get(iTurn);
+	}
+	void setReputationScore(PlayerTypes ePlayer, ReputationTypes eReputation, int iTurn, int iNewValue);
+	void decayReputationScores(PlayerTypes ePlayer)
+	{
+		FAssertBounds(0, MAX_CIV_PLAYERS, ePlayer);
+		int const iNumReputationInfos = GC.getNumReputationInfos();
+		FOR_EACH_ENUM(Reputation)
+		{
+			int const iClassIndex = ePlayer * iNumReputationInfos + eLoopReputation;
+			m_reputationScores[iClassIndex].decay();
+		}
+	}
+	// XANA (note): changeReputationScore is not needed here because the reputation score automatically gets smoothed out over time and new values are set within the container every turn.
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 	// Script data needs to be a narrow string for pickling in Python
 	std::string getScriptData() const;																				// Exposed to Python
@@ -1712,6 +1733,9 @@ protected:  // <advc.210>
 	CvWString** m_aszBonusHelp; // advc.003p  (not serialized)
 	// advc.004s: Replacing seven separate maps
 	PlayerHistory m_playerHistory[NUM_PLAYER_HISTORY_TYPES];
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	std::vector<ReputationScore> m_reputationScores;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 	void uninit();
 	void initContainers();

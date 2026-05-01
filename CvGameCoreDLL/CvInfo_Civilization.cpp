@@ -651,6 +651,9 @@ CvLeaderHeadInfo::CvLeaderHeadInfo(CvLeaderHeadInfo const& kOther)
 	allocCopy(m_pbFavoriteAlignmentFactions, kOther.m_pbFavoriteAlignmentFactions, NUM_ALIGNMENT_FACTION_TYPES);
 	allocCopy(m_pbHateAlignmentFactions, kOther.m_pbHateAlignmentFactions, NUM_ALIGNMENT_FACTION_TYPES);
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	allocCopy(m_pReputationAttitudeChanges, kOther.m_pReputationAttitudeChanges, GC.getNumReputationInfos());
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 } // </advc.xmldefault>
 
 CvLeaderHeadInfo::~CvLeaderHeadInfo()
@@ -673,6 +676,9 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_pbFavoriteAlignmentFactions);
 	SAFE_DELETE_ARRAY(m_pbHateAlignmentFactions);
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	SAFE_DELETE_ARRAY(m_pReputationAttitudeChanges);
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const
@@ -769,6 +775,53 @@ int CvLeaderHeadInfo::getDiploWarMusicScriptIds(int i) const
 	FAssertBounds(0, GC.getNumEraInfos(), i);
 	return m_piDiploWarMusicScriptIds ? m_piDiploWarMusicScriptIds[i] : 0; // advc.003t
 }
+
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+int CvLeaderHeadInfo::getGoodReputationAttitudeChange(int iStruct) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), iStruct);
+	return m_pReputationAttitudeChanges ? m_pReputationAttitudeChanges[iStruct].iGoodChange : 0;
+}
+
+int CvLeaderHeadInfo::getGoodReputationAttitudeChangeDivisor(int iStruct) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), iStruct);
+	return m_pReputationAttitudeChanges ? m_pReputationAttitudeChanges[iStruct].iGoodDivisor : 0;
+}
+
+int CvLeaderHeadInfo::getGoodReputationAttitudeChangeLimit(int iStruct) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), iStruct);
+	return m_pReputationAttitudeChanges ? m_pReputationAttitudeChanges[iStruct].iGoodLimit : 0;
+}
+
+int CvLeaderHeadInfo::getBadReputationAttitudeChange(int iStruct) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), iStruct);
+	return m_pReputationAttitudeChanges ? m_pReputationAttitudeChanges[iStruct].iBadChange : 0;
+}
+
+int CvLeaderHeadInfo::getBadReputationAttitudeChangeDivisor(int iStruct) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), iStruct);
+	return m_pReputationAttitudeChanges ? m_pReputationAttitudeChanges[iStruct].iBadDivisor : 0;
+}
+
+int CvLeaderHeadInfo::getBadReputationAttitudeChangeLimit(int iStruct) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), iStruct);
+	return m_pReputationAttitudeChanges ? m_pReputationAttitudeChanges[iStruct].iBadChangeLimit : 0;
+}
+
+
+ReputationEffect CvLeaderHeadInfo::getReputationEffect(int i, int j) const
+{
+	FAssertBounds(0, NUM_MEMORY_TYPES, i);
+	FAssertBounds(0, GC.getNumReputationInfos(), j);
+	int const iFlatIndex = ((i * GC.getNumReputationInfos()) + j);
+	return m_paeReputationEffectMemories ? m_paeReputationEffectMemories[iFlatIndex] : NO_REPUTATION_EFFECT;
+}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 {
@@ -957,6 +1010,14 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	m_pbHateAlignmentFactions = new bool[NUM_ALIGNMENT_FACTION_TYPES];
 	stream->Read(NUM_ALIGNMENT_FACTION_TYPES, m_pbHateAlignmentFactions);
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	SAFE_DELETE_ARRAY(m_pReputationAttitudeChanges);
+	m_pReputationAttitudeChanges = new ReputationAttitudeChangeInfo[GC.getNumReputationInfos()];
+	FOR_EACH_ENUM(Reputation)
+	{
+		m_pReputationAttitudeChanges[eLoopReputation].read(stream);
+	}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 }
 
 void CvLeaderHeadInfo::write(FDataStreamBase* stream)
@@ -1077,6 +1138,12 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(NUM_ALIGNMENT_FACTION_TYPES, m_pbFavoriteAlignmentFactions);
 	stream->Write(NUM_ALIGNMENT_FACTION_TYPES, m_pbHateAlignmentFactions);
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	FOR_EACH_ENUM(Reputation)
+	{
+		m_pReputationAttitudeChanges[eLoopReputation].write(stream);
+	}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 }
 #endif
 
@@ -1283,6 +1350,10 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pbFavoriteAlignmentFactions, "FavoriteAlignmentFactions", NUM_ALIGNMENT_FACTION_TYPES);
 	pXML->SetVariableListTagPair(&m_pbHateAlignmentFactions, "HateAlignmentFactions", NUM_ALIGNMENT_FACTION_TYPES);
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	pXML->SetReputationAttitudeChanges(&m_pReputationAttitudeChanges, "ReputationAttitudeChanges", GC.getNumReputationInfos());
+	pXML->SetVariableListFlat2DTagPair(&m_paeReputationEffectMemories, "MemoryReputationChanges", NUM_MEMORY_TYPES, GC.getNumReputationInfos());
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 	m_pXML = NULL; // advc.xmldefault
 	return true;
@@ -1781,3 +1852,64 @@ bool CvDiplomacyInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+CvReputationInfo::CvReputationInfo() :
+m_paiEffectOnModify(NULL)
+{}
+
+CvReputationInfo::~CvReputationInfo()
+{
+	SAFE_DELETE_ARRAY(m_paiEffectOnModify);
+}
+
+ReputationEffect CvReputationInfo::getEffectOnModify(int i) const
+{
+	FAssertBounds(0, GC.getNumReputationInfos(), i);
+	const int v = m_paiEffectOnModify ? m_paiEffectOnModify[i] : 0;
+	if (v < 0) // XANA (note): Is the sub value being decremented by a negative number?
+	{
+		return REPUTATION_EFFECT_DECREASE; // XANA (note): This reputation by itself doesn't decide how much to decrease sub-values by, that is the job of the AI player code and the CvLeaderHeadInfo class values.
+	}
+	else if (v > 0) // XANA (note): Is the sub value being incremented by a positive number?
+	{
+		return REPUTATION_EFFECT_INCREASE; // XANA (note): This reputation by itself doesn't decide how much to increase sub-values by, that is the job of the AI player code and the CvLeaderHeadInfo class values.
+	}
+	else  // XANA (note): Fallback value if nothing else found.
+	{
+		return NO_REPUTATION_EFFECT;  // XANA (note): Fallback value which creates no effects upon sub reputation values.
+	}
+}
+
+bool CvReputationInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!CvInfoBase::read(pXML))
+		return false;
+	
+	return true;
+}
+
+bool CvReputationInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	pXML->SetVariableListTagPair(&m_paiEffectOnModify, "ReputationSecondaryEffects", GC.getNumReputationInfos());
+	return true;
+}
+
+#if ENABLE_XML_FILE_CACHE
+void CvReputationInfo::read(FDataStreamBase* stream)
+{
+	CvInfoBase::read(stream);
+	uint uiFlag=0;
+	stream->Read(&uiFlag);
+	SAFE_DELETE_ARRAY(m_paiEffectOnModify);
+	m_paiEffectOnModify = new int[GC.getNumReputationInfos()];
+	stream->Read(GC.getNumReputationInfos(), m_paiEffectOnModify);
+}
+
+void CvReputationInfo::write(FDataStreamBase* stream)
+{
+	CvInfoBase::write(stream);
+	uint uiFlag=0;
+	stream->Write(uiFlag);
+	stream->Write(GC.getNumReputationInfos(), m_paiEffectOnModify);
+}
+#endif

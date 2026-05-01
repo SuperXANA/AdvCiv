@@ -100,6 +100,15 @@ void CvPlayer::initContainers()
 	{
 		m_playerHistory[eLoopPlayerHistory].grow(GC.getGame().getGameTurn());
 	} // </advc.004s>
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	m_reputationScores.reserve(MAX_CIV_PLAYERS * GC.getNumReputationInfos()); // XANA (note): Help preserve O(1) speed by reserving calculated memory size in advance
+	for (int iLoopCounter = 0; iLoopCounter < (MAX_CIV_PLAYERS * GC.getNumReputationInfos()); iLoopCounter++)
+	{
+		ReputationScore kRepScore;
+		kRepScore.reset();
+		m_reputationScores.push_back(kRepScore); /* XANA (note): one-dimensional vector sized at: MAX_CIV_PLAYERS * GC.getNumReputationInfos() */
+	}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 }
 
 /*  advc.003q: Cut from CvPlayer::init.
@@ -574,6 +583,9 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 		m_aAlignmentAxisFactions.clear();
 		// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 		m_triggersFired.clear();
+		// XANA: 11-15-2025 Reputation System for Advanced Civ
+		m_reputationScores.clear();
+		// XANA: 11-15-2025 Reputation System for Advanced Civ
 		clearMessageCopies(); // advc.106b
 	}
 
@@ -11564,6 +11576,17 @@ void CvPlayer::updateHistory(PlayerHistoryTypes eHistory, int iTurn)
 } // </advc.004s>
 
 
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+void CvPlayer::setReputationScore(PlayerTypes ePlayer, ReputationTypes eReputation, int iTurn, int iNewValue)
+{
+	FAssertBounds(0, MAX_CIV_PLAYERS, ePlayer);
+	FAssertBounds(0, GC.getNumReputationInfos(), eReputation);
+	int const iClassIndex = ePlayer * GC.getNumReputationInfos() + eReputation;
+	m_reputationScores[iClassIndex].set(iTurn, iNewValue);
+}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+
+
 /*	K-Mod:  Note, this function is a friend of CvEventReporter, so that it can access the data we need.
 	(This saves us from having to use the built-in CyStatistics class) */
 CvPlayerRecord const* CvPlayer::getPlayerRecord() const
@@ -14505,6 +14528,19 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		PlayerHistory& kHist = m_playerHistory[eLoopPlayerHistory];
 		kHist.read(pStream, getID(), uiFlag < 13);
 	} // </advc.004s>
+	// XANA: 11-15-2025 Reputation System for Advanced Civ
+	m_reputationScores.clear();
+	uint iSize;
+	pStream->Read(&iSize);
+	if (iSize > 0)
+		m_reputationScores.resize(iSize);
+	for (uint i = 0; i < iSize; i++)
+	{
+		ReputationScore kRepScore;
+		kRepScore.read(pStream, uiFlag < 13);
+		m_reputationScores.push_back(kRepScore);
+	}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 	{
 		m_mapEventsOccured.clear();
@@ -15024,6 +15060,15 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	// <advc.004s>
 	FOR_EACH_ENUM(PlayerHistory)
 		m_playerHistory[eLoopPlayerHistory].write(pStream); // </advc.004s>
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	uint iSize = m_reputationScores.size();
+	pStream->Write(iSize);
+	std::vector<ReputationScore>::const_iterator it;
+	for (it = m_reputationScores.begin(); it != m_reputationScores.end(); ++it)
+	{
+		(*it).write(pStream);
+	}
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 	{
 		uint iSize = m_mapEventsOccured.size();

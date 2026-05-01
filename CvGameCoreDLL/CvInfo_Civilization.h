@@ -238,6 +238,15 @@ public: // advc: All the const functions are exposed to Python except those adde
 	bool isFavoriteAlignmentFaction(int i) const;
 	bool isHateAlignmentFaction(int i) const;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	int getGoodReputationAttitudeChange(int iStruct) const;
+	int getGoodReputationAttitudeChangeDivisor(int iStruct) const;
+	int getGoodReputationAttitudeChangeLimit(int iStruct) const;
+	int getBadReputationAttitudeChange(int iStruct) const;
+	int getBadReputationAttitudeChangeDivisor(int iStruct) const;
+	int getBadReputationAttitudeChangeLimit(int iStruct) const;
+	ReputationEffect getReputationEffect(int i, int j) const;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 	// (not exposed to Python)
 	DllExport const CvArtInfoLeaderhead* getArtInfo() const;
@@ -363,6 +372,11 @@ protected:
 	bool* m_pbFavoriteAlignmentFactions;
 	bool* m_pbHateAlignmentFactions;
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	ReputationAttitudeChangeInfo* m_pReputationAttitudeChanges;
+    // Defines how Reputations are linked with Memories to form opinions
+    ReputationEffect* m_paeReputationEffectMemories;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;
 	static void GetChildXmlValByName(int& r, TCHAR const* szName, int iDefault = MIN_INT);
@@ -529,5 +543,32 @@ public: // advc: All the const functions are exposed to Python
 protected:
 	std::vector<CvDiplomacyResponse*> m_pResponses;
 };
+
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvReputationInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvReputationInfo : public CvInfoBase
+{
+	typedef CvInfoBase base_t;
+public:
+	CvReputationInfo();
+	~CvReputationInfo();
+	
+	ReputationEffect getEffectOnModify(int i) const;
+	bool getLinkedMemory(int i) const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+	bool readPass2(CvXMLLoadUtility* pXML);
+	
+	#if ENABLE_XML_FILE_CACHE
+	void read(FDataStreamBase* stream);
+	void write(FDataStreamBase* stream);
+	#endif
+
+protected:
+    // Stores the effect on all other ReputationTypes when 'this' reputation value is modified
+    int* m_paiEffectOnModify;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 #endif

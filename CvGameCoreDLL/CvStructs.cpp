@@ -640,3 +640,24 @@ void AlignmentScale::write(FDataStreamBase* pStream)
 	pStream->Write(iScale);
 }
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+void ReputationAttitudeInfo::read(FDataStreamBase* pStream)
+{
+	pStream->Read(&iGoodChange);
+	pStream->Read(&iGoodDivisor);
+	pStream->Read(&iGoodLimit);
+	pStream->Read(&iBadChange);
+	pStream->Read(&iBadDivisor);
+	pStream->Read(&iBadLimit);
+}
+
+void ReputationAttitudeInfo::write(FDataStreamBase* pStream)
+{
+	pStream->Write(iGoodChange);
+	pStream->Write(iGoodDivisor);
+	pStream->Write(iGoodLimit);
+	pStream->Write(iBadChange);
+	pStream->Write(iBadDivisor);
+	pStream->Write(iBadLimit);
+}
+// XANA: 11-15-2025 Reputation System for Advanced Civ

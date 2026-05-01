@@ -2352,6 +2352,14 @@ ENUM_START(CityPlot, CITYPLOT)
 ENUM_END(CityPlot, CITYPLOT)
 #define NUM_CITY_PLOTS ((int)NUM_CITYPLOT_TYPES)
 
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+ENUM_START(ReputationEffect, REPUTATION_EFFECT)
+// XANA (note): First value is NO_REPUTATION_EFFECT [set as: -1].
+	REPUTATION_EFFECT_INCREASE,
+	REPUTATION_EFFECT_DECREASE,
+ENUM_END(ReputationEffect, REPUTATION_EFFECT)
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 ENUM_START(AlignmentFaction, ALIGNMENT_FACTION)
 	ALIGNMENT_FACTION_LIGHT,

@@ -242,6 +242,9 @@ public:
 	int AI_getRivalTradeAttitude(PlayerTypes ePlayer) const;
 	int AI_getBonusTradeCounter(TeamTypes eTo) const; // advc.130p
 	int AI_getMemoryAttitude(PlayerTypes ePlayer, MemoryTypes eMemory) const;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+	int AI_getReputationAttitude(PlayerTypes ePlayer, ReputationTypes eReputation) const;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 	//int AI_getColonyAttitude(PlayerTypes ePlayer) const; // advc.130r
 	// BEGIN: Show Hidden Attitude Mod 01/22/2010
 	int AI_getFirstImpressionAttitude(PlayerTypes ePlayer) const;
@@ -879,9 +882,15 @@ protected:
 	void AI_setPeacetimeGrantValue(PlayerTypes eIndex, int iVal);
 	// </advc.130p>
 	// <advc.130n>
-	enum IdeologicMarker { SAME_RELIGION, DIFFERENT_RELIGION, SAME_CIVIC };
+	enum IdeologicMarker { GOOD_REPUTATION, BAD_REPUTATION, SAME_RELIGION, DIFFERENT_RELIGION, SAME_CIVIC }; // XANA: 11-15-2025 Reputation System for Advanced Civ
 	int AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eMarker,
 			int iCounter, int iDivisor, int iLimit) const; // </advc.130n>
+	// XANA: 11-15-2025 Reputation System for Advanced Civ
+	int AI_reputationAttitudeChange(PlayerTypes eOther, ReputationTypes eReputation, IdeologicMarker eMarker,
+			int iCounter, int iDivisor, int iLimit, int iGameTurn) const;
+	void updateSubReputationScores(PlayerTypes ePlayer, ReputationTypes eReputation, int iGameTurn);
+	void AI_updateLinkedReputationValues(PlayerTypes eOtherPlayer, MemoryTypes eDecisionMemory, int iGameTurn);
+	// XANA: 11-15-2025 Reputation System for Advanced Civ
 	// advc.130r: Are they at war with a partner of ours?
 	bool AI_atWarWithPartner(TeamTypes eOtherTeam,
 			/*  advc.130h: If CheckPartnerAttacked==true, then only partners with
