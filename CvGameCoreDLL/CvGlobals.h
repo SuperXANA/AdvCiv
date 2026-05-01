@@ -1007,6 +1007,10 @@ __inline CvGlobals const& CvGlobals::getConstInstance()
 #define gDLL GC.getDLLIFace()
 #endif
 
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+#define DB CvGlobals::getInstance().getDatabaseInstance()
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+
 #ifndef _USRDLL
 #define NUM_DIRECTION_TYPES (GC.getNumDirections())
 #define NUM_GAMEOPTION_TYPES (GC.getNumGameOptions())

@@ -3,9 +3,6 @@
 #include "CvDatabaseFwd.h"
 #include "SQLiteValue.h"
 
-#undef GC // XANA (note): The const version of the GC instance isn't useful here, just like in the CvXMLLoadUtility class, we need to override it for this implementation to work properly
-#define GC CvGlobals::getInstance()
-
 SQLiteStatement::SQLiteStatement()
 	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(NULL)
 	{}
@@ -30,13 +27,13 @@ SQLiteStatement::~SQLiteStatement()
 
 bool SQLiteStatement::isValid(bool bCheckDatabaseConnection) const
 {
-	return (bCheckDatabaseConnection ? (GC.getDatabaseInstance().isValid() && m_statement != NULL && !m_bFinalized) : (m_statement != NULL && !m_bFinalized));
+	return (bCheckDatabaseConnection ? (DB.isValid() && m_statement != NULL && !m_bFinalized) : (m_statement != NULL && !m_bFinalized));
 }
 
 bool SQLiteStatement::prepare(const CvString& szSQL)
 {
 	m_szSQL = szSQL;
-	if (!GC.getDatabaseInstance().isValid() || !(m_szSQL.GetCString()) || m_bFinalized)
+	if (!DB.isValid() || !(m_szSQL.GetCString()) || m_bFinalized)
 	{
 		return false;
 	}
@@ -50,7 +47,7 @@ bool SQLiteStatement::prepare(const CvString& szSQL)
 		clearBindings();
 		m_statement = NULL;
 	}
-	int const rc = sqlite3_prepare_v2(GC.getDatabaseInstance().getSQLite(), m_szSQL.GetCString(), -1, &m_statement, NULL);
+	int const rc = sqlite3_prepare_v2(DB.getSQLite(), m_szSQL.GetCString(), -1, &m_statement, NULL);
 	if (rc != SQLITE_OK || m_statement == NULL)
 	{
 		return false;

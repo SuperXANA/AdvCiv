@@ -174,7 +174,7 @@ void CvGame::init(HandicapTypes eHandicap)
 	}
 	
 	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
-	GC.getDatabaseInstance().init();
+	DB.init();
 	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 	AI().AI_init();

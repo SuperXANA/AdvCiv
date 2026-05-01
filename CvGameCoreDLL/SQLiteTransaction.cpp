@@ -1,9 +1,6 @@
 #include "CvDatabaseManager.h"
 #include "SQLiteTransaction.h"
 
-#undef GC // XANA (note): The const version of the GC instance isn't useful here, just like in the CvXMLLoadUtility class, we need to override it for this implementation to work properly
-#define GC CvGlobals::getInstance()
-
 SQLiteTransaction::SQLiteTransaction()
     : m_bActive(false), m_bCommitted(false)
 {
@@ -17,7 +14,7 @@ SQLiteTransaction::~SQLiteTransaction()
 
 bool SQLiteTransaction::begin()
 {
-    if (isValid() || GC.getDatabaseInstance().exec("BEGIN;"))
+    if (isValid() || DB.exec("BEGIN;"))
     {
         return true;
     }
@@ -30,7 +27,7 @@ bool SQLiteTransaction::commit()
 	{
 		return true;
 	}
-    if (GC.getDatabaseInstance().exec("COMMIT;"))
+    if (DB.exec("COMMIT;"))
     {
         m_bActive = false;
         m_bCommitted = true;
@@ -45,7 +42,7 @@ bool SQLiteTransaction::rollback()
     {
 		m_bActive = false;
 		m_bCommitted = false;
-		return (GC.getDatabaseInstance().exec("ROLLBACK;"));
+		return (DB.exec("ROLLBACK;"));
 	}
 	return false;
 }
