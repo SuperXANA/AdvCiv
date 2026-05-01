@@ -1,3 +1,8 @@
+#pragma once
+
+#ifndef ALIGNMENT_SCORE_H
+#define ALIGNMENT_SCORE_H
+
 class AlignmentScore
 {
 public:
@@ -47,3 +52,5 @@ private:
     int m_iMaxDelta;
     bool m_bAlignmentGoodEvilIsIndependent;
 };
+
+#endif

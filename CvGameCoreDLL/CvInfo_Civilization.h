@@ -569,6 +569,8 @@ public:
 protected:
     // Stores the effect on all other ReputationTypes when 'this' reputation value is modified
     int* m_paiEffectOnModify;
+
+};
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 
 #endif

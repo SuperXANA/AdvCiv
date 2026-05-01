@@ -8,8 +8,8 @@ void AlignmentScore::nextTurn()
     {
         m_iHead = 0;
     }
-    m_buffer[m_iHead].m_iHigh = 0;
-    m_buffer[m_iHead].m_iLow = 0;
+    m_buffer[m_iHead].iHigh = 0;
+    m_buffer[m_iHead].iLow = 0;
     if (m_iCount < m_iSampleSize)
     {
         ++m_iCount;
@@ -60,29 +60,14 @@ void AlignmentScore::changePermanentAlignmentTowardsNegative(int iChange)
 
 void AlignmentScore::decay()
 {
-	if (m_iHighDecay > 0)
+	scaled const iHighFactor = per100(m_iHighDecay);
+	scaled const iLowFactor = per100(m_iLowDecay);
+	for (int i = 0; i < m_iCount; ++i)
 	{
-		scaled const iHighFactor = per100(m_iHighDecay);
+		AlignmentValue& kAlignmentValue = m_buffer[index(i)];
+		kAlignmentValue.iHigh *= iHighFactor;
+		kAlignmentValue.iLow *= iLowFactor;
 	}
-	if (m_iLowDecay > 0)
-	{
-		scaled const iLowFactor = per100(m_iLowDecay);
-	}
-	if (m_iHighDecay > 0 || m_iLowDecay > 0)
-	{
-		for (int i = 0; i < m_iCount; ++i)
-		{
-			AlignmentValue& kAlignmentValue = m_buffer[index(i)];
-			if (m_iHighDecay > 0)
-			{
-				kAlignmentValue.iHigh *= iHighFactor;
-			}
-			if (m_iLowDecay > 0)
-			{
-				kAlignmentValue.iLow *= iLowFactor;
-			}
-		}
-	} 
 }
 
 std::pair<int,int> AlignmentScore::get() const
@@ -100,22 +85,16 @@ std::pair<int,int> AlignmentScore::get() const
         iSumHigh += kAlignmentValue.iHigh;
         iSumLow += kAlignmentValue.iLow;
     }
-    return std::pair<int,int>((m_iBaseHigh + m_iPermHigh) + (iSumHigh / m_iCount),
-		(m_iBaseLow + m_iPermLow) + (iSumLow / m_iCount));
+    return std::pair<int,int>(((m_iBaseHigh + m_iPermHigh) + (iSumHigh / m_iCount)),
+		((m_iBaseLow + m_iPermLow) + (iSumLow / m_iCount)));
 }
 
 void AlignmentScore::read(FDataStreamBase* pStream)
 {
 	pStream->Read(&m_iHead);
 	pStream->Read(&m_iCount);
-	pStream->Read(&m_iBaseHigh);
-	pStream->Read(&m_iBaseLow);
 	pStream->Read(&m_iPermHigh);
 	pStream->Read(&m_iPermLow);
-	pStream->Read(&m_iHighDecay);
-	pStream->Read(&m_iLowDecay);
-	pStream->Read(&m_iMaxDelta);
-	pStream->Read(&m_bAlignmentGoodEvilIsIndependent);
 	
 	for(int i = 0; i < m_iSampleSize; ++i)
     {
@@ -129,14 +108,8 @@ void AlignmentScore::write(FDataStreamBase* pStream)
 
 	pStream->Write(m_iHead);
 	pStream->Write(m_iCount);
-	pStream->Write(m_iBaseHigh);
-	pStream->Write(m_iBaseLow);
 	pStream->Write(m_iPermHigh);
 	pStream->Write(m_iPermLow);
-	pStream->Write(m_iHighDecay);
-	pStream->Write(m_iLowDecay);
-	pStream->Write(m_iMaxDelta);
-	pStream->Write(m_bAlignmentGoodEvilIsIndependent);
 	
 	for(int i = 0; i < m_iSampleSize; ++i)
 	{
