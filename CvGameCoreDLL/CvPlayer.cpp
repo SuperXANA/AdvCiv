@@ -25,6 +25,9 @@
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 #include "AlignmentScore.h"
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+#include "ReputationScore.h"
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 // advc.003u: Statics moved from CvPlayerAI
 CvPlayerAI** CvPlayer::m_aPlayers = NULL;
@@ -19854,10 +19857,13 @@ void CvPlayer::changeAlignmentTowardsPositive(AlignmentAxisTypes eAxis, int iCha
 	}
 	else
 	{
-		m_aAlignmentAxisScores[eAxis].changeAlignmentTowardsPositive(iChange);
 		if (bPermanent)
 		{
 			m_aAlignmentAxisScores[eAxis].changePermanentAlignmentTowardsPositive(iChange);
+		}
+		else
+		{
+			m_aAlignmentAxisScores[eAxis].changeAlignmentTowardsPositive(iChange);
 		}
 	}
 }
@@ -19869,10 +19875,13 @@ void CvPlayer::changeAlignmentTowardsNegative(AlignmentAxisTypes eAxis, int iCha
 	}
 	else
 	{
-		m_aAlignmentAxisScores[eAxis].changeAlignmentTowardsNegative(iChange);	
 		if (bPermanent)
 		{
 			m_aAlignmentAxisScores[eAxis].changePermanentAlignmentTowardsNegative(iChange);
+		}
+		else
+		{
+			m_aAlignmentAxisScores[eAxis].changeAlignmentTowardsNegative(iChange);
 		}
 	}
 }

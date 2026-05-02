@@ -21,6 +21,12 @@ class CvSelectionGroup; class CvSelectionGroupAI;
 class CvPlotGroup;
 // </advc.003u>
 class CvCivilization; // advc.003w
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+class AlignmentScore;
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+class ReputationScore;
+// XANA: 11-15-2025 Reputation System for Advanced Civ
  /*	advc (note): Can't easily change this to <CvTalkingHeadMessage*>
 	b/c of DllExport getGameMessages */
 typedef std::list<CvTalkingHeadMessage> CvMessageQueue;
