@@ -6,6 +6,7 @@
 #define CV_SQLITECONNECTION_H
 
 struct sqlite3;
+struct sqlite3_stmt;
 
 class SQLiteConnection : private boost::noncopyable
 {
@@ -18,7 +19,7 @@ private:
 	bool open(bool bReopen = false);
 	bool close();
 	bool isValid() const;
-	sqlite3* getDatabase();
 	bool exec(const CvString& szSQL);
+	bool prepare(sqlite3_stmt* pStatement, const CvString& szSQL);
 };
 #endif

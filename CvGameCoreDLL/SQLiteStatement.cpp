@@ -4,19 +4,21 @@
 #include "SQLiteValue.h"
 
 SQLiteStatement::SQLiteStatement()
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(NULL)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bPrepared(false), m_szSQL(NULL), m_szKey(NULL)
 	{}
 
 
-SQLiteStatement::SQLiteStatement(const CvString& szSQL)
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(szSQL)
+SQLiteStatement::SQLiteStatement(const CvString& szKey, const CvString& szSQL)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bPrepared(false), m_szKey(szKey), m_szSQL(szSQL)
 	{
+		setLookupKey(m_szKey);
 		prepare(m_szSQL);
 	}
 	
-SQLiteStatement::SQLiteStatement(const std::string& sql)
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bFinalized(false), m_bPrepared(false), m_szSQL(sql)
+SQLiteStatement::SQLiteStatement(const std::string& key, const std::string& sql)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bPrepared(false), m_szKey(key), m_szSQL(sql)
 	{
+		setLookupKey(m_szKey);
 		prepare(m_szSQL);
 	}
 
@@ -25,30 +27,24 @@ SQLiteStatement::~SQLiteStatement()
 	finalize();
 }
 
-bool SQLiteStatement::isValid(bool bCheckDatabaseConnection) const
+bool SQLiteStatement::isValid() const
 {
-	return (bCheckDatabaseConnection ? (DB.isValid() && m_statement != NULL && !m_bFinalized) : (m_statement != NULL && !m_bFinalized));
+	return (m_statement != NULL);
 }
 
 bool SQLiteStatement::prepare(const CvString& szSQL)
 {
-	m_szSQL = szSQL;
-	if (!DB.isValid() || !(m_szSQL.GetCString()) || m_bFinalized)
+	if (!(szSQL.GetCString()))
 	{
 		return false;
 	}
-	if (m_bPrepared)
+	m_szSQL = szSQL;
+	if (isValid() && m_bPrepared)
 	{
 		return true;
 	}
-	if (isValid(false)) // XANA (note): If we are re-using the existing (prepared or not) statement for something else, clear out the existing statement object and make sure it's ready for new SQL queries
-	{
-		reset();
-		clearBindings();
-		m_statement = NULL;
-	}
-	int const rc = sqlite3_prepare_v2(DB.getSQLite(), m_szSQL.GetCString(), -1, &m_statement, NULL);
-	if (rc != SQLITE_OK || m_statement == NULL)
+	m_statement = DB.prepareStatementFromCache(m_szKey, m_szSQL);
+	if (m_statement == NULL)
 	{
 		return false;
 	}
@@ -146,13 +142,13 @@ int SQLiteStatement::getColumnType(const char* szColName) const
 
 bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on MapChildren from CvXMLloadUtility
 {
-	if (m_bMappedColumns)
-	{
-		return true;
-	}
 	if (!isValid())
 	{
 		return false;
+	}
+	if (m_bMappedColumns)
+	{
+		return true;
 	}
 	m_columnsMap.clear();
 	int const iCount = getColumnCount();
@@ -173,6 +169,23 @@ bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on Map
 	return bColsMapped;
 }
 
+void SQLiteStatement::reset(bool bClearColumnMap)
+{
+	if (bClearColumnMap)
+	{
+		m_columnsMap.clear();
+		m_bMappedColumns = false;
+	}
+	m_bHasRow = false;
+	setPrepared(false);
+	DB.returnStatementToCache(m_szKey, m_statement);
+}
+
+void SQLiteStatement::finalize()
+{
+	reset(true);
+}
+
 int SQLiteStatement::getColumnIndex(const char* szName) const
 {
 	if (!m_bMappedColumns || !isValid() || !szName)
@@ -185,41 +198,6 @@ int SQLiteStatement::getColumnIndex(const char* szName) const
 		return -1;
     }
 	return it->second;
-}
-
-bool SQLiteStatement::reset()
-{
-	m_bHasRow = false;
-	setPrepared(false);
-	return isValid() ? sqlite3_reset(m_statement) == SQLITE_OK : false;
-}
-
-bool SQLiteStatement::finalize()
-{
-	if (isValid(false))
-	{
-		m_bFinalized = (sqlite3_finalize(m_statement) == SQLITE_OK);
-		if (m_bFinalized)
-		{
-			m_statement = NULL;
-		}
-		m_bHasRow = false;
-		setPrepared(false);
-		return (m_statement == NULL);
-	}
-	return true;
-}
-
-bool SQLiteStatement::clearBindings()
-{
-	bool bCleared = false;
-	if (isValid())
-	{
-		bCleared = (sqlite3_clear_bindings(m_statement) == SQLITE_OK);
-		m_columnsMap.clear();
-		m_bMappedColumns = false;
-	}
-	return bCleared;
 }
 
 bool SQLiteStatement::bind(const char* szParam, int iValue)
@@ -290,7 +268,7 @@ bool SQLiteStatement::step(bool bLooping)
 	m_bHasRow = (rc == SQLITE_ROW);
 	if (rc != SQLITE_ROW && bLooping)
 	{
-		reset();
+		sqlite3_reset(m_statement);
 	}
 	return m_bHasRow;
 }

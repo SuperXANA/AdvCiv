@@ -79,6 +79,7 @@ public:
 	CvDatabaseQuery& clear();
 	const CvString& getSQLString() const;
 	
+	CvDatabaseQuery& setLookupKey(const char* key);
 	SQLiteStatement& getStatement();
 	void applyTo(SQLiteStatement& stmt);
 

@@ -463,6 +463,12 @@ const CvString& CvDatabaseQuery::getSQLString() const
     return m_sql;
 }
 
+CvDatabaseQuery& CvDatabaseQuery::setLookupKey(const char* key)
+{
+	m_queryStatement.setLookupKey(!key ? m_sql : key);
+	return *this;
+}
+
 SQLiteStatement& CvDatabaseQuery::getStatement()
 {
 	m_queryStatement.prepare(m_sql);

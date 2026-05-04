@@ -41,12 +41,12 @@ bool SQLiteConnection::isValid() const
 	return (m_database != NULL);
 }
 
-sqlite3* SQLiteConnection::getDatabase()
-{
-	return m_database ? m_database : NULL;
-}
-
 bool SQLiteConnection::exec(const CvString& szSQL)
 {
 	return (sqlite3_exec(m_database, szSQL.GetCString(), NULL, NULL, NULL) == SQLITE_OK);
+}
+
+bool SQLiteConnection::prepare(sqlite3_stmt* pStatement, const CvString& szSQL)
+{
+	return (sqlite3_prepare_v2(m_database, szSQL.GetCString(), -1, &pStatement, NULL) == SQLITE_OK);
 }

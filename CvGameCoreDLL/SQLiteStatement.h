@@ -17,7 +17,7 @@ public:
 	SQLiteStatement(const std::string& sql);
 	~SQLiteStatement();
 	
-	bool isValid(bool bCheckDatabaseConnection = true) const;
+	bool isValid() const;
 	bool isPrepared() const { return isValid() && m_bPrepared; }
 	bool hasRow(int iColumn) const { return isPrepared() && m_bHasRow && (iColumn >= 0); }
 	
@@ -38,10 +38,8 @@ public:
 	bool isNull(const char* szColName) const;
 	
 	bool mapColumns();
-
-	bool reset();
-	bool finalize();
-	bool clearBindings();
+	void reset(bool bClearColumnMap = false);
+	void finalize();
 
 	bool bind(const char* szParam, int iValue);
 	bool bind(const char* szParam, float fValue);
@@ -55,15 +53,19 @@ public:
 	bool hasBinding(const char* szParam) const;
 
 	void setPrepared(bool b) { m_bPrepared = b; }
+	
+	void setLookupKey(const CvString& szKey) { m_szKey = szKey; }
+	void setLookupKey(const char* key) { setLookupKey(CvString(key)); }
+	void setLookupKey(const std::string& key) { setLookupKey(CvString(key)); }
 
 private:
+	CvString m_szKey;
 	CvString m_szSQL;
-	mutable sqlite3_stmt* m_statement;
+	sqlite3_stmt* m_statement;
 	bool m_bHasRow;
 	typedef stdext::hash_map<std::string, int> ColumnsMap;
 	ColumnsMap m_columnsMap;
 	bool m_bMappedColumns;
-	bool m_bFinalized;
 	bool m_bPrepared;
 	
 	bool step(bool bLooping = true);
