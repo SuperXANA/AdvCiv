@@ -34,7 +34,7 @@ bool SQLiteStatement::prepare(const CvString& szSQL)
 	{
 		return false;
 	}
-	if (isValid() && m_bPrepared)
+	if (isPrepared())
 	{
 		return true;
 	}
