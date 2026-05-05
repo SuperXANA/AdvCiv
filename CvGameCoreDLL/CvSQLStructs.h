@@ -5,8 +5,8 @@
 
 class CvDatabaseManager;
 class CvDatabaseQuery;
+class SQLiteTransaction;
 class SQLiteStatement;
 class SQLiteValue;
-class SQLiteTransaction;
 
 #endif	// CVSQLSTRUCTS_H

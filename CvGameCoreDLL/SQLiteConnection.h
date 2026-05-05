@@ -20,6 +20,6 @@ private:
 	bool close();
 	bool isValid() const;
 	bool exec(const CvString& szSQL);
-	bool prepare(sqlite3_stmt* pStatement, const CvString& szSQL);
+	bool prepare(sqlite3_stmt*& kStatement, const CvString& szSQL);
 };
 #endif

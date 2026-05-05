@@ -4,21 +4,17 @@
 #include "SQLiteValue.h"
 
 SQLiteStatement::SQLiteStatement()
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bPrepared(false), m_szSQL(NULL), m_szKey(NULL)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bPrepared(false), m_szKey(NULL), m_szSQL(NULL)
 	{}
 
 
+SQLiteStatement::SQLiteStatement(const CvString& szKey)
+	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bPrepared(false), m_szKey(szKey), m_szSQL(NULL)
+	{}
+	
 SQLiteStatement::SQLiteStatement(const CvString& szKey, const CvString& szSQL)
 	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bPrepared(false), m_szKey(szKey), m_szSQL(szSQL)
 	{
-		setLookupKey(m_szKey);
-		prepare(m_szSQL);
-	}
-	
-SQLiteStatement::SQLiteStatement(const std::string& key, const std::string& sql)
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bPrepared(false), m_szKey(key), m_szSQL(sql)
-	{
-		setLookupKey(m_szKey);
 		prepare(m_szSQL);
 	}
 
@@ -34,16 +30,15 @@ bool SQLiteStatement::isValid() const
 
 bool SQLiteStatement::prepare(const CvString& szSQL)
 {
-	if (!(szSQL.GetCString()))
+	if (!m_szKey.GetCString())
 	{
 		return false;
 	}
-	m_szSQL = szSQL;
 	if (isValid() && m_bPrepared)
 	{
 		return true;
 	}
-	m_statement = DB.prepareStatementFromCache(m_szKey, m_szSQL);
+	m_statement = DB.prepareStatementFromCache(m_szKey, szSQL);
 	if (m_statement == NULL)
 	{
 		return false;
@@ -54,11 +49,6 @@ bool SQLiteStatement::prepare(const CvString& szSQL)
 		m_bMappedColumns = mapColumns();
 	}
 	return true;
-}
-
-bool SQLiteStatement::prepare(const std::string& sql)
-{
-	return prepare(CvString(sql));
 }
 
 bool SQLiteStatement::exec()
@@ -183,7 +173,7 @@ void SQLiteStatement::reset(bool bClearColumnMap)
 
 void SQLiteStatement::finalize()
 {
-	reset(true);
+	reset();
 }
 
 int SQLiteStatement::getColumnIndex(const char* szName) const

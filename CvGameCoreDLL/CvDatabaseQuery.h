@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
-#include "SQLiteStatement.h"
 
 #ifndef CV_SQLITEQUERY_H
 #define CV_SQLITEQUERY_H
@@ -78,10 +77,6 @@ public:
 	
 	CvDatabaseQuery& clear();
 	const CvString& getSQLString() const;
-	
-	CvDatabaseQuery& setLookupKey(const char* key);
-	SQLiteStatement& getStatement();
-	void applyTo(SQLiteStatement& stmt);
 
 private:
 	CvString m_sql;
@@ -90,6 +85,5 @@ private:
 	bool m_hasColumns;
 	bool m_hasCreateColumns;
 	static std::string intToString(int value);
-	SQLiteStatement m_queryStatement;
 };
 #endif // CV_SQLITEQUERY_H

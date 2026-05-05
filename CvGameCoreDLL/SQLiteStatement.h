@@ -13,8 +13,8 @@ class SQLiteStatement : private boost::noncopyable
 {
 public:
 	SQLiteStatement();
-	SQLiteStatement(const CvString& szSQL);
-	SQLiteStatement(const std::string& sql);
+	SQLiteStatement(const CvString& szkey);
+	SQLiteStatement(const CvString& szKey, const CvString& szSQL);
 	~SQLiteStatement();
 	
 	bool isValid() const;
@@ -22,7 +22,6 @@ public:
 	bool hasRow(int iColumn) const { return isPrepared() && m_bHasRow && (iColumn >= 0); }
 	
 	bool prepare(const CvString& szSQL);
-	bool prepare(const std::string& sql);
 	
 	bool exec(); // XANA (note): Use for single queries, when loops aren't needed.
 	bool next(); // XANA (note): Use for looping queries, when a while loop is needed.
@@ -38,7 +37,7 @@ public:
 	bool isNull(const char* szColName) const;
 	
 	bool mapColumns();
-	void reset(bool bClearColumnMap = false);
+	void reset(bool bClearColumnMap = true);
 	void finalize();
 
 	bool bind(const char* szParam, int iValue);
@@ -53,14 +52,9 @@ public:
 	bool hasBinding(const char* szParam) const;
 
 	void setPrepared(bool b) { m_bPrepared = b; }
-	
-	void setLookupKey(const CvString& szKey) { m_szKey = szKey; }
-	void setLookupKey(const char* key) { setLookupKey(CvString(key)); }
-	void setLookupKey(const std::string& key) { setLookupKey(CvString(key)); }
 
 private:
 	CvString m_szKey;
-	CvString m_szSQL;
 	sqlite3_stmt* m_statement;
 	bool m_bHasRow;
 	typedef stdext::hash_map<std::string, int> ColumnsMap;

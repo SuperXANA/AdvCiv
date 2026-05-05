@@ -463,24 +463,6 @@ const CvString& CvDatabaseQuery::getSQLString() const
     return m_sql;
 }
 
-CvDatabaseQuery& CvDatabaseQuery::setLookupKey(const char* key)
-{
-	m_queryStatement.setLookupKey(!key ? m_sql : key);
-	return *this;
-}
-
-SQLiteStatement& CvDatabaseQuery::getStatement()
-{
-	m_queryStatement.prepare(m_sql);
-    return m_queryStatement;
-}
-
-void CvDatabaseQuery::applyTo(SQLiteStatement& stmt)
-{
-	stmt.setPrepared(false);
-    stmt.prepare(m_sql);
-}
-
 static std::string CvDatabaseQuery::intToString(int value)
 {
 	std::ostringstream kStream;
