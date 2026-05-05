@@ -52,6 +52,7 @@ public:
 	bool hasBinding(const char* szParam) const;
 
 	void setPrepared(bool b) { m_bPrepared = b; }
+	void setLookupKey(const CvString& szkey) { m_szKey = szkey; }
 
 private:
 	CvString m_szKey;
