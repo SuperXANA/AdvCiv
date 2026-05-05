@@ -30,7 +30,7 @@ bool SQLiteStatement::isValid() const
 
 bool SQLiteStatement::prepare(const CvString& szSQL)
 {
-	if (!m_szKey.GetCString())
+	if (!m_szKey.GetCString() || !szSQL.GetCString())
 	{
 		return false;
 	}
