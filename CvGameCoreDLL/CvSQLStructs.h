@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CvDatabaseSchema.h"
+
 #ifndef CVSQLSTRUCTS_H
 #define CVSQLSTRUCTS_H
 
