@@ -149,10 +149,7 @@
 	DO(CityTab, CITYTAB) \
 	DO(Calendar, CALENDAR) \
 	DO(UnitAI, UNITAI) \
-	DO(Denial, DENIAL) \
-	/* XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ */ \
-	DO(AlignmentFaction, ALIGNMENT_FACTION)
-	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+	DO(Denial, DENIAL)
 
 #define DO_FOR_EACH_INFO_TYPE(DO) \
 	DO_FOR_EACH_DYN_INFO_TYPE(DO) \
@@ -200,7 +197,18 @@
 	DO(AIDemand, AI_DEMAND) /* advc.104m */ \
 	/* XANA: 11-15-2025 Reputation System for Advanced Civ */ \
 	DO(ReputationEffect, REPUTATION_EFFECT) \
-	/* XANA: 11-15-2025 Reputation System for Advanced Civ */
+	/* XANA: 11-15-2025 Reputation System for Advanced Civ */ \
+	/* XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ */ \
+	DO(AlignmentFaction, ALIGNMENT_FACTION) \
+	/* XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ */ \
+	/* XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence */ \
+	DO(Rapport, RAPPORT) \
+	DO(Amity, Amity) \
+	DO(TrustLevel, TRUSTLEVEL) \ \
+	DO(EmotionIntensity, EMOTIONINTENSITY) \
+	DO(Emotion, EMOTION) \
+	DO(DiploScene, DIPLOSCENE)
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
 
 // For generating enum definitions and traits ...
 #define NUM_ENUM_TYPES(INFIX) NUM_##INFIX##_TYPES

@@ -2368,6 +2368,89 @@ ENUM_START(AlignmentFaction, ALIGNMENT_FACTION)
 ENUM_END(AlignmentFaction, ALIGNMENT_FACTION)
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 
+// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
+ENUM_START(Rapport, RAPPORT)
+	RAPPORT_TRUE_ENEMY,
+	RAPPORT_HOSTILE,
+	RAPPORT_DISLIKED,
+	RAPPORT_AGGRAVATED,
+	RAPPORT_IRRITATED,
+	
+	RAPPORT_NEUTRAL,
+	
+	RAPPORT_AMIABLE,
+	RAPPORT_ACQUAINTED,
+	RAPPORT_COMRADE,
+	RAPPORT_CONFIDENT,
+	RAPPORT_TRUE_ALLY,
+ENUM_END(Rapport, RAPPORT)
+// Sort Term Bond Styles -^
+
+ENUM_START(Amity, AMITY)
+	AMITY_HATED,
+	AMITY_RESENTED,
+	AMITY_FRACTURED,
+	AMITY_COLD,
+	AMITY_DISTANT,
+	
+	AMITY_NEUTRAL,
+	
+	AMITY_LIKED,
+	AMITY_WARM,
+	AMITY_BEFRIENDED,
+	AMITY_LOVED,
+	AMITY_DEVOTED,
+ENUM_END(Amity, AMITY)
+// Long Term Bond Styles -^
+
+ENUM_START(TrustLevel, TRUSTLEVEL)
+	TRUSTLEVEL_ABSOLUTE_DISTRUST,
+	TRUSTLEVEL_PARANOID,
+	TRUSTLEVEL_DISTRUSTFUL,
+	TRUSTLEVEL_SUSPICIOUS,
+	TRUSTLEVEL_WARY,
+	
+	TRUSTLEVEL_GUARDED,
+	
+	TRUSTLEVEL_UNWARY,
+	TRUSTLEVEL_RELIABILE,
+	TRUSTLEVEL_CONFIDENT,
+	TRUSTLEVEL_CREDIBILE,
+	TRUSTLEVEL_ABSOLUTE_TRUST,
+ENUM_END(TrustLevel, TRUSTLEVEL)
+
+ENUM_START(EmotionIntensity, EMOTIONINTENSITY)
+	EMOTIONINTENSITY_CALM,
+	EMOTIONINTENSITY_LOW,
+	EMOTIONINTENSITY_MEDIUM,
+	EMOTIONINTENSITY_HIGH,
+	EMOTIONINTENSITY_INTENSE,
+ENUM_END(EmotionIntensity, EMOTIONINTENSITY)
+// Emotion Intensity Styles -^
+
+ENUM_START(Emotion, EMOTION)
+	EMOTION_ANGERED,
+	EMOTION_FEARFUL,
+	EMOTION_CONFIDENT,
+	EMOTION_WISTFUL,
+	EMOTION_GRATEFUL,
+ENUM_END(Emotion, EMOTION)
+// Emotion Styles modified by emotion intensity -^
+
+ENUM_START(DiploScene, DIPLOSCENE)
+	DIPLOSCENE_DEFAULT,				// Scene with no effect on values
+	DIPLOSCENE_MILITARY_VICTORY,    // Won major battle recently
+	DIPLOSCENE_MILITARY_DEFEAT,     // Lost units/cities
+	DIPLOSCENE_ECONOMIC_BOOM,       // Tech lead/gold surplus
+	DIPLOSCENE_ECONOMIC_CRISIS,     // Inflation/war weariness
+	DIPLOSCENE_DIPLOMATIC_ISOLATED, // No allies, surrounded
+	DIPLOSCENE_DIPLOMATIC_DOMINANT, // Controlling UN/AP, vassals
+	DIPLOSCENE_PLEADING,            // Asking for mercy/peace
+	DIPLOSCENE_DEMANDING,           // Making threats
+ENUM_END(DiploScene, DIPLOSCENE)
+// Diplomatic Scenes that are calculated on-the-fly based on game state, modifies the Rapport, Amity, and Trust Level data and/or requirement, used when deciding what to do about a player diplomacy request -^
+// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
+
 #define DO_FOR_EACH_FALSE_FRIEND(DO) \
 	DO(Player,Team) \
 	DO(PlayerOption,GameOption) \
