@@ -2,6 +2,7 @@
 #include "CvDatabaseManager.h"
 #include "SQLiteConnection.h"
 #include "CvDatabaseFwd.h"
+#include <fstream>
 
 CvDatabaseManager::CvDatabaseManager() : m_sqlite(NULL): m_doCache(false)
 {}
@@ -49,8 +50,29 @@ bool CvDatabaseManager::init()
 		}
 		else return false; // XANA (note): Can't save a database file in an invalid, empty location, so we won't initialize at all
 		m_sqlite = new SQLiteConnection(szDatabasePath);
+		if (isValid())
+		{
+			int iVersion = SQL_SCHEMA_VERSION;
+			if (testSchemaVersion(iVersion))
+			{
+				return true; // XANA (note): Database schema matches the schema required in the DLL header, everything is ready!
+			}
+			else if (iVersion > 0 && iVersion < SQL_SCHEMA_VERSION) /* XANA (note): If the above test returned false and it found a lower sehema version than expected, then that means we need to migrate the data */
+			{
+				// XANA (note): Need to determine how to operate a "migration script" when the database needs to be rebuilt...
+				bool const bErasedDatabase = migrateDatabaseSchema(); /* TODO: Edit function so that it's not a SQL erase query... */
+				/* XANA (note): For now, we will just erase whatever's in our database and use the below function to recreate it... */
+				return (bErasedDatabase && writeSchemaToDatabase());
+			}
+			else
+			{
+				// XANA (note): We have a fresh & never-used database, so we'll set it up now!
+				return writeSchemaToDatabase();
+			}
+		}
+		else return false;
 	}
-	return isValid();
+	return true;
 }
 
 sqlite3_stmt* CvDatabaseManager::prepareStatementFromCache(const CvString& szKey, const CvString& szSQL)
@@ -59,13 +81,17 @@ sqlite3_stmt* CvDatabaseManager::prepareStatementFromCache(const CvString& szKey
 	{
 		return NULL;
 	}
-	std::vector<sqlite3_stmt*>& vPool = m_statementPool[szKey];
-	// XANA (note): If we have cached a statement like this before, meaning the vector pool wasn't empty, give what we found back to the caller now so it can be processed immediately.
-	if (!vPool.empty())
+	StatementPool::iterator it = m_statementPool.find(szKey);
+	if (it != m_statementPool.end())
 	{
-		sqlite3_stmt* pStatement = vPool.back();
-		vPool.pop_back();
-		return pStatement;
+		std::vector<sqlite3_stmt*>& vPool = it->second;
+		// XANA (note): If we have cached a statement like this before, meaning the vector pool wasn't empty, give what we found back to the caller now so it can be processed immediately.
+		if (!vPool.empty())
+		{
+			sqlite3_stmt* pStatement = vPool.back();
+			vPool.pop_back();
+			return pStatement;
+		}
 	}
 	/* XANA (note): If we fell through when checking against szKey's vector storage, there's clearly nothing to use here from our memory.
 	We'll get a new statement ready now, using the query text for szSQL, and the caller will automatically add it back to the cache once it's finished processing. */
@@ -122,4 +148,54 @@ bool CvDatabaseManager::prepare(sqlite3_stmt*& kStatement, const CvString& szSQL
 		return false;
 	}
 	return m_sqlite->prepare(kStatement, szSQL);
+}
+
+bool CvDatabaseManager::testSchemaVersion(int& iVersion)
+{
+	SQLSchemaData kStruct;
+	iVersion = kStruct.query();
+	if (iVersion > 0)
+	{
+		return (iVersion == SQL_SCHEMA_VERSION);
+	}
+	return false;
+}
+
+bool CvDatabaseManager::writeSchemaToDatabase()
+{
+	CvString szFileData;
+	{
+		CvString szFile(GC.getModName().getFullPath()); // XANA (note): This should resolve to "Mods\MLP Civilization is Magic" according to code comments surrounding the getFullPath function.
+		szFile += "\\SQL\\CvGameDatabaseSchema.sql" // XANA (note): The full path for a correct resolution is "Mods\MLP Civilization is Magic\Assets\SQL\CvGameDatabaseSchema.sql"
+		std::ifstream kFile(szFile.GetCString(), std::ios::binary | std::ios::ate);
+		if (kFile.is_open())
+		{
+			std::streamsize size = kFile.tellg();
+			if (size <= 0)
+			{
+				return false;
+			}
+			kFile.seekg(0, std::ios::beg);
+			std::vector<char> kBuffer(static_cast<size_t>(size));
+			if (kFile.read(&kBuffer[0], size))
+			{
+				szFileData = CvString(std::string(kBuffer.begin(), kBuffer.end()).c_str());
+			}
+			kFile.close();
+		}
+		else return false;
+	}
+	if (!szFileData.empty())
+	{
+		return exec(szFileData);
+	}
+	return false; 
+}
+
+bool CvDatabaseManager::migrateDatabaseSchema()
+{
+	return exec(CvString("PRAGMA writable_schema = 1;"
+		"DELETE FROM sqlite_master;"
+		"PRAGMA writable_schema = 0;"
+		"VACUUM;"));
 }

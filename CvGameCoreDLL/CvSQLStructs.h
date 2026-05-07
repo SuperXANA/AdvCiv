@@ -11,4 +11,10 @@ class SQLiteTransaction;
 class SQLiteStatement;
 class SQLiteValue;
 
+struct SQLSchemaData
+{
+	int query() const;
+};
+
+
 #endif	// CVSQLSTRUCTS_H

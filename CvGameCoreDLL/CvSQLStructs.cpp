@@ -6,3 +6,15 @@
 #include "SQLiteTransaction.h"
 #include "SQLiteStatement.h"
 #include "SQLiteValue.h"
+
+int SQLSchemaData::query() const
+{
+	const CvString szName("SQL Schema Version Check");
+	const CvString szSQL("PRAGMA user_version;");	
+	SQLiteStatement kStatement(szName, szSQL);
+	if (kStatement.exec())
+	{
+		return kStatement.getInt(0);
+	}
+	return 0;
+}

@@ -25,6 +25,9 @@ private:
 	void returnStatementToCache(const CvString& szKey, sqlite3_stmt*& kStatement);
 	void clearStatementPool();
 	bool prepare(sqlite3_stmt*& kStatement, const CvString& szSQL);
+	bool testSchemaVersion(int& iVersion);
+	bool writeSchemaToDatabase();
+	bool migrateDatabaseSchema();
 	
 	typedef stdext::hash_map<std::string, std::vector<sqlite3_stmt*> > StatementPool;
 	StatementPool m_statementPool;

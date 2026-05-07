@@ -28,7 +28,7 @@ bool SQLiteConnection::close()
 {
 	if (isValid())
 	{
-		if ((sqlite3_close(m_database) == SQLITE_OK))
+		if (sqlite3_close(m_database) == SQLITE_OK)
 		{
 			m_database = NULL;
 		}

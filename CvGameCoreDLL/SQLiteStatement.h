@@ -53,6 +53,13 @@ public:
 
 	void setPrepared(bool b) { m_bPrepared = b; }
 	void setLookupKey(const CvString& szkey) { m_szKey = szkey; }
+	
+	int getInt(int iColumn) const;
+	float getFloat(int iColumn) const;
+	double getDouble(int iColumn) const;
+	bool getBool(int iColumn) const;
+	CvString getText(int iColumn) const;
+	bool isNull(int iColumn) const;
 
 private:
 	CvString m_szKey;
@@ -80,13 +87,6 @@ private:
 	int getColumnType(const char* szColName) const;
 	int getColumnType(int iColumn) const;
 	int getColumnIndex(const char* szName) const;
-	
-	int getInt(int iColumn) const;
-	float getFloat(int iColumn) const;
-	double getDouble(int iColumn) const;
-	bool getBool(int iColumn) const;
-	CvString getText(int iColumn) const;
-	bool isNull(int iColumn) const;
 };
 
 #endif
