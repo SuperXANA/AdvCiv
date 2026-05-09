@@ -16,10 +16,11 @@ private:
 	~SQLiteConnection();
 	sqlite3* m_database;
 	CvString m_szFilename;
-	bool open(bool bReopen = false);
+	bool open();
 	bool close();
 	bool isValid() const;
 	bool exec(const CvString& szSQL);
 	bool prepare(sqlite3_stmt*& kStatement, const CvString& szSQL);
+	bool finalizeAllStatements();
 };
 #endif

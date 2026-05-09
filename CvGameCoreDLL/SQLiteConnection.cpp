@@ -2,31 +2,31 @@
 #include "CvDatabaseFwd.h"
 
 SQLiteConnection::SQLiteConnection(const CvString& szFilename) : m_database(NULL), m_szFilename(szFilename)
-{
-	open();
-}
+{}
 
 SQLiteConnection::~SQLiteConnection()
-{
-	close();
-}
+{}
 
-bool SQLiteConnection::open(bool bReopen)
+bool SQLiteConnection::open()
 {
-	if (!bReopen && isValid())
+	if (isValid())
 	{
 		return true;
 	}
-	else if (bReopen && isValid())
+	if (sqlite3_open_v2(m_szFilename.GetCString(), &m_database, (SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE), NULL) == SQLITE_OK)
 	{
-		close();
+		return true;
 	}
-	return (sqlite3_open_v2(m_szFilename.GetCString(), &m_database, (SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE), NULL) == SQLITE_OK);
+	else
+	{
+		m_database = NULL;
+		return false;
+	}
 }
 
 bool SQLiteConnection::close()
 {
-	if (isValid())
+	if (finalizeAllStatements())
 	{
 		if (sqlite3_close(m_database) == SQLITE_OK)
 		{
@@ -49,4 +49,19 @@ bool SQLiteConnection::exec(const CvString& szSQL)
 bool SQLiteConnection::prepare(sqlite3_stmt*& kStatement, const CvString& szSQL)
 {
 	return (sqlite3_prepare_v2(m_database, szSQL.GetCString(), -1, &kStatement, NULL) == SQLITE_OK);
+}
+
+bool SQLiteConnection::finalizeAllStatements()
+{
+	if (!isValid())
+	{
+		return false;
+	}
+	sqlite3_stmt* pStatement = NULL;
+	while ((pStatement = sqlite3_next_stmt(m_database, NULL)) != NULL)
+	{
+		sqlite3_finalize(pStatement);
+		pStatement = NULL;
+	}
+	return true;
 }

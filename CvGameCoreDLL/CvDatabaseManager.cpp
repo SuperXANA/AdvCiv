@@ -4,15 +4,11 @@
 #include "CvDatabaseFwd.h"
 #include <fstream>
 
-CvDatabaseManager::CvDatabaseManager() : m_sqlite(NULL): m_doCache(false)
+CvDatabaseManager::CvDatabaseManager() : m_sqlite(NULL): m_bDoCache(false): m_bActive(false): m_bSqlLoaded(false)
 {}
 
 CvDatabaseManager::~CvDatabaseManager()
-{
-	m_doCache = false;
-	clearStatementPool();
-	SAFE_DELETE(m_sqlite);
-}
+{}
 
 bool CvDatabaseManager::exec(const CvString& szSQL)
 {
@@ -25,7 +21,7 @@ bool CvDatabaseManager::exec(const CvString& szSQL)
 
 bool CvDatabaseManager::isValid() const
 {
-	return (m_sqlite ? m_sqlite->isValid() : false);
+	return ((m_sqlite && m_bActive && m_bSqlLoaded) ? m_sqlite->isValid() : false);
 }
 
 bool CvDatabaseManager::init()
@@ -43,36 +39,66 @@ bool CvDatabaseManager::init()
 				szDatabasePath += ("-MP_" + CvString(GC.getGame().getName()));
 			}
 			szDatabasePath += ".sqlite"
-			if (!m_doCache)
-			{
-				m_doCache = true;
-			}
 		}
 		else return false; // XANA (note): Can't save a database file in an invalid, empty location, so we won't initialize at all
 		m_sqlite = new SQLiteConnection(szDatabasePath);
-		if (isValid())
+		if (m_sqlite != NULL && m_sqlite->open())
 		{
-			int iVersion = SQL_SCHEMA_VERSION;
-			if (testSchemaVersion(iVersion))
+			if (!m_bActive)
 			{
-				return true; // XANA (note): Database schema matches the schema required in the DLL header, everything is ready!
+				m_bActive = true;
 			}
-			else if (iVersion > 0 && iVersion < SQL_SCHEMA_VERSION) /* XANA (note): If the above test returned false and it found a lower sehema version than expected, then that means we need to migrate the data */
+			if (!m_bSqlLoaded)
 			{
-				// XANA (note): Need to determine how to operate a "migration script" when the database needs to be rebuilt...
-				bool const bErasedDatabase = migrateDatabaseSchema(); /* TODO: Edit function so that it's not a SQL erase query... */
-				/* XANA (note): For now, we will just erase whatever's in our database and use the below function to recreate it... */
-				return (bErasedDatabase && writeSchemaToDatabase());
+				if (!m_bDoCache)
+				{
+					m_bDoCache = true;
+				}
+				int iVersion = SQL_SCHEMA_VERSION;
+				if (testSchemaVersion(iVersion))
+				{
+					m_bSqlLoaded = true;
+					return m_bSqlLoaded; // XANA (note): Database schema matches the schema required in the DLL header, everything is ready!
+				}
+				else if (iVersion >= 0 && iVersion != SQL_SCHEMA_VERSION) /* XANA (note): If the above test returned false and it found a lower sehema version than expected, then that means we need to migrate the data */
+				{
+					// XANA (note): Need to determine how to operate a "migration script" when the database needs to be rebuilt...
+					bool const bErasedDatabase = migrateDatabaseSchema(); /* TODO: Edit function so that it's not a SQL erase query... */
+					/* XANA (note): For now, we will just erase whatever's in our database and use the below function to recreate it... */
+					m_bSqlLoaded = (bErasedDatabase && writeSchemaToDatabase());
+				}	return m_bSqlLoaded;
+				else
+				{
+					// XANA (note): We have a fresh & never-used database, so we'll set it up now!
+					m_bSqlLoaded = writeSchemaToDatabase();
+					return m_bSqlLoaded;
+				}
 			}
-			else
-			{
-				// XANA (note): We have a fresh & never-used database, so we'll set it up now!
-				return writeSchemaToDatabase();
-			}
+			else return true;
 		}
 		else return false;
 	}
-	return true;
+	if (isValid())
+	{	
+		return m_bSqlLoaded;
+	}
+	return false;
+}
+
+bool CvDatabaseManager::uninit()
+{
+	m_bDoCache = false;
+	clearStatementPool();
+	if (isValid())
+	{
+		if (m_sqlite->close())
+		{
+			SAFE_DELETE(m_sqlite);
+		}
+	}
+	m_bActive = false;
+	m_bSqlLoaded = false;
+	return (m_sqlite == NULL);
 }
 
 sqlite3_stmt* CvDatabaseManager::prepareStatementFromCache(const CvString& szKey, const CvString& szSQL)
@@ -154,7 +180,7 @@ bool CvDatabaseManager::testSchemaVersion(int& iVersion)
 {
 	SQLSchemaData kStruct;
 	iVersion = kStruct.query();
-	if (iVersion > 0)
+	if (iVersion >= 0)
 	{
 		return (iVersion == SQL_SCHEMA_VERSION);
 	}
@@ -171,25 +197,24 @@ bool CvDatabaseManager::writeSchemaToDatabase()
 		if (kFile.is_open())
 		{
 			std::streamsize size = kFile.tellg();
-			if (size <= 0)
+			if (size > 0)
 			{
-				return false;
-			}
-			kFile.seekg(0, std::ios::beg);
-			std::vector<char> kBuffer(static_cast<size_t>(size));
-			if (kFile.read(&kBuffer[0], size))
-			{
-				szFileData = CvString(std::string(kBuffer.begin(), kBuffer.end()).c_str());
+				kFile.seekg(0, std::ios::beg);
+				std::vector<char> kBuffer(static_cast<size_t>(size));
+				if (kFile.read(&kBuffer[0], size))
+				{
+					szFileData = CvString(std::string(kBuffer.begin(), kBuffer.end()).c_str());
+				}
 			}
 			kFile.close();
 		}
-		else return false;
 	}
 	if (!szFileData.empty())
 	{
-		return exec(szFileData);
+		SQLSchemaData kStruct;
+		return kStruct.update(szFileData);
 	}
-	return false; 
+	return false;
 }
 
 bool CvDatabaseManager::migrateDatabaseSchema()

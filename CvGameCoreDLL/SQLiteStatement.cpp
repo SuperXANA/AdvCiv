@@ -48,6 +48,10 @@ bool SQLiteStatement::prepare(const CvString& szSQL)
 	{
 		m_bMappedColumns = mapColumns();
 	}
+	if (!m_bMappedParameters)
+	{
+		m_bMappedParameters = mapParams();
+	}
 	return true;
 }
 
@@ -140,7 +144,8 @@ bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on Map
 	{
 		return true;
 	}
-	m_columnsMap.clear();
+	m_columnNameMap.clear();
+	m_columnIDMap.clear();
 	int const iCount = getColumnCount();
 	if (iCount <= 0)
 	{
@@ -149,22 +154,59 @@ bool SQLiteStatement::mapColumns() // Hash columns for fast lookup, based on Map
 	bool bColsMapped = false;
 	for (int i = 0; i < iCount; ++i)
 	{
-		const char* szColumn = getColumnName(i);
+		const char* szColumn = getSQLColumnName(i);
 		if (szColumn)
 		{
-			m_columnsMap[szColumn] = i;
+			m_columnNameMap[szColumn] = i;
+			m_columnIDMap[i] = szColumn;
 			bColsMapped = true;
 		}
 	}
 	return bColsMapped;
 }
 
-void SQLiteStatement::reset(bool bClearColumnMap)
+bool SQLiteStatement::mapParams() // Hash parameters for fast lookup, based on MapChildren from CvXMLloadUtility
 {
-	if (bClearColumnMap)
+	if (!isValid())
 	{
-		m_columnsMap.clear();
+		return false;
+	}
+	if (m_bMappedParameters)
+	{
+		return true;
+	}
+	m_paramNameMap.clear();
+	m_paramIDMap.clear();
+	int const iCount = getParameterCount();
+	if (iCount <= 0)
+	{
+		return false;
+	}
+	bool bParamsMapped = false;
+	for (int i = 0; i < iCount; ++i)
+	{
+		const char* szParam = getSQLParameterName(i);
+		if (szParam)
+		{
+			m_paramNameMap[szParam] = i;
+			m_paramIDMap[i] = szParam;
+			bParamsMapped = true;
+		}
+	}
+	return bParamsMapped;
+}
+
+void SQLiteStatement::reset(bool bClearStatementMap)
+{
+	if (bClearStatementMap)
+	{
+		m_columnNameMap.clear();
+		m_columnIDMap.clear();
 		m_bMappedColumns = false;
+		
+		m_paramNameMap.clear();
+		m_paramIDMap.clear();
+		m_bMappedParameters = false;
 	}
 	m_bHasRow = false;
 	setPrepared(false);
@@ -182,10 +224,52 @@ int SQLiteStatement::getColumnIndex(const char* szName) const
 	{
 		return -1;
 	}
-	ColumnsMap::const_interator it = m_columnsMap.find(szName);
-    if (it == m_columnsMap.end())
+	ColumnNameMap::const_interator it = m_columnNameMap.find(szName);
+    if (it == m_columnNameMap.end())
 	{
 		return -1;
+    }
+	return it->second;
+}
+
+const char* SQLiteStatement::getColumnName(int iColumn) const
+{
+	if (!m_bMappedColumns || !isValid() || iColumn < 0)
+	{
+		return NULL;
+	}
+	ColumnIDMap::const_interator it = m_columnIDMap.find(iColumn);
+    if (it == m_columnIDMap.end())
+	{
+		return NULL;
+    }
+	return it->second;
+}
+
+int SQLiteStatement::getParameterIndex(const char* szName) const
+{
+	if (!m_bMappedParameters || !isValid() || !szName)
+	{
+		return 0;
+	}
+	ParameterNameMap::const_interator it = m_paramNameMap.find(szName);
+    if (it == m_paramNameMap.end())
+	{
+		return 0;
+    }
+	return it->second;
+}
+
+const char* SQLiteStatement::getParameterName(int index) const
+{
+	if (!m_bMappedParameters || !isValid() || index <= 0)
+	{
+		return NULL;
+	}
+	ParameterIDMap::const_interator it = m_paramIDMap.find(index);
+    if (it == m_paramIDMap.end())
+	{
+		return NULL;
     }
 	return it->second;
 }
@@ -254,9 +338,8 @@ bool SQLiteStatement::step(bool bLooping)
 		m_bHasRow = false;
 		return false;
 	}
-	int const rc = sqlite3_step(m_statement);
-	m_bHasRow = (rc == SQLITE_ROW);
-	if (rc != SQLITE_ROW && bLooping)
+	m_bHasRow = (sqlite3_step(m_statement) == SQLITE_ROW);
+	if (!m_bHasRow && bLooping)
 	{
 		sqlite3_reset(m_statement);
 	}
@@ -301,6 +384,11 @@ bool SQLiteStatement::isNull(int iColumn) const
 int SQLiteStatement::getColumnCount() const
 {
 	return isValid() ? sqlite3_column_count(m_statement) : 0;
+}
+
+int SQLiteStatement::getParameterCount() const
+{
+	return isValid() ? sqlite3_bind_parameter_count(m_statement) : 0;
 }
 
 bool SQLiteStatement::bind(int index, int iValue)
@@ -350,12 +438,12 @@ bool SQLiteStatement::bindNull(int index)
 	return isValid() ? sqlite3_bind_null(m_statement, index) == SQLITE_OK : false;
 }
 
-int SQLiteStatement::getParameterIndex(const char* szName) const
+const char* SQLiteStatement::getSQLParameterName(int index) const
 {
-	return (isValid() && szName) ? sqlite3_bind_parameter_index(m_statement, szName) : 0;
+	return (isValid() && index > 0) ? sqlite3_bind_parameter_name(m_statement, index) : NULL;
 }
 
-const char* SQLiteStatement::getColumnName(int col) const
+const char* SQLiteStatement::getSQLColumnName(int col) const
 {
 	return isValid() ? sqlite3_column_name(m_statement, col) : NULL;
 }

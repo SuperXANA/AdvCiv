@@ -12,13 +12,13 @@ class SQLiteConnection;
 class CvDatabaseManager : private boost::noncopyable
 {
 	friend class SQLiteStatement; // XANA (note): The Statement class is the only one needing access to the sqlite pointer cache. For safety we will hide the cache from the rest of the normal game code.
+	friend class CvGame; // XANA (note): The CvGame class is the only one needing access to the initializing functions. For safety we will hide the loading methods from the rest of the normal game code.
 public:
 	CvDatabaseManager();
 	~CvDatabaseManager();
 	
 	bool exec(const CvString& szSQL);
 	bool isValid() const;
-	bool init();
 	
 private:
 	sqlite3_stmt* prepareStatementFromCache(const CvString& szKey, const CvString& szSQL);
@@ -28,11 +28,26 @@ private:
 	bool testSchemaVersion(int& iVersion);
 	bool writeSchemaToDatabase();
 	bool migrateDatabaseSchema();
+	bool init();
+	bool uninit();
+	bool reset()
+	{
+		if (uninit())
+		{
+			if (init())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	typedef stdext::hash_map<std::string, std::vector<sqlite3_stmt*> > StatementPool;
 	StatementPool m_statementPool;
 	
 	SQLiteConnection* m_sqlite;
-	bool m_doCache;
+	bool m_bDoCache;
+	bool m_bSqlLoaded;
+	bool m_bActive;
 };
 #endif

@@ -13,7 +13,8 @@ class SQLiteValue;
 
 struct SQLSchemaData
 {
-	int query() const;
+	int query();
+	bool update(const CvString& szSQL);
 };
 
 

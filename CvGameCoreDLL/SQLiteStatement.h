@@ -37,7 +37,7 @@ public:
 	bool isNull(const char* szColName) const;
 	
 	bool mapColumns();
-	void reset(bool bClearColumnMap = true);
+	void reset(bool bClearStatementMap = true);
 	void finalize();
 
 	bool bind(const char* szParam, int iValue);
@@ -60,14 +60,29 @@ public:
 	bool getBool(int iColumn) const;
 	CvString getText(int iColumn) const;
 	bool isNull(int iColumn) const;
+	
+	int getColumnIndex(const char* szName) const;
+	const char* getColumnName(int iColumn) const;
+	int getParameterIndex(const char* szName) const;
+	const char* getParameterName(int index) const;
 
 private:
 	CvString m_szKey;
 	sqlite3_stmt* m_statement;
 	bool m_bHasRow;
-	typedef stdext::hash_map<std::string, int> ColumnsMap;
-	ColumnsMap m_columnsMap;
+	
+	typedef stdext::hash_map<std::string, int> ColumnNameMap;
+	ColumnNameMap m_columnNameMap;
+	typedef stdext::hash_map<int, std::string> ColumnIDMap;
+	ColumnIDMap m_columnIDMap;
+	
+	typedef stdext::hash_map<std::string, int> ParameterNameMap;
+	ParameterNameMap m_paramNameMap;
+	typedef stdext::hash_map<int, std::string> ParameterIDMap;
+	ParameterIDMap m_paramIDMap;
+	
 	bool m_bMappedColumns;
+	bool m_bMappedParameters;
 	bool m_bPrepared;
 	
 	bool step(bool bLooping = true);
@@ -81,12 +96,12 @@ private:
 	bool bind(int index, const CvString& szValue);
 	bool bind(int index, bool bValue);
 	bool bindNull(int index);
-	int getParameterIndex(const char* szName) const;
-	const char* getColumnName(int col) const;
+	
+	const char* getSQLParameterName(int index) const;
+	const char* getSQLColumnName(int col) const;
 	
 	int getColumnType(const char* szColName) const;
 	int getColumnType(int iColumn) const;
-	int getColumnIndex(const char* szName) const;
 };
 
 #endif

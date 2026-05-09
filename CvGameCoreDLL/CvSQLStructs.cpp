@@ -7,7 +7,7 @@
 #include "SQLiteStatement.h"
 #include "SQLiteValue.h"
 
-int SQLSchemaData::query() const
+int SQLSchemaData::query()
 {
 	const CvString szName("SQL Schema Version Check");
 	const CvString szSQL("PRAGMA user_version;");	
@@ -16,5 +16,18 @@ int SQLSchemaData::query() const
 	{
 		return kStatement.getInt(0);
 	}
-	return 0;
+	return -1;
+}
+
+bool SQLSchemaData::update(const CvString& szSQL)
+{
+	SQLiteTransaction kTransaction;
+	if (kTransaction.isValid())
+	{
+		if (DB.exec(szSQL))
+		{
+			return kTransaction.commit();
+		}
+	}
+	return false;
 }

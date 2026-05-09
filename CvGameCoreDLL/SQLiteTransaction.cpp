@@ -40,9 +40,12 @@ bool SQLiteTransaction::rollback()
 {
     if (isValid())
     {
-		m_bActive = false;
-		m_bCommitted = false;
-		return (DB.exec("ROLLBACK;"));
+    	if (DB.exec("ROLLBACK;"))
+    	{
+			m_bActive = false;
+			m_bCommitted = false;
+			return true;
+		}
 	}
 	return false;
 }
