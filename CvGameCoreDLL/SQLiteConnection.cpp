@@ -1,7 +1,7 @@
 #include "SQLiteConnection.h"
 #include "CvDatabaseFwd.h"
 
-SQLiteConnection::SQLiteConnection(const CvString& szFilename) : m_database(NULL), m_szFilename(szFilename)
+SQLiteConnection::SQLiteConnection(const CvWString& szFilename) : m_database(NULL), m_szFilename(szFilename)
 {}
 
 SQLiteConnection::~SQLiteConnection()
@@ -13,15 +13,15 @@ bool SQLiteConnection::open()
 	{
 		return true;
 	}
-	if (sqlite3_open_v2(m_szFilename.GetCString(), &m_database, (SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE), NULL) == SQLITE_OK)
+	if (sqlite3_open16(m_szFilename.GetCString(), &m_database) == SQLITE_OK)
 	{
 		return true;
 	}
 	else
 	{
 		m_database = NULL;
-		return false;
 	}
+	return false;
 }
 
 bool SQLiteConnection::close()

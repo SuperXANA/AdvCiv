@@ -1,10 +1,13 @@
-#include "CvBugOptions.h"
 #include "CvDatabaseManager.h"
 #include "SQLiteConnection.h"
 #include "CvDatabaseFwd.h"
 #include <fstream>
+#include <shlobj.h>
+#include <iostream>
 
-CvDatabaseManager::CvDatabaseManager() : m_sqlite(NULL): m_bDoCache(false): m_bActive(false): m_bSqlLoaded(false)
+#pragma comment(lib, "shell32.lib")
+
+CvDatabaseManager::CvDatabaseManager() : m_sqlite(NULL), m_bDoCache(false), m_bActive(false), m_bSqlLoaded(false)
 {}
 
 CvDatabaseManager::~CvDatabaseManager()
@@ -29,19 +32,12 @@ bool CvDatabaseManager::init()
 	if (m_sqlite == NULL)
 	{
 		/* XANA (note): For network games, we must ensure that the sqlite3 database will be kept in sync between the players or there will be out-of-sync errors. */
-		CvString szDatabasePath(BUGOption::userDirPath());
+		CvWString szDatabasePath(getLocationForFile());
 		if (!szDatabasePath.empty()) // XANA (note): If we successfully found the user's valid, writable My Documents folder (path not empty)
 		{
-			szDatabasePath += "\\Beyond the Sword\\"; // XANA (note): We'll put the game database inside the main BtS folder to keep it nominally safe from modification or deletion
-			szDatabasePath += "CvGameDatabase"; // XANA (note): If the file somehow gets removed, that's fine for Civ4, it won't affect actual gameplay much since the game doesn't depend on SQL to function
-			if (GC.getGame().isNetworkMultiPlayer())
-			{
-				szDatabasePath += ("-MP_" + CvString(GC.getGame().getName()));
-			}
-			szDatabasePath += ".sqlite"
+			m_sqlite = new SQLiteConnection(szDatabasePath);
 		}
-		else return false; // XANA (note): Can't save a database file in an invalid, empty location, so we won't initialize at all
-		m_sqlite = new SQLiteConnection(szDatabasePath);
+		else return false; // XANA (note): We can't save a database file in an invalid, empty location, so don't initialize at all
 		if (m_sqlite != NULL && m_sqlite->open())
 		{
 			if (!m_bActive)
@@ -125,6 +121,10 @@ sqlite3_stmt* CvDatabaseManager::prepareStatementFromCache(const CvString& szKey
 	if (prepare(pStatement, szSQL))
 	{
 		return pStatement;
+	}
+	else
+	{
+		pStatement = NULL;
 	}
 	return NULL;
 }
@@ -223,4 +223,60 @@ bool CvDatabaseManager::migrateDatabaseSchema()
 		"DELETE FROM sqlite_master;"
 		"PRAGMA writable_schema = 0;"
 		"VACUUM;"));
+}
+
+CvWString CvDatabaseManager::getLocationForFile()
+{
+	CvWString CvFilePath;
+	{
+		wchar_t szPath[MAX_PATH];
+		// CSIDL_PERSONAL refers to the "My Documents" folder.
+		// SHGFP_TYPE_CURRENT ensures we get the current path even if redirected (e.g., OneDrive).
+		HRESULT hr = SHGetFolderPathW(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, szPath);
+		if (SUCCEEDED(hr))
+		{
+			CvFilePath += (szPath + L"\\My Games\\Beyond the Sword\\");  // XANA (note): We'll put the game database inside the main BtS folder to keep it nominally safe from modification or deletion
+			CvFilePath += (CvWString(GC.getModName().getName()) + L"\\"); // XANA (note): We'll use the mod folder's name for simplictiy's sake and to keep everything neat and tidy around here
+		}
+	}
+	if (!CvFilePath.empty()) // XANA (note): If we successfully found the user's valid, writable My Documents folder (path not empty)
+	{
+		bool bValidLocation = true;
+		{
+			// XANA (note): Create the location for the database file if needed (otherwise verify that the directory structure already exists)
+			size_t position = 0;
+			do
+			{
+				// Find the next slash (handle both \ and / just in case)
+				position = CvFilePath.find_first_of(L"\\/", position + 1);
+				std::wstring directory = CvFilePath.substr(0, position);
+				// Skip drive letters like "C:" to avoid access errors
+				if (directory.length() > 0 && directory[directory.length() - 1] != L':')
+				{
+					if (!CreateDirectoryW(directory.c_str(), NULL))
+					{
+						DWORD error = GetLastError();
+						// If it already exists, we are good to keep going, however if there was some other error then that is a problem and it means we should stop immediately
+						if (error != ERROR_ALREADY_EXISTS)
+						{
+							bValidLocation = false;
+							break;
+						}
+					}
+				}
+			}
+			while (position != std::wstring::npos);
+		}
+		if (bValidLocation)
+		{
+			CvFilePath += L"CvGameDatabase"; // XANA (note): If the file somehow gets removed, that's fine for Civ4, it won't affect actual gameplay much since the game doesn't depend on SQL to function
+			if (GC.getGame().isGameMultiPlayer())
+			{
+				CvFilePath += (L"-MP_" + GC.getGame().getName());
+			}
+			CvFilePath += L".sqlite"
+			return CvFilePath;
+		}
+	}
+	return L""; // If we reach this that means something has gone wrong with attempting sqlite database initialization, we shouldn't be trying to load any databases if we can't ensure the directory structure is okay to use
 }

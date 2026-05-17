@@ -49,10 +49,13 @@ public:
 	bool bind(const char* szParam, const CvString& szValue);
 	bool bind(const char* szParam, bool bValue);
 	bool bindNull(const char* szParam);
+	bool hasColumn(const char* szName) const;
 	bool hasBinding(const char* szParam) const;
 
 	void setPrepared(bool b) { m_bPrepared = b; }
 	void setLookupKey(const CvString& szkey) { m_szKey = szkey; }
+	
+	SQLiteValue getValue(int iColumn) const;
 	
 	int getInt(int iColumn) const;
 	float getFloat(int iColumn) const;
@@ -68,6 +71,7 @@ public:
 
 private:
 	CvString m_szKey;
+	CvString m_szSQL;
 	sqlite3_stmt* m_statement;
 	bool m_bHasRow;
 	

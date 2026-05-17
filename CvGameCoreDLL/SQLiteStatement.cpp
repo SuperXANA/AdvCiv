@@ -38,7 +38,11 @@ bool SQLiteStatement::prepare(const CvString& szSQL)
 	{
 		return true;
 	}
-	m_statement = DB.prepareStatementFromCache(m_szKey, szSQL);
+	if (m_szSQL != szSQL)
+	{
+		m_szSQL = szSQL;
+	}
+	m_statement = DB.prepareStatementFromCache(m_szKey, m_szSQL);
 	if (m_statement == NULL)
 	{
 		return false;
@@ -67,23 +71,27 @@ bool SQLiteStatement::next()
 
 SQLiteValue SQLiteStatement::getValue(const char* szColName) const
 {
-	int const idx = getColumnIndex(szColName);
-	if (idx >= 0)
+	return getValue(getColumnIndex(szColName));
+}
+
+SQLiteValue SQLiteStatement::getValue(int iColumn) const
+{
+	if (iColumn >= 0)
 	{
-		switch (getColumnType(idx))
+		switch (getColumnType(iColumn))
 		{
 			case SQLITE_INTEGER:
 			{
-				return SQLiteValue(getInt(idx));
+				return SQLiteValue(getInt(iColumn));
 			}
 			case SQLITE_FLOAT:
 			{
-				return SQLiteValue(getDouble(idx));
+				return SQLiteValue(getDouble(iColumn));
 			}
 			case SQLITE3_TEXT:
 			case SQLITE_TEXT:
 			{
-				return SQLiteValue(getText(idx));
+				return SQLiteValue(getText(iColumn));
 			}
 			default:
 			{
@@ -183,7 +191,7 @@ bool SQLiteStatement::mapParams() // Hash parameters for fast lookup, based on M
 		return false;
 	}
 	bool bParamsMapped = false;
-	for (int i = 0; i < iCount; ++i)
+	for (int i = 1; i < (iCount + 1); ++i)
 	{
 		const char* szParam = getSQLParameterName(i);
 		if (szParam)
@@ -326,6 +334,11 @@ bool SQLiteStatement::bindNull(const char* szParam)
 	return (idx > 0) ? bindNull(idx) : false;
 }
 
+bool SQLiteStatement::hasColumn(const char* szName) const
+{
+    return getColumnIndex(szName) != -1;
+}
+
 bool SQLiteStatement::hasBinding(const char* szParam) const
 {
     return getParameterIndex(szParam) != 0;
@@ -338,8 +351,9 @@ bool SQLiteStatement::step(bool bLooping)
 		m_bHasRow = false;
 		return false;
 	}
-	m_bHasRow = (sqlite3_step(m_statement) == SQLITE_ROW);
-	if (!m_bHasRow && bLooping)
+	int const rc = sqlite3_step(m_statement);
+	m_bHasRow = (rc == SQLITE_ROW);
+	if (bLooping && rc != SQLITE_ROW && rc != SQLITE_DONE)
 	{
 		sqlite3_reset(m_statement);
 	}
@@ -368,7 +382,7 @@ double SQLiteStatement::getDouble(int iColumn) const
 
 bool SQLiteStatement::getBool(int iColumn) const
 {
-	return hasRow(iColumn) ? sqlite3_column_int(m_statement, iColumn) != (static_cast<int>(false)) : false;
+	return hasRow(iColumn) ? sqlite3_column_int(m_statement, iColumn) != 0 : false;
 }
 
 CvString SQLiteStatement::getText(int iColumn) const
@@ -398,7 +412,7 @@ bool SQLiteStatement::bind(int index, int iValue)
 
 bool SQLiteStatement::bind(int index, float fValue)
 {
-	return isValid() ? sqlite3_bind_double(m_statement, index, static_cast<double>(fValue)) == SQLITE_OK : false;
+	return bind(index, static_cast<double>(fValue));
 }
 
 bool SQLiteStatement::bind(int index, double dValue)
@@ -408,7 +422,7 @@ bool SQLiteStatement::bind(int index, double dValue)
 
 bool SQLiteStatement::bind(int index, scaled rValue)
 {
-	return isValid() ? sqlite3_bind_int(m_statement, index, rValue) == SQLITE_OK : false;
+	return bind(index, static_cast<int>(rValue));
 }
 
 bool SQLiteStatement::bind(int index, const char* szValue, bool bCopy = true)
@@ -430,7 +444,7 @@ bool SQLiteStatement::bind(int index, const CvString& szValue)
 
 bool SQLiteStatement::bind(int index, bool bValue)
 {
-	return isValid() ? sqlite3_bind_int(m_statement, index, static_cast<int>(bValue)) == SQLITE_OK : false;
+	return bind(index, static_cast<int>(bValue));
 }
 
 bool SQLiteStatement::bindNull(int index)
@@ -445,5 +459,5 @@ const char* SQLiteStatement::getSQLParameterName(int index) const
 
 const char* SQLiteStatement::getSQLColumnName(int col) const
 {
-	return isValid() ? sqlite3_column_name(m_statement, col) : NULL;
+	return (isValid() && col >= 0) ? sqlite3_column_name(m_statement, col) : NULL;
 }

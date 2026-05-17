@@ -28,6 +28,7 @@ private:
 	bool testSchemaVersion(int& iVersion);
 	bool writeSchemaToDatabase();
 	bool migrateDatabaseSchema();
+	CvWString getLocationForFile();
 	bool init();
 	bool uninit();
 	bool reset()
