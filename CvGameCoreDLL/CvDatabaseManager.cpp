@@ -223,6 +223,16 @@ bool CvDatabaseManager::migrateDatabaseSchema()
 		"DELETE FROM sqlite_master;"
 		"PRAGMA writable_schema = 0;"
 		"VACUUM;"));
+	// TODO - Need to enumerate over all scripts and figure out how to run them...
+	#if 0
+	std::vector<CvString> aszFiles;
+	gDLL->enumerateFiles(aszFiles, "SQL\\*_CvGameDatabaseMigrationScript.sql");
+	for (std::vector<CvString>::iterator it = aszFiles.begin(); it != aszFiles.end(); ++it)
+	{
+		if (!ExecScript(*it)) // TODO - Need something that takes a pointer to the file location found in the vector and runs the SQL script through sqlite's exec function
+			return false;
+	}
+	#endif
 }
 
 CvWString CvDatabaseManager::getLocationForFile()
