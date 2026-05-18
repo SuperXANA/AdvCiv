@@ -18,6 +18,7 @@ public:
 	~CvDatabaseManager();
 	
 	bool exec(const CvString& szSQL);
+	bool exec(const char* szSQL) { return exec(CvString(szSQL)); }
 	bool isValid() const;
 	
 private:
@@ -28,6 +29,7 @@ private:
 	bool testSchemaVersion(int& iVersion);
 	bool writeSchemaToDatabase();
 	bool migrateDatabaseSchema();
+	bool runSchemaScript(const CvString& szPath);
 	CvWString getLocationForFile();
 	bool init();
 	bool uninit();

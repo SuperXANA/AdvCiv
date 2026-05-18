@@ -37,36 +37,40 @@ bool CvDatabaseManager::init()
 		{
 			m_sqlite = new SQLiteConnection(szDatabasePath);
 		}
-		else return false; // XANA (note): We can't save a database file in an invalid, empty location, so don't initialize at all
+		else return false; // XANA (note): We can't save a database file in an invalid, empty location, so don't initialize at all in that case
 		if (m_sqlite != NULL && m_sqlite->open())
 		{
 			if (!m_bActive)
 			{
 				m_bActive = true;
 			}
+			if (!m_bDoCache)
+			{
+				m_bDoCache = true;
+			}
 			if (!m_bSqlLoaded)
 			{
-				if (!m_bDoCache)
-				{
-					m_bDoCache = true;
-				}
 				int iVersion = SQL_SCHEMA_VERSION;
 				if (testSchemaVersion(iVersion))
 				{
 					m_bSqlLoaded = true;
 					return m_bSqlLoaded; // XANA (note): Database schema matches the schema required in the DLL header, everything is ready!
 				}
-				else if (iVersion >= 0 && iVersion != SQL_SCHEMA_VERSION) /* XANA (note): If the above test returned false and it found a lower sehema version than expected, then that means we need to migrate the data */
+				else if (iVersion < SQL_SCHEMA_VERSION) /* XANA (note): If the above test returned false and it found a lower sehema version than expected, then that means we need to migrate the data */
 				{
-					// XANA (note): Need to determine how to operate a "migration script" when the database needs to be rebuilt...
-					bool const bErasedDatabase = migrateDatabaseSchema(); /* TODO: Edit function so that it's not a SQL erase query... */
-					/* XANA (note): For now, we will just erase whatever's in our database and use the below function to recreate it... */
-					m_bSqlLoaded = (bErasedDatabase && writeSchemaToDatabase());
-				}	return m_bSqlLoaded;
-				else
+					m_bSqlLoaded = migrateDatabaseSchema();
+					return m_bSqlLoaded;
+				}
+				else if (iVersion == 0) /* XANA (note): If the above test returned false and we found a database with a version set at 0, this means it is a fresh database file that we need to set up */
 				{
 					// XANA (note): We have a fresh & never-used database, so we'll set it up now!
 					m_bSqlLoaded = writeSchemaToDatabase();
+					return m_bSqlLoaded;
+				}
+				else
+				{
+					// XANA (note): We have a strange situation where sqlite is out of sync with the DLL schema requirement and migration scripts couldn't update it, need to clean up and start fresh to make sure sqlite is working fine
+					m_bSqlLoaded = exec("PRAGMA writable_schema = 1;" "DELETE FROM sqlite_master;" "PRAGMA writable_schema = 0;" "VACUUM;") && writeSchemaToDatabase();
 					return m_bSqlLoaded;
 				}
 			}
@@ -74,11 +78,7 @@ bool CvDatabaseManager::init()
 		}
 		else return false;
 	}
-	if (isValid())
-	{	
-		return m_bSqlLoaded;
-	}
-	return false;
+	return isValid();
 }
 
 bool CvDatabaseManager::uninit()
@@ -180,59 +180,74 @@ bool CvDatabaseManager::testSchemaVersion(int& iVersion)
 {
 	SQLSchemaData kStruct;
 	iVersion = kStruct.query();
-	if (iVersion >= 0)
-	{
-		return (iVersion == SQL_SCHEMA_VERSION);
-	}
-	return false;
+	return ((iVersion > 0) ? (iVersion >= SQL_SCHEMA_VERSION) : false);
 }
 
 bool CvDatabaseManager::writeSchemaToDatabase()
 {
-	CvString szFileData;
+	CvString szFile(GC.getModName().getFullPath()); // XANA (note): This should resolve to "Mods\MLP Civilization is Magic" according to code comments surrounding the getFullPath function.
+	if (!szFile.empty())
 	{
-		CvString szFile(GC.getModName().getFullPath()); // XANA (note): This should resolve to "Mods\MLP Civilization is Magic" according to code comments surrounding the getFullPath function.
 		szFile += "\\SQL\\CvGameDatabaseSchema.sql" // XANA (note): The full path for a correct resolution is "Mods\MLP Civilization is Magic\Assets\SQL\CvGameDatabaseSchema.sql"
-		std::ifstream kFile(szFile.GetCString(), std::ios::binary | std::ios::ate);
-		if (kFile.is_open())
-		{
-			std::streamsize size = kFile.tellg();
-			if (size > 0)
-			{
-				kFile.seekg(0, std::ios::beg);
-				std::vector<char> kBuffer(static_cast<size_t>(size));
-				if (kFile.read(&kBuffer[0], size))
-				{
-					szFileData = CvString(std::string(kBuffer.begin(), kBuffer.end()).c_str());
-				}
-			}
-			kFile.close();
-		}
-	}
-	if (!szFileData.empty())
-	{
-		SQLSchemaData kStruct;
-		return kStruct.update(szFileData);
+		return runSchemaScript(szFile);
 	}
 	return false;
 }
 
 bool CvDatabaseManager::migrateDatabaseSchema()
 {
-	return exec(CvString("PRAGMA writable_schema = 1;"
-		"DELETE FROM sqlite_master;"
-		"PRAGMA writable_schema = 0;"
-		"VACUUM;"));
-	// TODO - Need to enumerate over all scripts and figure out how to run them...
-	#if 0
-	std::vector<CvString> aszFiles;
-	gDLL->enumerateFiles(aszFiles, "SQL\\*_CvGameDatabaseMigrationScript.sql");
-	for (std::vector<CvString>::iterator it = aszFiles.begin(); it != aszFiles.end(); ++it)
+	typedef std::vector<CvString> CvStringVector;
+	CvStringVector::size_type iCount = 0;
+	
+	CvStringVector aszFiles;
+	gDLL->enumerateFiles(aszFiles, "SQL\\CvGameDatabaseMigrationScript_*.sql");
+	if (aszFiles.size() > 0)
 	{
-		if (!ExecScript(*it)) // TODO - Need something that takes a pointer to the file location found in the vector and runs the SQL script through sqlite's exec function
-			return false;
+		// Sort files alphabetically to ensure scripts run in chronological order!
+		std::sort(aszFiles.begin(), aszFiles.end());
+		
+		for (CvStringVector::iterator it = aszFiles.begin(); it != aszFiles.end(); ++it)
+		{
+			if (runSchemaScript(*it))
+			{
+				iCount++;
+			}
+			else break; /* XANA (note): Uh-oh, the migration failed! We have to break now to avoid damaging the database further... */
+		}
+		return (iCount == aszFiles.size());
 	}
-	#endif
+	return false;
+}
+
+bool CvDatabaseManager::runSchemaScript(const CvString& szPath)
+{
+	if (!szPath.empty())
+	{
+		CvString szFileData;
+		{
+			std::ifstream kFile(szPath.GetCString(), std::ios::binary | std::ios::ate);
+			if (kFile.is_open())
+			{
+				std::streamsize size = kFile.tellg();
+				if (size > 0)
+				{
+					kFile.seekg(0, std::ios::beg);
+					std::vector<char> kBuffer(static_cast<size_t>(size));
+					if (kFile.read(&kBuffer[0], size))
+					{
+						szFileData = CvString(std::string(kBuffer.begin(), kBuffer.end()).c_str());
+					}
+				}
+				kFile.close();
+			}
+		}
+		if (!szFileData.empty())
+		{
+			SQLSchemaData kStruct;
+			return kStruct.update(szFileData);
+		}
+	}
+	return false;
 }
 
 CvWString CvDatabaseManager::getLocationForFile()
@@ -245,7 +260,7 @@ CvWString CvDatabaseManager::getLocationForFile()
 		HRESULT hr = SHGetFolderPathW(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, szPath);
 		if (SUCCEEDED(hr))
 		{
-			CvFilePath += (szPath + L"\\My Games\\Beyond the Sword\\");  // XANA (note): We'll put the game database inside the main BtS folder to keep it nominally safe from modification or deletion
+			CvFilePath += (szPath + L"\\My Games\\");  // XANA (note): We'll put the game database inside the usual My Games folder to keep it nominally safe from modification or deletion
 			CvFilePath += (CvWString(GC.getModName().getName()) + L"\\"); // XANA (note): We'll use the mod folder's name for simplictiy's sake and to keep everything neat and tidy around here
 		}
 	}
