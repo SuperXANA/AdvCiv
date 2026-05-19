@@ -55,7 +55,7 @@ bool CvDatabaseManager::init()
 					m_bSqlLoaded = true;
 					return m_bSqlLoaded; // XANA (note): Database schema matches the schema required in the DLL header, everything is ready!
 				}
-				else if (iVersion < SQL_SCHEMA_VERSION) /* XANA (note): If the above test returned false and it found a lower sehema version than expected, then that means we need to migrate the data */
+				else if (iVersion > 0 && iVersion < SQL_SCHEMA_VERSION) /* XANA (note): If the above test returned false and it found a lower sehema version than expected, then that means we need to migrate the data */
 				{
 					m_bSqlLoaded = migrateDatabaseSchema();
 					return m_bSqlLoaded;
@@ -256,10 +256,9 @@ CvWString CvDatabaseManager::getLocationForFile()
 		wchar_t szPath[MAX_PATH];
 		// CSIDL_PERSONAL refers to the "My Documents" folder.
 		// SHGFP_TYPE_CURRENT ensures we get the current path even if redirected (e.g., OneDrive).
-		HRESULT hr = SHGetFolderPathW(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, szPath);
-		if (SUCCEEDED(hr))
+		if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, szPath)))
 		{
-			CvFilePath += (szPath + L"\\My Games\\");  // XANA (note): We'll put the game database inside the usual My Games folder to keep it nominally safe from modification or deletion
+			CvFilePath += (CvWString(szPath) + L"\\My Games\\");  // XANA (note): We'll put the game database inside the usual My Games folder to keep it nominally safe from modification or deletion
 			CvFilePath += (CvWString(GC.getModName().getName()) + L"\\"); // XANA (note): We'll use the mod folder's name for simplictiy's sake and to keep everything neat and tidy around here
 		}
 	}
@@ -293,14 +292,14 @@ CvWString CvDatabaseManager::getLocationForFile()
 		}
 		if (bValidLocation)
 		{
-			CvFilePath += L"CvGameDatabase"; // XANA (note): If the file somehow gets removed, that's fine for Civ4, it won't affect actual gameplay much since the game doesn't depend on SQL to function
+			CvFilePath += "CvGameDatabase"; // XANA (note): If the file somehow gets removed, that's fine for Civ4, it won't affect actual gameplay much since the game doesn't depend on SQL to function
 			if (GC.getGame().isGameMultiPlayer())
 			{
 				CvFilePath += (L"-MP_" + GC.getGame().getName());
 			}
-			CvFilePath += L".sqlite"
+			CvFilePath += ".sqlite"
 			return CvFilePath;
 		}
 	}
-	return L""; // If we reach this that means something has gone wrong with attempting sqlite database initialization, we shouldn't be trying to load any databases if we can't ensure the directory structure is okay to use
+	return ""; // If we reach this that means something has gone wrong with attempting sqlite database initialization, we shouldn't be trying to load any databases if we can't ensure the directory structure is okay to use
 }
