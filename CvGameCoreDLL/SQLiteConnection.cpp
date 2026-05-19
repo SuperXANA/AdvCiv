@@ -48,7 +48,7 @@ bool SQLiteConnection::exec(const CvString& szSQL)
 
 bool SQLiteConnection::prepare(sqlite3_stmt*& kStatement, const CvString& szSQL)
 {
-	return (sqlite3_prepare_v2(m_database, szSQL.GetCString(), -1, &kStatement, NULL) == SQLITE_OK);
+	return (sqlite3_prepare_v2(m_database, szSQL.GetCString(), ((int)szSQL.GetLength() + 1) /* XANA (note): automatically calculates extra length to include the NULL terminator, since we know how long the string is */, &kStatement, NULL) == SQLITE_OK);
 }
 
 bool SQLiteConnection::finalizeAllStatements()
