@@ -3,7 +3,6 @@
 #include "CvDatabaseFwd.h"
 #include <fstream>
 #include <shlobj.h>
-#include <iostream>
 
 #pragma comment(lib, "shell32.lib")
 
