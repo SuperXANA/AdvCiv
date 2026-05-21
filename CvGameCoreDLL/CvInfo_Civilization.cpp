@@ -1296,10 +1296,10 @@ int CvDiplomacyResponse::getNumDiplomacyText() const
 	return m_iNumDiplomacyText;
 }
 
-/*void CvDiplomacyResponse::setNumDiplomacyText(int i)
+void CvDiplomacyResponse::setNumDiplomacyText(int i)
 {
 	m_iNumDiplomacyText = i;
-}*/
+}
 
 bool CvDiplomacyResponse::getCivilizationTypes(int i) const
 {
@@ -1312,12 +1312,12 @@ bool CvDiplomacyResponse::getCivilizationTypes(int i) const
 	return m_pbCivilizationTypes;
 }*/
 
-/*void CvDiplomacyResponse::setCivilizationTypes(int i, bool bVal)
+void CvDiplomacyResponse::setCivilizationTypes(int i, bool bVal)
 {
 	FAssertMsg(i < GC.getNumCivilizationInfos(), "Index out of bounds");
 	FAssertMsg(i > -1, "Index out of bounds");
 	m_pbCivilizationTypes[i] = bVal;
-}*/
+}
 
 bool CvDiplomacyResponse::getLeaderHeadTypes(int i) const
 {
@@ -1330,12 +1330,12 @@ bool CvDiplomacyResponse::getLeaderHeadTypes(int i) const
 	return m_pbLeaderHeadTypes;
 }*/
 
-/*void CvDiplomacyResponse::setLeaderHeadTypes(int i, bool bVal)
+void CvDiplomacyResponse::setLeaderHeadTypes(int i, bool bVal)
 {
 	FAssertMsg(i < GC.getNumLeaderHeadInfos(), "Index out of bounds");
 	FAssertMsg(i > -1, "Index out of bounds");
 	m_pbLeaderHeadTypes[i] = bVal;
-}*/
+}
 
 bool CvDiplomacyResponse::getAttitudeTypes(int i) const
 {
@@ -1348,12 +1348,12 @@ bool CvDiplomacyResponse::getAttitudeTypes(int i) const
 	return m_pbAttitudeTypes;
 }*/
 
-/*void CvDiplomacyResponse::setAttitudeTypes(int i, bool bVal)
+void CvDiplomacyResponse::setAttitudeTypes(int i, bool bVal)
 {
 	FAssertMsg(i < NUM_ATTITUDE_TYPES, "Index out of bounds");
 	FAssertMsg(i > -1, "Index out of bounds");
 	m_pbAttitudeTypes[i] = bVal;
-}*/
+}
 
 bool CvDiplomacyResponse::getDiplomacyPowerTypes(int i) const
 {
@@ -1366,12 +1366,12 @@ bool CvDiplomacyResponse::getDiplomacyPowerTypes(int i) const
 	return m_pbDiplomacyPowerTypes;
 }*/
 
-/*void CvDiplomacyResponse::setDiplomacyPowerTypes(int i, bool bVal)
+void CvDiplomacyResponse::setDiplomacyPowerTypes(int i, bool bVal)
 {
 	FAssertMsg(i < NUM_DIPLOMACYPOWER_TYPES, "Index out of bounds");
 	FAssertMsg(i > -1, "Index out of bounds");
 	m_pbDiplomacyPowerTypes[i] = bVal;
-}*/
+}
 
 const TCHAR* CvDiplomacyResponse::getDiplomacyText(int i) const
 {
@@ -1447,6 +1447,12 @@ CvDiplomacyInfo::~CvDiplomacyInfo()
 	for (std::vector<CvDiplomacyResponse*>::iterator it = m_pResponses.begin(); it != m_pResponses.end(); ++it)
 		SAFE_DELETE(*it);
 	m_pResponses.clear();
+	
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	for (std::vector<CvDiplomacyResponse*>::iterator it = m_pDynamicResponses.begin(); it != m_pDynamicResponses.end(); ++it)
+		SAFE_DELETE(*it);
+	m_pDynamicResponses.clear();
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 }
 
 CvDiplomacyResponse const& CvDiplomacyInfo::getResponse(int iNum) const
@@ -1504,6 +1510,64 @@ const TCHAR* CvDiplomacyInfo::getDiplomacyText(int i, int j) const
 	FAssertBounds(0, getNumDiplomacyText(i), j);
 	return m_pResponses[i]->getDiplomacyText(j);
 }
+
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+CvDiplomacyResponse const& CvDiplomacyInfo::getDynamicResponse(int iNum) const
+{
+	return *m_pDynamicResponses[iNum];
+}
+// <advc.705>
+CvDiplomacyResponse& CvDiplomacyInfo::getDynamicResponse_(int iNum)
+{
+	return *m_pDynamicResponses[iNum];
+} // </advc.705>
+
+int CvDiplomacyInfo::getNumDynamicResponses() const
+{
+	return m_pDynamicResponses.size();
+}
+
+bool CvDiplomacyInfo::getCivilizationTypesForDynamicResponses(int i, int j) const
+{
+	FAssertBounds(0, getNumDynamicResponses(), i);
+	FAssertBounds(0, GC.getNumCivilizationInfos(), j);
+	return m_pDynamicResponses[i]->getCivilizationTypes(j);
+}
+
+bool CvDiplomacyInfo::getLeaderHeadTypesForDynamicResponses(int i, int j) const
+{
+	FAssertBounds(0, getNumDynamicResponses(), i);
+	FAssertBounds(0, GC.getNumLeaderHeadInfos(), j);
+	return m_pDynamicResponses[i]->getLeaderHeadTypes(j);
+}
+
+bool CvDiplomacyInfo::getAttitudeTypesForDynamicResponses(int i, int j) const
+{
+	FAssertBounds(0, getNumDynamicResponses(), i);
+	FAssertBounds(0, NUM_ATTITUDE_TYPES, j);
+	return m_pDynamicResponses[i]->getAttitudeTypes(j);
+}
+
+bool CvDiplomacyInfo::getDiplomacyPowerTypesForDynamicResponses(int i, int j) const
+{
+	FAssertBounds(0, getNumDynamicResponses(), i);
+	FAssertBounds(0, NUM_DIPLOMACYPOWER_TYPES, j);
+	return m_pDynamicResponses[i]->getDiplomacyPowerTypes(j);
+}
+
+int CvDiplomacyInfo::getNumDiplomacyTextForDynamicResponses(int i) const
+{
+	FAssertBounds(0, getNumDynamicResponses(), i);
+	return m_pDynamicResponses[i]->getNumDiplomacyText();
+}
+
+const TCHAR* CvDiplomacyInfo::getDiplomacyTextForDynamicResponses(int i, int j) const
+{
+	FAssertBounds(0, getNumDynamicResponses(), i);
+	FAssertBounds(0, getNumDiplomacyText(i), j);
+	return m_pDynamicResponses[i]->getDiplomacyText(j);
+}
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 #if ENABLE_XML_FILE_CACHE
 void CvDiplomacyInfo::read(FDataStreamBase* stream)

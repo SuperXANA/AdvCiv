@@ -563,6 +563,9 @@ public:
 private:
 	int m_iNumResponses; // set by init
 	Response* m_pResponses;
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	std::vector<Response*> m_pDynamicResponses;
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 };
 
 

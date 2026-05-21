@@ -1699,6 +1699,9 @@ protected:  // <advc.210>
 	CvWString** m_aszBonusHelp; // advc.003p  (not serialized)
 	// advc.004s: Replacing seven separate maps
 	PlayerHistory m_playerHistory[NUM_PLAYER_HISTORY_TYPES];
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	void uninit();
 	void initContainers();

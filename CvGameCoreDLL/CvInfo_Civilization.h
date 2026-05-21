@@ -436,24 +436,24 @@ public: // advc: All the const functions are exposed to Python (some const quali
 	~CvDiplomacyResponse(); // advc: was virtual
 
 	int getNumDiplomacyText() const;
-	// advc.003j: Disabled the unused setters and bool* getters
-	//void setNumDiplomacyText(int i);
+	// advc.003j: Disabled the unused setters and bool* getters /* XANA (note): Re-enabled the setter functions only, for use in dynamic diplomacy text generation through local LLMs */
+	void setNumDiplomacyText(int i);
 
 	bool getCivilizationTypes(int i) const;
 	//bool* getCivilizationTypes() const;
-	//void setCivilizationTypes(int i, bool bVal);
+	void setCivilizationTypes(int i, bool bVal);
 
 	bool getLeaderHeadTypes(int i) const;
 	//bool* getLeaderHeadTypes() const;
-	//void setLeaderHeadTypes(int i, bool bVal);
+	void setLeaderHeadTypes(int i, bool bVal);
 
 	bool getAttitudeTypes(int i) const;
 	//bool* getAttitudeTypes() const;
-	//void setAttitudeTypes(int i, bool bVal);
+	void setAttitudeTypes(int i, bool bVal);
 
 	bool getDiplomacyPowerTypes(int i) const;
 	//bool* getDiplomacyPowerTypes() const;
-	//void setDiplomacyPowerTypes(int i, bool bVal);
+	void setDiplomacyPowerTypes(int i, bool bVal);
 
 	const TCHAR* getDiplomacyText(int i) const;
 	const CvString* getDiplomacyText() const;
@@ -496,6 +496,22 @@ public: // advc: All the const functions are exposed to Python
 	int getNumDiplomacyText(int i) const;
 
 	const TCHAR* getDiplomacyText(int i, int j) const;
+	
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	CvDiplomacyResponse const& getDynamicResponse(int iNum) const;
+	// advc.705: (underscore avoids ambiguity in Python export)
+	CvDiplomacyResponse& getDynamicResponse_(int iNum);
+	int getNumDynamicResponses() const;
+
+	bool getCivilizationTypesForDynamicResponses(int i, int j) const;
+	bool getLeaderHeadTypesForDynamicResponses(int i, int j) const;
+	bool getAttitudeTypesForDynamicResponses(int i, int j) const;
+	bool getDiplomacyPowerTypesForDynamicResponses(int i, int j) const;
+
+	int getNumDiplomacyTextForDynamicResponses(int i) const;
+
+	const TCHAR* getDiplomacyTextForDynamicResponses(int i, int j) const;
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
 	void write(FDataStreamBase* stream);
@@ -504,6 +520,9 @@ public: // advc: All the const functions are exposed to Python
 
 protected:
 	std::vector<CvDiplomacyResponse*> m_pResponses;
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	std::vector<CvDiplomacyResponse*> m_pDynamicResponses;
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 };
 
 #endif
