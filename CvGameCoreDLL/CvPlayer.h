@@ -5,6 +5,9 @@
 
 #include "PlayerHistory.h" // advc.004s: Replacing the typedef below
 //typedef stdext::hash_map<int,int> CvTurnScoreMap;
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+#include "CvDynamicDiploManager.h"
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 class CvTalkingHeadMessage;
 class CvDiploParameters;
@@ -21,9 +24,6 @@ class CvSelectionGroup; class CvSelectionGroupAI;
 class CvPlotGroup;
 // </advc.003u>
 class CvCivilization; // advc.003w
-// XANA: 05-23-2026 LLM Text Diplomacy Generation
-class CvDynamicDiploManager;
-// XANA: 05-23-2026 LLM Text Diplomacy Generation
  /*	advc (note): Can't easily change this to <CvTalkingHeadMessage*>
 	b/c of DllExport getGameMessages */
 typedef std::list<CvTalkingHeadMessage> CvMessageQueue;
@@ -1457,7 +1457,7 @@ public:
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 	CvDynamicDiploManager& getDynamicDiploManager() const
 	{
-		return *m_pDynDiploManager;
+		return m_dynDiploManager;
 	}
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 	// <advc.003u>
@@ -1608,9 +1608,6 @@ protected:  // <advc.210>
 	PlayerTypes m_eParent;
 	TeamTypes m_eTeamType;
 	CvCivilization* m_pCivilization; // advc.003u
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
-	CvDynamicDiploManager* m_pDynDiploManager;
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 	CvPlot* m_pStartingPlot; // advc.027: Replacing m_iStartingX/Y
 
 	CvString m_szScriptData;
@@ -1712,7 +1709,7 @@ protected:  // <advc.210>
 	// advc.004s: Replacing seven separate maps
 	PlayerHistory m_playerHistory[NUM_PLAYER_HISTORY_TYPES];
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
-	
+	CvDynamicDiploManager m_dynDiploManager;
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	void uninit();

@@ -22,9 +22,6 @@
 #include "BBAILog.h"
 #include "RiseFall.h" // advc.708: Needed only for savegame compatibility
 #include "SelfMod.h" // advc.092b
-// XANA: 05-23-2026 LLM Text Diplomacy Generation
-#include "CvDynamicDiploManager.h"
-// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 // advc.003u: Statics moved from CvPlayerAI
 CvPlayerAI** CvPlayer::m_aPlayers = NULL;
@@ -49,9 +46,6 @@ void CvPlayer::freeStatics()
 CvPlayer::CvPlayer(/* advc.003u: */ PlayerTypes eID) :
 	m_pCivilization(NULL), // advc.003w
 	m_aszBonusHelp(NULL), // advc.003p
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
-	m_pDynDiploManager(NULL)
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 {
 	// advc: redundant
 	/*m_bDisableHuman = false; // bbai
@@ -64,9 +58,6 @@ CvPlayer::~CvPlayer()
 {
 	uninit();
 	SAFE_DELETE(m_pCivilization); // advc.003w
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
-	SAFE_DELETE(m_pDynDiploManager);
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 
 void CvPlayer::init(PlayerTypes eID)
@@ -320,12 +311,6 @@ void CvPlayer::uninit()
 	clearPopups();
 	clearDiplomacy();
 	uninitAlerts(); // advc.210
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
-	if (m_pDynDiploManager != NULL)
-	{
-		m_pDynDiploManager->uninit();
-	}
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 }
 
 // Initialize data members that are serialized.
@@ -554,14 +539,7 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 		clearMessageCopies(); // advc.106b
 	}
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
-	if (m_pDynDiploManager == NULL)
-	{
-		m_pDynDiploManager = new CvDynamicDiploManager();
-	}
-	else
-	{
-		m_pDynDiploManager->reset();
-	}
+	m_dynDiploManager.reset();
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	m_plotGroups.removeAll();
