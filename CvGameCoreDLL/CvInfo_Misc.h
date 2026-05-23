@@ -564,6 +564,16 @@ public:
 	bool getDiplomacyPowerTypesForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i, int j) const;		 // Exposed to Python
 	int getNumDiplomacyTextForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i) const;				 // Exposed to Python
 	const TCHAR* getDiplomacyTextForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i, int j) const;	 // Exposed to Python
+	
+	const Response& py_GetDynamicResponse(int iPlayer, int iNum) const;
+	int py_GetNumDynamicResponses(int iPlayer) const;
+	
+	bool py_GetCivilizationTypesForDynamicResponses(int iPlayer, int i, int j) const;		 // Exposed to Python
+	bool py_GetLeaderHeadTypesForDynamicResponses(int iPlayer, int i, int j) const;			 // Exposed to Python
+	bool py_GetAttitudeTypesForDynamicResponses(int iPlayer, int i, int j) const;			 // Exposed to Python
+	bool py_GetDiplomacyPowerTypesForDynamicResponsesint iPlayer, int i, int j) const;		 // Exposed to Python
+	int py_GetNumDiplomacyTextForDynamicResponses(int iPlayer, int i) const;				 // Exposed to Python
+	const TCHAR* py_GetDiplomacyTextForDynamicResponses(int iPlayer, int i, int j) const;	 // Exposed to Python
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	#if ENABLE_XML_FILE_CACHE

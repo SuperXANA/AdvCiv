@@ -1517,6 +1517,7 @@ CvDiplomacyResponse const& CvDiplomacyInfo::getDynamicResponse(PlayerTypes ePlay
 	{
 		return GC.getDynamicDiploManager().getResponse(iNum);
 	}
+
 }
 // <advc.705>
 CvDiplomacyResponse& CvDiplomacyInfo::getDynamicResponse_(PlayerTypes ePlayer, int iNum)
@@ -1532,6 +1533,7 @@ CvDiplomacyResponse& CvDiplomacyInfo::getDynamicResponse_(PlayerTypes ePlayer, i
 		return GC.getDynamicDiploManager().getResponse_(iNum);
 	}
 } // </advc.705>
+
 int CvDiplomacyTextInfo::getNumDynamicResponses(PlayerTypes ePlayer) const
 {
 	FAssertBounds(0, MAX_PLAYERS, ePlayer);
@@ -1633,6 +1635,52 @@ const TCHAR* CvDiplomacyTextInfo::getDiplomacyTextForDynamicResponses(PlayerType
 	{
 		return GC.getDynamicDiploManager().getDiplomacyText(i, j);
 	}
+}
+
+CvDiplomacyResponse const& CvDiplomacyInfo::py_GetDynamicResponse(int iPlayer, int iNum) const
+{
+	return getDynamicResponse(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), iNum);
+
+}
+// <advc.705>
+CvDiplomacyResponse& CvDiplomacyInfo::py_GetDynamicResponse_(int iPlayer, int iNum)
+{
+	return getDynamicResponse_(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), iNum);
+} // </advc.705>
+
+int CvDiplomacyInfo::py_GetNumDynamicResponses(int iPlayer) const
+{
+	return getNumDynamicResponses((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer));
+}
+
+bool CvDiplomacyInfo::py_GetCivilizationTypesForDynamicResponses(int iPlayer, int i, int j) const
+{
+	return getCivilizationTypesForDynamicResponses(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), i, j);
+}
+
+bool CvDiplomacyInfo::py_GetLeaderHeadTypesForDynamicResponses(int iPlayer, int i, int j) const
+{
+	return getLeaderHeadTypesForDynamicResponses(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), i, j);
+}
+
+bool CvDiplomacyInfo::py_GetAttitudeTypesForDynamicResponses(int iPlayer, int i, int j) const
+{
+	return getAttitudeTypesForDynamicResponses(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), i, j);
+}
+
+bool CvDiplomacyInfo::py_GetDiplomacyPowerTypesForDynamicResponses(int iPlayer, int i, int j) const
+{
+	return getDiplomacyPowerTypesForDynamicResponses(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), i, j);
+}
+
+int CvDiplomacyInfo::py_GetNumDiplomacyTextForDynamicResponses(int iPlayer, int i) const
+{
+	return getNumDiplomacyTextForDynamicResponses(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), i);
+}
+
+const TCHAR* CvDiplomacyInfo::py_GetDiplomacyTextForDynamicResponses(int iPlayer, int i, int j) const
+{
+	return getDiplomacyTextForDynamicResponses(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), i, j);
 }
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
 

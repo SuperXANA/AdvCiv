@@ -1403,11 +1403,7 @@ int CvDiplomacyTextInfo::getNumDiplomacyTextForDynamicResponses(PlayerTypes ePla
 	FAssertBounds(0, getNumDynamicResponses(ePlayer), i);
 	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
 	{
-		if (GET_PLAYER(ePlayer).getDynamicDiploManager() != NULL)
-		{
-			return GET_PLAYER(ePlayer).getDynamicDiploManager().getNumDiplomacyText(i);
-		}
-		else return 0;
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getNumDiplomacyText(i);
 	}
 	else
 	{
@@ -1421,16 +1417,52 @@ const TCHAR* CvDiplomacyTextInfo::getDiplomacyTextForDynamicResponses(PlayerType
 	FAssertBounds(0, getNumDiplomacyTextForDynamicResponses(ePlayer, i), j);
 	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
 	{
-		if (GET_PLAYER(ePlayer).getDynamicDiploManager() != NULL)
-		{
-			return GET_PLAYER(ePlayer).getDynamicDiploManager().getDiplomacyText(i, j);
-		}
-		else return "";
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getDiplomacyText(i, j);
 	}
 	else
 	{
 		return GC.getDynamicDiploManager().getDiplomacyText(i, j);
 	}
+}
+
+const Response& CvDiplomacyTextInfo::py_GetDynamicResponse(int iPlayer, int iNum) const
+{
+	return getDynamicResponse(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), iNum);
+}
+
+int CvDiplomacyTextInfo::py_GetNumDynamicResponses(int iPlayer) const
+{
+	return getNumDynamicResponses((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer));
+}
+
+bool CvDiplomacyTextInfo::py_GetCivilizationTypesForDynamicResponses(int iPlayer, int i, int j) const
+{
+	return getCivilizationTypesForDynamicResponses(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), i, j);
+}
+
+bool CvDiplomacyTextInfo::py_GetLeaderHeadTypesForDynamicResponses(int iPlayer, int i, int j) const
+{
+	return getLeaderHeadTypesForDynamicResponses(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), i, j);
+}
+
+bool CvDiplomacyTextInfo::py_GetAttitudeTypesForDynamicResponses(int iPlayer, int i, int j) const
+{
+	return getAttitudeTypesForDynamicResponses(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), i, j);
+}
+
+bool CvDiplomacyTextInfo::py_GetDiplomacyPowerTypesForDynamicResponses(int iPlayer, int i, int j) const
+{
+	return getDiplomacyPowerTypesForDynamicResponses(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), i, j);
+}
+
+int CvDiplomacyTextInfo::py_GetNumDiplomacyTextForDynamicResponses(int iPlayer, int i) const
+{
+	return getNumDiplomacyTextForDynamicResponses(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), i);
+}
+
+const TCHAR* CvDiplomacyTextInfo::py_GetDiplomacyTextForDynamicResponses(int iPlayer, int i, int j) const
+{
+	return getDiplomacyTextForDynamicResponses(((iPlayer > (int)MAX_PLAYERS || iPlayer <= (int)NO_PLAYER) ? NO_PLAYER : static_cast<PlayerTypes>(iPlayer)), i, j);
 }
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
 #if ENABLE_XML_FILE_CACHE

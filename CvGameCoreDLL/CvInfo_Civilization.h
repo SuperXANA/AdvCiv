@@ -511,6 +511,19 @@ public: // advc: All the const functions are exposed to Python
 	int getNumDiplomacyTextForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i) const;
 
 	const TCHAR* getDiplomacyTextForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i, int j) const;
+	
+	CvDiplomacyResponse const& py_GetDynamicResponse(int iPlayer, int iNum) const;
+	CvDiplomacyResponse& py_GetDynamicResponse_(int iPlayer, int iNum);
+	int py_GetNumDynamicResponses(int iPlayer) const;
+
+	bool py_GetCivilizationTypesForDynamicResponses(int iPlayer, int i, int j) const;
+	bool py_GetLeaderHeadTypesForDynamicResponses(int iPlayer, int i, int j) const;
+	bool py_GetAttitudeTypesForDynamicResponses(int iPlayer, int i, int j) const;
+	bool py_GetDiplomacyPowerTypesForDynamicResponses(int iPlayer, int i, int j) const;
+
+	int py_GetNumDiplomacyTextForDynamicResponses(int iPlayer, int i) const;
+
+	const TCHAR* py_GetDiplomacyTextForDynamicResponses(int iPlayer, int i, int j) const;
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
