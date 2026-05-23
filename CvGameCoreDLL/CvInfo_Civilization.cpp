@@ -1447,12 +1447,6 @@ CvDiplomacyInfo::~CvDiplomacyInfo()
 	for (std::vector<CvDiplomacyResponse*>::iterator it = m_pResponses.begin(); it != m_pResponses.end(); ++it)
 		SAFE_DELETE(*it);
 	m_pResponses.clear();
-	
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
-	for (std::vector<CvDiplomacyResponse*>::iterator it = m_pDynamicResponses.begin(); it != m_pDynamicResponses.end(); ++it)
-		SAFE_DELETE(*it);
-	m_pDynamicResponses.clear();
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 }
 
 CvDiplomacyResponse const& CvDiplomacyInfo::getResponse(int iNum) const
@@ -1512,60 +1506,133 @@ const TCHAR* CvDiplomacyInfo::getDiplomacyText(int i, int j) const
 }
 
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
-CvDiplomacyResponse const& CvDiplomacyInfo::getDynamicResponse(int iNum) const
+CvDiplomacyResponse const& CvDiplomacyInfo::getDynamicResponse(PlayerTypes ePlayer, int iNum) const
 {
-	return *m_pDynamicResponses[iNum];
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getResponse(iNum);
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getResponse(iNum);
+	}
 }
 // <advc.705>
-CvDiplomacyResponse& CvDiplomacyInfo::getDynamicResponse_(int iNum)
+CvDiplomacyResponse& CvDiplomacyInfo::getDynamicResponse_(PlayerTypes ePlayer, int iNum)
 {
-	return *m_pDynamicResponses[iNum];
+	static CvDiplomacyResponse kBlankDiploResponse;
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getResponse_(iNum);
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getResponse_(iNum);
+	}
 } // </advc.705>
-
-int CvDiplomacyInfo::getNumDynamicResponses() const
+int CvDiplomacyTextInfo::getNumDynamicResponses(PlayerTypes ePlayer) const
 {
-	return m_pDynamicResponses.size();
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getNumResponses();
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getNumResponses();
+	}
 }
 
-bool CvDiplomacyInfo::getCivilizationTypesForDynamicResponses(int i, int j) const
+bool CvDiplomacyTextInfo::getCivilizationTypesForDynamicResponses(PlayerTypes ePlayer, int i, int j) const
 {
-	FAssertBounds(0, getNumDynamicResponses(), i);
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	FAssertBounds(0, getNumDynamicResponses(ePlayer), i);
 	FAssertBounds(0, GC.getNumCivilizationInfos(), j);
-	return m_pDynamicResponses[i]->getCivilizationTypes(j);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getCivilizationTypes(i, j);
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getCivilizationTypes(i, j);
+	}
 }
 
-bool CvDiplomacyInfo::getLeaderHeadTypesForDynamicResponses(int i, int j) const
+bool CvDiplomacyTextInfo::getLeaderHeadTypesForDynamicResponses(PlayerTypes ePlayer, int i, int j) const
 {
-	FAssertBounds(0, getNumDynamicResponses(), i);
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	FAssertBounds(0, getNumDynamicResponses(ePlayer), i);
 	FAssertBounds(0, GC.getNumLeaderHeadInfos(), j);
-	return m_pDynamicResponses[i]->getLeaderHeadTypes(j);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getLeaderHeadTypes(i, j);
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getLeaderHeadTypes(i, j);
+	}
 }
 
-bool CvDiplomacyInfo::getAttitudeTypesForDynamicResponses(int i, int j) const
+bool CvDiplomacyTextInfo::getAttitudeTypesForDynamicResponses(PlayerTypes ePlayer, int i, int j) const
 {
-	FAssertBounds(0, getNumDynamicResponses(), i);
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	FAssertBounds(0, getNumDynamicResponses(ePlayer), i);
 	FAssertBounds(0, NUM_ATTITUDE_TYPES, j);
-	return m_pDynamicResponses[i]->getAttitudeTypes(j);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getAttitudeTypes(i, j);
+
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getAttitudeTypes(i, j);
+	}
 }
 
-bool CvDiplomacyInfo::getDiplomacyPowerTypesForDynamicResponses(int i, int j) const
+bool CvDiplomacyTextInfo::getDiplomacyPowerTypesForDynamicResponses(PlayerTypes ePlayer, int i, int j) const
 {
-	FAssertBounds(0, getNumDynamicResponses(), i);
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	FAssertBounds(0, getNumDynamicResponses(ePlayer), i);
 	FAssertBounds(0, NUM_DIPLOMACYPOWER_TYPES, j);
-	return m_pDynamicResponses[i]->getDiplomacyPowerTypes(j);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getDiplomacyPowerTypes(i, j);
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getDiplomacyPowerTypes(i, j);
+	}
 }
 
-int CvDiplomacyInfo::getNumDiplomacyTextForDynamicResponses(int i) const
+int CvDiplomacyTextInfo::getNumDiplomacyTextForDynamicResponses(PlayerTypes ePlayer, int i) const
 {
-	FAssertBounds(0, getNumDynamicResponses(), i);
-	return m_pDynamicResponses[i]->getNumDiplomacyText();
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	FAssertBounds(0, getNumDynamicResponses(ePlayer), i);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getNumDiplomacyText(i);
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getNumDiplomacyText(i);
+	}
 }
 
-const TCHAR* CvDiplomacyInfo::getDiplomacyTextForDynamicResponses(int i, int j) const
+const TCHAR* CvDiplomacyTextInfo::getDiplomacyTextForDynamicResponses(PlayerTypes ePlayer, int i, int j) const
 {
-	FAssertBounds(0, getNumDynamicResponses(), i);
-	FAssertBounds(0, getNumDiplomacyText(i), j);
-	return m_pDynamicResponses[i]->getDiplomacyText(j);
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	FAssertBounds(0, getNumDynamicResponses(ePlayer), i);
+	FAssertBounds(0, getNumDiplomacyTextForDynamicResponses(ePlayer, i), j);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getDiplomacyText(i, j);
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getDiplomacyText(i, j);
+	}
 }
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
 

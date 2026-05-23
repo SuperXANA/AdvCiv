@@ -553,6 +553,18 @@ public:
 	bool getDiplomacyPowerTypes(int i, int j) const;
 	int getNumDiplomacyText(int i) const;
 	const TCHAR* getDiplomacyText(int i, int j) const;
+	
+	const Response& getDynamicResponse(PlayerTypes ePlayer = NO_PLAYER, int iNum) const; // Exposed to Python
+	int getNumDynamicResponses(PlayerTypes ePlayer = NO_PLAYER) const;															// Exposed to Python
+
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	bool getCivilizationTypesForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i, int j) const;		 // Exposed to Python
+	bool getLeaderHeadTypesForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i, int j) const;			 // Exposed to Python
+	bool getAttitudeTypesForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i, int j) const;			 // Exposed to Python
+	bool getDiplomacyPowerTypesForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i, int j) const;		 // Exposed to Python
+	int getNumDiplomacyTextForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i) const;				 // Exposed to Python
+	const TCHAR* getDiplomacyTextForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i, int j) const;	 // Exposed to Python
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
@@ -563,9 +575,6 @@ public:
 private:
 	int m_iNumResponses; // set by init
 	Response* m_pResponses;
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
-	std::vector<Response*> m_pDynamicResponses;
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 };
 
 

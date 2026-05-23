@@ -1309,6 +1309,130 @@ const TCHAR* CvDiplomacyTextInfo::getDiplomacyText(int i, int j) const
 	FAssertBounds(0, getNumDiplomacyText(i), j);
 	return m_pResponses[i].m_paszDiplomacyText[j];
 }
+
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+const Response& CvDiplomacyTextInfo::getDynamicResponse(PlayerTypes ePlayer, int iNum) const
+{
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getResponseExternal(iNum);
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getResponseExternal(iNum);
+	}
+}
+
+int CvDiplomacyTextInfo::getNumDynamicResponses(PlayerTypes ePlayer) const
+{
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getNumResponses();
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getNumResponses();
+	}
+}
+
+bool CvDiplomacyTextInfo::getCivilizationTypesForDynamicResponses(PlayerTypes ePlayer, int i, int j) const
+{
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	FAssertBounds(0, getNumDynamicResponses(ePlayer), i);
+	FAssertBounds(0, GC.getNumCivilizationInfos(), j);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getCivilizationTypes(i, j);
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getCivilizationTypes(i, j);
+	}
+}
+
+bool CvDiplomacyTextInfo::getLeaderHeadTypesForDynamicResponses(PlayerTypes ePlayer, int i, int j) const
+{
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	FAssertBounds(0, getNumDynamicResponses(ePlayer), i);
+	FAssertBounds(0, GC.getNumLeaderHeadInfos(), j);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getLeaderHeadTypes(i, j);
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getLeaderHeadTypes(i, j);
+	}
+}
+
+bool CvDiplomacyTextInfo::getAttitudeTypesForDynamicResponses(PlayerTypes ePlayer, int i, int j) const
+{
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	FAssertBounds(0, getNumDynamicResponses(ePlayer), i);
+	FAssertBounds(0, NUM_ATTITUDE_TYPES, j);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getAttitudeTypes(i, j);
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getAttitudeTypes(i, j);
+	}
+}
+
+bool CvDiplomacyTextInfo::getDiplomacyPowerTypesForDynamicResponses(PlayerTypes ePlayer, int i, int j) const
+{
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	FAssertBounds(0, getNumDynamicResponses(ePlayer), i);
+	FAssertBounds(0, NUM_DIPLOMACYPOWER_TYPES, j);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		return GET_PLAYER(ePlayer).getDynamicDiploManager().getDiplomacyPowerTypes(i, j);
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getDiplomacyPowerTypes(i, j);
+	}
+}
+
+int CvDiplomacyTextInfo::getNumDiplomacyTextForDynamicResponses(PlayerTypes ePlayer, int i) const
+{
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	FAssertBounds(0, getNumDynamicResponses(ePlayer), i);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		if (GET_PLAYER(ePlayer).getDynamicDiploManager() != NULL)
+		{
+			return GET_PLAYER(ePlayer).getDynamicDiploManager().getNumDiplomacyText(i);
+		}
+		else return 0;
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getNumDiplomacyText(i);
+}
+
+const TCHAR* CvDiplomacyTextInfo::getDiplomacyTextForDynamicResponses(PlayerTypes ePlayer, int i, int j) const
+{
+	FAssertBounds(0, MAX_PLAYERS, ePlayer);
+	FAssertBounds(0, getNumDynamicResponses(ePlayer), i);
+	FAssertBounds(0, getNumDiplomacyTextForDynamicResponses(ePlayer, i), j);
+	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
+	{
+		if (GET_PLAYER(ePlayer).getDynamicDiploManager() != NULL)
+		{
+			return GET_PLAYER(ePlayer).getDynamicDiploManager().getDiplomacyText(i, j);
+		}
+		else return "";
+	}
+	else
+	{
+		return GC.getDynamicDiploManager().getDiplomacyText(i, j);
+	}
+}
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 #if ENABLE_XML_FILE_CACHE
 void CvDiplomacyTextInfo::Response::read(FDataStreamBase* stream)
 {

@@ -498,19 +498,19 @@ public: // advc: All the const functions are exposed to Python
 	const TCHAR* getDiplomacyText(int i, int j) const;
 	
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
-	CvDiplomacyResponse const& getDynamicResponse(int iNum) const;
+	CvDiplomacyResponse const& getDynamicResponse(PlayerTypes ePlayer = NO_PLAYER, int iNum) const;
 	// advc.705: (underscore avoids ambiguity in Python export)
-	CvDiplomacyResponse& getDynamicResponse_(int iNum);
-	int getNumDynamicResponses() const;
+	CvDiplomacyResponse& getDynamicResponse_(PlayerTypes ePlayer = NO_PLAYER, int iNum);
+	int getNumDynamicResponses(PlayerTypes ePlayer = NO_PLAYER) const;
 
-	bool getCivilizationTypesForDynamicResponses(int i, int j) const;
-	bool getLeaderHeadTypesForDynamicResponses(int i, int j) const;
-	bool getAttitudeTypesForDynamicResponses(int i, int j) const;
-	bool getDiplomacyPowerTypesForDynamicResponses(int i, int j) const;
+	bool getCivilizationTypesForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i, int j) const;
+	bool getLeaderHeadTypesForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i, int j) const;
+	bool getAttitudeTypesForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i, int j) const;
+	bool getDiplomacyPowerTypesForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i, int j) const;
 
-	int getNumDiplomacyTextForDynamicResponses(int i) const;
+	int getNumDiplomacyTextForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i) const;
 
-	const TCHAR* getDiplomacyTextForDynamicResponses(int i, int j) const;
+	const TCHAR* getDiplomacyTextForDynamicResponses(PlayerTypes ePlayer = NO_PLAYER, int i, int j) const;
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
@@ -520,9 +520,6 @@ public: // advc: All the const functions are exposed to Python
 
 protected:
 	std::vector<CvDiplomacyResponse*> m_pResponses;
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
-	std::vector<CvDiplomacyResponse*> m_pDynamicResponses;
-	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 };
 
 #endif

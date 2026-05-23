@@ -21,6 +21,9 @@ class CvSelectionGroup; class CvSelectionGroupAI;
 class CvPlotGroup;
 // </advc.003u>
 class CvCivilization; // advc.003w
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+class CvDynamicDiploManager;
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
  /*	advc (note): Can't easily change this to <CvTalkingHeadMessage*>
 	b/c of DllExport getGameMessages */
 typedef std::list<CvTalkingHeadMessage> CvMessageQueue;
@@ -1452,9 +1455,9 @@ public:
 	void announceGameNameChange(CvWString szOldName, CvWString szNewName); // advc.135c
 	bool showGoodyOnResourceLayer() const; // advc.004z
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
-	CvDynamicDiploManager* getDynamicDiploManager() const
+	CvDynamicDiploManager& getDynamicDiploManager() const
 	{
-		return m_pDynDiploManager;
+		return *m_pDynDiploManager;
 	}
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 	// <advc.003u>
@@ -1605,6 +1608,9 @@ protected:  // <advc.210>
 	PlayerTypes m_eParent;
 	TeamTypes m_eTeamType;
 	CvCivilization* m_pCivilization; // advc.003u
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	CvDynamicDiploManager* m_pDynDiploManager;
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 	CvPlot* m_pStartingPlot; // advc.027: Replacing m_iStartingX/Y
 
 	CvString m_szScriptData;

@@ -22,6 +22,9 @@
 #include "BBAILog.h"
 #include "RiseFall.h" // advc.708: Needed only for savegame compatibility
 #include "SelfMod.h" // advc.092b
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+#include "CvDynamicDiploManager.h"
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 // advc.003u: Statics moved from CvPlayerAI
 CvPlayerAI** CvPlayer::m_aPlayers = NULL;
@@ -557,7 +560,7 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 	}
 	else
 	{
-		m_pDynDiploManager->clear();
+		m_pDynDiploManager->reset();
 	}
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 

@@ -810,9 +810,9 @@ public:
 
 	void setHoFScreenUp(bool b); // advc.106i
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
-	CvDynamicDiploManager* getDynamicDiploManager() const
+	CvDynamicDiploManager& getDynamicDiploManager() const
 	{
-		return m_pDynDiploManager;
+		return *m_pDynDiploManager;
 	}
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
@@ -970,6 +970,9 @@ protected:
 
 	FProfiler* m_Profiler;
 	CvString m_szDllProfileText;
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	CvDynamicDiploManager* m_pDynDiploManager;
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 private:
 	// <advc.opt>
