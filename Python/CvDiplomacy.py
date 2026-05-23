@@ -463,6 +463,15 @@ class CvDiplomacy:
 			if (var(i, j)):
 				return true
 		return false
+	
+	# XANA: 05-23-2026 LLM Text Diplomacy Generation	
+	def isUsedDynamic(self, var, iPlayer, i, num):
+		"returns true if any element in the var list is true"
+		for j in range(num):
+			if (var(iPlayer, i, j)):
+				return true
+		return false
+	# XANA: 05-23-2026 LLM Text Diplomacy Generation
 		
 	def filterUserResponse(self, diploInfo):
 		"pick the user's response from a CvDiplomacyTextInfo, based on response conditions"
@@ -473,44 +482,94 @@ class CvDiplomacy:
 		ourPlayer = gc.getActivePlayer()
 		responses = []
 		
-		for i in range(diploInfo.getNumResponses()):	
+		# XANA: 05-23-2026 LLM Text Diplomacy Generation
+		bMixXMLandLLMResponses = false
+		for i in range(diploInfo.getNumDynamicResponses(theirPlayer)):	
 			
 			# check attitude of other player towards me
-			if (self.isUsed(diploInfo.getAttitudeTypes, i, AttitudeTypes.NUM_ATTITUDE_TYPES)):
+			if (self.isUsedDynamic(diploInfo.getDynamicResponseAttitudeTypes, theirPlayer, i, AttitudeTypes.NUM_ATTITUDE_TYPES)):
 				att = theirPlayer.AI_getAttitude(CyGame().getActivePlayer())
-				if (not diploInfo.getAttitudeTypes(i, att)):
+				if (not diploInfo.getDynamicResponseAttitudeTypes(theirPlayer, i, att)):
 					continue
 			
 			# check civ type
-			if (self.isUsed(diploInfo.getCivilizationTypes, i, gc.getNumCivilizationInfos()) and
-				not diploInfo.getCivilizationTypes(i, theirPlayer.getCivilizationType())):
+			if (self.isUsedDynamic(diploInfo.getDynamicResponseCivilizationTypes, theirPlayer, i, gc.getNumCivilizationInfos()) and
+				not diploInfo.getDynamicResponseCivilizationTypes(theirPlayer, i, theirPlayer.getCivilizationType())):
 				continue
 				
 			# check leader type
-			if (self.isUsed(diploInfo.getLeaderHeadTypes, i, gc.getNumLeaderHeadInfos()) and
-				not diploInfo.getLeaderHeadTypes(i, theirPlayer.getLeaderType())):
+			if (self.isUsedDynamic(diploInfo.getDynamicResponseLeaderHeadTypes, theirPlayer, i, gc.getNumLeaderHeadInfos()) and
+				not diploInfo.getDynamicResponseLeaderHeadTypes(theirPlayer, i, theirPlayer.getLeaderType())):
 				continue
 
 			# check power type
-			if (self.isUsed(diploInfo.getDiplomacyPowerTypes, i, DiplomacyPowerTypes.NUM_DIPLOMACYPOWER_TYPES)):
+			if (self.isUsedDynamic(diploInfo.getDynamicResponseDiplomacyPowerTypes, theirPlayer, i, DiplomacyPowerTypes.NUM_DIPLOMACYPOWER_TYPES)):
 				theirPower = theirPlayer.getPower()
 				ourPower = ourPlayer.getPower()
 				
 				if (ourPower < (theirPower / 2)):
-					if not diploInfo.getDiplomacyPowerTypes(i, DiplomacyPowerTypes.DIPLOMACYPOWER_STRONGER):
+					if not diploInfo.getDynamicResponseDiplomacyPowerTypes(theirPlayer, i, DiplomacyPowerTypes.DIPLOMACYPOWER_STRONGER):
 						continue
 						
 				elif (ourPower > (theirPower * 2)):
-					if not diploInfo.getDiplomacyPowerTypes(i, DiplomacyPowerTypes.DIPLOMACYPOWER_WEAKER):
+					if not diploInfo.getDynamicResponseDiplomacyPowerTypes(theirPlayer, i, DiplomacyPowerTypes.DIPLOMACYPOWER_WEAKER):
 						continue
 						
 				else:
-					if not diploInfo.getDiplomacyPowerTypes(i, DiplomacyPowerTypes.DIPLOMACYPOWER_EQUAL):
+					if not diploInfo.getDynamicResponseDiplomacyPowerTypes(theirPlayer, i, DiplomacyPowerTypes.DIPLOMACYPOWER_EQUAL):
 						continue
-				
+			
 			# passed all tests, so add to response list
-			for j in range(diploInfo.getNumDiplomacyText(i)):
-				responses.append(diploInfo.getDiplomacyText(i, j))
+			for j in range(diploInfo.getNumDynamicResponseDiplomacyText(theirPlayer, i)):
+				responses.append(diploInfo.getDynamicResponseDiplomacyText(theirPlayer, i, j))
+		
+		if len(responses) == 0:
+			# get global responses not unique to any leader/civ
+			noPlayer = -1 # must be of numeric type & have negative value & be less than zero, do not modify!
+			for i in range(diploInfo.getNumDynamicResponses(noPlayer)):
+				for j in range(diploInfo.getNumDynamicResponseDiplomacyText(noPlayer, i)):
+					responses.append(diploInfo.getDynamicResponseDiplomacyText(noPlayer, i, j))
+				
+		# XANA: 05-23-2026 LLM Text Diplomacy Generation
+		if len(responses) == 0 || bMixXMLandLLMResponses:
+			for i in range(diploInfo.getNumResponses()):	
+			
+				# check attitude of other player towards me
+				if (self.isUsed(diploInfo.getAttitudeTypes, i, AttitudeTypes.NUM_ATTITUDE_TYPES)):
+					att = theirPlayer.AI_getAttitude(CyGame().getActivePlayer())
+					if (not diploInfo.getAttitudeTypes(i, att)):
+						continue
+			
+				# check civ type
+				if (self.isUsed(diploInfo.getCivilizationTypes, i, gc.getNumCivilizationInfos()) and
+					not diploInfo.getCivilizationTypes(i, theirPlayer.getCivilizationType())):
+					continue
+				
+				# check leader type
+				if (self.isUsed(diploInfo.getLeaderHeadTypes, i, gc.getNumLeaderHeadInfos()) and
+					not diploInfo.getLeaderHeadTypes(i, theirPlayer.getLeaderType())):
+					continue
+
+				# check power type
+				if (self.isUsed(diploInfo.getDiplomacyPowerTypes, i, DiplomacyPowerTypes.NUM_DIPLOMACYPOWER_TYPES)):
+					theirPower = theirPlayer.getPower()
+					ourPower = ourPlayer.getPower()
+				
+					if (ourPower < (theirPower / 2)):
+						if not diploInfo.getDiplomacyPowerTypes(i, DiplomacyPowerTypes.DIPLOMACYPOWER_STRONGER):
+							continue
+						
+					elif (ourPower > (theirPower * 2)):
+						if not diploInfo.getDiplomacyPowerTypes(i, DiplomacyPowerTypes.DIPLOMACYPOWER_WEAKER):
+							continue
+						
+					else:
+						if not diploInfo.getDiplomacyPowerTypes(i, DiplomacyPowerTypes.DIPLOMACYPOWER_EQUAL):
+							continue
+				
+				# passed all tests, so add to response list
+				for j in range(diploInfo.getNumDiplomacyText(i)):
+					responses.append(diploInfo.getDiplomacyText(i, j))
 					
 		# pick a random response
 		numResponses = len(responses)
