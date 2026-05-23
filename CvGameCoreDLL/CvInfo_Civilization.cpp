@@ -1296,10 +1296,10 @@ int CvDiplomacyResponse::getNumDiplomacyText() const
 	return m_iNumDiplomacyText;
 }
 
-void CvDiplomacyResponse::setNumDiplomacyText(int i)
+/*void CvDiplomacyResponse::setNumDiplomacyText(int i)
 {
 	m_iNumDiplomacyText = i;
-}
+}*/
 
 bool CvDiplomacyResponse::getCivilizationTypes(int i) const
 {
@@ -1312,12 +1312,12 @@ bool CvDiplomacyResponse::getCivilizationTypes(int i) const
 	return m_pbCivilizationTypes;
 }*/
 
-void CvDiplomacyResponse::setCivilizationTypes(int i, bool bVal)
+/*void CvDiplomacyResponse::setCivilizationTypes(int i, bool bVal)
 {
 	FAssertMsg(i < GC.getNumCivilizationInfos(), "Index out of bounds");
 	FAssertMsg(i > -1, "Index out of bounds");
 	m_pbCivilizationTypes[i] = bVal;
-}
+}*/
 
 bool CvDiplomacyResponse::getLeaderHeadTypes(int i) const
 {
@@ -1330,12 +1330,12 @@ bool CvDiplomacyResponse::getLeaderHeadTypes(int i) const
 	return m_pbLeaderHeadTypes;
 }*/
 
-void CvDiplomacyResponse::setLeaderHeadTypes(int i, bool bVal)
+/*void CvDiplomacyResponse::setLeaderHeadTypes(int i, bool bVal)
 {
 	FAssertMsg(i < GC.getNumLeaderHeadInfos(), "Index out of bounds");
 	FAssertMsg(i > -1, "Index out of bounds");
 	m_pbLeaderHeadTypes[i] = bVal;
-}
+}*/
 
 bool CvDiplomacyResponse::getAttitudeTypes(int i) const
 {
@@ -1348,12 +1348,12 @@ bool CvDiplomacyResponse::getAttitudeTypes(int i) const
 	return m_pbAttitudeTypes;
 }*/
 
-void CvDiplomacyResponse::setAttitudeTypes(int i, bool bVal)
+/*void CvDiplomacyResponse::setAttitudeTypes(int i, bool bVal)
 {
 	FAssertMsg(i < NUM_ATTITUDE_TYPES, "Index out of bounds");
 	FAssertMsg(i > -1, "Index out of bounds");
 	m_pbAttitudeTypes[i] = bVal;
-}
+}*/
 
 bool CvDiplomacyResponse::getDiplomacyPowerTypes(int i) const
 {
@@ -1366,12 +1366,12 @@ bool CvDiplomacyResponse::getDiplomacyPowerTypes(int i) const
 	return m_pbDiplomacyPowerTypes;
 }*/
 
-void CvDiplomacyResponse::setDiplomacyPowerTypes(int i, bool bVal)
+/*void CvDiplomacyResponse::setDiplomacyPowerTypes(int i, bool bVal)
 {
 	FAssertMsg(i < NUM_DIPLOMACYPOWER_TYPES, "Index out of bounds");
 	FAssertMsg(i > -1, "Index out of bounds");
 	m_pbDiplomacyPowerTypes[i] = bVal;
-}
+}*/
 
 const TCHAR* CvDiplomacyResponse::getDiplomacyText(int i) const
 {
@@ -1522,7 +1522,6 @@ CvDiplomacyResponse const& CvDiplomacyInfo::getDynamicResponse(PlayerTypes ePlay
 // <advc.705>
 CvDiplomacyResponse& CvDiplomacyInfo::getDynamicResponse_(PlayerTypes ePlayer, int iNum)
 {
-	static CvDiplomacyResponse kBlankDiploResponse;
 	FAssertBounds(0, MAX_PLAYERS, ePlayer);
 	if (ePlayer != NO_PLAYER && ePlayer < MAX_PLAYERS)
 	{

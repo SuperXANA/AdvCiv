@@ -1,10 +1,12 @@
-#include "CvGameCoreDLL.h"
+#include "CvDynamicDiploManager.h"
 
 CvDynamicDiploManager::CvDynamicDiploManager() :
 {}
 
 CvDynamicDiploManager::~CvDynamicDiploManager() :
-{}
+{
+	clear();
+}
 
 void CvDynamicDiploManager::clear()
 {
@@ -182,12 +184,29 @@ void CvDynamicDiploManager::setDiplomacyPowerTypes(int i, int j, bool bVal)
 	m_pDynamicResponseStructs[i].m_pbDiplomacyPowerTypes[j] = bVal;
 }
 
-/* XANA (note): Enables setting extra dynamic diplomactic text responses to a particular Response object by calling this function multiple times with different szText string values */
-void CvDynamicDiploManager::setDiplomacyText(int i, CvString szText)
+void CvDynamicDiploManager::setNumDiplomacyText(int i, int iVal)
 {
+	FAssertBounds(0, getNumResponses(), i);
+	if (iVal < 0)
+		return;
+	m_pDynamicResponses[i].m_iNumDiplomacyText = iVal;
+	m_pDynamicResponseStructs[i].m_iNumDiplomacyText = iVal;
+}
+
+void CvDynamicDiploManager::setDiplomacyText(int i, int j, CvString szText)
+{
+	FAssertBounds(0, getNumResponses(), i);
+	FAssertBounds(0, getNumDiplomacyText(i), j);
+	m_pDynamicResponses[i].m_paszDiplomacyText[j] = szText;
+	m_pDynamicResponseStructs[i].m_paszDiplomacyText[j] = szText;
+}
+
+/* XANA (note): Facilitates adding extra dynamic diplomactic text responses to a particular Response object by calling this function multiple times with different szText string values */
+void CvDynamicDiploManager::addNewDiplomacyText(int i, CvString szText)
+{
+	FAssertBounds(0, getNumResponses(), i);
 	// Update DLL-internal object vector
 	{
-		FAssertBounds(0, getNumResponses(), i);
 		CvDiplomacyResponse& kResponse = m_pDynamicResponses[i];
 		int const iNumDiploTexts = kResponse.m_iNumDiplomacyText;
 		CvString* pTempStringArray = new CvString[iNumDiploTexts + 1];

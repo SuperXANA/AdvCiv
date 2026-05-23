@@ -448,7 +448,7 @@ void CyInfoPythonInterface3()
 		
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 		.def("getDynamicResponse", &CvDiplomacyTextInfo::py_GetDynamicResponse,  python::return_value_policy<python::reference_existing_object>(), "Response (int iPlayer, int iNum)")
-		.def("getNumDynamicResponses", &CvDiplomacyTextInfo::py_GetNumDynamicResponses, "int ()")
+		.def("getNumDynamicResponses", &CvDiplomacyTextInfo::py_GetNumDynamicResponses, "int (int iPlayer)")
 
 		.def("getDynamicResponseCivilizationTypes", &CvDiplomacyTextInfo::py_GetCivilizationTypesForDynamicResponses, "bool (int iPlayer, int i, int j)")
 		.def("getDynamicResponseLeaderHeadTypes", &CvDiplomacyTextInfo::py_GetLeaderHeadTypesForDynamicResponses, "bool (int iPlayer, int i, int j)")
