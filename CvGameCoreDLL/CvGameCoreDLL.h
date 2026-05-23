@@ -121,6 +121,9 @@
 #include "CyArgsList.h"
 #include "CyPlot.h"
 #include "CyUnit.h"
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+#include "CvDynamicDiploManager.h"
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 // Undefine OutputDebugString in release builds // advc.make: in non-debug builds
 #ifdef _DEBUG

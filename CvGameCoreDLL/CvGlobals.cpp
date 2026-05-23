@@ -46,6 +46,9 @@ m_statsReporter(NULL),
 m_map(NULL),
 m_diplomacyScreen(NULL),
 m_mpDiplomacyScreen(NULL),
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+m_pDynDiploManager(NULL),
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 m_pathFinder(NULL),
 m_interfacePathFinder(NULL),
 m_stepFinder(NULL),
@@ -213,6 +216,9 @@ void CvGlobals::init() // allocate
 	m_pLogger = new CvDLLLogger(isLogging(), isRandLogging()); // advc
 	m_game = new CvGameAI();
 	m_map = new CvMap();
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	m_pDynDiploManager = new CvDynamicDiploManager();
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	CvPlayer::initStatics();
 	CvTeam::initStatics();
@@ -265,6 +271,13 @@ void CvGlobals::uninit() // free
 	SAFE_DELETE(m_iniInitCore);
 	gDLL->uninitGlobals();	// free globals allocated outside the dll
 	SAFE_DELETE(m_VarSystem);
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	if (m_pDynDiploManager != NULL)
+	{
+		m_pDynDiploManager->uninit();
+	}
+	SAFE_DELETE(m_pDynDiploManager);
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	// already deleted outside of the dll, set to null for safety
 	m_messageQueue=NULL; m_hotJoinMsgQueue=NULL; m_messageControl=NULL;

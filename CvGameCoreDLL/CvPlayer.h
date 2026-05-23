@@ -1451,6 +1451,12 @@ public:
 	DllExport bool hasSpaceshipArrived() const;
 	void announceGameNameChange(CvWString szOldName, CvWString szNewName); // advc.135c
 	bool showGoodyOnResourceLayer() const; // advc.004z
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	CvDynamicDiploManager* getDynamicDiploManager() const
+	{
+		return m_pDynDiploManager;
+	}
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 	// <advc.003u>
 	CvPlayerAI& AI()
 	{	//return *static_cast<CvPlayerAI*>(const_cast<CvPlayer*>(this));

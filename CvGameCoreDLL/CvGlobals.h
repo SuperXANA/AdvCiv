@@ -42,6 +42,9 @@ class CvMap;
 class CvPlayerAI;
 class CvTeamAI;
 class CvWorldInfo;
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+class CvDynamicDiploManager;
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 // <advc.enum>
 #define FORWARD_DECLARE_INFO_CLASS(Name, Dummy) class Cv##Name##Info;
 DO_FOR_EACH_INFO_TYPE(FORWARD_DECLARE_INFO_CLASS) // </advc.enum>
@@ -806,6 +809,12 @@ public:
 	void deleteInfoArrays();
 
 	void setHoFScreenUp(bool b); // advc.106i
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	CvDynamicDiploManager* getDynamicDiploManager() const
+	{
+		return m_pDynDiploManager;
+	}
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 protected:
 

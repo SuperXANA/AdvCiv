@@ -45,7 +45,10 @@ void CvPlayer::freeStatics()
 
 CvPlayer::CvPlayer(/* advc.003u: */ PlayerTypes eID) :
 	m_pCivilization(NULL), // advc.003w
-	m_aszBonusHelp(NULL) // advc.003p
+	m_aszBonusHelp(NULL), // advc.003p
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	m_pDynDiploManager(NULL)
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 {
 	// advc: redundant
 	/*m_bDisableHuman = false; // bbai
@@ -58,7 +61,9 @@ CvPlayer::~CvPlayer()
 {
 	uninit();
 	SAFE_DELETE(m_pCivilization); // advc.003w
-}
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	SAFE_DELETE(m_pDynDiploManager);
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 
 void CvPlayer::init(PlayerTypes eID)
@@ -312,6 +317,12 @@ void CvPlayer::uninit()
 	clearPopups();
 	clearDiplomacy();
 	uninitAlerts(); // advc.210
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	if (m_pDynDiploManager != NULL)
+	{
+		m_pDynDiploManager->uninit();
+	}
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 }
 
 // Initialize data members that are serialized.
@@ -539,6 +550,16 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 		m_triggersFired.clear();
 		clearMessageCopies(); // advc.106b
 	}
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	if (m_pDynDiploManager == NULL)
+	{
+		m_pDynDiploManager = new CvDynamicDiploManager();
+	}
+	else
+	{
+		m_pDynDiploManager->clear();
+	}
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	m_plotGroups.removeAll();
 	m_cities.removeAll();
