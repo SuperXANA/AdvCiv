@@ -140,7 +140,7 @@ int CvDynamicDiploManager::getNumDiplomacyText(int i) const
 const TCHAR* CvDynamicDiploManager::getDiplomacyText(int i, int j) const
 {
 	FAssertBounds(0, getNumResponses(), i);
-	FAssertBounds(0, getNumDiplomacyTextForDynamicResponses(i), j);
+	FAssertBounds(0, getNumDiplomacyText(i), j);
 	return m_pDynamicResponses[i].m_paszDiplomacyText[j];
 }
 

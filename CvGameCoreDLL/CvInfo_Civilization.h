@@ -436,24 +436,24 @@ public: // advc: All the const functions are exposed to Python (some const quali
 	~CvDiplomacyResponse(); // advc: was virtual
 
 	int getNumDiplomacyText() const;
-	// advc.003j: Disabled the unused setters and bool* getters /* XANA (note): Re-enabled the setter functions only, for use in dynamic diplomacy text generation through local LLMs */
-	void setNumDiplomacyText(int i);
+	// advc.003j: Disabled the unused setters and bool* getters
+	//void setNumDiplomacyText(int i);
 
 	bool getCivilizationTypes(int i) const;
 	//bool* getCivilizationTypes() const;
-	void setCivilizationTypes(int i, bool bVal);
+	//void setCivilizationTypes(int i, bool bVal);
 
 	bool getLeaderHeadTypes(int i) const;
 	//bool* getLeaderHeadTypes() const;
-	void setLeaderHeadTypes(int i, bool bVal);
+	//void setLeaderHeadTypes(int i, bool bVal);
 
 	bool getAttitudeTypes(int i) const;
 	//bool* getAttitudeTypes() const;
-	void setAttitudeTypes(int i, bool bVal);
+	//void setAttitudeTypes(int i, bool bVal);
 
 	bool getDiplomacyPowerTypes(int i) const;
 	//bool* getDiplomacyPowerTypes() const;
-	void setDiplomacyPowerTypes(int i, bool bVal);
+	//void setDiplomacyPowerTypes(int i, bool bVal);
 
 	const TCHAR* getDiplomacyText(int i) const;
 	const CvString* getDiplomacyText() const;
