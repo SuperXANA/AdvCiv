@@ -64,6 +64,9 @@ int CvDynamicDiploManager::initNewResponse()
 		{
 			pResponse->m_pbDiplomacyPowerTypes[j] = false;
 		}
+		pResponse->m_iNumDiplomacyText = 1;
+		pResponse->m_paszDiplomacyText = new CvString[1];
+		pResponse->m_paszDiplomacyText[0] = "";
 		m_pDynamicResponses.push_back(pResponse);
 	}
 	// Update EXE-external struct vector
@@ -89,6 +92,9 @@ int CvDynamicDiploManager::initNewResponse()
 		{
 			pResponseStruct->m_pbDiplomacyPowerTypes[j] = false;
 		}
+		pResponseStruct->m_iNumDiplomacyText = 1;
+		pResponseStruct->m_paszDiplomacyText = new CvString[1];
+		pResponseStruct->m_paszDiplomacyText[0] = "";
 		m_pDynamicResponseStructs.push_back(pResponseStruct);
 	}
 	return (int)(m_pDynamicResponses.size() - 1); /* XANA (note): returns value of new "i" index that now exists in the vector storage */
