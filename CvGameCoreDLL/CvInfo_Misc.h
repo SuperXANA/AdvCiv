@@ -553,6 +553,19 @@ public:
 	bool getDiplomacyPowerTypes(int i, int j) const;
 	int getNumDiplomacyText(int i) const;
 	const TCHAR* getDiplomacyText(int i, int j) const;
+	
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	int getNumDynamicResponses(int iPlayer) const;
+
+	bool getCivilizationTypesForDynamicResponses(int iPlayer, int i) const;
+	bool getLeaderHeadTypesForDynamicResponses(int iPlayer, int i) const;
+	bool getAttitudeTypesForDynamicResponses(int iPlayer, int iOtherPlayer, int i) const;
+	bool getDiplomacyPowerTypesForDynamicResponses(int iPlayer, int iOtherPlayer, int i) const;
+
+	int getNumDiplomacyTextForDynamicResponses(int iPlayer, int i) const;
+
+	const TCHAR* getDiplomacyTextForDynamicResponses(int iPlayer, int i, int j) const;
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
