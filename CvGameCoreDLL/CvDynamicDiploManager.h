@@ -20,11 +20,11 @@ public:
 	static void updateCache();
 
 	// Called by Python/CvDiplomacy to fetch data for the local UI
+	static int getNumResponses(PlayerTypes eAIPlayer) const;
 	static bool isResponseForCivilization(PlayerTypes eAIPlayer, int iIndex) const;
 	static bool isResponseForLeaderHead(PlayerTypes eAIPlayer, int iIndex) const;
 	static bool isResponseForAttitude(PlayerTypes eAIPlayer, PlayerTypes eOtherPlayer, int iIndex) const;
 	static bool isResponseForDiplomacyPower(PlayerTypes eAIPlayer, PlayerTypes eOtherPlayer, int iIndex) const;
-	static int getNumResponses(PlayerTypes eAIPlayer) const;
 	static int getNumDiplomacyText(PlayerTypes eAIPlayer, int iIndex) const;
 	static const char* getDiplomacyText(PlayerTypes eAIPlayer, int iIndex, int iVariant) const;
 
