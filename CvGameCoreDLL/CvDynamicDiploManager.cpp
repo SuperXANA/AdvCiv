@@ -1,9 +1,11 @@
+#include "CvGameCoreDLL.h"
 #include "CvDynamicDiploManager.h"
 
-CvCriticalSection CvDynamicDiploManager::m_CS;
-CvDynamicDiploManager::DynamicResponseMap CvDynamicDiploManager::m_stagingArea; // managed by WinINet ONLY!
-CvDynamicDiploManager::DynamicResponseMap CvDynamicDiploManager::m_activeDiploResponses; // managed by Civ4 ONLY!
-bool CvDynamicDiploManager::m_bInitialized = false;
+CvDynamicDiploManager& CvDynamicDiploManager::getInstance()
+{
+	static CvDynamicDiploManager singleton;
+	return singleton;
+}
 
 void CvDynamicDiploManager::init()
 {
@@ -15,7 +17,7 @@ void CvDynamicDiploManager::init()
 	}
 }
 
-void CvDynamicDiploManager::uninit()
+void CvDynamicDiploManager::reset()
 {
 	CvFunctionMutex lock(m_CS);
 	{
@@ -41,7 +43,7 @@ void CvDynamicDiploManager::pushNewResponse(PlayerTypes eAIPlayer, DynamicRespon
 		}
 		if (eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_stagingArea.size())
 		{
-			m_stagingArea[eAIPlayer].push_back(kResponse);
+			m_stagingArea[{int}eAIPlayer].push_back(kResponse);
 		}
 	}
 }
@@ -54,7 +56,7 @@ void CvDynamicDiploManager::clearStagingArea(PlayerTypes eAIPlayer)
 	}
 	if (eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_stagingArea.size()) 
 	{
-		m_stagingArea[eAIPlayer].clear();
+		m_stagingArea[{int}eAIPlayer].clear();
 	}
 }
 
@@ -66,7 +68,7 @@ void CvDynamicDiploManager::clearActiveResponses(PlayerTypes eAIPlayer)
 	}
 	if (eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
 	{
-		m_activeDiploResponses[eAIPlayer].clear();
+		m_activeDiploResponses[{int}eAIPlayer].clear();
 	}
 }
 
@@ -76,7 +78,7 @@ int CvDynamicDiploManager::getNumResponses(PlayerTypes eAIPlayer) const
 	// on the main thread during turn initialization
 	if (m_bInitialized && eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
 	{
-		return (int)m_activeDiploResponses[eAIPlayer].size();
+		return (int)m_activeDiploResponses[{int}eAIPlayer].size();
 	}
 	return 0;
 }
@@ -139,7 +141,7 @@ bool CvDynamicDiploManager::getCivilizationTypes(PlayerTypes eAIPlayer, int iInd
 		{
 			if (eCiv > NO_CIVILIZATION && eCiv < GC.getNumCivilizationInfos())
 			{
-				return m_activeDiploResponses[eAIPlayer][iIndex].getCivilizationTypes(eCiv);
+				return m_activeDiploResponses[{int}eAIPlayer][iIndex].getCivilizationTypes(eCiv);
 			}
 		}
 	}
@@ -156,7 +158,7 @@ bool CvDynamicDiploManager::getLeaderHeadTypes(PlayerTypes eAIPlayer, int iIndex
 		{
 			if (eLeader > NO_LEADER && eLeader < GC.getNumLeaderHeadInfos())
 			{
-				return m_activeDiploResponses[eAIPlayer][iIndex].getLeaderHeadTypes(eLeader);
+				return m_activeDiploResponses[{int}eAIPlayer][iIndex].getLeaderHeadTypes(eLeader);
 			}
 		}
 	}
@@ -173,7 +175,7 @@ bool CvDynamicDiploManager::getAttitudeTypes(PlayerTypes eAIPlayer, int iIndex, 
 		{
 			if (eAttitude > NO_ATTITUDE && eAttitude < NUM_ATTITUDE_TYPES)
 			{
-				return m_activeDiploResponses[eAIPlayer][iIndex].getAttitudeTypes(eAttitude);
+				return m_activeDiploResponses[{int}eAIPlayer][iIndex].getAttitudeTypes(eAttitude);
 			}
 		}
 	}
@@ -190,7 +192,7 @@ bool CvDynamicDiploManager::getDiplomacyPowerTypes(PlayerTypes eAIPlayer, int iI
 		{
 			if (ePower > NO_DIPLOMACYPOWER && ePower < NUM_DIPLOMACYPOWER_TYPES)
 			{
-				return m_activeDiploResponses[eAIPlayer][iIndex].getDiplomacyPowerTypes(ePower);
+				return m_activeDiploResponses[{int}eAIPlayer][iIndex].getDiplomacyPowerTypes(ePower);
 			}
 		}
 	}
@@ -205,7 +207,7 @@ int CvDynamicDiploManager::getNumDiplomacyText(PlayerTypes eAIPlayer, int iIndex
 	{
 		if (iIndex >= 0 && iIndex < getNumResponses(eAIPlayer))
 		{
-			return m_activeDiploResponses[eAIPlayer][iIndex].getNumDiplomacyText();
+			return m_activeDiploResponses[{int}eAIPlayer][iIndex].getNumDiplomacyText();
 		}
 	}
 	return 0;
@@ -221,7 +223,7 @@ const char* CvDynamicDiploManager::getDiplomacyText(PlayerTypes eAIPlayer, int i
 		{
 			if (iVariant >= 0 && iVariant < getNumDiplomacyText(eAIPlayer, iIndex))
 			{
-				return &m_activeDiploResponses[eAIPlayer][iIndex].getDiplomacyText(iVariant);
+				return &m_activeDiploResponses[{int}eAIPlayer][iIndex].getDiplomacyText(iVariant);
 			}
 		}
 	}
