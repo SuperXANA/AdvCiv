@@ -17,15 +17,17 @@ void CvDynamicDiploManager::init()
 
 void CvDynamicDiploManager::uninit()
 {
-	if (m_bInitialized)
+	CvFunctionMutex lock(m_CS);
 	{
-		CvFunctionMutex lock(m_CS);
-		FOR_EACH_ENUM(Player)
+		if (m_bInitialized)
 		{
-			clearStagingArea(eLoopPlayer);
-			clearActiveResponses(eLoopPlayer);
+			FOR_EACH_ENUM(Player)
+			{
+				clearStagingArea(eLoopPlayer);
+				clearActiveResponses(eLoopPlayer);
+			}
+			m_bInitialized = false;
 		}
-		m_bInitialized = false;
 	}
 }
 
@@ -68,6 +70,17 @@ void CvDynamicDiploManager::clearActiveResponses(PlayerTypes eAIPlayer)
 	}
 }
 
+int CvDynamicDiploManager::getNumResponses(PlayerTypes eAIPlayer) const
+{
+	// No lock needed for reading if we guarantee updateCache only runs 
+	// on the main thread during turn initialization
+	if (m_bInitialized && eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
+	{
+		return (int)m_activeDiploResponses[eAIPlayer].size();
+	}
+	return 0;
+}
+
 void CvDynamicDiploManager::updateCache()
 {
 	CvFunctionMutex lock(m_CS);
@@ -83,15 +96,47 @@ void CvDynamicDiploManager::updateCache()
 	}
 }
 
+bool CvDynamicDiploManager::isResponseForCivilization(PlayerTypes eAIPlayer, int iIndex) const
+{
+	return getCivilizationTypes(eAIPlayer, iIndex, GET_PLAYER(eAIPlayer).getCivilizationType());
+}
+
+bool CvDynamicDiploManager::isResponseForLeaderHead(PlayerTypes eAIPlayer, int iIndex) const
+{
+	return getLeaderHeadTypes(eAIPlayer, iIndex, GET_PLAYER(eAIPlayer).getLeaderType());
+}
+
+bool CvDynamicDiploManager::isResponseForAttitude(PlayerTypes eAIPlayer, PlayerTypes eOtherPlayer, int iIndex) const
+{
+	return getAttitudeTypes(eAIPlayer, iIndex, GET_PLAYER(eAIPlayer).AI_getAttitude(eOtherPlayer));
+}
+
+bool CvDynamicDiploManager::isResponseForDiplomacyPower(PlayerTypes eAIPlayer, PlayerTypes eOtherPlayer, int iIndex) const
+{
+	int const iPowerUs = GET_PLAYER(eAIPlayer).getPower();
+	int const iPowerThem = GET_PLAYER(eOtherPlayer).getPower();
+	if ((iPowerThem < (iPowerUs / 2))
+	{
+		return getDiplomacyPowerTypes(eAIPlayer, iIndex, DIPLOMACYPOWER_STRONGER);
+	
+	}
+	else if (iPowerThem > (iPowerUs * 2))
+	{
+		return getDiplomacyPowerTypes(eAIPlayer, iIndex, DIPLOMACYPOWER_WEAKER);
+	}
+	else
+	{
+		return getDiplomacyPowerTypes(eAIPlayer, iIndex, DIPLOMACYPOWER_EQUAL);
+	}
+}
+
 bool CvDynamicDiploManager::getCivilizationTypes(PlayerTypes eAIPlayer, int iIndex, CivilizationTypes eCiv) const
 {
-	if (!m_bInitialized)
+	// No lock needed for reading if we guarantee updateCache only runs 
+	// on the main thread during turn initialization
+	if (m_bInitialized && eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
 	{
-		return false;
-	}
-	if (eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
-	{
-		if (iIndex >= 0 && iIndex < (int)m_activeDiploResponses[eAIPlayer].size())
+		if (iIndex >= 0 && iIndex < getNumResponses(eAIPlayer))
 		{
 			if (eCiv > NO_CIVILIZATION && eCiv < GC.getNumCivilizationInfos())
 			{
@@ -104,13 +149,11 @@ bool CvDynamicDiploManager::getCivilizationTypes(PlayerTypes eAIPlayer, int iInd
 
 bool CvDynamicDiploManager::getLeaderHeadTypes(PlayerTypes eAIPlayer, int iIndex, LeaderHeadTypes eLeader) const
 {
-	if (!m_bInitialized)
+	// No lock needed for reading if we guarantee updateCache only runs 
+	// on the main thread during turn initialization
+	if (m_bInitialized && eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
 	{
-		return false;
-	}
-	if (eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
-	{
-		if (iIndex >= 0 && iIndex < (int)m_activeDiploResponses[eAIPlayer].size())
+		if (iIndex >= 0 && iIndex < getNumResponses(eAIPlayer))
 		{
 			if (eLeader > NO_LEADER && eLeader < GC.getNumLeaderHeadInfos())
 			{
@@ -123,13 +166,11 @@ bool CvDynamicDiploManager::getLeaderHeadTypes(PlayerTypes eAIPlayer, int iIndex
 
 bool CvDynamicDiploManager::getAttitudeTypes(PlayerTypes eAIPlayer, int iIndex, AttitudeTypes eAttitude) const
 {
-	if (!m_bInitialized)
+	// No lock needed for reading if we guarantee updateCache only runs 
+	// on the main thread during turn initialization
+	if (m_bInitialized && eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
 	{
-		return false;
-	}
-	if (eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
-	{
-		if (iIndex >= 0 && iIndex < (int)m_activeDiploResponses[eAIPlayer].size())
+		if (iIndex >= 0 && iIndex < getNumResponses(eAIPlayer))
 		{
 			if (eAttitude > NO_ATTITUDE && eAttitude < NUM_ATTITUDE_TYPES)
 			{
@@ -142,13 +183,11 @@ bool CvDynamicDiploManager::getAttitudeTypes(PlayerTypes eAIPlayer, int iIndex, 
 
 bool CvDynamicDiploManager::getDiplomacyPowerTypes(PlayerTypes eAIPlayer, int iIndex, DiplomacyPowerTypes ePower) const
 {
-	if (!m_bInitialized)
+	// No lock needed for reading if we guarantee updateCache only runs 
+	// on the main thread during turn initialization
+	if (m_bInitialized && eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
 	{
-		return false;
-	}
-	if eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
-	{
-		if (iIndex >= 0 && iIndex < (int)m_activeDiploResponses[eAIPlayer].size())
+		if (iIndex >= 0 && iIndex < getNumResponses(eAIPlayer))
 		{
 			if (ePower > NO_DIPLOMACYPOWER && ePower < NUM_DIPLOMACYPOWER_TYPES)
 			{
@@ -161,17 +200,13 @@ bool CvDynamicDiploManager::getDiplomacyPowerTypes(PlayerTypes eAIPlayer, int iI
 
 int CvDynamicDiploManager::getNumDiplomacyText(PlayerTypes eAIPlayer, int iIndex) const
 {
-	if (!m_bInitialized)
-	{
-		return 0;
-	}
 	// No lock needed for reading if we guarantee updateCache only runs 
 	// on the main thread during turn initialization
-	if (eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
+	if (m_bInitialized && eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
 	{
-		if (iIndex >= 0 && iIndex < (int)m_activeDiploResponses[eAIPlayer].size())
+		if (iIndex >= 0 && iIndex < getNumResponses(eAIPlayer))
 		{
-			return m_activeDiploResponses[eAIPlayer][iIndex].getDiplomacyTextCount();
+			return m_activeDiploResponses[eAIPlayer][iIndex].getNumDiplomacyText();
 		}
 	}
 	return 0;
@@ -179,13 +214,11 @@ int CvDynamicDiploManager::getNumDiplomacyText(PlayerTypes eAIPlayer, int iIndex
 
 const char* CvDynamicDiploManager::getDiplomacyText(PlayerTypes eAIPlayer, int iIndex, int iVariant) const
 {
-	if (!m_bInitialized)
+	// No lock needed for reading if we guarantee updateCache only runs 
+	// on the main thread during turn initialization
+	if (m_bInitialized && eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
 	{
-		return "";
-	}
-	if (eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_activeDiploResponses.size())
-	{
-		if (iIndex >= 0 && iIndex < (int)m_activeDiploResponses[eAIPlayer].size())
+		if (iIndex >= 0 && iIndex < getNumResponses(eAIPlayer))
 		{
 			if (iVariant >= 0 && iVariant < getNumDiplomacyText(eAIPlayer, iIndex))
 			{

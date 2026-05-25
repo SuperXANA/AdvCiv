@@ -20,10 +20,11 @@ public:
 	static void updateCache();
 
 	// Called by Python/CvDiplomacy to fetch data for the local UI
-	static bool getCivilizationTypes(PlayerTypes eAIPlayer, int iIndex, CivilizationTypes eCiv) const;
-	static bool getLeaderHeadTypes(PlayerTypes eAIPlayer, int iIndex, LeaderHeadTypes eLeader) const;
-	static bool getAttitudeTypes(PlayerTypes eAIPlayer, int iIndex, AttitudeTypes eAttitude) const;
-	static bool getDiplomacyPowerTypes(PlayerTypes eAIPlayer, int iIndex, DiplomacyPowerTypes ePower) const;
+	static bool isResponseForCivilization(PlayerTypes eAIPlayer, int iIndex) const;
+	static bool isResponseForLeaderHead(PlayerTypes eAIPlayer, int iIndex) const;
+	static bool isResponseForAttitude(PlayerTypes eAIPlayer, PlayerTypes eOtherPlayer, int iIndex) const;
+	static bool isResponseForDiplomacyPower(PlayerTypes eAIPlayer, PlayerTypes eOtherPlayer, int iIndex) const;
+	static int getNumResponses(PlayerTypes eAIPlayer) const;
 	static int getNumDiplomacyText(PlayerTypes eAIPlayer, int iIndex) const;
 	static const char* getDiplomacyText(PlayerTypes eAIPlayer, int iIndex, int iVariant) const;
 
@@ -40,6 +41,11 @@ private:
 	static DynamicResponseMap m_stagingArea; // temporary
 	static DynamicResponseMap m_activeDiploResponses; // not serialized
 	static bool m_bInitialized;
+	
+	static bool getCivilizationTypes(PlayerTypes eAIPlayer, int iIndex, CivilizationTypes eCiv) const;
+	static bool getLeaderHeadTypes(PlayerTypes eAIPlayer, int iIndex, LeaderHeadTypes eLeader) const;
+	static bool getAttitudeTypes(PlayerTypes eAIPlayer, int iIndex, AttitudeTypes eAttitude) const;
+	static bool getDiplomacyPowerTypes(PlayerTypes eAIPlayer, int iIndex, DiplomacyPowerTypes ePower) const;
 };
 
 #endif
