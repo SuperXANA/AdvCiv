@@ -10,8 +10,6 @@ class CvDynamicDiploManager
 public:
 	static void init();
 	static void uninit();
-	static void clearStagingArea(PlayerTypes eAIPlayer);
-	static void clearActiveResponses(PlayerTypes eAIPlayer);
 
 	// Called by WinINet thread to safely drop responses into staging area for synchronization
 	static void pushNewResponse(PlayerTypes eAIPlayer, DynamicResponse const& kResponse);
@@ -41,6 +39,9 @@ private:
 	static DynamicResponseMap m_stagingArea; // temporary
 	static DynamicResponseMap m_activeDiploResponses; // not serialized
 	static bool m_bInitialized;
+	
+	static void clearStagingArea(PlayerTypes eAIPlayer);
+	static void clearActiveResponses(PlayerTypes eAIPlayer);
 	
 	static bool getCivilizationTypes(PlayerTypes eAIPlayer, int iIndex, CivilizationTypes eCiv) const;
 	static bool getLeaderHeadTypes(PlayerTypes eAIPlayer, int iIndex, LeaderHeadTypes eLeader) const;

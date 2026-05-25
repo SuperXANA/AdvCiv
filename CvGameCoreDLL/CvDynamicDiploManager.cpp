@@ -118,7 +118,6 @@ bool CvDynamicDiploManager::isResponseForDiplomacyPower(PlayerTypes eAIPlayer, P
 	if ((iPowerThem < (iPowerUs / 2))
 	{
 		return getDiplomacyPowerTypes(eAIPlayer, iIndex, DIPLOMACYPOWER_STRONGER);
-	
 	}
 	else if (iPowerThem > (iPowerUs * 2))
 	{
