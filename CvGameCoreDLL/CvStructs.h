@@ -570,4 +570,33 @@ struct DealItemData
 	int iData, iDeal;
 };
 
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+struct aCivilizationsActive { std::vector<bool> abActive; };
+struct aLeadersActive { std::vector<bool> abActive; };
+struct aAttitudesActive { std::vector<bool> abActive; };
+struct aDiploPowersActive { std::vector<bool> abActive; };
+struct aDiplomacyText { std::vector<std::string> szText; }
+struct DynamicResponse
+{
+	aCivilizationsActive sCiv;
+	aLeadersActive       sLeader;
+	aAttitudesActive     sAttitude;
+	aDiploPowersActive   sPower;
+	aDiplomacyText sText;
+	DynamicResponse() : { init(); }
+	void init();
+	bool getCivilizationTypes(CivilizationTypes eCiv) const;
+	bool getLeaderHeadTypes(LeaderHeadTypes eLeader) const;
+	bool getAttitudeTypes(AttitudeTypes eAttitude) const;
+	bool getDiplomacyPowerTypes(DiplomacyPowerTypes ePower) const;
+	int getNumDiplomacyText() const;
+	std::string const& getDiplomacyText(int iVariant) const;
+	void setCivilizationTypes(CivilizationTypes eCiv, bool bValue);
+	void setLeaderHeadTypes(LeaderHeadTypes eLeader, bool bValue);
+	void setAttitudeTypes(AttitudeTypes eAttitude, bool bValue);
+	void setDiplomacyPowerTypes(DiplomacyPowerTypes ePower, bool bValue);
+	void setDiplomacyText(int iVariant = -1 /* auto variant # deduction */, const CvString& szValue);
+};
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+
 #endif	// CVSTRUCTS_H

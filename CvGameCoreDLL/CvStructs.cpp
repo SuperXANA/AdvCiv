@@ -603,3 +603,124 @@ FirstContactData::FirstContactData(CvPlot const* pAt1, CvPlot const* pAt2,
 		u2.iID = pUnit2->getID();
 	}
 }
+
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+void DynamicResponse::init()
+{
+	DynamicResponse& kThis = *this;
+	kThis.sCiv.abActive.assign(GC.getNumCivilizationInfos(), false);
+	kThis.sLeader.abActive.assign(GC.getNumLeaderHeadInfos(), false);
+	kThis.sAttitude.abActive.assign(NUM_ATTITUDE_TYPES, false);
+	kThis.sPower.abActive.assign(NUM_DIPLOMACYPOWER_TYPES, false);
+}
+
+bool DynamicResponse::getCivilizationTypes(CivilizationTypes eCiv)
+{
+	DynamicResponse const& kThis = *this;
+	// If the filter vector is empty, treat it as unconstrained (pass-through)
+	if (!kThis.sCiv.abActive.empty() && !kThis.sCiv.abActive[eCiv])
+	{
+		return false; 
+	}
+	return true; // All active filter flags matched successfully!
+}
+
+bool DynamicResponse::getLeaderHeadTypes(LeaderHeadTypes eLeader)
+{
+	DynamicResponse const& kThis = *this;
+	// If the filter vector is empty, treat it as unconstrained (pass-through)
+	if (!kThis.sLeader.abActive.empty() && !kThis.sLeader.abActive[eLeader])
+	{
+		return false;
+	}
+	return true; // All active filter flags matched successfully!
+}
+
+bool DynamicResponse::getAttitudeTypes(AttitudeTypes eAttitude)
+{
+	DynamicResponse const& kThis = *this;
+	// If the filter vector is empty, treat it as unconstrained (pass-through)
+	if (!kThis.sAttitude.abActive.empty() && !kThis.sAttitude.abActive[eAttitude])
+	{
+		return false;
+	}
+	return true; // All active filter flags matched successfully!
+}
+
+bool DynamicResponse::getDiplomacyPowerTypes(DiplomacyPowerTypes ePower)
+{
+	DynamicResponse const& kThis = *this;
+	// If the filter vector is empty, treat it as unconstrained (pass-through)
+	if (!kThis.sPower.abActive.empty() && !kThis.sPower.abActive[ePower])
+	{
+		return false;
+	}
+	return true; // All active filter flags matched successfully!
+}
+
+int DynamicResponse::getNumDiplomacyText() const
+{
+	DynamicResponse const& kThis = *this;
+	return (int)kThis.sText.szText.size();
+}
+
+std::string const& DynamicResponse::getDiplomacyText(int iVariant) const
+{
+	DynamicResponse const& kThis = *this;
+	return kThis.sText.szText[iVariant];
+}
+
+void DynamicResponse::setCivilizationTypes(CivilizationTypes eCiv, bool bValue)
+{
+	DynamicResponse& kThis = *this;
+	if (kThis.sCiv.abActive.empty()
+	{
+		return;
+	}
+	kThis.sCiv.abActive[eCiv] = bValue;
+}
+
+void DynamicResponse::setLeaderHeadTypes(LeaderHeadTypes eLeader, bool bValue)
+{
+	DynamicResponse& kThis = *this;
+	if (kThis.sLeader.abActive.empty()
+	{
+		return;
+	}
+	kThis.sLeader.abActive[eLeader] = bValue;
+}
+
+void DynamicResponse::setAttitudeTypes(AttitudeTypes eAttitude, bool bValue)
+{
+	DynamicResponse& kThis = *this;
+	if (kThis.sAttitude.abActive.empty()
+	{
+		return;
+	}
+	kThis.sAttitude.abActive[eAttitude] = bValue;
+}
+
+void DynamicResponse::setDiplomacyPowerTypes(DiplomacyPowerTypes ePower, bool bValue)
+{
+	DynamicResponse& kThis = *this;
+	if (kThis.sPower.abActive.empty()
+	{
+		return;
+	}
+	kThis.sPower.abActive[ePower] = bValue;
+}
+
+void DynamicResponse::setDiplomacyText(int iVariant, const CvString& szValue)
+{
+	DynamicResponse& kThis = *this;
+	if (iVariant < 0 || iVariant >= getNumDiplomacyText())
+	{
+		// XANA (note): Automatic Variant Resizing Handled Here!
+		int const iHighestVariantID = getNumDiplomacyText();
+		kThis.sText.szText.resize(iHighestVariantID + 1);
+		kThis.sText.szText[iHighestVariantID] = szValue;
+		return;
+	}
+	kThis.sText.szText[iVariant] = szValue;
+}
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
