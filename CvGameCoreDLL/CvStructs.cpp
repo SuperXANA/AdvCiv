@@ -613,7 +613,12 @@ void DynamicResponse::init()
 	abActivePowers.assign(NUM_DIPLOMACYPOWER_TYPES, false);
 }
 
-bool DynamicResponse::getCivilizationTypes(CivilizationTypes eCiv)
+DiploCommentTypes DynamicResponse::getCommentType() const
+{
+	return m_eType;
+}
+
+bool DynamicResponse::getCivilizationTypes(CivilizationTypes eCiv) const
 {
 	// If the filter vector is empty, treat it as unconstrained (pass-through)
 	if (!abActiveCivilizations.empty() && !abActiveCivilizations[eCiv])
@@ -623,7 +628,7 @@ bool DynamicResponse::getCivilizationTypes(CivilizationTypes eCiv)
 	return true; // All active filter flags matched successfully!
 }
 
-bool DynamicResponse::getLeaderHeadTypes(LeaderHeadTypes eLeader)
+bool DynamicResponse::getLeaderHeadTypes(LeaderHeadTypes eLeader) const
 {
 	// If the filter vector is empty, treat it as unconstrained (pass-through)
 	if (!abActiveLeaders.empty() && !abActiveLeaders[eLeader])
@@ -633,7 +638,7 @@ bool DynamicResponse::getLeaderHeadTypes(LeaderHeadTypes eLeader)
 	return true; // All active filter flags matched successfully!
 }
 
-bool DynamicResponse::getAttitudeTypes(AttitudeTypes eAttitude)
+bool DynamicResponse::getAttitudeTypes(AttitudeTypes eAttitude) const
 {
 	// If the filter vector is empty, treat it as unconstrained (pass-through)
 	if (!abActiveAttitudes.empty() && !abActiveAttitudes.abActive[eAttitude])
@@ -643,7 +648,7 @@ bool DynamicResponse::getAttitudeTypes(AttitudeTypes eAttitude)
 	return true; // All active filter flags matched successfully!
 }
 
-bool DynamicResponse::getDiplomacyPowerTypes(DiplomacyPowerTypes ePower)
+bool DynamicResponse::getDiplomacyPowerTypes(DiplomacyPowerTypes ePower) const
 {
 	// If the filter vector is empty, treat it as unconstrained (pass-through)
 	if (!abActivePowers.empty() && !abActivePowers[ePower])

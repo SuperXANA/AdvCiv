@@ -573,13 +573,15 @@ struct DealItemData
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
 struct DynamicResponse
 {
+	DiploCommentTypes m_eType;
 	std::vector<bool> abActiveCivilizations;
 	std::vector<bool> abActiveLeaders;
 	std::vector<bool> abActiveAttitudes;
 	std::vector<bool> abActivePowers;
 	std::vector<std::string> aszText;
-	DynamicResponse() { init(); }
+	DynamicResponse(DiploCommentTypes eCommentType) : m_eType(eCommentType) { init(); }
 	void init();
+	DiploCommentTypes getCommentType() const;
 	bool getCivilizationTypes(CivilizationTypes eCiv) const;
 	bool getLeaderHeadTypes(LeaderHeadTypes eLeader) const;
 	bool getAttitudeTypes(AttitudeTypes eAttitude) const;
