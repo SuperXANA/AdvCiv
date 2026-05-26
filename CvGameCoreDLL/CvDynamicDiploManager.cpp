@@ -44,7 +44,7 @@ void CvDynamicDiploManager::uninit()
 	}
 }
 
-void CvDynamicDiploManager::pushNewResponse(PlayerTypes eAIPlayer, DynamicResponse const& kResponse)
+void CvDynamicDiploManager::pushResponse(PlayerTypes eAIPlayer, DynamicResponse const& kResponse)
 {
 	CvFunctionMutex lock(m_CS);
 	{

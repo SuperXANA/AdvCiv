@@ -21,7 +21,7 @@ public:
 	void uninit();
 
 	// Called by WinINet thread to safely drop responses into staging area for synchronization
-	void pushNewResponse(PlayerTypes eAIPlayer, DynamicResponse const& kResponse);
+	void pushResponse(PlayerTypes eAIPlayer, DynamicResponse const& kResponse);
 
 	// Called at the Turn Boundary (setTurnActive) to promote staging to active during synchronization
 	void updateCache();
