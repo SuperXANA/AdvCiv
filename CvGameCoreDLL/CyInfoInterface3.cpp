@@ -445,6 +445,19 @@ void CyInfoPythonInterface3()
 		.def("getNumDiplomacyText", &CvDiplomacyTextInfo::getNumDiplomacyText, "int (int i)")
 
 		.def("getDiplomacyText", &CvDiplomacyTextInfo::getDiplomacyText, "string (int i, int j)")
+		
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+		.def("getNumDynamicResponses", &CvDiplomacyTextInfo::getNumDynamicResponses, "int (int iPlayer)")
+
+		.def("isDynamicResponseForCivilization", &CvDiplomacyTextInfo::getCivilizationTypesForDynamicResponses, "bool (int iPlayer, int i)")
+		.def("isDynamicResponseForLeaderHead", &CvDiplomacyTextInfo::getLeaderHeadTypesForDynamicResponses, "bool (int iPlayer, int i)")
+		.def("isDynamicResponseForAttitude", &CvDiplomacyTextInfo::getAttitudeTypesForDynamicResponses, "bool (int iPlayer, int i)")
+		.def("isDynamicResponseForDiplomacyPower", &CvDiplomacyTextInfo::getDiplomacyPowerTypesForDynamicResponses, "bool (int iPlayer, int i)")
+
+		.def("getNumDiplomacyTextForDynamicResponse", &CvDiplomacyTextInfo::getNumDiplomacyTextForDynamicResponses, "int (int iPlayer, int i)")
+
+		.def("getDiplomacyTextForDynamicResponse", &CvDiplomacyTextInfo::getDiplomacyTextForDynamicResponses, "string (int iPlayer, int i, int j)")
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 		;
 
 	python::class_<CvDiplomacyInfo, boost::noncopyable, python::bases<CvInfoBase> >("CvDiplomacyInfo")
@@ -459,6 +472,19 @@ void CyInfoPythonInterface3()
 		.def("getNumDiplomacyText", &CvDiplomacyInfo::getNumDiplomacyText, "int (int i)")
 
 		.def("getDiplomacyText", &CvDiplomacyInfo::getDiplomacyText, "string (int i, int j)")
+		
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+		.def("getNumDynamicResponses", &CvDiplomacyInfo::getNumDynamicResponses, "int (int iPlayer)")
+
+		.def("isDynamicResponseForCivilization", &CvDiplomacyInfo::getCivilizationTypesForDynamicResponses, "bool (int iPlayer, int i)")
+		.def("isDynamicResponseForLeaderHead", &CvDiplomacyInfo::getLeaderHeadTypesForDynamicResponses, "bool (int iPlayer, int i)")
+		.def("isDynamicResponseForAttitude", &CvDiplomacyInfo::getAttitudeTypesForDynamicResponses, "bool (int iPlayer, int i)")
+		.def("isDynamicResponseForDiplomacyPower", &CvDiplomacyInfo::getDiplomacyPowerTypesForDynamicResponses, "bool (int iPlayer, int i)")
+
+		.def("getNumDiplomacyTextForDynamicResponse", &CvDiplomacyInfo::getNumDiplomacyTextForDynamicResponses, "int (int iPlayer, int i)")
+
+		.def("getDiplomacyTextForDynamicResponse", &CvDiplomacyInfo::getDiplomacyTextForDynamicResponses, "string (int iPlayer, int i, int j)")
+	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 		;
 
 	python::class_<CvEffectInfo, boost::noncopyable, python::bases<CvInfoBase, CvScalableInfo> >("CvEffectInfo")
