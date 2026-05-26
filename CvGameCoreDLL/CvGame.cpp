@@ -28,6 +28,9 @@
 #include "CvHallOfFameInfo.h" // advc.106i
 #include "BBAILog.h" // BBAI
 #include "CvBugOptions.h" // K-Mod
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+#include "CvDynamicDiploManager.h"
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 /*	<advc.007c> Use this CvGame instance instead of GC.getGame() for RNG calls.
 	(Won't matter so long as CvGame is a singleton class.) */
@@ -66,6 +69,9 @@ void CvGame::init(HandicapTypes eHandicap)
 
 	m_voteSelections.init();
 	m_votesTriggered.init();
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	CvDynamicDiploManager::getInstance().init();
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	/*m_mapRand.init(ic.getMapRandSeed() % 73637381);
 	m_sorenRand.init(ic.getSyncRandSeed() % 52319761);*/
@@ -438,6 +444,9 @@ void CvGame::uninit()
 	// </advc.072>
 	m_voteSelections.uninit();
 	m_votesTriggered.uninit();
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	CvDynamicDiploManager::getInstance().uninit();
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 	// advc: Removed CvRandom::uninit; there was nothing to be done.
 	/*m_mapRand.uninit();
 	m_sorenRand.uninit();*/
@@ -598,6 +607,9 @@ void CvGame::reset(HandicapTypes eHandicap, bool bConstructorCall)
 	m_deals.removeAll();
 	m_voteSelections.removeAll();
 	m_votesTriggered.removeAll();
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	CvDynamicDiploManager::getInstance().reset();
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	m_mapRand.reset();
 	m_sorenRand.reset();

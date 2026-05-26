@@ -17,6 +17,10 @@
 /*#pragma warning(disable: 251)
 #pragma warning(disable: 127)*/ // advc.make: Handled by PragmaWarnings.h
 
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+class CvDynamicDiploManager;
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // class	: CvUnitFormationInfo
 // \brief	: Holds information relating to the formation of sub-units within a unit

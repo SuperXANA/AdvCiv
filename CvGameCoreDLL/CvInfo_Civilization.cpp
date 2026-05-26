@@ -2,6 +2,9 @@
 
 #include "CvGameCoreDLL.h"
 #include "CvXMLLoadUtility.h"
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+#include "CvDynamicDiploManager.h"
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 
 CvCivilizationInfo::CvCivilizationInfo() :

@@ -18,6 +18,9 @@ class Shelf; // advc.300
 class BarbarianWeightMap; // advc.304
 class StartPointsAsHandicap; // advc.250b
 class RiseFall; // advc.700
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+class CvDynamicDiploManager;
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 typedef std::vector<const CvReplayMessage*> ReplayMessageList;
 

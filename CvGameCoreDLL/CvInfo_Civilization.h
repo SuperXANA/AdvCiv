@@ -10,6 +10,10 @@
 	the AI code - but not only), is large and tags are added rarely. CvCivilization
 	still (despite change advc.003w) plays a role in mapping building/ unit classes
 	to types. */
+	
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+class CvDynamicDiploManager;
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  class : CvCivilizationInfo

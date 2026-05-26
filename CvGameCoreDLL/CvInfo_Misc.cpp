@@ -2,6 +2,9 @@
 #include "CvInfo_Misc.h"
 #include "CvXMLLoadUtility.h"
 #include "CvGameTextMgr.h" // for CvGameText::read
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+#include "CvDynamicDiploManager.h"
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 // advc: Better leave these alone b/c they're DLLExports
 CvUnitFormationInfo::CvUnitFormationInfo() {}
