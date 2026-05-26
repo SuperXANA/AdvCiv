@@ -11,13 +11,22 @@ void CvDynamicDiploManager::init()
 {
 	if (!m_bInitialized)
 	{
-		m_stagingArea.resize(MAX_PLAYERS); 
+		m_stagingArea.resize(MAX_PLAYERS);
 		m_activeDiploResponses.resize(MAX_PLAYERS);
 		m_bInitialized = true;
 	}
 }
 
 void CvDynamicDiploManager::reset()
+{
+	uninit();
+	CvFunctionMutex lock(m_CS);
+	{
+		init();
+	}
+}
+
+void CvDynamicDiploManager::uninit()
 {
 	CvFunctionMutex lock(m_CS);
 	{
@@ -28,6 +37,8 @@ void CvDynamicDiploManager::reset()
 				clearStagingArea(eLoopPlayer);
 				clearActiveResponses(eLoopPlayer);
 			}
+			m_stagingArea.clear();
+			m_activeDiploResponses.clear();
 			m_bInitialized = false;
 		}
 	}
@@ -91,10 +102,10 @@ void CvDynamicDiploManager::updateCache()
 		{
 			return;
 		}
-		// Copy staging directly over active at turn change. This forces all players onto 
+		// Copy staging directly into active at turn change. This forces all players onto 
 		// the exact same historical text dataset for the upcoming turn, 
 		// even if their WinINet threads finished at wildly different frames.
-		m_activeDiploResponses = m_stagingArea;
+		m_activeDiploResponses.insert(m_activeDiploResponses.end(), m_aStagingArea.begin(), m_aStagingArea.end());
 	}
 }
 

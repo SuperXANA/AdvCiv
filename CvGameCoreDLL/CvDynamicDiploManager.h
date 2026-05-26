@@ -18,7 +18,7 @@ public:
 
 	void init();
 	void reset();
-	void uninit() { reset(); }
+	void uninit();
 
 	// Called by WinINet thread to safely drop responses into staging area for synchronization
 	void pushNewResponse(PlayerTypes eAIPlayer, DynamicResponse const& kResponse);
