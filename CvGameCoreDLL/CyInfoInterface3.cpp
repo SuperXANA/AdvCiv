@@ -451,8 +451,8 @@ void CyInfoPythonInterface3()
 
 		.def("isDynamicResponseForCivilization", &CvDiplomacyTextInfo::getCivilizationTypesForDynamicResponses, "bool (int iPlayer, int i)")
 		.def("isDynamicResponseForLeaderHead", &CvDiplomacyTextInfo::getLeaderHeadTypesForDynamicResponses, "bool (int iPlayer, int i)")
-		.def("isDynamicResponseForAttitude", &CvDiplomacyTextInfo::getAttitudeTypesForDynamicResponses, "bool (int iPlayer, int i)")
-		.def("isDynamicResponseForDiplomacyPower", &CvDiplomacyTextInfo::getDiplomacyPowerTypesForDynamicResponses, "bool (int iPlayer, int i)")
+		.def("isDynamicResponseForAttitude", &CvDiplomacyTextInfo::getAttitudeTypesForDynamicResponses, "bool (int iPlayer, int iOtherPlayer, int i)")
+		.def("isDynamicResponseForDiplomacyPower", &CvDiplomacyTextInfo::getDiplomacyPowerTypesForDynamicResponses, "bool (int iPlayer, int iOtherPlayer, int i)")
 
 		.def("getNumDiplomacyTextForDynamicResponse", &CvDiplomacyTextInfo::getNumDiplomacyTextForDynamicResponses, "int (int iPlayer, int i)")
 
@@ -478,8 +478,8 @@ void CyInfoPythonInterface3()
 
 		.def("isDynamicResponseForCivilization", &CvDiplomacyInfo::getCivilizationTypesForDynamicResponses, "bool (int iPlayer, int i)")
 		.def("isDynamicResponseForLeaderHead", &CvDiplomacyInfo::getLeaderHeadTypesForDynamicResponses, "bool (int iPlayer, int i)")
-		.def("isDynamicResponseForAttitude", &CvDiplomacyInfo::getAttitudeTypesForDynamicResponses, "bool (int iPlayer, int i)")
-		.def("isDynamicResponseForDiplomacyPower", &CvDiplomacyInfo::getDiplomacyPowerTypesForDynamicResponses, "bool (int iPlayer, int i)")
+		.def("isDynamicResponseForAttitude", &CvDiplomacyInfo::getAttitudeTypesForDynamicResponses, "bool (int iPlayer, int iOtherPlayer, int i)")
+		.def("isDynamicResponseForDiplomacyPower", &CvDiplomacyInfo::getDiplomacyPowerTypesForDynamicResponses, "bool (int iPlayer, int iOtherPlayer, int i)")
 
 		.def("getNumDiplomacyTextForDynamicResponse", &CvDiplomacyInfo::getNumDiplomacyTextForDynamicResponses, "int (int iPlayer, int i)")
 

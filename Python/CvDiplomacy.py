@@ -478,7 +478,7 @@ class CvDiplomacy:
 		for i in range(diploInfo.getNumDynamicResponses(theirPlayer)):	
 			
 			# check attitude of other player towards me
-			if (not diploInfo.isDynamicResponseForAttitude(theirPlayer, i)):
+			if (not diploInfo.isDynamicResponseForAttitude(theirPlayer, ourPlayer, i)):
 				continue
 			
 			# check civ type
@@ -490,7 +490,7 @@ class CvDiplomacy:
 				continue
 
 			# check power type
-			if (not diploInfo.isDynamicResponseForDiplomacyPower(theirPlayer, i)):
+			if (not diploInfo.isDynamicResponseForDiplomacyPower(theirPlayer, ourPlayer, i)):
 				continue
 			
 			# passed all tests, so add to response list
