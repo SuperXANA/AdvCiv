@@ -7,6 +7,7 @@
 #include <hash_map>
 #include "CvEnums.h"
 #include "CvStructs.h"
+#include "CvString.h"
 
 typedef stdext::hash_map<int /* PlayerTypes */, std::vector<DynamicResponse> > DynamicResponseMap;
 
