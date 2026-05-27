@@ -61,12 +61,13 @@ void CvDynamicDiploManager::setInitialItems()
 {
 	if ((int)m_aKnownDiploCommentTags.size() > 0)
 	{
+		m_aKnownDiploCommentTypes.reserve((int)m_aKnownDiploCommentTags.size());
 		for (int iTag = 0; iTag < (int)m_aKnownDiploCommentTags.size(); iTag++)
 		{
-			DiplomacyCommentTypes const eComment = (DiplomacyCommentTypes)GC.getInfoTypeForString(m_aKnownDiploCommentTags[iTag].c_str());
+			DiplomacyCommentTypes eComment = (DiplomacyCommentTypes)GC.getInfoTypeForString(m_aKnownDiploCommentTags[iTag].c_str());
 			if (eComment != NO_DIPLOCOMMENT)	
 			{
-				std::vector<DiploCommentTypes>::const_iterator it = std::find(m_aKnownDiploCommentTypes.begin(), m_aKnownDiploCommentTypes.end(), eComment);
+				std::vector<DiploCommentTypes>::iterator it = std::find(m_aKnownDiploCommentTypes.begin(), m_aKnownDiploCommentTypes.end(), eComment);
 				if (it == m_aKnownDiploCommentTypes.end())
 				{
 					m_aKnownDiploCommentTypes.push_back(eComment);
