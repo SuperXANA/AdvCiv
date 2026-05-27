@@ -1324,14 +1324,14 @@ bool CvDiplomacyTextInfo::getCivilizationTypesForDynamicResponses(int iPlayer, i
 {
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
 	FAssertBounds(0, getNumDynamicResponses(iPlayer), i);
-	return DIPLOMGR.isResponseForCivilization(static_cast<PlayerTypes>(iPlayer), i);
+	return DIPLOMGR.isResponseForCivilization(static_cast<PlayerTypes>(iPlayer), i, (DiploCommentTypes)GC.getInfoTypeForString(getType()));
 }
 
 bool CvDiplomacyTextInfo::getLeaderHeadTypesForDynamicResponses(int iPlayer, int i) const
 {
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
 	FAssertBounds(0, getNumDynamicResponses(iPlayer), i);
-	return DIPLOMGR.isResponseForLeaderHead(static_cast<PlayerTypes>(iPlayer), i);
+	return DIPLOMGR.isResponseForLeaderHead(static_cast<PlayerTypes>(iPlayer), i, (DiploCommentTypes)GC.getInfoTypeForString(getType()));
 }
 
 bool CvDiplomacyTextInfo::getAttitudeTypesForDynamicResponses(int iPlayer, int iOtherPlayer, int i) const
@@ -1339,7 +1339,7 @@ bool CvDiplomacyTextInfo::getAttitudeTypesForDynamicResponses(int iPlayer, int i
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
 	FAssertBounds(0, MAX_PLAYERS, iOtherPlayer);
 	FAssertBounds(0, getNumDynamicResponses(iPlayer), i);
-	return DIPLOMGR.isResponseForAttitude(static_cast<PlayerTypes>(iPlayer), static_cast<PlayerTypes>(iOtherPlayer), i);
+	return DIPLOMGR.isResponseForAttitude(static_cast<PlayerTypes>(iPlayer), static_cast<PlayerTypes>(iOtherPlayer), i, (DiploCommentTypes)GC.getInfoTypeForString(getType()));
 }
 
 bool CvDiplomacyTextInfo::getDiplomacyPowerTypesForDynamicResponses(int iPlayer, int iOtherPlayer, int i) const
@@ -1347,14 +1347,14 @@ bool CvDiplomacyTextInfo::getDiplomacyPowerTypesForDynamicResponses(int iPlayer,
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
 	FAssertBounds(0, MAX_PLAYERS, iOtherPlayer);
 	FAssertBounds(0, getNumDynamicResponses(iPlayer), i);
-	return DIPLOMGR.isResponseForDiplomacyPower(static_cast<PlayerTypes>(iPlayer), static_cast<PlayerTypes>(iOtherPlayer), i);
+	return DIPLOMGR.isResponseForDiplomacyPower(static_cast<PlayerTypes>(iPlayer), static_cast<PlayerTypes>(iOtherPlayer), i, (DiploCommentTypes)GC.getInfoTypeForString(getType()));
 }
 
 int CvDiplomacyTextInfo::getNumDiplomacyTextForDynamicResponses(int iPlayer, int i) const
 {
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
 	FAssertBounds(0, getNumDynamicResponses(iPlayer), i);
-	return DIPLOMGR.getNumDiplomacyText(static_cast<PlayerTypes>(iPlayer), i);
+	return DIPLOMGR.getNumDiplomacyText(static_cast<PlayerTypes>(iPlayer), i, (DiploCommentTypes)GC.getInfoTypeForString(getType()));
 }
 
 const TCHAR* CvDiplomacyTextInfo::getDiplomacyTextForDynamicResponses(int iPlayer, int i, int j) const
@@ -1362,7 +1362,7 @@ const TCHAR* CvDiplomacyTextInfo::getDiplomacyTextForDynamicResponses(int iPlaye
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
 	FAssertBounds(0, getNumDynamicResponses(iPlayer), i);
 	FAssertBounds(0, getNumDiplomacyTextForDynamicResponses(iPlayer, i), j);
-	return DIPLOMGR.getDiplomacyText(static_cast<PlayerTypes>(iPlayer), i, j);
+	return DIPLOMGR.getDiplomacyText(static_cast<PlayerTypes>(iPlayer), i, j, (DiploCommentTypes)GC.getInfoTypeForString(getType()));
 }
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
 #if ENABLE_XML_FILE_CACHE

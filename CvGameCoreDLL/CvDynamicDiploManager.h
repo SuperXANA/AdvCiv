@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <hash_map>
+#include <algorithm>
 #include "CvEnums.h"
 #include "CvStructs.h"
 #include "CvString.h"
@@ -32,12 +33,12 @@ public:
 
 	// Called by Python/CvDiplomacy to fetch data for the local UI
 	int getNumResponses(PlayerTypes eAIPlayer) const;
-	bool isResponseForCivilization(PlayerTypes eAIPlayer, int iIndex) const;
-	bool isResponseForLeaderHead(PlayerTypes eAIPlayer, int iIndex) const;
-	bool isResponseForAttitude(PlayerTypes eAIPlayer, PlayerTypes eOtherPlayer, int iIndex) const;
-	bool isResponseForDiplomacyPower(PlayerTypes eAIPlayer, PlayerTypes eOtherPlayer, int iIndex) const;
-	int getNumDiplomacyText(PlayerTypes eAIPlayer, int iIndex) const;
-	const char* getDiplomacyText(PlayerTypes eAIPlayer, int iIndex, int iVariant) const;
+	bool isResponseForCivilization(PlayerTypes eAIPlayer, int iIndex, DiploCommentTypes eComment) const;
+	bool isResponseForLeaderHead(PlayerTypes eAIPlayer, int iIndex, DiploCommentTypes eComment) const;
+	bool isResponseForAttitude(PlayerTypes eAIPlayer, PlayerTypes eOtherPlayer, int iIndex, DiploCommentTypes eComment) const;
+	bool isResponseForDiplomacyPower(PlayerTypes eAIPlayer, PlayerTypes eOtherPlayer, int iIndex, DiploCommentTypes eComment) const;
+	int getNumDiplomacyText(PlayerTypes eAIPlayer, int iIndex, DiploCommentTypes eComment) const;
+	const char* getDiplomacyText(PlayerTypes eAIPlayer, int iIndex, int iVariant, DiploCommentTypes eComment) const;
 
 private:
 	// Static lightweight unique class - no creation, no copying, no assignment, no deletion
@@ -61,10 +62,12 @@ private:
 	void clearStagingArea(PlayerTypes eAIPlayer);
 	void clearActiveResponses(PlayerTypes eAIPlayer);
 	
-	bool getCivilizationTypes(PlayerTypes eAIPlayer, int iIndex, CivilizationTypes eCiv) const;
-	bool getLeaderHeadTypes(PlayerTypes eAIPlayer, int iIndex, LeaderHeadTypes eLeader) const;
-	bool getAttitudeTypes(PlayerTypes eAIPlayer, int iIndex, AttitudeTypes eAttitude) const;
-	bool getDiplomacyPowerTypes(PlayerTypes eAIPlayer, int iIndex, DiplomacyPowerTypes ePower) const;
+	bool getCivilizationTypes(PlayerTypes eAIPlayer, int iIndex, CivilizationTypes eCiv, DiploCommentTypes eComment) const;
+	bool getLeaderHeadTypes(PlayerTypes eAIPlayer, int iIndex, LeaderHeadTypes eLeader, DiploCommentTypes eComment) const;
+	bool getAttitudeTypes(PlayerTypes eAIPlayer, int iIndex, AttitudeTypes eAttitude, DiploCommentTypes eComment) const;
+	bool getDiplomacyPowerTypes(PlayerTypes eAIPlayer, int iIndex, DiplomacyPowerTypes ePower, DiploCommentTypes eComment) const;
+	
+	bool isResponseForDiplomacyComment(PlayerTypes eAIPlayer, int iIndex, DiploCommentTypes eComment) const;
 };
 
 #define DIPLOMGR CvDynamicDiploManager::getConstInstance() // XANA (note): Game thread will be mostly reading from this class, mark it const for safety!
