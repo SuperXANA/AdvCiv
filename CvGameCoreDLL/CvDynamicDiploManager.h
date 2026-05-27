@@ -19,12 +19,15 @@ public:
 	void init();
 	void reset();
 	void uninit();
+	
+	// Called during game startup to build diplomacy commant types enumeration map
+	void updateUniqueDiplomacyTypesMap(const CvString& szType);
 
 	// Called by WinINet thread to safely drop responses into staging area for synchronization
-	void pushResponse(PlayerTypes eAIPlayer, DynamicResponse const& kResponse);
+	void updateAIPlayerAvailableResponses(LLMQueueResult const& kResult);
 
 	// Called at the Turn Boundary (setTurnActive) to promote staging to active during synchronization
-	void updateCache();
+	void updateActiveResponseCache(PlayerTypes ePlayer);
 
 	// Called by Python/CvDiplomacy to fetch data for the local UI
 	int getNumResponses(PlayerTypes eAIPlayer) const;
@@ -47,6 +50,12 @@ private:
 	DynamicResponseMap m_stagingArea; // temporary
 	DynamicResponseMap m_activeDiploResponses; // not serialized
 	bool m_bInitialized;
+	
+	std::vector<CvString> m_aKnownDiploCommentTags;
+	std::vector<DiploCommentTypes> m_aKnownDiploCommentTypes;
+	
+	void setInitialItems();
+	void copyActiveResponsesToStaging(PlayerTypes ePlayer);
 	
 	void clearStagingArea(PlayerTypes eAIPlayer);
 	void clearActiveResponses(PlayerTypes eAIPlayer);

@@ -1594,6 +1594,10 @@ bool CvDiplomacyInfo::read(CvXMLLoadUtility* pXML)
 {
 	if (!CvInfoBase::read(pXML))
 		return false;
+	
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	CvDynamicDiploManager::getInstance().updateUniqueDiplomacyTypesMap(CvString(getType()));
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),"Responses"))
 	{

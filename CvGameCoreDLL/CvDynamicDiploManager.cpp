@@ -15,15 +15,19 @@ void CvDynamicDiploManager::init()
 		m_activeDiploResponses.resize(MAX_PLAYERS);
 		m_bInitialized = true;
 	}
+	if (m_bInitialized)
+	{
+		CvFunctionMutex lock(m_CS);
+		{
+			setInitialItems();
+		}
+	}
 }
 
 void CvDynamicDiploManager::reset()
 {
 	uninit();
-	CvFunctionMutex lock(m_CS);
-	{
-		init();
-	}
+	init();
 }
 
 void CvDynamicDiploManager::uninit()
@@ -44,17 +48,44 @@ void CvDynamicDiploManager::uninit()
 	}
 }
 
-void CvDynamicDiploManager::pushResponse(PlayerTypes eAIPlayer, DynamicResponse const& kResponse)
+void CvDynamicDiploManager::updateUniqueDiplomacyTypesMap(const CvString& szType)
 {
-	CvFunctionMutex lock(m_CS);
+	std::vector<CvString>::const_iterator it = std::find(m_aKnownDiploCommentTags.begin(), m_aKnownDiploCommentTags.end(), szType);
+	if (it == m_aKnownDiploCommentTags.end())
 	{
-		if (!m_bInitialized)
+		m_aKnownDiploCommentTags.push_back(szType);
+	}
+}
+
+void CvDynamicDiploManager::setInitialItems()
+{
+	if ((int)m_aKnownDiploCommentTags.size() > 0)
+	{
+		for (int iTag = 0; iTag < (int)m_aKnownDiploCommentTags.size(); iTag++)
 		{
-			return;
+			DiplomacyCommentTypes const eComment = (DiplomacyCommentTypes)GC.getInfoTypeForString(m_aKnownDiploCommentTags[iTag]);
+			if (eComment != NO_DIPLOCOMMENT)	
+			{
+				std::vector<DiploCommentTypes>::const_iterator it = std::find(m_aKnownDiploCommentTypes.begin(), m_aKnownDiploCommentTypes.end(), eComment);
+				if (it == m_aKnownDiploCommentTypes.end())
+				{
+					m_aKnownDiploCommentTypes.push_back(eComment);
+				}
+			}
 		}
-		if (eAIPlayer > NO_PLAYER && eAIPlayer < (int)m_stagingArea.size())
+		m_aKnownDiploCommentTags.clear();
+	}
+	int const iNumDiploCommentTypes = (int)m_aKnownDiploCommentTypes.size();
+	if (iNumDiploCommentTypes > 0)
+	{
+		for (int iPlayer = 0; iPlayer < (int)m_stagingArea.size(); iPlayer++)
 		{
-			m_stagingArea[{int}eAIPlayer].push_back(kResponse);
+			m_stagingArea[iPlayer].reserve(iNumDiploCommentTypes);
+			m_activeDiploResponses[iPlayer].reserve(iNumDiploCommentTypes);
+			for (int iCommentType = 0; iCommentType < iNumDiploCommentTypes; iCommentType++)
+			{
+				m_stagingArea[iPlayer].push_back(DynamicResponse(m_aKnownDiploCommentTypes[iCommentType]));
+			}
 		}
 	}
 }
@@ -94,7 +125,7 @@ int CvDynamicDiploManager::getNumResponses(PlayerTypes eAIPlayer) const
 	return 0;
 }
 
-void CvDynamicDiploManager::updateCache()
+void CvDynamicDiploManager::updateActiveResponseCache(PlayerTypes ePlayer)
 {
 	CvFunctionMutex lock(m_CS);
 	{
@@ -102,10 +133,55 @@ void CvDynamicDiploManager::updateCache()
 		{
 			return;
 		}
-		// Copy staging directly into active at turn change. This forces all players onto 
+		// Copy staging directly over active at turn change. This forces all players onto 
 		// the exact same historical text dataset for the upcoming turn, 
 		// even if their WinINet threads finished at wildly different frames.
-		m_activeDiploResponses.insert(m_activeDiploResponses.end(), m_aStagingArea.begin(), m_aStagingArea.end());
+		m_activeDiploResponses[(int)ePlayer] = m_aStagingArea[(int)ePlayer];
+	}
+}
+
+void CvDynamicDiploManager::updateAIPlayerAvailableResponses(LLMQueueResult const& kResult)
+{
+	if (!m_bInitialized)
+	{
+		return;
+	}
+	PlayerTypes const eAIPlayer = kResult.getID();
+	if (eAIPlayer > NO_PLAYER && eAIPlayer < MAX_PLAYERS)
+	{
+		int const iAIPlayer = (int)eAIPlayer;
+		copyActiveResponsesToStaging(eAIPlayer);
+		CvFunctionMutex lock(m_CS);
+		{
+			int iIndex = -1;
+			for (int iLoop = 0; iLoop < (int)m_aStagingArea[iAIPlayer].size(); iLoop++)
+			{
+				if (m_aStagingArea[iAIPlayer][iLoop].getCommentType() == kResult.getType())
+				{
+					iIndex = iLoop;
+					break;
+				}
+			}
+			if (iIndex >= 0)
+			{
+				m_aStagingArea[iAIPlayer][iIndex].setDiplomacyText(CvString(kResult.getText()));
+			}
+		}
+	}
+}
+
+void CvDynamicDiploManager::copyActiveResponsesToStaging(PlayerTypes ePlayer)
+{
+	CvFunctionMutex lock(m_CS);
+	{
+		if (!m_bInitialized)
+		{
+			return;
+		}
+		// Copy active directly over staging when updating a response. This ensures all players use 
+		// the exact same historical text dataset for the upcoming turn, 
+		// even if their WinINet threads finished at wildly different frames.
+		m_aStagingArea[(int)ePlayer] = m_activeDiploResponses[(int)ePlayer];
 	}
 }
 
