@@ -463,15 +463,6 @@ class CvDiplomacy:
 			if (var(i, j)):
 				return true
 		return false
-	
-	# XANA: 05-23-2026 LLM Text Diplomacy Generation	
-	def isUsedDynamic(self, var, iPlayer, i, num):
-		"returns true if any element in the var list is true"
-		for j in range(num):
-			if (var(iPlayer, i, j)):
-				return true
-		return false
-	# XANA: 05-23-2026 LLM Text Diplomacy Generation
 		
 	def filterUserResponse(self, diploInfo):
 		"pick the user's response from a CvDiplomacyTextInfo, based on response conditions"
@@ -487,48 +478,25 @@ class CvDiplomacy:
 		for i in range(diploInfo.getNumDynamicResponses(theirPlayer)):	
 			
 			# check attitude of other player towards me
-			if (self.isUsedDynamic(diploInfo.getDynamicResponseAttitudeTypes, theirPlayer, i, AttitudeTypes.NUM_ATTITUDE_TYPES)):
-				att = theirPlayer.AI_getAttitude(CyGame().getActivePlayer())
-				if (not diploInfo.getDynamicResponseAttitudeTypes(theirPlayer, i, att)):
-					continue
+			if (not diploInfo.isDynamicResponseForAttitude(theirPlayer, i)):
+				continue
 			
 			# check civ type
-			if (self.isUsedDynamic(diploInfo.getDynamicResponseCivilizationTypes, theirPlayer, i, gc.getNumCivilizationInfos()) and
-				not diploInfo.getDynamicResponseCivilizationTypes(theirPlayer, i, theirPlayer.getCivilizationType())):
+			if (not diploInfo.isDynamicResponseForCivilization(theirPlayer, i)):
 				continue
 				
 			# check leader type
-			if (self.isUsedDynamic(diploInfo.getDynamicResponseLeaderHeadTypes, theirPlayer, i, gc.getNumLeaderHeadInfos()) and
-				not diploInfo.getDynamicResponseLeaderHeadTypes(theirPlayer, i, theirPlayer.getLeaderType())):
+			if (not diploInfo.isDynamicResponseForLeaderHead(theirPlayer, i)):
 				continue
 
 			# check power type
-			if (self.isUsedDynamic(diploInfo.getDynamicResponseDiplomacyPowerTypes, theirPlayer, i, DiplomacyPowerTypes.NUM_DIPLOMACYPOWER_TYPES)):
-				theirPower = theirPlayer.getPower()
-				ourPower = ourPlayer.getPower()
-				
-				if (ourPower < (theirPower / 2)):
-					if not diploInfo.getDynamicResponseDiplomacyPowerTypes(theirPlayer, i, DiplomacyPowerTypes.DIPLOMACYPOWER_STRONGER):
-						continue
-						
-				elif (ourPower > (theirPower * 2)):
-					if not diploInfo.getDynamicResponseDiplomacyPowerTypes(theirPlayer, i, DiplomacyPowerTypes.DIPLOMACYPOWER_WEAKER):
-						continue
-						
-				else:
-					if not diploInfo.getDynamicResponseDiplomacyPowerTypes(theirPlayer, i, DiplomacyPowerTypes.DIPLOMACYPOWER_EQUAL):
-						continue
+			if (not diploInfo.isDynamicResponseForDiplomacyPower(theirPlayer, i)):
+				continue
 			
 			# passed all tests, so add to response list
-			for j in range(diploInfo.getNumDynamicResponseDiplomacyText(theirPlayer, i)):
-				responses.append(diploInfo.getDynamicResponseDiplomacyText(theirPlayer, i, j))
-		
-		if len(responses) == 0:
-			# get global responses not unique to any leader/civ
-			noPlayer = -1 # must be of numeric type & have negative value & be less than zero, do not modify!
-			for i in range(diploInfo.getNumDynamicResponses(noPlayer)):
-				for j in range(diploInfo.getNumDynamicResponseDiplomacyText(noPlayer, i)):
-					responses.append(diploInfo.getDynamicResponseDiplomacyText(noPlayer, i, j))
+			for j in range(diploInfo.getNumDiplomacyTextForDynamicResponse(theirPlayer, i)):
+				if (diploInfo.getDiplomacyTextForDynamicResponse(theirPlayer, i, j) != ""):
+					responses.append(diploInfo.getDiplomacyTextForDynamicResponse(theirPlayer, i, j))
 				
 		# XANA: 05-23-2026 LLM Text Diplomacy Generation
 		if len(responses) == 0 || bMixXMLandLLMResponses:

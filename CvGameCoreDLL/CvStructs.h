@@ -571,6 +571,28 @@ struct DealItemData
 };
 
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
+struct LLMQueuePrompt
+{
+	PlayerTypes eID;
+	DiploCommentTypes eType;
+	std::string szPromptText;
+	LLMQueuePrompt(PlayerTypes eAI, DiploCommentTypes eComment, std::string const& szLLMPrompt) : eID(eAI), eType(eComment), szPromptText(szLLMPrompt) {}
+	PlayerTypes getID() const { return eID; }
+	DiploCommentTypes getType() const { return eType; }
+	std::string const& getText() const { return szPromptText; }
+};
+
+struct LLMQueueResult
+{
+	PlayerTypes eID;
+	DiploCommentTypes eType;
+	std::string szResultText;
+	LLMQueueResult(PlayerTypes eAI, DiploCommentTypes eComment, std::string const& szLLMResult) : eID(eAI), eType(eComment), szResultText(szLLMResult) {}
+	PlayerTypes getID() const { return eID; }
+	DiploCommentTypes getType() const { return eType; }
+	std::string const& getText() const { return szResultText; }
+};
+
 struct DynamicResponse
 {
 	DiploCommentTypes m_eType;
