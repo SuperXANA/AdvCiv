@@ -9,17 +9,14 @@ CvDynamicDiploManager& CvDynamicDiploManager::getInstance()
 
 void CvDynamicDiploManager::init()
 {
-	if (!m_bInitialized)
+	CvFunctionMutex lock(m_CS);
 	{
-		m_stagingArea.resize(MAX_PLAYERS);
-		m_activeDiploResponses.resize(MAX_PLAYERS);
-		m_bInitialized = true;
-	}
-	if (m_bInitialized)
-	{
-		CvFunctionMutex lock(m_CS);
+		if (!m_bInitialized)
 		{
+			m_stagingArea.resize(MAX_PLAYERS);
+			m_activeDiploResponses.resize(MAX_PLAYERS);
 			setInitialItems();
+			m_bInitialized = true;
 		}
 	}
 }

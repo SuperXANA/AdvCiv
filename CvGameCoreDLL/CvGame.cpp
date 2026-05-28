@@ -46,6 +46,9 @@ CvGame::CvGame() :
 	m_pReplayInfo = NULL;
 	m_pHallOfFame = NULL; // advc.106i
 	m_pLegacyOrgSeatData = NULL; // advc.enum
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	CvDynamicDiploManager& kRef = CvDynamicDiploManager::getInstance(); /* XANA (note): Create a safe reference to the global singleton so that the private class destructor can be called on game exit. */
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
 	reset(NO_HANDICAP, true);
 }
 
