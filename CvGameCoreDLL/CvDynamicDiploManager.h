@@ -14,19 +14,16 @@ typedef stdext::hash_map<int /* PlayerTypes */, std::vector<DynamicResponse> > D
 
 class CvDynamicDiploManager
 {
+	friend class CvGame; // XANA (note): Only the CvGame class needs to initialize or reset this dynamic response manager to default values. No need for other classes to have the same level of access!
 public:
 	static CvDynamicDiploManager& getInstance(); // XANA (note): WinINet - access for writing AND reading permissions!
 	static CvDynamicDiploManager const& getConstInstance() { return getInstance(); } // XANA (note): main game thread - acccess for reading permissions ONLY!
 
-	void init();
-	void reset();
-	void uninit();
-
 	// Called by WinINet thread to safely drop responses into staging area for synchronization
 	void updateAIPlayerAvailableResponses(LLMResultData const& kResult);
 
-	// Called at the Turn Boundary (setTurnActive) to promote staging to active during synchronization
-	void updateActiveResponseCache(PlayerTypes ePlayer);
+	// Called at the Turn Boundary (CvPlayer::setTurnActive) to promote staging to active during synchronization
+	void updateActiveResponseCache(PlayerTypes eAIPlayer);
 
 	// Called by Python/CvDiplomacy to fetch data for the local UI
 	int getNumResponses(PlayerTypes eAIPlayer, DiploCommentTypes eComment) const;
@@ -43,6 +40,10 @@ private:
 	~CvDynamicDiploManager() {}
 	CvDynamicDiploManager(CvDynamicDiploManager const& kOther);
 	CvDynamicDiploManager& operator=(CvDynamicDiploManager const& kOther)
+	
+	void init();
+	void reset();
+	void uninit();
 	
 	CvCriticalSection m_CS;
 	
