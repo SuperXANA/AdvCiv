@@ -475,8 +475,8 @@ class CvDiplomacy:
 		
 		# XANA: 05-23-2026 LLM Text Diplomacy Generation
 		bMixXMLandLLMResponses = false
-		for i in range(diploInfo.getNumDynamicResponses(theirPlayer)):	
-			
+		for i in range(diploInfo.getNumDynamicResponses(theirPlayer)):
+		
 			# check attitude of other player towards me
 			if (not diploInfo.isDynamicResponseForAttitude(theirPlayer, ourPlayer, i)):
 				continue
@@ -484,7 +484,7 @@ class CvDiplomacy:
 			# check civ type
 			if (not diploInfo.isDynamicResponseForCivilization(theirPlayer, i)):
 				continue
-				
+
 			# check leader type
 			if (not diploInfo.isDynamicResponseForLeaderHead(theirPlayer, i)):
 				continue

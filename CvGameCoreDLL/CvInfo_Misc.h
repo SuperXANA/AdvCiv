@@ -560,7 +560,7 @@ public:
 	
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 	int getNumDynamicResponses(int iPlayer) const;
-
+	
 	bool getCivilizationTypesForDynamicResponses(int iPlayer, int i) const;
 	bool getLeaderHeadTypesForDynamicResponses(int iPlayer, int i) const;
 	bool getAttitudeTypesForDynamicResponses(int iPlayer, int iOtherPlayer, int i) const;

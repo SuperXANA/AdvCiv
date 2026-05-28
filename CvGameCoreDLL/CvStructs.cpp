@@ -605,12 +605,78 @@ FirstContactData::FirstContactData(CvPlot const* pAt1, CvPlot const* pAt2,
 }
 
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
-void DynamicResponse::init()
+void DynamicResponseFilter::setDefaultValues()
 {
-	abActiveCivilizations.assign(GC.getNumCivilizationInfos(), false);
-	abActiveLeaders.assign(GC.getNumLeaderHeadInfos(), false);
-	abActiveAttitudes.assign(NUM_ATTITUDE_TYPES, false);
-	abActivePowers.assign(NUM_DIPLOMACYPOWER_TYPES, false);
+	abActiveCivilizations.assign(GC.getNumCivilizationInfos(), static_cast<char>(false));
+	abActiveLeaders.assign(GC.getNumLeaderHeadInfos(), static_cast<char>(false));
+	abActiveAttitudes.assign(NUM_ATTITUDE_TYPES, static_cast<char>(false));
+	abActivePowers.assign(NUM_DIPLOMACYPOWER_TYPES, static_cast<char>(false));
+}
+
+void LLMPromptData::setText(CvString const& szText)
+{
+	szPromptText = szText;
+}
+
+void LLMResultData::setText(CvString const& szText)
+{
+	szResultText = szText;
+}
+
+void DynamicResponseFilter::setCivilizationTypeEnabled(CivilizationTypes eCiv)
+{
+	if (abActiveCivilizations.empty() || eCiv == NO_CIVILIZATION || eCiv >= GC.getNumCivilizationInfos())
+	{
+		return;
+	}
+	abActiveCivilizations[eCiv] = static_cast<char>(true);
+}
+
+void DynamicResponseFilter::setLeaderHeadTypeEnabled(LeaderHeadTypes eLeader)
+{
+	if (abActiveLeaders.empty() || eLeader == NO_LEADER || eLeader >= GC.getNumLeaderHeadInfos())
+	{
+		return;
+	}
+	abActiveLeaders[eLeader] = static_cast<char>(true);
+}
+
+void DynamicResponseFilter::setAttitudeTypeEnabled(AttitudeTypes eAttitude)
+{
+	if (abActiveAttitudes.empty() || eAttitude == NO_ATTITUDE || eAttitude >= NUM_ATTITUDE_TYPES)
+	{
+		return;
+	}
+	abActiveAttitudes[eAttitude] = static_cast<char>(true);
+}
+
+void DynamicResponseFilter::setDiplomacyPowerTypeEnabled(DiplomacyPowerTypes ePower)
+{
+	if (abActivePowers.empty() || ePower == NO_DIPLOMACYPOWER || ePower >= NUM_DIPLOMACYPOWER_TYPES)
+	{
+		return;
+	}
+	abActivePowers[ePower] = static_cast<char>(true);
+}
+
+int DynamicResponse::getNumResponseGroups() const
+{
+	return (int)m_aResponseGroups.size();
+}
+
+void DynamicResponse::initNewResponseGroup()
+{
+	m_aResponseGroups.resize(getNumResponseGroups() + 1);
+}
+
+int DynamicResponse::getFirstFreeResponseGroup() const
+{
+	return 0;
+	/* TO-DO:
+	Change the LLMPromptData, LLMResultData, and DynamicResponse structures.
+	LLM text generation should contain metadata about what was returned.
+	For example, diplomacy lifetime/expiration and maximum use potential.
+	*/
 }
 
 DiploCommentTypes DynamicResponse::getCommentType() const
@@ -618,96 +684,97 @@ DiploCommentTypes DynamicResponse::getCommentType() const
 	return m_eType;
 }
 
-bool DynamicResponse::getCivilizationTypes(CivilizationTypes eCiv) const
+bool DynamicResponse::getCivilizationTypes(int iGroupIndex, CivilizationTypes eCiv) const
 {
+	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
+	{
+		return false;
+	}
 	// If the filter vector is empty, treat it as unconstrained (pass-through)
-	if (!abActiveCivilizations.empty() && !abActiveCivilizations[eCiv])
+	if (!m_aResponseGroups[iGroupIndex].limits.abActiveCivilizations.empty() && !(static_cast<bool>(m_aResponseGroups[iGroupIndex].limits.abActiveCivilizations[eCiv])))
 	{
 		return false; 
 	}
 	return true; // All active filter flags matched successfully!
 }
 
-bool DynamicResponse::getLeaderHeadTypes(LeaderHeadTypes eLeader) const
+bool DynamicResponse::getLeaderHeadTypes(int iGroupIndex, LeaderHeadTypes eLeader) const
 {
+	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
+	{
+		return false;
+	}
 	// If the filter vector is empty, treat it as unconstrained (pass-through)
-	if (!abActiveLeaders.empty() && !abActiveLeaders[eLeader])
+	if (!m_aResponseGroups[iGroupIndex].limits.abActiveLeaders.empty() && !(static_cast<bool>(m_aResponseGroups[iGroupIndex].limits.abActiveLeaders[eLeader])))
 	{
 		return false;
 	}
 	return true; // All active filter flags matched successfully!
 }
 
-bool DynamicResponse::getAttitudeTypes(AttitudeTypes eAttitude) const
+bool DynamicResponse::getAttitudeTypes(int iGroupIndex, AttitudeTypes eAttitude) const
 {
+	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
+	{
+		return false;
+	}
 	// If the filter vector is empty, treat it as unconstrained (pass-through)
-	if (!abActiveAttitudes.empty() && !abActiveAttitudes.abActive[eAttitude])
+	if (!m_aResponseGroups[iGroupIndex].limits.abActiveAttitudes.empty() && !(static_cast<bool>(m_aResponseGroups[iGroupIndex].limits.abActiveAttitudes[eAttitude])))
 	{
 		return false;
 	}
 	return true; // All active filter flags matched successfully!
 }
 
-bool DynamicResponse::getDiplomacyPowerTypes(DiplomacyPowerTypes ePower) const
+bool DynamicResponse::getDiplomacyPowerTypes(int iGroupIndex, DiplomacyPowerTypes ePower) const
 {
+	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
+	{
+		return false;
+	}
 	// If the filter vector is empty, treat it as unconstrained (pass-through)
-	if (!abActivePowers.empty() && !abActivePowers[ePower])
+	if (!m_aResponseGroups[iGroupIndex].limits.abActivePowers.empty() && !(static_cast<bool>(m_aResponseGroups[iGroupIndex].limits.abActivePowers[ePower])))
 	{
 		return false;
 	}
 	return true; // All active filter flags matched successfully!
 }
 
-int DynamicResponse::getNumDiplomacyText() const
+int DynamicResponse::getNumDiplomacyText(int iGroupIndex) const
 {
-	return (int)aszText.size();
+	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
+	{
+		return 0;
+	}
+	return (int)m_aResponseGroups[iGroupIndex].aszText.size();
 }
 
-std::string const& DynamicResponse::getDiplomacyText(int iVariant) const
+std::string const& DynamicResponse::getDiplomacyText(int iGroupIndex, int iVariant) const
 {
-	return aszText[iVariant];
+	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
+	{
+		return "";
+	}
+	return m_aResponseGroups[iGroupIndex].aszText[iVariant];
 }
 
-void DynamicResponse::setCivilizationTypes(CivilizationTypes eCiv, bool bValue)
+void DynamicResponse::setLimits(int iGroupIndex, DynamicResponseFilter const& kFilter)
 {
-	if (abActiveCivilizations.empty())
+	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
 	{
 		return;
 	}
-	abActiveCivilizations[eCiv] = bValue;
+	m_aResponseGroups[iGroupIndex].limits = kFilter;
 }
 
-void DynamicResponse::setLeaderHeadTypes(LeaderHeadTypes eLeader, bool bValue)
+void DynamicResponse::setDiplomacyText(int iGroupIndex, const CvString& szValue)
 {
-	if (abActiveLeaders.empty())
+	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
 	{
 		return;
 	}
-	abActiveLeaders[eLeader] = bValue;
-}
-
-void DynamicResponse::setAttitudeTypes(AttitudeTypes eAttitude, bool bValue)
-{
-	if (abActiveAttitudes.empty())
-	{
-		return;
-	}
-	abActiveAttitudes[eAttitude] = bValue;
-}
-
-void DynamicResponse::setDiplomacyPowerTypes(DiplomacyPowerTypes ePower, bool bValue)
-{
-	if (abActivePowers.empty())
-	{
-		return;
-	}
-	abActivePowers[ePower] = bValue;
-}
-
-void DynamicResponse::setDiplomacyText(const CvString& szValue)
-{
-	int const iNewIndex = getNumDiplomacyText();
-	aszText.resize(iNewIndex + 1);
-	aszText[iNewIndex] = szValue;
+	int const iNewIndex = getNumDiplomacyText(iGroupIndex);
+	m_aResponseGroups[iGroupIndex].aszText.resize(iNewIndex + 1);
+	m_aResponseGroups[iGroupIndex].aszText[iNewIndex] = szValue;
 }
 // XANA: 05-23-2026 LLM Text Diplomacy Generation

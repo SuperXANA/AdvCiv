@@ -1512,21 +1512,21 @@ const TCHAR* CvDiplomacyInfo::getDiplomacyText(int i, int j) const
 int CvDiplomacyInfo::getNumDynamicResponses(int iPlayer) const
 {
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
-	return DIPLOMGR.getNumResponses(static_cast<PlayerTypes>(iPlayer));
+	return DIPLOMGR.getNumResponses(static_cast<PlayerTypes>(iPlayer), (DiploCommentTypes)GC.getInfoTypeForString(getType()));
 }
 
 bool CvDiplomacyInfo::getCivilizationTypesForDynamicResponses(int iPlayer, int i) const
 {
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
 	FAssertBounds(0, getNumDynamicResponses(iPlayer), i);
-	return DIPLOMGR.isResponseForCivilization(static_cast<PlayerTypes>(iPlayer), i, (DiploCommentTypes)GC.getInfoTypeForString(getType()));
+	return DIPLOMGR.isResponseForCivilization(static_cast<PlayerTypes>(iPlayer), (DiploCommentTypes)GC.getInfoTypeForString(getType()), i);
 }
 
 bool CvDiplomacyInfo::getLeaderHeadTypesForDynamicResponses(int iPlayer, int i) const
 {
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
 	FAssertBounds(0, getNumDynamicResponses(iPlayer), i);
-	return DIPLOMGR.isResponseForLeaderHead(static_cast<PlayerTypes>(iPlayer), i, (DiploCommentTypes)GC.getInfoTypeForString(getType()));
+	return DIPLOMGR.isResponseForLeaderHead(static_cast<PlayerTypes>(iPlayer), (DiploCommentTypes)GC.getInfoTypeForString(getType()), i);
 }
 
 bool CvDiplomacyInfo::getAttitudeTypesForDynamicResponses(int iPlayer, int iOtherPlayer, int i) const
@@ -1534,7 +1534,7 @@ bool CvDiplomacyInfo::getAttitudeTypesForDynamicResponses(int iPlayer, int iOthe
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
 	FAssertBounds(0, MAX_PLAYERS, iOtherPlayer);
 	FAssertBounds(0, getNumDynamicResponses(iPlayer), i);
-	return DIPLOMGR.isResponseForAttitude(static_cast<PlayerTypes>(iPlayer), static_cast<PlayerTypes>(iOtherPlayer), i, (DiploCommentTypes)GC.getInfoTypeForString(getType()));
+	return DIPLOMGR.isResponseForAttitude(static_cast<PlayerTypes>(iPlayer), static_cast<PlayerTypes>(iOtherPlayer), (DiploCommentTypes)GC.getInfoTypeForString(getType()), i);
 }
 
 bool CvDiplomacyInfo::getDiplomacyPowerTypesForDynamicResponses(int iPlayer, int iOtherPlayer, int i) const
@@ -1542,22 +1542,22 @@ bool CvDiplomacyInfo::getDiplomacyPowerTypesForDynamicResponses(int iPlayer, int
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
 	FAssertBounds(0, MAX_PLAYERS, iOtherPlayer);
 	FAssertBounds(0, getNumDynamicResponses(iPlayer), i);
-	return DIPLOMGR.isResponseForDiplomacyPower(static_cast<PlayerTypes>(iPlayer), static_cast<PlayerTypes>(iOtherPlayer), i, (DiploCommentTypes)GC.getInfoTypeForString(getType()));
+	return DIPLOMGR.isResponseForDiplomacyPower(static_cast<PlayerTypes>(iPlayer), static_cast<PlayerTypes>(iOtherPlayer), (DiploCommentTypes)GC.getInfoTypeForString(getType()), i);
 }
 
 int CvDiplomacyInfo::getNumDiplomacyTextForDynamicResponses(int iPlayer, int i) const
 {
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
 	FAssertBounds(0, getNumDynamicResponses(iPlayer), i);
-	return DIPLOMGR.getNumDiplomacyText(static_cast<PlayerTypes>(iPlayer), i, (DiploCommentTypes)GC.getInfoTypeForString(getType()));
+	return DIPLOMGR.getNumDiplomacyText(static_cast<PlayerTypes>(iPlayer), (DiploCommentTypes)GC.getInfoTypeForString(getType()), i);
 }
 
 const TCHAR* CvDiplomacyInfo::getDiplomacyTextForDynamicResponses(int iPlayer, int i, int j) const
 {
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
 	FAssertBounds(0, getNumDynamicResponses(iPlayer), i);
-	FAssertBounds(0, getNumDiplomacyTextForDynamicResponses(iPlayer, i), j);
-	return DIPLOMGR.getDiplomacyText(static_cast<PlayerTypes>(iPlayer), i, j, (DiploCommentTypes)GC.getInfoTypeForString(getType()));
+	FAssertBounds(0, getNumDiplomacyTextForDynamicResponses(iPlayer), j);
+	return DIPLOMGR.getDiplomacyText(static_cast<PlayerTypes>(iPlayer), (DiploCommentTypes)GC.getInfoTypeForString(getType()), i, j);
 }
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
 
