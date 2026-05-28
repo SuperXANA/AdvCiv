@@ -1424,10 +1424,6 @@ bool CvDiplomacyTextInfo::read(CvXMLLoadUtility* pXML)
 
 	CvString szTextVal;
 	pXML->GetChildXmlValByName(szTextVal, "Type");
-	
-// XANA: 05-23-2026 LLM Text Diplomacy Generation
-	CvDynamicDiploManager::getInstance().updateUniqueDiplomacyTypesMap(szTextVal);
-// XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),"Responses"))
 	{

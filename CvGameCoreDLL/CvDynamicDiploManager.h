@@ -21,9 +21,6 @@ public:
 	void init();
 	void reset();
 	void uninit();
-	
-	// Called during game startup to build diplomacy comment types enumeration map
-	void updateUniqueDiplomacyTypesMap(const CvString& szType);
 
 	// Called by WinINet thread to safely drop responses into staging area for synchronization
 	void updateAIPlayerAvailableResponses(LLMResultData const& kResult);
@@ -53,19 +50,16 @@ private:
 	DynamicResponseMap m_activeDiploResponses; // not serialized
 	bool m_bInitialized;
 	
-	std::vector<CvString> m_aKnownDiploCommentTags;
-	std::vector<DiploCommentTypes> m_aKnownDiploCommentTypes;
-	
 	void setInitialItems();
 	void copyActiveResponsesToStaging(PlayerTypes ePlayer);
 	
 	void clearStagingArea(PlayerTypes eAIPlayer);
 	void clearActiveResponses(PlayerTypes eAIPlayer);
 	
-	bool getCivilizationTypes(PlayerTypes eAIPlayer, int iIndex, CivilizationTypes eCiv, DiploCommentTypes eComment) const;
-	bool getLeaderHeadTypes(PlayerTypes eAIPlayer, int iIndex, LeaderHeadTypes eLeader, DiploCommentTypes eComment) const;
-	bool getAttitudeTypes(PlayerTypes eAIPlayer, int iIndex, AttitudeTypes eAttitude, DiploCommentTypes eComment) const;
-	bool getDiplomacyPowerTypes(PlayerTypes eAIPlayer, int iIndex, DiplomacyPowerTypes ePower, DiploCommentTypes eComment) const;
+	bool getCivilizationTypes(PlayerTypes eAIPlayer, DiploCommentTypes eComment, CivilizationTypes eCiv, int iGroupIndex) const;
+	bool getLeaderHeadTypes(PlayerTypes eAIPlayer, DiploCommentTypes eComment, LeaderHeadTypes eLeader, int iGroupIndex) const;
+	bool getAttitudeTypes(PlayerTypes eAIPlayer, DiploCommentTypes eComment, AttitudeTypes eAttitude, int iGroupIndex const;
+	bool getDiplomacyPowerTypesPlayerTypes eAIPlayer, DiploCommentTypes eComment, DiplomacyPowerTypes ePower, int iGroupIndex) const;
 	
 	int getResponseIndexForDiploComment(PlayerTypes eAIPlayer, DiploCommentTypes eComment) const;
 };
