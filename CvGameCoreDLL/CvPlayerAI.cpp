@@ -21489,6 +21489,14 @@ void CvPlayerAI::AI_doDiplo()
 					}
 				}
 			}
+			
+			// XANA (note): 05-06-2026 Custom AI Diplomacy Comments
+			if ((!abContacted[kPlayer.getTeam()] || !kPlayer.isHuman()) &&
+				AI_contactRoll(CONTACT_BRAG_ABOUT_FRIEND))
+			{
+				abContacted[kPlayer.getTeam()] = AI_bragAboutFriend(ePlayer);
+			}
+			// XANA (note): 05-06-2026 Custom AI Diplomacy Comments
 
 			/*  advc.001: The only trade left is WarTrade. The AI doesn't offer
 				war trades to humans. The BtS code kills such trades through
@@ -22087,6 +22095,140 @@ bool CvPlayerAI::AI_proposeResourceTrade(PlayerTypes eTo)
 	kGame.implementDeal(getID(), eTo, weGive, theyGive);
 	return false; // Only true when a human was contacted
 } // </advc.133>
+
+// XANA (note): 05-06-2026 Custom AI Diplomacy Comments
+bool CvPlayerAI::AI_bragAboutFriend(PlayerTypes eTo)
+{
+	PROFILE_FUNC();
+	if (AI_getContactTimer(eTo, CONTACT_BRAG_ABOUT_FRIEND) > 0)
+	{
+		return false;
+	}
+	CvPlayer const& kToPlayer = GET_PLAYER(eTo);
+	if (!kToPlayer.isAlive() || kToPlayer.isBarbarian())
+	{
+		return false;
+	}
+	// Only brag to rivals or enemies - not to actual friends (would be redundant)
+	AttitudeTypes const eTowardThem = AI_getAttitude(eTo);
+	if (eTowardThem >= ATTITUDE_PLEASED)
+	{
+		return false;
+	}
+	// Don't brag if we're too weak to have "friends" worth mentioning
+	if (GC.getGame().getPlayerRank(getID()) > GC.getGame().countCivPlayersAlive() / 2)
+	{
+		return false;
+	}
+	PlayerTypes eBestFriend = NO_PLAYER;
+	int iBestScore = 0;
+	
+	// Track our bias toward each player for potential future use
+	// int aiBias[MAX_CIV_PLAYERS] = {0};
+	FOR_EACH_ENUM(Player)
+	{
+		if (eLoopPlayer == getID() || eLoopPlayer == eTo)
+		{
+			continue;
+		}
+		CvPlayer& kLoopPlayer = GET_PLAYER(eLoopPlayer);
+		if (!kLoopPlayer.isAlive() || kLoopPlayer.isBarbarian())
+		{
+			continue;
+		}
+		// Must be at least pleased with us to qualify as a "friend"
+		AttitudeTypes eTheirAttitude = kLoopPlayer.AI_getAttitude(getID());
+		if(eTheirAttitude < ATTITUDE_PLEASED)
+		{
+			continue;
+		}
+		// Calculate diplomatic bias: how much do we favor them vs others?
+		// This measures exclusive loyalty - do they like us more than average?
+		int iBias = 0;
+		AttitudeTypes eOurAttitude = AI_getAttitude(eLoopPlayer);
+		// Mutual friendship bonus (0-80 scale)
+		iBias += (eOurAttitude + eTheirAttitude) * 10;
+		// Power factor: Use player rank (0 = best) inverted so higher is better
+		// Combined with city count for a "might" metric
+		int iRank = GC.getGame().getPlayerRank(eLoopPlayer);
+		int iPowerScore = (MAX_CIV_PLAYERS - iRank) * 3 + kLoopPlayer.getNumCities();
+		iBias += iPowerScore;
+		// Strategic positioning relative to target
+		AttitudeTypes eTheirAttitudeToTarget = kLoopPlayer.AI_getAttitude(eTo);
+		// Bad: They like the target (would create awkward diplomatic triangle)
+		if (eTheirAttitudeToTarget >= ATTITUDE_PLEASED)
+		{
+			continue; // Skip friends who are friends with our target
+		}
+		int iStrategicValue = 0;
+		// Ideal: They dislike the target (makes our alliance appear threatening)
+		if (eTheirAttitudeToTarget <= ATTITUDE_ANNOYED)
+		{
+			iStrategicValue += 50;
+			// Ideal: They hate the target (makes our alliance more menacing)
+			if (eTheirAttitudeToTarget <= ATTITUDE_FURIOUS)
+			{
+				iStrategicValue += 50;
+			}
+			if (GET_TEAM(kLoopPlayer.getTeam()).isAtWar(kToPlayer.getTeam()))
+			{
+				iStrategicValue += 150; // Bragging about active war ally is very intimidating
+			}
+		}
+		// Acceptable: They're cautious/neutral to target (showing off our independent power)
+		else if (eTheirAttitudeToTarget == ATTITUDE_CAUTIOUS)
+		{
+			iStrategicValue += 15;
+		}
+		// Formal alliance bonuses (proves lasting friendship)
+		if (GET_TEAM(getTeam()).isDefensivePact(kLoopPlayer.getTeam()))
+		{
+			iBias += 65;
+		}
+		if (GET_TEAM(getTeam()).isOpenBorders(kLoopPlayer.getTeam()))
+		{
+			iBias += 10;
+		}
+		// Calculate final score: Bias * Strategic positioning
+		// We want friends who are both loyal to us AND useful against/intimidating to the target
+		int iScore = (iBias * (100 + iStrategicValue)) / 100;
+		
+		// aiBias[eLoopPlayer] = iScore; // Store if needed for debugging or other logic
+		if (iScore > iBestScore)
+		{
+			iBestScore = iScore;
+			eBestFriend = eLoopPlayer;
+		}
+	}
+	// Threshold: Must have a meaningful friend (score > 150) and friend must be top-half power
+	if (eBestFriend == NO_PLAYER || iBestScore < 150)
+	{
+		return false;
+	}
+	// Don't brag about someone weaker than the target (embarrassing)
+	int const iFriendRank = GC.getGame().getPlayerRank(eBestFriend);
+	int const iTargetRank = GC.getGame().getPlayerRank(eTo);
+	if (iFriendRank > iTargetRank + 3 && !GET_TEAM(GET_PLAYER(eBestFriend).getTeam()).isAtWar(kToPlayer.getTeam()))
+	{
+		return false; // Only brag about weaker friends if they're actively fighting the target
+	}
+	// Check if we recently bragged about this specific friend to anyone (avoid repetition)
+	if (m_aeLastBragFriend[eBestFriend] > 0)
+	{
+		return false;
+	}
+	CvPlayer const& kBestFriend = GET_PLAYER(eBestFriend);
+	AI_changeContactTimer(eTo, CONTACT_BRAG_ABOUT_FRIEND, AI_getContactDelay(CONTACT_BRAG_ABOUT_FRIEND));
+	CvDiploParameters* pDiplo = new CvDiploParameters(getID());
+	pDiplo->setDiploComment(GC.getAIDiploCommentType("BRAG_ABOUT_FRIEND"),
+			kBestFriend.getCivilizationAdjectiveKey(),
+			kBestFriend.getNameKey(), 
+			kToPlayer.getNameKey()); // Optional: include target's name for context
+	pDiplo->setAIContact(true);
+	gDLL->beginDiplomacy(pDiplo, eTo);
+	return true;
+}
+// XANA (note): 05-06-2026 Custom AI Diplomacy Comments
 
 /*  Caller ensures isHuman/ !isHuman, canContactAndTalk,
 	unequal teams, not at war, this->isMajorCiv. */

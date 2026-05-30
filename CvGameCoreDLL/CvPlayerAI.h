@@ -813,6 +813,9 @@ protected:
 	// <advc.079>
 	mutable UnitTypes m_aeLastBrag[MAX_CIV_PLAYERS];
 	mutable TeamTypes m_aeLastWarn[MAX_CIV_PLAYERS]; // </advc.079>
+	// XANA (note): 05-06-2026 Custom AI Diplomacy Comments
+	mutable PlayerTypes m_aeLastBragFriend[MAX_CIV_PLAYERS];
+	// XANA (note): 05-06-2026 Custom AI Diplomacy Comments
 	int* m_aiBonusValue;
 	int* m_aiBonusValueTrade; // advc.036
 	int* m_aiUnitClassWeights;
@@ -911,6 +914,9 @@ protected:
 	bool AI_doDeals(PlayerTypes eOther);
 	// </advc>
 	bool AI_proposeResourceTrade(PlayerTypes eTo); // advc.133
+	// XANA (note): 05-06-2026 Custom AI Diplomacy Comments
+	bool AI_bragAboutFriend(PlayerTypes eTo);
+	// XANA (note): 05-06-2026 Custom AI Diplomacy Comments
 	// advc.132:
 	bool AI_checkCivicReligionConsistency(CLinkList<TradeData> const& kTradeItems) const;
 	// <advc.036>

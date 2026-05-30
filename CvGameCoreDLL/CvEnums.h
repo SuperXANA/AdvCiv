@@ -1201,6 +1201,9 @@ ENUM_START(Contact, CONTACT)
 	CONTACT_TRADE_TECH,
 	CONTACT_TRADE_BONUS,
 	CONTACT_TRADE_MAP,
+	// XANA (note): 05-06-2026 Custom AI Diplomacy Comments
+	CONTACT_BRAG_ABOUT_FRIEND,
+	// XANA (note): 05-06-2026 Custom AI Diplomacy Comments
 	// Any additions need to be reflected in GlobalTypes.xml
 ENUM_END(Contact, CONTACT)
 
@@ -1242,6 +1245,9 @@ ENUM_START(Memory, MEMORY)
 	MEMORY_LIBERATED_CITIES,
 	MEMORY_INDEPENDENCE, // advc.130r
 	MEMORY_DECLARED_WAR_RECENT, // advc.104i
+	// XANA (note): 05-06-2026 Custom AI Diplomacy Comments
+	MEMORY_USED_INTIMIDATION_ON_US,
+	// XANA (note): 05-06-2026 Custom AI Diplomacy Comments
 ENUM_END(Memory, MEMORY)
 
 ENUM_START(Attitude, ATTITUDE)
