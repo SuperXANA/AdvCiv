@@ -1480,7 +1480,7 @@ public:
 	bool showGoodyOnResourceLayer() const; // advc.004z
 // XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	AlignmentTypes getAlignment(AlignmentAxisTypes eAxis) const;
-	AlignmentFactionTypes getAlignmentFaction(AlignmentAxisTypes eAxis) const { return (i >= 0 && i < (int)m_aAlignmentAxisFactions.size()) ? m_aAlignmentAxisFactions[i] : NO_ALIGNMENT_FACTION; }
+	AlignmentFactionTypes getAlignmentFaction(AlignmentAxisTypes eAxis) const { return (eAxis >= 0 && eAxis < (int)m_aAlignmentAxisFactions.size()) ? m_aAlignmentAxisFactions[eAxis] : NO_ALIGNMENT_FACTION; }
 	AlignmentFactionTypes getAlignmentFaction() const { return m_eAlignmentFaction; }
 	// XANA (note): Helpers for changing Alignment balance towards specific side based on gameplay actions
 	void changeAlignmentTowardsPositive(AlignmentAxisTypes eAxis, int iChange, bool bPermanent = false);

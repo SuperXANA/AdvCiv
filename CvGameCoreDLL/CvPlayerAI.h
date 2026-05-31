@@ -729,6 +729,10 @@ public:
 	// <advc.104>
 	UWAI::Player& uwai() { return *m_pUWAI; }
 	UWAI::Player const& uwai() const { return *m_pUWAI; } // </advc.104>
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
+	CvAIVectorMemory& memory() { return *m_pMemory; }
+	CvAIVectorMemory const& memory() const { return *m_pMemory; }
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
 	// <advc.104h>
 	// Returns true if peace deal implemented (or offered to human)
 	bool AI_negotiatePeace(PlayerTypes eOther, int iTheirBenefit, int iOurBenefit);
@@ -778,6 +782,9 @@ protected:
 	scaled m_rCurrEraFactor; // advc.erai
 	bool m_bDangerFromSubmarines; // advc.651
 	UWAI::Player* m_pUWAI; // advc.104
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
+	CvAIVectorMemory* m_pMemory;
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
 
 	/*mutable int m_iStrategyHash;
 	mutable int m_iStrategyHashCacheTurn;

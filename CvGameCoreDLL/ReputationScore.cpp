@@ -5,7 +5,9 @@ void ReputationScore::grow(int iSize)
 {
 	FAssert(iSize >= 0);
 	while (iSize >= size())
+	{
 		m_aiValues.push_back(0);
+	}
 }
 
 
@@ -25,7 +27,9 @@ int ReputationScore::get(int iTurn) const
 	}
     int iSum = 0;
     for (int i = iLastValidIndex; i >= iHistoryTurnsConsidered; --i)
+	{
 		iSum += m_aiValues[i];
+	}
 	return (iSum != 0) ? intdiv::round(iSum, std::max(1, iSampleSize)) : 0;
 }
 
@@ -53,11 +57,12 @@ void ReputationScore::decay()
 	}
 	scaled const rSmoothFactor = per100(95);
 	for (int iTurn = iLastValidIndex; iTurn >= iGameTurns; --iTurn)
+	{
 		if (iLastValidIndex - iTurn != 0)
 		{
 			m_aiValues[iTurn] *= rSmoothFactor.pow(iLastValidIndex - iTurn);
 		}
-		else continue;
+	}
 }
 
 
@@ -96,5 +101,7 @@ void ReputationScore::write(FDataStreamBase* pStream)
 	pStream->Write(iSize);
 	pStream->Write(m_iMovingAvgSamples);
 	if (iSize > 0)
+	{
 		pStream->Write(iSize, &m_aiValues[0]);
+	}
 }

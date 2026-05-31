@@ -28,6 +28,9 @@
 #include "CvHallOfFameInfo.h" // advc.106i
 #include "BBAILog.h" // BBAI
 #include "CvBugOptions.h" // K-Mod
+// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
+#include "CvAIVectorMemory.h"
+// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
 
 /*	<advc.007c> Use this CvGame instance instead of GC.getGame() for RNG calls.
 	(Won't matter so long as CvGame is a singleton class.) */
@@ -259,8 +262,13 @@ void CvGame::setInitialItems()
 				d->setInitialGameTurn(getGameTurn());
 		} // </advc.251>
 	} // </advc.250c>
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
 	for (PlayerAIIter<CIV_ALIVE> it; it.hasNext(); ++it)
+	{
 		it->AI_updateFoundValues();
+		it->memory().init(GC.getMapRand().getSeed());
+	}
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
 	// <advc.tsl>
 	if (m_iMapRegens < GC.getDefineINT("AUTO_REGEN_MAP"))
 		regenerateMap(true); // </advc.tsl>

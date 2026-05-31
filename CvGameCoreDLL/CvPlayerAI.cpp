@@ -83,6 +83,9 @@ CvPlayerAI::CvPlayerAI(/* advc.003u: */ PlayerTypes eID) : CvPlayer(eID)
 	m_aiAverageCommerceExchange = new int[NUM_COMMERCE_TYPES];
 
 	m_pUWAI = new UWAI::Player(); // advc.104
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
+	m_pMemory = new CvAIVectorMemory();
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
 	m_aiBonusValue = NULL;
 	m_aiBonusValueTrade = NULL; // advc.036
 	m_aiUnitClassWeights = NULL;
@@ -128,6 +131,9 @@ CvPlayerAI::~CvPlayerAI()
 	SAFE_DELETE_ARRAY(m_aiAverageCommerceExchange);
 	//SAFE_DELETE_ARRAY(m_aiCloseBordersAttitude); // disabled by K-Mod
 	SAFE_DELETE(m_pUWAI); // advc.104
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
+	SAFE_DELETE(m_pMemory);
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
 }
 
 
