@@ -121,6 +121,7 @@
 #include "CyArgsList.h"
 #include "CyPlot.h"
 #include "CyUnit.h"
+#include "FDataStreamExtended.h"
 
 // Undefine OutputDebugString in release builds // advc.make: in non-debug builds
 #ifdef _DEBUG
