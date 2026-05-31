@@ -618,9 +618,44 @@ void LLMPromptData::setText(CvString const& szText)
 	szPromptText = szText;
 }
 
+LLMResultData::~LLMResultData()
+{
+	SAFE_DELETE(m_pResultText);
+}
+
+DynamicResponseData* LLMResultData::getData()
+{
+	DynamicResponseData* pointer = m_resultText;
+	SAFE_DELETE(m_resultText);
+	return pointer;
+}
+
 void LLMResultData::setText(CvString const& szText)
 {
-	szResultText = szText;
+	if (m_pResultText == NULL)
+	{
+		m_pResultText = new DynamicResponseData();
+	}
+	m_pResultText->setText(szText);
+}
+
+DynamicResponseGroup::~DynamicResponseGroup()
+{
+	for (int i = 0; i < (int)data.size(); i++)
+	{
+		SAFE_DELETE(data[i]);
+	}
+	data.clear();
+}
+
+std::string const& DynamicResponseData::getText() const
+{
+	return szResponseText;
+}
+
+void DynamicResponseData::setText(CvString const& szText)
+{
+	szResponseText = szText;
 }
 
 void DynamicResponseFilter::setCivilizationTypeEnabled(CivilizationTypes eCiv)
@@ -671,12 +706,39 @@ void DynamicResponse::initNewResponseGroup()
 
 int DynamicResponse::getFirstFreeResponseGroup() const
 {
-	return 0;
-	/* TO-DO:
-	Change the LLMPromptData, LLMResultData, and DynamicResponse structures.
-	LLM text generation should contain metadata about what was returned.
-	For example, diplomacy lifetime/expiration and maximum use potential.
-	*/
+	int i = -1;
+	for (int iGroupIndex = 0; iGroupIndex < getNumResponseGroups(); iGroupIndex++)
+	{
+		int iNumDiploTexts = getNumDiplomacyText(iGroupIndex);
+		if (iNumDiploTexts > 0)
+		{
+			int iGroupResponseUsedCount = 0;
+			for (int iResponseIndex = 0; iResponseIndex < iNumDiploTexts; iResponseIndex++)
+			{
+				if (m_aResponseGroups[iGroupIndex].data[iResponseIndex] != NULL)
+				{
+					if (m_aResponseGroups[iGroupIndex].data[iResponseIndex]->isAtUsageLimit())
+					{
+						iGroupResponseUsedCount++;
+					}
+					else continue;
+				}
+				else continue;
+			}
+			if (iGroupResponseUsedCount != iNumDiploTexts)
+			{
+				i = iGroupIndex;
+				break;
+			}
+			else continue;
+		}
+		else
+		{
+			i = iGroupIndex;
+			break;
+		}
+	}
+	return i;
 }
 
 DiploCommentTypes DynamicResponse::getCommentType() const
@@ -746,35 +808,55 @@ int DynamicResponse::getNumDiplomacyText(int iGroupIndex) const
 	{
 		return 0;
 	}
-	return (int)m_aResponseGroups[iGroupIndex].aszText.size();
+	return (int)m_aResponseGroups[iGroupIndex].data.size();
 }
 
 std::string const& DynamicResponse::getDiplomacyText(int iGroupIndex, int iVariant) const
 {
-	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
+	if ((iGroupIndex >= 0 && iGroupIndex < getNumResponseGroups())
+		&& (iVariant >= 0 && iVariant < getNumDiplomacyText(iVariant)))
 	{
-		return "";
+		return ((m_aResponseGroups[iGroupIndex].data[iVariant] != NULL) ? m_aResponseGroups[iGroupIndex].data[iVariant]->getText() : "");
 	}
-	return m_aResponseGroups[iGroupIndex].aszText[iVariant];
+	return "";
 }
 
-void DynamicResponse::setLimits(int iGroupIndex, DynamicResponseFilter const& kFilter)
+void DynamicResponse::updateDynamicResponseLifetime(int iGroupIndex, int iVariant)
 {
-	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
+	if ((iGroupIndex >= 0 && iGroupIndex < getNumResponseGroups())
+		&& (iVariant >= 0 && iVariant < getNumDiplomacyText(iVariant)))
+	{
+		std::vector<DynamicResponseData*>& kVector = m_aResponseGroups[iGroupIndex].data;
+		if (kVector[iVariant] != NULL)
+		{
+			if (!kVector[iVariant]->isAtUsageLimit())
+			{
+				kVector[iVariant]->increaseUseCount();
+			}
+			else
+			{
+				SAFE_DELETE(kVector[iVariant]);
+				kVector.erase(kVector.begin() + iVariant);
+			}
+		}
+	}
+}
+
+void DynamicResponse::setDiplomacyText(LLMResultData const& kResult)
+{
+	/* XANA (warning):
+	DO NOT USE FIRAXIS GLOBAL FUNCTIONS OR ASSERTIONS HERE
+	THIS OPERATION WILL BE CALLED VIA A BACKGROUND THREAD
+	ATTEMPTING TO DO SO WILL CRASH THE GAME */
+	if (kResult.getIndex() < 0 || kResult.getIndex() >= getNumResponseGroups())
 	{
 		return;
 	}
-	m_aResponseGroups[iGroupIndex].limits = kFilter;
-}
-
-void DynamicResponse::setDiplomacyText(int iGroupIndex, const CvString& szValue)
-{
-	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
-	{
-		return;
-	}
-	int const iNewIndex = getNumDiplomacyText(iGroupIndex);
-	m_aResponseGroups[iGroupIndex].aszText.resize(iNewIndex + 1);
-	m_aResponseGroups[iGroupIndex].aszText[iNewIndex] = szValue;
+	int const iGroupIndex = kResult.getIndex();
+	std::vector<DynamicResponseData*>& kVector = m_aResponseGroups[iGroupIndex].data;
+	int const iTextIndex = getNumDiplomacyText(iGroupIndex);
+	m_aResponseGroups[iGroupIndex].limits = kResult.getLimits();
+	kVector.resize(iTextIndex + 1);
+	kVector[iTextIndex] = kResult.getData();
 }
 // XANA: 05-23-2026 LLM Text Diplomacy Generation

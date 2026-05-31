@@ -475,7 +475,7 @@ class CvDiplomacy:
 		
 		# XANA: 05-23-2026 LLM Text Diplomacy Generation
 		bMixXMLandLLMResponses = false
-		for i in range(diploInfo.getNumDynamicResponses(theirPlayer)):
+		for i in xrange(diploInfo.getNumDynamicResponses(theirPlayer)):
 		
 			# check attitude of other player towards me
 			if (not diploInfo.isDynamicResponseForAttitude(theirPlayer, ourPlayer, i)):
@@ -494,7 +494,8 @@ class CvDiplomacy:
 				continue
 			
 			# passed all tests, so add to response list
-			for j in range(diploInfo.getNumDiplomacyTextForDynamicResponse(theirPlayer, i)):
+			# XANA (note): append backwards so that response lietime updates can be processed during iteration
+			for j in xrange(diploInfo.getNumDiplomacyTextForDynamicResponse(theirPlayer, i) - 1, -1, -1):
 				if (diploInfo.getDiplomacyTextForDynamicResponse(theirPlayer, i, j) != ""):
 					responses.append(diploInfo.getDiplomacyTextForDynamicResponse(theirPlayer, i, j))
 				

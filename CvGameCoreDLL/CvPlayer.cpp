@@ -8875,12 +8875,6 @@ void CvPlayer::setTurnActive(bool bNewValue, bool bDoTurn)
 	if (isTurnActive())
 	{
 		FAssert(isAlive());
-		if (bDoTurn)
-		{
-			// XANA: 05-23-2026 LLM Text Diplomacy Generation
-			CvDynamicDiploManager::getInstance().updateActiveResponseCache(getID());
-			// XANA: 05-23-2026 LLM Text Diplomacy Generation
-		}
 		// <advc.001x> (or move this to the very end of doTurn?)
 		changeGoldenAgeTurns(getGoldenAgeLength() * m_iScheduledGoldenAges);
 		m_iScheduledGoldenAges = 0;

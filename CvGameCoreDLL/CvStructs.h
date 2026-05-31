@@ -588,7 +588,6 @@ struct LLMPromptData
 	PlayerTypes getID() const { return eID; }
 	DiploCommentTypes getType() const { return eType; }
 	int getIndex() const { return iGroupIndex; }
-	std::string const& getText() const { return szPromptText; }
 	/* XANA (note): Specifically marked non-const.
 	This is meant for assigning filter limits.
 	For example which Civ, Leader, Attitude, or Influence Power this LLM response is meant for. */
@@ -608,15 +607,16 @@ struct LLMResultData
 	DiploCommentTypes eType;
 	int iGroupIndex;
 	DynamicResponseFilter m_filter;
-	std::string szResultText;
-	LLMResultData(PlayerTypes eAI, DiploCommentTypes eComment, int iGroupID, DynamicResponseFilter const& kFilter)
-	: eID(eAI), eType(eComment), iGroupIndex(iGroupID), m_filter(kFilter)
+	DynamicResponseData* m_pResultText;
+	LLMResultData(LLMPromptData const& kPrompt)
+	: eID(kPrompt.getID()), eType(kPrompt.getType()), iGroupIndex(kPrompt.getIndex()), m_filter(kPrompt.getLimits()), m_pResultText(NULL)
 	{}
+	~LLMResultData();
+	DynamicResponseData* getData();
 	void setText(CvString const& szText);
 	PlayerTypes getID() const { return eID; }
 	DiploCommentTypes getType() const { return eType; }
 	int getIndex() const { return iGroupIndex; }
-	std::string const& getText() const { return szResultText; }
 	/* XANA (note): Specifically marked const.
 	This is meant for reading filter limits.
 	For example which Civ, Leader, Attitude, or Influence Power this LLM response is meant for. */
@@ -638,11 +638,31 @@ struct DynamicResponseFilter
 	void setDiplomacyPowerTypeEnabled(DiplomacyPowerTypes ePower);
 };
 
+// Contains the dynamically generated text and metadata related to the LLM response
+struct DynamicResponseData
+{
+	static int const iMaxUses = 3;
+	int iTotalUses;
+	std::string szResponseText;
+	DynamicResponseData() : iTotalUses(0) {}
+	void increaseUseCount()
+	{
+		iTotalUses++;
+	}
+	bool isAtUsageLimit() const
+	{
+		return (iTotalUses >= iMaxUses);
+	}
+	std::string const& getText() const;
+	void setText(CvString const& szText);
+};
+
 // Contains the information for a specific response object, such as the filter data and the text which is supposed to show up when this specific response is requested 
 struct DynamicResponseGroup
 {
 	DynamicResponseFilter limits;
-	std::vector<std::string> aszText;
+	std::vector<DynamicResponseData*> data;
+	~DynamicResponseGroup();
 };
 
 // The main struct which defines a group of response objects, the filters and generated text variants for a specific diplomacy comment type, and provides the data to the game via python bindings
@@ -657,6 +677,19 @@ struct DynamicResponse
 	 or which has data stored in the object that has expired
 	 from the vector via being used too many times during AI diplomacy. */
 	int getFirstFreeResponseGroup() const;
+	/* XANA (note) : If we are having trouble locating a response group in which to place the LLM generated data
+	this function will serve as a fallback to assign the LLMPromptData object to a valid Group ID
+	iVariableToUpdate is the integer variable where we had tried calling getFirstFreeResponseGroup()
+	iVariableToUpdate will be set to the value of a newly created response group ID as a result of this function
+	This function expects that the variable's value is -1, meaning a failed response group deduction had occurred. */
+	void assignValidResponseGroupFallback(int& iVariableToUpdate)
+	{
+		if (iVariableToUpdate == -1)
+		{
+			initNewResponseGroup();
+			iVariableToUpdate = (getNumResponseGroups() - 1);
+		}
+	}
 	DiploCommentTypes getCommentType() const;
 	bool getCivilizationTypes(int iGroupIndex, CivilizationTypes eCiv) const;
 	bool getLeaderHeadTypes(int iGroupIndex, LeaderHeadTypes eLeader) const;
@@ -664,8 +697,13 @@ struct DynamicResponse
 	bool getDiplomacyPowerTypes(int iGroupIndex, DiplomacyPowerTypes ePower) const;
 	int getNumDiplomacyText(int iGroupIndex) const;
 	std::string const& getDiplomacyText(int iGroupIndex, int iVariant) const;
-	void setLimits(int iGroupIndex, DynamicResponseFilter const& kFilter);
-	void setDiplomacyText(int iGroupIndex, const CvString& szValue);
+	void updateDynamicResponseLifetime(int iGroupIndex, int iVariant);
+	
+	/* XANA (warning):
+	DO NOT USE FIRAXIS GLOBAL FUNCTIONS OR ASSERTIONS IN THIS FUNCTION
+	THIS OPERATION WILL BE CALLED VIA A BACKGROUND THREAD
+	ATTEMPTING TO DO SO WILL CRASH THE GAME */
+	void setDiplomacyText(LLMResultData const& kResult);
 };
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
 
