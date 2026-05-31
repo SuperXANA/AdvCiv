@@ -494,7 +494,7 @@ class CvDiplomacy:
 				continue
 			
 			# passed all tests, so add to response list
-			# XANA (note): append backwards so that response lietime updates can be processed during iteration
+			# XANA (note): append backwards so that response lifetime updates can be processed during iteration
 			for j in xrange(diploInfo.getNumDiplomacyTextForDynamicResponse(theirPlayer, i) - 1, -1, -1):
 				if (diploInfo.getDiplomacyTextForDynamicResponse(theirPlayer, i, j) != ""):
 					responses.append(diploInfo.getDiplomacyTextForDynamicResponse(theirPlayer, i, j))

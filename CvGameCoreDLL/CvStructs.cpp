@@ -618,8 +618,38 @@ void LLMPromptData::setText(CvString const& szText)
 	szPromptText = szText;
 }
 
+LLMPromptData::~LLMPromptData()
+{
+	SAFE_DELETE(m_pFilter);
+}
+
+DynamicResponseFilter& LLMPromptData::createLimits()
+{
+	if (m_pFilter == NULL)
+	{
+		m_pFilter = new DynamicResponseFilter();
+		m_pFilter->setDefaultValues();
+	}
+	return *m_pFilter;
+}
+
+DynamicResponseFilter const* LLMPromptData::getLimits()
+{
+	DynamicResponseData const* pointer = m_pFilter;
+	SAFE_DELETE(m_pFilter);
+	return pointer;
+}
+
+DynamicResponseData const* LLMResultData::getData()
+{
+	DynamicResponseData* pointer = m_resultText;
+	SAFE_DELETE(m_resultText);
+	return pointer;
+}
+
 LLMResultData::~LLMResultData()
 {
+	SAFE_DELETE(m_pFilter);
 	SAFE_DELETE(m_pResultText);
 }
 
@@ -855,7 +885,10 @@ void DynamicResponse::setDiplomacyText(LLMResultData const& kResult)
 	int const iGroupIndex = kResult.getIndex();
 	std::vector<DynamicResponseData*>& kVector = m_aResponseGroups[iGroupIndex].data;
 	int const iTextIndex = getNumDiplomacyText(iGroupIndex);
-	m_aResponseGroups[iGroupIndex].limits = kResult.getLimits();
+	if (kResult.getLimits() != NULL)
+	{
+		m_aResponseGroups[iGroupIndex].limits = *kResult.getLimits();
+	}
 	kVector.resize(iTextIndex + 1);
 	kVector[iTextIndex] = kResult.getData();
 }

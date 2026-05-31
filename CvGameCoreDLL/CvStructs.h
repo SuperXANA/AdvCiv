@@ -579,11 +579,12 @@ struct LLMPromptData
 	PlayerTypes eID;
 	DiploCommentTypes eType;
 	int iGroupIndex;
-	DynamicResponseFilter m_filter;
+	DynamicResponseFilter* m_pFilter;
 	std::string szPromptText;
 	LLMPromptData(PlayerTypes eAI, DiploCommentTypes eComment, int iGroupID)
-	: eID(eAI), eType(eComment), iGroupIndex(iGroupID)
+	: eID(eAI), eType(eComment), iGroupIndex(iGroupID), m_pFilter(NULL)
 	{}
+	~LLMPromptData();
 	void setText(CvString const& szText);
 	PlayerTypes getID() const { return eID; }
 	DiploCommentTypes getType() const { return eType; }
@@ -591,11 +592,11 @@ struct LLMPromptData
 	/* XANA (note): Specifically marked non-const.
 	This is meant for assigning filter limits.
 	For example which Civ, Leader, Attitude, or Influence Power this LLM response is meant for. */
-	DynamicResponseFilter& getLimits() { return m_filter; }
+	DynamicResponseFilter& createLimits();
 	/* XANA (note): Specifically marked const.
 	This is meant for reading filter limits.
 	For example which Civ, Leader, Attitude, or Influence Power this LLM response is meant for. */
-	DynamicResponseFilter const& getLimits() const { return m_filter; }
+	DynamicResponseFilter const* getLimits();
 };
 
 /* This struct is designed to be used after WinINet returns an LLM response
@@ -606,13 +607,13 @@ struct LLMResultData
 	PlayerTypes eID;
 	DiploCommentTypes eType;
 	int iGroupIndex;
-	DynamicResponseFilter m_filter;
+	DynamicResponseFilter* m_pFilter;
 	DynamicResponseData* m_pResultText;
 	LLMResultData(LLMPromptData const& kPrompt)
 	: eID(kPrompt.getID()), eType(kPrompt.getType()), iGroupIndex(kPrompt.getIndex()), m_filter(kPrompt.getLimits()), m_pResultText(NULL)
 	{}
 	~LLMResultData();
-	DynamicResponseData* getData();
+	DynamicResponseData const* getData();
 	void setText(CvString const& szText);
 	PlayerTypes getID() const { return eID; }
 	DiploCommentTypes getType() const { return eType; }
@@ -620,7 +621,7 @@ struct LLMResultData
 	/* XANA (note): Specifically marked const.
 	This is meant for reading filter limits.
 	For example which Civ, Leader, Attitude, or Influence Power this LLM response is meant for. */
-	DynamicResponseFilter const& getLimits() const { return m_filter; }
+	DynamicResponseFilter const* getLimits() const { return m_pFilter; }
 };
 
 // Contains the filtering configuration data, such as which Civs or Leaders the newly generated response is meant to be valid for

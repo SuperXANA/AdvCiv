@@ -271,7 +271,7 @@ const char* CvDynamicDiploManager::getDiplomacyText(PlayerTypes eAIPlayer, Diplo
 	FAssertBounds(0, GC.getNumDiplomacyInfos()), eComment);
 	if (m_bInitialized && iGroupIndex >= 0 && iGroupIndex < getNumResponses(eAIPlayer, eComment) && eAIPlayer > NO_PLAYER && eAIPlayer < MAX_PLAYERS)
 	{
-		if (iVariant >= 0 && iVariant < getNumDiplomacyText(eAIPlayer, eComment))
+		if (iVariant >= 0 && iVariant < getNumDiplomacyText(eAIPlayer, eComment, iGroupIndex))
 		{
 			CvFunctionMutex lock(m_CS);
 			{
