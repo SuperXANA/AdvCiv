@@ -58,6 +58,9 @@
 	DO(PlayerColor, PLAYERCOLOR) \
 	DO(Bonus, BONUS) \
 	DO(LeaderHead, LEADER) \
+	/* XANA: 05-23-2026 LLM Text Diplomacy Generation */ \
+	DO(PlayerCharacter, PLAYERCHARACTER) \
+	/* XANA: 05-23-2026 LLM Text Diplomacy Generation */ \
 	DO(Civilization, CIVILIZATION) \
 	DO(Cursor, CURSOR) \
 	/* internal only */ \
