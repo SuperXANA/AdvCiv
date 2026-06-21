@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Alex Mantzaris (Firaxis Games) -->
+<!-- Sid Meier's Civilization 4 -->
+<!-- Copyright Firaxis Games 2005 -->
+<!-- -->
+<!-- Basic Infos -->
+<Civ4DamageInfos xmlns="x-schema:CIV4UnitSchema.xml">
+	<DamageInfos>
+		<DamageInfo>
+			<Type>DAMAGE_TEMPORAL</Type> <!-- Cosmos Magic -->
+			<Description>TXT_KEY_DAMAGE_TEMPORAL</Description>
+			<Button>Art/Interface/Buttons/Temporal.dds</Button>
+		</DamageInfo>
+		<DamageInfo>
+			<Type>DAMAGE_ALTERATION</Type> <!-- Chaos Magic -->
+			<Description>TXT_KEY_DAMAGE_ALTERATION</Description>
+			<Button>Art/Interface/Buttons/Alteration.dds</Button>
+		</DamageInfo>
+		<DamageInfo>
+			<Type>DAMAGE_FREEZING</Type> <!-- Water [Basic] & Ice Magic -->
+			<Description>TXT_KEY_DAMAGE_FREEZING</Description>
+			<Button>Art/Interface/Buttons/Freezing.dds</Button>
+		</DamageInfo>
+		<DamageInfo>
+			<Type>DAMAGE_DEATH</Type> <!-- Death Magic -->
+			<Description>TXT_KEY_DAMAGE_DEATH</Description>
+			<Button>Art/Interface/Buttons/Death.dds</Button>
+		</DamageInfo>
+		<DamageInfo>
+			<Type>DAMAGE_HOLY</Type> <!-- Harmony [Typical] & Life Magic -->
+			<Description>TXT_KEY_DAMAGE_HOLY</Description>
+			<Button>Art/Interface/Buttons/Holy.dds</Button>
+		</DamageInfo>
+		<DamageInfo>
+			<Type>DAMAGE_BURNING</Type> <!-- Water [Advanced] & Fire Magic -->
+			<Description>TXT_KEY_DAMAGE_BURNING</Description>
+			<Button>Art/Interface/Buttons/Fire.dds</Button>
+		</DamageInfo>
+		<DamageInfo>
+			<Type>DAMAGE_LIGHTNING</Type> <!-- Air [Advanced] Magic -->
+			<Description>TXT_KEY_DAMAGE_LIGHTNING</Description>
+			<Button>Art/Interface/Buttons/Lightning.dds</Button>
+		</DamageInfo>
+		<DamageInfo>
+			<Type>DAMAGE_PHYSICAL</Type> <!-- Basic Non-Elemental [AKA Default Physical] Attacks & Earth Magic -->
+			<Description>TXT_KEY_DAMAGE_PHYSICAL</Description>
+			<Button>Art/Interface/Buttons/Physical.dds</Button>
+		</DamageInfo>
+		<DamageInfo>
+			<Type>DAMAGE_METAPHYSICAL</Type> <!-- Basic Non-Elemental [AKA Default Magic] Attacks & Air [Basic] Magic-->
+			<Description>TXT_KEY_DAMAGE_METAPHYSICAL</Description>
+			<Button>Art/Interface/Buttons/Metaphysical.dds</Button>
+		</DamageInfo>
+		<DamageInfo>
+			<Type>DAMAGE_SLEEPING</Type> <!-- Sleep [AKA Dreaming, AKA Mind] Magic -->
+			<Description>TXT_KEY_DAMAGE_SLEEPING</Description>
+			<Button>Art/Interface/Buttons/Sleeping.dds</Button>
+		</DamageInfo>
+		<DamageInfo>
+			<Type>DAMAGE_UNHOLY</Type> <!-- Harmony [Inversed] & Demon Magic -->
+			<Description>TXT_KEY_DAMAGE_UNHOLY</Description>
+			<Button>Art/Interface/Buttons/Unholy.dds</Button>
+		</DamageInfo>
+	</DamageInfos>
+</Civ4DamageInfos>

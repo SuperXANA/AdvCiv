@@ -1291,7 +1291,7 @@ void CvGameTextMgr::setUnitHelp(CvWStringBuffer &szString, const CvUnit* pUnit,
 				if (bFirst)
 					bFirst = false;
 				else szTempBuffer += L", ";
-				szTempBuffer.Format((iMagicPower < 0) ? L", %d " : L", +%d ", iMagicPower;
+				szTempBuffer.Format((iMagicPower < 0) ? L", -%d " : L", +%d ", iMagicPower;
 				szTempBuffer += CvWString::format(L"<link=literal>%s</link>",
 						GC.getInfo(eLoopDamage).getDescription());
 				szTempBuffer += L" Strength";
