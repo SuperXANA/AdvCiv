@@ -180,6 +180,14 @@
 				</CivicWeightModifier>
 			</CivicWeightModifiers>
 			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<!-- XANA: 06-21-2026 Religion Adoption Weights -->
+			<ReligioneightModifiers>
+				<ReligionWeightModifier>
+					<ReligionType>RELIGION_HARMONY</ReligionType>
+					<iWeightModifier>-100</iWeightModifier>
+				</ReligionWeightModifier>
+			</ReligionWeightModifiers>
+			<!-- XANA: 06-21-2026 Religion Adoption Weights -->
 		</LeaderHeadInfo>
 		
 		<!-- advc.xmldefault (start)
@@ -861,6 +869,9 @@
 			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 			<CivicWeightModifiers/>
 			<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+			<!-- XANA: 06-21-2026 Religion Adoption Weights -->
+			<ReligionWeightModifiers/>
+			<!-- XANA: 06-21-2026 Religion Adoption Weights -->
 		</LeaderHeadInfo>
 		<!-- advc.xmldefault (end) -->
 		
