@@ -642,8 +642,8 @@ DynamicResponseFilter const* LLMPromptData::getLimits()
 
 DynamicResponseData const* LLMResultData::getData()
 {
-	DynamicResponseData* pointer = m_resultText;
-	SAFE_DELETE(m_resultText);
+	DynamicResponseData* pointer = m_pResultText;
+	SAFE_DELETE(m_pResultText);
 	return pointer;
 }
 
@@ -655,8 +655,8 @@ LLMResultData::~LLMResultData()
 
 DynamicResponseData* LLMResultData::getData()
 {
-	DynamicResponseData* pointer = m_resultText;
-	SAFE_DELETE(m_resultText);
+	DynamicResponseData* pointer = m_pResultText;
+	SAFE_DELETE(m_pResultText);
 	return pointer;
 }
 

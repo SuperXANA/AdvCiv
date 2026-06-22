@@ -46,10 +46,11 @@ void CvDynamicDiploManager::setInitialItems()
 	m_iNumDiploCommentTypes = GC.getNumDiplomacyInfos();
 	FOR_EACH_ENUM(Player)
 	{
-		m_LLMDiploResponses[(int)eLoopPlayer].reserve(GC.getNumDiplomacyInfos());
-		for (int iLoop = 0; iLoop < GC.getNumDiplomacyInfos(); iLoop++)
+		int iLoopPlayer = (int)eLoopPlayer;
+		m_LLMDiploResponses[iLoopPlayer].reserve(m_iNumDiploCommentTypes);
+		for (int iLoop = 0; iLoop < m_iNumDiploCommentTypes; iLoop++)
 		{
-			m_LLMDiploResponses[(int)eLoopPlayer].push_back(new DynamicResponse(static_cast<DiploCommentTypes>(iLoop)));
+			m_LLMDiploResponses[iLoopPlayer].push_back(new DynamicResponse(static_cast<DiploCommentTypes>(iLoop)));
 		}
 	}
 }
@@ -62,14 +63,15 @@ void CvDynamicDiploManager::clearResponses(PlayerTypes eAIPlayer)
 	}
 	if (eAIPlayer > NO_PLAYER && eAIPlayer < MAX_PLAYERS)
 	{
-		if (m_LLMDiploResponses[(int)eAIPlayer].size() > 0)
+		int const iAIPlayer = (int)eAIPlayer;
+		if ((int)m_LLMDiploResponses[iAIPlayer].size() > 0)
 		{
-			for (int iLoop = 0; iLoop < GC.getNumDiplomacyInfos(); iLoop++)
+			for (int iLoop = 0; iLoop < (int)m_LLMDiploResponses[iAIPlayer].size(); iLoop++)
 			{
-				SAFE_DELETE(m_LLMDiploResponses[(int)eAIPlayer][iLoop]);
+				SAFE_DELETE(m_LLMDiploResponses[iAIPlayer][iLoop]);
 			}
+			m_LLMDiploResponses[iAIPlayer].clear();
 		}
-		m_LLMDiploResponses[(int)eAIPlayer].clear();
 	}
 }
 
@@ -91,7 +93,7 @@ void CvDynamicDiploManager::updateAIPlayerAvailableResponses(LLMResultData const
 	}
 }
 
-int CvDynamicDiploManager::getAvailableResponseGroupID(PlayerTypes eAIPlayer, DiploCommentTypes eComment)
+int CvDynamicDiploManager::getAvailableResponseGroupID(PlayerTypes eAIPlayer, DiploCommentTypes eComment) const
 {
 	FAssertBounds(0, MAX_PLAYERS, eAIPlayer);
 	FAssertBounds(0, GC.getNumDiplomacyInfos(), eComment);
@@ -113,7 +115,10 @@ int CvDynamicDiploManager::getAvailableResponseGroupID(PlayerTypes eAIPlayer, Di
 						This is by design due to needing to alter the objects in the DynamicResponse vector. */
 						pResponse->assignValidResponseGroupFallback(iGroupIndex);
 					}
-					return iGroupIndex;
+					if (iGroupIndex != -1)
+					{
+						return iGroupIndex;
+					}
 				}
 			}
 		}
@@ -265,7 +270,7 @@ int CvDynamicDiploManager::getNumDiplomacyText(PlayerTypes eAIPlayer, DiploComme
 	return 0;
 }
 
-const char* CvDynamicDiploManager::getDiplomacyText(PlayerTypes eAIPlayer, DiploCommentTypes eComment, int iGroupIndex, int iVariant)
+const char* CvDynamicDiploManager::getDiplomacyText(PlayerTypes eAIPlayer, DiploCommentTypes eComment, int iGroupIndex, int iVariant) const
 {
 	FAssertBounds(0, MAX_PLAYERS, eAIPlayer);
 	FAssertBounds(0, GC.getNumDiplomacyInfos()), eComment);
@@ -278,9 +283,9 @@ const char* CvDynamicDiploManager::getDiplomacyText(PlayerTypes eAIPlayer, Diplo
 				DynamicResponse* pResponse = m_LLMDiploResponses[(int)eAIPlayer][eComment];
 				if (pResponse != NULL)
 				{
-					std::string szResponse = pResponse->getDiplomacyText(iGroupIndex, iVariant);
+					CvString const szResponse = CvString(pResponse->getDiplomacyText(iGroupIndex, iVariant));
 					pResponse->updateDynamicResponseLifetime(iGroupIndex, iVariant);
-					return &szResponse;
+					return szResponse.c_str();
 				}
 			}
 		}

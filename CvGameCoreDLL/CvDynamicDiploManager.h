@@ -23,7 +23,7 @@ public:
 	void updateAIPlayerAvailableResponses(LLMResultData const& kResult);
 	
 	// Called by main game thread to assign response objects to LLM prompt structures
-	int getAvailableResponseGroupID(PlayerTypes eAIPlayer, DiploCommentTypes eComment);
+	int getAvailableResponseGroupID(PlayerTypes eAIPlayer, DiploCommentTypes eComment) const;
 
 	// Called by Python/CvDiplomacy to fetch data for the local UI
 	int getNumResponses(PlayerTypes eAIPlayer, DiploCommentTypes eComment) const;
@@ -32,14 +32,14 @@ public:
 	bool isResponseForAttitude(PlayerTypes eAIPlayer, PlayerTypes eOtherPlayer, DiploCommentTypes eComment, int iGroupIndex) const;
 	bool isResponseForDiplomacyPower(PlayerTypes eAIPlayer, PlayerTypes eOtherPlayer, DiploCommentTypes eComment, int iGroupIndex) const;
 	int getNumDiplomacyText(PlayerTypes eAIPlayer, DiploCommentTypes eComment, int iGroupIndex) const;
-	const char* getDiplomacyText(PlayerTypes eAIPlayer, DiploCommentTypes eComment, int iGroupIndex, int iVariant);
+	const char* getDiplomacyText(PlayerTypes eAIPlayer, DiploCommentTypes eComment, int iGroupIndex, int iVariant) const;
 
 private:
 	// Static lightweight unique class - no creation, no copying, no assignment, no deletion
-	CvDynamicDiploManager() {}
-	~CvDynamicDiploManager() {}
+	CvDynamicDiploManager() {};
+	~CvDynamicDiploManager() {};
 	CvDynamicDiploManager(CvDynamicDiploManager const& kOther);
-	CvDynamicDiploManager& operator=(CvDynamicDiploManager const& kOther)
+	CvDynamicDiploManager& operator=(CvDynamicDiploManager const& kOther);
 	
 	void init();
 	void reset();
@@ -56,7 +56,7 @@ private:
 	bool getCivilizationTypes(PlayerTypes eAIPlayer, DiploCommentTypes eComment, CivilizationTypes eCiv, int iGroupIndex) const;
 	bool getLeaderHeadTypes(PlayerTypes eAIPlayer, DiploCommentTypes eComment, LeaderHeadTypes eLeader, int iGroupIndex) const;
 	bool getAttitudeTypes(PlayerTypes eAIPlayer, DiploCommentTypes eComment, AttitudeTypes eAttitude, int iGroupIndex const;
-	bool getDiplomacyPowerTypesPlayerTypes eAIPlayer, DiploCommentTypes eComment, DiplomacyPowerTypes ePower, int iGroupIndex) const;
+	bool getDiplomacyPowerTypes(PlayerTypes eAIPlayer, DiploCommentTypes eComment, DiplomacyPowerTypes ePower, int iGroupIndex) const;
 };
 
 #define DIPLOMGR CvDynamicDiploManager::getConstInstance() // XANA (note): Game thread will be mostly reading from this class, mark it const for safety!
