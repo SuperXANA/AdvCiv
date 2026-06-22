@@ -1576,13 +1576,21 @@ int CvRelationInfo::getLeaderRelationshipAttitude(int iFirstImpressionAttitude) 
 {
 	if (iFirstImpressionAttitude > 0)
 	{
-		return range(iFirstImpressionAttitude,
+		if (get(CvRelationInfo::MIN_POS_FIRST_IMPRESSION) == 0 && get(CvRelationInfo::MAX_POS_FIRST_IMPRESSION) == 0)
+		{
+			return iFirstImpressionAttitude;
+		}
+		else return range(iFirstImpressionAttitude,
 				get(CvRelationInfo::MIN_POS_FIRST_IMPRESSION /* Lower Boundary */),
 				get(CvRelationInfo::MAX_POS_FIRST_IMPRESSION /* Upper Boundary */));
 	}
 	else if (iFirstImpressionAttitude < 0)
 	{
-		return range(iFirstImpressionAttitude,
+		if (get(CvRelationInfo::MIN_NEG_FIRST_IMPRESSION) == 0 && get(CvRelationInfo::MAX_NEG_FIRST_IMPRESSION) == 0)
+		{
+			return iFirstImpressionAttitude;
+		}
+		else return range(iFirstImpressionAttitude,
 				get(CvRelationInfo::MIN_NEG_FIRST_IMPRESSION /* Lower Boundary */),
 				get(CvRelationInfo::MAX_NEG_FIRST_IMPRESSION /* Upper Boundary */));
 	}
