@@ -207,6 +207,16 @@
 		<element type="CivicWeightModifier" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
 	<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+	<!-- XANA: 06-21-2026 Religion Adoption Weights -->
+	<ElementType name="ReligionType" content="textOnly"/>
+	<ElementType name="ReligionWeightModifier" content="eltOnly">
+		<element type="ReligionType"/>
+		<element type="iWeightModifier"/>
+	</ElementType>
+	<ElementType name="ReligionWeightModifiers" content="eltOnly">
+		<element type="ReligionWeightModifier" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 06-21-2026 Religion Adoption Weights -->
 	<!-- advc.xmldefault: Made many subelements optional (minOccurs 0).
 		 None were optional before except the ones added by advc.ctr. -->
 	<ElementType name="LeaderHeadInfo" content="eltOnly">
@@ -317,6 +327,9 @@
 		<!-- XANA: 04-20-2025 Civic Adoption Weights -->
 		<element type="CivicWeightModifiers" minOccurs="0"/>
 		<!-- XANA: 04-20-2025 Civic Adoption Weights -->
+		<!-- XANA: 06-21-2026 Religion Adoption Weights -->
+		<element type="ReligionWeightModifiers" minOccurs="0"/>
+		<!-- XANA: 06-21-2026 Religion Adoption Weights -->
 	</ElementType>
 	<ElementType name="LeaderHeadInfos" content="eltOnly">
 		<element type="LeaderHeadInfo" maxOccurs="*"/>

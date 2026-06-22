@@ -18136,6 +18136,11 @@ int CvPlayerAI::AI_religionValue(ReligionTypes eReligion) const
 	}
 	iValue *= 100 + iDiplomaticModifier;
 	iValue /= 100;
+	
+	// XANA: 06-21-2026 Religion Adoption Weights
+	iValue *= (100 + kPersonality.getReligionWeightModifier(eReligion));
+	iValue /= 100;
+	// XANA: 06-21-2026 Religion Adoption Weights
 
 	return iValue;
 }

@@ -6912,6 +6912,15 @@ bool CvPlayer::canConvert(ReligionTypes eReligion) const
 		return false;
 	if (eReligion != NO_RELIGION && !canDoReligion(eReligion))
 		return false;
+	// XANA: 06-21-2026 Religion Adoption Weights
+	if (!isHuman())
+	{
+		if (GC.getLeaderHeadInfo(getPersonalityType()).getReligionWeightModifier(eReligion) <= -100) // eReligion's weight <= -100% == [AI Must Never Adopt]
+		{
+			return false;
+		}
+	}
+	// XANA: 06-21-2026 Religion Adoption Weights
 	return true;
 }
 

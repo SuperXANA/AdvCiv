@@ -499,8 +499,11 @@ m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
 m_piDiploWarMusicScriptIds(NULL),
 	// XANA: 04-20-2025 Civic Adoption Weights
-m_piCivicWeightModifier(NULL)
+m_piCivicWeightModifier(NULL),
 	// XANA: 04-20-2025 Civic Adoption Weights
+	// XANA: 06-21-2026 Religion Adoption Weights
+m_piReligionWeightModifier(NULL)
+	// XANA: 06-21-2026 Religion Adoption Weights
 {}
 
 // <advc.xmldefault>
@@ -539,6 +542,9 @@ CvLeaderHeadInfo::CvLeaderHeadInfo(CvLeaderHeadInfo const& kOther)
 	// XANA: 04-20-2025 Civic Adoption Weights
 	allocCopy(m_piCivicWeightModifier, kOther.m_piCivicWeightModifier, GC.getNumCivicInfos());
 	// XANA: 04-20-2025 Civic Adoption Weights
+	// XANA: 06-21-2026 Religion Adoption Weights
+	allocCopy(m_piReligionWeightModifier, kOther.m_piReligionWeightModifier, GC.getNumReligionInfos());
+	// XANA: 06-21-2026 Religion Adoption Weights
 } // </advc.xmldefault>
 
 CvLeaderHeadInfo::~CvLeaderHeadInfo()
@@ -559,6 +565,9 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	// XANA: 04-20-2025 Civic Adoption Weights
 	SAFE_DELETE_ARRAY(m_piCivicWeightModifier);
 	// XANA: 04-20-2025 Civic Adoption Weights
+	// XANA: 06-21-2026 Religion Adoption Weights
+	SAFE_DELETE_ARRAY(m_piReligionWeightModifier);
+	// XANA: 06-21-2026 Religion Adoption Weights
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const
@@ -686,6 +695,27 @@ void CvLeaderHeadInfo::setCivicWeightModifier(CivicTypes eCivic, int iValue)
 	m_piCivicWeightModifier[eCivic] = iValue;
 }
 // XANA: 04-20-2025 Civic Adoption Weights
+
+// XANA: 06-21-2026 Religion Adoption Weights
+int CvLeaderHeadInfo::getReligionWeightModifier(ReligonTypes eReligion) const
+{
+	FAssertBounds(0, GC.getNumReligionInfos(), eReligion);
+	return m_piReligionWeightModifier ? m_piReligionWeightModifier[eReligion] : 0;
+}
+void CvLeaderHeadInfo::changeReligionWeightModifier(ReligonTypes eReligion, int iChange)
+{
+	if (iChange != 0)
+	{
+		FAssertBounds(0, GC.getNumReligionInfos(), eReligion);
+		m_piReligionWeightModifier[eReligion] = (m_piReligionWeightModifier[eReligion] + iChange);
+	}
+}
+void CvLeaderHeadInfo::setReligionWeightModifier(ReligonTypes eReligion, int iValue)
+{
+	FAssertBounds(0, GC.getNumReligionInfos(), eReligion);
+	m_piReligionWeightModifier[eReligion] = iValue;
+}
+// XANA: 06-21-2026 Religion Adoption Weights
 
 #if ENABLE_XML_FILE_CACHE
 void CvLeaderHeadInfo::read(FDataStreamBase* stream)
@@ -827,6 +857,11 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	m_piCivicWeightModifier = new int[GC.getNumCivicInfos()];
 	stream->Read(GC.getNumCivicInfos(), m_piCivicWeightModifier);
 	// XANA: 04-20-2025 Civic Adoption Weights
+	// XANA: 06-21-2026 Religion Adoption Weights
+	SAFE_DELETE_ARRAY(m_piReligionWeightModifier);
+	m_piReligionWeightModifier = new int[GC.getNumReligionInfos()];
+	stream->Read(GC.getNumReligionInfos(), m_piReligionWeightModifier);
+	// XANA: 06-21-2026 Religion Adoption Weights
 }
 
 void CvLeaderHeadInfo::write(FDataStreamBase* stream)
@@ -936,6 +971,10 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	// XANA: 04-20-2025 Civic Adoption Weights
 	stream->Write(GC.getNumCivicInfos(), m_piCivicWeightModifier);
 	// XANA: 04-20-2025 Civic Adoption Weights
+	// XANA: 06-21-2026 Religion Adoption Weights
+	stream->Write(GC.getNumReligionInfos(), m_piReligionWeightModifier);
+	// XANA: 06-21-2026 Religion Adoption Weights
+	
 }
 #endif
 
@@ -1104,6 +1143,9 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	// XANA: 04-20-2025 Civic Adoption Weights
 	pXML->SetVariableListTagPair(&m_piCivicWeightModifier, "CivicWeightModifiers", GC.getNumCivicInfos());
 	// XANA: 04-20-2025 Civic Adoption Weights
+	// XANA: 06-21-2026 Religion Adoption Weights
+	pXML->SetVariableListTagPair(&m_piReligionWeightModifier, "ReligionWeightModifiers", GC.getNumReligionInfos());
+	// XANA: 06-21-2026 Religion Adoption Weights
 
 	m_pXML = NULL; // advc.xmldefault
 	return true;
