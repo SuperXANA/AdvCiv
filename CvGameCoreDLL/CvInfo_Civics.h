@@ -73,6 +73,10 @@ public: // The const functions are exposed to Python except those added by AdvCi
 
 	std::wstring pyGetWeLoveTheKing() { return getWeLoveTheKing(); }
 	const wchar* getWeLoveTheKing();
+	// XANA: 06-27-2026 Unique Civics and Relgions
+	CivilizationTypes getPrereqCivilization() const { return m_iPrereqCivilization; }
+	LeaderHeadTypes getPrereqLeader() const { return m_iPrereqLeader; }
+	// XANA: 06-27-2026 Unique Civics and Relgions
 
 	// Array access:
 
@@ -104,6 +108,9 @@ public: // The const functions are exposed to Python except those added by AdvCi
 	void write(FDataStreamBase* stream);
 	#endif
 	bool read(CvXMLLoadUtility* pXML);
+	// XANA: 06-27-2026 Unique Civics and Relgions
+	bool readPass3();
+	// XANA: 06-27-2026 Unique Civics and Relgions
 
 protected:
 	CivicOptionTypes m_eCivicOptionType;
@@ -145,6 +152,10 @@ protected:
 	int m_iStateReligionBuildingProductionModifier;
 	int m_iStateReligionFreeExperience;
 	int m_iExpInBorderModifier;
+	// XANA: 06-27-2026 Unique Civics and Relgions
+	int m_iPrereqCivilization;
+	int m_iPrereqLeader;
+	// XANA: 06-27-2026 Unique Civics and Relgions
 
 	//bool m_bNoUnhealthyPopulation;
 	int m_iUnhealthyPopulationModifier; // K-Mod

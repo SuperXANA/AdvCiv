@@ -694,6 +694,8 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 		GC.getInfo(eLoopVoteSource).readPass3();
 	LoadGlobalClassInfo(GC.m_paLeaderHeadInfo, "CIV4LeaderHeadInfos", "Civilizations", "Civ4LeaderHeadInfos/LeaderHeadInfos/LeaderHeadInfo", false, &CvDLLUtilityIFaceBase::createLeaderHeadInfoCacheObject);
 	// XANA: 06-27-2026 Unique Civics and Relgions
+	FOR_EACH_ENUM(Civic)
+		GC.getInfo(eLoopCivic).readPass3();
 	FOR_EACH_ENUM(Religion)
 		GC.getInfo(eLoopReligion).readPass3();
 	FOR_EACH_ENUM(Corporation)

@@ -67,7 +67,11 @@ m_paiFeatureHappinessChanges(NULL),
 m_pabHurry(NULL),
 m_pabSpecialBuildingNotRequired(NULL),
 m_pabSpecialistValid(NULL),
-m_ppiImprovementYieldChanges(NULL)
+m_ppiImprovementYieldChanges(NULL),
+// XANA: 06-27-2026 Unique Civics and Relgions
+m_iPrereqCivilization(NO_CIVILIZATION),
+m_iPrereqLeader(NO_LEADER)
+// XANA: 06-27-2026 Unique Civics and Relgions
 {}
 
 CvCivicInfo::~CvCivicInfo()
@@ -532,9 +536,35 @@ bool CvCivicInfo::read(CvXMLLoadUtility* pXML)
 	}
 
 	pXML->GetChildXmlValByName(m_szWeLoveTheKingKey, "WeLoveTheKing");
+	
+	// XANA: 06-27-2026 Unique Civics and Relgions
+	CvString szTextVal;
+	pXML->GetChildXmlValByName(szTextVal, "PrereqCivilization");
+	m_aszExtraXMLforPass3.push_back(szTextVal);
+	
+	pXML->GetChildXmlValByName(szTextVal, "PrereqLeader");
+	m_aszExtraXMLforPass3.push_back(szTextVal);
+	// XANA: 06-27-2026 Unique Civics and Relgions
 
 	return true;
 }
+
+// XANA: 06-27-2026 Unique Civics and Relgions
+bool CvCivicInfo::readPass3()
+{
+	if (m_aszExtraXMLforPass3.size() < 2)
+	{
+		FAssert(false);
+		return false;
+	}
+
+	m_iPrereqCivilization = GC.getInfoTypeForString(m_aszExtraXMLforPass3[0]);
+	m_iPrereqLeader = GC.getInfoTypeForString(m_aszExtraXMLforPass3[1]);
+	m_aszExtraXMLforPass3.clear();
+
+	return true;
+}
+// XANA: 06-27-2026 Unique Civics and Relgions
 
 CvCivicOptionInfo::CvCivicOptionInfo() : m_pabTraitNoUpkeep(NULL) {}
 
