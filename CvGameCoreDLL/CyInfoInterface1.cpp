@@ -432,6 +432,10 @@ void CyInfoPythonInterface1()
 		.def("isNoNonStateReligionSpread", &CvCivicInfo::isNoNonStateReligionSpread, "bool ()")
 
 		.def("pyGetWeLoveTheKing", &CvCivicInfo::pyGetWeLoveTheKing, "wstring ()")
+	// XANA: 06-27-2026 Unique Civics and Relgions
+		.def("getPrereqCivilization", &CvCivicInfo::getPrereqCivilization, "int ()")
+		.def("getPrereqLeader", &CvCivicInfo::getPrereqLeader, "int ()")
+	// XANA: 06-27-2026 Unique Civics and Relgions
 
 		// Arrays
 
