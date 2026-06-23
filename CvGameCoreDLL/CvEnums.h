@@ -2352,6 +2352,41 @@ ENUM_START(CityPlot, CITYPLOT)
 ENUM_END(CityPlot, CITYPLOT)
 #define NUM_CITY_PLOTS ((int)NUM_CITYPLOT_TYPES)
 
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+/*
+Notes: Based on Fire Emblem's concept of weapon levels.
+1) A piece of equipment if assigned to NO_EQUIPMENT_LEVEL [-1], means that it can be used by anyone.
+
+2) A piece of equipment assigned to PRF level means that it's a preferred or unique weapon
+that can only be used by either a Unit possessing a specific magical enchantment or a summonable Hero/Mythical Unit (typically created once per game but can be resummoned if a Player possess a certain Building).
+
+3) A piece of equipment assigned to an X-Plus level means that it can only be used when requirements are met by a CvUnit
+that has the needed Promotion (E, C, A, etc.), the required Unit Level (1, 3, 4, etc.), or certain lower-level magical enchantments.
+
+4) A Preferred Plus equipment piece is a powerful weapon entirely locked and limited
+to a specific named character that is a once-per-game buildable Immortal Leader.
+
+5) Units can only wield equipment pieces valid for their combat type -- Example: Archers can only wield Bows.
+All Units start with no Equipment Level, indicating that they're untrained and must promote upwards, and come with a basic weapon variant (ex. a generic Bow, Sword, Spear, etc.).
+*/
+ENUM_START(EquipmentLevel, EQUIPMENT_LEVEL)
+	EQUIPMENT_LEVEL_E,
+	EQUIPMENT_LEVEL_E_PLUS,
+	EQUIPMENT_LEVEL_D,
+	EQUIPMENT_LEVEL_D_PLUS,
+	EQUIPMENT_LEVEL_C,
+	EQUIPMENT_LEVEL_C_PLUS,
+	EQUIPMENT_LEVEL_B,
+	EQUIPMENT_LEVEL_B_PLUS,
+	EQUIPMENT_LEVEL_A,
+	EQUIPMENT_LEVEL_A_PLUS,
+	EQUIPMENT_LEVEL_S,
+	EQUIPMENT_LEVEL_S_PLUS,
+	EQUIPMENT_LEVEL_PRF,
+	EQUIPMENT_LEVEL_PRF_PLUS,
+ENUM_END(EquipmentLevel, EQUIPMENT_LEVEL)
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+
 #define DO_FOR_EACH_FALSE_FRIEND(DO) \
 	DO(Player,Team) \
 	DO(PlayerOption,GameOption) \

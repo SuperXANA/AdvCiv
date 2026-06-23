@@ -147,7 +147,10 @@
 	DO(CityTab, CITYTAB) \
 	DO(Calendar, CALENDAR) \
 	DO(UnitAI, UNITAI) \
-	DO(Denial, DENIAL)
+	DO(Denial, DENIAL) \
+	/* XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv */ \
+	DO(EquipmentLevel, EQUIPMENT_LEVEL)
+	// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 #define DO_FOR_EACH_INFO_TYPE(DO) \
 	DO_FOR_EACH_DYN_INFO_TYPE(DO) \
