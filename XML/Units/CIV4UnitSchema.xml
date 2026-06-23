@@ -1054,4 +1054,19 @@
 	<ElementType name="Civ4AnimationPathInfos" content="eltOnly">
 		<element type="AnimationPaths" minOccurs="1" maxOccurs="1"/>
 	</ElementType>
+	<!-- XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv -->
+	<ElementType name="iUnitLevelRequired" content="textOnly" dt:type="int"/>
+	<ElementType name="EquipmentLevelInfo" content="eltOnly">
+		<element type="Type"/>
+		<element type="Description"/>
+		<element type="Help"/>
+		<element type="iUnitLevelRequired" minOccurs="0"/>
+	</ElementType>
+	<ElementType name="EquipmentLevelInfos" content="eltOnly">
+		<element type="EquipmentLevelInfo" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="Civ4EquipmentLevelInfos" content="eltOnly">
+		<element type="EquipmentLevelInfos" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv -->
 </Schema>
