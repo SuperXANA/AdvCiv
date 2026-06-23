@@ -693,6 +693,12 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	FOR_EACH_ENUM(VoteSource)
 		GC.getInfo(eLoopVoteSource).readPass3();
 	LoadGlobalClassInfo(GC.m_paLeaderHeadInfo, "CIV4LeaderHeadInfos", "Civilizations", "Civ4LeaderHeadInfos/LeaderHeadInfos/LeaderHeadInfo", false, &CvDLLUtilityIFaceBase::createLeaderHeadInfoCacheObject);
+	// XANA: 06-27-2026 Unique Civics and Relgions
+	FOR_EACH_ENUM(Religion)
+		GC.getInfo(eLoopReligion).readPass3();
+	FOR_EACH_ENUM(Corporation)
+		GC.getInfo(eLoopCorporation).readPass3();
+	// XANA: 06-27-2026 Unique Civics and Relgions
 	LoadGlobalClassInfo(GC.m_paColorInfo, "CIV4ColorVals", "Interface", "Civ4ColorVals/ColorVals/ColorVal", false);
 	LoadGlobalClassInfo(GC.m_paPlayerColorInfo, "CIV4PlayerColorInfos", "Interface", "Civ4PlayerColorInfos/PlayerColorInfos/PlayerColorInfo", false);
 	LoadGlobalClassInfo(GC.m_paEffectInfo, "CIV4EffectInfos", "Misc", "Civ4EffectInfos/EffectInfos/EffectInfo", false);

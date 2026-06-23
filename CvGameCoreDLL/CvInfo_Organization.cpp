@@ -9,7 +9,11 @@ m_wcSymbol(0),
 m_eTechPrereq(NO_TECH),
 m_eFreeUnitClass(NO_UNITCLASS),
 m_eMissionType(NO_MISSION),
-m_iSpreadFactor(0)
+m_iSpreadFactor(0),
+// XANA: 06-27-2026 Unique Civics and Relgions
+m_iPrereqCivilization(NO_CIVILIZATION),
+m_iPrereqLeader(NO_LEADER)
+// XANA: 06-27-2026 Unique Civics and Relgions
 {}
 
 wchar CvOrganizationInfo::getChar() const
@@ -56,9 +60,35 @@ bool CvOrganizationInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(m_szMovieFile, "MovieFile");
 	pXML->GetChildXmlValByName(m_szMovieSound, "MovieSound");
 	pXML->GetChildXmlValByName(m_szSound, "Sound");
+	
+	// XANA: 06-27-2026 Unique Civics and Relgions
+	CvString szTextVal;
+	pXML->GetChildXmlValByName(szTextVal, "PrereqCivilization");
+	m_aszExtraXMLforPass3.push_back(szTextVal);
+	
+	pXML->GetChildXmlValByName(szTextVal, "PrereqLeader");
+	m_aszExtraXMLforPass3.push_back(szTextVal);
+	// XANA: 06-27-2026 Unique Civics and Relgions
 
 	return true;
 }
+
+// XANA: 06-27-2026 Unique Civics and Relgions
+bool CvOrganizationInfo::readPass3()
+{
+	if (m_aszExtraXMLforPass3.size() < 2)
+	{
+		FAssert(false);
+		return false;
+	}
+
+	m_iPrereqCivilization = GC.getInfoTypeForString(m_aszExtraXMLforPass3[0]);
+	m_iPrereqLeader = GC.getInfoTypeForString(m_aszExtraXMLforPass3[1]);
+	m_aszExtraXMLforPass3.clear();
+
+	return true;
+}
+// XANA: 06-27-2026 Unique Civics and Relgions
 
 CvReligionInfo::CvReligionInfo() :
 m_cHolyCityChar(0),
@@ -188,6 +218,13 @@ bool CvReligionInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+// XANA: 06-27-2026 Unique Civics and Relgions
+bool CvReligionInfo::readPass3()
+{
+	return CvOrganizationInfo::readPass3();
+}
+// XANA: 06-27-2026 Unique Civics and Relgions
 // advc.003w:
 bool CvReligionInfo::isReligionTech(TechTypes eTech)
 {
@@ -323,6 +360,10 @@ bool CvCorporationInfo::read(CvXMLLoadUtility* pXML)
 	m_eBonusProduced = (BonusTypes)pXML->FindInInfoClass(szTextVal);
 
 	return true;
+}
+bool CvCorporationInfo::readPass3()
+{
+	return CvOrganizationInfo::readPass3();
 }
 // advc.003w:
 bool isCorporationTech(TechTypes eTech)

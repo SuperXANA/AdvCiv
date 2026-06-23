@@ -21,12 +21,19 @@ public: // All the const functions are exposed to Python
 	int getSpreadFactor() const { return m_iSpreadFactor; }
 	MissionTypes getMissionType() const { return m_eMissionType; }
 	void setMissionType(int iNewType);
+	// XANA: 06-27-2026 Unique Civics and Relgions
+	CivilizationTypes getPrereqCivilization() const { return m_iPrereqCivilization; }
+	LeaderHeadTypes getPrereqLeader() const { return m_iPrereqLeader; }
+	// XANA: 06-27-2026 Unique Civics and Relgions
 
 	const TCHAR* getMovieFile() const;
 	const TCHAR* getMovieSound() const;
 	const TCHAR* getSound() const;
 
 	bool read(CvXMLLoadUtility* pXML);
+	// XANA: 06-27-2026 Unique Civics and Relgions
+	bool readPass3();
+	// XANA: 06-27-2026 Unique Civics and Relgions
 
 protected:
 	wchar m_wcSymbol; // advc
@@ -34,6 +41,10 @@ protected:
 	UnitClassTypes m_eFreeUnitClass;
 	MissionTypes m_eMissionType;
 	int m_iSpreadFactor;
+	// XANA: 06-27-2026 Unique Civics and Relgions
+	int m_iPrereqCivilization;
+	int m_iPrereqLeader;
+	// XANA: 06-27-2026 Unique Civics and Relgions
 
 	CvString m_szMovieFile;
 	CvString m_szMovieSound;
