@@ -200,6 +200,10 @@ void CyInfoPythonInterface3()
 		.def("getNumFreeUnits", &CvReligionInfo::getNumFreeUnits, "int ()")
 		.def("getSpreadFactor", &CvReligionInfo::getSpreadFactor, "int ()")
 		.def("getMissionType", &CvReligionInfo::getMissionType, "int ()")
+	// XANA: 06-27-2026 Unique Civics and Relgions
+		.def("getPrereqCivilization", &CvReligionInfo::getPrereqCivilization, "int ()")
+		.def("getPrereqLeader", &CvReligionInfo::getPrereqLeader, "int ()")
+	// XANA: 06-27-2026 Unique Civics and Relgions
 
 		.def("getTechButton", &CvReligionInfo::getTechButton, "string ()")
 		.def("getGenericTechButton", &CvReligionInfo::getGenericTechButton, "string ()")
@@ -225,6 +229,10 @@ void CyInfoPythonInterface3()
 		.def("getSpreadCost", &CvCorporationInfo::getSpreadCost, "int ()")
 		.def("getMaintenance", &CvCorporationInfo::getMaintenance, "int ()")
 		.def("getMissionType", &CvCorporationInfo::getMissionType, "int ()")
+	// XANA: 06-27-2026 Unique Civics and Relgions
+		.def("getPrereqCivilization", &CvCorporationInfo::getPrereqCivilization, "int ()")
+		.def("getPrereqLeader", &CvCorporationInfo::getPrereqLeader, "int ()")
+	// XANA: 06-27-2026 Unique Civics and Relgions
 
 		.def("getMovieFile", &CvCorporationInfo::getMovieFile, "string ()")
 		.def("getMovieSound", &CvCorporationInfo::getMovieSound, "string ()")
