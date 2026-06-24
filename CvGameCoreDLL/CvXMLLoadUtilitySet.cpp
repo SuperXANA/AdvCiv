@@ -680,6 +680,13 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paVictoryInfo, "CIV4VictoryInfo", "GameInfo", "Civ4VictoryInfo/VictoryInfos/VictoryInfo", false);
 	LoadGlobalClassInfo(GC.m_paBonusInfo, "CIV4BonusInfos", "Terrain", "Civ4BonusInfos/BonusInfos/BonusInfo", false, &CvDLLUtilityIFaceBase::createBonusInfoCacheObject);
 	LoadGlobalClassInfo(GC.m_paCorporationInfo, "CIV4CorporationInfo", "GameInfo", "Civ4CorporationInfo/CorporationInfos/CorporationInfo", false);
+	// XANA: 06-27-2026 Unique Civics and Religions
+	/*
+	XANA (note): 
+	A hybrid corporation-religion organization, meaning it has operational capabilities of both organization types.
+	*/
+	LoadGlobalClassInfo(GC.m_paHybridOrganizationInfo, "CIV4HybridOrganizationInfos", "GameInfo", "Civ4HybridOrganizationInfo/HybridOrganizationInfos/HybridOrganizationInfo", false);
+	// XANA: 06-27-2026 Unique Civics and Religions
 	LoadGlobalClassInfo(GC.m_paRouteInfo, "Civ4RouteInfos", "Misc", "Civ4RouteInfos/RouteInfos/RouteInfo",
 			true); // advc.255
 	LoadGlobalClassInfo(GC.m_paImprovementInfo, "CIV4ImprovementInfos", "Terrain", "Civ4ImprovementInfos/ImprovementInfos/ImprovementInfo", true, &CvDLLUtilityIFaceBase::createImprovementInfoCacheObject);
@@ -693,14 +700,14 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	FOR_EACH_ENUM(VoteSource)
 		GC.getInfo(eLoopVoteSource).readPass3();
 	LoadGlobalClassInfo(GC.m_paLeaderHeadInfo, "CIV4LeaderHeadInfos", "Civilizations", "Civ4LeaderHeadInfos/LeaderHeadInfos/LeaderHeadInfo", false, &CvDLLUtilityIFaceBase::createLeaderHeadInfoCacheObject);
-	// XANA: 06-27-2026 Unique Civics and Relgions
+	// XANA: 06-27-2026 Unique Civics and Religions
 	FOR_EACH_ENUM(Civic)
 		GC.getInfo(eLoopCivic).readPass3();
 	FOR_EACH_ENUM(Religion)
 		GC.getInfo(eLoopReligion).readPass3();
 	FOR_EACH_ENUM(Corporation)
 		GC.getInfo(eLoopCorporation).readPass3();
-	// XANA: 06-27-2026 Unique Civics and Relgions
+	// XANA: 06-27-2026 Unique Civics and Religions
 	LoadGlobalClassInfo(GC.m_paColorInfo, "CIV4ColorVals", "Interface", "Civ4ColorVals/ColorVals/ColorVal", false);
 	LoadGlobalClassInfo(GC.m_paPlayerColorInfo, "CIV4PlayerColorInfos", "Interface", "Civ4PlayerColorInfos/PlayerColorInfos/PlayerColorInfo", false);
 	LoadGlobalClassInfo(GC.m_paEffectInfo, "CIV4EffectInfos", "Misc", "Civ4EffectInfos/EffectInfos/EffectInfo", false);

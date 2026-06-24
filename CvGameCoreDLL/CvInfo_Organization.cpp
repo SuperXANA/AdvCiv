@@ -10,10 +10,10 @@ m_eTechPrereq(NO_TECH),
 m_eFreeUnitClass(NO_UNITCLASS),
 m_eMissionType(NO_MISSION),
 m_iSpreadFactor(0),
-// XANA: 06-27-2026 Unique Civics and Relgions
+// XANA: 06-27-2026 Unique Civics and Religions
 m_iPrereqCivilization(NO_CIVILIZATION),
 m_iPrereqLeader(NO_LEADER)
-// XANA: 06-27-2026 Unique Civics and Relgions
+// XANA: 06-27-2026 Unique Civics and Religions
 {}
 
 wchar CvOrganizationInfo::getChar() const
@@ -61,19 +61,19 @@ bool CvOrganizationInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(m_szMovieSound, "MovieSound");
 	pXML->GetChildXmlValByName(m_szSound, "Sound");
 	
-	// XANA: 06-27-2026 Unique Civics and Relgions
+	// XANA: 06-27-2026 Unique Civics and Religions
 	CvString szTextVal;
 	pXML->GetChildXmlValByName(szTextVal, "PrereqCivilization");
 	m_aszExtraXMLforPass3.push_back(szTextVal);
 	
 	pXML->GetChildXmlValByName(szTextVal, "PrereqLeader");
 	m_aszExtraXMLforPass3.push_back(szTextVal);
-	// XANA: 06-27-2026 Unique Civics and Relgions
+	// XANA: 06-27-2026 Unique Civics and Religions
 
 	return true;
 }
 
-// XANA: 06-27-2026 Unique Civics and Relgions
+// XANA: 06-27-2026 Unique Civics and Religions
 bool CvOrganizationInfo::readPass3()
 {
 	if (m_aszExtraXMLforPass3.size() < 2)
@@ -88,7 +88,7 @@ bool CvOrganizationInfo::readPass3()
 
 	return true;
 }
-// XANA: 06-27-2026 Unique Civics and Relgions
+// XANA: 06-27-2026 Unique Civics and Religions
 
 CvReligionInfo::CvReligionInfo() :
 m_cHolyCityChar(0),
@@ -219,12 +219,12 @@ bool CvReligionInfo::read(CvXMLLoadUtility* pXML)
 	return true;
 }
 
-// XANA: 06-27-2026 Unique Civics and Relgions
+// XANA: 06-27-2026 Unique Civics and Religions
 bool CvReligionInfo::readPass3()
 {
 	return CvOrganizationInfo::readPass3();
 }
-// XANA: 06-27-2026 Unique Civics and Relgions
+// XANA: 06-27-2026 Unique Civics and Religions
 // advc.003w:
 bool CvReligionInfo::isReligionTech(TechTypes eTech)
 {
@@ -375,3 +375,30 @@ bool isCorporationTech(TechTypes eTech)
 	}
 	return false;
 }
+
+// XANA: 06-27-2026 Unique Civics and Religions
+CvHybridOrganizationInfo::CvHybridOrganizationInfo() :
+m_eTriggerReligion(NO_RELIGION),
+m_eTriggerCorporation(NO_CORPORATION),
+m_iMinUnhappinessRequired(0),
+m_iBaseSpreadChancePercentage(0),
+m_iWithdrawalUnhappinessTurns(0)
+{}
+
+CvHybridOrganizationInfo::~CvHybridOrganizationInfo()
+{
+	// XANA (note): Nothing here yet.
+}
+
+bool CvHybridOrganizationInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!CvOrganizationInfo::read(pXML))
+		return false;
+	
+	pXML->SetInfoIDFromChildXmlVal((int&)m_eTriggerReligion, "TriggerReligion");
+	pXML->SetInfoIDFromChildXmlVal((int&)m_eTriggerCorporation, "TriggerCorporation");
+	pXML->GetChildXmlValByName(&m_iMinUnhappinessRequired, "iMinUnhappinessRequired");
+	pXML->GetChildXmlValByName(&m_iBaseSpreadChancePercentage, "iBaseSpreadChancePercentage");
+	pXML->GetChildXmlValByName(&m_iWithdrawalUnhappinessTurns, "iWithdrawalUnhappinessTurns");
+}
+// XANA: 06-27-2026 Unique Civics and Religions

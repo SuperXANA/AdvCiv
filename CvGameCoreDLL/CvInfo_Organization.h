@@ -21,19 +21,19 @@ public: // All the const functions are exposed to Python
 	int getSpreadFactor() const { return m_iSpreadFactor; }
 	MissionTypes getMissionType() const { return m_eMissionType; }
 	void setMissionType(int iNewType);
-	// XANA: 06-27-2026 Unique Civics and Relgions
+	// XANA: 06-27-2026 Unique Civics and Religions
 	CivilizationTypes getPrereqCivilization() const { return m_iPrereqCivilization; }
 	LeaderHeadTypes getPrereqLeader() const { return m_iPrereqLeader; }
-	// XANA: 06-27-2026 Unique Civics and Relgions
+	// XANA: 06-27-2026 Unique Civics and Religions
 
 	const TCHAR* getMovieFile() const;
 	const TCHAR* getMovieSound() const;
 	const TCHAR* getSound() const;
 
 	bool read(CvXMLLoadUtility* pXML);
-	// XANA: 06-27-2026 Unique Civics and Relgions
+	// XANA: 06-27-2026 Unique Civics and Religions
 	bool readPass3();
-	// XANA: 06-27-2026 Unique Civics and Relgions
+	// XANA: 06-27-2026 Unique Civics and Religions
 
 protected:
 	wchar m_wcSymbol; // advc
@@ -41,10 +41,10 @@ protected:
 	UnitClassTypes m_eFreeUnitClass;
 	MissionTypes m_eMissionType;
 	int m_iSpreadFactor;
-	// XANA: 06-27-2026 Unique Civics and Relgions
+	// XANA: 06-27-2026 Unique Civics and Religions
 	int m_iPrereqCivilization;
 	int m_iPrereqLeader;
-	// XANA: 06-27-2026 Unique Civics and Relgions
+	// XANA: 06-27-2026 Unique Civics and Religions
 
 	CvString m_szMovieFile;
 	CvString m_szMovieSound;
@@ -143,5 +143,50 @@ protected:
 	int* m_paiCommerceProduced;
 	int* m_paiYieldProduced;
 };
+
+// XANA: 06-27-2026 Unique Civics and Religions
+class CvHybridOrganizationInfo : public CvOrganizationInfo
+{
+public:
+	CvHybridOrganizationInfo();
+	~CvHybridOrganizationInfo();
+	
+	/*
+	XANA (note):
+	The hybrid organization is founded by finishing construction of a marked Building.
+	It sets a flag in the city that builds that Building, stating that the local religion is now available.
+	The Trigger Relgion is a local Religion, which starts spreading automatically.
+	The local Relgion, as a minor faith, does not come with an Missionary unit to spread it manually.
+	The hosting/holy city, instead, spreads the local Religion via trade routes to other cities in the world.
+	These cites must meet a set of citeria required by the hybrid organization in order for the minor faith to spread successfully.
+	*/
+	ReligionTypes getTriggerReligion() const { return m_eTriggerReligion; }
+	
+	/*
+	XANA (note):
+	The hybrid organization is founded by finishing construction of a marked Building.
+	It sets a flag in the city that builds that Building, stating that the local corporation is active.
+	The Trigger Corporation is a local organization, which provides specialized services to the hosting/holy city.
+	The local Corporation, as a minor corp, does not spread automatically like other Corporations.
+	It also does not come with an Executive unit, thus it cannot spread in the typical method.
+	In order to spread the actual Corporation, build more instances of the Building in cities.
+	*/
+	CorporationTypes getTriggerCorporation() const { return m_eTriggerCorporation; }
+	
+	int getMinUnhappinessRequired() const { return m_iMinUnhappinessRequired; }
+	int getBaseSpreadChancePercentage() const { return m_iBaseSpreadChancePercentage; }
+	int getWithdrawalUnhappinessTurns() const { return m_iWithdrawalUnhappinessTurns; }
+	
+	bool read(CvXMLLoadUtility* pXML);
+
+protected:
+	ReligionTypes m_eTriggerReligion;
+	CorporationTypes m_eTriggerCorporation;
+	int m_iMinUnhappinessRequired;
+	int m_iBaseSpreadChancePercentage;
+	int m_iWithdrawalUnhappinessTurns;
+};
+
+// XANA: 06-27-2026 Unique Civics and Religions
 
 #endif

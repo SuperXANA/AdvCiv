@@ -40,6 +40,9 @@
 	DO(Specialist, SPECIALIST) \
 	DO(Religion, RELIGION) \
 	DO(Corporation, CORPORATION) \
+	/* XANA: 06-27-2026 Unique Civics and Religions */ \
+	DO(HybridOrganization, HYBRID_ORGANIZATION) /* XANA (note): A hybrid corporation-religion organization, meaning it has operational capabilities of both organization types */ \
+	/* XANA: 06-27-2026 Unique Civics and Religions */ \
 	DO(Hurry, HURRY) \
 	DO(Upkeep, UPKEEP) \
 	DO(CultureLevel, CULTURELEVEL) \
