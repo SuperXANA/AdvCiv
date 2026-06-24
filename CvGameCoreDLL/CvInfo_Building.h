@@ -188,6 +188,12 @@ public:
 	{
 		return m_eFoundsCorporation;
 	}
+// XANA: 06-27-2026 Unique Civics and Religions
+	HybridOrganizationTypes getFoundsHybridOrganization() const
+	{
+		return m_eFoundsHybridOrganization;
+	}
+// XANA: 06-27-2026 Unique Civics and Religions
 	ReligionTypes getGlobalReligionCommerce() const
 	{
 		return m_eGlobalReligionCommerce;
@@ -411,6 +417,9 @@ protected:
 	ReligionTypes m_ePrereqReligion;
 	CorporationTypes m_ePrereqCorporation;
 	CorporationTypes m_eFoundsCorporation;
+// XANA: 06-27-2026 Unique Civics and Religions
+	HybridOrganizationTypes m_eFoundsHybridOrganization;
+// XANA: 06-27-2026 Unique Civics and Religions
 	ReligionTypes m_eGlobalReligionCommerce;
 	CorporationTypes m_eGlobalCorporationCommerce;
 	BonusTypes m_ePrereqAndBonus;

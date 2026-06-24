@@ -71,6 +71,9 @@ m_eStateReligion(NO_RELIGION),
 m_ePrereqReligion(NO_RELIGION),
 m_ePrereqCorporation(NO_CORPORATION),
 m_eFoundsCorporation(NO_CORPORATION),
+// XANA: 06-27-2026 Unique Civics and Religions
+m_eFoundsHybridOrganization(NO_HYBRID_ORGANIZATION),
+// XANA: 06-27-2026 Unique Civics and Religions
 m_eGlobalReligionCommerce(/* advc (was 0): */ NO_RELIGION),
 m_eGlobalCorporationCommerce(/* advc (was 0): */ NO_CORPORATION),
 m_ePrereqAndBonus(NO_BONUS),
@@ -605,6 +608,9 @@ bool CvBuildingInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetInfoIDFromChildXmlVal(m_ePrereqReligion, "PrereqReligion");
 	pXML->SetInfoIDFromChildXmlVal(m_ePrereqCorporation, "PrereqCorporation");
 	pXML->SetInfoIDFromChildXmlVal(m_eFoundsCorporation, "FoundsCorporation");
+// XANA: 06-27-2026 Unique Civics and Religions
+	pXML->SetInfoIDFromChildXmlVal(m_eFoundsHybridOrganization, "FoundsHybridOrganization");
+// XANA: 06-27-2026 Unique Civics and Religions
 	pXML->SetInfoIDFromChildXmlVal(m_eGlobalReligionCommerce, "GlobalReligionCommerce");
 	pXML->SetInfoIDFromChildXmlVal(m_eGlobalCorporationCommerce, "GlobalCorporationCommerce");
 	pXML->SetInfoIDFromChildXmlVal(m_eVictoryPrereq, "VictoryPrereq");
