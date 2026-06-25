@@ -65,6 +65,9 @@ public: // All the const functions are exposed to Python
 	wchar getHolyCityChar() const;
 	void setHolyCityChar(wchar c);
 	int getNumFreeUnits() const;
+	// XANA: 06-27-2026 Unique Civics and Religions
+	HybridOrganizationTypes getHybridOrganizationType() const { return m_iHybridOrganization; }
+	// XANA: 06-27-2026 Unique Civics and Religions
 
 	const TCHAR* getTechButton() const;
 	const TCHAR* getGenericTechButton() const;
@@ -93,6 +96,9 @@ protected:
 	CvString m_szTechButton;
 	CvString m_szGenericTechButton;
 	CvWString m_szAdjectiveKey;
+	// XANA: 06-27-2026 Unique Civics and Religions
+	int m_iHybridOrganization;
+	// XANA: 06-27-2026 Unique Civics and Religions
 
 	int* m_paiGlobalReligionCommerce;
 	int* m_paiHolyCityCommerce;
@@ -113,6 +119,9 @@ public: // All the const functions are exposed to Python
 	int getSpreadCost() const { return m_iSpreadCost; }
 	int getMaintenance() const { return m_iMaintenance; }
 	BonusTypes getBonusProduced() const { return m_eBonusProduced; }
+	// XANA: 06-27-2026 Unique Civics and Religions
+	HybridOrganizationTypes getHybridOrganizationType() const { return m_iHybridOrganization; }
+	// XANA: 06-27-2026 Unique Civics and Religions
 
 	// Array access:
 	int getNumPrereqBonuses() const { return m_aePrereqBonuses.size(); }
@@ -139,6 +148,9 @@ protected:
 	int m_iSpreadCost;
 	int m_iMaintenance;
 	BonusTypes m_eBonusProduced;
+	// XANA: 06-27-2026 Unique Civics and Religions
+	int m_iHybridOrganization;
+	// XANA: 06-27-2026 Unique Civics and Religions
 
 	std::vector<BonusTypes> m_aePrereqBonuses; // advc.003t: was int*
 	int* m_paiHeadquarterCommerce;

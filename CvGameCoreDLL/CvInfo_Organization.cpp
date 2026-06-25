@@ -85,7 +85,6 @@ bool CvOrganizationInfo::readPass3()
 
 	m_iPrereqCivilization = GC.getInfoTypeForString(m_aszExtraXMLforPass3[0]);
 	m_iPrereqLeader = GC.getInfoTypeForString(m_aszExtraXMLforPass3[1]);
-	m_aszExtraXMLforPass3.clear();
 
 	return true;
 }
@@ -96,7 +95,10 @@ m_cHolyCityChar(0),
 m_iNumFreeUnits(0),
 m_paiGlobalReligionCommerce(NULL),
 m_paiHolyCityCommerce(NULL),
-m_paiStateReligionCommerce(NULL)
+m_paiStateReligionCommerce(NULL),
+// XANA: 06-27-2026 Unique Civics and Religions
+m_iHybridOrganization(NO_HYBRID_ORGANIZATION)
+// XANA: 06-27-2026 Unique Civics and Religions
 {}
 
 CvReligionInfo::~CvReligionInfo()
@@ -216,6 +218,11 @@ bool CvReligionInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(m_szTechButton, "TechButton");
 	pXML->GetChildXmlValByName(m_szGenericTechButton, "GenericTechButton");
 	pXML->GetChildXmlValByName(m_szAdjectiveKey, "Adjective");
+	
+// XANA: 06-27-2026 Unique Civics and Religions
+	pXML->GetChildXmlValByName(szTextVal, "HybridOrganization");
+	m_aszExtraXMLforPass3.push_back(szTextVal);
+// XANA: 06-27-2026 Unique Civics and Religions
 
 	return true;
 }
@@ -223,7 +230,19 @@ bool CvReligionInfo::read(CvXMLLoadUtility* pXML)
 // XANA: 06-27-2026 Unique Civics and Religions
 bool CvReligionInfo::readPass3()
 {
-	return CvOrganizationInfo::readPass3();
+	if (m_aszExtraXMLforPass3.size() < 1)
+	{
+		FAssert(false);
+		return false;
+	}
+	
+	if (CvOrganizationInfo::readPass3())
+	{
+		m_iHybridOrganization = GC.getInfoTypeForString(m_aszExtraXMLforPass3[2]);
+		m_aszExtraXMLforPass3.clear();
+		return true;
+	}
+	return false;
 }
 // XANA: 06-27-2026 Unique Civics and Religions
 // advc.003w:
@@ -244,7 +263,10 @@ m_iMaintenance(0),
 m_eBonusProduced(NO_BONUS),
 m_paiHeadquarterCommerce(NULL),
 m_paiCommerceProduced(NULL),
-m_paiYieldProduced(NULL)
+m_paiYieldProduced(NULL),
+// XANA: 06-27-2026 Unique Civics and Religions
+m_iHybridOrganization(NO_HYBRID_ORGANIZATION)
+// XANA: 06-27-2026 Unique Civics and Religions
 {}
 
 CvCorporationInfo::~CvCorporationInfo()
@@ -359,12 +381,29 @@ bool CvCorporationInfo::read(CvXMLLoadUtility* pXML)
 
 	pXML->GetChildXmlValByName(szTextVal, "BonusProduced");
 	m_eBonusProduced = (BonusTypes)pXML->FindInInfoClass(szTextVal);
+	
+// XANA: 06-27-2026 Unique Civics and Religions
+	pXML->GetChildXmlValByName(szTextVal, "HybridOrganization");
+	m_aszExtraXMLforPass3.push_back(szTextVal);
+// XANA: 06-27-2026 Unique Civics and Religions
 
 	return true;
 }
 bool CvCorporationInfo::readPass3()
 {
-	return CvOrganizationInfo::readPass3();
+	if (m_aszExtraXMLforPass3.size() < 1)
+	{
+		FAssert(false);
+		return false;
+	}
+	
+	if (CvOrganizationInfo::readPass3())
+	{
+		m_iHybridOrganization = GC.getInfoTypeForString(m_aszExtraXMLforPass3[2]);
+		m_aszExtraXMLforPass3.clear();
+		return true;
+	}
+	return false;
 }
 // advc.003w:
 bool isCorporationTech(TechTypes eTech)
