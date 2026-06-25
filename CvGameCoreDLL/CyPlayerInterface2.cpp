@@ -74,6 +74,9 @@ void CyPlayerPythonInterface2(python::class_<CyPlayer>& x)
 		// </advc.085> <advc.190c>
 		.def("wasCivRandomlyChosen", &CyPlayer::wasCivRandomlyChosen, "bool ()")
 		.def("wasLeaderRandomlyChosen", &CyPlayer::wasLeaderRandomlyChosen, "bool ()")
+		// XANA: 06-27-2026 Unique Civics and Religions
+		.def("isAllowedReligion", &CyPlayer::isAllowedReligion, "bool (int eReligion)")
+		// XANA: 06-27-2026 Unique Civics and Religions
 		// </advc.190c>
 		;
 
