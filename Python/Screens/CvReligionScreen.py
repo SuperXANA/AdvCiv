@@ -409,12 +409,12 @@ class CvReligionScreen:
 				return True
 				
 			bVisible = True
-			pPlayer = gc.getPlayer(self.iActivePlayer)	
+			pPlayer = gc.getPlayer(self.iActivePlayer)
 			
-			if (iPrereqCiv >= 0 and iPrereqCiv < gc.getNumCivilizationInfos()):
+			if (bVisible and iPrereqCiv >= 0 and iPrereqCiv < gc.getNumCivilizationInfos()):
 				bVisible = (bVisible and pPlayer.getCivilizationType() == iPrereqCiv)	
 			
-			if (iPrereqLeader >= 0 and iPrereqLeader < gc.getNumLeaderHeadInfos()):
+			if (bVisible and iPrereqLeader >= 0 and iPrereqLeader < gc.getNumLeaderHeadInfos()):
 				bVisible = (bVisible and pPlayer.getLeaderType() == iPrereqLeader)
 			
 			return bVisible
