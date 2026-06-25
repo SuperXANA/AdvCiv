@@ -24,6 +24,9 @@ class CvCivicsScreen:
 		self.BUTTON_NAME = "CivicsScreenButton"
 		self.TEXT_NAME = "CivicsScreenText"
 		self.AREA_NAME = "CivicsScreenArea"
+		# XANA: 06-27-2026 Unique Civics and Religions
+		self.SCROLL_PANEL_NAME = "CivicList"
+		# XANA: 06-27-2026 Unique Civics and Religions
 		self.HELP_AREA_NAME = "CivicsScreenHelpArea"
 		self.HELP_IMAGE_NAME = "CivicsScreenCivicOptionImage"
 		self.DEBUG_DROPDOWN_ID =  "CivicsDropdownWidget"
@@ -40,6 +43,9 @@ class CvCivicsScreen:
 		self.HEADINGS_TOP = 70
 		self.HEADINGS_SPACING = 5
 		self.HEADINGS_BOTTOM = 280
+		# XANA: 06-27-2026 Unique Civics and Religions
+		self.HEADER_HEIGHT = 40
+		# XANA: 06-27-2026 Unique Civics and Religions
 		self.HELP_TOP = 350
 		self.HELP_BOTTOM = 610
 		self.TEXT_MARGIN = 15
@@ -84,6 +90,27 @@ class CvCivicsScreen:
 			self.m_paeCurrentCivics.append(activePlayer.getCivics(i));
 			self.m_paeDisplayCivics.append(activePlayer.getCivics(i));
 			self.m_paeOriginalCivics.append(activePlayer.getCivics(i));
+
+# XANA: 06-27-2026 Unique Civics and Religions
+	def isCivicVisible(self, iCivic):
+			pCivic = gc.getCivicInfo(iCivic)
+			iPrereqCiv = pCivic.getPrereqCiv()
+			iPrereqLeader = pCivic.getPrereqLeader()
+			
+			if (iPrereqCiv == -1 and iPrereqLeader == -1):
+				return True
+				
+			bVisible = True
+			pPlayer = gc.getPlayer(self.iActivePlayer)
+			
+			if (bVisible and iPrereqCiv >= 0 and iPrereqCiv < gc.getNumCivilizationInfos()):
+				bVisible = (bVisible and pPlayer.getCivilizationType() == iPrereqCiv)	
+			
+			if (bVisible and iPrereqLeader >= 0 and iPrereqLeader < gc.getNumLeaderHeadInfos()):
+				bVisible = (bVisible and pPlayer.getLeaderType() == iPrereqLeader)
+			
+			return bVisible
+# XANA: 06-27-2026 Unique Civics and Religions
 
 	def interfaceScreen (self):
 
@@ -159,7 +186,10 @@ class CvCivicsScreen:
 		
 		for j in range(gc.getNumCivicInfos()):
 
-			if (gc.getCivicInfo(j).getCivicOptionType() == iCivicOption):										
+			if (gc.getCivicInfo(j).getCivicOptionType() == iCivicOption):
+				# XANA: 06-27-2026 Unique Civics and Religions
+				if not self.isCivicVisible(j): continue
+				# XANA: 06-27-2026 Unique Civics and Religions
 				screen.setState(self.getCivicsButtonName(j), self.m_paeCurrentCivics[iCivicOption] == j)
 							
 				if (self.m_paeDisplayCivics[iCivicOption] == j):
@@ -197,15 +227,28 @@ class CvCivicsScreen:
 					FontTypes.GAME_FONT,
 					WidgetTypes.WIDGET_GENERAL, -1, -1 )
 
-			fY += self.TEXT_MARGIN
+			# XANA: 06-27-2026 Unique Civics and Religions
+			szScrollID = self.SCROLL_PANEL_NAME + str(i)
+			iScrollY = fY + self.HEADER_HEIGHT
+			
+			screen.deleteWidget(szScrollID) # clear old widgets when switching players
+			
+			screen.addScrollPanel(szScrollID, "", fX, iScrollY, self.CIVIC_LIST_PANEL_WIDTH, self.HEADINGS_BOTTOM - iScrollY, PanelStyles.PANEL_STYLE_EXTERNAL)
+			screen.setActivation(szScrollID, ActivationTypes.ACTIVATE_NORMAL)
+			
+			iRelY = 0  # Relative Y inside the scroll panel
+			# XANA: 06-27-2026 Unique Civics and Religions
 			
 			for j in range(gc.getNumCivicInfos()):
 				if (gc.getCivicInfo(j).getCivicOptionType() == i):										
-					fY += 2 * self.TEXT_MARGIN
+				# XANA: 06-27-2026 Unique Civics and Religions
+					if not self.isCivicVisible(j): continue
+					iRelY += 2 * self.TEXT_MARGIN
 
-					screen.addCheckBoxGFC(self.getCivicsButtonName(j), gc.getCivicInfo(j).getButton(), ArtFileMgr.getInterfaceArtInfo("BUTTON_HILITE_SQUARE").getPath(), fX + self.BUTTON_SIZE/2, fY, self.BUTTON_SIZE, self.BUTTON_SIZE, WidgetTypes.WIDGET_GENERAL, -1, -1, ButtonStyles.BUTTON_STYLE_LABEL)
+					screen.addCheckBoxGFCAt(szScrollID, self.getCivicsButtonName(j), gc.getCivicInfo(j).getButton(), ArtFileMgr.getInterfaceArtInfo("BUTTON_HILITE_SQUARE").getPath(), self.BUTTON_SIZE/2, iButtonY, self.BUTTON_SIZE, self.BUTTON_SIZE, WidgetTypes.WIDGET_GENERAL, -1, -1, ButtonStyles.BUTTON_STYLE_LABEL)
 
-					screen.setText(self.getCivicsTextName(j), "", gc.getCivicInfo(j).getDescription(), CvUtil.FONT_LEFT_JUSTIFY, fX + self.BUTTON_SIZE + self.TEXT_MARGIN, fY, 0, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
+					screen.setLabelAt(self.getCivicsTextName(j), szScrollID, gc.getCivicInfo(j).getDescription(), CvUtil.FONT_LEFT_JUSTIFY, self.BUTTON_SIZE + self.TEXT_MARGIN, iButtonY, 0, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
+					# XANA: 06-27-2026 Unique Civics and Religions
 
 			self.drawCivicOptionButtons(i)
 							
