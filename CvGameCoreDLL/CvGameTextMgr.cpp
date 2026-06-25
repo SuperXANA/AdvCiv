@@ -18406,6 +18406,12 @@ void CvGameTextMgr::buildCityBillboardIconString( CvWStringBuffer& szBuffer, CvC
 	}
 	FOR_EACH_ENUM(Religion)
 	{
+		// XANA: 06-27-2026 Unique Civics and Religions
+		if (GC.getInfo(eLoopReligion).isMinorOrganization())
+		{
+			continue;
+		}
+		// XANA: 06-27-2026 Unique Civics and Religions
 		if (pCity->isHasReligion(eLoopReligion))
 		{
 			if (pCity->isHolyCity(eLoopReligion))
@@ -18422,6 +18428,12 @@ void CvGameTextMgr::buildCityBillboardIconString( CvWStringBuffer& szBuffer, CvC
 	}
 	FOR_EACH_ENUM2(Corporation, eLoopCorp)
 	{
+		// XANA: 06-27-2026 Unique Civics and Religions
+		if (GC.getInfo(eLoopCorp).isMinorOrganization())
+		{
+			continue;
+		}
+		// XANA: 06-27-2026 Unique Civics and Religions
 		if (pCity->isHeadquarters(eLoopCorp))
 		{
 			if (pCity->isHasCorporation(eLoopCorp))
