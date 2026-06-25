@@ -401,23 +401,7 @@ class CvReligionScreen:
 
 # XANA: 06-27-2026 Unique Civics and Religions
 	def isReligionVisible(self, iReligion):
-			pReligion = gc.getReligionInfo(iReligion)
-			iPrereqCiv = pReligion.getPrereqCiv()
-			iPrereqLeader = pReligion.getPrereqLeader()
-			
-			if (iPrereqCiv == -1 and iPrereqLeader == -1):
-				return True
-				
-			bVisible = True
-			pPlayer = gc.getPlayer(self.iActivePlayer)
-			
-			if (bVisible and iPrereqCiv >= 0 and iPrereqCiv < gc.getNumCivilizationInfos()):
-				bVisible = (bVisible and pPlayer.getCivilizationType() == iPrereqCiv)	
-			
-			if (bVisible and iPrereqLeader >= 0 and iPrereqLeader < gc.getNumLeaderHeadInfos()):
-				bVisible = (bVisible and pPlayer.getLeaderType() == iPrereqLeader)
-			
-			return bVisible
+		return gc.getPlayer(self.iActivePlayer).isAllowedReligion(iReligion)
 # XANA: 06-27-2026 Unique Civics and Religions
 
 	# BUG constants
