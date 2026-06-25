@@ -1592,6 +1592,48 @@ bool CvCity::canConstruct(BuildingTypes eBuilding, bool bContinue,
 				return false;
 		}
 
+		// XANA: 06-27-2026 Unique Civics and Religions
+		{
+			if (kBuilding.getFoundsHybridOrganization() != NO_HYBRID_ORGANIZATION)
+			{
+				CvHybridOrganizationInfo const& kHybridOrg = GC.getInfo(kBuilding.getFoundsHybridOrganization());
+				if (kHybridOrg.getTriggerCorporation() != NO_CORPORATION)
+				{
+					FOR_EACH_ENUM(Corporation)
+					{
+						if (isHeadquarters(eLoopCorporation) && !GC.getInfo(eLoopCorporation).isMinorOrganization())
+						{
+							return false;
+						}
+					}
+					int iNumValidBonuses = 0;
+					CvCorporationInfo const& kMinorCorpoation = GC.getInfo(kHybridOrg.getTriggerCorporation());
+					for (int i = 0; i < kMinorCorpoation.getNumPrereqBonuses(); i++)
+					{
+						if (hasBonus(kMinorCorpoation.getPrereqBonus(i)))
+						{
+							iNumValidBonuses++;
+						}
+					}
+					if (kMinorCorpoation.getNumPrereqBonuses() != iNumValidBonuses)
+					{
+						return false;
+					}
+				}
+				if (kHybridOrg.getTriggerReligion() != NO_RELIGION)
+				{
+					FOR_EACH_ENUM(Religion)
+					{
+						if (isHolyCity(eLoopReligion) && !GC.getInfo(eLoopReligion).isMinorOrganization())
+						{
+							return false;
+						}
+					}
+				}
+			}
+		}
+		// XANA: 06-27-2026 Unique Civics and Religions
+
 		if(getPlot().getLatitude() > kBuilding.getMaxLatitude())
 			return false;
 		if(getPlot().getLatitude() < kBuilding.getMinLatitude())
@@ -3013,6 +3055,27 @@ void CvCity::processBuilding(BuildingTypes eBuilding, int iChange, bool bObsolet
 			CorporationTypes eCorporation = kBuilding.getFoundsCorporation();
 			if (eCorporation != NO_CORPORATION && !kGame.isCorporationFounded(eCorporation))
 				setHeadquarters(eCorporation);
+			
+			// XANA: 06-27-2026 Unique Civics and Religions
+			HybridOrganizationTypes const eHybridOrganization = kBuilding.getFoundsHybridOrganization();
+			if (eHybridOrganization != NO_HYBRID_ORGANIZATION)
+			{
+				CvHybridOrganizationInfo const& kHybridOrg = GC.getInfo(eHybridOrganization);
+				if (kHybridOrg.getTriggerCorporation() != NO_CORPORATION && kHybridOrg.getTriggerReligion() != NO_RELIGION)
+				{
+					CorporationTypes eMinorCorporation = kHybridOrg.getTriggerCorporation();
+					if (!kGame.isCorporationFounded(eMinorCorporation))
+					{
+						setHeadquarters(eMinorCorporation);
+					}
+					ReligionTypes eMinorReligion = kHybridOrg.getTriggerReligion();
+					if (!kGame.isReligionSlotTaken(eMinorReligion))
+					{
+						kOwner.foundReligion(eMinorReligion, eMinorReligion, true);
+					}
+				}
+			}
+			// XANA: 06-27-2026 Unique Civics and Religions
 		}
 
 		if (kBuilding.getNoBonus() != NO_BONUS)

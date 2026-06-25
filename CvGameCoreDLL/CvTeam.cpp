@@ -4488,6 +4488,15 @@ void CvTeam::setHasTech(TechTypes eTech, bool bNewValue, PlayerTypes ePlayer,
 			{
 				if (GC.getInfo(eLoopReligion).getTechPrereq() != eTech)
 					continue;
+				else
+				// XANA: 06-27-2026 Unique Civics and Religions
+				{
+					if (GC.getInfo(eReligion).isMinorOrganization()) /* XANA (note): This Religion must be founded by constructing a Building, not solely by possesing a Technology. */
+					{
+						continue;
+					}
+				}
+				// XANA: 06-27-2026 Unique Civics and Religions
 
 				int iBestValue = MAX_INT;
 				PlayerTypes eBestPlayer = NO_PLAYER;

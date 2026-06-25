@@ -6692,6 +6692,10 @@ void CvGame::doHolyCity()
 				(iLoop + iRandOffset) % GC.getNumReligionInfos());
 		if (isReligionSlotTaken(eReligion))
 			continue;
+		// XANA: 06-27-2026 Unique Civics and Religions
+		if (GC.getInfo(eReligion).isMinorOrganization()) /* XANA (note): This Religion must be founded by constructing a Building, not solely by possesing a Technology. */
+			continue;
+		// XANA: 06-27-2026 Unique Civics and Religions
 		TeamTypes eBestTeam = NO_TEAM;
 		{
 			int iBestValue = MAX_INT;

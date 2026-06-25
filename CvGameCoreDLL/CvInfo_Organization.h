@@ -24,6 +24,7 @@ public: // All the const functions are exposed to Python
 	// XANA: 06-27-2026 Unique Civics and Religions
 	CivilizationTypes getPrereqCivilization() const { return m_iPrereqCivilization; }
 	LeaderHeadTypes getPrereqLeader() const { return m_iPrereqLeader; }
+	bool isMinorOrganization() const { return m_bMinorOrganization; }
 	// XANA: 06-27-2026 Unique Civics and Religions
 
 	const TCHAR* getMovieFile() const;
@@ -44,6 +45,7 @@ protected:
 	// XANA: 06-27-2026 Unique Civics and Religions
 	int m_iPrereqCivilization;
 	int m_iPrereqLeader;
+	bool m_bMinorOrganization;
 	// XANA: 06-27-2026 Unique Civics and Religions
 
 	CvString m_szMovieFile;

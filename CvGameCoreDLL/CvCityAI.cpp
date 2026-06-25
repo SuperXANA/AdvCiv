@@ -5575,6 +5575,41 @@ int CvCityAI::AI_buildingValue(BuildingTypes eBuilding, int iFocusFlags,
 					iTempValue += GC.getInfo(eGlobalCommerceReligion).
 							getGlobalReligionCommerce(eLoopCommerce) * iExpectedSpread * 4;
 				}
+				// XANA: 06-27-2026 Unique Civics and Religions
+				{
+					int iCount = 0;
+					CvCivilization const& kCiv = getCivilization(); // advc.003w
+					for (int i = 0; i < kCiv.getNumBuildings(); i++)
+					{
+						BuildingTypes eLoopBuilding = kCiv.buildingAt(i);
+						if (!GET_TEAM(kOwner.getTeam()).isObsoleteBuilding(eLoopBuilding))
+						{
+							if (GC.getInfo(eLoopBuilding).getFoundsHybridOrganization() != NO_HYBRID_ORGANIZATION)
+							{
+								HybridOrganizationTypes eHybridOrganization = GC.getInfo(eLoopBuilding).getFoundsHybridOrganization();
+								if (GC.getInfo(eHybridOrganization).getTriggerCorporation() != NO_CORPORATION)
+								{
+									ReligionTypes eMinorReligion = GC.getInfo(eHybridOrganization).getTriggerReligion();
+									if (eMinorReligion != NO_RELIGION)
+									{
+										iCount += kOwner.getBuildingClassCountPlusMaking(kCiv.buildingClassAt(i));
+										
+										iCount = std::max(iCount, kOwner.getHasReligionCount(eMinorReligion));
+										iTempValue += iCount * 35 * kOwner.AI_averageCommerceMultiplier(eLoopCommerce) / 1000;
+										int iExpectedSpread = kGame.countReligionLevels(eMinorReligion);
+										iExpectedSpread += (
+												1 + CvEraInfo::normalizeEraNum(
+												GC.getNumEraInfos() - iOwnerEra - 1) *
+												kGame.getRecommendedPlayers()).round(); // advc.137
+										iTempValue += GC.getInfo(eMinorReligion).
+												getGlobalReligionCommerce(eLoopCommerce) * iExpectedSpread * 4;
+									}
+								}
+							}
+						}
+					}
+				}
+				// XANA: 06-27-2026 Unique Civics and Religions
 				/*	K-Mod: I've moved the corporation stuff that use to be here
 					to outside this loop so that it isn't quadriple counted */
 				if (kBuilding.isCommerceFlexible(eLoopCommerce) &&
@@ -5720,6 +5755,84 @@ int CvCityAI::AI_buildingValue(BuildingTypes eBuilding, int iFocusFlags,
 				if (iCorpValue > 0)
 					iValue += iCorpValue;
 			}
+			// XANA: 06-27-2026 Unique Civics and Religions
+			{
+				if (kBuilding.getFoundsHybridOrganization() != NO_HYBRID_ORGANIZATION)
+				{
+					CvHybridOrganizationInfo const& kHybridOrg = GC.getInfo(eHybridOrganization);
+					if (kHybridOrg.getTriggerReligion() != NO_RELIGION)
+					{
+						int iMinorOrganizationValue = 0;
+						int iExpectedSpread = (kOwner.AI_atVictoryStage4() ? 45 :
+								(70 - (bWarPlan ? 10 : 0))); // advc: parentheses added for clarity
+						/*	note: expected spread starts as percent (for precision),
+							but is later converted to # of cities. */
+						if (kOwner.isNoCorporations())
+							iExpectedSpread = 0;
+						if (kHybridOrg.getTriggerCorporation() != NO_CORPORATION && iExpectedSpread > 0)
+						{
+							CorporationTypes const eMinorCorporation = kHybridOrg.getTriggerCorporation();
+							iMinorOrganizationValue = kOwner.AI_corporationValue(eMinorCorporation);
+							FOR_EACH_ENUM(Corporation)
+							{
+								if (eLoopCorporation != eMinorCorporation &&
+									kOwner.hasHeadquarters(eLoopCorporation) &&
+									GC.getGame().isCompetingCorporation(eMinorCorporation, eLoopCorporation))
+								{
+									/*	This new corp is no good to us if our competing corp
+										is already better. note: evaluation of the competing corp
+										for this particular city is ok. */
+									if (kOwner.AI_corporationValue(eLoopCorporation, this) > iCorpValue)
+									{
+										iExpectedSpread = 0;
+										break;
+									}
+									// expect to spread the corp to fewer cities.
+									iExpectedSpread /= 2;
+								}
+							}
+							// convert spread from percent to # of cities
+							iExpectedSpread = iExpectedSpread * iNumCities / 100;
+
+							// scale corp value by the expected spread
+							iMinorOrganizationValue *= iExpectedSpread;
+							/*	Rescale from 100x commerce down to 4x commerce.
+								(AI_corporationValue returns roughly 100x commerce) */
+							iMinorOrganizationValue *= 4;
+							iMinorOrganizationValue /= 100;
+						}
+						iExpectedSpread += kGame.countCorporationLevels(eMinorCorporation);
+						if (iExpectedSpread > 0)
+						{
+							FOR_EACH_ENUM(Commerce)
+							{
+								int iHqValue = 4 * GC.getInfo(eMinorCorporation).getHeadquarterCommerce(eLoopCommerce) * iExpectedSpread;
+								if (iHqValue != 0)
+								{
+									iHqValue *= getTotalCommerceRateModifier(eLoopCommerce);
+									iHqValue *= kOwner.AI_commerceWeight(eLoopCommerce, this);
+									iHqValue /= 10000;
+								}
+								/*	use rank as a tie-breaker...
+									with number of national wonders thrown in to,
+									(I'm trying to boost the chance that the
+									AI will put wallstreet with its corp HQs.) */
+								if (iHqValue > 0)
+								{
+									iHqValue *= 3*iNumCities
+											- findCommerceRateRank(eLoopCommerce)
+											- getNumNationalWonders() / 2;
+									iHqValue /= 2*iNumCities;
+								}
+								iMinorOrganizationValue += iHqValue;
+							}
+						}
+						if (iMinorOrganizationValue > 0)
+							iValue += iMinorOrganizationValue;
+					}
+				}
+			}
+			// XANA: 06-27-2026 Unique Civics and Religions
 			// K-Mod end (corp)
 			FOR_EACH_NON_DEFAULT_PAIR(kBuilding.
 				getReligionChange(), Religion, int)

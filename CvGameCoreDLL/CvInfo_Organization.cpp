@@ -68,6 +68,7 @@ bool CvOrganizationInfo::read(CvXMLLoadUtility* pXML)
 	
 	pXML->GetChildXmlValByName(szTextVal, "PrereqLeader");
 	m_aszExtraXMLforPass3.push_back(szTextVal);
+	pXML->GetChildXmlValByName(&m_bMinorOrganization, "bMinorOrganization");
 	// XANA: 06-27-2026 Unique Civics and Religions
 
 	return true;
