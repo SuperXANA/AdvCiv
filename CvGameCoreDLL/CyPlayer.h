@@ -164,6 +164,9 @@ public:
 	bool hasEverSeenDemographics(int iPlayer) const; // advc.091
 
 	bool isCivic(int /*CivicTypes*/ eCivic);
+	// XANA: 06-27-2026 Unique Civics and Religions
+	bool isAllowedCivic(int /*CivicTypes*/ eCivic);
+	// XANA: 06-27-2026 Unique Civics and Religions
 	bool canDoCivics(int /*CivicTypes*/ eCivic);
 	//bool canRevolution(int /*CivicTypes**/ paeNewCivics);
 	//void revolution(int /*CivicTypes**/ paeNewCivics, bool bForce);

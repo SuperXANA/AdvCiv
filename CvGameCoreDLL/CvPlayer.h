@@ -391,6 +391,16 @@ public:
 	bool isSignificantDiscovery(TechTypes eTech) const;
 
 	bool isCivic(CivicTypes eCivic) const;																			// Exposed to Python
+	// XANA: 06-27-2026 Unique Civics and Religions
+	bool isAllowedCivic(CivicTypes eCivic) const																	// Exposed to Python
+	{
+		CvCivicInfo const& kCivic = GC.getInfo(eCivic);
+		return ((kCivic.getPrereqCivilization() == NO_CIVILIZATION ||
+		kCivic.getPrereqCivilization() == getCivilizationType()) &&
+		(kCivic.getPrereqLeader() == NO_LEADER ||
+		kCivic.getPrereqLeader() == getLeaderType()));
+	}
+	// XANA: 06-27-2026 Unique Civics and Religions
 	bool canDoCivics(CivicTypes eCivic) const;																		// Exposed to Python
 	bool canRevolution(CivicMap const& kNewCivics) const; // advc.001: Exposed to Python as canAdopt
 	bool canDoAnyRevolution() const; // advc.enum, exposed to Python as canRevolution(0).

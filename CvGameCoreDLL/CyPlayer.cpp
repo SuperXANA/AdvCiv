@@ -649,6 +649,13 @@ bool CyPlayer::isCivic(int /*CivicTypes*/ eCivic)
 	return m_pPlayer ? m_pPlayer->isCivic((CivicTypes)eCivic) : false;
 }
 
+// XANA: 06-27-2026 Unique Civics and Religions
+bool CyPlayer::isAllowedCivic(int /*CivicTypes*/ eCivic)
+{
+	return m_pPlayer ? m_pPlayer->isAllowedCivic((CivicTypes) eCivic) : false;
+}
+// XANA: 06-27-2026 Unique Civics and Religions
+
 bool CyPlayer::canDoCivics(int /*CivicTypes*/ eCivic)
 {
 	return m_pPlayer ? m_pPlayer->canDoCivics((CivicTypes)eCivic) : false;
