@@ -6722,6 +6722,23 @@ bool CvPlayer::canDoCivics(CivicTypes eCivic) const
 	if (eCivic == NO_CIVIC)
 		return true; // UNOFFICIAL_PATCH: END
 
+	// XANA: 06-27-2026 Unique Civics and Religions
+	if (GC.getInfo(eCivic).getPrereqCivilization() != NO_CIVILIZATION)
+	{
+		if (GC.getInfo(eCivic).getPrereqCivilization() != getCivilizationType())
+		{
+			return false;
+		}
+	}
+	if (GC.getInfo(eCivic).getPrereqLeader() != NO_LEADER)
+	{
+		if (GC.getInfo(eCivic).getPrereqLeader() != getLeaderType())
+		{
+			return false;
+		}
+	}
+	// XANA: 06-27-2026 Unique Civics and Religions
+
 	if (GC.getGame().isForceCivicOption(GC.getInfo(eCivic).getCivicOptionType()))
 		return GC.getGame().isForceCivic(eCivic);
 
