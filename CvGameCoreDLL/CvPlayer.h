@@ -392,14 +392,7 @@ public:
 
 	bool isCivic(CivicTypes eCivic) const;																			// Exposed to Python
 	// XANA: 06-27-2026 Unique Civics and Religions
-	bool isAllowedCivic(CivicTypes eCivic) const																	// Exposed to Python
-	{
-		CvCivicInfo const& kCivic = GC.getInfo(eCivic);
-		return ((kCivic.getPrereqCivilization() == NO_CIVILIZATION ||
-		kCivic.getPrereqCivilization() == getCivilizationType()) &&
-		(kCivic.getPrereqLeader() == NO_LEADER ||
-		kCivic.getPrereqLeader() == getLeaderType()));
-	}
+	bool isAllowedCivic(CivicTypes eCivic) const;																	// Exposed to Python
 	// XANA: 06-27-2026 Unique Civics and Religions
 	bool canDoCivics(CivicTypes eCivic) const;																		// Exposed to Python
 	bool canRevolution(CivicMap const& kNewCivics) const; // advc.001: Exposed to Python as canAdopt
@@ -418,14 +411,7 @@ public:
 	ReligionTypes getFavoriteReligion() const;
 	bool isFavoriteReligionKnown() const;
 	// XANA: 06-27-2026 Unique Civics and Religions
-	bool isAllowedReligion(ReligionTypes eReligion) const															// Exposed to Python
-	{
-		CvReligionInfo const& kReligion = GC.getInfo(eReligion);
-		return ((kReligion.getPrereqCivilization() == NO_CIVILIZATION ||
-		kReligion.getPrereqCivilization() == getCivilizationType()) &&
-		(kReligion.getPrereqLeader() == NO_LEADER ||
-		kReligion.getPrereqLeader() == getLeaderType()));
-	}
+	bool isAllowedReligion(ReligionTypes eReligion) const;															// Exposed to Python
 	// </advc.130n>
 	bool canDoReligion(ReligionTypes eReligion) const																// Exposed to Python
 	{	//return (GET_TEAM(getTeam()).getHasReligionCount(eReligion) != 0);

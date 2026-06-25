@@ -6712,6 +6712,16 @@ bool CvPlayer::isCivic(CivicTypes eCivic) const
 	return false;
 }
 
+// XANA: 06-27-2026 Unique Civics and Religions
+bool CvPlayer::isAllowedCivic(CivicTypes eCivic) const
+{
+	CvCivicInfo const& kCivic = GC.getInfo(eCivic);
+	return ((kCivic.getPrereqCivilization() == NO_CIVILIZATION ||
+	kCivic.getPrereqCivilization() == getCivilizationType()) &&
+	(kCivic.getPrereqLeader() == NO_LEADER ||
+	kCivic.getPrereqLeader() == getLeaderType()));
+}
+// XANA: 06-27-2026 Unique Civics and Religions
 
 bool CvPlayer::canDoCivics(CivicTypes eCivic) const
 {
@@ -6901,6 +6911,18 @@ bool CvPlayer::canChangeReligion() const
 	}
 	return false;
 }
+
+
+// XANA: 06-27-2026 Unique Civics and Religions
+bool CvPlayer::isAllowedReligion(ReligionTypes eReligion) const
+{
+	CvReligionInfo const& kReligion = GC.getInfo(eReligion);
+	return ((kReligion.getPrereqCivilization() == NO_CIVILIZATION ||
+	kReligion.getPrereqCivilization() == getCivilizationType()) &&
+	(kReligion.getPrereqLeader() == NO_LEADER ||
+	kReligion.getPrereqLeader() == getLeaderType()));
+}
+// XANA: 06-27-2026 Unique Civics and Religions
 
 
 bool CvPlayer::canConvert(ReligionTypes eReligion) const
