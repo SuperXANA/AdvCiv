@@ -5285,9 +5285,23 @@ bool CvPlayer::canConstruct(BuildingTypes eBuilding, bool bContinue, bool bTestV
 		}
 	}
 	{
+		// XANA: 06-27-2026 Unique Civics and Religions
 		CorporationTypes eFoundCorp = kBuilding.getFoundsCorporation();
-		if (eFoundCorp != NO_CORPORATION && isNoCorporations())
-			return false;
+		if (eFoundCorp != NO_CORPORATION)
+		{
+			if (isNoCorporations())
+				return false;
+		
+			CvCorporationInfo const& kFoundCorp = GC.getInfo(eFoundCorp);
+			if (kFoundCorp.getPrereqCivilization() != NO_CIVILIZATION
+				&& kFoundCorp.getPrereqCivilization() != getCivilizationType())
+				return false;
+				
+			if (kFoundCorp.getPrereqLeader() != NO_LEADER
+				&& kFoundCorp.getPrereqLeader() != getLeaderType())
+				return false;
+		}
+		// XANA: 06-27-2026 Unique Civics and Religions
 	}
 	// <kekm.19> (advc: simplified)
 	if (kBuilding.isCapital() && GC.getGame().getGameState() == GAMESTATE_ON &&

@@ -16728,10 +16728,6 @@ int CvPlayerAI::AI_civicValue(CivicTypes eCivic) const
 		return 1;
 	if (isBarbarian())
 		return 1;
-	// XANA: 06-27-2026 Unique Civics and Religions
-	if (!isAllowedCivic(eCivic))
-		returnn 1;
-	// XANA: 06-27-2026 Unique Civics and Religions
 
 	CvCivicInfo const& kCivic = GC.getInfo(eCivic);
 	CvTeamAI const& kTeam = GET_TEAM(getTeam()); // K-Mod
@@ -18070,10 +18066,8 @@ int CvPlayerAI::AI_religionValue(ReligionTypes eReligion) const
 
 	int iValue = 0;
 
-	// XANA: 06-27-2026 Unique Civics and Religions
-	if (getHasReligionCount(eReligion) == 0 || !isAllowedReligion(eReligion))
+	if (getHasReligionCount(eReligion) == 0)
 		return 0;
-	// XANA: 06-27-2026 Unique Civics and Religions
 
 	int iReligionFlavor = AI_getFlavorValue(FLAVOR_RELIGION);
 
@@ -28798,6 +28792,10 @@ ReligionTypes CvPlayerAI::AI_chooseReligion()
 	{
 		if (GC.getGame().isReligionFounded(eLoopReligion))
 			continue;
+		// XANA: 06-27-2026 Unique Civics and Religions
+		if (!isAllowedReligion(eLoopReligion))
+			continue;
+		// XANA: 06-27-2026 Unique Civics and Religions
 		//aeReligions.push_back(eLoopReligion); // BtS
 		// <advc.171>
 		int iValue = 0;
