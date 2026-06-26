@@ -11056,11 +11056,24 @@ void CvCity::doReligion()
 				int iOdds = (getReligionCount() - 1) * // advc.173: Don't count eLoopReligion
 						100 * (iLoopGrip - iWeakestGrip) /
 						std::max(1, iLoopGrip);
-				if (SyncRandSuccess100(iOdds))
+				// XANA: 06-27-2026 Unique Civics and Religions
+				if (GC.getInfo(eWeakestReligion).getHybridOrganizationType() != NO_HYBRID_ORGANIZATION)
 				{
-					setHasReligion(eWeakestReligion, false, true, true);
-					break; // end the loop
+					if (getCityAboveMinorReligionRequirements(GC.getInfo(eWeakestReligion).getHybridOrganizationType()))
+					{
+						setHasReligion(eWeakestReligion, false, true, true);
+						break; // end the loop
+					}
 				}
+				else
+				{
+					if (SyncRandSuccess100(iOdds))
+					{
+						setHasReligion(eWeakestReligion, false, true, true);
+						break; // end the loop
+					}
+				}
+				// XANA: 06-27-2026 Unique Civics and Religions
 			}
 			else
 			{
@@ -13520,5 +13533,19 @@ int CvCity::getMinorReligionSpreadFactor(HybridOrganizationTypes const eHybridOr
 		}
 	}
 	return iFactor;
+}
+
+
+bool CvCity::getCityAboveMinorReligionRequirements(HybridOrganizationTypes const eHybridOrg) const
+{
+	CvHybridOrganizationInfo const& kHybridOrg = GC.getInfo(eHybridOrg);
+	if (kHybridOrg.getMinUnhappinessRequired() > 0)
+	{
+		if (unhappyLevel() < kHybridOrg.getMinUnhappinessRequired())
+		{
+			return true;
+		}
+	}
+	return false;
 }
 // XANA: 06-27-2026 Unique Civics and Religions
