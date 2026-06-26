@@ -3068,11 +3068,13 @@ void CvCity::processBuilding(BuildingTypes eBuilding, int iChange, bool bObsolet
 					{
 						setHeadquarters(eMinorCorporation);
 					}
+					else setHasCorporation(eMinorCorporation, true, false);
 					ReligionTypes eMinorReligion = kHybridOrg.getTriggerReligion();
 					if (!kGame.isReligionSlotTaken(eMinorReligion))
 					{
 						kOwner.foundReligion(eMinorReligion, eMinorReligion, true);
 					}
+					else setHasReligion(eMinorReligion, true, false);
 				}
 			}
 			// XANA: 06-27-2026 Unique Civics and Religions
