@@ -3075,6 +3075,8 @@ void CvCity::processBuilding(BuildingTypes eBuilding, int iChange, bool bObsolet
 						kOwner.foundReligion(eMinorReligion, eMinorReligion, true);
 					}
 					else setHasReligion(eMinorReligion, true, true);
+					
+					setCityChangesDueToMinorReligionJoining(eHybridOrganization);
 				}
 			}
 			// XANA: 06-27-2026 Unique Civics and Religions
@@ -11049,7 +11051,14 @@ void CvCity::doReligion()
 				CvGameSpeedInfo::ReligionSpreadDivPercent)));
 		if (SyncRandSuccess(rSpreadProb))
 		{	// </advc>
-			setHasReligion(eLoopReligion, true, true, true);
+			// XANA: 06-27-2026 Unique Civics and Religions
+			if (GC.getInfo(eLoopReligion).getHybridOrganizationType() != NO_HYBRID_ORGANIZATION)
+			{
+				setHasReligion(eLoopReligion, true, true, true);
+				setCityChangesDueToMinorReligionJoining(GC.getInfo(eLoopReligion).getHybridOrganizationType());
+			}
+			else setHasReligion(eLoopReligion, true, true, true);
+			// XANA: 06-27-2026 Unique Civics and Religions
 			if (iWeakestGrip < iLoopGrip)
 			{
 				FAssert(eWeakestReligion != NO_RELIGION);
@@ -11059,22 +11068,22 @@ void CvCity::doReligion()
 						100 * (iLoopGrip - iWeakestGrip) /
 						std::max(1, iLoopGrip);
 				// XANA: 06-27-2026 Unique Civics and Religions
-				if (GC.getInfo(eWeakestReligion).getHybridOrganizationType() != NO_HYBRID_ORGANIZATION)
+				if (SyncRandSuccess100(iOdds))
 				{
-					HybridOrganizationTypes eHybridOrg = GC.getInfo(eWeakestReligion).getHybridOrganizationType();
-					if (getCityAboveMinorReligionRequirements(eHybridOrg))
+					if (GC.getInfo(eWeakestReligion).getHybridOrganizationType() != NO_HYBRID_ORGANIZATION)
 					{
-						setHasReligion(eWeakestReligion, false, true, true);
-						setCityChangesDueToMinorReligionLeaving(eHybridOrg);
-						break; // end the loop
+						HybridOrganizationTypes eHybridOrg = GC.getInfo(eWeakestReligion).getHybridOrganizationType();
+						if (getCityAboveMinorReligionRequirements(eHybridOrg))
+						{
+							setHasReligion(eWeakestReligion, false, true, true);
+							setCityChangesDueToMinorReligionLeaving(eHybridOrg);
+							break; // end the loop
+						}
 					}
-				}
-				else
-				{
-					if (SyncRandSuccess100(iOdds))
+					else
 					{
 						setHasReligion(eWeakestReligion, false, true, true);
-						break; // end the loop
+						break;
 					}
 				}
 				// XANA: 06-27-2026 Unique Civics and Religions
@@ -13551,6 +13560,16 @@ bool CvCity::getCityAboveMinorReligionRequirements(HybridOrganizationTypes const
 		}
 	}
 	return false;
+}
+
+
+void CvCity::setCityChangesDueToMinorReligionJoining(HybridOrganizationTypes const eHybridOrg)
+{
+	CvHybridOrganizationInfo const& kHybridOrg = GC.getInfo(eHybridOrg);
+	if (kHybridOrg.getWithdrawalUnhappinessTurns() > 0)
+	{
+		changeHappinessTimer(kHybridOrg.getWithdrawalUnhappinessTurns());
+	}
 }
 
 

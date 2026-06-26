@@ -1590,6 +1590,7 @@ protected:
 	// XANA: 06-27-2026 Unique Civics and Religions
 	int getMinorReligionSpreadFactor(HybridOrganizationTypes const eHybridOrg) const;
 	bool getCityAboveMinorReligionRequirements(HybridOrganizationTypes const eHybridOrg) const;
+	void setCityChangesDueToMinorReligionJoining(HybridOrganizationTypes const eHybridOrg);
 	void setCityChangesDueToMinorReligionLeaving(HybridOrganizationTypes const eHybridOrg);
 	// XANA: 06-27-2026 Unique Civics and Religions
 };
