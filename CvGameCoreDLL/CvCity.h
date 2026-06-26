@@ -1587,6 +1587,9 @@ protected:
 	void doPopOrder(CLLNode<OrderData>* pOrder); // advc.064d
 	// advc.901:
 	std::pair<int,int> calculateSurroundingHealth(int iExtraGoodPercent = 0, int iExtraBadPercent = 0) const;
+	// XANA: 06-27-2026 Unique Civics and Religions
+	int getMinorReligionSpreadFactor(HybridOrganizationTypes const eHybridOrg) const;
+	// XANA: 06-27-2026 Unique Civics and Religions
 };
 
 #endif

@@ -10989,7 +10989,13 @@ void CvCity::doReligion()
 					continue;
 
 				int iSpread = pLoopCity->getReligionInfluence(eLoopReligion);
-				iSpread *= GC.getInfo(eLoopReligion).getSpreadFactor();
+				// XANA: 06-27-2026 Unique Civics and Religions
+				if (GC.getInfo(eLoopReligion).getHybridOrganizationType() != NO_HYBRID_ORGANIZATION)
+				{
+					iSpread *= getMinorReligionSpreadFactor(GC.getInfo(eLoopReligion).getHybridOrganizationType());
+				}
+				else iSpread *= GC.getInfo(eLoopReligion).getSpreadFactor();
+				// XANA: 06-27-2026 Unique Civics and Religions
 				if (iSpread > 0)
 				{
 					/*iSpread /= std::max(1, (GC.getDefineINT("RELIGION_SPREAD_DISTANCE_DIVISOR", 100) *
@@ -13499,3 +13505,20 @@ void CvCity::payOverflowGold(int iLostProduction, int iProductionGold)
 			"AS2D_WONDERGOLD", MESSAGE_TYPE_INFO, GC.getInfo(COMMERCE_GOLD).
 			getButton(), NO_COLOR, getX(), getY(), false, false);
 } // </advc.064b>
+
+
+// XANA: 06-27-2026 Unique Civics and Religions
+int CvCity::getMinorReligionSpreadFactor(HybridOrganizationTypes const eHybridOrg) const
+{
+	int iFactor = 0;
+	CvHybridOrganizationInfo const& kHybridOrg = GC.getInfo(eHybridOrg);
+	if (kHybridOrg.getMinUnhappinessRequired() > 0)
+	{
+		if (unhappyLevel() >= kHybridOrg.getMinUnhappinessRequired())
+		{
+			iFactor += kHybridOrg.getBaseSpreadChancePercentage() + unhappyLevel();
+		}
+	}
+	return iFactor;
+}
+// XANA: 06-27-2026 Unique Civics and Religions
