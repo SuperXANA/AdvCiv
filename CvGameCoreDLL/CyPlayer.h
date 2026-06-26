@@ -185,9 +185,6 @@ public:
 	bool isFavoriteReligionKnown(); // </advc.130n>
 	bool canDoReligion(int /*ReligionTypes*/ eReligion);
 	bool canChangeReligion();
-	// XANA: 06-27-2026 Unique Civics and Religions
-	bool isAllowedReligion(int /*ReligionTypes*/ eReligion);
-	// XANA: 06-27-2026 Unique Civics and Religions
 	bool canConvert(int /*ReligionTypes*/ iIndex);
 	void convert(int /*ReligionTypes*/ iIndex);
 	bool hasHolyCity(int /*ReligionTypes*/ eReligion);

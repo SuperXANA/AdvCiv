@@ -139,9 +139,6 @@ class CvReligionScreen:
 # BUG - start
 		if self.NUM_RELIGIONS == -1:
 			self.NUM_RELIGIONS = ReligionUtil.getNumReligions()
-			# XANA: 06-27-2026 Unique Civics and Religions
-			self.NUM_RELIGIONS = [iLoopReligion for iLoopReligion in self.NUM_RELIGIONS if self.isReligionVisible(iLoopReligion)]
-			# XANA: 06-27-2026 Unique Civics and Religions
 			self.COL_FIRST_UNIT = self.COL_FIRST_RELIGION + self.NUM_RELIGIONS
 			self.COL_FIRST_BUILDING = self.COL_FIRST_UNIT + ReligionUtil.getNumUnitTypes()
 			self.COL_EFFECTS = self.COL_FIRST_BUILDING + ReligionUtil.getNumBuildingTypes()
@@ -190,9 +187,6 @@ class CvReligionScreen:
 				self.RELIGIONS = ReligionUtil.getFoundedReligions()
 			else:
 				self.RELIGIONS = ReligionUtil.getPlayerReligions(gc.getPlayer(self.iActivePlayer))
-			# XANA: 06-27-2026 Unique Civics and Religions
-			self.RELIGIONS = [iLoopReligion for iLoopReligion in self.RELIGIONS if self.isReligionVisible(iLoopReligion)]
-			# XANA: 06-27-2026 Unique Civics and Religions
 		else:
 			self.X_RELIGION_AREA = 45
 			self.Y_RELIGION_AREA = 84
@@ -201,9 +195,6 @@ class CvReligionScreen:
 			# self.RELIGIONS = ReligionUtil.getAllReligions() + (ReligionUtil.getNumReligions(),)
 			# K-Mod. the original BUG code simply doesn't run. (advc, note: Also fixed in BUG 4.5.)
 			self.RELIGIONS = range(gc.getNumReligionInfos())
-			# XANA: 06-27-2026 Unique Civics and Religions
-			self.RELIGIONS = [iLoopReligion for iLoopReligion in self.RELIGIONS if self.isReligionVisible(iLoopReligion)]
-			# XANA: 06-27-2026 Unique Civics and Religions
 
 		# Make the scrollable area for the religions list...
 		screen.addPanel(self.RELIGION_PANEL_ID, "", "", False, True, self.X_RELIGION_AREA, self.Y_RELIGION_AREA, self.W_RELIGION_AREA, self.H_RELIGION_AREA+5, PanelStyles.PANEL_STYLE_MAIN)
@@ -410,11 +401,6 @@ class CvReligionScreen:
 			self.iReligionSelected = gc.getNumReligionInfos()
 		self.iReligionExamined = self.iReligionSelected
 		self.iReligionOriginal = self.iReligionSelected
-
-# XANA: 06-27-2026 Unique Civics and Religions
-	def isReligionVisible(self, iReligion):
-		return gc.getPlayer(self.iActivePlayer).isAllowedReligion(iReligion)
-# XANA: 06-27-2026 Unique Civics and Religions
 
 	# BUG constants
 	def BUGConstants(self):

@@ -18009,29 +18009,6 @@ void CvGameTextMgr::setConvertHelp(CvWStringBuffer& szBuffer, PlayerTypes ePlaye
 		szBuffer.append(gDLL->getText("TXT_KEY_MISC_WAIT_MORE_TURNS", GET_PLAYER(ePlayer).getConversionTimer()));
 		szBuffer.append(L"."); // advc.004g
 	}
-	// XANA: 06-27-2026 Unique Civics and Religions
-	else
-	{
-		if (GC.getInfo(eReligion).getPrereqCivilization() != NO_CIVILIZATION)
-		{
-			if (GET_PLAYER(ePlayer).getCivilizationType() != GC.getInfo(eReligion).getPrereqCivilization())
-			{
-				szBuffer.append(L". ");
-				szBuffer.append(gDLL->getText("TXT_KEY_MISC_NOT_ALLOWED_RELIGION"));
-				szBuffer.append(L"."); // advc.004g
-			}
-		}
-		if (GC.getInfo(eReligion).getPrereqLeader() != NO_LEADER)
-		{
-			if (GET_PLAYER(ePlayer).getLeaderType() != GC.getInfo(eReligion).getPrereqLeader())
-			{
-				szBuffer.append(L". ");
-				szBuffer.append(gDLL->getText("TXT_KEY_MISC_NOT_ALLOWED_RELIGION"));
-				szBuffer.append(L"."); // advc.004g
-			}
-		}
-	}
-	// XANA: 06-27-2026 Unique Civics and Religions
 }
 
 void CvGameTextMgr::setRevolutionHelp(CvWStringBuffer& szBuffer, PlayerTypes ePlayer)

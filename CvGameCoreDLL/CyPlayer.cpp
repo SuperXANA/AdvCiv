@@ -714,13 +714,6 @@ bool CyPlayer::isFavoriteReligionKnown()
 			m_pPlayer->isFavoriteReligionKnown());
 } // </advc.130n>
 
-// XANA: 06-27-2026 Unique Civics and Religions
-bool CyPlayer::isAllowedReligion(int /*ReligionTypes*/ eReligion)
-{
-	return m_pPlayer ? m_pPlayer->isAllowedReligion((ReligionTypes) eReligion) : false;
-}
-// XANA: 06-27-2026 Unique Civics and Religions
-
 bool CyPlayer::canDoReligion(int /*ReligionTypes*/ eReligion)
 {
 	return m_pPlayer ? m_pPlayer->canDoReligion((ReligionTypes) eReligion) : false;

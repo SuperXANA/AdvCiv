@@ -412,12 +412,12 @@ public:
 	bool isFavoriteReligionKnown() const;
 	// XANA: 06-27-2026 Unique Civics and Religions
 	bool isAllowedReligion(ReligionTypes eReligion) const;															// Exposed to Python
+	// XANA: 06-27-2026 Unique Civics and Religions
 	// </advc.130n>
 	bool canDoReligion(ReligionTypes eReligion) const																// Exposed to Python
 	{	//return (GET_TEAM(getTeam()).getHasReligionCount(eReligion) != 0);
 		return (getHasReligionCount(eReligion) > 0); // advc.132c
 	}
-	// XANA: 06-27-2026 Unique Civics and Religions
 	bool canChangeReligion() const;																					// Exposed to Python
 	bool canConvert(ReligionTypes eReligion) const;																	// Exposed to Python
 	void convert(ReligionTypes eReligion, bool bForce = false); // advc.001v										// Exposed to Python

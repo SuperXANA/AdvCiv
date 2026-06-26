@@ -13304,6 +13304,12 @@ DenialTypes CvPlayerAI::AI_civicTrade(CivicTypes eCivic, PlayerTypes ePlayer) co
 {
 	if (isHuman())
 		return NO_DENIAL;
+	// XANA: 06-27-2026 Unique Civics and Religions
+	if (!isAllowedCivic(eCivic))
+	{
+		return DENIAL_ANGER_CIVIC;
+	}
+	// XANA: 06-27-2026 Unique Civics and Religions
 	if (GET_TEAM(getTeam()).isVassal(GET_PLAYER(ePlayer).getTeam()))
 		return NO_DENIAL;
 	if (atWar(getTeam(), GET_PLAYER(ePlayer).getTeam()))
