@@ -203,6 +203,7 @@ void CyInfoPythonInterface3()
 	// XANA: 06-27-2026 Unique Civics and Religions
 		.def("getPrereqCivilization", &CvReligionInfo::getPrereqCivilization, "int ()")
 		.def("getPrereqLeader", &CvReligionInfo::getPrereqLeader, "int ()")
+		.def("isMinorOrganization", &CvReligionInfo::isMinorOrganization, "bool ()")
 	// XANA: 06-27-2026 Unique Civics and Religions
 
 		.def("getTechButton", &CvReligionInfo::getTechButton, "string ()")
@@ -232,6 +233,7 @@ void CyInfoPythonInterface3()
 	// XANA: 06-27-2026 Unique Civics and Religions
 		.def("getPrereqCivilization", &CvCorporationInfo::getPrereqCivilization, "int ()")
 		.def("getPrereqLeader", &CvCorporationInfo::getPrereqLeader, "int ()")
+		.def("isMinorOrganization", &CvCorporationInfo::isMinorOrganization, "bool ()")
 	// XANA: 06-27-2026 Unique Civics and Religions
 
 		.def("getMovieFile", &CvCorporationInfo::getMovieFile, "string ()")
