@@ -7184,6 +7184,28 @@ void CvGameTextMgr::parseCivicInfo(CvWStringBuffer &szHelpText, CivicTypes eCivi
 							GC.getInfo(kCivic.getTechPrereq()).getTextKeyWide()));
 				}
 			}
+			// XANA: 06-27-2026 Unique Civics and Religions
+			if (kCivic.getPrereqCivilization() != NO_CIVILIZATION)
+			{
+				if (!bPlayerContext ||
+					GET_PLAYER(eActivePlayer).getCivilizationType() != kCivic.getPrereqCivilization()))
+				{
+					szHelpText.append(NEWLINE);
+					szHelpText.append(gDLL->getText("TXT_KEY_CIVIC_REQUIRES",
+							GC.getInfo(kCivic.getPrereqCivilization()).getTextKeyWide()));
+				}
+			}
+			if (kCivic.getPrereqLeader() != NO_LEADER)
+			{
+				if (!bPlayerContext ||
+					GET_PLAYER(eActivePlayer).getLeaderType() != kCivic.getPrereqLeader()))
+				{
+					szHelpText.append(NEWLINE);
+					szHelpText.append(gDLL->getText("TXT_KEY_CIVIC_REQUIRES",
+							GC.getInfo(kCivic.getPrereqLeader()).getTextKeyWide()));
+				}
+			}
+			// XANA: 06-27-2026 Unique Civics and Religions
 		}
 	}
 
@@ -10522,6 +10544,34 @@ void CvGameTextMgr::setBuildingHelpActual(CvWStringBuffer &szBuffer,
 					//GC.getInfo(eFoundsCorp).getTextKeyWide()
 					szCorpLink.c_str())); // advc.001
 		}
+		// XANA: 06-27-2026 Unique Civics and Religions
+		HybridOrganizationTypes eFoundsOrg = kBuilding.getFoundsHybridOrganization();
+		if (eFoundsOrg != NO_HYBRID_ORGANIZATION &&
+			!bInBuildingList) // advc.004w
+		{
+			CvHybridOrganizationInfo const& kHybridOrg = GC.getInfo(eFoundsOrg);
+			CorporationTypes const eMinorCorp = kHybridOrg.getTriggerCorporation();
+			ReligonTypes const eMinorReligion = kHybridOrg.getTriggerReligion();
+			if (eMinorCorp != NO_CORPORATION && eMinorReligion != NO_RELIGION)
+			{
+				if (!kGame.isCorporationFounded(eMinorCorp) || kGame.isReligionSlotTaken(eMinorReligion))
+				{
+					szBuffer.append(NEWLINE);
+					// <advc.001>
+					CvWString szCorpLink;
+					setCorporationLink(szCorpLink, eMinorCorp); // </advc.001>
+					szBuffer.append(gDLL->getText("TXT_KEY_FOUNDS_CORPORATION",
+							//GC.getInfo(eFoundsCorp).getTextKeyWide()
+							szCorpLink.c_str())); // advc.001
+				}
+
+				szTempBuffer.Format(L"%s%s", NEWLINE,
+						gDLL->getText("TXT_KEY_BUILDING_SPREADS_RELIGION",
+						GC.getInfo(eMinorReligion).getChar()).c_str());
+				szBuffer.append(szTempBuffer);
+			}
+		}
+		// XANA: 06-27-2026 Unique Civics and Religions
 	}
 	{
 		CorporationTypes const eGlobalCommerceCorp = kBuilding.getGlobalCorporationCommerce();
@@ -11167,18 +11217,31 @@ void CvGameTextMgr::setBuildingHelpActual(CvWStringBuffer &szBuffer,
 		setYieldChangeHelp(szBuffer, L"", L"", szFirstBuffer,
 				perBonusVal.second, true);
 	} // </advc.opt>
-
-	FOR_EACH_NON_DEFAULT_PAIR(kBuilding.
-		getReligionChange(), Religion, int)
+	
+	// XANA: 06-27-2026 Unique Civics and Religions
 	{
-		if (perReligionVal.second > 0)
+		ReligonTypes eMinorReligion = NO_RELIGION;
+		if (kBuilding.getFoundsHybridOrganization() != NO_HYBRID_ORGANIZATION)
 		{
-			szTempBuffer.Format(L"%s%s", NEWLINE,
-					gDLL->getText("TXT_KEY_BUILDING_SPREADS_RELIGION",
-					GC.getInfo(perReligionVal.first).getChar()).c_str());
-			szBuffer.append(szTempBuffer);
+			eMinorReligion = GC.getInfo(kBuilding.getFoundsHybridOrganization()).getTriggerReligion();
+		}
+		FOR_EACH_NON_DEFAULT_PAIR(kBuilding.
+			getReligionChange(), Religion, int)
+		{
+			if (eMinorReligion != NO_RELIGION && eMinorReligion == perReligionVal.first)
+			{
+				continue;
+			}
+			if (perReligionVal.second > 0)
+			{
+				szTempBuffer.Format(L"%s%s", NEWLINE,
+						gDLL->getText("TXT_KEY_BUILDING_SPREADS_RELIGION",
+						GC.getInfo(perReligionVal.first).getChar()).c_str());
+				szBuffer.append(szTempBuffer);
+			}
 		}
 	}
+	// XANA: 06-27-2026 Unique Civics and Religions
 
 	FOR_EACH_ENUM(Specialist)
 	{
@@ -17946,6 +18009,29 @@ void CvGameTextMgr::setConvertHelp(CvWStringBuffer& szBuffer, PlayerTypes ePlaye
 		szBuffer.append(gDLL->getText("TXT_KEY_MISC_WAIT_MORE_TURNS", GET_PLAYER(ePlayer).getConversionTimer()));
 		szBuffer.append(L"."); // advc.004g
 	}
+	// XANA: 06-27-2026 Unique Civics and Religions
+	else
+	{
+		if (GC.getInfo(eReligion).getPrereqCivilization() != NO_CIVILIZATION)
+		{
+			if (GET_PLAYER(ePlayer).getCivilizationType() != GC.getInfo(eReligion).getPrereqCivilization())
+			{
+				szBuffer.append(L". ");
+				szBuffer.append(gDLL->getText("TXT_KEY_MISC_NOT_ALLOWED_RELIGION"));
+				szBuffer.append(L"."); // advc.004g
+			}
+		}
+		if (GC.getInfo(eReligion).getPrereqLeader() != NO_LEADER)
+		{
+			if (GET_PLAYER(ePlayer).getLeaderType() != GC.getInfo(eReligion).getPrereqLeader())
+			{
+				szBuffer.append(L". ");
+				szBuffer.append(gDLL->getText("TXT_KEY_MISC_NOT_ALLOWED_RELIGION"));
+				szBuffer.append(L"."); // advc.004g
+			}
+		}
+	}
+	// XANA: 06-27-2026 Unique Civics and Religions
 }
 
 void CvGameTextMgr::setRevolutionHelp(CvWStringBuffer& szBuffer, PlayerTypes ePlayer)
