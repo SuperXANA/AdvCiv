@@ -5237,6 +5237,43 @@ bool CvPlayer::canConstruct(BuildingTypes eBuilding, bool bContinue, bool bTestV
 		if (ePrereqStateReligion != NO_RELIGION && ePrereqStateReligion != getStateReligion())
 			return false;
 	}
+	// XANA: 06-27-2026 Unique Civics and Religions
+	{
+		if (GC.getInfo(eBuilding).getFoundsHybridOrganization() != NO_HYBRID_ORGANIZATION)
+		{
+			CvHybridOrganizationInfo const& kHybridOrg = GC.getInfo(
+				GC.getInfo(eBuilding).getFoundsHybridOrganization());
+			if (kHybridOrg.getTriggerCorporation() != NO_CORPORATION)
+			{
+				CvCorporationInfo const& kMinorCorp = GC.getInfo(kHybridOrg.getTriggerCorporation());
+				if (kMinorCorp.getPrereqCivilization() != NO_CIVILIZATION
+					&& kMinorCorp.getPrereqCivilization() != getCivilizationType())
+				{
+					return false;
+				}
+				if (kMinorCorp.getPrereqLeader() != NO_LEADER
+					&& kMinorCorp.getPrereqLeader() != getLeaderType())
+				{
+					return false;
+				}
+			}
+			if (kHybridOrg.getTriggerReligion() != NO_RELIGION)
+			{
+				CvReligionInfo const& kMinorReligion = GC.getInfo(kHybridOrg.getTriggerReligion());
+				if (kMinorReligion.getPrereqCivilization() != NO_CIVILIZATION
+					&& kMinorReligion.getPrereqCivilization() != getCivilizationType())
+				{
+					return false;
+				}
+				if (kMinorReligion.getPrereqLeader() != NO_LEADER
+					&& kMinorReligion.getPrereqLeader() != getLeaderType())
+				{
+					return false;
+				}
+			}
+		}
+	}
+	// XANA: 06-27-2026 Unique Civics and Religions
 	{
 		VictoryTypes ePrereqVictory = kBuilding.getVictoryPrereq();
 		if (ePrereqVictory != NO_VICTORY)
