@@ -327,26 +327,34 @@ class CvReligionScreen:
 					if iRel in lReligions:
 						iCities[iRel] += 1
 
-					# count the number of temples
-					iBldg = ReligionUtil.getBuilding(iRel, ReligionUtil.BUILDING_TEMPLE)
-					if self.calculateBuilding(pLoopCity, iBldg) == self.objectHave:
-						iTemple[iRel] += 1
+					# XANA: 06-27-2026 Unique Civics and Religions
+					# Minor Religions do not have Temples, Monastaries, or Missionaries
+					if not gc.getReligionInfo(iRel).isMinorOrganization():
+						# count the number of temples
+						iBldg = ReligionUtil.getBuilding(iRel, ReligionUtil.BUILDING_TEMPLE)
+						if self.calculateBuilding(pLoopCity, iBldg) == self.objectHave:
+							iTemple[iRel] += 1
 
-					# count the number of monasteries
-					iBldg = ReligionUtil.getBuilding(iRel, ReligionUtil.BUILDING_MONASTERY)
-					if self.calculateBuilding(pLoopCity, iBldg) == self.objectHave:
-						iMonastery[iRel] += 1
+						# count the number of monasteries
+						iBldg = ReligionUtil.getBuilding(iRel, ReligionUtil.BUILDING_MONASTERY)
+						if self.calculateBuilding(pLoopCity, iBldg) == self.objectHave:
+							iMonastery[iRel] += 1
 
-					# count the number of missionaries under construction
-					iUnit = ReligionUtil.getUnit(iRel, ReligionUtil.UNIT_MISSIONARY)
-					if pLoopCity.GetCy().getFirstUnitOrder(iUnit) != -1:
-						iMissionaries_Construct[iRel] += 1
+						# count the number of missionaries under construction
+						iUnit = ReligionUtil.getUnit(iRel, ReligionUtil.UNIT_MISSIONARY)
+						if pLoopCity.GetCy().getFirstUnitOrder(iUnit) != -1:
+							iMissionaries_Construct[iRel] += 1
+					# XANA: 06-27-2026 Unique Civics and Religions
 
 			# count the number of active missionaries
 			for iUnit in PlayerUtil.playerUnits(self.iActivePlayer):  
 				for iRel in self.RELIGIONS:
-					if iUnit.getUnitType() == ReligionUtil.getUnit(iRel, ReligionUtil.UNIT_MISSIONARY):
-						iMissionaries_Active[iRel] += 1
+					# XANA: 06-27-2026 Unique Civics and Religions
+					# Minor Religions do not have Temples, Monastaries, or Missionaries
+					if not gc.getReligionInfo(iRel).isMinorOrganization():
+						if iUnit.getUnitType() == ReligionUtil.getUnit(iRel, ReligionUtil.UNIT_MISSIONARY):
+							iMissionaries_Active[iRel] += 1
+					# XANA: 06-27-2026 Unique Civics and Religions
 
 			# number of cities...
 			iY = self.Y_INFLUENCE + 20
@@ -360,38 +368,42 @@ class CvReligionScreen:
 					screen.setLabelAt("", szArea, szFounded, CvUtil.FONT_CENTER_JUSTIFY, xLoop, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
 				xLoop += self.DX_RELIGION
 
-			# number of temples...
-			iY = self.Y_INFLUENCE + 40
-			screen.setLabelAt("", szArea, self.szTemples, CvUtil.FONT_LEFT_JUSTIFY, self.LEFT_EDGE_TEXT, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
+			# XANA: 06-27-2026 Unique Civics and Religions
+			# Minor Religions do not have Temples, Monastaries, or Missionaries
+			if not gc.getReligionInfo(iRel).isMinorOrganization():
+				# number of temples...
+				iY = self.Y_INFLUENCE + 40
+				screen.setLabelAt("", szArea, self.szTemples, CvUtil.FONT_LEFT_JUSTIFY, self.LEFT_EDGE_TEXT, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
 
-			xLoop = self.X_RELIGION_START
-			for iRel in self.RELIGIONS:
-				if (gc.getGame().getReligionGameTurnFounded(iRel) >= 0):
-					szFounded = "%i" % (iTemple[iRel])
-					screen.setLabelAt("", szArea, szFounded, CvUtil.FONT_CENTER_JUSTIFY, xLoop, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
-				xLoop += self.DX_RELIGION
+				xLoop = self.X_RELIGION_START
+				for iRel in self.RELIGIONS:
+					if (gc.getGame().getReligionGameTurnFounded(iRel) >= 0):
+						szFounded = "%i" % (iTemple[iRel])
+						screen.setLabelAt("", szArea, szFounded, CvUtil.FONT_CENTER_JUSTIFY, xLoop, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
+					xLoop += self.DX_RELIGION
 
-			# number of monasteries...
-			iY = self.Y_INFLUENCE + 60
-			screen.setLabelAt("", szArea, self.szMonastaries, CvUtil.FONT_LEFT_JUSTIFY, self.LEFT_EDGE_TEXT, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
+				# number of monasteries...
+				iY = self.Y_INFLUENCE + 60
+				screen.setLabelAt("", szArea, self.szMonastaries, CvUtil.FONT_LEFT_JUSTIFY, self.LEFT_EDGE_TEXT, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
 
-			xLoop = self.X_RELIGION_START
-			for iRel in self.RELIGIONS:
-				if (gc.getGame().getReligionGameTurnFounded(iRel) >= 0):
-					szFounded = "%i" % (iMonastery[iRel])
-					screen.setLabelAt("", szArea, szFounded, CvUtil.FONT_CENTER_JUSTIFY, xLoop, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
-				xLoop += self.DX_RELIGION
+				xLoop = self.X_RELIGION_START
+				for iRel in self.RELIGIONS:
+					if (gc.getGame().getReligionGameTurnFounded(iRel) >= 0):
+						szFounded = "%i" % (iMonastery[iRel])
+						screen.setLabelAt("", szArea, szFounded, CvUtil.FONT_CENTER_JUSTIFY, xLoop, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
+					xLoop += self.DX_RELIGION
 
-			# number of missionaries...
-			iY = self.Y_INFLUENCE + 80
-			screen.setLabelAt("", szArea, self.szMissionaries, CvUtil.FONT_LEFT_JUSTIFY, self.LEFT_EDGE_TEXT, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
+				# number of missionaries...
+				iY = self.Y_INFLUENCE + 80
+				screen.setLabelAt("", szArea, self.szMissionaries, CvUtil.FONT_LEFT_JUSTIFY, self.LEFT_EDGE_TEXT, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
 
-			xLoop = self.X_RELIGION_START
-			for iRel in self.RELIGIONS:
-				if (gc.getGame().getReligionGameTurnFounded(iRel) >= 0):
-					szFounded = "%i [%i]" % (iMissionaries_Active[iRel], iMissionaries_Construct[iRel])
-					screen.setLabelAt("", szArea, szFounded, CvUtil.FONT_CENTER_JUSTIFY, xLoop, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
-				xLoop += self.DX_RELIGION
+				xLoop = self.X_RELIGION_START
+				for iRel in self.RELIGIONS:
+					if (gc.getGame().getReligionGameTurnFounded(iRel) >= 0):
+						szFounded = "%i [%i]" % (iMissionaries_Active[iRel], iMissionaries_Construct[iRel])
+						screen.setLabelAt("", szArea, szFounded, CvUtil.FONT_CENTER_JUSTIFY, xLoop, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
+					xLoop += self.DX_RELIGION
+			# XANA: 06-27-2026 Unique Civics and Religions
 
 		self.iReligionSelected = gc.getPlayer(self.iActivePlayer).getStateReligion()
 		if (self.iReligionSelected == -1):
