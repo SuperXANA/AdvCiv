@@ -3068,13 +3068,13 @@ void CvCity::processBuilding(BuildingTypes eBuilding, int iChange, bool bObsolet
 					{
 						setHeadquarters(eMinorCorporation);
 					}
-					else setHasCorporation(eMinorCorporation, true, false);
+					else setHasCorporation(eMinorCorporation, true, true);
 					ReligionTypes eMinorReligion = kHybridOrg.getTriggerReligion();
 					if (!kGame.isReligionSlotTaken(eMinorReligion))
 					{
 						kOwner.foundReligion(eMinorReligion, eMinorReligion, true);
 					}
-					else setHasReligion(eMinorReligion, true, false);
+					else setHasReligion(eMinorReligion, true, true);
 				}
 			}
 			// XANA: 06-27-2026 Unique Civics and Religions
@@ -11061,9 +11061,11 @@ void CvCity::doReligion()
 				// XANA: 06-27-2026 Unique Civics and Religions
 				if (GC.getInfo(eWeakestReligion).getHybridOrganizationType() != NO_HYBRID_ORGANIZATION)
 				{
-					if (getCityAboveMinorReligionRequirements(GC.getInfo(eWeakestReligion).getHybridOrganizationType()))
+					HybridOrganizationTypes eHybridOrg = GC.getInfo(eWeakestReligion).getHybridOrganizationType();
+					if (getCityAboveMinorReligionRequirements(eHybridOrg))
 					{
 						setHasReligion(eWeakestReligion, false, true, true);
+						setCityChangesDueToMinorReligionLeaving(eHybridOrg);
 						break; // end the loop
 					}
 				}
@@ -13549,5 +13551,16 @@ bool CvCity::getCityAboveMinorReligionRequirements(HybridOrganizationTypes const
 		}
 	}
 	return false;
+}
+
+
+void CvCity::setCityChangesDueToMinorReligionLeaving(HybridOrganizationTypes const eHybridOrg)
+{
+	CvHybridOrganizationInfo const& kHybridOrg = GC.getInfo(eHybridOrg);
+	if (kHybridOrg.getWithdrawalUnhappinessTurns() > 0)
+	{
+		// XANA (note): TO-DO - Need an unhappiness timer for handling anger of a minor religious organization leaving
+		changeUnhappinessTimer(kHybridOrg.getWithdrawalUnhappinessTurns());
+	}
 }
 // XANA: 06-27-2026 Unique Civics and Religions
