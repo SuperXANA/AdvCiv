@@ -712,6 +712,10 @@ public:
 
 	DllExport bool IsGraphicsInitialized() const;
 	DllExport void SetGraphicsInitialized(bool bVal);
+	
+	// XANA: 06-21-2025 Racial Marks
+	bool isRaceOfClass(RaceTypes eRace, RaceClassTypes eRaceClass) const;
+	// XANA: 06-21-2025 Racial Marks
 
 	// for caching
 #pragma region ReadInfoArrays

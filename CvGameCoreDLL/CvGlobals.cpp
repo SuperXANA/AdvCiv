@@ -1028,6 +1028,20 @@ void CvGlobals::setHoFScreenUp(bool b)
 }
 
 
+// XANA: 06-21-2025 Racial Marks
+// Returns true if the specific race belongs to the given race class
+bool CvGlobals::isRaceOfClass(RaceTypes eRace, RaceClassTypes eRaceClass) const
+{
+	if (eRace == NO_RACE || eRaceClass == NO_RACECLASS)
+	{
+		return false;
+	}
+	CvRaceInfo const& kRace = GC.getInfo(eRace);
+	return kRace.isRaceClass(eRaceClass);
+}
+// XANA: 06-21-2025 Racial Marks
+
+
 int CvGlobals::getInfoTypeForString(const char* szType, bool bHideAssert,
 	bool bFromPython) const // advc.006
 {
