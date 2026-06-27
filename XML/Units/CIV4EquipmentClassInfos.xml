@@ -13,16 +13,16 @@
 			<Description>TXT_KEY_EQUIPMENT_CLASS_SWORD</Description>
 			<EquipmentHoldOptions>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_UNICORN_PONY_HORN</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_UNICORN_PONY_HORN</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<bPreferredCarrySlot>1</bPreferredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_GRIPPED_SINGLE</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_GRIPPED_SINGLE</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_PONY_MOUTH_GRIP</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_PONY_MOUTH_GRIP</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<iSlotCarryPenalty>-20</iSlotCarryPenalty>
 				</EquipmentHoldOption>
@@ -34,16 +34,16 @@
 			<Description>TXT_KEY_EQUIPMENT_CLASS_SPEAR</Description>
 			<EquipmentHoldOptions>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_UNICORN_PONY_HORN</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_UNICORN_PONY_HORN</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_GRIPPED_SINGLE</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_GRIPPED_SINGLE</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<bPreferredCarrySlot>1</bPreferredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_PONY_MOUTH_GRIP</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_PONY_MOUTH_GRIP</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<iSlotCarryPenalty>-10</iSlotCarryPenalty>
 				</EquipmentHoldOption>
@@ -55,12 +55,12 @@
 			<Description>TXT_KEY_EQUIPMENT_CLASS_BOW</Description>
 			<EquipmentHoldOptions>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_UNICORN_PONY_HORN</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_UNICORN_PONY_HORN</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<bPreferredCarrySlot>1</bPreferredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_GRIPPED_DOUBLE</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_GRIPPED_DOUBLE</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 			</EquipmentHoldOptions>
@@ -70,26 +70,26 @@
 			<Description>TXT_KEY_EQUIPMENT_CLASS_GUN</Description>
 			<EquipmentHoldOptions>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_UNICORN_PONY_HORN</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_UNICORN_PONY_HORN</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<bPreferredCarrySlot>1</bPreferredCarrySlot>
 					<iSlotCarryPenalty>-5</iSlotCarryPenalty>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_GRIPPED_SINGLE</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_GRIPPED_SINGLE</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_BOUND_TO_BACK</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_BOUND_TO_BACK</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_PONY_SIDE_BOUND_DOUBLE</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_PONY_SIDE_BOUND_DOUBLE</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<bPreferredCarrySlot>1</bPreferredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_PONY_SIDE_BOUND_SINGLE</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_PONY_SIDE_BOUND_SINGLE</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 			</EquipmentHoldOptions>
@@ -100,17 +100,17 @@
 			<Description>TXT_KEY_EQUIPMENT_CLASS_WINGBLADE</Description>
 			<EquipmentHoldOptions>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_PEGASUS_WING_ACCESSORY_DOUBLE</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_PEGASUS_WING_ACCESSORY_DOUBLE</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<bPreferredCarrySlot>1</bPreferredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_PEGASUS_WING_ACCESSORY_SINGLE</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_PEGASUS_WING_ACCESSORY_SINGLE</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<iSlotCarryPenalty>-5</iSlotCarryPenalty>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_BOUND_TO_BACK</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_BOUND_TO_BACK</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 			</EquipmentHoldOptions>
@@ -121,11 +121,11 @@
 			<Description>TXT_KEY_EQUIPMENT_CLASS_STAFF</Description>
 			<EquipmentHoldOptions>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_UNICORN_PONY_HORN</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_UNICORN_PONY_HORN</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_GRIPPED_SINGLE</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_GRIPPED_SINGLE</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 			</EquipmentHoldOptions>
@@ -136,7 +136,7 @@
 			<Description>TXT_KEY_EQUIPMENT_CLASS_BOOTS</Description>
 			<EquipmentHoldOptions>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_BOOTS_ATTACHMENT</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_BOOTS_ATTACHMENT</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 			</EquipmentHoldOptions>
@@ -146,7 +146,7 @@
 			<Description>TXT_KEY_EQUIPMENT_CLASS_CLOAK</Description>
 			<EquipmentHoldOptions>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_BOUND_TO_FRONT</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_BOUND_TO_FRONT</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 			</EquipmentHoldOptions>
@@ -157,7 +157,7 @@
 			<Description>TXT_KEY_EQUIPMENT_CLASS_TIARA</Description>
 			<EquipmentHoldOptions>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_HEAD_ACCESSORY</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_HEAD_ACCESSORY</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<bPreferredCarrySlot>1</bPreferredCarrySlot>
 				</EquipmentHoldOption>
@@ -169,21 +169,21 @@
 			<Description>TXT_KEY_EQUIPMENT_CLASS_AMULET</Description>
 			<EquipmentHoldOptions>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_EAR_ACCESSORY</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_EAR_ACCESSORY</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<bPreferredCarrySlot>1</bPreferredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_NECK_ACCESSORY</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_NECK_ACCESSORY</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<bPreferredCarrySlot>1</bPreferredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_ON_FOREHEAD</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_ON_FOREHEAD</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_BOUND_TO_FRONT</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_BOUND_TO_FRONT</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 			</EquipmentHoldOptions>
@@ -194,12 +194,12 @@
 			<Description>TXT_KEY_EQUIPMENT_CLASS_GUARD</Description>
 			<EquipmentHoldOptions>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_HEAD_ACCESSORY</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_HEAD_ACCESSORY</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<bPreferredCarrySlot>1</bPreferredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_ON_FOREHEAD</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_ON_FOREHEAD</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 			</EquipmentHoldOptions>
@@ -210,12 +210,12 @@
 			<Description>TXT_KEY_EQUIPMENT_CLASS_HAIRBOW</Description>
 			<EquipmentHoldOptions>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_HAIR_ACCESSORY</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_HAIR_ACCESSORY</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<bPreferredCarrySlot>1</bPreferredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_TAIL_ACCESSORY</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_TAIL_ACCESSORY</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<iSlotCarryPenalty>-15</iSlotCarryPenalty>
 				</EquipmentHoldOption>
@@ -230,12 +230,12 @@
 			<Description>TXT_KEY_EQUIPMENT_CLASS_ITEM</Description>
 			<EquipmentHoldOptions>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_PONY_SIDE_BOUND_SINGLE</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_PONY_SIDE_BOUND_SINGLE</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 					<bPreferredCarrySlot>1</bPreferredCarrySlot>
 				</EquipmentHoldOption>
 				<EquipmentHoldOption>
-					<EquipmentHoldClassType>EQUIPMENT_HOLD_BOUND_TO_BACK</EquipmentHoldClassType>
+					<EquipmentHoldType>EQUIPMENT_HOLD_BOUND_TO_BACK</EquipmentHoldType>
 					<bRequiredCarrySlot>1</bRequiredCarrySlot>
 				</EquipmentHoldOption>
 			</EquipmentHoldOptions>

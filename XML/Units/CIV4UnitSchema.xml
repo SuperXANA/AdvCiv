@@ -1055,12 +1055,12 @@
 		<element type="AnimationPaths" minOccurs="1" maxOccurs="1"/>
 	</ElementType>
 	<!-- XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv -->
-	<ElementType name="EquipmentHoldClassType" content="textOnly"/>
+	<ElementType name="EquipmentHoldType" content="textOnly"/>
 	<ElementType name="bRequiredCarrySlot" content="textOnly" dt:type="boolean"/>
 	<ElementType name="bPreferredCarrySlot" content="textOnly" dt:type="boolean"/>
 	<ElementType name="iSlotCarryPenalty" content="textOnly" dt:type="int"/>
 	<ElementType name="EquipmentHoldOption" content="eltOnly">
-		<element type="EquipmentHoldClassType"/>
+		<element type="EquipmentHoldType"/>
 		<element type="bRequiredCarrySlot"/>
 		<element type="bPreferredCarrySlot" minOccurs="0"/>
 		<element type="iSlotCarryPenalty" minOccurs="0"/>
