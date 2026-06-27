@@ -142,4 +142,40 @@
 	<ElementType name="Civ4MemoryInfos" content="eltOnly">
 		<element type="MemoryInfos"/>
 	</ElementType>
+	<!-- XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv -->
+	<ElementType name="iUnitLevelRequired" content="textOnly" dt:type="int"/>
+	<ElementType name="EquipmentLevelInfo" content="eltOnly">
+		<element type="Type"/>
+		<element type="Description"/>
+		<element type="iUnitLevelRequired" minOccurs="0"/>
+	</ElementType>
+	<ElementType name="EquipmentLevelInfos" content="eltOnly">
+		<element type="EquipmentLevelInfo" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="Civ4EquipmentLevelInfos" content="eltOnly">
+		<element type="EquipmentLevelInfos" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="EquipmentHoldClassInfo" content="eltOnly">
+		<element type="Type"/>
+		<element type="Description"/>
+	</ElementType>
+	<ElementType name="EquipmentHoldClassInfos" content="eltOnly">
+		<element type="EquipmentHoldClassInfo" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="Civ4EquipmentHoldClassInfos" content="eltOnly">
+		<element type="EquipmentHoldClassInfos" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="Class" content="textOnly"/>
+	<ElementType name="EquipmentHoldInfo" content="eltOnly">
+		<element type="Class"/>
+		<element type="Type"/>
+		<element type="Description"/>
+	</ElementType>
+	<ElementType name="EquipmentHoldInfos" content="eltOnly">
+		<element type="EquipmentHoldInfo" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="Civ4EquipmentHoldInfos" content="eltOnly">
+		<element type="EquipmentHoldInfos" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv -->
 </Schema>

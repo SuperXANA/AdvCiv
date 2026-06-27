@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Firaxis Games (Firaxis Games) -->
+<!-- Sid Meier's Civilization 4 -->
+<!-- Copyright Firaxis Games 2005 -->
+<!-- -->
+
+<!-- Basic Infos -->
+
+<Civ4EquipmentHoldInfos xmlns="x-schema:CIV4BasicInfoSchema.xml">
+	<EquipmentHoldInfos>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_CLASPED_AROUND_HEAD</Class>
+			<Type>EQUIPMENT_HOLD_UNICORN_PONY_HORN</Type> <!-- Unicorn specific weapons that boost power - e.x. sharpened horn or that cast magical attacks -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_UNICORN_PONY_HORN</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_CLASPED_AROUND_HEAD</Class>
+			<Type>EQUIPMENT_HOLD_HEAD_ACCESSORY</Type>  <!-- Hats and helms that boost defense - e.x. a helm that weathers fire based damage or that protects the wearer from cold -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_HEAD_ACCESSORY</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_CLASPED_AROUND_HEAD</Class>
+			<Type>EQUIPMENT_HOLD_ON_FOREHEAD</Type> <!-- Amulets that boost power or defense - e.x. amplify magical attacks, cast barrier magic, or provide revitalization -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_ON_FOREHEAD</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_CLIPPED_TO_EAR</Class>
+			<Type>EQUIPMENT_HOLD_EAR_ACCESSORY</Type> <!-- Earrings that boost speed - e.x. magically muffles hoofstep sounds or unnerve enemy ponies -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_EAR_ACCESSORY</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_CLIPPED_TO_HAIR</Class>
+			<Type>EQUIPMENT_HOLD_HAIR_ACCESSORY</Type> <!-- Brooches and hair-clips that boost random value states - e.x. provide specialized magial fields for defense or casts magical effects upon users  -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_HAIR_ACCESSORY</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_HELD_IN_MOUTH</Class>
+			<Type>EQUIPMENT_HOLD_PONY_MOUTH_GRIP</Type> <!-- Pony specific weapons that are designed to be held in the mouth - e.x. flails and maces -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_PONY_MOUTH_GRIP</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_CLASPED_AROUND_NECK</Class>
+			<Type>EQUIPMENT_HOLD_NECK_ACCESSORY</Type> <!-- Amulets that boost random value states - e.x. provide specialized magial fields for power or casts magical effects upon users  -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_NECK_ACCESSORY</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_HELD_SINGLE_GRIP</Class>
+			<Type>EQUIPMENT_HOLD_GRIPPED_SINGLE</Type> <!-- Weapons that are designed to be held in one hoof - e.x. swords and spears -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_GRIPPED_SINGLE</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_HELD_DOUBLE_GRIP</Class>
+			<Type>EQUIPMENT_HOLD_GRIPPED_DOUBLE</Type> <!-- Weapons that are designed to be held in both hooves - e.x. claymore swords, really heavy spears -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_GRIPPED_DOUBLE</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_HELD_DOUBLE_GRIP</Class>
+			<Type>EQUIPMENT_HOLD_BOOTS_ATTACHMENT</Type> <!-- Boots that boost defense or speed - e.x. allows users to walk on flaming terrain or enables flying for non-flight units -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_BOOTS_ATTACHMENT</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_CLIPPED_TO_SINGLE_BODY_SIDE</Class>
+			<Type>EQUIPMENT_HOLD_PEGASUS_WING_ACCESSORY_SINGLE</Type> <!-- Pegasi specific accessory bands that boost random value states - e.x. provide specialized magial fields for speed or casts magical effects upon users -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_PEGASUS_WING_ACCESSORY_SINGLE</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_CLIPPED_TO_SINGLE_BODY_SIDE</Class>
+			<Type>EQUIPMENT_HOLD_PONY_SIDE_BOUND_SINGLE</Type> <!-- Weapons that are designed to be attached to one side of the body - e.x. machine-guns when utilized by ponies -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_PONY_SIDE_BOUND_SINGLE</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_CLIPPED_TO_BOTH_BODY_SIDES</Class>
+			<Type>EQUIPMENT_HOLD_PEGASUS_WING_ACCESSORY_DOUBLE</Type> <!-- Pegasi specific accessory bands that boost random value states - e.x. provide specialized magial fields for speed or casts magical effects upon users -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_PONY_SIDE_BOUND_DOUBLE</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_CLIPPED_TO_BOTH_BODY_SIDES</Class>
+			<Type>EQUIPMENT_HOLD_PONY_SIDE_BOUND_DOUBLE</Type> <!-- Weapons that are designed to be attached to one side of the body - e.x. double-barrel machine-guns when utilized by ponies -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_PONY_SIDE_BOUND_DOUBLE</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_CLIPPED_TO_SINGLE_BODY_SIDE</Class>
+			<Type>EQUIPMENT_HOLD_BOUND_TO_FRONT</Type> <!-- Cloaks and coats designed to protect against the elements and provide a magical defense boost -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_BOUND_TO_BACK</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_CLIPPED_TO_SINGLE_BODY_SIDE</Class>
+			<Type>EQUIPMENT_HOLD_BOUND_TO_BACK</Type> <!-- Weapons that are designed to be attached to one side of the body - e.x. machine-guns when utilized other races lacking hooves or strength needed to wield -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_BOUND_TO_BACK</Description>
+		</EquipmentHoldInfo>
+		<EquipmentHoldInfo>
+			<Class>EQUIPMENTHOLDCLASS_CLIPPED_TO_TAIL</Class>
+			<Type>EQUIPMENT_HOLD_TAIL_ACCESSORY</Type> <!-- Misc. accessories that provide random benefits - e.x. hair-clips that boost speed by casting magical effects upon users -->
+			<Description>TXT_KEY_EQUIPMENT_HOLD_TAIL_ACCESSORY</Description>
+		</EquipmentHoldInfo>
+	</EquipmentHoldInfos>
+</Civ4EquipmentHoldInfos>

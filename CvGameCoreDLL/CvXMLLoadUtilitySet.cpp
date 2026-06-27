@@ -634,6 +634,14 @@ bool CvXMLLoadUtility::LoadBasicInfos()
 	LoadGlobalClassInfo(GC.m_paUnitAIInfo, "CIV4UnitAIInfos", "BasicInfos", "Civ4UnitAIInfos/UnitAIInfos/UnitAIInfo", false);
 	LoadGlobalClassInfo(GC.m_paAttitudeInfo, "CIV4AttitudeInfos", "BasicInfos", "Civ4AttitudeInfos/AttitudeInfos/AttitudeInfo", false);
 	LoadGlobalClassInfo(GC.m_paMemoryInfo, "CIV4MemoryInfos", "BasicInfos", "Civ4MemoryInfos/MemoryInfos/MemoryInfo", false);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	// XANA (note): The level required to field a piece of equipment, e.g. [E]xperienced, [P]referred, etc.
+	LoadGlobalClassInfo(GC.m_paEquipmentLevelInfo, "CIV4EquipmentLevelInfos", "BasicInfos", "Civ4EquipmentLevelInfos/EquipmentLevelInfos/EquipmentLevelInfo", false);
+	// XANA (note): The methods by which you can hold a piece of equipment, e.g. one-handed right/left, two-handed, headgear, footgear, etc.
+	LoadGlobalClassInfo(GC.m_paEquipmentHoldClassInfo, "CIV4EquipmentHoldClassInfos", "BasicInfos", "Civ4EquipmentHoldClassInfos/EquipmentHoldClassInfos/EquipmentHoldClassInfo", false);
+	// XANA (note): The civilization-specific methods by which Units can hold equipment and the holding limitations they don't have acces to, in the fore-hoof [hand] for Ponies, rendered unable to use equipment that requires it to be tied to a mane/tail for those lacking that feature, etc.
+	LoadGlobalClassInfo(GC.m_paEquipmentHoldInfo, "CIV4EquipmentHoldInfos", "BasicInfos", "Civ4EquipmentHoldInfos/EquipmentHoldInfos/EquipmentHoldInfo", false);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	DestroyFXml();
 	return true;
@@ -658,10 +666,6 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paAdvisorInfo, "CIV4AdvisorInfos", "Interface", "Civ4AdvisorInfos/AdvisorInfos/AdvisorInfo", false);
 	LoadGlobalClassInfo(GC.m_paTerrainInfo, "CIV4TerrainInfos", "Terrain", "Civ4TerrainInfos/TerrainInfos/TerrainInfo", false);
 	LoadGlobalClassInfo(GC.m_paEraInfo, "CIV4EraInfos", "GameInfo", "Civ4EraInfos/EraInfos/EraInfo", false);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	// XANA (note): The methods by which you can hold a piece of equipment, e.g. one-handed right/left, two-handed, headgear, footgear, etc.
-	LoadGlobalClassInfo(GC.m_paEquipmentHoldClassInfo, "CIV4EquipmentHoldClassInfos", "Units", "Civ4EquipmentHoldClassInfos/EquipmentHoldClassInfos/EquipmentHoldClassInfo", false);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paUnitClassInfo, "CIV4UnitClassInfos", "Units", "Civ4UnitClassInfos/UnitClassInfos/UnitClassInfo", false);
 	LoadGlobalClassInfo(GC.m_paSpecialistInfo, "CIV4SpecialistInfos", "GameInfo", "Civ4SpecialistInfos/SpecialistInfos/SpecialistInfo", false);
 	LoadGlobalClassInfo(GC.m_paVoteSourceInfo, "CIV4VoteSourceInfos", "GameInfo", "Civ4VoteSourceInfos/VoteSourceInfos/VoteSourceInfo", false);
@@ -673,8 +677,6 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	// XANA (note): The different kinds of equipment you can hold, swords, shields, staves, magical rods, etc.
 	LoadGlobalClassInfo(GC.m_paEquipmentClassInfo, "CIV4EquipmentClassInfos", "Units", "Civ4EquipmentClassInfos/EquipmentClassInfos/EquipmentClassInfo", false);
-	// XANA (note): The level required to field a piece of equipment, e.g. [E]xperienced, [P]referred, etc.
-	LoadGlobalClassInfo(GC.m_paEquipmentLevelInfo, "CIV4EquipmentLevelInfos", "Units", "Civ4EquipmentLevelInfos/EquipmentLevelInfos/EquipmentLevelInfo", false);
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paPromotionInfo, "CIV4PromotionInfos", "Units", "Civ4PromotionInfos/PromotionInfos/PromotionInfo", true, &CvDLLUtilityIFaceBase::createPromotionInfoCacheObject);
 	LoadGlobalClassInfo(GC.m_paTraitInfo, "CIV4TraitInfos", "Civilizations", "Civ4TraitInfos/TraitInfos/TraitInfo", false);
@@ -722,10 +724,6 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	FOR_EACH_ENUM(UnitClass)
 		GC.getInfo(eLoopUnitClass).readPass3();
 	LoadGlobalClassInfo(GC.m_paUnitArtStyleInfo, "CIV4UnitArtStyleTypeInfos", "Civilizations", "Civ4UnitArtStyleTypeInfos/UnitArtStyleTypeInfos/UnitArtStyleTypeInfo", false);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	// XANA (note): The civilization-specific methods by which Units can hold equipment and the holding limitations they don't have acces to, in the fore-hoof [hand] for Ponies, rendered unable to use equipment that requires it to be tied to a mane/tail for those lacking that feature, etc.
-	LoadGlobalClassInfo(GC.m_paEquipmentHoldInfo, "CIV4EquipmentHoldInfos", "Units", "Civ4EquipmentHoldInfos/EquipmentHoldInfos/EquipmentHoldInfo", false);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paCivilizationInfo, "CIV4CivilizationInfos", "Civilizations", "Civ4CivilizationInfos/CivilizationInfos/CivilizationInfo", true, &CvDLLUtilityIFaceBase::createCivilizationInfoCacheObject);
 	LoadGlobalClassInfo(GC.m_paHintInfo, "CIV4Hints", "GameInfo", "Civ4Hints/HintInfos/HintInfo", false);
 	LoadGlobalClassInfo(GC.m_paMainMenuInfo, "CIV4MainMenus", "Art", "Civ4MainMenus/MainMenus/MainMenu", false);

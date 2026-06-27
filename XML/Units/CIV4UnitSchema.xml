@@ -1055,18 +1055,46 @@
 		<element type="AnimationPaths" minOccurs="1" maxOccurs="1"/>
 	</ElementType>
 	<!-- XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv -->
-	<ElementType name="iUnitLevelRequired" content="textOnly" dt:type="int"/>
-	<ElementType name="EquipmentLevelInfo" content="eltOnly">
+	<ElementType name="EquipmentHoldClassType" content="textOnly"/>
+	<ElementType name="bRequiredCarrySlot" content="textOnly" dt:type="boolean"/>
+	<ElementType name="bPreferredCarrySlot" content="textOnly" dt:type="boolean"/>
+	<ElementType name="iSlotCarryPenalty" content="textOnly" dt:type="int"/>
+	<ElementType name="EquipmentHoldOption" content="eltOnly">
+		<element type="EquipmentHoldClassType"/>
+		<element type="bRequiredCarrySlot"/>
+		<element type="bPreferredCarrySlot" minOccurs="0"/>
+		<element type="iSlotCarryPenalty" minOccurs="0"/>
+	</ElementType>
+	<ElementType name="EquipmentHoldOptions" content="eltOnly">
+		<element type="EquipmentHoldOption" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="EquipmentClassInfo" content="eltOnly">
 		<element type="Type"/>
 		<element type="Description"/>
-		<element type="Help"/>
-		<element type="iUnitLevelRequired" minOccurs="0"/>
+		<element type="Help" minOccurs="0"/>
+		<element type="EquipmentHoldOptions" maxOccurs="1"/>
 	</ElementType>
-	<ElementType name="EquipmentLevelInfos" content="eltOnly">
-		<element type="EquipmentLevelInfo" maxOccurs="*"/>
+	<ElementType name="EquipmentClassInfos" content="eltOnly">
+		<element type="EquipmentClassInfo" maxOccurs="*"/>
 	</ElementType>
-	<ElementType name="Civ4EquipmentLevelInfos" content="eltOnly">
-		<element type="EquipmentLevelInfos" minOccurs="0" maxOccurs="*"/>
+	<ElementType name="Civ4EquipmentClassInfos" content="eltOnly">
+		<element type="EquipmentClassInfos" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="EquipmentInfo" content="eltOnly">
+		<element type="Class"/>
+		<element type="Type"/>
+		<element type="Description"/>
+		<element type="Civilopedia"/>
+		<element type="Strategy"/>
+		<element type="Help" minOccurs="0"/>
+		<element type="UniqueNames"/>
+		<element type="EquipmentHoldOptions" minOccurs="0" maxOccurs="1"/>
+	</ElementType>
+	<ElementType name="EquipmentInfos" content="eltOnly">
+		<element type="EquipmentInfo" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="Civ4EquipmentInfos" content="eltOnly">
+		<element type="EquipmentInfos" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
 	<!-- XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv -->
 </Schema>

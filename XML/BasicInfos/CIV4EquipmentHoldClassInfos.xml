@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Firaxis Games (Firaxis Games) -->
+<!-- Sid Meier's Civilization 4 -->
+<!-- Copyright Firaxis Games 2005 -->
+<!-- -->
+<!-- Basic Infos -->
+
+<Civ4EquipmentHoldClassInfos xmlns="x-schema:CIV4BasicInfoSchema.xml">
+	<EquipmentHoldClassInfos>
+		<EquipmentHoldClassInfo>
+			<Type>EQUIPMENTHOLDCLASS_CLASPED_AROUND_HEAD</Type>
+			<Description>TXT_KEY_EQUIPMENT_HOLD_CLASS_CLASPED_AROUND_HEAD</Description>
+		</EquipmentHoldClassInfo>
+		<EquipmentHoldClassInfo>
+			<Type>EQUIPMENTHOLDCLASS_CLIPPED_TO_EAR</Type>
+			<Description>TXT_KEY_EQUIPMENT_HOLD_CLASS_CLIPPED_TO_EAR</Description>
+		</EquipmentHoldClassInfo>
+		<EquipmentHoldClassInfo>
+			<Type>EQUIPMENTHOLDCLASS_CLIPPED_TO_HAIR</Type>
+			<Description>TXT_KEY_EQUIPMENT_HOLD_CLASS_CLIPPED_TO_HAIR</Description>
+		</EquipmentHoldClassInfo>
+		<EquipmentHoldClassInfo>
+			<Type>EQUIPMENTHOLDCLASS_HELD_IN_MOUTH</Type>
+			<Description>TXT_KEY_EQUIPMENT_HOLD_CLASS_HELD_IN_MOUTH</Description>
+		</EquipmentHoldClassInfo>
+		<EquipmentHoldClassInfo>
+			<Type>EQUIPMENTHOLDCLASS_CLASPED_AROUND_NECK</Type>
+			<Description>TXT_KEY_EQUIPMENT_HOLD_CLASS_CLASPED_AROUND_NECK</Description>
+		</EquipmentHoldClassInfo>
+		<EquipmentHoldClassInfo>
+			<Type>EQUIPMENTHOLDCLASS_HELD_SINGLE_GRIP</Type>
+			<Description>TXT_KEY_EQUIPMENT_HOLD_CLASS_HELD_SINGLE_GRIP</Description>
+		</EquipmentHoldClassInfo>
+		<EquipmentHoldClassInfo>
+			<Type>EQUIPMENTHOLDCLASS_HELD_DOUBLE_GRIP</Type>
+			<Description>TXT_KEY_EQUIPMENT_HOLD_CLASS_HELD_DOUBLE_GRIP</Description>
+		</EquipmentHoldClassInfo>
+		<EquipmentHoldClassInfo>
+			<Type>EQUIPMENTHOLDCLASS_CLIPPED_TO_SINGLE_BODY_SIDE</Type>
+			<Description>TXT_KEY_EQUIPMENT_HOLD_CLASS_CLIPPED_TO_SINGLE_BODY_SIDE</Description>
+		</EquipmentHoldClassInfo>
+		<EquipmentHoldClassInfo>
+			<Type>EQUIPMENTHOLDCLASS_CLIPPED_TO_BOTH_BODY_SIDES</Type>
+			<Description>TXT_KEY_EQUIPMENT_HOLD_CLASS_CLIPPED_TO_BOTH_BODY_SIDES</Description>
+		</EquipmentHoldClassInfo>
+		<EquipmentHoldClassInfo>
+			<Type>EQUIPMENTHOLDCLASS_CLIPPED_TO_TAIL</Type>
+			<Description>TXT_KEY_EQUIPMENT_HOLD_CLASS_CLIPPED_TO_TAIL</Description>
+		</EquipmentHoldClassInfo>
+	</EquipmentHoldClassInfos>
+</Civ4EquipmentHoldClassInfos>
+
