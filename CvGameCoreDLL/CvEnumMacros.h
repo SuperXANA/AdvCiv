@@ -45,6 +45,7 @@
 	DO(CultureLevel, CULTURELEVEL) \
 	DO(CivicOption, CIVICOPTION) \
 	/* XANA: 06-21-2025 Racial Marks */ \
+	DO(RaceClass, RACECLASS) \
 	DO(Race, RACE)
 	// XANA: 06-21-2025 Racial Marks
 
@@ -170,6 +171,9 @@
 #define CvDenialInfo CvInfoBase
 // This one just has an irregular, exported name.
 #define CvThroneRoomCameraInfo CvThroneRoomCamera
+// XANA: 06-21-2025 Racial Marks
+#define CvRaceClassInfo CvInfoBase
+// XANA: 06-21-2025 Racial Marks
 
 /*	Static enum types without any associated CvInfo data.
 	Not a complete list; add types here if their traits need to be accessed. */

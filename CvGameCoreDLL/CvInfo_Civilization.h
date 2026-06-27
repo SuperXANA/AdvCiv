@@ -209,6 +209,14 @@ public: // advc: All the const functions are exposed to Python except those adde
 	ReligionTypes getFavoriteReligion() const { return m_eFavoriteReligion; }
 	int getFreedomAppreciation() const { return m_iFreedomAppreciation; }
 	int getLoveOfPeace() const { return m_iLoveOfPeace; } // advc.104
+	
+// XANA: 06-21-2025 Racial Marks
+	RaceTypes getDefaultRace() const { return m_eDefaultRace; }
+	RaceTypes getFavoriteRace() const { return m_eFavoriteRace; }
+	RaceTypes getHatedRace() const { return m_eHatedRace; }
+	RaceTypes getFavoriteRaceClass() const { return m_eFavoriteRaceClass; }
+	RaceTypes getHatedRaceClass() const { return m_eHatedRaceClass; }
+// XANA: 06-21-2025 Racial Marks
 
 	const TCHAR* getArtDefineTag() const;
 
@@ -228,6 +236,13 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getDiploPeaceMusicScriptIds(int i) const;
 	int getDiploWarIntroMusicScriptIds(int i) const;
 	int getDiploWarMusicScriptIds(int i) const;
+	
+// XANA: 06-21-2025 Racial Marks
+	int getFavoriteRaceAttitudeChange(int i) const;
+	int getFavoriteRaceClassAttitudeChange(int i) const;
+	int getHatedRaceAttitudeChange(int i) const;
+	int getHatedRaceClassAttitudeChange(int i) const;
+// XANA: 06-21-2025 Racial Marks
 
 	// (not exposed to Python)
 	DllExport const CvArtInfoLeaderhead* getArtInfo() const;
@@ -330,6 +345,14 @@ protected:
 	ReligionTypes m_eFavoriteReligion;
 
 	CvString m_szArtDefineTag;
+	
+// XANA: 06-21-2025 Racial Marks
+	RaceTypes m_eDefaultRace;
+	int* m_iFavoriteRaceAttitudeChange;
+	int* m_iHatedRaceAttitudeChange;
+	int* m_iFavoriteRaceClassAttitudeChange;
+	int* m_iHatedRaceClassAttitudeChange;
+// XANA: 06-21-2025 Racial Marks
 
 	bool* m_pbTraits;
 
@@ -538,16 +561,14 @@ public:
 
 	CvRaceInfo();
 	~CvRaceInfo();
-	
-	RaceTypes getSubRaceType() const { return m_eSubRaceType; }
 
 	// Array access:
+	bool isRaceClass(int i) const;
 
 	bool read(CvXMLLoadUtility* pXML);
-	bool readPass2(CvXMLLoadUtility* pXML);
 
 protected:
-RaceTypes m_eSubRaceType;
+	bool* m_pbRaceClasses;
 
 };
 // XANA: 06-21-2025 Racial Marks

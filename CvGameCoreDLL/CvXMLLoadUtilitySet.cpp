@@ -634,6 +634,9 @@ bool CvXMLLoadUtility::LoadBasicInfos()
 	LoadGlobalClassInfo(GC.m_paUnitAIInfo, "CIV4UnitAIInfos", "BasicInfos", "Civ4UnitAIInfos/UnitAIInfos/UnitAIInfo", false);
 	LoadGlobalClassInfo(GC.m_paAttitudeInfo, "CIV4AttitudeInfos", "BasicInfos", "Civ4AttitudeInfos/AttitudeInfos/AttitudeInfo", false);
 	LoadGlobalClassInfo(GC.m_paMemoryInfo, "CIV4MemoryInfos", "BasicInfos", "Civ4MemoryInfos/MemoryInfos/MemoryInfo", false);
+// XANA: 06-21-2025 Racial Marks
+	LoadGlobalClassInfo(GC.m_paRaceClassInfo, "CIV4RaceClassInfos", "BasicInfos", "Civ4RaceClassInfos/RaceClassInfos/RaceClassInfo", false);
+// XANA: 06-21-2025 Racial Marks
 
 	DestroyFXml();
 	return true;
@@ -667,7 +670,7 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paAnimationCategoryInfo, "CIV4AnimationInfos", "Units", "Civ4AnimationInfos/AnimationCategories/AnimationCategory", false);
 	LoadGlobalClassInfo(GC.m_paAnimationPathInfo, "CIV4AnimationPathInfos", "Units", "Civ4AnimationPathInfos/AnimationPaths/AnimationPath", false);
 // XANA: 06-21-2025 Racial Marks
-	LoadGlobalClassInfo(GC.m_paRaceInfo, "CIV4RaceInfos", "Civilizations", "Civ4RaceInfos/RaceInfos/RaceInfo", true);
+	LoadGlobalClassInfo(GC.m_paRaceInfo, "CIV4RaceInfos", "Civilizations", "Civ4RaceInfos/RaceInfos/RaceInfo", false);
 // XANA: 06-21-2025 Racial Marks
 	LoadGlobalClassInfo(GC.m_paPromotionInfo, "CIV4PromotionInfos", "Units", "Civ4PromotionInfos/PromotionInfos/PromotionInfo", true, &CvDLLUtilityIFaceBase::createPromotionInfoCacheObject);
 	LoadGlobalClassInfo(GC.m_paTraitInfo, "CIV4TraitInfos", "Civilizations", "Civ4TraitInfos/TraitInfos/TraitInfo", false);

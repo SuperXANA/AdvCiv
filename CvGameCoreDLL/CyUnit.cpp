@@ -1711,6 +1711,6 @@ int /*RaceTypes*/ CyUnit::getRace()
 
 bool CyUnit::isRace(int /*RaceTypes*/ eIndex)
 {
-	return m_pUnit ? m_pUnit->pyIsRace(eIndex) : false;
+	return m_pUnit ? (m_pUnit->getRace() == (RaceTypes)eIndex) : false;
 }
 // XANA: 06-21-2025 Racial Marks

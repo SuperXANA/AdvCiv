@@ -1067,6 +1067,22 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	#endif // </advc.xmldefault>
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploWarIntroMusicScriptIds, "DiplomacyIntroMusicWar", GC.getNumEraInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploWarMusicScriptIds, "DiplomacyMusicWar", GC.getNumEraInfos());
+	// XANA: 06-21-2025 Racial Marks
+	pXML->SetInfoIDFromChildXmlVal(m_eDefaultRace,
+			"DefaultRace");
+	pXML->SetInfoIDFromChildXmlVal(m_eFavoriteRace,
+			"FavoriteRace");
+	pXML->SetInfoIDFromChildXmlVal(m_eHatedRace,
+			"HatedRace");
+	pXML->SetInfoIDFromChildXmlVal(m_eFavoriteRaceClass,
+			"FavoriteRaceClass");
+	pXML->SetInfoIDFromChildXmlVal(m_eHatedRaceClass,
+			"HatedRaceClass");
+	pXML->SetVariableListTagPair(&m_iFavoriteRaceAttitudeChange, "FavoriteRaceAttitudeChanges", GC.getNumRaceInfos());
+	pXML->SetVariableListTagPair(&m_iHatedRaceAttitudeChange, "HateRaceAttitudeChanges", GC.getNumRaceInfos());
+	pXML->SetVariableListTagPair(&m_iFavoriteRaceClassAttitudeChange, "FavoriteRaceClassAttitudeChanges", GC.getNumRaceClassInfos());
+	pXML->SetVariableListTagPair(&m_iHatedRaceClassAttitudeChange, "HateRaceClassAttitudeChanges", GC.getNumRaceClassInfos());
+// XANA: 06-21-2025 Racial Marks
 
 	m_pXML = NULL; // advc.xmldefault
 	return true;
@@ -1568,12 +1584,17 @@ bool CvDiplomacyInfo::read(CvXMLLoadUtility* pXML)
 
 // XANA: 06-21-2025 Racial Marks
 CvRaceInfo::CvRaceInfo() :
-m_eSubRaceType(NO_RACE)
+m_pbRaceClasses(NULL)
 {}
 
 CvRaceInfo::~CvRaceInfo()
 {
-	// XANA (note): Nothing here yet.
+	SAFE_DELETE_ARRAY(m_pbRaceClasses);
+}
+
+bool CvRaceInfo::isRaceClass(int i) const
+{
+	return m_pbRaceClasses ? m_pbRaceClasses[i] : false;
 }
 
 bool CvRaceInfo::read(CvXMLLoadUtility* pXML)
@@ -1581,14 +1602,7 @@ bool CvRaceInfo::read(CvXMLLoadUtility* pXML)
 	if (!base_t::read(pXML))
 		return false;
 
-	//pXML->GetChildXmlValByName(&m_iHealth, "iHealth"); // XANA (note): Nothing here yet.
-	return true;
-}
-
-bool CvRaceInfo::readPass2(CvXMLLoadUtility* pXML)
-{
-	pXML->SetInfoIDFromChildXmlVal(m_eSubRaceType,
-			"SubRaceOfType");
+	pXML->SetVariableListTagPair(&m_pbRaceClasses, "RaceClasses", GC.getNumRaceClassInfos());
 	return true;
 }
 // XANA: 06-21-2025 Racial Marks

@@ -101,6 +101,9 @@ CvUnit::CvUnit() // advc.003u: Body cut from the deleted reset function
 	m_eUnitType = NO_UNIT;
 	m_pUnitInfo = NULL;
 	m_eLeaderUnitType = NO_UNIT;
+	// XANA: 06-21-2025 Racial Marks
+	m_eRaceOverrideType = NO_RACE;
+	// XANA: 06-21-2025 Racial Marks
 
 	m_iBaseCombat = 0;
 	m_iCargoCapacity = 0;
@@ -10477,9 +10480,22 @@ int CvUnit::getSubUnitsAlive(int iDamage) const
 }
 
 // XANA: 06-21-2025 Racial Marks
-bool CvUnit::isRace(RaceTypes eRace) const
+RaceTypes CvUnit::getRace() const
 {
-	return getRace() == eRace || GC.getInfo(getRace()).getSubRaceType() == eRace;
+	if (m_eRaceOverrideType != NO_RACE)
+	{
+		return m_eRaceOverrideType;
+	}
+	if (m_pUnitInfo->getDefaultRace() != NO_RACE)
+	{
+		return m_pUnitInfo->getDefaultRace();
+	}
+	return GC.getInfo(getCivilizationType()).getDefaultRace();
+}
+
+void CvUnit::setRaceOverride(RaceTypes eRace)
+{
+	m_eRaceOverrideType = eRace;
 }
 // XANA: 06-21-2025 Racial Marks
 
@@ -10616,6 +10632,9 @@ void CvUnit::read(FDataStreamBase* pStream)
 
 	pStream->ReadString(m_szName);
 	pStream->ReadString(m_szScriptData);
+	// XANA: 06-21-2025 Racial Marks
+	pStream->Read((int*)&m_eRaceOverrideType);
+	// XANA: 06-21-2025 Racial Marks
 
 	// <advc.313>
 	if (uiFlag >= 8)
@@ -10752,6 +10771,9 @@ void CvUnit::write(FDataStreamBase* pStream)
 
 	pStream->WriteString(m_szName);
 	pStream->WriteString(m_szScriptData);
+	// XANA: 06-21-2025 Racial Marks
+	pStream->Write(m_eRaceOverrideType);
+	// XANA: 06-21-2025 Racial Marks
 
 	m_abHasPromotion.write(pStream);
 

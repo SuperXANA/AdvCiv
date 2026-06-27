@@ -1076,14 +1076,7 @@ public:
 	
 // XANA: 06-21-2025 Racial Marks
 	RaceTypes getRace() const
-	{
-		return (m_pUnitInfo->getDefaultRace() != NO_RACE) ? m_pUnitInfo->getDefaultRace() : GC.getInfo(getCivilizationType()).getDefaultRace();
-	}
-	bool isRace(RaceTypes eRace) const;
-	bool pyIsRace(const int iRace) const
-	{
-		return isRace((RaceTypes)iRace);
-	}
+	void setRaceOverride(RaceTypes eRace);
 // XANA: 06-21-2025 Racial Marks
 
 	// <advc.003u>
@@ -1194,6 +1187,9 @@ protected:
 	PlayerTypes m_eCapturingPlayer;
 	UnitTypes m_eUnitType;
 	UnitTypes m_eLeaderUnitType;
+	// XANA: 06-21-2025 Racial Marks
+	RaceTypes m_eRaceOverrideType;
+	// XANA: 06-21-2025 Racial Marks
 	// <advc.opt>
 	CvArea* m_pArea;
 	CvPlot* m_pPlot; // </advc.opt>

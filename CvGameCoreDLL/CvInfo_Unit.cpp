@@ -1519,7 +1519,12 @@ bool CvUnitInfo::read(CvXMLLoadUtility* pXML)
 
 	pXML->SetInfoIDFromChildXmlVal(m_iLeaderPromotion, "LeaderPromotion");
 
-	pXML->GetChildXmlValByName(&m_iLeaderExperience, "iLeaderExperience");
+	pXML->GetChildXmlValByName(&m_iLeaderExperience, "iLeaderExperience");\
+	
+// XANA: 06-21-2025 Racial Marks
+	pXML->SetInfoIDFromChildXmlVal(m_eDefaultRace,
+			"DefaultRace");
+// XANA: 06-21-2025 Racial Marks
 
 	updateArtDefineButton();
 
