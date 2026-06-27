@@ -10,9 +10,9 @@
 		<EquipmentInfo>
 			<Class>EQUIPMENTCLASS_AMULET</Class>
 			<Type>EQUIPMENT_ALICORN_AMULET</Type>
-			<Description>TXT_KEY_EQUIPMENT_LEVEL_E</Description>
-			<Civilopedia/>
-			<Strategy/>
+			<Description>TXT_KEY_EQUIPMENT_ALICORN_AMULET</Description>
+			<Civilopedia>TXT_KEY_EQUIPMENT_ALICORN_AMULET_PEDIA</Civilopedia>
+			<Strategy>TXT_KEY_EQUIPMENT_ALICORN_AMULET_STRATEGY</Strategy>
 			<EquipmentLowestLevelRequired>EQUIPMENT_LEVEL_D</EquipmentLowestLevelRequired>
 			<EquipmentHighestLevelRequired>EQUIPMENT_LEVEL_B_PLUS</EquipmentHighestLevelRequired>
 		</EquipmentInfo>
