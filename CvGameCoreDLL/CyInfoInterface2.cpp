@@ -455,7 +455,7 @@ void CyInfoPythonInterface2()
 		
 // XANA: 06-21-2025 Racial Marks
 	python::class_<CvRaceInfo, boost::noncopyable, python::bases<CvInfoBase> >("CvRaceInfo")
-		.def("getSubRaceType", &CvRaceInfo::getSubRaceType, "int ()")
+		.def("isRaceClass", &CvRaceInfo::isRaceClass, "int (int iRaceClass)")
 		;
 // XANA: 06-21-2025 Racial Marks
 }
