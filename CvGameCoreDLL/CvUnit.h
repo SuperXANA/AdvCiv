@@ -1075,7 +1075,8 @@ public:
 	// Lead From Behind: END
 	
 // XANA: 06-21-2025 Racial Marks
-	RaceTypes getRace() const
+	RaceTypes getRace() const;
+	void setRace(RaceTypes eRace) { m_eRaceCreationType = eRace; }
 	void setRaceOverride(RaceTypes eRace);
 // XANA: 06-21-2025 Racial Marks
 
@@ -1188,6 +1189,7 @@ protected:
 	UnitTypes m_eUnitType;
 	UnitTypes m_eLeaderUnitType;
 	// XANA: 06-21-2025 Racial Marks
+	RaceTypes m_eRaceCreationType;
 	RaceTypes m_eRaceOverrideType;
 	// XANA: 06-21-2025 Racial Marks
 	// <advc.opt>

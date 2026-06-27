@@ -102,6 +102,7 @@ CvUnit::CvUnit() // advc.003u: Body cut from the deleted reset function
 	m_pUnitInfo = NULL;
 	m_eLeaderUnitType = NO_UNIT;
 	// XANA: 06-21-2025 Racial Marks
+	m_eRaceCreationType = NO_RACE;
 	m_eRaceOverrideType = NO_RACE;
 	// XANA: 06-21-2025 Racial Marks
 
@@ -586,8 +587,10 @@ void CvUnit::kill(bool bDelay, PlayerTypes ePlayer)
 			kCaptor.AI_captureUnit(eCaptureUnitType, kPlot) ||
 			!GC.getDefineBOOL("AI_CAN_DISBAND_UNITS"))
 		{
+	// XANA: 06-21-2025 Racial Marks
 			CvUnit* pCapturedUnit = kCaptor.initUnit(
-					eCaptureUnitType, kPlot.getX(), kPlot.getY());
+					eCaptureUnitType, kPlot);
+	// XANA: 06-21-2025 Racial Marks
 			if (pCapturedUnit != NULL)
 			{
 				CvWString szBuffer;
@@ -3336,7 +3339,9 @@ void CvUnit::gift(bool bTestTransport)
 	}
 
 	CvPlayerAI& kRecievingPlayer = GET_PLAYER(getPlot().getOwner()); // K-Mod
-	CvUnit* pGiftUnit = kRecievingPlayer.initUnit(getUnitType(), getX(), getY(), AI_getUnitAIType());
+	// XANA: 06-21-2025 Racial Marks
+	CvUnit* pGiftUnit = kRecievingPlayer.initUnit(getUnitType(), *this, AI_getUnitAIType());
+	// XANA: 06-21-2025 Racial Marks
 
 	pGiftUnit->convert(this);
 
@@ -6876,7 +6881,9 @@ CvUnit* CvUnit::upgrade(UnitTypes eUnit) // K-Mod: this now returns the new unit
 
 	CvPlayerAI& kOwner = GET_PLAYER(getOwner());
 	kOwner.changeGold(-upgradePrice(eUnit));
-	CvUnit* pUpgradeUnit = kOwner.initUnit(eUnit, getX(), getY(), AI_getUnitAIType());
+	// XANA: 06-21-2025 Racial Marks
+	CvUnit* pUpgradeUnit = kOwner.initUnit(eUnit, *this, AI_getUnitAIType());
+	// XANA: 06-21-2025 Racial Marks
 	FAssert(pUpgradeUnit != NULL);
 
 	pUpgradeUnit->convert(this);
@@ -10482,14 +10489,22 @@ int CvUnit::getSubUnitsAlive(int iDamage) const
 // XANA: 06-21-2025 Racial Marks
 RaceTypes CvUnit::getRace() const
 {
+	// Random Event or Chaos Magic overrides
 	if (m_eRaceOverrideType != NO_RACE)
 	{
 		return m_eRaceOverrideType;
 	}
+	// UnitInfo XML definition
 	if (m_pUnitInfo->getDefaultRace() != NO_RACE)
 	{
 		return m_pUnitInfo->getDefaultRace();
 	}
+	// CvCity demographic race roll
+	if (m_eRaceCreationType != NO_RACE)
+	{
+		return m_eRaceCreationType;
+	}
+	// Fallback race if all else fails
 	return GC.getInfo(getCivilizationType()).getDefaultRace();
 }
 
@@ -10633,6 +10648,7 @@ void CvUnit::read(FDataStreamBase* pStream)
 	pStream->ReadString(m_szName);
 	pStream->ReadString(m_szScriptData);
 	// XANA: 06-21-2025 Racial Marks
+	pStream->Read((int*)&m_eRaceCreationType);
 	pStream->Read((int*)&m_eRaceOverrideType);
 	// XANA: 06-21-2025 Racial Marks
 
@@ -10772,6 +10788,7 @@ void CvUnit::write(FDataStreamBase* pStream)
 	pStream->WriteString(m_szName);
 	pStream->WriteString(m_szScriptData);
 	// XANA: 06-21-2025 Racial Marks
+	pStream->Write(m_eRaceCreationType);
 	pStream->Write(m_eRaceOverrideType);
 	// XANA: 06-21-2025 Racial Marks
 
