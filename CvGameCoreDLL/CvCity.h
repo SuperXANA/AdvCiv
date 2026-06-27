@@ -1587,9 +1587,6 @@ protected:
 	void doPopOrder(CLLNode<OrderData>* pOrder); // advc.064d
 	// advc.901:
 	std::pair<int,int> calculateSurroundingHealth(int iExtraGoodPercent = 0, int iExtraBadPercent = 0) const;
-	// XANA: 06-21-2025 Racial Marks
-	RaceTypes getDemographicRace() const;
-	// XANA: 06-21-2025 Racial Marks
 };
 
 #endif

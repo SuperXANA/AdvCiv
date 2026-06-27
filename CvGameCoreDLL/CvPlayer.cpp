@@ -2192,19 +2192,13 @@ CvUnit* CvPlayer::initUnit(UnitTypes eUnit, int iX, int iY, UnitAITypes eUnitAI,
 			(eUnitAI == NO_UNITAI ? GC.getInfo(eUnit).getDefaultUnitAIType() : eUnitAI),
 			getID(), iX, iY, eFacingDirection);
 // XANA: 06-21-2025 Racial Marks
-	if (pUnit != NULL && pUnit->getPlot() != NULL)
+	if (pUnit != NULL)
 	{
-		CvUnit& kUnit = *pUnit;
-		if (kUnit.getUnitInfo().getDefaultRace() == NO_RACE)
+		if (pUnit->getUnitInfo().getDefaultRace() == NO_RACE)
 		{
-			CvPlot const& kPlot = *kUnit.getPlot();
-			if (kPlot.isOwned() && kPlot.getOwner() == getID() && kPlot.getPlotCity() != NULL)
+			if (pUnit->getPlot().getDemographicRace() != NO_RACE)
 			{
-				CvCity const* pCity = kPlot.getPlotCity();
-				if (pCity->getDemographicRace() != NO_RACE)
-				{
-					kUnit.setRace(pCity->getDemographicRace());
-				}
+				pUnit->setRace(pUnit->getPlot().getDemographicRace());
 			}
 		}
 	}

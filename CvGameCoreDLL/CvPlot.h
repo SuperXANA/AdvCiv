@@ -815,6 +815,9 @@ public:
 		return m_paAdjList[iAt];
 	}
 	int numAdjacentPlots() const { return m_iAdjPlots; }
+	// XANA: 06-21-2025 Racial Marks
+	RaceTypes getDemographicRace() const;
+	// XANA: 06-21-2025 Racial Marks
 	// </advc.003s>
 
 	wchar const* debugStr() const; // advc.031c

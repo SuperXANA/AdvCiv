@@ -8429,6 +8429,45 @@ bool CvPlot::hasDefender(bool bTestCanAttack, PlayerTypes eOwner, PlayerTypes eA
 	return (getBestDefender(eOwner, defFilters) != NULL);
 }
 
+
+// XANA: 06-21-2025 Racial Marks
+RaceTypes CvPlot::getDemographicRace() const
+{
+	if (countTotalCulture() > 0)
+	{
+		int iCultureCount = 0;
+		int const iDiceRoll = GC.getGame().getSorenRandNum(countTotalCulture(), "Unit Race Demographics Roll");
+		FOR_EACH_ENUM(Player)
+		{
+			if (GET_PLAYER(eLoopPlayer).isAlive())
+			{
+				int iPlayerCulture = getCulture(eLoopPlayer);
+				if (iPlayerCulture > 0)
+				{
+					iCultureCount += iPlayerCulture;
+					if (iDiceRoll < iCultureCount)
+					{
+						RaceTypes eCultureRace = GET_PLAYER(eLoopPlayer).getCivilization().getDefaultRace();
+						if (eCultureRace != NO_RACE)
+						{
+							return eCultureRace;
+						}
+						break;
+					}
+				}
+			}
+		}
+	}
+	/* XANA (note):
+	Unit default race is already handled in the CvPlayer::initUnit caller
+	We don't need to get the player's Civilization Default Race for this final fallback
+	Just fallthrough and say we don't have a representative result
+	The unit will use the Civ's Default Race automatically
+	*/
+	return NO_RACE;
+}
+// XANA: 06-21-2025 Racial Marks
+
 // <advc.500a>
 #if 0 // disabled for now
 bool CvPlot::isConnectRiverSegments() const
