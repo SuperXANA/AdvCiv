@@ -344,6 +344,9 @@ void CvUnit::finalizeInit() // advc.003u: Body cut from init
 						GC.getColorType("UNIT_TEXT"));
 			}
 		}
+	// XANA: 06-21-2025 Racial Marks
+		initRaceType();
+	// XANA: 06-21-2025 Racial Marks
 
 		CvWString szBuffer(gDLL->getText("TXT_KEY_MISC_SOMEONE_CREATED_UNIT",
 				kOwner.getNameKey(), getNameKey()));
@@ -10494,18 +10497,37 @@ RaceTypes CvUnit::getRace() const
 	{
 		return m_eRaceOverrideType;
 	}
-	// UnitInfo XML definition
-	if (m_pUnitInfo->getDefaultRace() != NO_RACE)
-	{
-		return m_pUnitInfo->getDefaultRace();
-	}
-	// CvCity demographic race roll
+	// CvPlot demographic race roll
 	if (m_eRaceCreationType != NO_RACE)
 	{
 		return m_eRaceCreationType;
 	}
-	// Fallback race if all else fails
-	return GC.getInfo(getCivilizationType()).getDefaultRace();
+	return NO_RACE;
+}
+
+/* XANA (note):
+This is only to be used in CvUnit::init
+to setup the demographically-randomized unit race value.
+This value be used in determining access to promotion variants.
+*/
+void CvUnit::initRaceType()
+{
+	// UnitInfo XML definition
+	if (m_pUnitInfo->getDefaultRace() != NO_RACE)
+	{
+		m_eRaceCreationType = m_pUnitInfo->getDefaultRace();
+	}
+	else
+	{
+		if (getPlot().getDemographicRace() != NO_RACE)
+		{
+			m_eRaceCreationType = getPlot().getDemographicRace();
+		}
+		else
+		{
+			m_eRaceCreationType = GC.getInfo(getCivilizationType()).getDefaultRace();
+		}
+	}
 }
 
 void CvUnit::setRaceOverride(RaceTypes eRace)

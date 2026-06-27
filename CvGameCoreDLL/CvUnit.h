@@ -1076,7 +1076,6 @@ public:
 	
 // XANA: 06-21-2025 Racial Marks
 	RaceTypes getRace() const;
-	void setRace(RaceTypes eRace) { m_eRaceCreationType = eRace; }
 	void setRaceOverride(RaceTypes eRace);
 // XANA: 06-21-2025 Racial Marks
 
@@ -1252,6 +1251,9 @@ protected:
 	void resolveAirCombat(CvUnit* pInterceptor, CvPlot* pPlot, CvAirMissionDefinition& kBattle);
 	void checkRemoveSelectionAfterAttack();
 	void updateFlatMovement();
+// XANA: 06-21-2025 Racial Marks
+	void initRaceType();
+// XANA: 06-21-2025 Racial Marks
 // <advc.003u>
 private:
 	void uninitEntity(); // I don't think subclasses should ever call this

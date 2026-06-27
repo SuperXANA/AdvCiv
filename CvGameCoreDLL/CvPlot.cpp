@@ -8433,24 +8433,24 @@ bool CvPlot::hasDefender(bool bTestCanAttack, PlayerTypes eOwner, PlayerTypes eA
 // XANA: 06-21-2025 Racial Marks
 RaceTypes CvPlot::getDemographicRace() const
 {
+	RaceTypes eBestRace = NO_RACE;
 	if (countTotalCulture() > 0)
 	{
 		int iCultureCount = 0;
 		int const iDiceRoll = GC.getGame().getSorenRandNum(countTotalCulture(), "Unit Race Demographics Roll");
 		FOR_EACH_ENUM(Player)
 		{
-			if (GET_PLAYER(eLoopPlayer).isAlive())
+			if (GET_PLAYER(eLoopPlayer).isEverAlive())
 			{
-				int iPlayerCulture = getCulture(eLoopPlayer);
-				if (iPlayerCulture > 0)
+				if (getCulture(eLoopPlayer) > 0)
 				{
-					iCultureCount += iPlayerCulture;
+					iCultureCount += getCulture(eLoopPlayer);
 					if (iDiceRoll < iCultureCount)
 					{
-						RaceTypes eCultureRace = GET_PLAYER(eLoopPlayer).getCivilization().getDefaultRace();
-						if (eCultureRace != NO_RACE)
+						eBestRace = GET_PLAYER(eLoopPlayer).getCivilization().getDefaultRace();
+						if (eBestRace != NO_RACE)
 						{
-							return eCultureRace;
+							return eBestRace;
 						}
 						break;
 					}
@@ -8459,12 +8459,12 @@ RaceTypes CvPlot::getDemographicRace() const
 		}
 	}
 	/* XANA (note):
-	Unit default race is already handled in the CvPlayer::initUnit caller
+	Unit default race is already handled in the CvUnit::init caller
 	We don't need to get the player's Civilization Default Race for this final fallback
 	Just fallthrough and say we don't have a representative result
 	The unit will use the Civ's Default Race automatically
 	*/
-	return NO_RACE;
+	return eBestRace;
 }
 // XANA: 06-21-2025 Racial Marks
 

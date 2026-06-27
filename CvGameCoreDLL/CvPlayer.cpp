@@ -2191,18 +2191,6 @@ CvUnit* CvPlayer::initUnit(UnitTypes eUnit, int iX, int iY, UnitAITypes eUnitAI,
 	pUnit->init(pUnit->getID(), eUnit, (UnitAITypes)
 			(eUnitAI == NO_UNITAI ? GC.getInfo(eUnit).getDefaultUnitAIType() : eUnitAI),
 			getID(), iX, iY, eFacingDirection);
-// XANA: 06-21-2025 Racial Marks
-	if (pUnit != NULL)
-	{
-		if (pUnit->getUnitInfo().getDefaultRace() == NO_RACE)
-		{
-			if (pUnit->getPlot().getDemographicRace() != NO_RACE)
-			{
-				pUnit->setRace(pUnit->getPlot().getDemographicRace());
-			}
-		}
-	}
-// XANA: 06-21-2025 Racial Marks
 	return pUnit;
 }
 
