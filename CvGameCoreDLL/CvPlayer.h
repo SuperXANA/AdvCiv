@@ -99,6 +99,19 @@ public:
 	CvUnit* initUnit(UnitTypes eUnit, int iX, int iY, UnitAITypes eUnitAI = NO_UNITAI,								// Exposed to Python
 			// advc.003u: Set this default here rather than in CvUnit::init
 			DirectionTypes eFacingDirection = DIRECTION_SOUTH);
+	// XANA: 06-21-2025 Racial Marks
+	CvUnit* initUnit(UnitTypes eUnit, CvPlot& kPlot, UnitAITypes eUnitAI = NO_UNITAI,
+			DirectionTypes eFacingDirection = DIRECTION_SOUTH);
+			
+	CvUnit* initUnit(UnitTypes eUnit, CvPlot* pPlot, UnitAITypes eUnitAI = NO_UNITAI,
+			DirectionTypes eFacingDirection = DIRECTION_SOUTH);
+			
+	CvUnit* initUnit(UnitTypes eUnit, CvCity& kCity, UnitAITypes eUnitAI = NO_UNITAI,
+			DirectionTypes eFacingDirection = DIRECTION_SOUTH);
+			
+	CvUnit* initUnit(UnitTypes eUnit, CvUnit& kUnit, UnitAITypes eUnitAI = NO_UNITAI,
+			DirectionTypes eFacingDirection = DIRECTION_SOUTH);
+	// XANA: 06-21-2025 Racial Marks
 	void disbandUnit(bool bAnnounce);																				// Exposed to Python
 	void killUnits();																								// Exposed to Python
 	// <advc.154>

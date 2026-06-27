@@ -7334,8 +7334,10 @@ void CvGame::createAnimals()
 			}
 			if (eBestUnit != NO_UNIT)
 			{
+	// XANA: 06-21-2025 Racial Marks
 				GET_PLAYER(BARBARIAN_PLAYER).initUnit(eBestUnit,
-						pPlot->getX(), pPlot->getY(), UNITAI_ANIMAL);
+						*pPlot, UNITAI_ANIMAL);
+	// XANA: 06-21-2025 Racial Marks
 			}
 		}
 	}
@@ -7463,8 +7465,10 @@ int CvGame::createBarbarianUnits(int iUnitsToCreate, int iUnitsPresent,
 						pTransport->getPlot());
 				if (eLoadUnit == NO_UNIT)
 					break;
+	// XANA: 06-21-2025 Racial Marks
 				CvUnit* pLoadUnit = GET_PLAYER(BARBARIAN_PLAYER).initUnit(
-						eLoadUnit, pTransport->getX(), pTransport->getY(), eLoadAI);
+						eLoadUnit, *pTransport, eLoadAI);
+	// XANA: 06-21-2025 Racial Marks
 				/*	(Don't set pTransport to UNITAI_ASSAULT_SEA -- that's for
 					medium-/large-scale invasions, and too laborious to adjust.
 					Instead add an unload routine to CvUnitAI::barbAttackSeaMove.) */
@@ -7524,8 +7528,10 @@ int CvGame::createBarbarianUnits(int iUnitsToCreate, int iUnitsPresent,
 		UnitTypes eUnitType = randomBarbarianUnit(eUnitAI, *pPlot);
 		if (eUnitType == NO_UNIT)
 			return iCreated;
+	// XANA: 06-21-2025 Racial Marks
 		/*CvUnit* pNewUnit =*/GET_PLAYER(BARBARIAN_PLAYER).initUnit(eUnitType,
-				pPlot->getX(), pPlot->getY(), eUnitAI);
+				*pPlot, eUnitAI);
+	// XANA: 06-21-2025 Racial Marks
 		if (!pPlot->isWater())
 			iCreated++;
 		// </advc.300>

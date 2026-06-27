@@ -1128,7 +1128,9 @@ void CvPlayer::addFreeUnit(UnitTypes eUnit, UnitAITypes eUnitAI)
 		GET_TEAM(getID()).revealSurroundingPlots(*pBestPlot,
 				GC.getDefineINT("START_SIGHT_RANGE"));
 	} // </advc.108>
-	initUnit(eUnit, pBestPlot->getX(), pBestPlot->getY(), eUnitAI);
+	// XANA: 06-21-2025 Racial Marks
+	initUnit(eUnit, pBestPlot, eUnitAI);
+	// XANA: 06-21-2025 Racial Marks
 }
 
 // advc.opt: Now only a wrapper. I'm keeping it around for Python exporting.
@@ -2189,8 +2191,56 @@ CvUnit* CvPlayer::initUnit(UnitTypes eUnit, int iX, int iY, UnitAITypes eUnitAI,
 	pUnit->init(pUnit->getID(), eUnit, (UnitAITypes)
 			(eUnitAI == NO_UNITAI ? GC.getInfo(eUnit).getDefaultUnitAIType() : eUnitAI),
 			getID(), iX, iY, eFacingDirection);
+// XANA: 06-21-2025 Racial Marks
+	if (pUnit != NULL && pUnit->getPlot() != NULL)
+	{
+		CvUnit& kUnit = *pUnit;
+		if (kUnit.getUnitInfo().getDefaultRace() == NO_RACE)
+		{
+			CvPlot const& kPlot = *kUnit.getPlot();
+			if (kPlot.isOwned() && kPlot.getOwner() == getID() && kPlot.getPlotCity() != NULL)
+			{
+				CvCity const* pCity = kPlot.getPlotCity();
+				if (pCity->getDemographicRace() != NO_RACE)
+				{
+					kUnit.setRace(pCity->getDemographicRace());
+				}
+			}
+		}
+	}
+// XANA: 06-21-2025 Racial Marks
 	return pUnit;
 }
+
+
+// XANA: 06-21-2025 Racial Marks
+CvUnit* CvPlayer::initUnit(UnitTypes eUnit, CvPlot& kPlot, UnitAITypes eUnitAI,
+	DirectionTypes eFacingDirection)
+{
+	return initUnit(eUnit, kPlot.getX(), kPlot.getY(), eUnitAI, eFacingDirection);
+}
+
+
+CvUnit* CvPlayer::initUnit(UnitTypes eUnit, CvPlot* pPlot, UnitAITypes eUnitAI,
+	DirectionTypes eFacingDirection)
+{
+	return initUnit(eUnit, pPlot->getX(), pPlot->getY(), eUnitAI, eFacingDirection);
+}
+
+
+CvUnit* CvPlayer::initUnit(UnitTypes eUnit, CvCity& kCity, UnitAITypes eUnitAI,
+	DirectionTypes eFacingDirection)
+{
+	return initUnit(eUnit, kCity.getX(), kCity.getY(), eUnitAI, eFacingDirection);
+}
+
+
+CvUnit* CvPlayer::initUnit(UnitTypes eUnit, CvUnit& kUnit, UnitAITypes eUnitAI,
+	DirectionTypes eFacingDirection)
+{
+	return initUnit(eUnit, kUnit.getX(), kUnit.getY(), eUnitAI, eFacingDirection);
+}
+// XANA: 06-21-2025 Racial Marks
 
 
 void CvPlayer::disbandUnit(bool bAnnounce)
@@ -4876,7 +4926,9 @@ void CvPlayer::receiveGoody(CvPlot* pPlot, GoodyTypes eGoody, CvUnit* pUnit,
 			FAssert(eLoopUnit != NO_UNIT);
 			if (eLoopUnit != NO_UNIT)
 			{
-				CvUnit* pNewUnit = initUnit(eLoopUnit, pPlot->getX(), pPlot->getY());
+	// XANA: 06-21-2025 Racial Marks
+				CvUnit* pNewUnit = initUnit(eLoopUnit, *pPlot);
+	// XANA: 06-21-2025 Racial Marks
 				if (pNewUnit == NULL)
 					continue;
 				else FAssert(pNewUnit != NULL);
@@ -4930,9 +4982,11 @@ void CvPlayer::receiveGoody(CvPlot* pPlot, GoodyTypes eGoody, CvUnit* pUnit,
 					FAssert(eLoopUnit != NO_UNIT);
 					if(eLoopUnit != NO_UNIT)
 					{
+	// XANA: 06-21-2025 Racial Marks
 						GET_PLAYER(BARBARIAN_PLAYER).initUnit(eLoopUnit,
-								pAdj->getX(), pAdj->getY(),
+								pAdj,
 								(pAdj->isWater() ? UNITAI_ATTACK_SEA : UNITAI_ATTACK));
+	// XANA: 06-21-2025 Racial Marks
 						iBarbCount++;
 					}
 					if ((iPass > 0 && iBarbCount >= iMinBarbs) || iBarbCount >= iMaxBarbs)
@@ -5050,7 +5104,9 @@ void CvPlayer::found(int iX, int iY)
 			for (int i = 0; i < GC.getInfo(kGame.getHandicapType()).
 				getBarbarianInitialDefenders(); i++)
 			{
-				initUnit(eDefenderUnit, iX, iY, UNITAI_CITY_DEFENSE);
+	// XANA: 06-21-2025 Racial Marks
+				initUnit(eDefenderUnit, *pCity, UNITAI_CITY_DEFENSE);
+	// XANA: 06-21-2025 Racial Marks
 			}
 		}
 	}
@@ -7013,8 +7069,10 @@ void CvPlayer::foundReligion(ReligionTypes eReligion, ReligionTypes eSlotReligio
 				GC.getInfo(eReligion).getFreeUnitClass());
 		if (eFreeUnit != NO_UNIT)
 		{
+	// XANA: 06-21-2025 Racial Marks
 			for (int i = 0; i < kSlotReligion.getNumFreeUnits(); i++)
-				initUnit(eFreeUnit, pBestCity->getX(), pBestCity->getY());
+				initUnit(eFreeUnit, *pBestCity);
+	// XANA: 06-21-2025 Racial Marks
 		}
 	}
 }
@@ -15055,7 +15113,9 @@ void CvPlayer::createGreatPeople(UnitTypes eGreatPersonUnit,
 	bool bIncrementThreshold, bool bIncrementExperience,
 	CvPlot& kAt) // advc: was iX,iY
 {
-	CvUnit* pGreatPeopleUnit = initUnit(eGreatPersonUnit, kAt.getX(), kAt.getY());
+	// XANA: 06-21-2025 Racial Marks
+	CvUnit* pGreatPeopleUnit = initUnit(eGreatPersonUnit, kAt);
+	// XANA: 06-21-2025 Racial Marks
 	if (pGreatPeopleUnit == NULL)
 	{
 		FAssert(pGreatPeopleUnit != NULL);
@@ -16263,7 +16323,11 @@ void CvPlayer::applyEvent(EventTypes eEvent, int iEventTriggeredId, bool bUpdate
 					if (pUnitCity != NULL)
 					{
 						for (int i = 0; i < kEvent.getNumUnits(); i++)
-							initUnit(eUnit, pUnitCity->getX(), pUnitCity->getY());
+						{
+							// XANA: 06-21-2025 Racial Marks
+							initUnit(eUnit, *pUnitCity);
+							// XANA: 06-21-2025 Racial Marks
+						}
 					}
 				}
 			}
