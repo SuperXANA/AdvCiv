@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Firaxis Games (Firaxis Games) -->
+<!-- Sid Meier's Civilization 4 -->
+<!-- Copyright Firaxis Games 2005 -->
+<!-- -->
+<!-- Unit Infos -->
+
+<<Civ4EquipmentInfos xmlns="x-schema:CIV4UnitSchema.xml">
+	<EquipmentInfos>
+		<EquipmentInfo>
+			<Class>EQUIPMENTCLASS_AMULET</Class>
+			<Type>EQUIPMENT_ALICORN_AMULET</Type>
+			<Description>TXT_KEY_EQUIPMENT_LEVEL_E</Description>
+			<Civilopedia/>
+			<Strategy/>
+			<EquipmentLowestLevelRequired>EQUIPMENT_LEVEL_D</EquipmentLowestLevelRequired>
+			<EquipmentHighestLevelRequired>EQUIPMENT_LEVEL_B_PLUS</EquipmentHighestLevelRequired>
+		</EquipmentInfo>
+	</EquipmentInfos>
+</Civ4EquipmentInfos>
