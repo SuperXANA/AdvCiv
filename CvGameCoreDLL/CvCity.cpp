@@ -2837,7 +2837,9 @@ CvUnit* CvCity::initConscriptedUnit()
 		eCityAI = UNITAI_CITY_SPECIAL;
 	else eCityAI = NO_UNITAI;
 
-	CvUnit* pUnit = kOwner.initUnit(eConscriptUnit, getX(), getY(), eCityAI);
+	// XANA: 06-21-2025 Racial Marks
+	CvUnit* pUnit = kOwner.initUnit(eConscriptUnit, *this, eCityAI);
+	// XANA: 06-21-2025 Racial Marks
 	FAssertMsg(pUnit != NULL, "Failed to allocate CvUnit object");
 
 	addProductionExperience(pUnit, true);
@@ -3442,8 +3444,12 @@ void CvCity::setHeadquarters(CorporationTypes eCorp)
 	if (eFreeClass != NO_UNITCLASS)
 	{
 		UnitTypes eFreeUnit = getCivilization().getUnit(eFreeClass);
+	// XANA: 06-21-2025 Racial Marks
 		if (eFreeUnit != NO_UNIT)
-			GET_PLAYER(getOwner()).initUnit(eFreeUnit, getX(), getY());
+		{
+			GET_PLAYER(getOwner()).initUnit(eFreeUnit, *this);
+		}
+	// XANA: 06-21-2025 Racial Marks
 	}
 }
 
@@ -8164,7 +8170,9 @@ void CvCity::addRevoltFreeUnits()
 				(getHighestPopulation() * GC.getDefineINT("REVOLT_FREE_UNITS_PERCENT")) / 100);
 		for (int i = 0; i < iFreeUnits; i++)
 		{
-			GET_PLAYER(getOwner()).initUnit(eBestUnit, getX(), getY(), UNITAI_CITY_DEFENSE);
+	// XANA: 06-21-2025 Racial Marks
+			GET_PLAYER(getOwner()).initUnit(eBestUnit, *this, UNITAI_CITY_DEFENSE);
+	// XANA: 06-21-2025 Racial Marks
 		}
 	}
 }
@@ -9889,7 +9897,9 @@ void CvCity::popOrder(int iNum, bool bFinish,
 		setUnitProduction(eTrainUnit, 0);
 		setUnitProductionTime(eTrainUnit, 0); // EmperorFool, Bugfix, 06/10/10
 		// </advc.064b>
-		CvUnit* pUnit = kOwner.initUnit(eTrainUnit, getX(), getY(), eTrainAIUnit);
+	// XANA: 06-21-2025 Racial Marks
+		CvUnit* pUnit = kOwner.initUnit(eTrainUnit, *this, eTrainAIUnit);
+	// XANA: 06-21-2025 Racial Marks
 		pUnit->finishMoves();
 		addProductionExperience(pUnit);
 		CvPlot* pRallyPlot = getRallyPlot(); // (advc.001b: moved up)
@@ -12606,7 +12616,9 @@ void CvCity::applyEvent(EventTypes eEvent,
 			{
 				for (int i = 0; i < kEvent.getNumUnits(); i++)
 				{
-					GET_PLAYER(getOwner()).initUnit(eUnit, getX(), getY());
+	// XANA: 06-21-2025 Racial Marks
+					GET_PLAYER(getOwner()).initUnit(eUnit, *this);
+	// XANA: 06-21-2025 Racial Marks
 				}
 			}
 		}
@@ -13436,3 +13448,46 @@ void CvCity::payOverflowGold(int iLostProduction, int iProductionGold)
 			"AS2D_WONDERGOLD", MESSAGE_TYPE_INFO, GC.getInfo(COMMERCE_GOLD).
 			getButton(), NO_COLOR, getX(), getY(), false, false);
 } // </advc.064b>
+
+
+// XANA: 06-21-2025 Racial Marks
+RaceTypes CvCity::getDemographicRace() const
+{
+	CvPlot* pPlot = plot();
+	if (pPlot != NULL)
+	{
+		if (pPlot->countTotalCulture() > 0)
+		{
+			int iCultureCount = 0;
+			int const iDiceRoll = GC.getGame().getSorenRandNum(pPlot->countTotalCulture(), "Unit Race Demographics Roll");
+			FOR_EACH_ENUM(Player)
+			{
+				if (GET_PLAYER(eLoopPlayer).isAlive())
+				{
+					int iPlayerCulture = pPlot->getCulture(eLoopPlayer);
+					if (iPlayerCulture > 0)
+					{
+						iCultureCount += iPlayerCulture;
+						if (iDiceRoll < iCultureCount)
+						{
+							RaceTypes eCultureRace = GET_PLAYER(eLoopPlayer).getCivilization().getDefaultRace();
+							if (eCultureRace != NO_RACE)
+							{
+								return eCultureRace;
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+	/* XANA (note):
+	Unit default race is already handled in the CvPlayer::initUnit caller
+	We don't need to get the City's Civilization Default Race for this final fallback result
+	Just fallthrough and say we don't have a representative result
+	The unit will use the Civ's Default Race automatically
+	*/
+	return NO_RACE;
+}
+// XANA: 06-21-2025 Racial Marks
