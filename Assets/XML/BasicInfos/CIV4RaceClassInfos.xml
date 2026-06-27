@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Alex Mantzaris (Firaxis Games) -->
+<!-- Sid Meier's Civilization 4 -->
+<!-- Copyright Firaxis Games 2005 -->
+<!-- -->
+<!-- Basic Infos -->
+<Civ4RaceClassInfos xmlns="x-schema:CIV4BasicInfoSchema.xml">
+	<RaceClassInfos>
+		<RaceClassInfo>
+			<Type>RACECLASS_EQUUS</Type>
+			<Description>TXT_KEY_RACE_CLASS_EQUUS</Description>
+		</RaceClassInfo>
+		<RaceClassInfo>
+			<Type>RACECLASS_GROUNDWALKING</Type>
+			<Description>TXT_KEY_RACE_CLASS_GROUNDWALKING</Description>
+		</RaceClassInfo>
+		<RaceClassInfo>
+			<Type>RACECLASS_SKYWALKING</Type>
+			<Description>TXT_KEY_RACE_CLASS_SKYWALKING</Description>
+		</RaceClassInfo>
+		<RaceClassInfo>
+			<Type>RACECLASS_MAGICAL</Type>
+			<Description>TXT_KEY_RACE_CLASS_MAGICAL</Description>
+		</RaceClassInfo>
+		<RaceClassInfo>
+			<Type>RACECLASS_SPIRITUAL</Type>
+			<Description>TXT_KEY_RACE_CLASS_SPRITUAL</Description>
+		</RaceClassInfo>
+		<RaceClassInfo>
+			<Type>RACECLASS_DEMONIC</Type>
+			<Description>TXT_KEY_RACE_CLASS_DEMONIC</Description>
+		</RaceClassInfo>
+		<RaceClassInfo>
+			<Type>RACECLASS_DRACONIC</Type>
+			<Description>TXT_KEY_RACE_CLASS_DRACONIC</Description>
+		</RaceClassInfo>
+		<RaceClassInfo>
+			<Type>RACECLASS_BUGLIKE</Type>
+			<Description>TXT_KEY_RACE_CLASS_BUGLIKE</Description>
+		</RaceClassInfo>
+		<RaceClassInfo>
+			<Type>RACECLASS_CHAOTIC</Type>
+			<Description>TXT_KEY_RACE_CLASS_CHAOTIC</Description>
+		</RaceClassInfo>
+		<RaceClassInfo>
+			<Type>RACECLASS_VIRTUAL_ESSENCE</Type>
+			<Description>TXT_KEY_RACE_CLASS_VIRTUAL_ESSENCE</Description>
+		</RaceClassInfo>
+		<RaceClassInfo>
+			<Type>RACECLASS_BEASTLY</Type>
+			<Description>TXT_KEY_RACE_CLASS_BEASTLY</Description>
+		</RaceClassInfo>
+		<RaceClassInfo>
+			<Type>RACECLASS_SHADOWY</Type>
+			<Description>TXT_KEY_RACE_CLASS_SHADOWY</Description>
+		</RaceClassInfo>
+		<RaceClassInfo>
+			<Type>RACECLASS_CRYSTALLINE</Type>
+			<Description>TXT_KEY_RACE_CLASS_CRYSTALLINE</Description>
+		</RaceClassInfo>
+	</RaceClassInfos>
+</Civ4RaceClassInfos>

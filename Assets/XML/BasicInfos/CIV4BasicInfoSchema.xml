@@ -142,4 +142,16 @@
 	<ElementType name="Civ4MemoryInfos" content="eltOnly">
 		<element type="MemoryInfos"/>
 	</ElementType>
+	<!-- XANA: 06-21-2025 Racial Marks -->
+	<ElementType name="RaceClassInfo" content="eltOnly">
+		<element type="Type"/>
+		<element type="Description"/>
+	</ElementType>
+	<ElementType name="RaceClassInfos" content="eltOnly">
+		<element type="RaceClassInfo" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="Civ4RaceClassInfos" content="eltOnly">
+		<element type="RaceClassInfos"/>
+	</ElementType>
+	<!-- XANA: 06-21-2025 Racial Marks -->
 </Schema>
