@@ -148,6 +148,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_DRAGON</Type>
@@ -171,6 +172,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_GRIFFON</Type>
@@ -207,8 +209,8 @@
 			</Classes>
 		</RaceInfo>
 		<RaceInfo>
-			<Type>RACE_HYMON</Type>
-			<Description>TXT_KEY_RACE_HYMON</Description>
+			<Type>RACE_HUEMON</Type>
+			<Description>TXT_KEY_RACE_HUEMON</Description>
 			<Button/>
 			</Classes>
 				<Class>
@@ -216,6 +218,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_BEAST</Type>
@@ -227,6 +230,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_AQUATIC</Type>
@@ -242,6 +246,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_FIRE_EARTH_PONY</Type>
@@ -261,6 +266,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_FIRE_UNICORN_PONY</Type>
@@ -280,6 +286,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_FIRE_PEAGASUS_PONY</Type>
@@ -299,6 +306,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_FIRE_CRYSTAL_PONY</Type>
@@ -318,6 +326,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_FIRE_ALICORN_PONY</Type>
@@ -341,6 +350,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_ICE_EARTH_PONY</Type>
@@ -360,6 +370,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_ICE_UNICORN_PONY</Type>
@@ -379,6 +390,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_ICE_PEAGASUS_PONY</Type>
@@ -398,6 +410,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_ICE_CRYSTAL_PONY</Type>
@@ -417,6 +430,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_ICE_ALICORN_PONY</Type>
@@ -440,6 +454,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_GHOST</Type>
@@ -470,6 +485,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_CHANGELING</Type>
@@ -538,6 +554,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_VIRTUAL_EARTH_PONY</Type>
@@ -602,6 +619,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_SHADOW_UNICORN_PONY</Type>
@@ -621,6 +639,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_SHADOW_PEGASUS_PONY</Type>
@@ -636,6 +655,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		<RaceInfo>
 		<RaceInfo>
 			<Type>RACE_DREAM_EARTH_PONY</Type>
@@ -651,6 +671,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_DREAM_UNICORN_PONY</Type>
@@ -670,6 +691,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 		<RaceInfo>
 			<Type>RACE_DREAM_PEGASUS_PONY</Type>
@@ -685,6 +707,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		<RaceInfo>
 		<RaceInfo>
 			<Type>RACE_GODLING</Type>
@@ -704,6 +727,7 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
+			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
 	</RaceInfos>
 </Civ4RaceInfos>

@@ -478,6 +478,16 @@
 	<ElementType name="CivilizationSelectionSound" content="textOnly"/>
 	<ElementType name="CivilizationActionSound" content="textOnly"/>
 	<ElementType name="UnitArtStyleType" content="textOnly"/>
+	<!-- XANA: 06-21-2025 Racial Marks -->
+	<ElementType name="RaceType" content="textOnly"/>
+	<ElementType name="RacePriority" content="eltOnly">
+		<element type="RaceType"/>
+		<element type="iWeightModifier"/>
+	</ElementType>
+	<ElementType name="RacePriorities" content="eltOnly">
+		<element type="RacePriority" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 06-21-2025 Racial Marks -->
 	<ElementType name="CivilizationInfo" content="eltOnly">
 		<element type="Type"/>
 		<element type="Description"/>
@@ -503,6 +513,9 @@
 		<element type="DerivativeCiv"/>
 		<element type="CivilizationSelectionSound"/>
 		<element type="CivilizationActionSound"/>
+	<!-- XANA: 06-21-2025 Racial Marks -->
+		<element type="RacePriorities" minOccurs="0"/>
+	<!-- XANA: 06-21-2025 Racial Marks -->
 	</ElementType>
 	<ElementType name="CivilizationInfos" content="eltOnly">
 		<element type="CivilizationInfo" maxOccurs="*"/>
@@ -542,6 +555,7 @@
 		<element type="UnitArtStyleTypeInfos" minOccurs="0"/>
 	</ElementType>
 	<!-- XANA: 06-21-2025 Racial Marks -->
+	<ElementType name="bLockedToCivilization" content="textOnly" dt:type="boolean"/>
 	<ElementType name="RaceClassType" content="textOnly"/>
 	<ElementType name="bRaceIsSubTypeOfClass" content="textOnly" dt:type="boolean"/>
 	<ElementType name="Class" content="eltOnly">
@@ -556,6 +570,7 @@
 		<element type="Description"/>
 		<element type="Button"/>
 		<element type="Classes"/>
+		<element type="bLockedToCivilization" minOccurs="0"/>
 	</ElementType>
 	<ElementType name="RaceInfos" content="eltOnly">
 		<element type="RaceInfo" maxOccurs="*"/>
