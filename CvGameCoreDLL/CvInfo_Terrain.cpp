@@ -20,7 +20,10 @@ m_iWorldSoundscapeScriptId(0),
 m_piYields(NULL),
 m_piRiverYieldChange(NULL),
 m_piHillsYieldChange(NULL),
-m_pi3DAudioScriptFootstepIndex(NULL)
+m_pi3DAudioScriptFootstepIndex(NULL),
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+m_eTerrainClassType(NO_TERRAINCLASS)
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 {}
 
 CvTerrainInfo::~CvTerrainInfo()
@@ -71,6 +74,9 @@ bool CvTerrainInfo::read(CvXMLLoadUtility* pXML)
 	if (!base_t::read(pXML))
 		return false;
 
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	pXML->SetInfoIDFromChildXmlVal(m_eTerrainClassType, "Class");
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	pXML->GetChildXmlValByName(m_szArtDefineTag, "ArtDefineTag");
 
 	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),
