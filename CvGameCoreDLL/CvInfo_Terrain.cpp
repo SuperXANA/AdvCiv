@@ -20,10 +20,7 @@ m_iWorldSoundscapeScriptId(0),
 m_piYields(NULL),
 m_piRiverYieldChange(NULL),
 m_piHillsYieldChange(NULL),
-m_pi3DAudioScriptFootstepIndex(NULL),
-// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-m_eTerrainClassType(NO_TERRAINCLASS)
-// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+m_pi3DAudioScriptFootstepIndex(NULL)
 {}
 
 CvTerrainInfo::~CvTerrainInfo()
@@ -74,9 +71,6 @@ bool CvTerrainInfo::read(CvXMLLoadUtility* pXML)
 	if (!base_t::read(pXML))
 		return false;
 
-// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-	pXML->SetInfoIDFromChildXmlVal(m_eTerrainClassType, "Class");
-// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	pXML->GetChildXmlValByName(m_szArtDefineTag, "ArtDefineTag");
 
 	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),
@@ -131,6 +125,62 @@ const TCHAR* CvTerrainInfo::getButton() const
 
 	return NULL;
 }
+
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+CvTerrainAxisInfo::CvTerrainAxisInfo() :
+m_paeReplacementTerrainTypes(NULL)
+{}
+
+CvTerrainAxisInfo::~CvTerrainAxisInfo()
+{
+	SAFE_DELETE_ARRAY(m_paeReplacementTerrainTypes);
+}
+
+TerrainTypes CvTerrainAxisInfo::getReplacementTerrain(int i) const
+{
+	FAssertBounds(0, GC.getNumTerrainInfos(), i);
+	return m_paeReplacementTerrainTypes ? m_paeReplacementTerrainTypes[i] : NO_TERRAIN;
+}
+
+bool CvTerrainAxisInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+	
+	{
+		CvString* pszClassNames = NULL;
+		{
+			int const iEnumLength = GC.getNumTerrainInfos();
+			m_paeReplacementTerrainTypes = new TerrainTypes[iEnumLength];
+			pXML->SetVariableListTagPair(&pszClassNames, "TerrainReplacements", iEnumLength);
+		}
+		if (pszClassNames != NULL)
+		{
+			FOR_EACH_ENUM(Terrain)
+			{
+				if (!pszClassNames[eLoopTerrain].isEmpty())
+				{
+					m_paeReplacementTerrainTypes[eLoopTerrain] = static_cast<TerrainTypes>(pXML->FindInInfoClass(pszClassNames[eLoopTerrain]));
+				}
+				else
+				{
+					m_paeReplacementTerrainTypes[eLoopTerrain] = NO_TERRAIN;
+				}
+			}
+			SAFE_DELETE_ARRAY(pszClassNames);
+		}
+		else
+		{
+			FOR_EACH_ENUM(Terrain)
+			{
+				m_paeReplacementTerrainTypes[eLoopTerrain] = NO_TERRAIN;
+			}
+		}
+	}
+	
+	return true;
+}
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 const CvArtInfoTerrain* CvTerrainInfo::getArtInfo() const
 {

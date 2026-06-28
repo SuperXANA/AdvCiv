@@ -37,9 +37,6 @@ public: // All the const functions are exposed to Python except for those relate
 	bool isFoundFreshWater() const { return m_bFoundFreshWater; }
 
 	DllExport const TCHAR* getArtDefineTag() const;
-// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-	TerrainClassTypes getTerrainClass() const { return m_eTerrainClassType; }
-// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 	int getWorldSoundscapeScriptId() const;
 
@@ -67,9 +64,6 @@ protected:
 	bool m_bFoundFreshWater;
 
 	int m_iWorldSoundscapeScriptId;
-// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-	TerrainClassTypes m_eTerrainClassType;
-// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 	int* m_piYields;
 	int* m_piRiverYieldChange;
@@ -79,6 +73,26 @@ protected:
 private:
 	CvString m_szArtDefineTag;
 };
+
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvTerrainAxisInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvTerrainAxisInfo : public CvInfoBase
+{
+	typedef CvInfoBase base_t;
+public:
+	CvTerrainAxisInfo();
+	~CvTerrainAxisInfo();
+
+	TerrainTypes getReplacementTerrain(int i) const;
+
+	bool read(CvXMLLoadUtility* pXML);
+
+protected:
+	TerrainTypes* m_paeReplacementTerrainTypes;
+};
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  class : CvFeatureInfo

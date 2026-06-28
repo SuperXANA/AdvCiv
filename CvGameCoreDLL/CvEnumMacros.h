@@ -15,10 +15,10 @@
 	/* getInfo function and getNumInfos function exported */ \
 	DO(Climate, CLIMATE) \
 	DO(SeaLevel, SEALEVEL) \
-	/* XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ */ \
-	DO(TerrainClass, TERRAINCLASS) \
-	/* XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ */ \
 	DO(Terrain, TERRAIN) \
+	/* XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ */ \
+	DO(TerrainAxis, TERRAINAXIS) \
+	/* XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ */ \
 	DO(Feature, FEATURE) \
 	DO(Improvement, IMPROVEMENT) \
 	DO(TurnTimer, TURNTIMER) \
@@ -170,9 +170,6 @@
 #define CvDenialInfo CvInfoBase
 // This one just has an irregular, exported name.
 #define CvThroneRoomCameraInfo CvThroneRoomCamera
-// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-#define CvTerrainClassInfo CvInfoBase
-// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 /*	Static enum types without any associated CvInfo data.
 	Not a complete list; add types here if their traits need to be accessed. */
