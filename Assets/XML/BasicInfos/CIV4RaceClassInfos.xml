@@ -15,6 +15,10 @@
 			<Description>TXT_KEY_RACE_CLASS_GROUNDWALKING</Description>
 		</RaceClassInfo>
 		<RaceClassInfo>
+			<Type>RACECLASS_WATERWALKING</Type>
+			<Description>TXT_KEY_RACE_CLASS_WATERWALKING</Description>
+		</RaceClassInfo>
+		<RaceClassInfo>
 			<Type>RACECLASS_SKYWALKING</Type>
 			<Description>TXT_KEY_RACE_CLASS_SKYWALKING</Description>
 		</RaceClassInfo>
@@ -23,12 +27,12 @@
 			<Description>TXT_KEY_RACE_CLASS_MAGICAL</Description>
 		</RaceClassInfo>
 		<RaceClassInfo>
-			<Type>RACECLASS_SPIRITUAL</Type>
-			<Description>TXT_KEY_RACE_CLASS_SPRITUAL</Description>
+			<Type>RACECLASS_SPIRIT_ESSENCE</Type>
+			<Description>TXT_KEY_RACE_CLASS_SPRIT_ESSENCE</Description>
 		</RaceClassInfo>
 		<RaceClassInfo>
-			<Type>RACECLASS_DEMONIC</Type>
-			<Description>TXT_KEY_RACE_CLASS_DEMONIC</Description>
+			<Type>RACECLASS_DAEMONIC_ESSENCE</Type>
+			<Description>TXT_KEY_RACE_CLASS_DAEMONIC_ESSENCE</Description>
 		</RaceClassInfo>
 		<RaceClassInfo>
 			<Type>RACECLASS_DRACONIC</Type>
@@ -51,8 +55,8 @@
 			<Description>TXT_KEY_RACE_CLASS_BEASTLY</Description>
 		</RaceClassInfo>
 		<RaceClassInfo>
-			<Type>RACECLASS_SHADOWY</Type>
-			<Description>TXT_KEY_RACE_CLASS_SHADOWY</Description>
+			<Type>RACECLASS_SHADOW_ESSENCE</Type>
+			<Description>TXT_KEY_RACE_CLASS_SHADOW_ESSENCE</Description>
 		</RaceClassInfo>
 		<RaceClassInfo>
 			<Type>RACECLASS_CRYSTALLINE</Type>

@@ -541,10 +541,36 @@
 	<ElementType name="Civ4UnitArtStyleTypeInfos" content="eltOnly">
 		<element type="UnitArtStyleTypeInfos" minOccurs="0"/>
 	</ElementType>
+	<!-- XANA: 06-21-2025 Racial Marks -->
+	<ElementType name="RaceClassType" content="textOnly"/>
+	<ElementType name="bRaceIsSubTypeOfClass" content="textOnly" dt:type="boolean"/>
+	<ElementType name="Class" content="eltOnly">
+		<element type="RaceClassType"/>
+		<element type="bRaceIsSubTypeOfClass"/>
+	</ElementType>
+	<ElementType name="Classes" content="eltOnly">
+		<element type="Class" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="RaceInfo" content="eltOnly">
+		<element type="Type"/>
+		<element type="Description"/>
+		<element type="Button"/>
+		<element type="Classes"/>
+	</ElementType>
+	<ElementType name="RaceInfos" content="eltOnly">
+		<element type="RaceInfo" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="Civ4RaceInfos" content="eltOnly">
+		<element type="RaceInfos" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 06-21-2025 Racial Marks -->
 	<ElementType name="Civ4Civilizations" content="eltOnly">
 		<element type="LeaderHeadInfos" minOccurs="0" maxOccurs="*"/>
 		<element type="TraitInfos" minOccurs="0" maxOccurs="*"/>
 		<element type="CivilizationInfos" minOccurs="0" maxOccurs="*"/>
 		<element type="UnitArtStyleTypeInfos" minOccurs="0" maxOccurs="*"/>
+	<!-- XANA: 06-21-2025 Racial Marks -->
+		<element type="RaceInfos" minOccurs="0" maxOccurs="*"/>
+	<!-- XANA: 06-21-2025 Racial Marks -->
 	</ElementType>
 </Schema>
