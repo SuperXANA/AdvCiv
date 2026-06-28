@@ -634,6 +634,9 @@ bool CvXMLLoadUtility::LoadBasicInfos()
 	LoadGlobalClassInfo(GC.m_paUnitAIInfo, "CIV4UnitAIInfos", "BasicInfos", "Civ4UnitAIInfos/UnitAIInfos/UnitAIInfo", false);
 	LoadGlobalClassInfo(GC.m_paAttitudeInfo, "CIV4AttitudeInfos", "BasicInfos", "Civ4AttitudeInfos/AttitudeInfos/AttitudeInfo", false);
 	LoadGlobalClassInfo(GC.m_paMemoryInfo, "CIV4MemoryInfos", "BasicInfos", "Civ4MemoryInfos/MemoryInfos/MemoryInfo", false);
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+	LoadGlobalClassInfo(GC.m_paRelationInfo, "CIV4RelationInfos", "BasicInfos", "Civ4RelationInfos/RelationInfos/RelationInfo", false);
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
 
 	DestroyFXml();
 	return true;
@@ -694,7 +697,6 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 		GC.getInfo(eLoopVoteSource).readPass3();
 	LoadGlobalClassInfo(GC.m_paLeaderHeadInfo, "CIV4LeaderHeadInfos", "Civilizations", "Civ4LeaderHeadInfos/LeaderHeadInfos/LeaderHeadInfo", false, &CvDLLUtilityIFaceBase::createLeaderHeadInfoCacheObject);
 	// XANA: 03-28-2026 Leader-to-Leader Relationships
-	LoadGlobalClassInfo(GC.m_paRelationInfo, "CIV4RelationInfos", "GameInfo", "Civ4RelationInfos/RelationInfos/RelationInfo", false);
 	LoadGlobalClassInfo(GC.m_paRelationshipInfo, "CIV4RelationshipInfos", "Civilizations", "Civ4RelationshipInfos/RelationshipInfos/RelationshipInfo", false);
 	// XANA: 03-28-2026 Leader-to-Leader Relationships
 	LoadGlobalClassInfo(GC.m_paColorInfo, "CIV4ColorVals", "Interface", "Civ4ColorVals/ColorVals/ColorVal", false);
