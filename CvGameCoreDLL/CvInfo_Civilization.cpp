@@ -1635,17 +1635,36 @@ bool CvRelationshipInfo::read(CvXMLLoadUtility* pXML)
 
 	pXML->SetInfoIDFromChildXmlVal(m_eLeader,
 			"Leader");
-	
-	CvString* pszRelations = NULL;
-	pXML->SetVariableListTagPair(&pszRelations, "Relationships", GC.getNumLeaderHeadInfos());
-	if (pszRelations != NULL)
+
 	{
-		m_paeRelations = new RelationTypes[GC.getNumLeaderHeadInfos()];
-		for (int i = 0; i < GC.getNumLeaderHeadInfos(); ++i)
+		CvString* pszRelations = NULL;
 		{
-			m_paeRelations[i] = pszRelations[i].IsEmpty() ? NO_RELATION : (RelationTypes)pXML->FindInInfoClass(pszRelations[i]);
+			int const iEnumLength = GC.getNumLeaderHeadInfos();
+			m_paeRelations = new RelationTypes[iEnumLength];
+			pXML->SetVariableListTagPair(&pszRelations, "Relationships", iEnumLength);
 		}
-		SAFE_DELETE_ARRAY(pszRelations);
+		if (pszRelations != NULL)
+		{
+			FOR_EACH_ENUM(LeaderHead)
+			{
+				if (!pszRelations[eLoopLeaderHead].isEmpty())
+				{
+					m_paeRelations[eLoopLeaderHead] = static_cast<RelationTypes>(pXML->FindInInfoClass(pszRelations[eLoopLeaderHead]));
+				}
+				else
+				{
+					m_paeRelations[eLoopLeaderHead] = NO_RELATION;
+				}
+			}
+			SAFE_DELETE_ARRAY(pszRelations);
+		}
+		else
+		{
+			FOR_EACH_ENUM(LeaderHead)
+			{
+				m_paeRelations[eLoopLeaderHead] = NO_RELATION;
+			}
+		}
 	}
 	
 	return true;
