@@ -8543,7 +8543,7 @@ int CvPlayerAI::AI_getFirstImpressionAttitude(PlayerTypes ePlayer) const
 		RelationTypes const eSharedRelationship = GC.getInfo(getLeaderRelationship()).getRelation(kPlayer.getPersonalityType());
 		if (eSharedRelationship != NO_RELATION)
 		{
-			iAttitude = GC.getInfo(eSharedRelationship).getLeaderRelationshipAttitude(iAttitude);
+			GC.getInfo(eSharedRelationship).updateLeaderRelationshipAttitude(iAttitude);
 		}
 	}
 // XANA: 03-28-2026 Leader-to-Leader Relationships

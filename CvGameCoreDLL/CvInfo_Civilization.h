@@ -539,7 +539,7 @@ public:
 	CvRelationInfo();
 	~CvRelationInfo();
 	
-	int getLeaderRelationshipAttitude(int iFirstImpressionAttitude) const;
+	void updateLeaderRelationshipAttitude(int& iFirstImpressionAttitude) const;
 	
 	bool read(CvXMLLoadUtility* pXML);
 

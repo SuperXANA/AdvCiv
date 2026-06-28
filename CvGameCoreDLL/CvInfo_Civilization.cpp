@@ -1572,32 +1572,35 @@ CvRelationInfo::~CvRelationInfo()
 	// XANA (note): Nothing here yet.
 }
 
-int CvRelationInfo::getLeaderRelationshipAttitude(int iFirstImpressionAttitude) const
+void CvRelationInfo::updateLeaderRelationshipAttitude(int& iFirstImpressionAttitude)
 {
 	if (iFirstImpressionAttitude > 0)
 	{
 		if (get(CvRelationInfo::MIN_POS_FIRST_IMPRESSION) == 0 && get(CvRelationInfo::MAX_POS_FIRST_IMPRESSION) == 0)
 		{
-			return iFirstImpressionAttitude;
+			return;
 		}
-		else return range(iFirstImpressionAttitude,
+		else
+		{
+			iFirstImpressionAttitude = range(iFirstImpressionAttitude,
 				get(CvRelationInfo::MIN_POS_FIRST_IMPRESSION /* Lower Boundary */),
 				get(CvRelationInfo::MAX_POS_FIRST_IMPRESSION /* Upper Boundary */));
+		}
 	}
 	else if (iFirstImpressionAttitude < 0)
 	{
 		if (get(CvRelationInfo::MIN_NEG_FIRST_IMPRESSION) == 0 && get(CvRelationInfo::MAX_NEG_FIRST_IMPRESSION) == 0)
 		{
-			return iFirstImpressionAttitude;
+			return;
 		}
-		else return range(iFirstImpressionAttitude,
+		else
+		{
+			iFirstImpressionAttitude = range(iFirstImpressionAttitude,
 				get(CvRelationInfo::MIN_NEG_FIRST_IMPRESSION /* Lower Boundary */),
 				get(CvRelationInfo::MAX_NEG_FIRST_IMPRESSION /* Upper Boundary */));
+		}
 	}
-	else
-	{
-		return iFirstImpressionAttitude;
-	}
+	else return;
 }
 
 bool CvRelationInfo::read(CvXMLLoadUtility* pXML)
