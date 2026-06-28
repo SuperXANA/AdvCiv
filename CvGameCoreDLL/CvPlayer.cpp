@@ -449,6 +449,10 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 	m_eLastStateReligion = NO_RELIGION;
 	m_eParent = NO_PLAYER;
 	m_pStartingPlot = NULL; // advc.027
+// XANA: 06-21-2025 Racial Marks
+	m_eAnyVisibleCultureRace = NO_RACE;
+	m_eAnyCultureRace = NO_RACE;
+// XANA: 06-21-2025 Racial Marks
 
 	m_szScriptData = "";
 
@@ -2879,6 +2883,9 @@ void CvPlayer::doTurn()
 		setCommercePercent(COMMERCE_ESPIONAGE, 0); // (note: not forced)
 	}
 	verifyGoldCommercePercent();
+// XANA: 06-21-2025 Racial Marks
+	updateRaceData();
+// XANA: 06-21-2025 Racial Marks
 	doGold();
 	doResearch();
 	doEspionagePoints();
@@ -14264,6 +14271,10 @@ void CvPlayer::read(FDataStreamBase* pStream)
 	pStream->Read((int*)&m_ePersonalityType);
 	pStream->Read((int*)&m_eCurrentEra);
 	pStream->Read((int*)&m_eLastStateReligion);
+// XANA: 06-21-2025 Racial Marks
+	pStream->Read((int*)&m_eAnyVisibleCultureRace);
+	pStream->Read((int*)&m_eAnyCultureRace);
+// XANA: 06-21-2025 Racial Marks
 	pStream->Read((int*)&m_eParent);
 	updateTeamType(); //m_eTeamType not saved
 	updateHuman();
@@ -14879,6 +14890,10 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	pStream->Write(m_ePersonalityType);
 	pStream->Write(m_eCurrentEra);
 	pStream->Write(m_eLastStateReligion);
+// XANA: 06-21-2025 Racial Marks
+	pStream->Write(m_eAnyVisibleCultureRace);
+	pStream->Write(m_eAnyCultureRace);
+// XANA: 06-21-2025 Racial Marks
 	pStream->Write(m_eParent);
 	//m_eTeamType not saved
 
@@ -19740,6 +19755,47 @@ bool CvPlayer::showGoodyOnResourceLayer() const
 	return (/*isOption(PLAYEROPTION_NO_UNIT_RECOMMENDATIONS) &&*/
 			BUGOption::isEnabled("MainInterface__TribalVillageIcons", true));
 }
+
+// XANA: 06-21-2025 Racial Marks
+RaceTypes CvPlayer::buildRaceInformationCache(bool bCultureRoll) const
+{
+	int iDiceRoll = 0;
+	CvCivilization const& kCiv = getCivilization();
+	std::vector<RaceTypes> aeWeightedValidRaces;
+	{
+		int iTotalPoolWeight = 0;
+		FOR_EACH_ENUM(Race)
+		{
+			if (kCiv.getRacePriority(eLoopRace) <= 0 || (bCultureRoll && GC.getInfo(eLoopRace).get(CvRaceInfo::LOCK_TO_CIV)))
+			{
+				continue;
+			}
+			iTotalPoolWeight += kCiv.getRacePriority(eLoopRace);
+			aeWeightedValidRaces.push_back(eLoopRace);
+		}
+		iDiceRoll = GC.getGame().getSorenRandNum(iTotalPoolWeight, "Unit Race Demographics Roll");
+	}
+	if (aeWeightedValidRaces.size() > 0)
+	{
+		int iRunningWeightSum = 0;
+		for (int i = 0; i < (int)aeWeightedValidRaces.size(); i++)
+		{
+			iRunningWeightSum += kCiv.getRacePriority(aeWeightedValidRaces[i]);
+			if (iDiceRoll < iRunningWeightSum)
+			{
+				return aeWeightedValidRaces[i];
+			}
+		}
+	}
+	return NO_RACE;
+}
+
+void CvPlayer::updateRaceData()
+{
+	m_eAnyVisibleCultureRace = buildRaceInformationCache(true);
+	m_eAnyCultureRace = buildRaceInformationCache();
+}
+// XANA: 06-21-2025 Racial Marks
 
 // Used by Globeview resource layer
 void CvPlayer::getResourceLayerColors(GlobeLayerResourceOptionTypes eOption,

@@ -65,7 +65,7 @@ public: // advc: All the const functions are exposed to Python
 	const TCHAR* getButton() const;
 	
 // XANA: 06-21-2025 Racial Marks
-	RaceTypes getDefaultRace() const { return m_eDefaultRace; }
+	int getRacePriority(int i) const;
 // XANA: 06-21-2025 Racial Marks
 
 	bool read(CvXMLLoadUtility* pXML);
@@ -548,15 +548,17 @@ protected:
 	void addElements(ElementList& kElements) const
 	{
 		base_t::addElements(kElements);
+		kElements.addBool(LOCK_TO_CIV, "bLockedToCivilization");
 	}
 public:
-	enum IntElementTypes
+	enum BoolElementTypes
 	{
-		NUM_INT_ELEMENT_TYPES
+		LOCK_TO_CIV = CvXMLInfo::NUM_BOOL_ELEMENT_TYPES,
+		NUM_BOOL_ELEMENT_TYPES
 	};
-	int get(IntElementTypes e) const
+	bool get(IntElementTypes e) const
 	{
-		return base_t::get(static_cast<base_t::IntElementTypes>(e));
+		return base_t::get(static_cast<base_t::BoolElementTypes>(e));
 	}
 
 	CvRaceInfo();

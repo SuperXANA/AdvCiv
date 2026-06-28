@@ -1464,6 +1464,9 @@ public:
 	DllExport bool hasSpaceshipArrived() const;
 	void announceGameNameChange(CvWString szOldName, CvWString szNewName); // advc.135c
 	bool showGoodyOnResourceLayer() const; // advc.004z
+	// XANA: 06-21-2025 Racial Marks
+	RaceTypes getDefaultRace(bool bCultureRoll = false) const { return (bCultureRoll ? m_eAnyVisibleCultureRace : m_eAnyCultureRace); }
+// XANA: 06-21-2025 Racial Marks
 	// <advc.003u>
 	CvPlayerAI& AI()
 	{	//return *static_cast<CvPlayerAI*>(const_cast<CvPlayer*>(this));
@@ -1712,6 +1715,10 @@ protected:  // <advc.210>
 	CvWString** m_aszBonusHelp; // advc.003p  (not serialized)
 	// advc.004s: Replacing seven separate maps
 	PlayerHistory m_playerHistory[NUM_PLAYER_HISTORY_TYPES];
+// XANA: 06-21-2025 Racial Marks
+	RaceTypes m_eAnyVisibleCultureRace;
+	RaceTypes m_eAnyCultureRace;
+// XANA: 06-21-2025 Racial Marks
 
 	void uninit();
 	void initContainers();
@@ -1752,6 +1759,9 @@ protected:  // <advc.210>
 	CvCity* pickTriggerCity(EventTriggerTypes eTrigger) const;
 	CvUnit* pickTriggerUnit(EventTriggerTypes eTrigger, CvPlot* pPlot, bool bPickPlot) const;
 	bool isValidEventTech(TechTypes eTech, EventTypes eEvent, PlayerTypes eOtherPlayer) const;
+// XANA: 06-21-2025 Racial Marks
+	void updateRaceData();
+	RaceTypes buildRaceInformationCache(bool bCultureRoll = false) const;
 
 	void verifyGoldCommercePercent();
 	int doCaptureGold(CvCity const& kOldCity); // advc.003y

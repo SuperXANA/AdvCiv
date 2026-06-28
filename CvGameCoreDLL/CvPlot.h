@@ -816,7 +816,7 @@ public:
 	}
 	int numAdjacentPlots() const { return m_iAdjPlots; }
 	// XANA: 06-21-2025 Racial Marks
-	RaceTypes getDemographicRace() const;
+	RaceTypes getDemographicRace(PlayerTypes eSkipPlayer = NO_PLAYER) const;
 	// XANA: 06-21-2025 Racial Marks
 	// </advc.003s>
 

@@ -10517,16 +10517,13 @@ void CvUnit::initRaceType()
 	{
 		m_eRaceCreationType = m_pUnitInfo->getDefaultRace();
 	}
+	// Dynamic race demographic computed through in-game cultural and civilization records
 	else
 	{
-		if (getPlot().getDemographicRace() != NO_RACE)
-		{
-			m_eRaceCreationType = getPlot().getDemographicRace();
-		}
-		else
-		{
-			m_eRaceCreationType = GC.getInfo(getCivilizationType()).getDefaultRace();
-		}
+		PlayerTypes const eOwner = getOwner();
+		m_eRaceCreationType = getPlot().getDemographicRace(eOwner);
+		if (m_eRaceCreationType != NO_RACE) return;
+		m_eRaceCreationType = GET_PLAYER(eOwner).getDefaultRace();
 	}
 }
 

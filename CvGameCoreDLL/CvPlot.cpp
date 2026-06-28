@@ -8431,29 +8431,27 @@ bool CvPlot::hasDefender(bool bTestCanAttack, PlayerTypes eOwner, PlayerTypes eA
 
 
 // XANA: 06-21-2025 Racial Marks
-RaceTypes CvPlot::getDemographicRace() const
+RaceTypes CvPlot::getDemographicRace(PlayerTypes eSkipPlayer) const
 {
 	RaceTypes eBestRace = NO_RACE;
 	if (countTotalCulture() > 0)
 	{
 		int iCultureCount = 0;
 		int const iDiceRoll = GC.getGame().getSorenRandNum(countTotalCulture(), "Unit Race Demographics Roll");
-		FOR_EACH_ENUM(Player)
+		for (PlayerIter<CIV_ALIVE> itPlayer; itPlayer.hasNext(); itPlayer++)
 		{
-			if (GET_PLAYER(eLoopPlayer).isEverAlive())
+			CvPlayer& kLoopPlayer = *itPlayer;
+			if (kLoopPlayer.getID() != eSkipPlayer && getCulture(kLoopPlayer.getID()) > 0)
 			{
-				if (getCulture(eLoopPlayer) > 0)
+				iCultureCount += getCulture(kLoopPlayer.getID());
+				if (iDiceRoll < iCultureCount)
 				{
-					iCultureCount += getCulture(eLoopPlayer);
-					if (iDiceRoll < iCultureCount)
+					eBestRace = kLoopPlayer.getDefaultRace(true);
+					if (eBestRace != NO_RACE)
 					{
-						eBestRace = GET_PLAYER(eLoopPlayer).getCivilization().getDefaultRace();
-						if (eBestRace != NO_RACE)
-						{
-							return eBestRace;
-						}
-						break;
+						return eBestRace;
 					}
+					break;
 				}
 			}
 		}

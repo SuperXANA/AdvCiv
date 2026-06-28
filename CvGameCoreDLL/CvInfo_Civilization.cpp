@@ -23,7 +23,10 @@ m_pbLeaders(NULL),
 m_pbCivilizationFreeBuildingClass(NULL),
 m_pbCivilizationFreeTechs(NULL),
 m_pbCivilizationDisableTechs(NULL),
-m_paszCityNames(NULL)
+m_paszCityNames(NULL),
+// XANA: 06-21-2025 Racial Marks
+m_piRacePriorities(NULL)
+// XANA: 06-21-2025 Racial Marks
 {}
 
 CvCivilizationInfo::~CvCivilizationInfo()
@@ -37,6 +40,9 @@ CvCivilizationInfo::~CvCivilizationInfo()
 	SAFE_DELETE_ARRAY(m_pbCivilizationFreeTechs);
 	SAFE_DELETE_ARRAY(m_pbCivilizationDisableTechs);
 	SAFE_DELETE_ARRAY(m_paszCityNames);
+// XANA: 06-21-2025 Racial Marks
+	SAFE_DELETE_ARRAY(m_piRacePriorities);
+// XANA: 06-21-2025 Racial Marks
 }
 
 void CvCivilizationInfo::reset()
@@ -194,6 +200,13 @@ std::string CvCivilizationInfo::getCityNames(int i) const
 	FAssertMsg(i > -1, "Index out of bounds");
 	return m_paszCityNames[i];
 }
+
+// XANA: 06-21-2025 Racial Marks
+int CvCivilizationInfo::getRacePriority(int i) const
+{
+	return m_piRacePriorities ? m_piRacePriorities[i] : 0;
+}
+// XANA: 06-21-2025 Racial Marks
 
 #if ENABLE_XML_FILE_CACHE
 void CvCivilizationInfo::read(FDataStreamBase* stream)
@@ -390,8 +403,7 @@ bool CvCivilizationInfo::read(CvXMLLoadUtility* pXML)
 	CvString szTextVal;
 	pXML->GetChildXmlValByName(szTextVal, "CivilizationSelectionSound");
 // XANA: 06-21-2025 Racial Marks
-	pXML->SetInfoIDFromChildXmlVal(m_eDefaultRace,
-			"DefaultRace");
+	pXML->SetVariableListTagPair(&m_piRacePriorities, "RacePriorities", GC.getNumRaceInfos());
 // XANA: 06-21-2025 Racial Marks
 
 	return true;
@@ -1602,7 +1614,7 @@ bool CvRaceInfo::read(CvXMLLoadUtility* pXML)
 	if (!base_t::read(pXML))
 		return false;
 
-	pXML->SetVariableListTagPair(&m_pbRaceClasses, "RaceClasses", GC.getNumRaceClassInfos());
+	pXML->SetVariableListTagPair(&m_pbRaceClasses, "Classes", GC.getNumRaceClassInfos());
 	return true;
 }
 // XANA: 06-21-2025 Racial Marks
