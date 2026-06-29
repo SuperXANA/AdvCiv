@@ -73,6 +73,9 @@ m_ePrereqReligion(NO_RELIGION),
 m_ePrereqCorporation(NO_CORPORATION),
 m_ePrereqBuilding(NO_BUILDING),
 m_ePrereqAndTech(NO_TECH),
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+m_ePrereqAndMagicTech(NO_MAGIC_TECH),
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 m_ePrereqAndBonus(NO_BONUS),
 m_iGroupSize(0),
 m_iGroupDefinitions(0),
@@ -139,6 +142,10 @@ m_piReligionSpreads(NULL),
 m_piCorporationSpreads(NULL),
 m_piTerrainPassableTech(NULL),
 m_piFeaturePassableTech(NULL),
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+m_piTerrainPassableMagicTech(NULL),
+m_piFeaturePassableMagicTech(NULL),
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 m_pbGreatPeoples(NULL),
 m_pbBuildings(NULL),
 //m_pbForceBuildings(NULL), // advc.003t
@@ -182,6 +189,10 @@ CvUnitInfo::~CvUnitInfo()
 	SAFE_DELETE_ARRAY(m_piCorporationSpreads);
 	SAFE_DELETE_ARRAY(m_piTerrainPassableTech);
 	SAFE_DELETE_ARRAY(m_piFeaturePassableTech);
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	SAFE_DELETE_ARRAY(m_piTerrainPassableMagicTech);
+	SAFE_DELETE_ARRAY(m_piFeaturePassableMagicTech);
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	SAFE_DELETE_ARRAY(m_pbGreatPeoples);
 	SAFE_DELETE_ARRAY(m_pbBuildings);
 	//SAFE_DELETE_ARRAY(m_pbForceBuildings); // advc.003t
@@ -235,6 +246,19 @@ bool CvUnitInfo::isTechRequired(TechTypes eTech) const
 	}
 	return false;
 }
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+bool CvUnitInfo::isMagicTechRequired(MagicTechTypes eTech) const
+{
+	if (getPrereqAndMagicTech() == eTech)
+		return true;
+	for (int i = 0; i < getNumPrereqAndMagicTechs(); i++)
+	{
+		if (getPrereqAndMagicTechs(i) == eTech)
+			return true;
+	}
+	return false;
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 int CvUnitInfo::getGroupSize() const
 {
@@ -302,6 +326,16 @@ int CvUnitInfo::py_getPrereqAndTechs(int i) const
 		return NO_TECH;
 	return m_aePrereqAndTechs[i];
 }
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+// <advc.003t> Calls from Python aren't going to respect the bounds
+int CvUnitInfo::py_getPrereqAndMagicTechs(int i) const
+{
+	if (i < 0 || i >= getNumPrereqAndMagicTechs())
+		return NO_MAGIC_TECH;
+	return m_aePrereqAndMagicTechs[i];
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 int CvUnitInfo::py_getPrereqOrBonuses(int i) const
 {
@@ -482,6 +516,20 @@ TechTypes CvUnitInfo::getFeaturePassableTech(int i) const
 	FAssertBounds(0, GC.getNumFeatureInfos(), i);
 	return m_piFeaturePassableTech ? (TechTypes)m_piFeaturePassableTech[i] : NO_TECH; // advc.003t
 }
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+MagicTechTypes CvUnitInfo::getTerrainPassableMagicTech(int i) const
+{
+	FAssertBounds(0, GC.getNumTerrainInfos(), i);
+	return m_piTerrainPassableMagicTech ? (MagicTechTypes)m_piTerrainPassableMagicTech[i] : NO_MAGIC_TECH; // advc.003t
+}
+
+MagicTechTypes CvUnitInfo::getFeaturePassableMagicTech(int i) const
+{
+	FAssertBounds(0, GC.getNumFeatureInfos(), i);
+	return m_piFeaturePassableMagicTech ? (MagicTechTypes)m_piFeaturePassableMagicMagicTech[i] : NO_MAGIC_TECH; // advc.003t
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 bool CvUnitInfo::getGreatPeoples(int i) const
 {
@@ -1293,6 +1341,24 @@ bool CvUnitInfo::read(CvXMLLoadUtility* pXML)
 			m_piFeaturePassableTech[i] = pszTemp[i].IsEmpty() ? NO_TECH : pXML->FindInInfoClass(pszTemp[i]);
 		SAFE_DELETE_ARRAY(pszTemp);
 	}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	pXML->SetVariableListTagPair(&pszTemp, "TerrainPassableMagicTechs", GC.getNumTerrainInfos());
+	if (pszTemp != NULL) // advc.003t
+	{
+		m_piTerrainPassableMagicTech = new int[GC.getNumTerrainInfos()];
+		for (int i = 0; i < GC.getNumTerrainInfos(); ++i)
+			m_piTerrainPassableMagicTech[i] = pszTemp[i].IsEmpty() ? NO_MAGIC_TECH : pXML->FindInInfoClass(pszTemp[i]);
+		SAFE_DELETE_ARRAY(pszTemp);
+	}
+	pXML->SetVariableListTagPair(&pszTemp, "FeaturePassableMagicTechs", GC.getNumFeatureInfos());
+	if (pszTemp != NULL) // advc.003t
+	{
+		m_piFeaturePassableMagicTech = new int[GC.getNumFeatureInfos()];
+		for (int i = 0; i < GC.getNumFeatureInfos(); ++i)
+			m_piFeaturePassableMagicTech[i] = pszTemp[i].IsEmpty() ? NO_MAGIC_TECH : pXML->FindInInfoClass(pszTemp[i]);
+		SAFE_DELETE_ARRAY(pszTemp);
+	}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	pXML->SetVariableListTagPair(&m_pbGreatPeoples, "GreatPeoples", GC.getNumSpecialistInfos());
 
 	pXML->SetVariableListTagPair(&m_pbBuildings, "Buildings", GC.getNumBuildingInfos());
@@ -1331,6 +1397,36 @@ bool CvUnitInfo::read(CvXMLLoadUtility* pXML)
 		}
 		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 	}
+	
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	pXML->SetInfoIDFromChildXmlVal(m_ePrereqAndTech, "PrereqMagicTech");
+
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),"MagicTechTypes"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0)
+			{
+				CvString szTextVal;
+				if (pXML->GetChildXmlVal(szTextVal))
+				{	// advc.003t: The DLL can handle any number, but Python maybe not.
+					FAssert(iNumSibs <= GC.getDefineINT(CvGlobals::NUM_UNIT_AND_TECH_PREREQS));
+					for (int j = 0; j < iNumSibs; j++)
+					{	// <advc.003t>
+						MagicTechTypes eTech = (MagicTechTypes)pXML->FindInInfoClass(szTextVal);
+						if (eTech != NO_MAGIC_TECH)
+							m_aePrereqAndMagicTechs.push_back(eTech); // </advc.003t>
+						if (!pXML->GetNextXmlVal(szTextVal))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 	pXML->SetInfoIDFromChildXmlVal(m_ePrereqAndBonus, "BonusType");
 
@@ -1766,6 +1862,9 @@ m_iPrereqOrPromotion1(NO_PROMOTION),
 m_iPrereqOrPromotion2(NO_PROMOTION),
 m_iPrereqOrPromotion3(NO_PROMOTION), // K-Mod
 m_iTechPrereq(NO_TECH),
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+m_iMagicTechPrereq(NO_MAGIC_TECH),
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 m_iStateReligionPrereq(NO_RELIGION),
 m_iVisibilityChange(0),
 m_iMovesChange(0),
@@ -1858,6 +1957,13 @@ int CvPromotionInfo::getTechPrereq() const
 {
 	return m_iTechPrereq;
 }
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+int CvPromotionInfo::getMagicTechPrereq() const
+{
+	return m_iMagicTechPrereq;
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 int CvPromotionInfo::getStateReligionPrereq() const
 {
@@ -2264,6 +2370,9 @@ bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
 
 	pXML->SetInfoIDFromChildXmlVal(m_iLayerAnimationPath, "LayerAnimationPath");
 	pXML->SetInfoIDFromChildXmlVal(m_iTechPrereq, "TechPrereq");
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	pXML->SetInfoIDFromChildXmlVal(m_iMagicTechPrereq, "MagicTechPrereq");
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	pXML->SetInfoIDFromChildXmlVal(m_iStateReligionPrereq, "StateReligionPrereq");
 
 	pXML->GetChildXmlValByName(&m_bLeader, "bLeader");

@@ -159,7 +159,13 @@ public: /*  All const functions are exposed to Python except some related to art
 	CorporationTypes getPrereqCorporation() const { return m_ePrereqCorporation; }
 	BuildingTypes getPrereqBuilding() const { return m_ePrereqBuilding; }
 	TechTypes getPrereqAndTech() const { return m_ePrereqAndTech; }
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	MagicTechTypes getPrereqAndMagicTech() const { return m_ePrereqAndMagicTech; }
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	bool isTechRequired(TechTypes eTech) const; // advc.003w: Replacing global isTechRequiredForUnit
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	bool isMagicTechRequired(MagicTechTypes eTech) const;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	BonusTypes getPrereqAndBonus() const { return m_ePrereqAndBonus; }
 	int getGroupSize() const; // the initial number of individuals in the unit group
 	int getGroupDefinitions() const; // the number of UnitMeshGroups for this unit
@@ -224,18 +230,31 @@ public: /*  All const functions are exposed to Python except some related to art
 	// Array access:
 	// <advc.003t>
 	int getNumPrereqAndTechs() const { return m_aePrereqAndTechs.size(); }
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	int getNumPrereqAndTechs() const { return m_aePrereqAndMagicTechs.size(); }
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	int getNumPrereqOrBonuses() const { return m_aePrereqOrBonuses.size(); }
 	TechTypes getPrereqAndTechs(int i) const
 	{
 		FAssertBounds(0, getNumPrereqAndTechs(), i);
 		return m_aePrereqAndTechs[i];
 	}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	MagicTechTypes getPrereqAndMagicTechs(int i) const
+	{
+		FAssertBounds(0, getNumPrereqAndMagicTechs(), i);
+		return m_aePrereqAndMagicTechs[i];
+	}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	BonusTypes getPrereqOrBonuses(int i) const
 	{
 		FAssertBounds(0, getNumPrereqOrBonuses(), i);
 		return m_aePrereqOrBonuses[i];
 	}
 	int py_getPrereqAndTechs(int i) const;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	int py_getPrereqAndMagicTechs(int i) const;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	int py_getPrereqOrBonuses(int i) const;
 	// </advc.003t>  <advc.905b>
 	int getNumSpeedBonuses() const { return m_aeiSpeedBonuses.size(); }
@@ -273,6 +292,11 @@ public: /*  All const functions are exposed to Python except some related to art
 	TechTypes getTerrainPassableTech(int i) const;
 	bool isAnyTerrainPassableTech() const { return (m_piTerrainPassableTech != NULL); } // advc.003t
 	TechTypes getFeaturePassableTech(int i) const;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	TechTypes getTerrainPassableMagicTech(int i) const;
+	bool isAnyTerrainPassableMagicTech() const { return (m_piTerrainPassableMagicTech != NULL); } // advc.003t
+	TechTypes getFeaturePassableMagicTech(int i) const;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	int getFlankingStrikeUnitClass(int i) const;
 	bool isAnyFlankingStrikeUnitClass() const { return (m_piFlankingStrikeUnitClass != NULL); } // advc.003t
 
@@ -417,6 +441,9 @@ protected:
 	CorporationTypes m_ePrereqCorporation;
 	BuildingTypes m_ePrereqBuilding;
 	TechTypes m_ePrereqAndTech;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	MagicTechTypes m_ePrereqAndMagicTech;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	BonusTypes m_ePrereqAndBonus;
 	int m_iGroupSize;
 	int m_iGroupDefinitions;
@@ -472,6 +499,9 @@ protected:
 	float m_fUnitPadTime;
 
 	std::vector<TechTypes> m_aePrereqAndTechs; // advc.003t: was int*
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	std::vector<MagicTechTypes> m_aePrereqAndMagicTechs; // advc.003t: was int*
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	std::vector<BonusTypes> m_aePrereqOrBonuses; // advc.003t: was int*
 	std::vector<std::pair<BonusTypes,int> > m_aeiSpeedBonuses; // advc.905b
 	int* m_piProductionTraits;
@@ -491,6 +521,10 @@ protected:
 	int* m_piCorporationSpreads;
 	int* m_piTerrainPassableTech;
 	int* m_piFeaturePassableTech;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	int* m_piTerrainPassableMagicTech;
+	int* m_piFeaturePassableMagicTech;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	int* m_piFlankingStrikeUnitClass;
 
 	bool* m_pbUpgradeUnitClass;
