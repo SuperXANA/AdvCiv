@@ -178,4 +178,162 @@ protected:
 	bool* m_pbTerrainTrade;
 };
 
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+/*
+	Magical technology, i.e. spells like Fireball Casting, Terrain Freeze To Ice,
+	Heal Self, Call Down Lightning, Teleporation, etc.
+	
+	These special technologies don't use Research Beakers - they cost Culture Points.
+	Culture will break down into two sets:
+	A) City local culture as currently used for the Cultural Victory.
+	B) Culture to be used akin to beakers for researching spell technologies.
+	
+	Magical techs are researched in parallel to regular technologies and are evaluated similarly by the AI.
+	Spells can do a great many things, and care should be taken not to duplicate the effects of science
+	when designing magical technologies to be researched in libraries, universities, etc.
+	
+	Magical technologies have their own Advisor Panel similar to the Tech Advisor, allowing players
+	to select tech pathways to branch down into. Further research is needed in reverse-engineering
+	the technology AI evaluations in order to make this work...
+*/
+class CvMagicTechInfo : /* <advc.tag> */ public CvXMLInfo
+{
+	typedef CvXMLInfo base_t;
+protected:
+	void addElements(ElementList& kElements) const
+	{
+		base_t::addElements(kElements);
+		/*
+		kElements.addBool(NoFearForSafety, "NoFearForSafety"); // advc.500c
+		kElements.addInt(BarbarianFreeTechModifier, "BarbarianFreeTechModifier"); // advc.301
+		*/
+	}
+public:
+	enum IntElementTypes
+	{
+		/*
+		BarbarianFreeTechModifier = base_t::NUM_INT_ELEMENT_TYPES, // advc.301
+		*/
+		NUM_INT_ELEMENT_TYPES
+	};
+	int get(IntElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::IntElementTypes>(e));
+	}
+	enum BoolElementTypes
+	{
+		/*
+		NoFearForSafety = base_t::NUM_BOOL_ELEMENT_TYPES, // advc.500c
+		*/
+		NUM_BOOL_ELEMENT_TYPES
+	};
+	/*
+	PY_IS_ELEMENT(NoFearForSafety)
+	*/
+	bool get(BoolElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::BoolElementTypes>(e));
+	}
+	// </advc.tag>
+	friend class CvXMLLoadUtility;
+public:
+	CvMagicTechInfo();
+	~CvMagicTechInfo();
+
+	int getAdvisorType() const { return m_iAdvisorType; }
+	int getAIWeight() const { return m_iAIWeight; }
+	int getAITradeModifier() const { return m_iAITradeModifier; }
+	int getResearchCost() const { return m_iResearchCost; }
+	int getAdvancedStartCost() const { return m_iAdvancedStartCost; }
+	int getAdvancedStartCostIncrease() const { return m_iAdvancedStartCostIncrease; }
+	EraTypes getEra() const { return (EraTypes)m_iEra; }
+	int getAssetValue() const { return m_iAssetValue; }
+	int getPowerValue() const { return m_iPowerValue; }
+
+	int getGridX() const { return m_iGridX; }
+	int getGridY() const { return m_iGridY; }
+
+	bool isRepeat() const { return m_bRepeat; }
+	bool isTrade() const { return m_bTrade; }
+	bool isDisable() const { return m_bDisable; }
+	bool isGoodyTech() const { return m_bGoodyTech; }
+
+	std::wstring getQuote() const;
+	const TCHAR* getSound() const;
+	const TCHAR* getSoundMP() const;
+
+	// Array access:
+
+	/*
+	int getDomainExtraMoves(int i) const;
+	*/
+	int getFlavorValue(int i) const;
+	// <advc.003t>
+	int getNumOrTechPrereqs() const { return (int)m_aePrereqOrTechs.size(); }
+	int getNumAndTechPrereqs() const { return (int)m_aePrereqAndTechs.size(); }
+	MagicTechTypes getPrereqOrTechs(int i) const
+	{
+		FAssertBounds(0, getNumOrTechPrereqs(), i);
+		return m_aePrereqOrTechs[i];
+	}
+	MagicTechTypes getPrereqAndTechs(int i) const
+	{
+		FAssertBounds(0, getNumAndTechPrereqs(), i);
+		return m_aePrereqAndTechs[i];
+	}
+	int py_getPrereqOrTechs(int i) const;
+	int py_getPrereqAndTechs(int i) const;
+	// </advc.003t>
+	/*
+	// K-Mod, exposed to Python
+	int getCommerceModifier(int i) const;
+	int* getCommerceModifierArray() const;
+	int getSpecialistExtraCommerce(int i) const;
+	int* getSpecialistExtraCommerceArray() const;
+	// K-Mod end
+	*/
+	
+	bool read(CvXMLLoadUtility* pXML);
+	bool readPass2(CvXMLLoadUtility* pXML);
+
+protected:
+	int m_iAdvisorType;
+	int m_iAIWeight;
+	int m_iAITradeModifier;
+	int m_iResearchCost;
+	int m_iAdvancedStartCost;
+	int m_iAdvancedStartCostIncrease;
+	int m_iEra;
+	int m_iAssetValue;
+	int m_iPowerValue;
+
+	int m_iGridX;
+	int m_iGridY;
+
+	bool m_bRepeat;
+	bool m_bTrade;
+	bool m_bDisable;
+	bool m_bGoodyTech;
+
+	CvString m_szQuoteKey;
+	CvString m_szSound;
+	CvString m_szSoundMP;
+
+	/*
+	int* m_piDomainExtraMoves;
+	*/
+	int* m_piFlavorValue;
+
+	std::vector<MagicTechTypes> m_aePrereqOrTechs; // advc.003t: was int*
+	std::vector<MagicTechTypes> m_aePrereqAndTechs; // advc.003t: was int*
+
+	/*
+	int* m_piCommerceModifier; // K-Mod
+	int* m_piSpecialistExtraCommerce; // K-Mod
+	bool* m_pbCommerceFlexible;
+	bool* m_pbTerrainTrade;
+	*/
+};
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+
 #endif

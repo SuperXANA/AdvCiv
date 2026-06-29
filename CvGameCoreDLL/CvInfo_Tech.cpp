@@ -423,3 +423,352 @@ bool CvTechInfo::readPass2(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+CvMagicTechInfo::CvMagicTechInfo() :
+m_iAdvisorType(NO_ADVISOR),
+m_iAIWeight(0),
+m_iAITradeModifier(0),
+m_iResearchCost(0),
+m_iAdvancedStartCost(0),
+m_iAdvancedStartCostIncrease(0),
+m_iEra(NO_ERA),
+m_iAssetValue(0),
+m_iPowerValue(0),
+m_iGridX(0),
+m_iGridY(0),
+m_bRepeat(false),
+m_bTrade(false),
+m_bDisable(false),
+m_bGoodyTech(false),
+/*
+m_piDomainExtraMoves(NULL),
+*/
+m_piFlavorValue(NULL),
+/*
+m_piCommerceModifier(NULL), // K-Mod
+m_piSpecialistExtraCommerce(NULL), // K-Mod
+m_pbCommerceFlexible(NULL),
+m_pbTerrainTrade(NULL)
+*/
+{}
+
+CvMagicTechInfo::~CvMagicTechInfo()
+{
+	/*
+	SAFE_DELETE_ARRAY(m_piDomainExtraMoves);
+	*/
+	SAFE_DELETE_ARRAY(m_piFlavorValue);
+	/*
+	SAFE_DELETE_ARRAY(m_piCommerceModifier); // K-Mod
+	SAFE_DELETE_ARRAY(m_piSpecialistExtraCommerce); // K-Mod
+	SAFE_DELETE_ARRAY(m_pbCommerceFlexible);
+	SAFE_DELETE_ARRAY(m_pbTerrainTrade);
+	*/
+}
+
+std::wstring CvMagicTechInfo::getQuote()	const
+{
+	return gDLL->getText(m_szQuoteKey);
+}
+
+const TCHAR* CvMagicTechInfo::getSound() const
+{
+	return m_szSound;
+}
+
+const TCHAR* CvMagicTechInfo::getSoundMP() const
+{
+	return m_szSoundMP;
+}
+
+/*
+int CvMagicTechInfo::getDomainExtraMoves(int i) const
+{
+	FAssertBounds(0, NUM_DOMAIN_TYPES, i); // advc: check bounds
+	return m_piDomainExtraMoves ? m_piDomainExtraMoves[i] : 0; // advc.003t
+}
+*/
+
+int CvMagicTechInfo::getFlavorValue(int i) const
+{
+	FAssertBounds(0, GC.getNumFlavorTypes(), i);
+	return m_piFlavorValue ? m_piFlavorValue[i] : 0; // advc.003t
+}
+// <advc.003t> Calls from Python aren't going to respect the bounds
+int CvMagicTechInfo::py_getPrereqOrTechs(int i) const
+{
+	if (i < 0 || i >= getNumOrTechPrereqs())
+		return NO_TECH;
+	return m_aePrereqOrTechs[i];
+}
+
+int CvMagicTechInfo::py_getPrereqAndTechs(int i) const
+{
+	if (i < 0 || i >= getNumAndTechPrereqs())
+		return NO_TECH;
+	return m_aePrereqAndTechs[i];
+} // </advc.003t>
+
+/*
+// K-Mod
+int CvMagicTechInfo::getCommerceModifier(int i) const
+{
+	FAssertBounds(0, NUM_COMMERCE_TYPES, i);
+	return m_piCommerceModifier ? m_piCommerceModifier[i] : 0;
+}
+
+int* CvMagicTechInfo::getCommerceModifierArray() const
+{
+	return m_piCommerceModifier;
+}
+
+int CvMagicTechInfo::getSpecialistExtraCommerce(int i) const
+{
+	FAssertBounds(0, GC.getNumFlavorTypes(), i);
+	return m_piSpecialistExtraCommerce ? m_piSpecialistExtraCommerce[i] : 0;
+}
+
+int* CvMagicTechInfo::getSpecialistExtraCommerceArray() const
+{
+	return m_piSpecialistExtraCommerce;
+} // K-Mod end
+
+bool CvMagicTechInfo::isCommerceFlexible(int i) const
+{
+	FAssertBounds(0, NUM_COMMERCE_TYPES, i);
+	return m_pbCommerceFlexible ? m_pbCommerceFlexible[i] : false;
+}
+
+bool CvMagicTechInfo::isTerrainTrade(int i) const
+{
+	FAssertBounds(0, GC.getNumTerrainInfos(), i); // advc: check bounds
+	return m_pbTerrainTrade ? m_pbTerrainTrade[i] : false;
+}
+*/
+
+/*
+#if ENABLE_XML_FILE_CACHE
+void CvMagicTechInfo::read(FDataStreamBase* stream)
+{
+	base_t::read(stream);
+	uint uiFlag=0;
+	stream->Read(&uiFlag);
+
+	stream->Read(&m_iAdvisorType);
+	stream->Read(&m_iAIWeight);
+	stream->Read(&m_iAITradeModifier);
+	stream->Read(&m_iResearchCost);
+	stream->Read(&m_iAdvancedStartCost);
+	stream->Read(&m_iAdvancedStartCostIncrease);
+	stream->Read(&m_iEra);
+	stream->Read(&m_iAssetValue);
+	stream->Read(&m_iPowerValue);
+	stream->Read(&m_bRepeat);
+	stream->Read(&m_bTrade);
+	stream->Read(&m_bDisable);
+	stream->Read(&m_bGoodyTech);
+	stream->Read(&m_iGridX);
+	stream->Read(&m_iGridY);
+	SAFE_DELETE_ARRAY(m_piDomainExtraMoves);
+	m_piDomainExtraMoves = new int[NUM_DOMAIN_TYPES];
+	stream->Read(NUM_DOMAIN_TYPES, m_piDomainExtraMoves);
+	SAFE_DELETE_ARRAY(m_piFlavorValue);
+	m_piFlavorValue = new int[GC.getNumFlavorTypes()];
+	stream->Read(GC.getNumFlavorTypes(), m_piFlavorValue);
+	// <advc.003t>
+	int iOrTechPrereqs;
+	stream->Read(&iOrTechPrereqs);
+	if (iOrTechPrereqs > 0)
+	{
+		m_aePrereqOrTechs.resize(iOrTechPrereqs);
+		stream->Read(iOrTechPrereqs, (int*)&m_aePrereqOrTechs[0]);
+	}
+	int iAndTechPrereqs;
+	stream->Read(&iAndTechPrereqs);
+	if (iAndTechPrereqs > 0)
+	{
+		m_aePrereqAndTechs.resize(iAndTechPrereqs);
+		stream->Read(iAndTechPrereqs, (int*)&m_aePrereqAndTechs[0]);
+	} // </advc.003t>
+	// K-Mod
+	SAFE_DELETE_ARRAY(m_piCommerceModifier)
+	m_piCommerceModifier = new int[NUM_COMMERCE_TYPES];
+	stream->Read(NUM_COMMERCE_TYPES, m_piCommerceModifier);
+	SAFE_DELETE_ARRAY(m_piSpecialistExtraCommerce)
+	m_piSpecialistExtraCommerce = new int[NUM_COMMERCE_TYPES];
+	stream->Read(NUM_COMMERCE_TYPES, m_piSpecialistExtraCommerce);
+	// K-Mod end
+	SAFE_DELETE_ARRAY(m_pbCommerceFlexible);
+	m_pbCommerceFlexible = new bool[NUM_COMMERCE_TYPES];
+	stream->Read(NUM_COMMERCE_TYPES, m_pbCommerceFlexible);
+	SAFE_DELETE_ARRAY(m_pbTerrainTrade);
+	m_pbTerrainTrade = new bool[GC.getNumTerrainInfos()];
+	stream->Read(GC.getNumTerrainInfos(), m_pbTerrainTrade);
+	stream->ReadString(m_szQuoteKey);
+	stream->ReadString(m_szSound);
+	stream->ReadString(m_szSoundMP);
+}
+
+void CvMagicTechInfo::write(FDataStreamBase* stream)
+{
+	base_t::write(stream);
+	uint uiFlag = 0;
+	stream->Write(uiFlag);
+
+	stream->Write(m_iAdvisorType);
+	stream->Write(m_iAIWeight);
+	stream->Write(m_iAITradeModifier);
+	stream->Write(m_iResearchCost);
+	stream->Write(m_iAdvancedStartCost);
+	stream->Write(m_iAdvancedStartCostIncrease);
+	stream->Write(m_iEra);
+	stream->Write(m_iAssetValue);
+	stream->Write(m_iPowerValue);
+	stream->Write(m_bRepeat);
+	stream->Write(m_bTrade);
+	stream->Write(m_bDisable);
+	stream->Write(m_bGoodyTech);
+	stream->Write(m_iGridX);
+	stream->Write(m_iGridY);
+	stream->Write(NUM_DOMAIN_TYPES, m_piDomainExtraMoves);
+	stream->Write(GC.getNumFlavorTypes(), m_piFlavorValue);
+	// <advc.003t>
+	{
+		int iOrTechPrereqs = getNumOrTechPrereqs();
+		stream->Write(iOrTechPrereqs);
+		if (iOrTechPrereqs > 0)
+			stream->Write(iOrTechPrereqs, (int*)&m_aePrereqOrTechs[0]);
+	}
+	{
+		int iAndTechPrereqs = getNumAndTechPrereqs();
+		stream->Write(iAndTechPrereqs);
+		if (iAndTechPrereqs > 0)
+			stream->Write(iAndTechPrereqs, (int*)&m_aePrereqAndTechs[0]);
+	} // </advc.003t>
+	stream->Write(NUM_COMMERCE_TYPES, m_piCommerceModifier); // K-Mod
+	stream->Write(NUM_COMMERCE_TYPES, m_piSpecialistExtraCommerce); // K-Mod
+	stream->Write(NUM_COMMERCE_TYPES, m_pbCommerceFlexible);
+	stream->Write(GC.getNumTerrainInfos(), m_pbTerrainTrade);
+	stream->WriteString(m_szQuoteKey);
+	stream->WriteString(m_szSound);
+	stream->WriteString(m_szSoundMP);
+}
+#endif
+*/
+bool CvMagicTechInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	pXML->SetInfoIDFromChildXmlVal(m_iAdvisorType, "Advisor");
+
+	pXML->GetChildXmlValByName(&m_iAIWeight, "iAIWeight");
+	pXML->GetChildXmlValByName(&m_iAITradeModifier, "iAITradeModifier");
+	pXML->GetChildXmlValByName(&m_iResearchCost, "iCost");
+	pXML->GetChildXmlValByName(&m_iAdvancedStartCost, "iAdvancedStartCost");
+	pXML->GetChildXmlValByName(&m_iAdvancedStartCostIncrease, "iAdvancedStartCostIncrease");
+
+	pXML->SetInfoIDFromChildXmlVal(m_iEra, "Era");
+	pXML->GetChildXmlValByName(&m_iAssetValue, "iAsset");
+	pXML->GetChildXmlValByName(&m_iPowerValue, "iPower");
+	pXML->GetChildXmlValByName(&m_bRepeat, "bRepeat");
+	pXML->GetChildXmlValByName(&m_bTrade, "bTrade");
+	pXML->GetChildXmlValByName(&m_bDisable, "bDisable");
+	pXML->GetChildXmlValByName(&m_bGoodyTech, "bGoodyTech");
+	pXML->GetChildXmlValByName(&m_iGridX, "iGridX");
+	pXML->GetChildXmlValByName(&m_iGridY, "iGridY");
+
+	/*
+	// K-Mod
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),
+		"CommerceModifiers"))
+	{
+		pXML->SetCommerce(&m_piCommerceModifier);
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+	else pXML->InitList(&m_piCommerceModifier, NUM_COMMERCE_TYPES);
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),
+		"SpecialistExtraCommerces"))
+	{
+		pXML->SetCommerceArray(&m_piSpecialistExtraCommerce);
+	}
+	else pXML->InitList(&m_piSpecialistExtraCommerce, NUM_COMMERCE_TYPES);
+	// K-Mod end
+
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),
+		"CommerceFlexible"))
+	{
+		pXML->SetCommerceArray(&m_pbCommerceFlexible);
+	}
+	else pXML->InitList(&m_pbCommerceFlexible, NUM_COMMERCE_TYPES);
+
+	pXML->SetVariableListTagPair(&m_piDomainExtraMoves, "DomainExtraMoves", NUM_DOMAIN_TYPES);
+	pXML->SetVariableListTagPair(&m_pbTerrainTrade, "TerrainTrades", GC.getNumTerrainInfos(), false);
+	*/
+	pXML->SetVariableListTagPair(&m_piFlavorValue, "Flavors", GC.getNumFlavorTypes());
+
+	pXML->GetChildXmlValByName(m_szQuoteKey, "Quote");
+	pXML->GetChildXmlValByName(m_szSound, "Sound");
+	pXML->GetChildXmlValByName(m_szSoundMP, "SoundMP");
+
+	return true;
+}
+
+bool CvMagicTechInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "OrPreReqs"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0)
+			{
+				CvString szTextVal;
+				if (pXML->GetChildXmlVal(szTextVal))
+				{	// advc.003t: The DLL can handle any number, but Python maybe not.
+					FAssert(iNumSibs <= GC.getDefineINT(CvGlobals::NUM_OR_TECH_PREREQS));
+					for (int j = 0; j < iNumSibs; j++)
+					{	// <advc.003t>
+						MagicTechTypes eTech = (MagicTechTypes)GC.getInfoTypeForString(szTextVal);
+						if (eTech != NO_MAGIC_TECH)
+							m_aePrereqOrTechs.push_back(eTech); // </advc.003t>
+						if (!pXML->GetNextXmlVal(szTextVal))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+	// (same with OR/or -> AND/and)
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "AndPreReqs"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0)
+			{
+				CvString szTextVal;
+				if (pXML->GetChildXmlVal(szTextVal))
+				{
+					FAssert(iNumSibs <= GC.getDefineINT(CvGlobals::NUM_AND_TECH_PREREQS));
+					for (int j = 0; j < iNumSibs; j++)
+					{	// <advc.003t>
+						MagicTechTypes eTech = (MagicTechTypes)GC.getInfoTypeForString(szTextVal);
+						if (eTech != NO_MAGIC_TECH)
+							m_aePrereqAndTechs.push_back(eTech); // </advc.003t>
+						if (!pXML->GetNextXmlVal(szTextVal))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+
+	return true;
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
