@@ -83,6 +83,7 @@
 	DO(TruLeader, TRULEADER) \
 	DO(TruBonus, TRUBONUS) /* </advc.tsl> */ \
 	 /* XANA: 03-28-2026 Magical Spell System for Advanced Civ */ \
+	DO(MagicTechClass, MAGIC_TECH_CLASS) \
 	DO(MagicClass, MAGICCLASS) \
 	DO(MagicTech, MAGIC_TECH) \
 	DO(Magic, MAGIC)

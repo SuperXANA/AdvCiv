@@ -179,6 +179,96 @@ protected:
 };
 
 // XANA: 03-28-2026 Magical Spell System for Advanced Civ
+class CvMagicTechClassInfo : public CvXMLInfo
+{
+	typedef CvXMLInfo base_t;
+	
+protected:
+	void addElements(ElementList& kElements) const
+	{
+		base_t::addElements(kElements);
+		kElements.addInt(CLASSLEVELMAX, "iMaxClassLevel");
+	}
+
+public:
+	// Enum extensions for future use
+	enum IntElementTypes
+	{
+		CLASSLEVELMAX = base_t::NUM_INT_ELEMENT_TYPES,
+		NUM_INT_ELEMENT_TYPES = base_t::NUM_INT_ELEMENT_TYPES
+	};
+	int get(IntElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::IntElementTypes>(e));
+	}
+	enum BoolElementTypes
+	{
+		NUM_BOOL_ELEMENT_TYPES = base_t::NUM_BOOL_ELEMENT_TYPES
+	};
+	bool get(BoolElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::BoolElementTypes>(e));
+	}
+	friend class CvXMLLoadUtility;
+public:
+	CvMagicTechClassInfo();
+	virtual ~CvMagicTechClassInfo();
+
+	int getAdvisorType() const { return m_iAdvisorType; }
+	int getAIWeight() const { return m_iAIWeight; }
+	int getEra() const { return m_iEra; }
+	int getColorType() const { return m_iColorType; }
+	int getMaxLevel() const { return get(CvMagicTechClassInfo::CLASSLEVELMAX); }
+	int getResearchCostModifier() const { return m_iResearchCostModifier; }
+	bool isExclusive() const { return m_bExclusive; }
+	int getiCulturePerTurnBonus() const { return m_iCulturePerTurnBonus; }
+	/*
+		XANA (note):
+		The parameter [iLevel] has two meanings depending on how it is specified, noted below.
+		
+		A) LVL 0 (or less than 0):
+			If True: Cannot Research Magic Of This Type (No Advancement Beyond Any Starting Magic Your Character Might Have)
+		
+		B) LVL 1 (or greater than 1):
+			If True: Cannot Research Magic Higher Than This Level (No Advancement Further Above Specific Magic Potential)			
+	*/
+	bool isMutuallyExclusiveWith(MagicTechClassTypes eClass, int iLevel = -1) const;
+	int getFlavorValue(int i) const;
+	
+	// Array access:
+	
+	int getNumPrereqOrClasses() const { return (int)m_aeiPrereqOrClasses.size(); }
+	int getNumPrereqAndClasses() const { return (int)m_aeiPrereqAndClasses.size(); }
+	int getNumExclusiveMagicTechClasses() const { return (int)m_aeiMutuallyExclusiveClasses.size(); }
+	
+	MagicTechClassTypes getPrereqOrClass(int i) const;
+	MagicTechClassTypes getPrereqAndClass(int i) const;
+	int getPrereqOrClassLevel(int i) const;
+	int getPrereqAndClassLevel(int i) const;
+	
+	int py_getPrereqOrClass(int i) const;
+	int py_getPrereqAndClass(int i) const;
+	int py_getPrereqOrClassLevel(int i) const;
+	int py_getPrereqAndClassLevel(int i) const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+	bool readPass2(CvXMLLoadUtility* pXML);
+
+protected:
+	int m_iAdvisorType;
+	int m_iAIWeight;
+	int m_iEra;
+	int m_iColorType;
+	int m_iMaxLevel;
+	int m_iResearchCostModifier;
+	bool m_bExclusive;
+	int m_iCulturePerTurnBonus;
+	
+	std::vector<std::pair<MagicTechClassTypes, int> > m_aeiPrereqOrClasses;
+	std::vector<std::pair<MagicTechClassTypes, int> > m_aeiPrereqAndClasses;
+	std::vector<std::pair<MagicTechClassTypes, int> > m_aeiMutuallyExclusiveClasses;
+};
+
 /*
 	Magical technology, i.e. spells like Fireball Casting, Terrain Freeze To Ice,
 	Heal Self, Call Down Lightning, Teleporation, etc.
@@ -203,17 +293,12 @@ protected:
 	void addElements(ElementList& kElements) const
 	{
 		base_t::addElements(kElements);
-		/*
-		kElements.addBool(NoFearForSafety, "NoFearForSafety"); // advc.500c
-		kElements.addInt(BarbarianFreeTechModifier, "BarbarianFreeTechModifier"); // advc.301
-		*/
+		kElements.addInt(CLASSLEVEL, "iClassLevel");
 	}
 public:
 	enum IntElementTypes
 	{
-		/*
-		BarbarianFreeTechModifier = base_t::NUM_INT_ELEMENT_TYPES, // advc.301
-		*/
+		CLASSLEVEL = base_t::NUM_INT_ELEMENT_TYPES,
 		NUM_INT_ELEMENT_TYPES
 	};
 	int get(IntElementTypes e) const
@@ -240,8 +325,14 @@ public:
 	CvMagicTechInfo();
 	~CvMagicTechInfo();
 
+	MagicTechClassTypes getClassType(int i) const
+	{
+		FAssertBounds(0, getNumMagicClassTypes(), i);
+		return m_aeClassTypes[i];
+	}
 	int getAdvisorType() const { return m_iAdvisorType; }
 	int getAIWeight() const { return m_iAIWeight; }
+	int getClassLevel() const { return get(CvMagicTechInfo::CLASSLEVEL); }
 	int getAITradeModifier() const { return m_iAITradeModifier; }
 	int getResearchCost() const { return m_iResearchCost; }
 	int getAdvancedStartCost() const { return m_iAdvancedStartCost; }
@@ -269,6 +360,7 @@ public:
 	*/
 	int getFlavorValue(int i) const;
 	// <advc.003t>
+	int getNumMagicClassTypes() const { return (int)m_aeClassTypes.size(); }
 	int getNumOrTechPrereqs() const { return (int)m_aePrereqOrTechs.size(); }
 	int getNumAndTechPrereqs() const { return (int)m_aePrereqAndTechs.size(); }
 	MagicTechTypes getPrereqOrTechs(int i) const
@@ -297,6 +389,7 @@ public:
 	bool readPass2(CvXMLLoadUtility* pXML);
 
 protected:
+	std::vector<MagicTechClassTypes> m_aeClassTypes;
 	int m_iAdvisorType;
 	int m_iAIWeight;
 	int m_iAITradeModifier;

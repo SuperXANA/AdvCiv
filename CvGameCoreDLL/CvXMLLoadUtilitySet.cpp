@@ -663,6 +663,7 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paVoteSourceInfo, "CIV4VoteSourceInfos", "GameInfo", "Civ4VoteSourceInfos/VoteSourceInfos/VoteSourceInfo", false);
 	LoadGlobalClassInfo(GC.m_paTechInfo, "CIV4TechInfos", "Technologies", "Civ4TechInfos/TechInfos/TechInfo", true, &CvDLLUtilityIFaceBase::createTechInfoCacheObject);
 	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	LoadGlobalClassInfo(GC.m_paMagicTechClassInfo, "CIV4MagicTechClassInfos", "Technologies", "Civ4MagicTechClassInfos/MagicTechClassInfos/MagicTechClassInfo", true);
 	LoadGlobalClassInfo(GC.m_paMagicTechInfo, "CIV4MagicTechInfos", "Technologies", "Civ4MagicTechInfos/MagicTechInfos/MagicTechInfo", true);
 	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	LoadGlobalClassInfo(GC.m_paFeatureInfo, "Civ4FeatureInfos", "Terrain", "Civ4FeatureInfos/FeatureInfos/FeatureInfo", false);

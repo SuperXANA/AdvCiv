@@ -425,6 +425,263 @@ bool CvTechInfo::readPass2(CvXMLLoadUtility* pXML)
 }
 
 // XANA: 03-28-2026 Magical Spell System for Advanced Civ
+CvMagicTechClassInfo::CvMagicTechClassInfo() :
+m_iAdvisorType(NO_ADVISOR),
+m_iAIWeight(0),
+m_iAITradeModifier(0),
+m_iResearchCost(0),
+m_iAdvancedStartCost(0),
+m_iAdvancedStartCostIncrease(0),
+m_iEra(NO_ERA),
+m_iAssetValue(0),
+m_iPowerValue(0),
+m_iGridX(0),
+m_iGridY(0),
+m_bRepeat(false),
+m_bTrade(false),
+m_bDisable(false),
+m_bGoodyTech(false),
+m_piFlavorValue(NULL)
+{}
+
+CvMagicTechClassInfo::~CvMagicTechClassInfo()
+{
+	SAFE_DELETE_ARRAY(m_piFlavorValue);
+}
+
+int CvMagicTechClassInfo::getFlavorValue(int i) const
+{
+	FAssertBounds(0, GC.getNumFlavorTypes(), i);
+	return m_piFlavorValue ? m_piFlavorValue[i] : 0; // advc.003t
+}
+
+MagicTechClassTypes CvMagicTechClassInfo::getPrereqOrClass(int i) const
+{
+	FAssertBounds(0, GC.getNumPrereqOrClasses(), i);
+	return m_aeiPrereqOrClasses[i].first;
+}
+
+MagicTechClassTypes CvMagicTechClassInfo::getPrereqAndClass(int i) const
+{
+	FAssertBounds(0, GC.getNumPrereqAndClasses(), i);
+	return m_aeiPrereqAndClasses[i].first;
+}
+
+int CvMagicTechClassInfo::getPrereqOrClassLevel(int i) const
+{
+	FAssertBounds(0, GC.getNumPrereqOrClasses(), i);
+	return m_aeiPrereqOrClasses[i].second;
+}
+
+int CvMagicTechClassInfo::getPrereqAndClassLevel(int i) const
+{
+	FAssertBounds(0, GC.getNumPrereqAndClasses(), i);
+	return m_aeiPrereqAndClasses[i].second;
+}
+
+// <advc.003t> Calls from Python aren't going to respect the bounds
+int CvMagicTechClassInfo::py_getPrereqOrClass(int i) const
+{
+	if (i < 0 || i >= getNumPrereqOrClasses())
+		return NO_MAGIC_TECH_CLASS;
+	return m_aeiPrereqOrClasses[i].first;
+}
+
+int CvMagicTechClassInfo::py_getPrereqAndClass(int i) const
+{
+	if (i < 0 || i >= getNumPrereqAndClasses())
+		return NO_MAGIC_TECH_CLASS;
+	return m_aeiPrereqAndClasses[i].first;
+} // </advc.003t>
+
+// <advc.003t> Calls from Python aren't going to respect the bounds
+int CvMagicTechClassInfo::py_getPrereqOrClassLevel(int i) const
+{
+	if (i < 0 || i >= getNumPrereqOrClasses())
+		return -1;
+	return m_aeiPrereqOrClasses[i].second;
+}
+
+int CvMagicTechClassInfo::py_getPrereqAndClassLevel(int i) const
+{
+	if (i < 0 || i >= getNumPrereqAndClasses())
+		return -1;
+	return m_aeiPrereqAndClasses[i].second;
+} // </advc.003t>
+
+bool CvMagicTechClassInfo::isMutuallyExclusiveWith(MagicTechClassTypes eClass, int iLevel) const
+{
+	if (eClass <= NO_MAGIC_TECH_CLASS || eClass >= getNumExclusiveMagicTechClasses())
+	{
+		return false;
+	}
+	if (m_aeiMutuallyExclusiveClasses[i].first == eClass)
+	{
+		if (iLevel < 0 || m_aeiMutuallyExclusiveClasses[i].second <= 0)
+		{
+			return true;
+		}
+		else if (m_aeiMutuallyExclusiveClasses[i].second > iLevel)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CvMagicTechClassInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+	
+	pXML->SetInfoIDFromChildXmlVal(m_iAdvisorType, "Advisor");
+
+	pXML->GetChildXmlValByName(&m_iAIWeight, "iAIWeight");
+
+	pXML->SetInfoIDFromChildXmlVal(m_iEra, "Era");
+	pXML->GetChildXmlValByName(&m_iColorType, "Color");
+	pXML->GetChildXmlValByName(&m_iResearchCostModifier, "iResearchCostModifier");
+	pXML->GetChildXmlValByName(&m_bRepeat, "bRepeat");
+	pXML->GetChildXmlValByName(&m_bExclusive, "bExclusive");
+	pXML->GetChildXmlValByName(&m_iCulturePerTurnBonus, "iCulturePerTurnBonus");
+	
+	pXML->SetVariableListTagPair(&m_piFlavorValue, "Flavors", GC.getNumFlavorTypes());
+	
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "MutuallyExclusiveClasses"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0)
+			{
+				if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+				{
+					for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
+					{
+						CvString szTextVal;
+						if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+						{
+							if (pXML->SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
+								pXML->GetNextXmlVal(szTextVal))
+							{
+								MagicTechClassTypes eClass = (MagicTechClassTypes)GC.getInfoTypeForString(szTextVal);
+								if (eClass != NO_MAGIC_TECH_CLASS)
+								{
+									int iVal = -1; /* XANA (note): Restrict To Full Exclusivity By Default */
+									if (pXML->SkipToNextVal())
+									{
+										pXML->GetNextXmlVal(iVal);
+									}
+									m_aeiMutuallyExclusiveClasses.push_back(std::make_pair(eClass, iVal));
+								}
+							}
+							gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+						}
+						if (!gDLL->getXMLIFace()->NextSibling(m_pFXml))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+
+	return true;
+}
+
+bool CvMagicTechClassInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "OrPreReqs"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0)
+			{
+				if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+				{
+					for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
+					{
+						CvString szTextVal;
+						if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+						{
+							if (pXML->SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
+								pXML->GetNextXmlVal(szTextVal))
+							{
+								MagicTechClassTypes eClass = (MagicTechClassTypes)GC.getInfoTypeForString(szTextVal);
+								if (eClass != NO_MAGIC_TECH_CLASS)
+								{
+									int iVal = 0; /* XANA (note): Any Level By Default */
+									if (pXML->SkipToNextVal())
+									{
+										pXML->GetNextXmlVal(iVal);
+										if (iVal < 0)
+										{
+											iVal = 0;
+										}
+									}
+									m_aeiPrereqOrClasses.push_back(std::make_pair(eClass, iVal));
+								}
+							}
+							gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+						}
+						if (!gDLL->getXMLIFace()->NextSibling(m_pFXml))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "AndPreReqs"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0)
+			{
+				if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+				{
+					for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
+					{
+						CvString szTextVal;
+						if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+						{
+							if (pXML->SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
+								pXML->GetNextXmlVal(szTextVal))
+							{
+								MagicTechClassTypes eClass = (MagicTechClassTypes)GC.getInfoTypeForString(szTextVal);
+								if (eClass != NO_MAGIC_TECH_CLASS)
+								{
+									int iVal = 0; /* XANA (note): Any Level By Default */
+									if (pXML->SkipToNextVal())
+									{
+										pXML->GetNextXmlVal(iVal);
+										if (iVal < 0)
+										{
+											iVal = 0;
+										}
+									}
+									m_aeiPrereqAndClasses.push_back(std::make_pair(eClass, iVal));
+								}
+							}
+							gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+						}
+						if (!gDLL->getXMLIFace()->NextSibling(m_pFXml))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+
+	return true;
+}
+
 CvMagicTechInfo::CvMagicTechInfo() :
 m_iAdvisorType(NO_ADVISOR),
 m_iAIWeight(0),
@@ -467,7 +724,7 @@ CvMagicTechInfo::~CvMagicTechInfo()
 	*/
 }
 
-std::wstring CvMagicTechInfo::getQuote()	const
+std::wstring CvMagicTechInfo::getQuote() const
 {
 	return gDLL->getText(m_szQuoteKey);
 }
@@ -660,7 +917,31 @@ bool CvMagicTechInfo::read(CvXMLLoadUtility* pXML)
 {
 	if (!base_t::read(pXML))
 		return false;
-
+	
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "Classes"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0)
+			{
+				CvString szTextVal;
+				if (pXML->GetChildXmlVal(szTextVal))
+				{
+					for (int j = 0; j < iNumSibs; j++)
+					{	// <advc.003t>
+						MagicTechClassTypes eClass = (MagicTechClassTypes)GC.getInfoTypeForString(szTextVal);
+						if (eClass != NO_MAGIC_TECH_CLASS)
+							m_aeClassTypes.push_back(eClass); // </advc.003t>
+						if (!pXML->GetNextXmlVal(szTextVal))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
 	pXML->SetInfoIDFromChildXmlVal(m_iAdvisorType, "Advisor");
 
 	pXML->GetChildXmlValByName(&m_iAIWeight, "iAIWeight");
