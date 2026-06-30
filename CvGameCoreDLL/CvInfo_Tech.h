@@ -217,7 +217,7 @@ public:
 	int getAdvisorType() const { return m_iAdvisorType; }
 	int getAIWeight() const { return m_iAIWeight; }
 	int getEra() const { return m_iEra; }
-	int getColorType() const { return m_iColorType; }
+	ColorTypes getColorType() const { return (ColorTypes)m_iColorType; }
 	int getMaxLevel() const { return get(CvMagicTechClassInfo::CLASSLEVELMAX); }
 	int getResearchCostModifier() const { return m_iResearchCostModifier; }
 	bool isExclusive() const { return m_bExclusive; }

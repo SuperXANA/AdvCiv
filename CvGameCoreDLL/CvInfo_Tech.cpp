@@ -428,19 +428,12 @@ bool CvTechInfo::readPass2(CvXMLLoadUtility* pXML)
 CvMagicTechClassInfo::CvMagicTechClassInfo() :
 m_iAdvisorType(NO_ADVISOR),
 m_iAIWeight(0),
-m_iAITradeModifier(0),
-m_iResearchCost(0),
-m_iAdvancedStartCost(0),
-m_iAdvancedStartCostIncrease(0),
+m_iColorType(NO_COLOR),
+m_iMaxLevel(0),
 m_iEra(NO_ERA),
-m_iAssetValue(0),
-m_iPowerValue(0),
-m_iGridX(0),
-m_iGridY(0),
-m_bRepeat(false),
-m_bTrade(false),
-m_bDisable(false),
-m_bGoodyTech(false),
+m_iResearchCostModifier(0),
+m_iCulturePerTurnBonus(0),
+m_bExclusive(false),
 m_piFlavorValue(NULL)
 {}
 
@@ -457,25 +450,25 @@ int CvMagicTechClassInfo::getFlavorValue(int i) const
 
 MagicTechClassTypes CvMagicTechClassInfo::getPrereqOrClass(int i) const
 {
-	FAssertBounds(0, GC.getNumPrereqOrClasses(), i);
+	FAssertBounds(0, getNumPrereqOrClasses(), i);
 	return m_aeiPrereqOrClasses[i].first;
 }
 
 MagicTechClassTypes CvMagicTechClassInfo::getPrereqAndClass(int i) const
 {
-	FAssertBounds(0, GC.getNumPrereqAndClasses(), i);
+	FAssertBounds(0, getNumPrereqAndClasses(), i);
 	return m_aeiPrereqAndClasses[i].first;
 }
 
 int CvMagicTechClassInfo::getPrereqOrClassLevel(int i) const
 {
-	FAssertBounds(0, GC.getNumPrereqOrClasses(), i);
+	FAssertBounds(0, getNumPrereqOrClasses(), i);
 	return m_aeiPrereqOrClasses[i].second;
 }
 
 int CvMagicTechClassInfo::getPrereqAndClassLevel(int i) const
 {
-	FAssertBounds(0, GC.getNumPrereqAndClasses(), i);
+	FAssertBounds(0, getNumPrereqAndClasses(), i);
 	return m_aeiPrereqAndClasses[i].second;
 }
 
@@ -511,19 +504,15 @@ int CvMagicTechClassInfo::py_getPrereqAndClassLevel(int i) const
 
 bool CvMagicTechClassInfo::isMutuallyExclusiveWith(MagicTechClassTypes eClass, int iLevel) const
 {
-	if (eClass <= NO_MAGIC_TECH_CLASS || eClass >= getNumExclusiveMagicTechClasses())
+	for (int iLoop = 0; iLoop < getNumExclusiveMagicTechClasses(); iLoop++)
 	{
-		return false;
-	}
-	if (m_aeiMutuallyExclusiveClasses[i].first == eClass)
-	{
-		if (iLevel < 0 || m_aeiMutuallyExclusiveClasses[i].second <= 0)
+		if (m_aeiMutuallyExclusiveClasses[iLoop].first == eClass)
 		{
-			return true;
-		}
-		else if (m_aeiMutuallyExclusiveClasses[i].second > iLevel)
-		{
-			return true;
+			int iLimit = m_aeiMutuallyExclusiveClasses[iLoop].second;
+			if (iLevel < 0 || iLimit < 0 || iLimit < iLevel)
+			{
+				return true;
+			}
 		}
 	}
 	return false;
@@ -941,6 +930,7 @@ bool CvMagicTechInfo::read(CvXMLLoadUtility* pXML)
 		}
 		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 	}
+	
 	pXML->SetInfoIDFromChildXmlVal(m_iAdvisorType, "Advisor");
 
 	pXML->GetChildXmlValByName(&m_iAIWeight, "iAIWeight");
