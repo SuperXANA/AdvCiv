@@ -546,46 +546,6 @@ bool CvMagicTechClassInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(&m_iCulturePerTurnBonus, "iCulturePerTurnBonus");
 	
 	pXML->SetVariableListTagPair(&m_piFlavorValue, "Flavors", GC.getNumFlavorTypes());
-	
-	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "MutuallyExclusiveClasses"))
-	{
-		if (pXML->SkipToNextVal())
-		{
-			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
-			if (iNumSibs > 0)
-			{
-				if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
-				{
-					for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
-					{
-						CvString szTextVal;
-						if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
-						{
-							if (pXML->SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
-								pXML->GetNextXmlVal(szTextVal))
-							{
-								MagicTechClassTypes eClass = (MagicTechClassTypes)GC.getInfoTypeForString(szTextVal);
-								if (eClass != NO_MAGIC_TECH_CLASS)
-								{
-									int iVal = -1; /* XANA (note): Restrict To Full Exclusivity By Default */
-									if (pXML->SkipToNextVal())
-									{
-										pXML->GetNextXmlVal(iVal);
-									}
-									m_aeiMutuallyExclusiveClasses.push_back(std::make_pair(eClass, iVal));
-								}
-							}
-							gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-						}
-						if (!gDLL->getXMLIFace()->NextSibling(m_pFXml))
-							break;
-					}
-					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-				}
-			}
-		}
-		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-	}
 
 	return true;
 }
@@ -626,7 +586,7 @@ bool CvMagicTechClassInfo::readPass2(CvXMLLoadUtility* pXML)
 							}
 							gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 						}
-						if (!gDLL->getXMLIFace()->NextSibling(m_pFXml))
+						if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
 							break;
 					}
 					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
@@ -669,7 +629,46 @@ bool CvMagicTechClassInfo::readPass2(CvXMLLoadUtility* pXML)
 							}
 							gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 						}
-						if (!gDLL->getXMLIFace()->NextSibling(m_pFXml))
+						if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "MutuallyExclusiveClasses"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0)
+			{
+				if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+				{
+					for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
+					{
+						CvString szTextVal;
+						if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+						{
+							if (pXML->SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
+								pXML->GetNextXmlVal(szTextVal))
+							{
+								MagicTechClassTypes eClass = (MagicTechClassTypes)GC.getInfoTypeForString(szTextVal);
+								if (eClass != NO_MAGIC_TECH_CLASS)
+								{
+									int iVal = -1; /* XANA (note): Restrict To Full Exclusivity By Default */
+									if (pXML->SkipToNextVal())
+									{
+										pXML->GetNextXmlVal(iVal);
+									}
+									m_aeiMutuallyExclusiveClasses.push_back(std::make_pair(eClass, iVal));
+								}
+							}
+							gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+						}
+						if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
 							break;
 					}
 					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
