@@ -504,14 +504,18 @@ int CvMagicTechClassInfo::py_getPrereqAndClassLevel(int i) const
 
 bool CvMagicTechClassInfo::isMutuallyExclusiveWith(MagicTechClassTypes eClass, int iLevel) const
 {
-	for (int iLoop = 0; iLoop < getNumExclusiveMagicTechClasses(); iLoop++)
+	FAssertBounds(0, GC.getNumMagicTechClassInfos(), eClass);
+	if (eClass != NO_MAGIC_TECH_CLASS)
 	{
-		if (m_aeiMutuallyExclusiveClasses[iLoop].first == eClass)
+		for (int iLoop = 0; iLoop < getNumExclusiveMagicTechClasses(); iLoop++)
 		{
-			int iLimit = m_aeiMutuallyExclusiveClasses[iLoop].second;
-			if (iLevel < 0 || iLimit < 0 || iLimit < iLevel)
+			if (m_aeiMutuallyExclusiveClasses[iLoop].first == eClass)
 			{
-				return true;
+				int iLimit = m_aeiMutuallyExclusiveClasses[iLoop].second;
+				if (iLevel < 0 || iLimit < 0 || iLimit < iLevel)
+				{
+					return true;
+				}
 			}
 		}
 	}
