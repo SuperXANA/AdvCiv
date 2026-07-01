@@ -61,6 +61,10 @@
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 				<Class>
+					<RaceClassType>RACECLASS_GROUNDWALKING</RaceClassType>
+					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
+				</Class>
+				<Class>
 					<RaceClassType>RACECLASS_CRYSTALLINE</RaceClassType>
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
@@ -209,8 +213,8 @@
 			</Classes>
 		</RaceInfo>
 		<RaceInfo>
-			<Type>RACE_HUEMON</Type>
-			<Description>TXT_KEY_RACE_HUEMON</Description>
+			<Type>RACE_HUEMIN</Type>
+			<Description>TXT_KEY_RACE_HUEMIN</Description>
 			<Button/>
 			</Classes>
 				<Class>
@@ -618,6 +622,10 @@
 					<RaceClassType>RACECLASS_EQUUS</RaceClassType>
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
+				<Class>
+					<RaceClassType>RACECLASS_GROUNDWALKING</RaceClassType>
+					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
+				</Class>
 			</Classes>
 			<bLockedToCivilization>1</bLockedToCivilization>
 		</RaceInfo>
@@ -654,6 +662,10 @@
 					<RaceClassType>RACECLASS_EQUUS</RaceClassType>
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
+				<Class>
+					<RaceClassType>RACECLASS_SKYWALKING</RaceClassType>
+					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
+				</Class>
 			</Classes>
 			<bLockedToCivilization>1</bLockedToCivilization>
 		<RaceInfo>
@@ -668,6 +680,10 @@
 				</Class>
 				<Class>
 					<RaceClassType>RACECLASS_EQUUS</RaceClassType>
+					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
+				</Class>
+				<Class>
+					<RaceClassType>RACECLASS_MAGICAL</RaceClassType>
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
@@ -704,6 +720,10 @@
 				</Class>
 				<Class>
 					<RaceClassType>RACECLASS_EQUUS</RaceClassType>
+					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
+				</Class>
+				<Class>
+					<RaceClassType>RACECLASS_MAGICAL</RaceClassType>
 					<bRaceIsSubTypeOfClass>1</bRaceIsSubTypeOfClass>
 				</Class>
 			</Classes>
