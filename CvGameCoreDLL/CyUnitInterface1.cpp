@@ -385,5 +385,9 @@ void CyUnitPythonInterface1(python::class_<CyUnit>& x)
 
 		.def("getArtInfo", &CyUnit::getArtInfo,  python::return_value_policy<python::reference_existing_object>(), "CvArtInfoUnit* (int i, eEra)")
 		.def("getButton", &CyUnit::getButton, "std::string ()")
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		.def("getDamageTypeCombat", &CyUnit::getDamageTypeCombat, "int (int /*DamageTypes*/ eDamageType)")
+		.def("getDamageTypeResist", &CyUnit::getDamageTypeResist, "int (int /*DamageTypes*/ eDamageType)")
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 		;
 }

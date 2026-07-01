@@ -170,7 +170,11 @@ m_pbFreePromotions(NULL),
 m_paszEarlyArtDefineTags(NULL),
 m_paszLateArtDefineTags(NULL),
 m_paszMiddleArtDefineTags(NULL),
-m_paszUnitNames(NULL)
+m_paszUnitNames(NULL),
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+m_piDamageTypeCombat(NULL),
+m_piDamageTypeResist(NULL)
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 {}
 
 
@@ -218,6 +222,10 @@ CvUnitInfo::~CvUnitInfo()
 	SAFE_DELETE_ARRAY(m_paszLateArtDefineTags);
 	SAFE_DELETE_ARRAY(m_paszMiddleArtDefineTags);
 	SAFE_DELETE_ARRAY(m_paszUnitNames);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piDamageTypeCombat);
+	SAFE_DELETE_ARRAY(m_piDamageTypeResist);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 int CvUnitInfo::getAdvancedStartCost() const
@@ -744,6 +752,18 @@ void CvUnitInfo::setMiddleArtDefineTag(int i, const TCHAR* szVal)
 	m_paszMiddleArtDefineTags[i] = szVal;
 }
 
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+int CvUnitInfo::getDamageTypeCombat(DamageTypes eDamage) const
+{
+	return m_piDamageTypeCombat ? m_piDamageTypeCombat[eDamage] : 0;
+}
+
+int CvUnitInfo::getDamageTypeResist(DamageTypes eDamage) const
+{
+	return m_piDamageTypeResist ? m_piDamageTypeResist[eDamage] : 0;
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
 const TCHAR* CvUnitInfo::getUnitNames(int i) const
 {
 	FAssertBounds(0, getNumUnitNames(), i);
@@ -1049,6 +1069,14 @@ void CvUnitInfo::read(FDataStreamBase* stream)
 	stream->ReadString(m_iNumUnitNames, m_paszUnitNames);
 	stream->ReadString(m_szFormationType);
 	updateArtDefineButton();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piDamageTypeCombat);
+	m_piDamageTypeCombat = new int[GC.getNumDamageInfos()];
+	stream->Read(GC.getNumDamageInfos(), m_piDamageTypeCombat);
+	SAFE_DELETE_ARRAY(m_piDamageTypeResist);
+	m_piDamageTypeResist = new int[GC.getNumDamageInfos()];
+	stream->Read(GC.getNumDamageInfos(), m_piDamageTypeResist);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 void CvUnitInfo::write(FDataStreamBase* stream)
@@ -1234,6 +1262,10 @@ void CvUnitInfo::write(FDataStreamBase* stream)
 	stream->WriteString(m_iGroupDefinitions, m_paszMiddleArtDefineTags);
 	stream->WriteString(m_iNumUnitNames, m_paszUnitNames);
 	stream->WriteString(m_szFormationType);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	stream->Write(GC.getNumDamageInfos(), m_piDamageTypeCombat);
+	stream->Write(GC.getNumDamageInfos(), m_piDamageTypeResist);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 #endif
 
@@ -1615,6 +1647,11 @@ bool CvUnitInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(&m_iLeaderExperience, "iLeaderExperience");
 
 	updateArtDefineButton();
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	pXML->SetVariableListTagPair(&m_piDamageTypeCombat, "DamageTypeCombats", GC.getNumDamageInfos());
+	pXML->SetVariableListTagPair(&m_piDamageTypeResist, "DamageTypeResists", GC.getNumDamageInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	return true;
 }
@@ -1911,7 +1948,11 @@ m_piUnitCombatModifierPercent(NULL),
 m_piDomainModifierPercent(NULL),
 m_pbTerrainDoubleMove(NULL),
 m_pbFeatureDoubleMove(NULL),
-m_pbUnitCombat(NULL)
+m_pbUnitCombat(NULL),
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+m_piDamageTypeCombat(NULL),
+m_piDamageTypeResist(NULL)
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 {}
 
 CvPromotionInfo::~CvPromotionInfo()
@@ -1925,6 +1966,10 @@ CvPromotionInfo::~CvPromotionInfo()
 	SAFE_DELETE_ARRAY(m_pbTerrainDoubleMove);
 	SAFE_DELETE_ARRAY(m_pbFeatureDoubleMove);
 	SAFE_DELETE_ARRAY(m_pbUnitCombat);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piDamageTypeCombat);
+	SAFE_DELETE_ARRAY(m_piDamageTypeResist);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 int CvPromotionInfo::getLayerAnimationPath() const
@@ -2218,6 +2263,18 @@ bool CvPromotionInfo::getUnitCombat(int i) const
 	FAssertBounds(0, GC.getNumUnitCombatInfos(), i);
 	return m_pbUnitCombat ? m_pbUnitCombat[i] : false;
 }
+
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+int CvPromotionInfo::getDamageTypeCombat(DamageTypes eDamage) const
+{
+	return m_piDamageTypeCombat ? m_piDamageTypeCombat[eDamage] : 0;
+}
+
+int CvPromotionInfo::getDamageTypeResist(DamageTypes eDamage) const
+{
+	return m_piDamageTypeResist ? m_piDamageTypeResist[eDamage] : 0;
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 #if ENABLE_XML_FILE_CACHE
 void CvPromotionInfo::read(FDataStreamBase* stream)
 {
@@ -2422,6 +2479,10 @@ bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pbTerrainDoubleMove, "TerrainDoubleMoves", GC.getNumTerrainInfos());
 	pXML->SetVariableListTagPair(&m_pbFeatureDoubleMove, "FeatureDoubleMoves", GC.getNumFeatureInfos());
 	pXML->SetVariableListTagPair(&m_pbUnitCombat, "UnitCombats", GC.getNumUnitCombatInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	pXML->SetVariableListTagPair(&m_piDamageTypeCombat, "DamageTypeCombats", GC.getNumDamageInfos());
+	pXML->SetVariableListTagPair(&m_piDamageTypeResist, "DamageTypeResists", GC.getNumDamageInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	return true;
 }
@@ -2660,6 +2721,26 @@ bool CvEspionageMissionInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+CvDamageInfo::CvDamageInfo() :
+
+{}
+
+CvDamageInfo::~CvDamageInfo()
+{
+	// XANA (note): Nothing here yet.
+}
+
+bool CvDamageInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	//pXML->GetChildXmlValByName(&m_iHealth, "iHealth"); // XANA (note): Nothing here yet.
+	return true;
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 // XANA: 03-28-2026 Magical Spell System for Advanced Civ
 CvMagicClassInfo::CvMagicClassInfo() :

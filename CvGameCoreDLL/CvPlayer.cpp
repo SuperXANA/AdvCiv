@@ -129,6 +129,16 @@ bool CvPlayer::initOtherData()
 	FOR_EACH_ENUM2(Commerce, eCommerce)
 		setCommercePercent(eCommerce, GC.getInfo(eCommerce).getInitialPercent(), true);
 
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	FOR_EACH_ENUM2(Damage, eDamage)
+	{
+		changeDamageTypeCombatPoints(eDamage, getCivilization().getDamageTypeCombatPoints(eDamage));
+		changeDamageTypeResistPoints(eDamage, getCivilization().getDamageTypeResistPoints(eDamage));
+		changeDamageTypeCombatPoints(eDamage, GC.getInfo(getPersonalityType()).getDamageTypeCombatPoints(eDamage));
+		changeDamageTypeResistPoints(eDamage, GC.getInfo(getPersonalityType()).getDamageTypeResistPoints(eDamage));
+	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
 	/*  advc.003q: Moved into a (sub-)subroutine - except for the setCivics code;
 		that's handled (only) by resetCivTypeEffects. */
 	processTraits(1);
@@ -10573,6 +10583,34 @@ void CvPlayer::changeImprovementYieldChange(ImprovementTypes eImprov, YieldTypes
 	}
 }
 
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+void CvPlayer::changeDamageTypeCombatPoints(DamageTypes eDamage, int iChange)
+{
+	if (iChange != 0)
+	{
+		if ((m_aiDamageTypeCombatPoints.get(eDamage) + iChange) > 100)
+			m_aiDamageTypeCombatPoints.set(eDamage, 100)
+		else if ((m_aiDamageTypeCombatPoints.get(eDamage) + iChange) < -100)
+			m_aiDamageTypeCombatPoints.set(eDamage, -100)
+		else
+			m_aiDamageTypeCombatPoints.add(eDamage, iChange);
+	}
+}
+void CvPlayer::changeDamageTypeResistPoints(DamageTypes eDamage, int iChange)
+{
+	if (iChange != 0)
+	{
+		if ((m_aiDamageTypeResistPoints.get(eDamage) + iChange) > 100)
+			m_aiDamageTypeResistPoints.set(eDamage, 100)
+		else if ((m_aiDamageTypeResistPoints.get(eDamage) + iChange) < -100)
+			m_aiDamageTypeResistPoints.set(eDamage, -100)
+		else
+			m_aiDamageTypeResistPoints.add(eDamage, iChange);
+	}
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
 
 /*	K-Mod. I've changed this function from using pUnit to using pGroup.
 	I've also rewritten most of the code, to give more natural ordering,
@@ -14317,6 +14355,10 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		m_aiHasCorporationCount.read(pStream);
 		m_aiUpkeepCount.read(pStream);
 		m_aiSpecialistValidCount.read(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		m_aiDamageTypeCombatPoints.read(pStream);
+		m_aiDamageTypeResistPoints.read(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 		if (uiFlag >= 21)
 			m_abResearchingTech.read(pStream);
 		else LegacyArrayEnumMap<TechTypes,bool>::convert(m_abResearchingTech, pStream);
@@ -14342,6 +14384,10 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		m_aiHasCorporationCount.readArray<int>(pStream);
 		m_aiUpkeepCount.readArray<int>(pStream);
 		m_aiSpecialistValidCount.readArray<int>(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		m_aiDamageTypeCombatPoints.readArray<int>(pStream);
+		m_aiDamageTypeResistPoints.readArray<int>(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 		m_abResearchingTech.readArray<bool>(pStream);
 	}
 	// <advc.091>
@@ -14883,6 +14929,10 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	m_aiHasCorporationCount.write(pStream);
 	m_aiUpkeepCount.write(pStream);
 	m_aiSpecialistValidCount.write(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	m_aiDamageTypeCombatPoints.write(pStream);
+	m_aiDamageTypeResistPoints.write(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	m_abResearchingTech.write(pStream);
 	m_abEverSeenDemographics.write(pStream); // advc.091
 	m_abLoyalMember.write(pStream);
@@ -16451,6 +16501,14 @@ void CvPlayer::applyEvent(EventTypes eEvent, int iEventTriggeredId, bool bUpdate
 			}
 		}
 	}
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	FOR_EACH_NON_DEFAULT_PAIR(kEvent.
+		getDamageTypePoints(), Damage, int)
+	{
+		changeDamageTypePoints(perDamageVal.first, perDamageVal.second)
+	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	GC.getPythonCaller()->applyEvent(eEvent, *pTriggeredData);
 

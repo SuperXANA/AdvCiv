@@ -357,6 +357,11 @@ public: /*  All const functions are exposed to Python except some related to art
 
 	const TCHAR* getButton() const;
 	void updateArtDefineButton();
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getDamageTypeCombat(DamageTypes eDamage) const;
+	int getDamageTypeResist(DamageTypes eDamage) const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	const CvArtInfoUnit* getArtInfo(int i, EraTypes eEra, UnitArtStyleTypes eStyle) const;
 	#if ENABLE_XML_FILE_CACHE
@@ -550,6 +555,11 @@ protected:
 	CvString* m_paszUnitNames;
 	CvString m_szFormationType;
 	CvString m_szArtDefineButton;
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int* m_piDamageTypeCombat;
+	int* m_piDamageTypeResist;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	std::vector<InvisibleTypes> m_aeSeeInvisibleTypes;
 };
@@ -682,6 +692,11 @@ public: // All the const functions are exposed to Python
 	bool getTerrainDoubleMove(int i) const;
 	bool getFeatureDoubleMove(int i) const;
 	bool getUnitCombat(int i) const;
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getDamageTypeCombat(DamageTypes eDamage) const;
+	int getDamageTypeResist(DamageTypes eDamage) const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
 	void write(FDataStreamBase* stream);
@@ -750,6 +765,10 @@ protected:
 	bool* m_pbTerrainDoubleMove;
 	bool* m_pbFeatureDoubleMove;
 	bool* m_pbUnitCombat;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int* m_piDamageTypeCombat;
+	int* m_piDamageTypeResist;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 };
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

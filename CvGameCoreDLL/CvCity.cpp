@@ -240,6 +240,9 @@ void CvCity::init(int iID, PlayerTypes eOwner, int iX, int iY, bool bBumpUnits,
 	updateFreshWaterHealth();
 	updateSurroundingHealthHappiness();
 	updatePowerHealth();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	updateSurroundingDamageTypePoints();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	kOwner.updateMaintenance();
 
@@ -638,6 +641,10 @@ void CvCity::doTurn()
 		setWeLoveTheKingDay(true);
 	}
 	else setWeLoveTheKingDay(false);
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	updateSurroundingDamageTypePoints();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	CvEventReporter::getInstance().cityDoTurn(this, kOwner.getID());
 
@@ -3115,6 +3122,20 @@ void CvCity::processBuilding(BuildingTypes eBuilding, int iChange, bool bObsolet
 			changeImprovementFreeSpecialists(perImprovementVal.first,
 					perImprovementVal.second * iChange);
 		}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		FOR_EACH_NON_DEFAULT_PAIR(kBuilding.
+			getDamageTypeCombatPoints(), Damage, int)
+		{
+			changeDamageTypeCombatPoints(perDamageVal.first,
+					perDamageVal.second * iChange);
+		}
+		FOR_EACH_NON_DEFAULT_PAIR(kBuilding.
+			getDamageTypeResistPoints(), Damage, int)
+		{
+			changeDamageTypeResistPoints(perDamageVal.first,
+					perDamageVal.second * iChange);
+		}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 		FOR_EACH_ENUM(Bonus)
 		{
 			if (!hasBonus(eLoopBonus))
@@ -5061,6 +5082,30 @@ void CvCity::updateSurroundingHealthHappiness()
 			setInfoDirty(true);
 	}
 }
+
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+void CvCity::updateSurroundingDamageTypePoints()
+{
+	for (CityPlotIter it(*this); it.hasNext(); ++it)
+	{
+		CvPlot const& kPlot = *it;
+		{
+			CvTerrainInfo const& kAdjTerrain = GC.getInfo(kPlot.getTerrainType());
+			FOR_EACH_ENUM(Damage)
+			{
+				if (kAdjTerrain.getDamageTypeCombatPoints(eLoopDamage) != 0)
+				{	
+					changeDamageTypeCombatPoints(eLoopDamage, kAdjTerrain.getDamageTypeCombatPoints(eLoopDamage));
+				}
+				if (kAdjTerrain.getDamageTypeResistPoints(eLoopDamage) != 0)
+				{	
+					changeDamageTypeResistPoints(eLoopDamage, kAdjTerrain.getDamageTypeResistPoints(eLoopDamage));
+				}
+			}
+		}
+	}
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 // advc.901: Body cut from updateFeatureHealth; the parameter is new.
 std::pair<int,int> CvCity::calculateSurroundingHealth(int iGoodExtraPercent, int iBadExtraPercent) const
@@ -8828,6 +8873,14 @@ void CvCity::changeImprovementFreeSpecialists(ImprovementTypes eImprov, int iCha
 	m_aiImprovementFreeSpecialists.add(eImprov, iChange);
 	FAssert(m_aiImprovementFreeSpecialists.get(eImprov) >= 0); // </advc>
 }
+
+
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+void CvCity::changeDamageTypePoints(DamageTypes eDamage, int iChange)
+{
+	GET_PLAYER(getOwner()).changeDamageTypePoints(eDamage, iChange);
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 
 void CvCity::changeReligionInfluence(ReligionTypes eReligion, int iChange)

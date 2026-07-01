@@ -7212,6 +7212,18 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 	PROFILE_FUNC(); // advc: This does get called a lot. Not all that slow though.
 	FAssert(pPlot == NULL || pPlot->getTerrainType() != NO_TERRAIN);
 
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+    const CvUnit* pDefender = NULL;
+    if (pPlot == NULL)
+    {
+        if (pAttacker != NULL)
+        {
+            pDefender = pAttacker;
+            pAttacker = NULL;
+        }
+    }
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
 	// handle our new special case
 	CvPlot const* pAttackedPlot = NULL;
 	bool bAttackingUnknownDefender = false;
@@ -7230,9 +7242,18 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 
 	if (pCombatDetails != NULL)
 		pCombatDetails->reset(getOwner(), getVisualOwner(), getName().c_str()); // advc
+	
+	// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+    int iBaseCombat = baseCombatStr();
+    } /* XANA (note): Commented out because AdvCiv doesn't separate defense/attack unit strength values.
+    else
+    {
+        iStr = baseCombatStrDefense();
+    } */
 
-	if (baseCombatStr() == 0)
+	if (iBaseCombat == 0) // was baseCombatStr()
 		return 0;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	int iModifier = 0;
 	int iExtraModifier;
@@ -7576,6 +7597,18 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 		pCombatDetails->iModifierTotal = iModifier;
 		pCombatDetails->iBaseCombatStr = baseCombatStr();
 	}
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	if (!bAttackingUnknownDefender) // XANA (note): We are the defender fighting against a known attacking unit
+		iBaseCombat *= 100;
+		FOR_EACH_ENUM(Damage)
+			int iDamageAmount = getDamageTypeCombat(eLoopDamage);
+			int iResistancePercent = pAttacker->getDamageTypeResist(eLoopDamageType);
+			// 'iBaseCombat' is increased by the damage amount, factored by the attacker's resistance.
+			// If resistance is 100, no change. If resistance is 0, full damage amount added.
+			iBaseCombat += iDamageAmount * (100 - iResistancePercent) / 100;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+			
 	int iCombat;
 	if (iModifier > 0)
 		iCombat = (baseCombatStr() * (iModifier + 100));
@@ -10444,6 +10477,16 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 		changeExtraDomainModifier(eLoopDomain,
 				GC.getInfo(ePromotion).getDomainModifierPercent(eLoopDomain) * iChange);
 	}
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	FOR_EACH_ENUM(Damage)
+	{
+		changeDamageTypeCombat(eLoopDamage,
+				GC.getInfo(ePromotion).getDamageTypeCombat(eLoopDamage) * iChange);
+		changeDamageTypeResist(eLoopDamage,
+				GC.getInfo(ePromotion).getDamageTypeResist(eLoopDamage) * iChange);
+	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	if (IsSelected())
 	{
@@ -10475,6 +10518,70 @@ int CvUnit::getSubUnitsAlive(int iDamage) const
 	return std::max(1, ((m_pUnitInfo->getGroupSize() * (maxHitPoints() - iDamage)) +
 			(maxHitPoints() / ((m_pUnitInfo->getGroupSize() * 2) + 1))) / maxHitPoints());
 }
+
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+int CvUnit::getDamageTypeCombat(DamageTypes eIndex) const
+{ 
+	return m_aiDamageTypeCombat.get(eIndex); 
+}
+
+void CvUnit::changeDamageTypeCombat(DamageTypes eIndex, int iChange)
+{
+	if (iChange != 0)
+	{
+		int iStrength = getDamageTypeCombat(eIndex);
+		if (iStrength + iChange <= -100)
+		{
+			setDamageTypeCombat(eIndex, -100); // Weakened by Magic!
+		}
+    	if (iStrength + iChange >= 100)
+    	{
+        	setDamageTypeCombat(eIndex, 100); // Super-Effective!
+    	}
+		m_aiDamageTypeCombat.add(eIndex, iChange);
+	}
+}
+
+void CvUnit::setDamageTypeCombat(DamageTypes eIndex, int iValue)
+{
+	m_aiDamageTypeCombat.set(eIndex, iValue);
+}
+
+int CvUnit::getDamageTypeResist(DamageTypes eIndex) const
+{
+	return m_aiDamageTypeResist.get(eIndex); 
+}
+
+void CvUnit::changeDamageTypeResist(DamageTypes eIndex, int iChange)
+{
+	if (iChange != 0)
+	{
+		int iResistance = getDamageTypeResist(eIndex);
+		if (iResistance + iChange <= -100)
+    	{
+        	setDamageTypeResist(eIndex, -100); // Super-Effective!
+    	}
+    	if (iResistance + iChange >= 100)
+    	{
+        	setDamageTypeResist(eIndex, 100); // Immune to Magic!
+    	}
+		m_aiDamageTypeResist.add(eIndex, iChange);
+	}
+}
+
+void CvUnit::setDamageTypeResist(DamageTypes eIndex, int iValue)
+{
+	m_aiDamageTypeResist.set(eIndex, iValue);
+}
+
+int CvUnit::calculateTotalDamageTypeCombat() const
+{
+	int iMagicPower = 0;
+	FOR_EACH_ENUM(Damage)
+		iMagicPower += getDamageTypeCombat(eLoopDamage);
+	return iMagicPower;
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 
 void CvUnit::read(FDataStreamBase* pStream)
@@ -10634,6 +10741,10 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.read(pStream);
 		m_aiExtraFeatureDefensePercent.read(pStream);
 		m_aiExtraUnitCombatModifier.read(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		m_aiDamageTypeCombat.read(pStream);
+		m_aiDamageTypeResist.read(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	}
 	else
 	{
@@ -10644,6 +10755,10 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.readArray<int>(pStream);
 		m_aiExtraFeatureDefensePercent.readArray<int>(pStream);
 		m_aiExtraUnitCombatModifier.readArray<int>(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		m_aiDamageTypeCombat.readArray<int>(pStream);
+		m_aiDamageTypeResist.readArray<int>(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	}
 }
 
@@ -10756,6 +10871,10 @@ void CvUnit::write(FDataStreamBase* pStream)
 	m_aiExtraFeatureAttackPercent.write(pStream);
 	m_aiExtraFeatureDefensePercent.write(pStream);
 	m_aiExtraUnitCombatModifier.write(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	m_aiDamageTypeCombat.write(pStream);
+	m_aiDamageTypeResist.write(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	REPRO_TEST_END_WRITE();
 }
 
