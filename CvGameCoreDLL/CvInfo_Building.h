@@ -279,7 +279,8 @@ public:
 	DEF_INFO_ENUM_MAP(DomainFreeExperience, Domain, int, char, ArrayEnumMap);
 	DEF_INFO_ENUM_MAP(DomainProductionModifier, Domain, int, short, ArrayEnumMap);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	DEF_INFO_ENUM_MAP(DamageTypePoints, Damage, int, short, NonDefaultEnumMap);
+	DEF_INFO_ENUM_MAP(MagicClassConbatPoints, MagicClass, int, short, NonDefaultEnumMap);
+	DEF_INFO_ENUM_MAP(MagicClassResistPoints, MagicClass, int, short, NonDefaultEnumMap);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	int getNumPrereqAndTechs() const { return m_aePrereqAndTechs.size(); }

@@ -45,15 +45,15 @@ public: // All the const functions are exposed to Python except for those relate
 	int getHillsYieldChange(int i) const;
 	int get3DAudioScriptFootstepIndex(int i) const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	int getDamageTypeCombatPoints(int i) const
+	int getMagicClassCombatPoints(int i) const
 	{
-		FAssertBounds(0, GC.getNumDamageInfos(), i);
-		return m_piDamageTypeCombatPoints[i];
+		FAssertBounds(0, GC.getNumMagicClassInfos(), i);
+		return m_piMagicClassCombatPoints[i];
 	}
-	int getDamageTypeResistPoints(int i) const
+	int getMagicClassResistPoints(int i) const
 	{
-		FAssertBounds(0, GC.getNumDamageInfos(), i);
-		return m_piDamageTypeResistPoints[i];
+		FAssertBounds(0, GC.getNumMagicClassInfos(), i);
+		return m_piMagicClassResistPoints[i];
 	}
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
@@ -82,8 +82,8 @@ protected:
 	int* m_piHillsYieldChange;
 	int* m_pi3DAudioScriptFootstepIndex;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	int* m_piDamageTypeCombatPoints;
-	int* m_piDamageTypeResistPoints;
+	int* m_piMagicClassCombatPoints;
+	int* m_piMagicClassResistPoints;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 private:

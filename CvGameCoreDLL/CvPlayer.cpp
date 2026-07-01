@@ -130,12 +130,12 @@ bool CvPlayer::initOtherData()
 		setCommercePercent(eCommerce, GC.getInfo(eCommerce).getInitialPercent(), true);
 
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	FOR_EACH_ENUM2(Damage, eDamage)
+	FOR_EACH_ENUM2(MagicClass, eClass)
 	{
-		changeDamageTypeCombatPoints(eDamage, getCivilization().getDamageTypeCombatPoints(eDamage));
-		changeDamageTypeResistPoints(eDamage, getCivilization().getDamageTypeResistPoints(eDamage));
-		changeDamageTypeCombatPoints(eDamage, GC.getInfo(getPersonalityType()).getDamageTypeCombatPoints(eDamage));
-		changeDamageTypeResistPoints(eDamage, GC.getInfo(getPersonalityType()).getDamageTypeResistPoints(eDamage));
+		changeMagicClassCombatPoints(eClass, getCivilization().getMagicClassCombatPoints(eClass) / 10);
+		changeMagicClassResistPoints(eClass, getCivilization().getMagicClassResistPoints(eClass) / 10);
+		changeMagicClassCombatPoints(eClass, GC.getInfo(getPersonalityType()).getMagicClassCombatPoints(eClass) / 10);
+		changeMagicClassResistPoints(eClass, GC.getInfo(getPersonalityType()).getMagicClassResistPoints(eClass) / 10);
 	}
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
@@ -10585,28 +10585,28 @@ void CvPlayer::changeImprovementYieldChange(ImprovementTypes eImprov, YieldTypes
 
 	
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-void CvPlayer::changeDamageTypeCombatPoints(DamageTypes eDamage, int iChange)
+void CvPlayer::changeMagicClassCombatPoints(MagicClassTypes eClass, int iChange)
 {
 	if (iChange != 0)
 	{
-		if ((m_aiDamageTypeCombatPoints.get(eDamage) + iChange) > 100)
-			m_aiDamageTypeCombatPoints.set(eDamage, 100)
-		else if ((m_aiDamageTypeCombatPoints.get(eDamage) + iChange) < -100)
-			m_aiDamageTypeCombatPoints.set(eDamage, -100)
+		if ((m_aiMagicClassCombatPoints.get(eClass) + iChange) > 100)
+			m_aiMagicClassCombatPoints.set(eClass, 100)
+		else if ((m_aiMagicClassCombatPoints.get(eClass) + iChange) < -100)
+			m_aiMagicClassCombatPoints.set(eClass, -100)
 		else
-			m_aiDamageTypeCombatPoints.add(eDamage, iChange);
+			m_aiMagicClassCombatPoints.add(eClass, iChange);
 	}
 }
-void CvPlayer::changeDamageTypeResistPoints(DamageTypes eDamage, int iChange)
+void CvPlayer::changeMagicClassResistPoints(MagicClassTypes eClass, int iChange)
 {
 	if (iChange != 0)
 	{
-		if ((m_aiDamageTypeResistPoints.get(eDamage) + iChange) > 100)
-			m_aiDamageTypeResistPoints.set(eDamage, 100)
-		else if ((m_aiDamageTypeResistPoints.get(eDamage) + iChange) < -100)
-			m_aiDamageTypeResistPoints.set(eDamage, -100)
+		if ((m_aiMagicClassResistPoints.get(eClass) + iChange) > 100)
+			m_aiMagicClassResistPoints.set(eClass, 100)
+		else if ((m_aiMagicClassResistPoints.get(eClass) + iChange) < -100)
+			m_aiMagicClassResistPoints.set(eClass, -100)
 		else
-			m_aiDamageTypeResistPoints.add(eDamage, iChange);
+			m_aiMagicClassResistPoints.add(eClass, iChange);
 	}
 }
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
@@ -14356,8 +14356,8 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		m_aiUpkeepCount.read(pStream);
 		m_aiSpecialistValidCount.read(pStream);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-		m_aiDamageTypeCombatPoints.read(pStream);
-		m_aiDamageTypeResistPoints.read(pStream);
+		m_aiMagicClassCombatPoints.read(pStream);
+		m_aiMagicClassResistPoints.read(pStream);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 		if (uiFlag >= 21)
 			m_abResearchingTech.read(pStream);
@@ -14385,8 +14385,8 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		m_aiUpkeepCount.readArray<int>(pStream);
 		m_aiSpecialistValidCount.readArray<int>(pStream);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-		m_aiDamageTypeCombatPoints.readArray<int>(pStream);
-		m_aiDamageTypeResistPoints.readArray<int>(pStream);
+		m_aiMagicClassCombatPoints.readArray<int>(pStream);
+		m_aiMagicClassResistPoints.readArray<int>(pStream);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 		m_abResearchingTech.readArray<bool>(pStream);
 	}
@@ -14930,8 +14930,8 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	m_aiUpkeepCount.write(pStream);
 	m_aiSpecialistValidCount.write(pStream);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	m_aiDamageTypeCombatPoints.write(pStream);
-	m_aiDamageTypeResistPoints.write(pStream);
+	m_aiMagicClassCombatPoints.write(pStream);
+	m_aiMagicClassResistPoints.write(pStream);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	m_abResearchingTech.write(pStream);
 	m_abEverSeenDemographics.write(pStream); // advc.091
@@ -16504,9 +16504,14 @@ void CvPlayer::applyEvent(EventTypes eEvent, int iEventTriggeredId, bool bUpdate
 	
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	FOR_EACH_NON_DEFAULT_PAIR(kEvent.
-		getDamageTypePoints(), Damage, int)
+		getMagicClassCombatPoints(), MagicClass, int)
 	{
-		changeDamageTypePoints(perDamageVal.first, perDamageVal.second)
+		changeMagicClassCombatPoints(perMagicClassVal.first, perMagicClassVal.second / 10)
+	}
+	FOR_EACH_NON_DEFAULT_PAIR(kEvent.
+		getMagicClassResistPoints(), MagicClass, int)
+	{
+		changeMagicClassResistPoints(perMagicClassVal.first, perMagicClassVal.second / 10)
 	}
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 

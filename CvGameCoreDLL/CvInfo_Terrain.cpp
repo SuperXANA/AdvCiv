@@ -22,8 +22,8 @@ m_piRiverYieldChange(NULL),
 m_piHillsYieldChange(NULL),
 m_pi3DAudioScriptFootstepIndex(NULL),
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-m_piDamageTypeCombatPoints(NULL),
-m_piDamageTypeResistPoints(NULL)
+m_piMagicClassCombatPoints(NULL),
+m_piMagicClassResistPoints(NULL)
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 {}
 
@@ -34,8 +34,8 @@ CvTerrainInfo::~CvTerrainInfo()
 	SAFE_DELETE_ARRAY(m_piHillsYieldChange);
 	SAFE_DELETE_ARRAY(m_pi3DAudioScriptFootstepIndex);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	SAFE_DELETE_ARRAY(m_piDamageTypeCombatPoints);
-	SAFE_DELETE_ARRAY(m_piDamageTypeResistPoints);
+	SAFE_DELETE_ARRAY(m_piMagicClassCombatPoints);
+	SAFE_DELETE_ARRAY(m_piMagicClassResistPoints);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
@@ -116,8 +116,8 @@ bool CvTerrainInfo::read(CvXMLLoadUtility* pXML)
 
 	pXML->SetVariableListTagPairForAudioScripts(&m_pi3DAudioScriptFootstepIndex, "FootstepSounds", GC.getNumFootstepAudioTypes());
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	pXML->SetVariableListTagPair(&m_piDamageTypeCombatPoints, "DamageTypeCombatPoints", GC.getNumDamageInfos());
-	pXML->SetVariableListTagPair(&m_piDamageTypeResistPoints, "DamageTypeResistPoints", GC.getNumDamageInfos());
+	pXML->SetVariableListTagPair(&m_piMagicClassCombatPoints, "MagicClassCombatPoints", GC.getNumMagicClassInfos());
+	pXML->SetVariableListTagPair(&m_piMagicClassResistPoints, "MagicClassResistPoints", GC.getNumMagicClassInfos());
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	{
 		CvString szTextVal;

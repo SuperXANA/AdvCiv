@@ -559,7 +559,8 @@ void CvEventInfo::read(FDataStreamBase* stream)
 	BuildingHappyChange().read(stream);
 	BuildingHealthChange().read(stream); // </advc.003t>
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	DamageTypePoints().read(stream);
+	MagicClassCombatPoints().read(stream);
+	MagicClassResistPoints().read(stream);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	stream->ReadString(m_szUnitName);
 	stream->ReadString(m_szOtherPlayerPopup);
@@ -649,7 +650,8 @@ void CvEventInfo::write(FDataStreamBase* stream)
 	BuildingHappyChange().write(stream);
 	BuildingHealthChange().write(stream); // </advc.003t>
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	DamageTypePoints().write(stream);
+	MagicClassCombatPoints().write(stream);
+	MagicClassResistPoints().write(stream);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	stream->WriteString(m_szUnitName);
 	stream->WriteString(m_szOtherPlayerPopup);
@@ -791,7 +793,8 @@ bool CvEventInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(BuildingHappyChange(), "BuildingExtraHappies");
 	pXML->SetVariableListTagPair(BuildingHealthChange(), "BuildingExtraHealths");
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	pXML->SetVariableListTagPair(DamageTypePoints(), "DamageTypePoints");
+	pXML->SetVariableListTagPair(MagicClassCombatPoints(), "MagicClassCombatPoints");
+	pXML->SetVariableListTagPair(MagicClassResistPoints(), "MagicClassResistPoints");
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// </advc.003t>
 	return true;
