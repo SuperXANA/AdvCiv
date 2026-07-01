@@ -2660,3 +2660,570 @@ bool CvEspionageMissionInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+CvMagicClassInfo::CvMagicClassInfo() :
+m_iTechPrereq(NO_MAGIC_TECH),
+m_paeCivilizationPrereq(NULL),
+m_paeLeaderHeadPrereq(NULL),
+m_iReligionPrereq(NO_RELIGION),
+m_iStateReligionPrereq(NO_RELIGION),
+m_iAIWeight(0),
+m_piFlavorValue(NULL),
+m_iDamageChange(0),
+m_iDamageLimit(0),
+m_iDamageType(NO_DAMAGE),
+m_iMiscastChance(0),
+m_iEffect(NO_EFFECT),
+m_piProphecyCounterChange(NULL)
+{}
+
+CvMagicClassInfo::~CvMagicClassInfo()
+{
+	SAFE_DELETE_ARRAY(m_paeCivilizationPrereq);
+	SAFE_DELETE_ARRAY(m_paeLeaderHeadPrereq);
+	SAFE_DELETE_ARRAY(m_piFlavorValue);
+	SAFE_DELETE_ARRAY(m_piProphecyCounterChange);
+}
+
+int CvMagicClassInfo::getTechPrereq() const
+{
+	return m_iTechPrereq;
+}
+
+int CvMagicClassInfo::getReligionPrereq() const
+{
+	return m_iStateReligionPrereq;
+}
+
+int CvMagicClassInfo::getStateReligionPrereq() const
+{
+	return m_iReligionPrereq;
+}
+
+int CvMagicClassInfo::getAIWeight() const
+{
+	return m_iAIWeight;
+}
+
+int CvMagicClassInfo::getDamageChange() const
+{
+	return m_iDamageChange;
+}
+
+int CvMagicClassInfo::getDamageLimit() const
+{
+	return m_iDamageLimit;
+}
+
+int CvMagicClassInfo::getDamageType() const
+{
+	return m_iDamageType;
+}
+
+int CvMagicClassInfo::getMiscastChance() const
+{
+	return m_iMiscastChance;
+}
+
+int CvMagicClassInfo::getEffect() const
+{
+	return m_iEffect;
+}
+
+CivilizationTypes CvMagicClassInfo::getCivilizationPrereq(int i) const
+{
+	FAssertBounds(0, GC.getNumCivilizationInfos(), i);
+	return m_paeCivilizationPrereq ? m_paeCivilizationPrereq[i] : NO_CIVILIZATION;
+}
+
+LeaderHeadTypes CvMagicClassInfo::getLeaderHeadPrereq(int i) const
+{
+	FAssertBounds(0, GC.getNumLeaderHeadInfos(), i);
+	return m_paeLeaderHeadPrereq ? m_paeLeaderHeadPrereq[i] : NO_LEADER;
+}
+
+int CvMagicClassInfo::getFlavorValue(int i) const
+{
+	FAssertBounds(0, GC.getNumFlavorInfos(), i);
+	return m_piFlavorValue ? m_piFlavorValue[i] : 0;
+}
+
+int CvMagicClassInfo::getProphecyCounterChange(int i) const
+{
+	FAssertBounds(0, GC.getNumProphecyInfos(), i);
+	return m_piProphecyCounterChange ? m_piProphecyCounterChange[i] : 0;
+}
+
+bool CvMagicClassInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	pXML->SetInfoIDFromChildXmlVal(m_iTechPrereq, "TechPrereq");
+	pXML->SetInfoIDFromChildXmlVal(m_iReligionPrereq, "ReligionPrereq");
+	pXML->SetInfoIDFromChildXmlVal(m_iStateReligionPrereq, "StateReligionPrereq");
+	pXML->GetChildXmlValByName(&m_iAIWeight, "iAIWeight");
+	pXML->GetChildXmlValByName(&m_iDamageChange, "iDamageChange");
+	pXML->GetChildXmlValByName(&m_iDamageLimit, "iDamageLimit");
+	pXML->GetChildXmlValByName(&m_iDamageType, "DamageType");
+	pXML->GetChildXmlValByName(&m_iMiscastChance, "iMiscastChance");
+	pXML->GetChildXmlValByName(&m_iEffect, "Effect");
+	pXML->SetVariableListTagPair(&m_piFlavorValue, "Flavors", GC.getNumFlavorInfos());
+	pXML->SetVariableListTagPair(&m_piProphecyCounterChange, "ProphecyCounterChanges", GC.getNumProphecyInfos());
+
+	return true;
+}
+
+bool CvMagicClassInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	// XANA (note): Noting here yet.
+
+	return true;
+}
+
+bool CvMagicClassInfo::readPass3()
+{
+	// XANA (note): Noting here yet.
+	
+	return true;
+}
+
+CvMagicInfo::CvMagicInfo() :
+m_iLayerAnimationPath(ANIMATIONPATH_NONE),
+m_iPrereqPromotion(NO_PROMOTION),
+m_iPrereqOrPromotion1(NO_PROMOTION),
+m_iPrereqOrPromotion2(NO_PROMOTION),
+m_iPrereqOrPromotion3(NO_PROMOTION), // K-Mod
+m_iTechPrereq(NO_TECH),
+m_iStateReligionPrereq(NO_RELIGION),
+m_iVisibilityChange(0),
+m_iMovesChange(0),
+m_iMoveDiscountChange(0),
+m_iAirRangeChange(0),
+m_iInterceptChange(0),
+m_iEvasionChange(0),
+m_iWithdrawalChange(0),
+m_iCargoChange(0),
+m_iCollateralDamageChange(0),
+m_iBombardRateChange(0),
+m_iFirstStrikesChange(0),
+m_iChanceFirstStrikesChange(0),
+m_iEnemyHealChange(0),
+m_iNeutralHealChange(0),
+m_iFriendlyHealChange(0),
+m_iSameTileHealChange(0),
+m_iAdjacentTileHealChange(0),
+m_iCombatPercent(0),
+m_iCityAttackPercent(0),
+m_iCityDefensePercent(0),
+m_iHillsAttackPercent(0),
+m_iHillsDefensePercent(0),
+m_iCommandType(NO_COMMAND),
+m_iRevoltProtection(0),
+m_iCollateralDamageProtection(0),
+m_iPillageChange(0),
+m_iUpgradeDiscount(0),
+m_iExperiencePercent(0),
+m_iKamikazePercent(0),
+m_bLeader(false),
+m_iBlitz(0), // advc.164
+m_bAmphib(false),
+m_bRiver(false),
+m_bEnemyRoute(false),
+m_bAlwaysHeal(false),
+m_bHillsDoubleMove(false),
+m_bImmuneToFirstStrikes(false),
+m_piTerrainAttackPercent(NULL),
+m_piTerrainDefensePercent(NULL),
+m_piFeatureAttackPercent(NULL),
+m_piFeatureDefensePercent(NULL),
+m_piUnitCombatModifierPercent(NULL),
+m_piDomainModifierPercent(NULL),
+m_pbTerrainDoubleMove(NULL),
+m_pbFeatureDoubleMove(NULL),
+m_pbUnitCombat(NULL)
+{}
+
+CvMagicInfo::~CvMagicInfo()
+{
+	SAFE_DELETE_ARRAY(m_piTerrainAttackPercent);
+	SAFE_DELETE_ARRAY(m_piTerrainDefensePercent);
+	SAFE_DELETE_ARRAY(m_piFeatureAttackPercent);
+	SAFE_DELETE_ARRAY(m_piFeatureDefensePercent);
+	SAFE_DELETE_ARRAY(m_piUnitCombatModifierPercent);
+	SAFE_DELETE_ARRAY(m_piDomainModifierPercent);
+	SAFE_DELETE_ARRAY(m_pbTerrainDoubleMove);
+	SAFE_DELETE_ARRAY(m_pbFeatureDoubleMove);
+	SAFE_DELETE_ARRAY(m_pbUnitCombat);
+}
+
+int CvMagicInfo::getLayerAnimationPath() const
+{
+	return m_iLayerAnimationPath;
+}
+
+int CvMagicInfo::getPrereqPromotion() const
+{
+	return m_iPrereqPromotion;
+}
+
+int CvMagicInfo::getPrereqOrPromotion1() const
+{
+	return m_iPrereqOrPromotion1;
+}
+
+int CvMagicInfo::getPrereqOrPromotion2() const
+{
+	return m_iPrereqOrPromotion2;
+}
+
+int CvMagicInfo::getPrereqOrPromotion3() const
+{
+	return m_iPrereqOrPromotion3;
+}
+
+int CvMagicInfo::getTechPrereq() const
+{
+	return m_iTechPrereq;
+}
+
+int CvMagicInfo::getStateReligionPrereq() const
+{
+	return m_iStateReligionPrereq;
+}
+
+int CvMagicInfo::getVisibilityChange() const
+{
+	return m_iVisibilityChange;
+}
+
+int CvMagicInfo::getMovesChange() const
+{
+	return m_iMovesChange;
+}
+
+int CvMagicInfo::getMoveDiscountChange() const
+{
+	return m_iMoveDiscountChange;
+}
+
+int CvMagicInfo::getAirRangeChange() const
+{
+	return m_iAirRangeChange;
+}
+
+int CvMagicInfo::getInterceptChange() const
+{
+	return m_iInterceptChange;
+}
+
+int CvMagicInfo::getEvasionChange() const
+{
+	return m_iEvasionChange;
+}
+
+int CvMagicInfo::getWithdrawalChange() const
+{
+	return m_iWithdrawalChange;
+}
+
+int CvMagicInfo::getCargoChange() const
+{
+	return m_iCargoChange;
+}
+
+int CvMagicInfo::getCollateralDamageChange() const
+{
+	return m_iCollateralDamageChange;
+}
+
+int CvMagicInfo::getBombardRateChange() const
+{
+	return m_iBombardRateChange;
+}
+
+int CvMagicInfo::getFirstStrikesChange() const
+{
+	return m_iFirstStrikesChange;
+}
+
+int CvMagicInfo::getChanceFirstStrikesChange() const
+{
+	return m_iChanceFirstStrikesChange;
+}
+
+int CvMagicInfo::getEnemyHealChange() const
+{
+	return m_iEnemyHealChange;
+}
+
+int CvMagicInfo::getNeutralHealChange() const
+{
+	return m_iNeutralHealChange;
+}
+
+int CvMagicInfo::getFriendlyHealChange() const
+{
+	return m_iFriendlyHealChange;
+}
+
+int CvMagicInfo::getSameTileHealChange() const
+{
+	return m_iSameTileHealChange;
+}
+
+int CvMagicInfo::getAdjacentTileHealChange() const
+{
+	return m_iAdjacentTileHealChange;
+}
+
+int CvMagicInfo::getCombatPercent() const
+{
+	return m_iCombatPercent;
+}
+
+int CvMagicInfo::getCityAttackPercent() const
+{
+	return m_iCityAttackPercent;
+}
+
+int CvMagicInfo::getCityDefensePercent() const
+{
+	return m_iCityDefensePercent;
+}
+
+int CvMagicInfo::getHillsAttackPercent() const
+{
+	return m_iHillsAttackPercent;
+}
+
+int CvMagicInfo::getHillsDefensePercent() const
+{
+	return m_iHillsDefensePercent;
+}
+
+int CvMagicInfo::getCommandType() const
+{
+	return m_iCommandType;
+}
+
+void CvMagicInfo::setCommandType(int iNewType)
+{
+	m_iCommandType = iNewType;
+}
+
+int CvMagicInfo::getRevoltProtection() const
+{
+	return m_iRevoltProtection;
+}
+
+int CvMagicInfo::getCollateralDamageProtection() const
+{
+	return m_iCollateralDamageProtection;
+}
+
+int CvMagicInfo::getPillageChange() const
+{
+	return m_iPillageChange;
+}
+
+int CvMagicInfo::getUpgradeDiscount() const
+{
+	return m_iUpgradeDiscount;
+}
+
+int CvMagicInfo::getExperiencePercent() const
+{
+	return m_iExperiencePercent;
+}
+
+int CvMagicInfo::getKamikazePercent() const
+{
+	return m_iKamikazePercent;
+}
+
+bool CvMagicInfo::isLeader() const
+{
+	return m_bLeader;
+}
+
+int CvMagicInfo::getBlitz() const
+{
+	return m_iBlitz;
+}
+
+bool CvMagicInfo::isAmphib() const
+{
+	return m_bAmphib;
+}
+
+bool CvMagicInfo::isRiver() const
+{
+	return m_bRiver;
+}
+
+bool CvMagicInfo::isEnemyRoute() const
+{
+	return m_bEnemyRoute;
+}
+
+bool CvMagicInfo::isAlwaysHeal() const
+{
+	return m_bAlwaysHeal;
+}
+
+bool CvMagicInfo::isHillsDoubleMove() const
+{
+	return m_bHillsDoubleMove;
+}
+
+bool CvMagicInfo::isImmuneToFirstStrikes() const
+{
+	return m_bImmuneToFirstStrikes;
+}
+
+const TCHAR* CvMagicInfo::getSound() const
+{
+	return m_szSound;
+}
+
+int CvMagicInfo::getTerrainAttackPercent(int i) const
+{
+	FAssertBounds(0, GC.getNumTerrainInfos(), i);
+	return m_piTerrainAttackPercent ? m_piTerrainAttackPercent[i] : 0; // advc.003t
+}
+
+int CvMagicInfo::getTerrainDefensePercent(int i) const
+{
+	FAssertBounds(0, GC.getNumTerrainInfos(), i);
+	return m_piTerrainDefensePercent ? m_piTerrainDefensePercent[i] : 0; // advc.003t
+}
+
+int CvMagicInfo::getFeatureAttackPercent(int i) const
+{
+	FAssertBounds(0, GC.getNumFeatureInfos(), i);
+	return m_piFeatureAttackPercent ? m_piFeatureAttackPercent[i] : 0; // advc.003t
+}
+
+int CvMagicInfo::getFeatureDefensePercent(int i) const
+{
+	FAssertBounds(0, GC.getNumFeatureInfos(), i);
+	return m_piFeatureDefensePercent ? m_piFeatureDefensePercent[i] : 0; // advc.003t
+}
+
+int CvMagicInfo::getUnitCombatModifierPercent(int i) const
+{
+	FAssertBounds(0, GC.getNumUnitCombatInfos(), i);
+	return m_piUnitCombatModifierPercent ? m_piUnitCombatModifierPercent[i] : 0; // advc.003t
+}
+
+int CvMagicInfo::getDomainModifierPercent(int i) const
+{
+	FAssertBounds(0, NUM_DOMAIN_TYPES, i);
+	return m_piDomainModifierPercent ? m_piDomainModifierPercent[i] : 0; // advc.003t
+}
+
+bool CvMagicInfo::getTerrainDoubleMove(int i) const
+{
+	FAssertBounds(0, GC.getNumTerrainInfos(), i);
+	return m_pbTerrainDoubleMove ? m_pbTerrainDoubleMove[i] : false;
+}
+
+bool CvMagicInfo::getFeatureDoubleMove(int i) const
+{
+	FAssertBounds(0, GC.getNumFeatureInfos(), i);
+	return m_pbFeatureDoubleMove ? m_pbFeatureDoubleMove[i] : false;
+}
+
+bool CvMagicInfo::getUnitCombat(int i) const
+{
+	FAssertBounds(0, GC.getNumUnitCombatInfos(), i);
+	return m_pbUnitCombat ? m_pbUnitCombat[i] : false;
+}
+
+bool CvMagicInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	pXML->GetChildXmlValByName(m_szSound, "Sound");
+
+	pXML->SetInfoIDFromChildXmlVal(m_iLayerAnimationPath, "LayerAnimationPath");
+	pXML->SetInfoIDFromChildXmlVal(m_iTechPrereq, "TechPrereq");
+	pXML->SetInfoIDFromChildXmlVal(m_iStateReligionPrereq, "StateReligionPrereq");
+
+	pXML->GetChildXmlValByName(&m_bLeader, "bLeader");
+	if (m_bLeader)
+		m_bGraphicalOnly = true;  // don't show in Civilopedia list of promotions
+	pXML->GetChildXmlValByName(&m_iBlitz, "iBlitz"); // advc.164
+	pXML->GetChildXmlValByName(&m_bAmphib, "bAmphib");
+	pXML->GetChildXmlValByName(&m_bRiver, "bRiver");
+	pXML->GetChildXmlValByName(&m_bEnemyRoute, "bEnemyRoute");
+	pXML->GetChildXmlValByName(&m_bAlwaysHeal, "bAlwaysHeal");
+	pXML->GetChildXmlValByName(&m_bHillsDoubleMove, "bHillsDoubleMove");
+	pXML->GetChildXmlValByName(&m_bImmuneToFirstStrikes, "bImmuneToFirstStrikes");
+	pXML->GetChildXmlValByName(&m_iVisibilityChange, "iVisibilityChange");
+	pXML->GetChildXmlValByName(&m_iMovesChange, "iMovesChange");
+	pXML->GetChildXmlValByName(&m_iMoveDiscountChange, "iMoveDiscountChange");
+	pXML->GetChildXmlValByName(&m_iAirRangeChange, "iAirRangeChange");
+	pXML->GetChildXmlValByName(&m_iInterceptChange, "iInterceptChange");
+	pXML->GetChildXmlValByName(&m_iEvasionChange, "iEvasionChange");
+	pXML->GetChildXmlValByName(&m_iWithdrawalChange, "iWithdrawalChange");
+	pXML->GetChildXmlValByName(&m_iCargoChange, "iCargoChange");
+	pXML->GetChildXmlValByName(&m_iCollateralDamageChange, "iCollateralDamageChange");
+	pXML->GetChildXmlValByName(&m_iBombardRateChange, "iBombardRateChange");
+	pXML->GetChildXmlValByName(&m_iFirstStrikesChange, "iFirstStrikesChange");
+	pXML->GetChildXmlValByName(&m_iChanceFirstStrikesChange, "iChanceFirstStrikesChange");
+	pXML->GetChildXmlValByName(&m_iEnemyHealChange, "iEnemyHealChange");
+	pXML->GetChildXmlValByName(&m_iNeutralHealChange, "iNeutralHealChange");
+	pXML->GetChildXmlValByName(&m_iFriendlyHealChange, "iFriendlyHealChange");
+	pXML->GetChildXmlValByName(&m_iSameTileHealChange, "iSameTileHealChange");
+	pXML->GetChildXmlValByName(&m_iAdjacentTileHealChange, "iAdjacentTileHealChange");
+	pXML->GetChildXmlValByName(&m_iCombatPercent, "iCombatPercent");
+	pXML->GetChildXmlValByName(&m_iCityAttackPercent, "iCityAttack");
+	pXML->GetChildXmlValByName(&m_iCityDefensePercent, "iCityDefense");
+	pXML->GetChildXmlValByName(&m_iHillsAttackPercent, "iHillsAttack");
+	pXML->GetChildXmlValByName(&m_iHillsDefensePercent, "iHillsDefense");
+	pXML->GetChildXmlValByName(&m_iRevoltProtection, "iRevoltProtection");
+	pXML->GetChildXmlValByName(&m_iCollateralDamageProtection, "iCollateralDamageProtection");
+	pXML->GetChildXmlValByName(&m_iPillageChange, "iPillageChange");
+	pXML->GetChildXmlValByName(&m_iUpgradeDiscount, "iUpgradeDiscount");
+	pXML->GetChildXmlValByName(&m_iExperiencePercent, "iExperiencePercent");
+	pXML->GetChildXmlValByName(&m_iKamikazePercent, "iKamikazePercent");
+	pXML->SetVariableListTagPair(&m_piTerrainAttackPercent, "TerrainAttacks", GC.getNumTerrainInfos());
+	pXML->SetVariableListTagPair(&m_piTerrainDefensePercent, "TerrainDefenses", GC.getNumTerrainInfos());
+	pXML->SetVariableListTagPair(&m_piFeatureAttackPercent, "FeatureAttacks", GC.getNumFeatureInfos());
+	pXML->SetVariableListTagPair(&m_piFeatureDefensePercent, "FeatureDefenses", GC.getNumFeatureInfos());
+	pXML->SetVariableListTagPair(&m_piUnitCombatModifierPercent, "UnitCombatMods", GC.getNumUnitCombatInfos());
+	pXML->SetVariableListTagPair(&m_piDomainModifierPercent, "DomainMods", NUM_DOMAIN_TYPES);
+	pXML->SetVariableListTagPair(&m_pbTerrainDoubleMove, "TerrainDoubleMoves", GC.getNumTerrainInfos());
+	pXML->SetVariableListTagPair(&m_pbFeatureDoubleMove, "FeatureDoubleMoves", GC.getNumFeatureInfos());
+	pXML->SetVariableListTagPair(&m_pbUnitCombat, "UnitCombats", GC.getNumUnitCombatInfos());
+
+	return true;
+}
+
+bool CvMagicInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	CvString szTextVal;
+	pXML->GetChildXmlValByName(szTextVal, "PromotionPrereq");
+	m_iPrereqPromotion = GC.getInfoTypeForString(szTextVal);
+	pXML->GetChildXmlValByName(szTextVal, "PromotionPrereqOr1");
+	m_iPrereqOrPromotion1 = GC.getInfoTypeForString(szTextVal);
+	pXML->GetChildXmlValByName(szTextVal, "PromotionPrereqOr2");
+	m_iPrereqOrPromotion2 = GC.getInfoTypeForString(szTextVal);
+	// K-Mod, 7/jan/11: start
+	pXML->GetChildXmlValByName(szTextVal, "PromotionPrereqOr3", /* advc: */ "");
+	m_iPrereqOrPromotion3 = GC.getInfoTypeForString(szTextVal); // K-Mod end
+
+	return true;
+}
+
+bool CvMagicInfo::readPass3()
+{
+	// XANA (note): Noting here yet.
+	
+	return true;
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
