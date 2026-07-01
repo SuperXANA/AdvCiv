@@ -693,7 +693,7 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 		GC.getInfo(eLoopBuildingClass).readPass3();
 	LoadGlobalClassInfo(GC.m_paSpecialUnitInfo, "CIV4SpecialUnitInfos", "Units", "Civ4SpecialUnitInfos/SpecialUnitInfos/SpecialUnitInfo", false);
 	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
-	LoadGlobalClassInfo(GC.m_paMagicClassInfo, "CIV4MagicClassInfos", "Units", "Civ4MagicClassInfos/MagicClassInfos/MagicClassInfo", false);
+	LoadGlobalClassInfo(GC.m_paMagicClassInfo, "CIV4MagicClassInfos", "Units", "Civ4MagicClassInfos/MagicClassInfos/MagicClassInfo", true);
 	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	LoadGlobalClassInfo(GC.m_paProjectInfo, "CIV4ProjectInfo", "GameInfo", "Civ4ProjectInfo/ProjectInfos/ProjectInfo", true);
 	LoadGlobalClassInfo(GC.m_paCivicInfo, "CIV4CivicInfos", "GameInfo", "Civ4CivicInfos/CivicInfos/CivicInfo", false, &CvDLLUtilityIFaceBase::createCivicInfoCacheObject);
@@ -726,6 +726,10 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paForceControlInfo, "CIV4ForceControlInfos", "GameInfo", "Civ4ForceControlInfos/ForceControlInfos/ForceControlInfo", false);
 	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	LoadGlobalClassInfo(GC.m_paMagicInfo, "CIV4MagicInfos", "Units", "Civ4MagicInfos/MagicInfos/MagicInfo", true);
+	FOR_EACH_ENUM(MagicClass)
+	{
+		GC.getInfo(eLoopMagicClass).readPass3();
+	}
 	FOR_EACH_ENUM(Magic)
 	{
 		GC.getInfo(eLoopMagic).readPass3();
