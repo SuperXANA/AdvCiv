@@ -89,6 +89,7 @@
 	DO(MagicTechClass, MAGIC_TECH_CLASS) \
 	DO(MagicClass, MAGICCLASS) \
 	DO(MagicTech, MAGIC_TECH) \
+	DO(MagicRequirement, MAGIC_REQUIREMENT) \
 	DO(Magic, MAGIC)
 	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 

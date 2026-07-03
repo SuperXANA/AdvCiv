@@ -862,6 +862,29 @@ protected:
 
 // XANA: 03-28-2026 Magical Spell System for Advanced Civ
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvMagicRequirementInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvMagicRequirementInfo : public CvInfoBase
+{
+	typedef CvInfoBase base_t;
+public: // All the const functions are exposed to Python
+	CvMagicRequirementInfo();
+	~CvMagicRequirementInfo();
+
+	// Array access:
+	
+	bool isRequiredCivilization(int i) const;
+	bool isRequiredLeader(int i) const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+
+protected:
+
+	bool* m_pbCivilizationPrereqs;
+	bool* m_pbLeaderPrereqs;
+};
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  class : CvMagicClassInfo
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class CvMagicClassInfo : public CvXMLInfo
@@ -927,9 +950,12 @@ protected:
 	int m_iDamageType;
 	int m_iMiscastChance;
 	int m_iEffect;
+	int m_iSpecializedPrereq;
 
 	int* m_piFlavorValue;
 	int* m_piProphecyCounterChange;
+	
+	MagicRequirementTypes getExtraPrereq() const;
 };
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -2743,6 +2743,40 @@ bool CvDamageInfo::read(CvXMLLoadUtility* pXML)
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 // XANA: 03-28-2026 Magical Spell System for Advanced Civ
+CvMagicRequirementInfo::CvMagicRequirementInfo() :
+m_pbCivilizationPrereqs(NULL),
+m_pbLeaderPrereqs(NULL)
+{}
+
+CvMagicRequirementInfo::~CvMagicRequirementInfo()
+{
+	SAFE_DELETE_ARRAY(m_pbCivilizationPrereqs);
+	SAFE_DELETE_ARRAY(m_pbLeaderPrereqs);
+}
+
+bool CvMagicRequirementInfo::isRequiredCivilization(int i) const
+{
+	FAssertBounds(0, GC.getNumCivilizationInfos(), i);
+	return m_pbCivilizationPrereqs ? m_pbCivilizationPrereqs[i] : false;
+}
+
+bool CvMagicRequirementInfo::isRequiredLeader(int i) const
+{
+	FAssertBounds(0, GC.getNumLeaderHeadInfos(), i);
+	return m_pbLeaderPrereqs ? m_pbLeaderPrereqs[i] : false;
+}
+
+bool CvMagicRequirementInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	pXML->SetVariableListTagPair(&m_pbCivilizationPrereqs, "Civilizations", GC.getNumCivilizationInfos());
+	pXML->SetVariableListTagPair(&m_pbLeaderPrereqs, "Leaders", GC.getNumLeaderHeadInfos());
+	
+	return true;
+}
+
 CvMagicClassInfo::CvMagicClassInfo() :
 m_iTechPrereq(NO_MAGIC_TECH)
 m_iReligionPrereq(NO_RELIGION),
@@ -2754,7 +2788,8 @@ m_iDamageLimit(0),
 m_iDamageType(NO_DAMAGE),
 m_iMiscastChance(0),
 m_iEffect(NO_EFFECT),
-m_piProphecyCounterChange(NULL)
+m_piProphecyCounterChange(NULL),
+m_iSpecializedPrereq(NO_MAGIC_REQUIREMENT)
 {}
 
 CvMagicClassInfo::~CvMagicClassInfo()
@@ -2808,6 +2843,11 @@ int CvMagicClassInfo::getEffect() const
 	return m_iEffect;
 }
 
+MagicRequirementTypes CvMagicClassInfo::getExtraPrereq() const
+{
+	return m_iSpecializedPrereq;
+}
+
 int CvMagicClassInfo::getFlavorValue(int i) const
 {
 	FAssertBounds(0, GC.getNumFlavorInfos(), i);
@@ -2818,6 +2858,26 @@ int CvMagicClassInfo::getProphecyCounterChange(int i) const
 {
 	FAssertBounds(0, GC.getNumProphecyInfos(), i);
 	return m_piProphecyCounterChange ? m_piProphecyCounterChange[i] : 0;
+}
+
+bool CvMagicClassInfo::isRequiredCivilization(int i) const
+{
+	FAssertBounds(0, GC.getNumCivilizationInfos(), i);
+	if (getExtraPrereq() != NO_MAGIC_REQUIREMENT)
+	{
+		return GC.getInfo(getExtraPrereq()).isRequiredCivilization(i);
+	}
+	return true;
+}
+
+bool CvMagicClassInfo::isRequiredLeader(int i) const
+{
+	FAssertBounds(0, GC.getNumLeaderHeadInfos(), i);
+	if (getExtraPrereq() != NO_MAGIC_REQUIREMENT)
+	{
+		return GC.getInfo(getExtraPrereq()).isRequiredLeader(i);
+	}
+	return true;
 }
 
 bool CvMagicClassInfo::read(CvXMLLoadUtility* pXML)
@@ -2836,6 +2896,10 @@ bool CvMagicClassInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(&m_iEffect, "Effect");
 	pXML->SetVariableListTagPair(&m_piFlavorValue, "Flavors", GC.getNumFlavorInfos());
 	pXML->SetVariableListTagPair(&m_piProphecyCounterChange, "ProphecyCounterChanges", GC.getNumProphecyInfos());
+	
+	CvString szTextVal;
+	pXML->GetChildXmlValByName(szTextVal, "ExtraPrereq");
+	m_aszExtraXMLforPass3.push_back(szTextVal);
 
 	return true;
 }
@@ -2849,7 +2913,14 @@ bool CvMagicClassInfo::readPass2(CvXMLLoadUtility* pXML)
 
 bool CvMagicClassInfo::readPass3()
 {
-	// XANA (note): Noting here yet.
+	if (m_aszExtraXMLforPass3.size() < 1)
+	{
+		FAssert(false);
+		return false;
+	}
+
+	m_iSpecializedPrereq = GC.getInfoTypeForString(m_aszExtraXMLforPass3[0]);
+	m_aszExtraXMLforPass3.clear();
 	
 	return true;
 }
