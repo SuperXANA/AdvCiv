@@ -2932,6 +2932,10 @@ void CvPlayer::doTurn()
 
 	showForeignPromoGlow(false); // advc.002e: To match call in doWarnings
 	gDLL->UI().setDirty(CityInfo_DIRTY_BIT, true);
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	doDecayMagicClassPoints();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	AI().AI_doTurnPost();
 	// <advc.700>
@@ -10589,24 +10593,34 @@ void CvPlayer::changeMagicClassCombatPoints(MagicClassTypes eClass, int iChange)
 {
 	if (iChange != 0)
 	{
-		if ((m_aiMagicClassCombatPoints.get(eClass) + iChange) > 100)
-			m_aiMagicClassCombatPoints.set(eClass, 100)
-		else if ((m_aiMagicClassCombatPoints.get(eClass) + iChange) < -100)
-			m_aiMagicClassCombatPoints.set(eClass, -100)
-		else
-			m_aiMagicClassCombatPoints.add(eClass, iChange);
+		m_aiMagicClassCombatPoints.add(eClass, iChange);
 	}
 }
 void CvPlayer::changeMagicClassResistPoints(MagicClassTypes eClass, int iChange)
 {
 	if (iChange != 0)
 	{
-		if ((m_aiMagicClassResistPoints.get(eClass) + iChange) > 100)
-			m_aiMagicClassResistPoints.set(eClass, 100)
-		else if ((m_aiMagicClassResistPoints.get(eClass) + iChange) < -100)
-			m_aiMagicClassResistPoints.set(eClass, -100)
-		else
-			m_aiMagicClassResistPoints.add(eClass, iChange);
+		m_aiMagicClassResistPoints.add(eClass, iChange);
+	}
+}
+void CvPlayer::decayMagicClassPoints()
+{
+	FOR_EACH_ENUM(MagicClass)
+	{
+		if (getMagicClassCombatPoints(eLoopMagicClass) != (
+			getCivilization().getMagicClassCombatPoints(eLoopMagicClass) / 10 +
+			GC.getInfo(getPersonalityType()).getMagicClassCombatPoints(eLoopMagicClass) / 10))
+		{
+			changeMagicClassCombatPoints(eLoopMagicClass, getCivilization().getMagicClassCombatPoints(eLoopMagicClass) / 10);
+			changeMagicClassCombatPoints(eLoopMagicClass, GC.getInfo(getPersonalityType()).getMagicClassCombatPoints(eLoopMagicClass) / 10);
+		}
+		if (getMagicClassResistPoints(eLoopMagicClass) != (
+			getCivilization().getMagicClassResistPoints(eLoopMagicClass) / 10 +
+			GC.getInfo(getPersonalityType()).getMagicClassResistPoints(eLoopMagicClass) / 10))
+		{
+			changeMagicClassResistPoints(eLoopMagicClass, GC.getInfo(getPersonalityType()).getMagicClassResistPoints(eLoopMagicClass) / 10);
+			changeMagicClassResistPoints(eLoopMagicClass, getCivilization().getMagicClassResistPoints(eLoopMagicClass) / 10);
+		}
 	}
 }
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv

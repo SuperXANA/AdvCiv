@@ -364,6 +364,10 @@ void CvPlot::doTurn()
 		FAssertMsg(pUnit->at(*this), "pUnit is expected to be at the current plot instance");
 	}*/
 	//#endif // XXX
+	
+	// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	decayMagicClassPoints();
+	// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 
@@ -2048,6 +2052,53 @@ void CvPlot::setMaxVisibilityRangeCache()
 	iRange = std::max(GC.getDefineINT(CvGlobals::RECON_VISIBILITY_RANGE) + 1, iRange);
 	m_iMaxVisibilityRangeCache = iRange;
 }
+
+
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+void CvPlot::changeMagicClassCombatPoints(MagicClassTypes eClass, int iChange)
+{
+	if (iChange != 0)
+	{
+		m_aiMagicClassCombatPoints.add(eClass, iChange);
+	}
+}
+
+
+void CvPlot::changeMagicClassResistPoints(MagicClassTypes eClass, int iChange)
+{
+	if (iChange != 0)
+	{
+		m_aiMagicClassResistPoints.add(eClass, iChange);
+	}
+}
+
+
+void CvPlot::decayMagicClassPoints()
+{
+	for (SquareIter itPlot(*this, 1); itPlot.hasNext(); itPlot++)
+	{
+		CvPlot& kAdjPlot = *itPlot;
+		FOR_EACH_ENUM(MagicClass)
+		{
+			if (!GC.getInfo(eLoopMagicClass).get(CvMagicClassInfo::DOES_NOT_DISPERSE_TO_NEARBY_PLOTS))
+			{
+				int iSpellCombatPoints = getMagicClassCombatPoints(eLoopMagicClass) / 3;
+				if (iSpellCombatPoints > 0)
+				{
+					kAdjPlot.changeMagicClassCombatPoints(eLoopMagicClass, iSpellCombatPoints);
+					changeMagicClassCombatPoints(eLoopMagicClass, -iSpellCombatPoints);
+				}
+				int iSpellResistPoints = getMagicClassResistPoints(eLoopMagicClass) / 3;
+				if (iSpellResistPoints > 0)
+				{
+					kAdjPlot.changeMagicClassResistPoints(eLoopMagicClass, iSpellResistPoints);
+					changeMagicClassResistPoints(eLoopMagicClass, -iSpellResistPoints);
+				}
+			}
+		}
+	}
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 
 void CvPlot::updateSeeFromSight(bool bIncrement, bool bUpdatePlotGroups)

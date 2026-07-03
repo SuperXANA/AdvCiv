@@ -823,6 +823,19 @@ public:
 	void write(FDataStreamBase* pStream);
 	// advc.003h: Adopted from We The People mod (devolution)
 	static void setMaxVisibilityRangeCache();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getMagicClassCombatPoints(MagicClassTypes eClass) const
+	{
+		return m_aiMagicClassCombatPoints.get(eClass);
+	}
+	void changeMagicClassCombatPoints(MagicClassTypes eClass, int iChange);
+	int getMagicClassResistPoints(MagicClassTypes eClass) const
+	{
+		return m_aiMagicClassResistPoints.get(eClass);
+	}
+	void changeMagicClassResistPoints(MagicClassTypes eClass, int iChange);
+	void doDecayMagicClassPoints();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 protected:
 	/*	advc (note): Should keep the data members in an order that optimizes
@@ -923,6 +936,10 @@ protected:
 	ArrayEnumMap<BuildTypes,short> m_aiBuildProgress;
 	ListEnumMap2D<PlayerTypes,CultureLevelTypes,char> m_aaiCultureRangeCities;
 	ListEnumMap2D<TeamTypes,InvisibleTypes,short> m_aaiInvisibleVisibilityCount;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	ArrayEnumMap<MagicClassTypes,int,short> m_aiMagicClassCombatPoints;
+	ArrayEnumMap<MagicClassTypes,int,short> m_aiMagicClassResistPoints;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// </advc.enum>
 	CvFeature* m_pFeatureSymbol;
 	CvRoute* m_pRouteSymbol;

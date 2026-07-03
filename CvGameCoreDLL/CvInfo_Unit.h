@@ -871,6 +871,7 @@ protected:
 	void addElements(ElementList& kElements) const
 	{
 		base_t::addElements(kElements);
+		kElements.addBool(DOES_NOT_DISPERSE_TO_NEARBY_PLOTS, "NoSpellResidueSpreadToNearbyPlots");
 	}
 
 public:
@@ -885,7 +886,8 @@ public:
 	}
 	enum BoolElementTypes
 	{
-		NUM_BOOL_ELEMENT_TYPES = base_t::NUM_BOOL_ELEMENT_TYPES
+		DOES_NOT_DISPERSE_TO_NEARBY_PLOTS = base_t::NUM_BOOL_ELEMENT_TYPES,
+		NUM_BOOL_ELEMENT_TYPES
 	};
 	bool get(BoolElementTypes e) const
 	{
@@ -907,9 +909,7 @@ public: // All the const functions are exposed to Python
 	int getEffect() const;
 
 	// Array access:
-
-	CivilizationTypes getCivilizationPrereq(int i) const;
-	LeaderHeadTypes getLeaderHeadPrereq(int i) const;
+	
 	int getFlavorValue(int i) const;
 	int getProphecyCounterChange(int i) const;
 	
@@ -928,8 +928,6 @@ protected:
 	int m_iMiscastChance;
 	int m_iEffect;
 
-	int* m_paeCivilizationPrereq;
-	int* m_paeLeaderHeadPrereq;
 	int* m_piFlavorValue;
 	int* m_piProphecyCounterChange;
 };

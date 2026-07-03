@@ -54,8 +54,9 @@ public: // advc: All the const functions are exposed to Python
 	int getCivilizationFreeUnitsClass(int i) const;
 	int getCivilizationInitialCivics(int i) const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	int getDamageTypeCombatPoints(int i) const;
-	int getDamageTypeResistPoints(int i) const;
+	int getMagicClassCombatPoints(int i) const;
+	int getMagicClassResistPoints(int i) const;
+	bool isMagicClassRestricted(int i, int iLevel = 0) const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	DllExport bool isLeaders(int i) const;
@@ -99,6 +100,7 @@ protected:
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	int* m_piMagicClassCombatPoints;
 	int* m_piMagicClassResistPoints;
+	int* m_piMagicClassLevelLocks;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	bool* m_pbLeaders;
@@ -231,6 +233,7 @@ public: // advc: All the const functions are exposed to Python except those adde
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	int getMagicClassCombatPoints(int i) const;
 	int getMagicClassResistPoints(int i) const;
+	bool isMagicClassRestricted(int i, int iLevel = 0) const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	// (not exposed to Python)
@@ -354,6 +357,7 @@ protected:
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	int* m_piMagicClassCombatPoints;
 	int* m_piMagicClassResistPoints;
+	int* m_piMagicClassLevelLocks;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;

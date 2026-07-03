@@ -1170,16 +1170,16 @@ public:
 	void changeImprovementYieldChange(ImprovementTypes eImprov, YieldTypes eYield, int iChange);
 	
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	int getMagicClassCombatPoints(DamageTypes eDamage) const
+	int getMagicClassCombatPoints(MagicClassTypes eClass) const
 	{
-		return m_aiMagicClassCombatPoints.get(eDamage);
+		return m_aiMagicClassCombatPoints.get(eClass);
 	}
-	void changeMagicClassCombatPoints(DamageTypes eDamage, int iChange);
-	int getMagicClassResistPoints(DamageTypes eDamage) const
+	void changeMagicClassCombatPoints(MagicClassTypes eClass, int iChange);
+	int getMagicClassResistPoints(MagicClassTypes eClass) const
 	{
-		return m_aiMagicClassResistPoints.get(eDamage);
+		return m_aiMagicClassResistPoints.get(eClass);
 	}
-	void changeMagicClassResistPoints(DamageTypes eDamage, int iChange);
+	void changeMagicClassResistPoints(MagicClassTypes eClass, int iChange);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	//void updateGroupCycle(CvUnit* pUnit);
@@ -1661,8 +1661,8 @@ protected:  // <advc.210>
 	ArrayEnumMap<UpkeepTypes,int,char> m_aiUpkeepCount; // advc (comment): unused (but accessible)
 	ArrayEnumMap<SpecialistTypes,int,char> m_aiSpecialistValidCount;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	ArrayEnumMap<DamageTypes,int,short> m_aiMagicClassCombatPoints;
-	ArrayEnumMap<DamageTypes,int,short> m_aiMagicClassResistPoints;
+	ArrayEnumMap<MagicClassTypes,int,short> m_aiMagicClassCombatPoints;
+	ArrayEnumMap<MagicClassTypes,int,short> m_aiMagicClassResistPoints;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	/*int** m_paiExtraBuildingYield;
 	int** m_paiExtraBuildingCommerce;*/ // advc: unused
@@ -1764,6 +1764,9 @@ protected:  // <advc.210>
 	//void doUpdateCacheOnTurn(); // advc: unused
 	int getResearchTurnsLeftTimes100(TechTypes eTech, bool bOverflow) const;
 	int groundbreakingPenalty(TechTypes eTech) const; // advc.groundbr
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	void doDecayMagicClassPoints();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	void getTradeLayerColors(std::vector<NiColorA>& aColors,
 			std::vector<CvPlotIndicatorData>& aIndicators) const;

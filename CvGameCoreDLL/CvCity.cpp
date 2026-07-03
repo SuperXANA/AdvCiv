@@ -240,9 +240,6 @@ void CvCity::init(int iID, PlayerTypes eOwner, int iX, int iY, bool bBumpUnits,
 	updateFreshWaterHealth();
 	updateSurroundingHealthHappiness();
 	updatePowerHealth();
-// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	updateSurroundingMagicClassPoints();
-// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	kOwner.updateMaintenance();
 
@@ -319,8 +316,8 @@ void CvCity::kill(bool bUpdatePlotGroups, /* advc.001: */ bool bBumpUnits)
 	{
 		if (it->getWorkingCityOverride() == this)
 			it->setWorkingCityOverride(NULL);
-	}
-
+	}	
+	
 	setCultureLevel(NO_CULTURELEVEL, false);
 
 	FOR_EACH_ENUM(Building)
@@ -641,10 +638,6 @@ void CvCity::doTurn()
 		setWeLoveTheKingDay(true);
 	}
 	else setWeLoveTheKingDay(false);
-	
-// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	updateSurroundingMagicClassPoints();
-// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	CvEventReporter::getInstance().cityDoTurn(this, kOwner.getID());
 
@@ -5082,27 +5075,6 @@ void CvCity::updateSurroundingHealthHappiness()
 			setInfoDirty(true);
 	}
 }
-
-// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-void CvCity::updateMagicClassPointsFromSurroundings()
-{
-	for (CityPlotIter it(*this); it.hasNext(); ++it)
-	{
-		CvTerrainInfo& kAdjTerrain = GC.getInfo(*it.getTerrainType());
-		FOR_EACH_ENUM(MagicClass)
-		{
-			if (kAdjTerrain.getMagicClassCombatPoints(eLoopMagicClass) != 0)
-			{	
-				GET_PLAYER(getOwner()).changeMagicClassCombatPoints(eLoopMagicClass, kAdjTerrain.getMagicClassCombatPoints(eLoopMagicClass) / 10);
-			}
-			if (kAdjTerrain.getMagicClassResistPoints(eLoopMagicClass) != 0)
-			{	
-				GET_PLAYER(getOwner()).changeMagicClassResistPoints(eLoopMagicClass, kAdjTerrain.getMagicClassResistPoints(eLoopMagicClass) / 10);
-			}
-		}
-	}
-}
-// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 // advc.901: Body cut from updateFeatureHealth; the parameter is new.
 std::pair<int,int> CvCity::calculateSurroundingHealth(int iGoodExtraPercent, int iBadExtraPercent) const

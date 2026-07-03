@@ -2744,9 +2744,7 @@ bool CvDamageInfo::read(CvXMLLoadUtility* pXML)
 
 // XANA: 03-28-2026 Magical Spell System for Advanced Civ
 CvMagicClassInfo::CvMagicClassInfo() :
-m_iTechPrereq(NO_MAGIC_TECH),
-m_paeCivilizationPrereq(NULL),
-m_paeLeaderHeadPrereq(NULL),
+m_iTechPrereq(NO_MAGIC_TECH)
 m_iReligionPrereq(NO_RELIGION),
 m_iStateReligionPrereq(NO_RELIGION),
 m_iAIWeight(0),
@@ -2761,8 +2759,6 @@ m_piProphecyCounterChange(NULL)
 
 CvMagicClassInfo::~CvMagicClassInfo()
 {
-	SAFE_DELETE_ARRAY(m_paeCivilizationPrereq);
-	SAFE_DELETE_ARRAY(m_paeLeaderHeadPrereq);
 	SAFE_DELETE_ARRAY(m_piFlavorValue);
 	SAFE_DELETE_ARRAY(m_piProphecyCounterChange);
 }
@@ -2810,18 +2806,6 @@ int CvMagicClassInfo::getMiscastChance() const
 int CvMagicClassInfo::getEffect() const
 {
 	return m_iEffect;
-}
-
-CivilizationTypes CvMagicClassInfo::getCivilizationPrereq(int i) const
-{
-	FAssertBounds(0, GC.getNumCivilizationInfos(), i);
-	return m_paeCivilizationPrereq ? m_paeCivilizationPrereq[i] : NO_CIVILIZATION;
-}
-
-LeaderHeadTypes CvMagicClassInfo::getLeaderHeadPrereq(int i) const
-{
-	FAssertBounds(0, GC.getNumLeaderHeadInfos(), i);
-	return m_paeLeaderHeadPrereq ? m_paeLeaderHeadPrereq[i] : NO_LEADER;
 }
 
 int CvMagicClassInfo::getFlavorValue(int i) const
