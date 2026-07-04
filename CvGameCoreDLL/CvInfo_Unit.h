@@ -921,7 +921,7 @@ public: // All the const functions are exposed to Python
 	CvMagicClassInfo();
 	~CvMagicClassInfo();
 
-	int getTechPrereq() const;
+	int getTechClassPrereq() const;
 	int getReligionPrereq() const;
 	int getStateReligionPrereq() const;
 	int getAIWeight() const;
@@ -941,7 +941,7 @@ public: // All the const functions are exposed to Python
 	bool readPass3();
 
 protected:
-	int m_iTechPrereq;
+	int m_iTechClassPrereq;
 	int m_iReligionPrereq;
 	int m_iStateReligionPrereq;
 	int m_iAIWeight;
@@ -969,13 +969,14 @@ class CvMagicInfo :	public CvHotkeyInfo
 public: // All the const functions are exposed to Python
 	CvMagicInfo();
 	~CvMagicInfo();
-
-	int getLayerAnimationPath() const;
+	
 	int getPrereqPromotion() const;
-	int getNumPrereqOrPromotions() const;
+	int getNumPrereqOrPromotions() const { return (int)m_paeOrPromotionPrereqs.size(); }
 	int getPrereqOrPromotion(int i) const;
-
-	int getTechPrereq() const;
+	int getNumMagicClasses() const { return (int)m_aeClassTypes.size(); }
+	int getMagicClass(int i) const;
+	int getTechClassPrereq() const;
+	int getReligionPrereq() const;
 	int getStateReligionPrereq() const;
 	int getVisibilityChange() const;
 	int getMovesChange() const;
@@ -1020,8 +1021,8 @@ public: // All the const functions are exposed to Python
 
 	const TCHAR* getSound() const;
 
-	// Array access:
-
+	// Array access
+	
 	int getTerrainAttackPercent(int i) const;
 	int getTerrainDefensePercent(int i) const;
 	int getFeatureAttackPercent(int i) const;
@@ -1037,12 +1038,11 @@ public: // All the const functions are exposed to Python
 	bool readPass2(CvXMLLoadUtility* pXML);
 
 protected:
-	int m_iLayerAnimationPath;
+	std::vector<MagicClassTypes> m_aeClassTypes;
 	int m_iPrereqPromotion;
 	std::vector<PromotionTypes> m_paeOrPromotionPrereqs;
 
-	int m_iTechPrereq;
-	int m_iStateReligionPrereq;
+	int m_iTechClassPrereq;
 	int m_iVisibilityChange;
 	int m_iMovesChange;
 	int m_iMoveDiscountChange;

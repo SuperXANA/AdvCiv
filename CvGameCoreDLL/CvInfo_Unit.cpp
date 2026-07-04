@@ -2778,7 +2778,7 @@ bool CvMagicRequirementInfo::read(CvXMLLoadUtility* pXML)
 }
 
 CvMagicClassInfo::CvMagicClassInfo() :
-m_iTechPrereq(NO_MAGIC_TECH)
+m_iTechClassPrereq(NO_MAGIC_TECH_CLASS)
 m_iReligionPrereq(NO_RELIGION),
 m_iStateReligionPrereq(NO_RELIGION),
 m_iAIWeight(0),
@@ -2800,9 +2800,9 @@ CvMagicClassInfo::~CvMagicClassInfo()
 	SAFE_DELETE(m_pUnitClassCreationStruct);
 }
 
-int CvMagicClassInfo::getTechPrereq() const
+int CvMagicClassInfo::getTechClassPrereq() const
 {
-	return m_iTechPrereq;
+	return m_iTechClassPrereq;
 }
 
 int CvMagicClassInfo::getReligionPrereq() const
@@ -2887,7 +2887,7 @@ bool CvMagicClassInfo::read(CvXMLLoadUtility* pXML)
 	if (!base_t::read(pXML))
 		return false;
 
-	pXML->SetInfoIDFromChildXmlVal(m_iTechPrereq, "TechPrereq");
+	pXML->SetInfoIDFromChildXmlVal(m_iTechClassPrereq, "TechClassPrereq");
 	pXML->SetInfoIDFromChildXmlVal(m_iReligionPrereq, "ReligionPrereq");
 	pXML->SetInfoIDFromChildXmlVal(m_iStateReligionPrereq, "StateReligionPrereq");
 	pXML->GetChildXmlValByName(&m_iAIWeight, "iAIWeight");
@@ -2907,8 +2907,7 @@ bool CvMagicClassInfo::read(CvXMLLoadUtility* pXML)
 		{
 			CvString szTextVal;
 			UnitClassCreationData& kStruct = *m_pUnitClassCreationStruct;
-			if (pXML->SkipToNextVal() &&
-				pXML->GetChildXmlVal(szTextVal))
+			if (pXML->GetChildXmlVal(szTextVal))
 			{
 				UnitClassTypes eClass = (UnitClassTypes)GC.getInfoTypeForString(szTextVal);
 				if (eClass != NO_UNITCLASS)
@@ -2968,9 +2967,8 @@ bool CvMagicClassInfo::readPass3()
 }
 
 CvMagicInfo::CvMagicInfo() :
-m_iLayerAnimationPath(ANIMATIONPATH_NONE),
 m_iPrereqPromotion(NO_PROMOTION),
-m_iTechPrereq(NO_TECH),
+m_iTechClassPrereq(NO_MAGIC_TECH_CLASS),
 m_iStateReligionPrereq(NO_RELIGION),
 m_pUnitClassCreationStruct(NULL),
 m_pUnitCreationStruct(NULL),
@@ -3033,19 +3031,9 @@ CvMagicInfo::~CvMagicInfo()
 	SAFE_DELETE_ARRAY(m_pbUnitCombat);
 }
 
-int CvMagicInfo::getLayerAnimationPath() const
-{
-	return m_iLayerAnimationPath;
-}
-
 int CvMagicInfo::getPrereqPromotion() const
 {
 	return m_iPrereqPromotion;
-}
-
-int CvMagicInfo::getNumPrereqOrPromotions() const
-{
-	return (int)m_paeOrPromotionPrereqs.size();
 }
 
 int CvMagicInfo::getPrereqOrPromotion(int i) const
@@ -3054,9 +3042,15 @@ int CvMagicInfo::getPrereqOrPromotion(int i) const
 	return m_paeOrPromotionPrereqs[i];
 }
 
-int CvMagicInfo::getTechPrereq() const
+int CvMagicInfo::getMagicClass(int i) const
 {
-	return m_iTechPrereq;
+	FAssertBounds(0, getNumMagicClasses(), i);
+	return m_aeClassTypes[i];
+}
+
+int CvMagicInfo::getTechClassPrereq() const
+{
+	return m_iTechClassPrereq;
 }
 
 int CvMagicInfo::getStateReligionPrereq() const
@@ -3319,15 +3313,32 @@ bool CvMagicInfo::read(CvXMLLoadUtility* pXML)
 		return false;
 
 	pXML->GetChildXmlValByName(m_szSound, "Sound");
-
-	pXML->SetInfoIDFromChildXmlVal(m_iLayerAnimationPath, "LayerAnimationPath");
-	pXML->SetInfoIDFromChildXmlVal(m_iTechPrereq, "TechPrereq");
-	pXML->SetInfoIDFromChildXmlVal(m_iStateReligionPrereq, "StateReligionPrereq");
-
-	pXML->GetChildXmlValByName(&m_bLeader, "bLeader");
-	if (m_bLeader)
-		m_bGraphicalOnly = true;  // don't show in Civilopedia list of promotions
-	pXML->GetChildXmlValByName(&m_iBlitz, "iBlitz"); // advc.164
+	
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "Classes"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0)
+			{
+				CvString szTextVal;
+				if (pXML->GetChildXmlVal(szTextVal))
+				{
+					for (int j = 0; j < iNumSibs; j++)
+					{	// <advc.003t>
+						MagicClassTypes eClass = (MagicClassTypes)GC.getInfoTypeForString(szTextVal);
+						if (eClass != NO_MAGIC_CLASS)
+							m_aeClassTypes.push_back(eClass); // </advc.003t>
+						if (!pXML->GetNextXmlVal(szTextVal))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+	pXML->SetInfoIDFromChildXmlVal(m_iTechClassPrereq, "TechClassPrereq");
 	pXML->GetChildXmlValByName(&m_bAmphib, "bAmphib");
 	pXML->GetChildXmlValByName(&m_bRiver, "bRiver");
 	pXML->GetChildXmlValByName(&m_bEnemyRoute, "bEnemyRoute");
@@ -3380,8 +3391,7 @@ bool CvMagicInfo::read(CvXMLLoadUtility* pXML)
 		{
 			CvString szTextVal;
 			UnitClassCreationData& kStruct = *m_pUnitClassCreationStruct;
-			if (pXML->SkipToNextVal() &&
-				pXML->GetChildXmlVal(szTextVal))
+			if (pXML->GetChildXmlVal(szTextVal))
 			{
 				UnitClassTypes eClass = (UnitClassTypes)GC.getInfoTypeForString(szTextVal);
 				if (eClass != NO_UNITCLASS)
@@ -3419,8 +3429,7 @@ bool CvMagicInfo::read(CvXMLLoadUtility* pXML)
 		{
 			CvString szTextVal;
 			UnitCreationData& kStruct = *m_pUnitCreationStruct;
-			if (pXML->SkipToNextVal() &&
-				pXML->GetChildXmlVal(szTextVal))
+			if (pXML->GetChildXmlVal(szTextVal))
 			{
 				UnitTypes eUnit = (UnitTypes)GC.getInfoTypeForString(szTextVal);
 				if (eUnit != NO_UNIT)
