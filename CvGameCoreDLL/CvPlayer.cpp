@@ -10593,35 +10593,46 @@ void CvPlayer::changeMagicClassCombatPoints(MagicClassTypes eClass, int iChange)
 {
 	if (iChange != 0)
 	{
-		m_aiMagicClassCombatPoints.add(eClass, iChange);
+		int const iNewValue = std::max(0, m_aiMagicClassCombatPoints.get(eClass) + iChange);
+		m_aiMagicClassCombatPoints.set(eClass, iNewValue); 
 	}
 }
+
 void CvPlayer::changeMagicClassResistPoints(MagicClassTypes eClass, int iChange)
 {
 	if (iChange != 0)
 	{
-		m_aiMagicClassResistPoints.add(eClass, iChange);
+		int const iNewValue = std::max(0, m_aiMagicClassResistPoints.get(eClass) + iChange);
+		m_aiMagicClassResistPoints.set(eClass, iNewValue);
 	}
 }
 void CvPlayer::decayMagicClassPoints()
 {
 	FOR_EACH_ENUM(MagicClass)
 	{
-		if (getMagicClassCombatPoints(eLoopMagicClass) != (
-			getCivilization().getMagicClassCombatPoints(eLoopMagicClass) / 10 +
-			GC.getInfo(getPersonalityType()).getMagicClassCombatPoints(eLoopMagicClass) / 10))
+		if (getMagicClassCombatPoints(eLoopMagicClass) != getMagicClassCombatBasePoints(eLoopMagicClass))
 		{
-			changeMagicClassCombatPoints(eLoopMagicClass, getCivilization().getMagicClassCombatPoints(eLoopMagicClass) / 10);
-			changeMagicClassCombatPoints(eLoopMagicClass, GC.getInfo(getPersonalityType()).getMagicClassCombatPoints(eLoopMagicClass) / 10);
+			int const iDelta = (getMagicClassCombatPoints(eLoopMagicClass) - getMagicClassCombatBasePoints(eLoopMagicClass));
+			int const iChange = ((fixp((iDelta * iDelta) / 800)).clamp(1, std::abs(iDelta))).round();
+			changeMagicClassCombatPoints(eLoopMagicClass, ((iDelta > 0) ? -iChange : iChange));
 		}
-		if (getMagicClassResistPoints(eLoopMagicClass) != (
-			getCivilization().getMagicClassResistPoints(eLoopMagicClass) / 10 +
-			GC.getInfo(getPersonalityType()).getMagicClassResistPoints(eLoopMagicClass) / 10))
+		if (getMagicClassResistPoints(eLoopMagicClass) != getMagicClassResistBasePoints(eLoopMagicClass))
 		{
-			changeMagicClassResistPoints(eLoopMagicClass, GC.getInfo(getPersonalityType()).getMagicClassResistPoints(eLoopMagicClass) / 10);
-			changeMagicClassResistPoints(eLoopMagicClass, getCivilization().getMagicClassResistPoints(eLoopMagicClass) / 10);
+			int const iDelta = (getMagicClassResistPoints(eLoopMagicClass) - getMagicClassResistBasePoints(eLoopMagicClass));
+			int const iChange = ((fixp((iDelta * iDelta) / 800)).clamp(1, std::abs(iDelta))).round();
+			changeMagicClassResistPoints(eLoopMagicClass, ((iDelta > 0) ? -iChange : iChange));
 		}
 	}
+}
+int CvPlayer::getMagicClassCombatBasePoints(MagicClassTypes eClass) const
+{
+	return (getCivilization().getMagicClassCombatPoints(eClass) 
+				+ GC.getInfo(getPersonalityType()).getMagicClassCombatPoints(eClass));
+}
+int CvPlayer::getMagicClassResistBasePoints(MagicClassTypes eClass) const
+{
+	return (getCivilization().getMagicClassResistPoints(eClass) 
+				+ GC.getInfo(getPersonalityType()).getMagicClassResistPoints(eClass));
 }
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 

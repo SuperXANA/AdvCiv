@@ -1172,12 +1172,12 @@ public:
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	int getMagicClassCombatPoints(MagicClassTypes eClass) const
 	{
-		return m_aiMagicClassCombatPoints.get(eClass);
+		return m_aiMagicClassCombatPoints.get(eClass) + getMagicClassCombatBasePoints(eClass);
 	}
 	void changeMagicClassCombatPoints(MagicClassTypes eClass, int iChange);
 	int getMagicClassResistPoints(MagicClassTypes eClass) const
 	{
-		return m_aiMagicClassResistPoints.get(eClass);
+		return m_aiMagicClassResistPoints.get(eClass) + getMagicClassResistBasePoints(eClass);
 	}
 	void changeMagicClassResistPoints(MagicClassTypes eClass, int iChange);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
@@ -1766,6 +1766,8 @@ protected:  // <advc.210>
 	int groundbreakingPenalty(TechTypes eTech) const; // advc.groundbr
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	void doDecayMagicClassPoints();
+	int getMagicClassCombatBasePoints(MagicClassTypes eClass) const;
+	int getMagicClassResistBasePoints(MagicClassTypes eClass) const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	void getTradeLayerColors(std::vector<NiColorA>& aColors,
