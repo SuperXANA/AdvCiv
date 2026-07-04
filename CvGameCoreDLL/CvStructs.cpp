@@ -603,3 +603,26 @@ FirstContactData::FirstContactData(CvPlot const* pAt1, CvPlot const* pAt2,
 		u2.iID = pUnit2->getID();
 	}
 }
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+void SpellUnitCreationSubData::setCreationNumber(int iValue)
+{
+	iCreateNum = iValue;
+}
+
+void SpellUnitCreationSubData::readPromotions(CvXMLLoadUtility* pXML, TCHAR const* szSubTagName, bool** ppArray)
+{
+	gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	pXML->SetVariableListTagPair(ppArray, szSubTagName, GC.getNumPromotionInfos());
+}
+
+void UnitClassCreationData::setClassType(UnitClassTypes eUnitClass)
+{
+	m_eType = eUnitClass;
+}
+
+void UnitCreationData::setUnitType(UnitTypes eUnitType)
+{
+	m_eType = eUnitType;
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ

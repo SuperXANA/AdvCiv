@@ -955,6 +955,8 @@ protected:
 	int* m_piFlavorValue;
 	int* m_piProphecyCounterChange;
 	
+	UnitClassCreationData* m_pUnitClassCreationStruct;
+	
 	MagicRequirementTypes getExtraPrereq() const;
 };
 
@@ -970,9 +972,9 @@ public: // All the const functions are exposed to Python
 
 	int getLayerAnimationPath() const;
 	int getPrereqPromotion() const;
-	int getPrereqOrPromotion1() const;
-	int getPrereqOrPromotion2() const;
-	int getPrereqOrPromotion3() const; // K-Mod, 7/jan/11
+	int getNumPrereqOrPromotions() const;
+	int getPrereqOrPromotion(int i) const;
+
 	int getTechPrereq() const;
 	int getStateReligionPrereq() const;
 	int getVisibilityChange() const;
@@ -1037,9 +1039,7 @@ public: // All the const functions are exposed to Python
 protected:
 	int m_iLayerAnimationPath;
 	int m_iPrereqPromotion;
-	int m_iPrereqOrPromotion1;
-	int m_iPrereqOrPromotion2;
-	int m_iPrereqOrPromotion3; // K-Mod
+	std::vector<PromotionTypes> m_paeOrPromotionPrereqs;
 
 	int m_iTechPrereq;
 	int m_iStateReligionPrereq;
@@ -1094,6 +1094,9 @@ protected:
 	bool* m_pbTerrainDoubleMove;
 	bool* m_pbFeatureDoubleMove;
 	bool* m_pbUnitCombat;
+	
+	UnitClassCreationData* m_pUnitClassCreationStruct;
+	UnitCreationData* m_pUnitCreationStruct;
 };
 // XANA: 03-28-2026 Magical Spell System for Advanced Civ
 

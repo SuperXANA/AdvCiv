@@ -2789,6 +2789,7 @@ m_iDamageType(NO_DAMAGE),
 m_iMiscastChance(0),
 m_iEffect(NO_EFFECT),
 m_piProphecyCounterChange(NULL),
+m_pUnitClassCreationStruct(NULL),
 m_iSpecializedPrereq(NO_MAGIC_REQUIREMENT)
 {}
 
@@ -2796,6 +2797,7 @@ CvMagicClassInfo::~CvMagicClassInfo()
 {
 	SAFE_DELETE_ARRAY(m_piFlavorValue);
 	SAFE_DELETE_ARRAY(m_piProphecyCounterChange);
+	SAFE_DELETE(m_pUnitClassCreationStruct);
 }
 
 int CvMagicClassInfo::getTechPrereq() const
@@ -2897,6 +2899,46 @@ bool CvMagicClassInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_piFlavorValue, "Flavors", GC.getNumFlavorInfos());
 	pXML->SetVariableListTagPair(&m_piProphecyCounterChange, "ProphecyCounterChanges", GC.getNumProphecyInfos());
 	
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "UnitClassCreationStruct"))
+	{
+		SAFE_DELETE(m_pUnitClassCreationStruct);
+		m_pUnitClassCreationStruct = new UnitClassCreationData();
+		if (m_pUnitClassCreationStruct != NULL)
+		{
+			CvString szTextVal;
+			UnitClassCreationData& kStruct = *m_pUnitClassCreationStruct;
+			if (pXML->SkipToNextVal() &&
+				pXML->GetChildXmlVal(szTextVal))
+			{
+				UnitClassTypes eClass = (UnitClassTypes)GC.getInfoTypeForString(szTextVal);
+				if (eClass != NO_UNITCLASS)
+				{
+					kStruct.setClassType(eClass);
+					SpellUnitCreationSubData& kSubStruct = kStruct.getCreationData();
+					{
+						int iCount = 1;
+						if (pXML->GetChildXmlVal(iCount))
+						{
+							kSubStruct.setCreationNumber(iCount);
+						}
+						else kSubStruct.setCreationNumber(iCount);
+					}
+					{
+						if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "AddPromotions"))
+						{
+							kSubStruct.readPromotions(pXML, "AddPromotions", &kSubStruct.getAddPromotionsArray());
+						}
+						if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "RemovePromotions"))
+						{
+							kSubStruct.readPromotions(pXML, "RemovePromotions", &kSubStruct.getRemovePromotionsArray());
+						}
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+	}
+	
 	CvString szTextVal;
 	pXML->GetChildXmlValByName(szTextVal, "ExtraPrereq");
 	m_aszExtraXMLforPass3.push_back(szTextVal);
@@ -2928,13 +2970,10 @@ bool CvMagicClassInfo::readPass3()
 CvMagicInfo::CvMagicInfo() :
 m_iLayerAnimationPath(ANIMATIONPATH_NONE),
 m_iPrereqPromotion(NO_PROMOTION),
-m_iPrereqOrPromotion1(NO_PROMOTION),
-m_iPrereqOrPromotion2(NO_PROMOTION),
-m_iPrereqOrPromotion3(NO_PROMOTION), // K-Mod
 m_iTechPrereq(NO_TECH),
 m_iStateReligionPrereq(NO_RELIGION),
-m_iVisibilityChange(0),
-m_iMovesChange(0),
+m_pUnitClassCreationStruct(NULL),
+m_pUnitCreationStruct(NULL),
 m_iMoveDiscountChange(0),
 m_iAirRangeChange(0),
 m_iInterceptChange(0),
@@ -2983,8 +3022,8 @@ m_pbUnitCombat(NULL)
 
 CvMagicInfo::~CvMagicInfo()
 {
-	SAFE_DELETE_ARRAY(m_piTerrainAttackPercent);
-	SAFE_DELETE_ARRAY(m_piTerrainDefensePercent);
+	SAFE_DELETE(m_pUnitClassCreationStruct);
+	SAFE_DELETE(m_pUnitCreationStruct);
 	SAFE_DELETE_ARRAY(m_piFeatureAttackPercent);
 	SAFE_DELETE_ARRAY(m_piFeatureDefensePercent);
 	SAFE_DELETE_ARRAY(m_piUnitCombatModifierPercent);
@@ -3004,19 +3043,15 @@ int CvMagicInfo::getPrereqPromotion() const
 	return m_iPrereqPromotion;
 }
 
-int CvMagicInfo::getPrereqOrPromotion1() const
+int CvMagicInfo::getNumPrereqOrPromotions() const
 {
-	return m_iPrereqOrPromotion1;
+	return (int)m_paeOrPromotionPrereqs.size();
 }
 
-int CvMagicInfo::getPrereqOrPromotion2() const
+int CvMagicInfo::getPrereqOrPromotion(int i) const
 {
-	return m_iPrereqOrPromotion2;
-}
-
-int CvMagicInfo::getPrereqOrPromotion3() const
-{
-	return m_iPrereqOrPromotion3;
+	FAssertBounds(0, getNumPrereqOrPromotions(), i);
+	return m_paeOrPromotionPrereqs[i];
 }
 
 int CvMagicInfo::getTechPrereq() const
@@ -3336,23 +3371,127 @@ bool CvMagicInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pbTerrainDoubleMove, "TerrainDoubleMoves", GC.getNumTerrainInfos());
 	pXML->SetVariableListTagPair(&m_pbFeatureDoubleMove, "FeatureDoubleMoves", GC.getNumFeatureInfos());
 	pXML->SetVariableListTagPair(&m_pbUnitCombat, "UnitCombats", GC.getNumUnitCombatInfos());
+	
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "UnitClassCreationStruct"))
+	{
+		SAFE_DELETE(m_pUnitClassCreationStruct);
+		m_pUnitClassCreationStruct = new UnitClassCreationData();
+		if (m_pUnitClassCreationStruct != NULL)
+		{
+			CvString szTextVal;
+			UnitClassCreationData& kStruct = *m_pUnitClassCreationStruct;
+			if (pXML->SkipToNextVal() &&
+				pXML->GetChildXmlVal(szTextVal))
+			{
+				UnitClassTypes eClass = (UnitClassTypes)GC.getInfoTypeForString(szTextVal);
+				if (eClass != NO_UNITCLASS)
+				{
+					kStruct.setClassType(eClass);
+					SpellUnitCreationSubData& kSubStruct = kStruct.getCreationData();
+					{
+						int iCount = 1;
+						if (pXML->GetChildXmlVal(iCount))
+						{
+							kSubStruct.setCreationNumber(iCount);
+						}
+						else kSubStruct.setCreationNumber(iCount);
+					}
+					{
+						if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "AddPromotions"))
+						{
+							kSubStruct.readPromotions(pXML, "AddPromotions", &kSubStruct.getAddPromotionsArray());
+						}
+						if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "RemovePromotions"))
+						{
+							kSubStruct.readPromotions(pXML, "RemovePromotions", &kSubStruct.getRemovePromotionsArray());
+						}
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+	}
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "UnitTypeCreationStruct"))
+	{
+		SAFE_DELETE(m_pUnitCreationStruct);
+		m_pUnitCreationStruct = new UnitCreationData();
+		if (m_pUnitCreationStruct != NULL)
+		{
+			CvString szTextVal;
+			UnitCreationData& kStruct = *m_pUnitCreationStruct;
+			if (pXML->SkipToNextVal() &&
+				pXML->GetChildXmlVal(szTextVal))
+			{
+				UnitTypes eUnit = (UnitTypes)GC.getInfoTypeForString(szTextVal);
+				if (eUnit != NO_UNIT)
+				{
+					kStruct.setUnitType(eUnit);
+					SpellUnitCreationSubData& kSubStruct = kStruct.getCreationData();
+					{
+						int iCount = 1;
+						if (pXML->GetChildXmlVal(iCount))
+						{
+							kSubStruct.setCreationNumber(iCount);
+						}
+						else kSubStruct.setCreationNumber(iCount);
+					}
+					{
+						if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "AddPromotions"))
+						{
+							kSubStruct.readPromotions(pXML, "AddPromotions", &kSubStruct.getAddPromotionsArray());
+						}
+						if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "RemovePromotions"))
+						{
+							kSubStruct.readPromotions(pXML, "RemovePromotions", &kSubStruct.getRemovePromotionsArray());
+						}
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+	}
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "OrPromotionPreReqs"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0)
+			{
+				if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+				{
+					for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
+					{
+						CvString szTextVal;
+						if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+						{
+							if (pXML->SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
+								pXML->GetNextXmlVal(szTextVal))
+							{
+								PromotionTypes ePromotion = (PromotionTypes)GC.getInfoTypeForString(szTextVal);
+								if (ePromotion != NO_PROMOTION)
+								{
+									m_paeOrPromotionPrereqs.push_back(ePromotion);
+								}
+							}
+							gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+						}
+						if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
 
 	return true;
 }
 
 bool CvMagicInfo::readPass2(CvXMLLoadUtility* pXML)
 {
-	CvString szTextVal;
-	pXML->GetChildXmlValByName(szTextVal, "PromotionPrereq");
-	m_iPrereqPromotion = GC.getInfoTypeForString(szTextVal);
-	pXML->GetChildXmlValByName(szTextVal, "PromotionPrereqOr1");
-	m_iPrereqOrPromotion1 = GC.getInfoTypeForString(szTextVal);
-	pXML->GetChildXmlValByName(szTextVal, "PromotionPrereqOr2");
-	m_iPrereqOrPromotion2 = GC.getInfoTypeForString(szTextVal);
-	// K-Mod, 7/jan/11: start
-	pXML->GetChildXmlValByName(szTextVal, "PromotionPrereqOr3", /* advc: */ "");
-	m_iPrereqOrPromotion3 = GC.getInfoTypeForString(szTextVal); // K-Mod end
-
+	// XANA (note): Noting here yet.
+	
 	return true;
 }
 

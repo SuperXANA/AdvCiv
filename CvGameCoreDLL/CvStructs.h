@@ -576,4 +576,49 @@ struct DealItemData
 	int iData, iDeal;
 };
 
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+struct SpellUnitCreationSubData
+{
+	UnitClassCreationData()
+	:	iCreateNum(0)
+	{}
+	int iCreateNum;
+	
+	bool* m_pbAddPromotionTypes;
+	bool* m_pbRemovePromotionTypes;
+	
+	bool* getAddPromotionsArray() { return m_aAddPromotionTypes; }
+	bool* getRemovePromotionsArray() { return m_aRemovePromotionTypes; }
+	
+	int getCreationNumber() const { return iCreateNum; }
+	void setCreationNumber(int iValue);
+	void readPromotions(CvXMLLoadUtility* pXML, TCHAR const* szSubTagName, bool** ppArray);
+};
+
+struct UnitClassCreationData
+{	// advc:
+	UnitClassCreationData()
+	:	eType(NO_UNITCLASS) {}
+	UnitClassTypes eType;
+	SpellUnitCreationSubData kCreationInfo;
+
+	UnitClassTypes getClassType() const { return eType; }
+	void setClassType(UnitClassTypes eUnitClass);
+	SpellUnitCreationSubData getCreationData() { return kCreationInfo; }
+	SpellUnitCreationSubData getCreationData() const { return kCreationInfo; }
+};
+
+struct UnitCreationData
+{	// advc:
+	UnitCreationData()
+	:	eType(NO_UNIT) {}
+	UnitTypes eType;
+	SpellUnitCreationSubData kCreationInfo;
+	UnitTypes getUnitType() const { return eType; }
+	void setUnitType(UnitTypes eUnitType);
+	SpellUnitCreationSubData getCreationData() { return kCreationInfo; }
+	SpellUnitCreationSubData getCreationData() const { return kCreationInfo; }
+};
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+
 #endif	// CVSTRUCTS_H

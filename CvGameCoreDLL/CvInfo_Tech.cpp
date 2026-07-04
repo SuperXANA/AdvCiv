@@ -511,10 +511,17 @@ bool CvMagicTechClassInfo::isMutuallyExclusiveWith(MagicTechClassTypes eClass, i
 		{
 			if (m_aeiMutuallyExclusiveClasses[iLoop].first == eClass)
 			{
-				int iLimit = m_aeiMutuallyExclusiveClasses[iLoop].second;
-				if (iLevel < 0 || iLimit < 0 || iLimit < iLevel)
+				if (iLevel < 0)
 				{
 					return true;
+				}
+				else
+				{
+					int iLimit = m_aeiMutuallyExclusiveClasses[iLoop].second;
+					if (iLimit < 0 || iLimit < iLevel)
+					{
+						return true;
+					}
 				}
 			}
 		}
