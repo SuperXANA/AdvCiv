@@ -576,4 +576,15 @@ struct DealItemData
 	int iData, iDeal;
 };
 
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+struct PromotionChangeData
+{
+	PromotionChangeTypes eChangeType;
+	int iChangeTurns;
+	PromotionChangeData()
+	:	eChangeType(NO_PROMOTION_CHANGE), iChangeTurns(0)
+	{}
+};
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+
 #endif	// CVSTRUCTS_H

@@ -2563,13 +2563,33 @@ bool CvEspionageMissionInfo::read(CvXMLLoadUtility* pXML)
 
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 CvEquipmentInfo::CvEquipmentInfo() : 
-
+m_pasPromotionChanges(NULL)
 {}
 
 
 CvEquipmentInfo::~CvEquipmentInfo()
 {
-	// XNAA (note): Nothing here yet.
+	SAFE_DELETE_ARRAY(m_pasPromotionChanges);
+}
+
+PromotionChangeTypes CvEquipmentInfo::getEquipmentGainPromotionChangeType(int i) const
+{
+	return (m_pasPromotionChangesOnGain ? m_pasPromotionChangesOnGain[i].eChangeType : NO_PROMOTION_CHANGE);
+}
+
+PromotionChangeTypes CvEquipmentInfo::getEquipmentLossPromotionChangeType(int i) const
+{
+	return (m_pasPromotionChangesOnLoss ? m_pasPromotionChangesOnLoss[i].eChangeType : NO_PROMOTION_CHANGE);
+}
+
+int CvEquipmentInfo::getEquipmentGainPromotionChangeTurns(int i) const
+{
+	return (m_pasPromotionChangesOnGain ? m_pasPromotionChangesOnGain[i].iChangeTurns : 0);
+}
+
+int CvEquipmentInfo::getEquipmentLossPromotionChangeTurns(int i) const
+{
+	return (m_pasPromotionChangesOnLoss ? m_pasPromotionChangesOnLoss[i].iChangeTurns : 0);
 }
 
 bool CvEquipmentInfo::read(CvXMLLoadUtility* pXML)
@@ -2577,10 +2597,118 @@ bool CvEquipmentInfo::read(CvXMLLoadUtility* pXML)
 	if (!base_t::read(pXML))
 		return false;
 
-	//pXML->GetChildXmlValByName(&m_iCost, "iCost"); // XNAA (note): Nothing here yet.
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "PromotionChangesOnEquipmentGain"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			pXML->initList(&m_pasPromotionChangesOnGain, GC.getNumPromotionInfos());
+			if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+			{
+				if (iNumSibs > 0)
+				{
+					for (int i = 0; i < iNumSibs; i++)
+					{
+						CvString szTextVal;
+						if (pXML->getChildXmlVal(szTextVal))
+						{
+							PromotionTypes ePromotion = (PromotionTypes)GC.getInfoTypeForString(szTextVal);
+							if (ePromotion != NO_PROMOTION)
+							{
+								if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+								{
+									CvString szActionType;
+									pXML->getNextXmlVal(szActionType);
+									if (szActionType == "PROMOTIONCHANGES_ADD")
+									{
+										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTIONCHANGES_ADD;
+									}
+									else if (szActionType == "PROMOTIONCHANGES_ADD_TIMED")
+									{
+										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTIONCHANGES_ADD_TIMED;
+										pXML->getNextXmlVal(m_pasPromotionChangesOnGain[ePromotion].iTurnsUntilChange);
+									}
+									else if (szActionType == "PROMOTIONCHANGES_REMOVE")
+									{
+										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTIONCHANGES_REMOVE;
+									}
+									else if (szActionType == "PROMOTIONCHANGES_REMOVE_TIMED")
+									{
+										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTIONCHANGES_REMOVE_TIMED;
+										pXML->getNextXmlVal(m_pasPromotionChangesOnGain[ePromotion].iTurnsUntilChange);
+									}
+									gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+								}
+							}
+						}
+						
+						if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+							break;
+					}
+				}
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+		}
+	}
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "PromotionChangesOnEquipmentLoss"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			pXML->initList(&m_pasPromotionChangesOnLoss, GC.getNumPromotionInfos());
+			if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+			{
+				if (iNumSibs > 0)
+				{
+					for (int i = 0; i < iNumSibs; i++)
+					{
+						CvString szTextVal;
+						if (pXML->getChildXmlVal(szTextVal))
+						{
+							PromotionTypes ePromotion = (PromotionTypes)GC.getInfoTypeForString(szTextVal);
+							if (ePromotion != NO_PROMOTION)
+							{
+								if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+								{
+									CvString szActionType;
+									pXML->getNextXmlVal(szActionType);
+									if (szActionType == "PROMOTIONCHANGES_ADD")
+									{
+										m_pasPromotionChangesOnLoss[ePromotion].eChangeType = PROMOTIONCHANGES_ADD;
+									}
+									else if (szActionType == "PROMOTIONCHANGES_ADD_TIMED")
+									{
+										m_pasPromotionChangesOnLoss[ePromotion].eChangeType = PROMOTIONCHANGES_ADD_TIMED;
+										pXML->getNextXmlVal(m_pasPromotionChangesOnLoss[ePromotion].iTurnsUntilChange);
+									}
+									else if (szActionType == "PROMOTIONCHANGES_REMOVE")
+									{
+										m_pasPromotionChangesOnLoss[ePromotion].eChangeType = PROMOTIONCHANGES_REMOVE;
+									}
+									else if (szActionType == "PROMOTIONCHANGES_REMOVE_TIMED")
+									{
+										m_pasPromotionChangesOnLoss[ePromotion].eChangeType = PROMOTIONCHANGES_REMOVE_TIMED;
+										pXML->getNextXmlVal(m_pasPromotionChangesOnLoss[ePromotion].iTurnsUntilChange);
+									}
+									gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+								}
+							}
+						}
+						
+						if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+							break;
+					}
+				}
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+		}
+	}
 
 	return true;
 }
+
 bool CvEquipmentInfo::readPass2(CvXMLLoadUtility* pXML)
 {
 	// XNAA (note): Nothing here yet.

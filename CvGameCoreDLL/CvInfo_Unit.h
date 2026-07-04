@@ -836,11 +836,20 @@ public:
 	~CvEquipmentInfo();
 
 	// Array access:
+	
+	PromotionChangeTypes getEquipmentGainPromotionChangeType(int i);
+	PromotionChangeTypes getEquipmentLossPromotionChangeType(int i);
+	
+	int getEquipmentGainPromotionChangeTurns(int i);
+	int getEquipmentLossPromotionChangeTurns(int i);
 
 	bool read(CvXMLLoadUtility* pXML);
 	bool readPass2(CvXMLLoadUtility* pXML);
 
 protected:
+
+PromotionChangeData* m_pasPromotionChangesOnGain;
+PromotionChangeData* m_pasPromotionChangesOnLoss;
 
 };
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
