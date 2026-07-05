@@ -376,9 +376,22 @@ void CvUnit::convert(CvUnit* pUnit)
 	setMoves(pUnit->getMoves());
 
 	setLevel(pUnit->getLevel());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	setEquipmentLevel(pUnit->getEquipmentLevel());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	int iOldModifier = std::max(1, 100 + GET_PLAYER(pUnit->getOwner()).getLevelExperienceModifier());
 	int iOurModifier = std::max(1, 100 + GET_PLAYER(getOwner()).getLevelExperienceModifier());
 	setExperience(std::max(0, (pUnit->getExperience() * iOurModifier) / iOldModifier));
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	if (pUnit->getEquipmentClass() == getEquipmentClass())
+	{
+		setEquipmentExperience(std::max(0, (pUnit->getEquipmentExperienceExperience() * iOurModifier) / iOldModifier));
+	}
+	else
+	{
+		setEquipmentExperience(0);
+	}
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	setName(pUnit->getNameNoDesc());
 	setLeaderUnitType(pUnit->getLeaderUnitType());
@@ -855,6 +868,10 @@ void CvUnit::resolveAirCombat(CvUnit* pInterceptor, CvPlot* pPlot, CvAirMissionD
 			pInterceptor->changeExperience(iExperience, maxXPValue(), true,
 					pPlot->getOwner() == pInterceptor->getOwner(), //!isBarbarian()
 					getGlobalXPPercent()); // advc.312
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+			pInterceptor->changeEquipmentExperience(iExperience, maxXPValue(), true,
+					pPlot->getOwner() == pInterceptor->getOwner());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 		}
 	}
 	else if (pInterceptor->isDead())
@@ -866,6 +883,10 @@ void CvUnit::resolveAirCombat(CvUnit* pInterceptor, CvPlot* pPlot, CvAirMissionD
 		changeExperience(iExperience, pInterceptor->maxXPValue(), true,
 				pPlot->getOwner() == getOwner(), //!pInterceptor->isBarbarian()
 				pInterceptor->getGlobalXPPercent()); // advc.312
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+		changeEquipmentExperience(iExperience, pInterceptor->maxXPValue(), true,
+				pPlot->getOwner() == getOwner());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	}
 	else if (iOurDamage > 0)
 	{
@@ -875,6 +896,11 @@ void CvUnit::resolveAirCombat(CvUnit* pInterceptor, CvPlot* pPlot, CvAirMissionD
 					maxXPValue(), true,
 					pPlot->getOwner() == pInterceptor->getOwner(), //!isBarbarian()
 					getGlobalXPPercent()); // advc.312
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+			pInterceptor->changeEquipmentExperience(GC.getDefineINT(CvGlobals::EXPERIENCE_FROM_WITHDRAWL),
+					maxXPValue(), true,
+					pPlot->getOwner() == pInterceptor->getOwner());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 		}
 	}
 	else if (iTheirDamage > 0)
@@ -883,6 +909,11 @@ void CvUnit::resolveAirCombat(CvUnit* pInterceptor, CvPlot* pPlot, CvAirMissionD
 				pInterceptor->maxXPValue(), true,
 				pPlot->getOwner() == getOwner(), //!pInterceptor->isBarbarian()
 				pInterceptor->getGlobalXPPercent()); // advc.312
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+		changeEquipmentExperience(GC.getDefineINT(CvGlobals::EXPERIENCE_FROM_WITHDRAWL),
+				pInterceptor->maxXPValue(), true,
+				pPlot->getOwner() == getOwner());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	}
 
 	kBattle.setDamage(BATTLE_UNIT_ATTACKER, iOurDamage);
@@ -1140,6 +1171,11 @@ void CvUnit::resolveCombat(CvUnit* pDefender, CvPlot* pPlot, bool bVisible)
 							pDefender->maxXPValue(), true,
 							pPlot->getOwner() == getOwner(), //!pDefender->isBarbarian()
 							pDefender->getGlobalXPPercent()); // advc.312
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+					changeEquipmentExperience(GC.getDefineINT(CvGlobals::EXPERIENCE_FROM_WITHDRAWL),
+							pDefender->maxXPValue(), true,
+							pPlot->getOwner() == getOwner());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 					combat_log.push_back(0); // K-Mod
 					break;
 				}
@@ -1187,6 +1223,11 @@ void CvUnit::resolveCombat(CvUnit* pDefender, CvPlot* pPlot, bool bVisible)
 							pDefender->maxXPValue(), true,
 							pPlot->getOwner() == getOwner(), //!pDefender->isBarbarian()
 							pDefender->getGlobalXPPercent()); // advc.312
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+					changeEquipmentExperience(GC.getDefineINT(CvGlobals::EXPERIENCE_FROM_WITHDRAWL),
+							pDefender->maxXPValue(), true,
+							pPlot->getOwner() == getOwner());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 				}
 				pDefender->changeDamage(iDamage, getOwner());
 				combat_log.push_back(iDamage); // K-Mod
@@ -1232,6 +1273,10 @@ void CvUnit::resolveCombat(CvUnit* pDefender, CvPlot* pPlot, bool bVisible)
 				pDefender->changeExperience(iExperience, maxXPValue(), true,
 						pPlot->getOwner() == pDefender->getOwner(), //!isBarbarian()
 						getGlobalXPPercent()); // advc.312
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+				pDefender->changeEquipmentExperience(iExperience, maxXPValue(), true,
+						pPlot->getOwner() == pDefender->getOwner());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 			}
 			else
 			{
@@ -1248,6 +1293,10 @@ void CvUnit::resolveCombat(CvUnit* pDefender, CvPlot* pPlot, bool bVisible)
 				changeExperience(iExperience, pDefender->maxXPValue(), true,
 						pPlot->getOwner() == getOwner(), //!pDefender->isBarbarian()
 						pDefender->getGlobalXPPercent());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+				changeEquipmentExperience(iExperience, pDefender->maxXPValue(), true,
+						pPlot->getOwner() == getOwner());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 			}
 			GET_PLAYER(getOwner()).AI_attackMadeAgainst(*pDefender); // advc.139
 			break;
@@ -6425,6 +6474,9 @@ void CvUnit::promote(PromotionTypes ePromotion, int iLeaderUnitId)
 	if (!GC.getInfo(ePromotion).isLeader())
 	{
 		changeLevel(1);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+		changeEquipmentLevel(1);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 		changeDamage(-promotionHeal(ePromotion)); // advc: Heal moved into new function
 	}
 
@@ -6626,6 +6678,17 @@ int CvUnit::upgradeXPChange(UnitTypes eUnit) const
 	static int const iMAX_EXPERIENCE_AFTER_UPGRADE = GC.getDefineINT("MAX_EXPERIENCE_AFTER_UPGRADE");
 	return std::min(0, iMAX_EXPERIENCE_AFTER_UPGRADE - getExperience());
 }
+
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+int CvUnit::upgradeXPEquipmentChange(UnitTypes eUnit) const
+{
+	if(getLeaderUnitType() != NO_UNIT)
+		return 0;
+
+	static int const iMAX_EXPERIENCE_AFTER_UPGRADE = GC.getDefineINT("MAX_EXPERIENCE_AFTER_UPGRADE");
+	return std::min(0, iMAX_EXPERIENCE_AFTER_UPGRADE - getEquipmentExperience());
+}
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 
 bool CvUnit::upgradeAvailable(UnitTypes eFromUnit, UnitClassTypes eToUnitClass,
@@ -6894,6 +6957,9 @@ CvUnit* CvUnit::upgrade(UnitTypes eUnit) // K-Mod: this now returns the new unit
 	pUpgradeUnit->finishMoves();
 	// advc.080: Moved into subroutine
 	pUpgradeUnit->changeExperience(pUpgradeUnit->upgradeXPChange(eUnit));
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	pUpgradeUnit->changeEquipmentExperience(pUpgradeUnit->upgradeXPEquipmentChange(eUnit));
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	if (gUnitLogLevel > 2)
 	{
 		CvWString szString;
@@ -8488,6 +8554,12 @@ bool CvUnit::isBeforeUnitCycle(CvUnit const& kOther) const
 		return (getLevel() > kOther.getLevel());
 	if (getExperience() != kOther.getExperience())
 		return (getExperience() > kOther.getExperience());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	if (getEquipmentLevel() != kOther.getEquipmentLevel())
+		return (getEquipmentLevel() > kOther.getEquipmentLevel());
+	if (getEquipmentExperience() != kOther.getEquipmentExperience())
+		return (getEquipmentExperience() > kOther.getEquipmentExperience());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	return (getID() < kOther.getID());
 }
 
@@ -9246,6 +9318,46 @@ int CvUnit::getGlobalXPPercent() const
 }
 
 
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+void CvUnit::setEquipmentExperience(int iNewValue, int iMax)
+{
+	if (getEquipmentClass() == NO_EQUIPMENT_CLASS)
+		return;
+	if ((getEquipmentExperience() != iNewValue) && (getEquipmentExperience() < ((iMax == -1) ? MAX_INT : iMax)))
+	{
+		m_aiEquipmentExperience.set(getEquipmentClass(), std::min(((iMax == -1) ? MAX_INT : iMax), iNewValue));
+		FAssert(getEquipmentExperience() >= 0);
+		if (IsSelected())
+			gDLL->UI().setDirty(InfoPane_DIRTY_BIT, true);
+	}
+}
+
+void CvUnit::changeEquipmentExperience(int iChange, int iMax, bool bFromCombat, bool bInBorders)
+{
+	int iUnitExperience = iChange;
+	if (bFromCombat)
+	{
+		CvPlayer& kPlayer = GET_PLAYER(getOwner());
+		int iCombatExperienceMod = 100 + kPlayer.getGreatGeneralRateModifier();
+		if (bInBorders)
+		{
+			iCombatExperienceMod += kPlayer.getDomesticGreatGeneralRateModifier() +
+					kPlayer.getExpInBorderModifier();
+			// advc (comment): ExpInBorderModifier is a currently unused Civic effect
+			iUnitExperience += (iChange * kPlayer.getExpInBorderModifier()) / 100;
+		}
+
+		if (getExperiencePercent() != 0)
+		{
+			iUnitExperience *= std::max(0, 100 + getExperiencePercent());
+			iUnitExperience /= 100;
+		}
+	}
+	setEquipmentExperience((getEquipmentExperience() + iUnitExperience), iMax);
+}
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+
+
 void CvUnit::setLevel(int iNewValue)
 {
 	if (getLevel() != iNewValue)
@@ -9265,6 +9377,28 @@ void CvUnit::changeLevel(int iChange)
 {
 	setLevel(getLevel() + iChange);
 }
+
+
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+void CvUnit::setEquipmentLevel(int iNewValue)
+{
+	if (getEquipmentClass() == NO_EQUIPMENT_CLASS)
+		return;
+	if (getEquipmentLevel() != iNewValue)
+	{
+		m_aiEquipmentLevel.set(getEquipmentClass(), iNewValue);
+		FAssert(getEquipmentLevel() >= 0);
+
+		if (IsSelected())
+			gDLL->UI().setDirty(InfoPane_DIRTY_BIT, true);
+	}
+}
+
+void CvUnit::changeEquipmentLevel(int iChange)
+{
+	setEquipmentLevel(getEquipmentLevel() + iChange);
+}
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 void CvUnit::changeCargo(int iChange)
 {
@@ -10463,6 +10597,51 @@ bool CvUnit::canAcquireEquipment(EquipmentTypes eEquipment) const
 
 	if (isHasEquipment(eEquipment))
 		return false;
+	
+	if (GC.getInfo(eEquipment).getEquipmentLowestLevelRequired() > 0)
+	{
+		if (getEquipmentLevel() < GC.getInfo(eEquipment).getEquipmentLowestLevelRequired())
+			return false;
+	}
+	
+	if (GC.getInfo(eEquipment).getEquipmentHighestLevelRequired() > 0)
+	{
+		if (getEquipmentLevel() > GC.getInfo(eEquipment).getEquipmentLowestLevelRequired())
+			return false;
+	}
+	
+	if (GC.getInfo(eEquipment).isLegendaryWeapon())
+	{
+		/*
+		XANA (Note):
+		Heroic, i.e. Civilization-defining or Legendary Units
+		for example Pimedasus Helendav or Rusa Imperio
+		can take this piece regardless of enchantment.
+		Normal units need to pass the enchantment check below.
+		*/
+		if !(m_pUnitInfo->isHero())
+		{
+			if (GC.getInfo(eEquipment).getRequiredEnchantment() != NO_PROMOTION)
+			{
+				/*
+				XANA (TODO):
+				Could use a custom Status Type from the UnitStatusEffects branch to represent an enchantment.
+				*/
+				if !(isHasPromotion(GC.getInfo(eEquipment).getRequiredEnchantment()))
+					return false;
+			}
+		}
+	}
+	
+	if (GC.getInfo(eEquipment).isPersonalWeapon() && GC.getInfo(eEquipment).getPrereqUnitType() != NO_UNIT)
+	{
+		/*
+		XANA (TODO):
+		Could fold this into isHasEquipment check at the top.
+		*/
+		if (getUnitType() != GC.getInfo(eEquipment).getPrereqUnitType())
+			return false;
+	}
 
 	if (GC.getInfo(eEquipment).getPrereqPromotion() != NO_PROMOTION)
 	{
@@ -10806,6 +10985,11 @@ void CvUnit::read(FDataStreamBase* pStream)
 			m_iExtraCombatPercent += 10;
 	}
 	else m_abHasPromotion.readArray<bool>(pStream, -1); // </advc.313>
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	if (uiFlag >= 8)
+		m_abHasEquipment.read(pStream);
+	else m_abHasEquipment.readArray<bool>(pStream, -1);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	if (uiFlag >= 7)
 	{
 		m_aiTerrainDoubleMoveCount.read(pStream);
@@ -10815,6 +10999,10 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.read(pStream);
 		m_aiExtraFeatureDefensePercent.read(pStream);
 		m_aiExtraUnitCombatModifier.read(pStream);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+		m_aiEquipmentExperience.read(pStream);
+		m_aiEquipmentLevel.read(pStream);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	}
 	else
 	{
@@ -10825,6 +11013,10 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.readArray<int>(pStream);
 		m_aiExtraFeatureDefensePercent.readArray<int>(pStream);
 		m_aiExtraUnitCombatModifier.readArray<int>(pStream);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+		m_aiEquipmentExperience.readArray<int>(pStream);
+		m_aiEquipmentLevel.readArray<int>(pStream);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	}
 }
 
@@ -10929,6 +11121,9 @@ void CvUnit::write(FDataStreamBase* pStream)
 	pStream->WriteString(m_szScriptData);
 
 	m_abHasPromotion.write(pStream);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	m_abHasEquipment.write(pStream);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	m_aiTerrainDoubleMoveCount.write(pStream);
 	m_aiFeatureDoubleMoveCount.write(pStream);
@@ -10937,6 +11132,10 @@ void CvUnit::write(FDataStreamBase* pStream)
 	m_aiExtraFeatureAttackPercent.write(pStream);
 	m_aiExtraFeatureDefensePercent.write(pStream);
 	m_aiExtraUnitCombatModifier.write(pStream);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	m_aiEquipmentExperience.write(pStream);
+	m_aiEquipmentLevel.write(pStream);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	REPRO_TEST_END_WRITE();
 }
 
@@ -12287,7 +12486,14 @@ int CvUnit::LFBgetRelativeValueRating() const
 			//iTier *= 2;
 			iTier++;
 		}
-		//iValueRating += std::max(getLevel(), iTier) * GC.getLFBBasedOnExperience();
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+		int iEquipTier = getEquipmentLevel();
+		while (getEquipmentClass() >= iEquipTier*iEquipTier+1)
+		{
+			iEquipTier++;
+		}
+		iValueRating += iEquipTier * GC.getDefineINT(CvGlobals::LFB_BASEDONEXPERIENCE);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 		iValueRating += iTier * GC.getDefineINT(CvGlobals::LFB_BASEDONEXPERIENCE);
 	}
 

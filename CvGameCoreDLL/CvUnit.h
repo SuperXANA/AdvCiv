@@ -277,6 +277,9 @@ public:
 
 	int upgradePrice(UnitTypes eUnit) const;																// Exposed to Python
 	int upgradeXPChange(UnitTypes eUnit) const; // advc.080
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	int upgradeXPEquipmentChange(UnitTypes eUnit) const;
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	bool upgradeAvailable(UnitTypes eFromUnit, UnitClassTypes eToUnitClass, int iCount = 0) const;			// Exposed to Python
 	bool canUpgrade(UnitTypes eUnit, bool bTestVisible = false) const;										// Exposed to Python
 	bool isReadyForUpgrade() const;
@@ -701,6 +704,23 @@ public:
 	void setLevel(int iNewValue);
 	void changeLevel(int iChange);
 
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	int getEquipmentExperience() const { return m_aiEquipmentExperience.get(getEquipmentClass()); }
+	void setEquipmentExperience(int iNewValue, int iMax = -1);
+	void changeEquipmentExperience(int iChange, int iMax = -1, bool bFromCombat = false,
+			bool bInBorders = false;
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+
+	int getLevel() const { return m_iLevel; }																// Exposed to Python
+	void setLevel(int iNewValue);
+	void changeLevel(int iChange);
+
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	int getEquipmentLevel() const { return m_aiEquipmentLevel.get(getEquipmentClass()); }
+	void setEquipmentLevel(int iNewValue);
+	void changeEquipmentLevel(int iChange);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+
 	int getCargo() const { return m_iCargo; }																// Exposed to Python
 	void changeCargo(int iChange);
 	void getCargoUnits(std::vector<CvUnit*>& aUnits) const;
@@ -999,6 +1019,10 @@ public:
 	void setHasPromotion(PromotionTypes ePromotion, bool bNewValue);										// Exposed to Python
 	
 	// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	EquipmentClassTypes getEquipmentClass() const
+	{
+		return m_pUnitInfo->getEquipmentClass();
+	}
 	bool canAcquireEquipment(EquipmentTypes eEquipment) const;
 	bool canAcquireEquipmentAny() const;
 	bool isEquipmentValid(EquipmentTypes eEquipment) const;
@@ -1217,6 +1241,8 @@ protected:
 	ArrayEnumMap<UnitCombatTypes,int,short> m_aiExtraUnitCombatModifier;
 	// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	ArrayEnumMap<EquipmentTypes,bool> m_abHasEquipment;
+	ArrayEnumMap<EquipmentClassTypes,int,short> m_aiEquipmentExperience;
+	ArrayEnumMap<EquipmentClassTypes,int,short> m_aiEquipmentLevel;
 	// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	// </advc.enum>
 

@@ -635,8 +635,6 @@ bool CvXMLLoadUtility::LoadBasicInfos()
 	LoadGlobalClassInfo(GC.m_paAttitudeInfo, "CIV4AttitudeInfos", "BasicInfos", "Civ4AttitudeInfos/AttitudeInfos/AttitudeInfo", false);
 	LoadGlobalClassInfo(GC.m_paMemoryInfo, "CIV4MemoryInfos", "BasicInfos", "Civ4MemoryInfos/MemoryInfos/MemoryInfo", false);
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	// XANA (note): The level required to field a piece of equipment, e.g. [E]xperienced, [P]referred, etc.
-	LoadGlobalClassInfo(GC.m_paCharacterLevelInfo, "CIV4CharacterLevelInfos", "BasicInfos", "Civ4CharacterLevelInfos/CharacterLevelInfos/CharacterLevelInfo", false);
 	// XANA (note): The methods by which you can hold a piece of equipment, e.g. one-handed right/left, two-handed, headgear, footgear, etc.
 	LoadGlobalClassInfo(GC.m_paEquipmentHoldClassInfo, "CIV4EquipmentHoldClassInfos", "BasicInfos", "Civ4EquipmentHoldClassInfos/EquipmentHoldClassInfos/EquipmentHoldClassInfo", false);
 	// XANA (note): The civilization-specific methods by which Units can hold equipment and the holding limitations they don't have acces to, in the fore-hoof [hand] for Ponies, rendered unable to use equipment that requires it to be tied to a mane/tail for those lacking that feature, etc.
@@ -723,6 +721,10 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paUnitInfo, "CIV4UnitInfos", "Units", "Civ4UnitInfos/UnitInfos/UnitInfo", false, &CvDLLUtilityIFaceBase::createUnitInfoCacheObject);
 	FOR_EACH_ENUM(UnitClass)
 		GC.getInfo(eLoopUnitClass).readPass3();
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	FOR_EACH_ENUM(Equipment)
+		GC.getInfo(eLoopEquipment).readPass3();
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paUnitArtStyleInfo, "CIV4UnitArtStyleTypeInfos", "Civilizations", "Civ4UnitArtStyleTypeInfos/UnitArtStyleTypeInfos/UnitArtStyleTypeInfo", false);
 	LoadGlobalClassInfo(GC.m_paCivilizationInfo, "CIV4CivilizationInfos", "Civilizations", "Civ4CivilizationInfos/CivilizationInfos/CivilizationInfo", true, &CvDLLUtilityIFaceBase::createCivilizationInfoCacheObject);
 	LoadGlobalClassInfo(GC.m_paHintInfo, "CIV4Hints", "GameInfo", "Civ4Hints/HintInfos/HintInfo", false);

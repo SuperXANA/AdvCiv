@@ -58,6 +58,12 @@ public: // All the const functions are exposed to Python. advc:inl: All inlined.
 	{
 		return (UnitTypes)m_iDefaultUnitIndex;
 	}
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	EquipmentClassTypes getEquipmentClass() const
+	{
+		return (EquipmentClassTypes)m_iBaseEquipmentClass;
+	}
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	bool read(CvXMLLoadUtility* pXML);
 	bool readPass3();
@@ -68,6 +74,9 @@ protected:
 	int m_iMaxPlayerInstances;
 	int m_iInstanceCostModifier;
 	int m_iDefaultUnitIndex;
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	int m_iBaseEquipmentClass;
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 };
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -304,6 +313,7 @@ public: /*  All const functions are exposed to Python except some related to art
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	bool getFreeEquipments(int i) const;
 	bool isAnyFreeEquipments() const { return (m_pbFreeEquipments != NULL); }
+	bool isHero() const { return ((getSpecialUnitType() != NO_SPECIALUNIT) ? GC.getInfo(getSpecialUnitType()).isHero() : false); }
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	int getLeaderPromotion() const;
 	int getLeaderExperience() const;
@@ -326,6 +336,12 @@ public: /*  All const functions are exposed to Python except some related to art
 	bool isPromotionValid(PromotionTypes ePromotion, bool bLeader) const;
 	// </advc.003w>
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	EquipmentClassTypes getEquipmentClass() const
+	{
+		return ((m_iBaseEquipmentClass != NO_EQUIPMENT_CLASS) ?
+				(EquipmentClassTypes)m_iBaseEquipmentClass :
+				GC.getInfo(getUnitClassType()).getEquipmentClass());
+	}
 	bool isEquipmentValid(EquipmentTypes eEquipment, bool bLeader) const;
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
@@ -574,6 +590,9 @@ public:
 
 	bool isValid() const;
 	bool isCityLoad() const;
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	bool isHero() const { return m_bHeroicUnit; }
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	bool isCarrierUnitAIType(int i) const; // Exposed to Python
 	int getProductionTraits(int i) const; // Exposed to Python
@@ -583,6 +602,9 @@ public:
 protected:
 	bool m_bValid;
 	bool m_bCityLoad;
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	bool m_bHeroicUnit;
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	bool* m_pbCarrierUnitAITypes;
 	int* m_piProductionTraits;
@@ -850,6 +872,12 @@ public:
 
 	EquipmentClassTypes getEquipmentClass() const { return m_iEquipmentClass; }
 	bool isOnlyOffensive() const { return m_bOnlyOffensive; }
+	int getEquipmentLowestLevelRequired() const { return m_iEquipmentLowestLevelRequired; }
+	int getEquipmentHighestLevelRequired() const { return m_iEquipmentHighestLevelRequired; }
+	bool isLegendaryWeapon() const { return m_bLegendaryEquipment; }
+	bool isPersonalWeapon() const { return m_bPersonalEquipment; }
+	UnitTypes getPrereqUnitType() const { return (UnitTypes)m_iPersonalUnitPrereq; }
+	PromotionTypes getRequiredEnchantment() const { return (PromotionTypes)m_iMagicEnchantmentPrereq; }
 	
 	// Array access:
 	
@@ -861,11 +889,18 @@ public:
 
 	bool read(CvXMLLoadUtility* pXML);
 	bool readPass2(CvXMLLoadUtility* pXML);
+	bool readPass3();
 
 protected:
 
 	int m_iEquipmentClass;
 	bool m_bOnlyOffensive;
+	int m_iEquipmentLowestLevelRequired;
+	int m_iEquipmentHighestLevelRequired;
+	bool m_bLegendaryEquipment;
+	bool m_bPersonalEquipment;
+	int m_iPersonalUnitPrereq;
+	int m_iMagicEnchantmentPrereq;
 
 	PromotionChangeData* m_pasPromotionChangesOnGain;
 	PromotionChangeData* m_pasPromotionChangesOnLoss;
