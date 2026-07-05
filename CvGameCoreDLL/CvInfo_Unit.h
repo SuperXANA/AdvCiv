@@ -301,6 +301,10 @@ public: /*  All const functions are exposed to Python except some related to art
 	bool getFeatureNative(int i) const;
 	bool getFreePromotions(int i) const;
 	bool isAnyFreePromotions() const { return (m_pbFreePromotions != NULL); } // advc.003t
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	bool getFreeEquipments(int i) const;
+	bool isAnyFreeEquipments() const { return (m_pbFreeEquipments != NULL); }
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	int getLeaderPromotion() const;
 	int getLeaderExperience() const;
 
@@ -321,6 +325,9 @@ public: /*  All const functions are exposed to Python except some related to art
 	// Moved from CvGameCoreUtils.h. Still exposed to Python through CyGameCoreUtils.
 	bool isPromotionValid(PromotionTypes ePromotion, bool bLeader) const;
 	// </advc.003w>
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	bool isEquipmentValid(EquipmentTypes eEquipment, bool bLeader) const;
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	const TCHAR* getEarlyArtDefineTag(int i, UnitArtStyleTypes eStyle) const;
 	void setEarlyArtDefineTag(int i, const TCHAR* szVal);
@@ -467,6 +474,9 @@ protected:
 	bool m_bAlwaysHostile;
 	bool m_bNoRevealMap;
 	int m_iLeaderPromotion;
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	int m_iBaseEquipmentClass;
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	float m_fUnitMaxSpeed;
 	float m_fUnitPadTime;
@@ -509,6 +519,9 @@ protected:
 	bool* m_pbTerrainImpassable;
 	bool* m_pbFeatureImpassable;
 	bool* m_pbFreePromotions;
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	bool* m_pbFreeEquipments;
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	CvString* m_paszEarlyArtDefineTags;
 	CvString* m_paszLateArtDefineTags;
@@ -835,21 +848,27 @@ public:
 	CvEquipmentInfo();
 	~CvEquipmentInfo();
 
+	EquipmentClassTypes getEquipmentClass() const { return m_iEquipmentClass; }
+	bool isOnlyOffensive() const { return m_bOnlyOffensive; }
+	
 	// Array access:
 	
-	PromotionChangeTypes getEquipmentGainPromotionChangeType(int i);
-	PromotionChangeTypes getEquipmentLossPromotionChangeType(int i);
+	PromotionChangeTypes getEquipmentGainPromotionChangeType(int i) const;
+	PromotionChangeTypes getEquipmentLossPromotionChangeType(int i) const;
 	
-	int getEquipmentGainPromotionChangeTurns(int i);
-	int getEquipmentLossPromotionChangeTurns(int i);
+	int getEquipmentGainPromotionChangeTurns(int i) const;
+	int getEquipmentLossPromotionChangeTurns(int i) const;
 
 	bool read(CvXMLLoadUtility* pXML);
 	bool readPass2(CvXMLLoadUtility* pXML);
 
 protected:
 
-PromotionChangeData* m_pasPromotionChangesOnGain;
-PromotionChangeData* m_pasPromotionChangesOnLoss;
+	int m_iEquipmentClass;
+	bool m_bOnlyOffensive;
+
+	PromotionChangeData* m_pasPromotionChangesOnGain;
+	PromotionChangeData* m_pasPromotionChangesOnLoss;
 
 };
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv

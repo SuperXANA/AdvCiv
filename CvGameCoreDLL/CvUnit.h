@@ -997,6 +997,17 @@ public:
 		return m_abHasPromotion.get(ePromotion);
 	}
 	void setHasPromotion(PromotionTypes ePromotion, bool bNewValue);										// Exposed to Python
+	
+	// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	bool canAcquireEquipment(EquipmentTypes eEquipment) const;
+	bool canAcquireEquipmentAny() const;
+	bool isEquipmentValid(EquipmentTypes eEquipment) const;
+	bool isHasEquipment(EquipmentTypes eEquipment) const
+	{
+		return m_abHasEquipment.get(eEquipment);
+	}
+	void setHasEquipment(EquipmentTypes eEquipment, bool bNewValue);
+	// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	int getSubUnitCount() const;
 	DllExport int getSubUnitsAlive() const;
@@ -1204,6 +1215,9 @@ protected:
 	ArrayEnumMap<FeatureTypes,int,short> m_aiExtraFeatureAttackPercent;
 	ArrayEnumMap<FeatureTypes,int,short> m_aiExtraFeatureDefensePercent;
 	ArrayEnumMap<UnitCombatTypes,int,short> m_aiExtraUnitCombatModifier;
+	// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	ArrayEnumMap<EquipmentTypes,bool> m_abHasEquipment;
+	// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	// </advc.enum>
 
 	PlayerTypes getCombatOwner_bulk(TeamTypes eForTeam, CvPlot const& kPlot) const; // advc

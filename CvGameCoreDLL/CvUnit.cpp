@@ -10456,6 +10456,187 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 }
 
 
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+bool CvUnit::canAcquireEquipment(EquipmentTypes eEquipment) const
+{
+	FAssertEnumBounds(eEquipment);
+
+	if (isHasEquipment(eEquipment))
+		return false;
+
+	if (GC.getInfo(eEquipment).getPrereqPromotion() != NO_PROMOTION)
+	{
+		if (!isHasPromotion((PromotionTypes)(GC.getInfo(eEquipment).getPrereqPromotion())))
+			return false;
+	}
+	
+	{
+		PromotionTypes ePrereq1 = (PromotionTypes)GC.getInfo(ePromotion).getPrereqOrPromotion1();
+		PromotionTypes ePrereq2 = (PromotionTypes)GC.getInfo(ePromotion).getPrereqOrPromotion2();
+		PromotionTypes ePrereq3 = (PromotionTypes)GC.getInfo(ePromotion).getPrereqOrPromotion3();
+		if (ePrereq1 != NO_PROMOTION || ePrereq2 != NO_PROMOTION || ePrereq3 != NO_PROMOTION)
+		{
+			bool bValid = false;
+
+			if (ePrereq1 != NO_PROMOTION && isHasPromotion(ePrereq1))
+				bValid = true;
+			if (ePrereq2 != NO_PROMOTION && isHasPromotion(ePrereq2))
+				bValid = true;
+			if (ePrereq3 != NO_PROMOTION && isHasPromotion(ePrereq3))
+				bValid = true;
+
+			if (!bValid)
+			{
+				return false;
+			}
+		}
+	}
+	
+	if (GC.getInfo(eEquipment).getPrereqEquipment() != NO_EQUIPMENT)
+	{
+		if (!isHasEquipment((EquipmentTypes)(GC.getInfo(eEquipment).getPrereqEquipment())))
+			return false;
+	}
+	
+	{
+		EquipmentTypes ePrereq1 = (EquipmentTypes)GC.getInfo(eEquipment).getPrereqOrEquipment1();
+		EquipmentTypes ePrereq2 = (EquipmentTypes)GC.getInfo(eEquipment).getPrereqOrEquipment2();
+		EquipmentTypes ePrereq3 = (EquipmentTypes)GC.getInfo(eEquipment).getPrereqOrEquipment3();
+		if (ePrereq1 != NO_EQUIPMENT || ePrereq2 != NO_EQUIPMENT || ePrereq3 != NO_EQUIPMENT)
+		{
+			bool bValid = false;
+
+			if (ePrereq1 != NO_EQUIPMENT && isHasEquipment(ePrereq1))
+				bValid = true;
+			if (ePrereq2 != NO_EQUIPMENT && isHasEquipment(ePrereq2))
+				bValid = true;
+			if (ePrereq3 != NO_EQUIPMENT && isHasEquipment(ePrereq3))
+				bValid = true;
+
+			if (!bValid)
+			{
+				return false;
+			}
+		}
+	}
+
+	if (GC.getInfo(eEquipment).getTechPrereq() != NO_TECH)
+	{
+		if (!GET_TEAM(getTeam()).isHasTech((TechTypes)GC.getInfo(eEquipment).getTechPrereq()))
+			return false;
+	}
+
+	if (GC.getInfo(eEquipment).getMagicTechClassPrereq() != NO_MAGIC_TECH_CLASS)
+	{
+		if (!GET_TEAM(getTeam()).isHasMagicTechClass((MagicTechClassTypes)GC.getInfo(eEquipment).getMagicTechClassPrereq()))
+			return false;
+	}
+
+	if (GC.getInfo(eEquipment).getMagicTechPrereq() != NO_MAGIC_TECH)
+	{
+		if (!GET_TEAM(getTeam()).isHasMagicTech((MagicTechTypes)GC.getInfo(eEquipment).getMagicTechPrereq()))
+			return false;
+	}
+
+	if (!isEquipmentValid(eEquipment))
+		return false;
+
+	return true;
+}
+
+bool CvUnit::isEquipmentValid(EquipmentTypes eEquipment) const
+{
+	if (!m_pUnitInfo->isEquipmentValid(eEquipment, true))
+		return false;
+	
+	CvEquipmentInfo const& kEquipment = GC.getInfo(eEquipment);
+	{
+		PromotionTypes const ePrereq = (PromotionTypes)kEquipment.getPrereqPromotion();
+		if (ePrereq == NO_PROMOTION)
+		{
+			return false;
+		}
+	}
+	{
+		EquipmentTypes const ePrereq = (EquipmentTypes)kEquipment.getPrereqEquipment();
+		if (ePrereq == NO_EQUIPMENT)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+
+bool CvUnit::canAcquireEquipmentAny() const
+{
+	FOR_EACH_ENUM(Equipment)
+	{
+		if (canAcquireEquipment(eLoopEquipment))
+			return true;
+	}
+	return false;
+}
+
+
+void CvUnit::setHasEquipment(EquipmentTypes eEquipment, bool bNewValue)
+{
+	if (isHasEquipment(eEquipment) == bNewValue)
+		return;
+
+	m_abHasEquipment.set(eEquipment, bNewValue);
+	
+	int iChange = (isHasEquipment(eEquipment) ? 1 : -1);
+	
+	CvEquipmentInfo const& kEquipment = GC.getInfo(eEquipment);
+	FOR_EACH_ENUM(Promotion)
+	{
+		if (bNewValue)
+		{
+			PromotionChangeTypes eChange = kEquipment.getEquipmentGainPromotionChangeType(eLoopPromotion);
+			if (eChange != NO_PROMOTION_CHANGE)
+			{
+				if (eChange == PROMOTION_CHANGE_ADD || eChange == PROMOTION_CHANGE_ADD_TIMED)
+				{
+					setHasPromotion(eLoopPromotion, bNewValue);
+				}
+				else if (eChange == PROMOTION_CHANGE_REMOVE || eChange == PROMOTION_CHANGE_REMOVE_TIMED)
+				{
+					setHasPromotion(eLoopPromotion, !bNewValue);
+				}
+			}
+		}
+		else 
+		{
+			PromotionChangeTypes eChange = kEquipment.getEquipmentLossPromotionChangeType(eLoopPromotion);
+			if (eChange != NO_PROMOTION_CHANGE)
+			{
+				if (eChange == PROMOTION_CHANGE_ADD || eChange == PROMOTION_CHANGE_ADD_TIMED)
+				{
+					setHasPromotion(eLoopPromotion, !bNewValue);
+					
+				}
+				else if (eChange == PROMOTION_CHANGE_REMOVE || eChange == PROMOTION_CHANGE_REMOVE_TIMED)
+				{
+					setHasPromotion(eLoopPromotion, bNewValue);
+					
+				}
+			}
+		}
+	}
+
+	if (IsSelected())
+	{
+		gDLL->UI().setDirty(SelectionButtons_DIRTY_BIT, true);
+		gDLL->UI().setDirty(InfoPane_DIRTY_BIT, true);
+	}
+
+	//update graphics
+	gDLL->getEntityIFace()->updatePromotionLayers(getEntity());
+}
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+
+
 int CvUnit::getSubUnitCount() const
 {
 	return m_pUnitInfo->getGroupSize();

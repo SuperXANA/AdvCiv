@@ -160,6 +160,10 @@ m_piUnitGroupRequired(NULL),
 m_pbTerrainNative(NULL),
 m_pbFeatureNative(NULL),
 m_pbFreePromotions(NULL),
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+m_iBaseEquipmentClass(NO_EQUIPMENT_CLASS),
+m_pbFreeEquipments(NULL),
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 m_paszEarlyArtDefineTags(NULL),
 m_paszLateArtDefineTags(NULL),
 m_paszMiddleArtDefineTags(NULL),
@@ -203,6 +207,9 @@ CvUnitInfo::~CvUnitInfo()
 	SAFE_DELETE_ARRAY(m_pbTerrainNative);
 	SAFE_DELETE_ARRAY(m_pbFeatureNative);
 	SAFE_DELETE_ARRAY(m_pbFreePromotions);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_pbFreeEquipments);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	SAFE_DELETE_ARRAY(m_paszEarlyArtDefineTags);
 	SAFE_DELETE_ARRAY(m_paszLateArtDefineTags);
 	SAFE_DELETE_ARRAY(m_paszMiddleArtDefineTags);
@@ -535,6 +542,14 @@ bool CvUnitInfo::getFreePromotions(int i) const
 	return m_pbFreePromotions ? m_pbFreePromotions[i] : false;
 }
 
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+bool CvUnitInfo::getFreeEquipments(int i) const
+{
+	FAssertBounds(0, GC.getNumEquipmentInfos(), i);
+	return m_pbFreeEquipments ? m_pbFreeEquipments[i] : false;
+}
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+
 int CvUnitInfo::getLeaderPromotion() const
 {
 	return m_iLeaderPromotion;
@@ -629,6 +644,87 @@ bool CvUnitInfo::isPromotionValid(PromotionTypes ePromotion, bool bLeader) const
 
 	return true;
 }
+
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+bool CvUnitInfo::isEquipmentValid(EquipmentTypes eEquipment, bool bLeader) const
+{
+	CvEquipmentInfo& kEquipment = GC.getInfo(eEquipment);
+
+	if (getFreeEquipments(eEquipment))
+		return true;
+
+	if (getUnitCombatType() == NO_UNITCOMBAT)
+		return false;
+
+	if (kEquipment.isOnlyOffensive()
+	{
+		if (m_iBaseEquipmentClass == NO_EQUIPMENT_CLASS)
+		{
+			return false;
+		}
+		else if (kEquipment.getEquipmentClass() != m_iBaseEquipmentClass)
+		{
+			return false;
+		}
+	}
+
+	if (!bLeader && kEquipment.isLeader())
+		return false;
+
+	if (!kEquipment.getUnitCombat(getUnitCombatType()))
+		return false;
+
+	if (kEquipment.getPrereqPromotion() != NO_PROMOTION &&
+		!isPromotionValid((PromotionTypes)kPromotion.getPrereqPromotion(), bLeader))
+	{
+		return false;
+	}
+
+	{
+		PromotionTypes ePrereq1 = (PromotionTypes)kPromotion.getPrereqOrPromotion1();
+		PromotionTypes ePrereq2 = (PromotionTypes)kPromotion.getPrereqOrPromotion2();
+		PromotionTypes ePrereq3 = (PromotionTypes)kPromotion.getPrereqOrPromotion3();
+		if (ePrereq1 != NO_PROMOTION || ePrereq2 != NO_PROMOTION || ePrereq3 != NO_PROMOTION)
+		{
+			bool bValid = false;
+			if (ePrereq1 != NO_PROMOTION && isPromotionValid(ePrereq1, bLeader))
+				bValid = true;
+			if (ePrereq2 != NO_PROMOTION && isPromotionValid(ePrereq2, bLeader))
+				bValid = true;
+			if (ePrereq3 != NO_PROMOTION && isPromotionValid(ePrereq3, bLeader))
+				bValid = true;
+			if (!bValid)
+				return false;
+		}
+		
+		if (kEquipment.getPrereqEquipment() != NO_EQUIPMENT &&
+			!isEquipmentValid((EquipmentTypes)kPromotion.getPrereqEquipment(), bLeader))
+		{
+			return false;
+		}
+	}
+
+	{
+		EquipmentTypes ePrereq1 = (EquipmentTypes)kPromotion.getPrereqOrEquipment1();
+		EquipmentTypes ePrereq2 = (EquipmentTypes)kPromotion.getPrereqOrEquipment2();
+		EquipmentTypes ePrereq3 = (EquipmentTypes)kPromotion.getPrereqOrEquipment3();
+		if (ePrereq1 != NO_PROMOTION || ePrereq2 != NO_PROMOTION || ePrereq3 != NO_PROMOTION)
+		{
+			bool bValid = false;
+			if (ePrereq1 != NO_EQUIPMENT && isEquipmentValid(ePrereq1, bLeader))
+				bValid = true;
+			if (ePrereq2 != NO_EQUIPMENT && isEquipmentValid(ePrereq2, bLeader))
+				bValid = true;
+			if (ePrereq3 != NO_EQUIPMENT && isEquipmentValid(ePrereq3, bLeader))
+				bValid = true;
+			if (!bValid)
+				return false;
+		}
+	}
+
+	return true;
+}
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 const TCHAR* CvUnitInfo::getEarlyArtDefineTag(int i, UnitArtStyleTypes eStyle) const
 {
@@ -1000,6 +1096,12 @@ void CvUnitInfo::read(FDataStreamBase* stream)
 	m_paszUnitNames = new CvString[m_iNumUnitNames];
 	stream->ReadString(m_iNumUnitNames, m_paszUnitNames);
 	stream->ReadString(m_szFormationType);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_pbFreeEquipments);
+	m_pbFreeEquipments = new bool[GC.getNumEquipmentInfos()];
+	stream->Read(GC.getNumEquipmentInfos(), m_pbFreeEquipments);
+	stream->Read(&m_iBaseEquipmentClass);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	updateArtDefineButton();
 }
 
@@ -1186,6 +1288,10 @@ void CvUnitInfo::write(FDataStreamBase* stream)
 	stream->WriteString(m_iGroupDefinitions, m_paszMiddleArtDefineTags);
 	stream->WriteString(m_iNumUnitNames, m_paszUnitNames);
 	stream->WriteString(m_szFormationType);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	stream->Write(GC.getNumEquipmentInfos(), m_pbFreeEquipments);
+	stream->Write(m_iBaseEquipmentClass);
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 }
 #endif
 
@@ -1517,6 +1623,11 @@ bool CvUnitInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetInfoIDFromChildXmlVal(m_iLeaderPromotion, "LeaderPromotion");
 
 	pXML->GetChildXmlValByName(&m_iLeaderExperience, "iLeaderExperience");
+	
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	pXML->SetInfoIDFromChildXmlVal(m_iBaseEquipmentClass, "EquipmentClass");
+	pXML->SetVariableListTagPair(&m_pbFreeEquipments, "FreeEquipments", GC.getNumEquipmentInfos());
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	updateArtDefineButton();
 
@@ -2563,6 +2674,8 @@ bool CvEspionageMissionInfo::read(CvXMLLoadUtility* pXML)
 
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 CvEquipmentInfo::CvEquipmentInfo() : 
+m_iEquipmentClass(NO_EQUIPMENT_CLASS),
+m_bOnlyOffensive(true),
 m_pasPromotionChanges(NULL)
 {}
 
@@ -2597,6 +2710,9 @@ bool CvEquipmentInfo::read(CvXMLLoadUtility* pXML)
 	if (!base_t::read(pXML))
 		return false;
 
+	pXML->SetInfoIDFromChildXmlVal(m_iEquipmentClass, "EquipmentClass");
+	pXML->GetChildXmlValByName(&m_bOnlyOffensive, "bOnlyOffensive");
+
 	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "PromotionChangesOnEquipmentGain"))
 	{
 		if (pXML->SkipToNextVal())
@@ -2619,22 +2735,22 @@ bool CvEquipmentInfo::read(CvXMLLoadUtility* pXML)
 								{
 									CvString szActionType;
 									pXML->getNextXmlVal(szActionType);
-									if (szActionType == "PROMOTIONCHANGES_ADD")
+									if (szActionType == "PROMOTION_CHANGE_ADD")
 									{
-										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTIONCHANGES_ADD;
+										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTION_CHANGE_ADD;
 									}
-									else if (szActionType == "PROMOTIONCHANGES_ADD_TIMED")
+									else if (szActionType == "PROMOTION_CHANGE_ADD_TIMED")
 									{
-										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTIONCHANGES_ADD_TIMED;
+										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTION_CHANGE_ADD_TIMED;
 										pXML->getNextXmlVal(m_pasPromotionChangesOnGain[ePromotion].iTurnsUntilChange);
 									}
-									else if (szActionType == "PROMOTIONCHANGES_REMOVE")
+									else if (szActionType == "PROMOTION_CHANGE_REMOVE")
 									{
-										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTIONCHANGES_REMOVE;
+										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTION_CHANGE_REMOVE;
 									}
-									else if (szActionType == "PROMOTIONCHANGES_REMOVE_TIMED")
+									else if (szActionType == "PROMOTION_CHANGE_REMOVE_TIMED")
 									{
-										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTIONCHANGES_REMOVE_TIMED;
+										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTION_CHANGE_REMOVE_TIMED;
 										pXML->getNextXmlVal(m_pasPromotionChangesOnGain[ePromotion].iTurnsUntilChange);
 									}
 									gDLL->getXMLIFace()->SetToParent(pXML->GetXML());

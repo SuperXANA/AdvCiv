@@ -719,6 +719,7 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	// XANA (note): Defining the equipment pieces that Promotions would require a Unit to have so that the Promotion can be granted/taken away/rendered permanent etc.
 	FOR_EACH_ENUM(Promotion)
 		GC.getInfo(eLoopPromotion).readPass3();
+// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paUnitInfo, "CIV4UnitInfos", "Units", "Civ4UnitInfos/UnitInfos/UnitInfo", false, &CvDLLUtilityIFaceBase::createUnitInfoCacheObject);
 	FOR_EACH_ENUM(UnitClass)
 		GC.getInfo(eLoopUnitClass).readPass3();
