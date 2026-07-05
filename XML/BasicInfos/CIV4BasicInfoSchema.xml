@@ -144,16 +144,16 @@
 	</ElementType>
 	<!-- XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv -->
 	<ElementType name="iUnitLevelRequired" content="textOnly" dt:type="int"/>
-	<ElementType name="EquipmentLevelInfo" content="eltOnly">
+	<ElementType name="CharacterLevelInfo" content="eltOnly">
 		<element type="Type"/>
 		<element type="Description"/>
 		<element type="iUnitLevelRequired" minOccurs="0"/>
 	</ElementType>
-	<ElementType name="EquipmentLevelInfos" content="eltOnly">
-		<element type="EquipmentLevelInfo" maxOccurs="*"/>
+	<ElementType name="CharacterLevelInfos" content="eltOnly">
+		<element type="CharacterLevelInfo" maxOccurs="*"/>
 	</ElementType>
-	<ElementType name="Civ4EquipmentLevelInfos" content="eltOnly">
-		<element type="EquipmentLevelInfos" minOccurs="0" maxOccurs="*"/>
+	<ElementType name="Civ4CharacterLevelInfos" content="eltOnly">
+		<element type="CharacterLevelInfos" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
 	<ElementType name="EquipmentHoldClassInfo" content="eltOnly">
 		<element type="Type"/>

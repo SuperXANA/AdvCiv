@@ -149,7 +149,7 @@
 	DO(UnitAI, UNITAI) \
 	DO(Denial, DENIAL) \
 	/* XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv */ \
-	DO(EquipmentLevel, EQUIPMENT_LEVEL)
+	DO(CharacterLevel, CHARACTER_LEVEL)
 	// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 #define DO_FOR_EACH_INFO_TYPE(DO) \

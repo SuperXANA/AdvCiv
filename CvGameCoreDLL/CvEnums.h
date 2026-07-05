@@ -2355,7 +2355,7 @@ ENUM_END(CityPlot, CITYPLOT)
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 /*
 Notes: Based on Fire Emblem's concept of weapon levels.
-1) A piece of equipment if assigned to NO_EQUIPMENT_LEVEL [-1], means that it can be used by anyone.
+1) A piece of equipment if assigned to NO_CHARACTER_LEVEL [-1], means that it can be used by anyone.
 
 2) A piece of equipment assigned to PRF level means that it's a preferred or unique weapon
 that can only be used by either a Unit possessing a specific magical enchantment or a summonable Hero/Mythical Unit (typically created once per game but can be resummoned if a Player possess a certain Building).
@@ -2369,22 +2369,22 @@ to a specific named character that is a once-per-game buildable Immortal Leader.
 5) Units can only wield equipment pieces valid for their combat type -- Example: Archers can only wield Bows.
 All Units start with no Equipment Level, indicating that they're untrained and must promote upwards, and come with a basic weapon variant (ex. a generic Bow, Sword, Spear, etc.).
 */
-ENUM_START(EquipmentLevel, EQUIPMENT_LEVEL)
-	EQUIPMENT_LEVEL_E,
-	EQUIPMENT_LEVEL_E_PLUS,
-	EQUIPMENT_LEVEL_D,
-	EQUIPMENT_LEVEL_D_PLUS,
-	EQUIPMENT_LEVEL_C,
-	EQUIPMENT_LEVEL_C_PLUS,
-	EQUIPMENT_LEVEL_B,
-	EQUIPMENT_LEVEL_B_PLUS,
-	EQUIPMENT_LEVEL_A,
-	EQUIPMENT_LEVEL_A_PLUS,
-	EQUIPMENT_LEVEL_S,
-	EQUIPMENT_LEVEL_S_PLUS,
-	EQUIPMENT_LEVEL_PRF,
-	EQUIPMENT_LEVEL_PRF_PLUS,
-ENUM_END(EquipmentLevel, EQUIPMENT_LEVEL)
+ENUM_START(CharacterLevel, CHARACTER_LEVEL)
+	CHARACTER_LEVEL_E,
+	CHARACTER_LEVEL_E_PLUS,
+	CHARACTER_LEVEL_D,
+	CHARACTER_LEVEL_D_PLUS,
+	CHARACTER_LEVEL_C,
+	CHARACTER_LEVEL_C_PLUS,
+	CHARACTER_LEVEL_B,
+	CHARACTER_LEVEL_B_PLUS,
+	CHARACTER_LEVEL_A,
+	CHARACTER_LEVEL_A_PLUS,
+	CHARACTER_LEVEL_S,
+	CHARACTER_LEVEL_S_PLUS,
+	CHARACTER_LEVEL_PRF,
+	CHARACTER_LEVEL_PRF_PLUS,
+ENUM_END(CharacterLevel, CHARACTER_LEVEL)
 
 ENUM_START(PromotionChange, PROMOTION_CHANGE)
 	PROMOTION_CHANGE_ADD,
