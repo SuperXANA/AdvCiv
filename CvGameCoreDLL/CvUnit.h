@@ -1200,10 +1200,10 @@ protected:
 		the total size of this class in half. */
 	CvWString m_szName;
 	CvString m_szScriptData;
-// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	MagicClassTypes m_eCombatMark;
 	MagicClassTypes m_eResistMark;
-// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 	// <advc.enum>
 	ArrayEnumMap<PromotionTypes,bool> m_abHasPromotion;
@@ -1265,10 +1265,12 @@ protected:
 	void changeDamageTypeResist(DamageTypes eIndex, int iChange);
 	void setDamageTypeResist(DamageTypes eIndex, int iValue);
 	int calculateTotalDamageTypeCombat() const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	void setCombatCutieMark(MagicClassTypes eMark);
 	void setResistCutieMark(MagicClassTypes eMark);
 	void initMagicCapabilities();
-// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 // <advc.003u>
 private:
 	void uninitEntity(); // I don't think subclasses should ever call this

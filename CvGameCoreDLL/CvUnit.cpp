@@ -10668,7 +10668,8 @@ void CvUnit::initMagicCapabilities()
 							}
 						}
 						if (bCombatMagicEvaluated && bResistMagicEvaluated)
-						{	bInitComplete = true;
+						{
+							bInitComplete = true;
 							break;
 						}
 					}
