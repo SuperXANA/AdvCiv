@@ -346,6 +346,9 @@ void CvUnit::finalizeInit() // advc.003u: Body cut from init
 		GC.getGame().addReplayMessage(getPlot(), REPLAY_MESSAGE_MAJOR_EVENT,
 				kOwner.getID(), szBuffer, GC.getColorType("UNIT_TEXT"));
 	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	initMagicCapabilities();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	CvEventReporter::getInstance().unitCreated(this);
 }
@@ -10522,7 +10525,7 @@ int CvUnit::getSubUnitsAlive(int iDamage) const
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 int CvUnit::getDamageTypeCombat(DamageTypes eIndex) const
 { 
-	return m_aiDamageTypeCombat.get(eIndex); 
+	return m_aiDamageTypeCombat.get(eIndex) + m_pUnitInfo->getDamageTypeCombat(eIndex); 
 }
 
 void CvUnit::changeDamageTypeCombat(DamageTypes eIndex, int iChange)
@@ -10549,7 +10552,7 @@ void CvUnit::setDamageTypeCombat(DamageTypes eIndex, int iValue)
 
 int CvUnit::getDamageTypeResist(DamageTypes eIndex) const
 {
-	return m_aiDamageTypeResist.get(eIndex); 
+	return m_aiDamageTypeResist.get(eIndex) + m_pUnitInfo->getDamageTypeResist(eIndex); 
 }
 
 void CvUnit::changeDamageTypeResist(DamageTypes eIndex, int iChange)
@@ -10582,6 +10585,133 @@ int CvUnit::calculateTotalDamageTypeCombat() const
 	return iMagicPower;
 }
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+void CvUnit::setCombatCutieMark(MagicClassTypes eMark)
+{
+	if (eMark == NO_MAGIC_CLASS)
+		return;
+	m_eCombatMark = eMark;
+}
+
+void CvUnit::setResistCutieMark(MagicClassTypes eMark)
+{
+	if (eMark == NO_MAGIC_CLASS)
+		return;
+	m_eResistMark = eMark;
+}
+
+void CvUnit::initMagicCapabilities()
+{
+	MagicClassTypes eBestCombatClass = NO_MAGIC_CLASS;
+	MagicClassTypes eBestResistClass = NO_MAGIC_CLASS;
+	int iTotalWeight = 0;
+	std::vector<int> aiWeights(GC.getNumMagicClassInfos(), 0);
+	{
+		CvPlot const& kPlot = getPlot();
+		CvPlayer const& kPlayer = GET_PLAYER(getOwner());
+		FOR_EACH_ENUM(MagicClass)
+		{
+			CvMagicClassInfo const& kLoopClass = GC.getInfo(eLoopMagicClass);
+			if (kLoopClass.isRequiredCivilization(kPlayer.getCivilizationType()) /* XANA (note): defaults to true if prereq is not assigned in XML */ &&
+				kLoopClass.isRequiredLeader(kPlayer.getLeaderType()) /* XANA (note): defaults to true if prereq is not assigned in XML */)
+			{
+				if (kLoopClass.get(CvMagicClassInfo::CAN_ATTACK_WITH_MAGIC))
+				{
+					aiWeights[eLoopMagicClass] += kPlot.getMagicClassCombatPoints(eLoopMagicClass) + kPlayer.getMagicClassCombatPoints(eLoopMagicClass);
+				}
+				if (kLoopClass.get(CvMagicClassInfo::CAN_DEFEND_WITH_MAGIC))
+				{
+					aiWeights[eLoopMagicClass] += kPlot.getMagicClassResistPoints(eLoopMagicClass) + kPlayer.getMagicClassResistPoints(eLoopMagicClass);
+				}
+				
+				if (aiWeights[eLoopMagicClass] > 0)
+				{
+					iTotalWeight += aiWeights[eLoopMagicClass];
+				}
+				else
+				{
+					aiWeights[eLoopMagicClass] = 0;
+				}
+			}
+		}
+	}
+	if (iTotalWeight > 0)
+	{
+		bool bCombatMagicEvaluated = false;
+		bool bResistMagicEvaluated = false;
+		int iCombatMagicDiceRoll = SyncRandNum(iTotalWeight);
+		int iResistMagicDiceRoll = SyncRandNum(iTotalWeight);
+		FOR_EACH_ENUM(MagicClass)
+		{
+			if (aiWeights[eLoopMagicClass] > 0)
+			{
+				if (!bCombatMagicEvaluated)
+				{
+					iCombatMagicDiceRoll -= aiWeights[eLoopMagicClass];
+					if (iDiceRoll < 0)
+					{
+						eBestCombatClass = eLoopMagicClass;
+						bCombatMagicEvaluated = true;
+					}
+				}
+				if (!bResistMagicEvaluated)
+				{
+					iResistMagicDiceRoll -= aiWeights[eLoopMagicClass];
+					if (iDiceRoll < 0)
+					{
+						eBestResistClass = eLoopMagicClass;
+						bResistMagicEvaluated = true;
+					}
+				}
+				if (bCombatMagicEvaluated && bResistMagicEvaluated)
+					break;
+			}
+		}
+		setCombatCutieMark(eBestCombatClass);
+		setResistCutieMark(eBestResistClass);
+		
+		/* XANA (note):
+		The damage type system is surely useful.
+		However we need to discover a better way to handle magical potency.
+		
+		My take is that Units can have magical powers, aka these Marks,
+		which cause them to give or take more/less damage.
+		+100% is the highest modiifer and -100% is the lowest modifier.
+		Actual modifier values should be fixed point scaled numbers
+		starting at +/- 1%, and terrain should be part of the evaluation.
+		The local plot that the unit is standing on
+		could potentially, automatically, reduce or increase
+		the unit's magical potency (e.g. an Ice terrain would make Fire wielders
+		less effective).
+		
+		This would be used in combat damage as part of resolution, and
+		enhanced affinity would not be based around the all-knowing unit
+		knowing about how many bonuses that a player has at any time.
+		Instead it should refer back to the local terrain, mana nodes, and
+		other units in a group/party with the same magical class capability.
+		
+		Also, it should be the rare case where we'd need to include 
+		base +/- X attack power for units, likely for magical classes
+		like Death or Fire spells.
+		The idea is for promotions and the mark of history
+		to affect the magical potency of the unit rather than a flat boost
+		from the unit's XML data that applies all the time.
+		In my opinion basic strength boost doesn't lead itself well for the AI
+		in tatics or evaluation of combat potential on various plot types. */
+		if (eBestCombatClass != NO_MAGIC_CLASS &&
+			GC.getInfo(eBestCombatClass).getDamageType() != NO_DAMAGE)
+		{
+			changeDamageTypeCombat(GC.getInfo(eBestCombatClass).getDamageType(), 1);
+		}
+		if (eBestResistClass != NO_MAGIC_CLASS &&
+			GC.getInfo(eBestResistClass).getDamageType() != NO_DAMAGE)
+		{
+			changeDamageTypeResist(GC.getInfo(eBestResistClass).getDamageType(), 1);
+		}
+	}
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 
 void CvUnit::read(FDataStreamBase* pStream)

@@ -10613,13 +10613,15 @@ void CvPlayer::decayMagicClassPoints()
 		if (getMagicClassCombatPoints(eLoopMagicClass) != getMagicClassCombatBasePoints(eLoopMagicClass))
 		{
 			int const iDelta = (getMagicClassCombatPoints(eLoopMagicClass) - getMagicClassCombatBasePoints(eLoopMagicClass));
-			int const iChange = ((fixp((iDelta * iDelta) / 800)).clamp(1, std::abs(iDelta))).round();
+			int const iAbsDelta = std::abs(iDelta);
+			int const iChange = scaled(iAbsDelta / 800, iAbsDelta).clamp(1, iAbsDelta).round();
 			changeMagicClassCombatPoints(eLoopMagicClass, ((iDelta > 0) ? -iChange : iChange));
 		}
 		if (getMagicClassResistPoints(eLoopMagicClass) != getMagicClassResistBasePoints(eLoopMagicClass))
 		{
 			int const iDelta = (getMagicClassResistPoints(eLoopMagicClass) - getMagicClassResistBasePoints(eLoopMagicClass));
-			int const iChange = ((fixp((iDelta * iDelta) / 800)).clamp(1, std::abs(iDelta))).round();
+			int const iAbsDelta = std::abs(iDelta);
+			int const iChange = scaled(iAbsDelta / 800, iAbsDelta).clamp(1, iAbsDelta).round();
 			changeMagicClassResistPoints(eLoopMagicClass, ((iDelta > 0) ? -iChange : iChange));
 		}
 	}

@@ -1076,6 +1076,10 @@ public:
 	bool LFBisBetterDefenderThan(const CvUnit* pDefender, const CvUnit* pAttacker, int* pBestDefenderRank) const;
 	// (advc: LFBgetDefenderCombatOdds deleted, use 1000 minus calculateCombatOdds instead.)
 	// Lead From Behind: END
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	MagicClassTypes getCombatCutieMark() const { return m_eCombatMark; }
+	MagicClassTypes getResistCutieMark() const { return m_eResistMark; }
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 	// <advc.003u>
 	// virtual for FFreeListTrashArray
@@ -1196,6 +1200,10 @@ protected:
 		the total size of this class in half. */
 	CvWString m_szName;
 	CvString m_szScriptData;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	MagicClassTypes m_eCombatMark;
+	MagicClassTypes m_eResistMark;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	// <advc.enum>
 	ArrayEnumMap<PromotionTypes,bool> m_abHasPromotion;
@@ -1257,6 +1265,9 @@ protected:
 	void changeDamageTypeResist(DamageTypes eIndex, int iChange);
 	void setDamageTypeResist(DamageTypes eIndex, int iValue);
 	int calculateTotalDamageTypeCombat() const;
+	void setCombatCutieMark(MagicClassTypes eMark);
+	void setResistCutieMark(MagicClassTypes eMark);
+	void initMagicCapabilities();
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 // <advc.003u>
 private:
