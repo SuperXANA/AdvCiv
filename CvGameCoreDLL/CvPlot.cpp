@@ -2075,24 +2075,35 @@ void CvPlot::changeMagicClassResistPoints(MagicClassTypes eClass, int iChange)
 
 void CvPlot::decayMagicClassPoints()
 {
-	for (SquareIter itPlot(*this, 1); itPlot.hasNext(); itPlot++)
+	int iNumNeighbors = 0;
+	FOR_EACH_ADJ_PLOT(*this)
 	{
-		CvPlot& kAdjPlot = *itPlot;
-		FOR_EACH_ENUM(MagicClass)
+		iNumNeighbors++;
+	}
+	if (iNumNeighbors > 0)
+	{
+		FOR_EACH_ADJ_PLOT(*this)
 		{
-			if (!GC.getInfo(eLoopMagicClass).get(CvMagicClassInfo::DOES_NOT_DISPERSE_TO_NEARBY_PLOTS))
+			FOR_EACH_ENUM(MagicClass)
 			{
-				int iSpellCombatPoints = getMagicClassCombatPoints(eLoopMagicClass) / 3;
-				if (iSpellCombatPoints > 0)
+				if (!GC.getInfo(eLoopMagicClass).get(CvMagicClassInfo::DOES_NOT_DISPERSE_TO_NEARBY_PLOTS))
 				{
-					kAdjPlot.changeMagicClassCombatPoints(eLoopMagicClass, iSpellCombatPoints);
-					changeMagicClassCombatPoints(eLoopMagicClass, -iSpellCombatPoints);
-				}
-				int iSpellResistPoints = getMagicClassResistPoints(eLoopMagicClass) / 3;
-				if (iSpellResistPoints > 0)
-				{
-					kAdjPlot.changeMagicClassResistPoints(eLoopMagicClass, iSpellResistPoints);
-					changeMagicClassResistPoints(eLoopMagicClass, -iSpellResistPoints);
+					{
+						int const iTotalDiffusion = getMagicClassCombatPoints(eLoopMagicClass) / 3;
+						if (iTotalDiffusion != 0)
+						{
+							pAdj->changeMagicClassCombatPoints(eLoopMagicClass, (iTotalDiffusion / iNumNeighbors));
+							changeMagicClassCombatPoints(eLoopMagicClass, -iTotalDiffusion);
+						}
+					}
+					{
+						int const iTotalDiffusion = getMagicClassResistPoints(eLoopMagicClass) / 3;
+						if (iTotalDiffusion != 0)
+						{
+							pAdj->changeMagicClassResistPoints(eLoopMagicClass, (iTotalDiffusion / iNumNeighbors));
+							changeMagicClassResistPoints(eLoopMagicClass, -iTotalDiffusion);
+						}
+					}
 				}
 			}
 		}
