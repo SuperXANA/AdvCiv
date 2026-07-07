@@ -1267,6 +1267,13 @@ protected:
 	int calculateTotalDamageTypeCombat() const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 // XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	enum CombatResultTypes
+	{
+		COMBAT_RESULT_ATTACKER_VICTORY,
+		COMBAT_RESULT_DEFENDER_VICTORY,
+		COMBAT_RESULT_BOTH_WITHDRAW
+	};
+	void updateMagicWeights(CvUnit& kDefender, CombatResultTypes eResult);
 	void setCombatCutieMark(MagicClassTypes eMark);
 	void setResistCutieMark(MagicClassTypes eMark);
 	void initMagicCapabilities();

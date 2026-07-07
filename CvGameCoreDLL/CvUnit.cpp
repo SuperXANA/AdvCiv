@@ -1492,6 +1492,10 @@ void CvUnit::updateCombat(bool bQuick, /* <advc.004c> */ bool* pbIntercepted,
 	PlayerTypes const ePlotOwner = pPlot->getOwner(); // advc.130m
 	if (isDead())
 	{
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		updateMagicWeights(*pDefender, COMBAT_RESULT_DEFENDER_VICTORY);
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		
 		if (isBarbarian())
 		{
 			GET_PLAYER(pDefender->getOwner()).changeWinsVsBarbs(1);
@@ -1548,6 +1552,10 @@ void CvUnit::updateCombat(bool bQuick, /* <advc.004c> */ bool* pbIntercepted,
 	}
 	else if (pDefender->isDead())
 	{
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		updateMagicWeights(*pDefender, COMBAT_RESULT_ATTACKER_VICTORY);
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		
 		if (pDefender->isBarbarian())
 		{
 			GET_PLAYER(getOwner()).changeWinsVsBarbs(1);
@@ -1639,6 +1647,10 @@ void CvUnit::updateCombat(bool bQuick, /* <advc.004c> */ bool* pbIntercepted,
 	}
 	else
 	{
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		updateMagicWeights(*pDefender, COMBAT_RESULT_BOTH_WITHDRAW);
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		
 		addWithdrawalMessages(*pDefender); // advc: Moved into new function
 		changeMoves(std::max(GC.getMOVE_DENOMINATOR(),
 				pPlot->movementCost(*this, getPlot())));
@@ -10587,6 +10599,53 @@ int CvUnit::calculateTotalDamageTypeCombat() const
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 // XANA: 03-28-2026 Magical Spell System for Advanced Civ
+void CvUnit::updateMagicWeights(CvUnit& kDefender, CombatResultTypes eResult)
+{
+	CvPlayer& kDefendingPlayer = GET_PLAYER(kDefender.getOwner());
+	CvPlayer& kAttackingPlayer = GET_PLAYER(getOwner());
+	MagicClassTypes const eCombatMarkDefender = kDefender.getCombatCutieMark();
+	MagicClassTypes const eResistMarkDefender = kDefender.getResistCutieMark();
+	MagicClassTypes const eCombatMarkAttacker = getCombatCutieMark();
+	MagicClassTypes const eResistMarkAttacker = getResistCutieMark();
+	if (eResult == COMBAT_RESULT_DEFENDER_VICTORY)
+	{
+		// Defender Wins: Boosts own affinity, penalizes attacker's affinity
+		kDefendingPlayer.changeMagicClassCombatPoints(eCombatMarkDefender, 4);
+		kDefendingPlayer.changeMagicClassResistPoints(eResistMarkDefender, 4);
+		kDefendingPlayer.changeMagicClassCombatPoints(eCombatMarkAttacker, -3);
+		kDefendingPlayer.changeMagicClassResistPoints(eResistMarkAttacker, -3);
+		
+		// Attacker Loses: Penalizes own affinity, learns opponent's affinity is strong
+		kAttackingPlayer.changeMagicClassCombatPoints(eCombatMarkAttacker, -4);
+		kAttackingPlayer.changeMagicClassResistPoints(eResistMarkAttacker, -4);
+		kAttackingPlayer.changeMagicClassCombatPoints(eCombatMarkDefender, 3);
+		kAttackingPlayer.changeMagicClassResistPoints(eResistMarkDefender, 3);
+	}
+	else if (eResult == COMBAT_RESULT_ATTACKER_VICTORY)
+	{
+		// Attacker Wins: Boosts own affinity, penalizes defender's affinity
+		kAttackingPlayer.changeMagicClassCombatPoints(eCombatMarkAttacker, 4);
+		kAttackingPlayer.changeMagicClassResistPoints(eResistMarkAttacker, 4);
+		kAttackingPlayer.changeMagicClassCombatPoints(eCombatMarkDefender, -3);
+		kAttackingPlayer.changeMagicClassResistPoints(eResistMarkDefender, -3);
+		
+		// Defender Loses: Penalizes own affinity, learns opponent's affinity is strong
+		kDefendingPlayer.changeMagicClassCombatPoints(eCombatMarkDefender, -4);
+		kDefendingPlayer.changeMagicClassResistPoints(eResistMarkDefender, -4);
+		kDefendingPlayer.changeMagicClassCombatPoints(eCombatMarkAttacker, 3);
+		kDefendingPlayer.changeMagicClassResistPoints(eResistMarkAttacker, 3);
+	}
+	else if (eResult == COMBAT_RESULT_BOTH_WITHDRAW)
+	{
+		// Draw/Withdraw: Both sides survive; minor adjustments favoring defensive posture
+		kDefendingPlayer.changeMagicClassCombatPoints(eCombatMarkDefender, 1);
+		kDefendingPlayer.changeMagicClassResistPoints(eResistMarkDefender, 2);
+		
+		kAttackingPlayer.changeMagicClassCombatPoints(eCombatMarkAttacker, 1);
+		kAttackingPlayer.changeMagicClassResistPoints(eResistMarkAttacker, 2);
+	}
+}
+
 void CvUnit::setCombatCutieMark(MagicClassTypes eMark)
 {
 	if (eMark == NO_MAGIC_CLASS)
