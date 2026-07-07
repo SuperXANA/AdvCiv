@@ -10662,83 +10662,79 @@ void CvUnit::setResistCutieMark(MagicClassTypes eMark)
 
 void CvUnit::initMagicCapabilities()
 {
-	bool bInitComplete = false;
-	MagicClassTypes eBestCombatClass = NO_MAGIC_CLASS;
-	MagicClassTypes eBestResistClass = NO_MAGIC_CLASS;
+	CvPlot const& kPlot = getPlot();
+	CvPlayer const& kPlayer = GET_PLAYER(getOwner());
+	int const iNumMagicClasses = GC.getNumMagicClassInfos();
+	std::vector<int> aiCombatWeights(iNumMagicClasses, 0);
+	std::vector<int> aiResistWeights(iNumMagicClasses, 0);
+	int iTotalCombatWeight = 0;
+	int iTotalResistWeight = 0;
+	FOR_EACH_ENUM(MagicClass)
 	{
-		int iTotalWeight = 0;
+		CvMagicClassInfo const& kLoopClass = GC.getInfo(eLoopMagicClass);
+		if (kLoopClass.isRequiredCivilization(kPlayer.getCivilizationType()) &&
+			kLoopClass.isRequiredLeader(kPlayer.getLeaderType()))
 		{
-			std::vector<int> aiWeights(GC.getNumMagicClassInfos(), 0);
+			if (kLoopClass.get(CvMagicClassInfo::CAN_ATTACK_WITH_MAGIC))
 			{
-				CvPlot const& kPlot = getPlot();
-				CvPlayer const& kPlayer = GET_PLAYER(getOwner());
-				FOR_EACH_ENUM(MagicClass)
+				int iWeight = kPlot.getMagicClassCombatPoints(eLoopMagicClass) + kPlayer.getMagicClassCombatPoints(eLoopMagicClass);
+				if (iWeight > 0)
 				{
-					CvMagicClassInfo const& kLoopClass = GC.getInfo(eLoopMagicClass);
-					if (kLoopClass.isRequiredCivilization(kPlayer.getCivilizationType()) /* XANA (note): defaults to true if prereq is not assigned in XML */ &&
-						kLoopClass.isRequiredLeader(kPlayer.getLeaderType()) /* XANA (note): defaults to true if prereq is not assigned in XML */)
-					{
-						if (kLoopClass.get(CvMagicClassInfo::CAN_ATTACK_WITH_MAGIC))
-						{
-							aiWeights[eLoopMagicClass] += kPlot.getMagicClassCombatPoints(eLoopMagicClass) + kPlayer.getMagicClassCombatPoints(eLoopMagicClass);
-						}
-						if (kLoopClass.get(CvMagicClassInfo::CAN_DEFEND_WITH_MAGIC))
-						{
-							aiWeights[eLoopMagicClass] += kPlot.getMagicClassResistPoints(eLoopMagicClass) + kPlayer.getMagicClassResistPoints(eLoopMagicClass);
-						}
-						
-						if (aiWeights[eLoopMagicClass] > 0)
-						{
-							iTotalWeight += aiWeights[eLoopMagicClass];
-						}
-						else
-						{
-							aiWeights[eLoopMagicClass] = 0;
-						}
-					}
+					aiCombatWeights[eLoopMagicClass] = iWeight;
+					iTotalCombatWeight += iWeight;
 				}
 			}
-			if (iTotalWeight > 0)
+			if (kLoopClass.get(CvMagicClassInfo::CAN_DEFEND_WITH_MAGIC))
 			{
-				bool bCombatMagicEvaluated = false;
-				bool bResistMagicEvaluated = false;
-				int iCombatMagicDiceRoll = SyncRandNum(iTotalWeight);
-				int iResistMagicDiceRoll = SyncRandNum(iTotalWeight);
-				FOR_EACH_ENUM(MagicClass)
+				int iWeight = kPlot.getMagicClassResistPoints(eLoopMagicClass) + kPlayer.getMagicClassResistPoints(eLoopMagicClass);
+				if (iWeight > 0)
 				{
-					if (aiWeights[eLoopMagicClass] > 0)
-					{
-						if (!bCombatMagicEvaluated)
-						{
-							iCombatMagicDiceRoll -= aiWeights[eLoopMagicClass];
-							if (iCombatMagicDiceRoll < 0)
-							{
-								eBestCombatClass = eLoopMagicClass;
-								bCombatMagicEvaluated = true;
-							}
-						}
-						if (!bResistMagicEvaluated)
-						{
-							iResistMagicDiceRoll -= aiWeights[eLoopMagicClass];
-							if (iResistMagicDiceRoll < 0)
-							{
-								eBestResistClass = eLoopMagicClass;
-								bResistMagicEvaluated = true;
-							}
-						}
-						if (bCombatMagicEvaluated && bResistMagicEvaluated)
-						{
-							bInitComplete = true;
-							break;
-						}
-					}
+					aiResistWeights[eLoopMagicClass] = iWeight;
+					iTotalResistWeight += iWeight;
 				}
 			}
 		}
 	}
-	if (bInitComplete)
+	MagicClassTypes eBestCombatClass = NO_MAGIC_CLASS;
+	if (iTotalCombatWeight > 0)
+	{
+		int iCombatDiceRoll = SyncRandNum(iTotalCombatWeight);
+		FOR_EACH_ENUM(MagicClass)
+		{
+			if (aiCombatWeights[eLoopMagicClass] > 0)
+			{
+				iCombatDiceRoll -= aiCombatWeights[eLoopMagicClass];
+				if (iCombatDiceRoll < 0)
+				{
+					eBestCombatClass = eLoopMagicClass;
+					break;
+				}
+			}
+		}
+	}
+	MagicClassTypes eBestResistClass = NO_MAGIC_CLASS;
+	if (iTotalResistWeight > 0)
+	{
+		int iResistDiceRoll = SyncRandNum(iTotalResistWeight);
+		FOR_EACH_ENUM(MagicClass)
+		{
+			if (aiResistWeights[eLoopMagicClass] > 0)
+			{
+				iResistDiceRoll -= aiResistWeights[eLoopMagicClass];
+				if (iResistDiceRoll < 0)
+				{
+					eBestResistClass = eLoopMagicClass;
+					break;
+				}
+			}
+		}
+	}
+	if (eBestCombatClass != NO_MAGIC_CLASS)
 	{
 		setCombatCutieMark(eBestCombatClass);
+	}
+	if (eBestResistClass != NO_MAGIC_CLASS)
+	{
 		setResistCutieMark(eBestResistClass);
 	}
 }
