@@ -173,8 +173,12 @@ m_paszMiddleArtDefineTags(NULL),
 m_paszUnitNames(NULL),
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 m_piDamageTypeCombat(NULL),
-m_piDamageTypeResist(NULL)
+m_piDamageTypeResist(NULL),
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_iPrereqGlobalCounter(0),
+m_iGlobalCounterModifier(0)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 
@@ -1077,6 +1081,10 @@ void CvUnitInfo::read(FDataStreamBase* stream)
 	m_piDamageTypeResist = new int[GC.getNumDamageInfos()];
 	stream->Read(GC.getNumDamageInfos(), m_piDamageTypeResist);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Read(&m_iPrereqGlobalCounter);
+	stream->Read(&m_iGlobalCounterModifier);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 void CvUnitInfo::write(FDataStreamBase* stream)
@@ -1266,6 +1274,10 @@ void CvUnitInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumDamageInfos(), m_piDamageTypeCombat);
 	stream->Write(GC.getNumDamageInfos(), m_piDamageTypeResist);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Write(m_iPrereqGlobalCounter);
+	stream->Write(m_iGlobalCounterModifier);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 #endif
 
@@ -1652,6 +1664,10 @@ bool CvUnitInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_piDamageTypeCombat, "DamageTypeCombats", GC.getNumDamageInfos());
 	pXML->SetVariableListTagPair(&m_piDamageTypeResist, "DamageTypeResists", GC.getNumDamageInfos());
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iPrereqGlobalCounter, "iPrereqGlobalCounter");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifier, "iGlobalCounterModifier");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	return true;
 }
@@ -1951,8 +1967,16 @@ m_pbFeatureDoubleMove(NULL),
 m_pbUnitCombat(NULL),
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 m_piDamageTypeCombat(NULL),
-m_piDamageTypeResist(NULL)
+m_piDamageTypeResist(NULL),
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_iPrereqGlobalCounter(0),
+m_iGlobalCounterModifier(0),
+m_iGlobalCounterCombatPercent(0),
+m_iGlobalCounterModifierOnCombat(0),
+m_iGlobalCounterModifierOnCombatWon(0),
+m_iGlobalCounterModifierOnCombatLost(0)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 CvPromotionInfo::~CvPromotionInfo()
@@ -2354,6 +2378,14 @@ void CvPromotionInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_pbUnitCombat);
 	m_pbUnitCombat = new bool[GC.getNumUnitCombatInfos()];
 	stream->Read(GC.getNumUnitCombatInfos(), m_pbUnitCombat);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Read(&m_iPrereqGlobalCounter);
+	stream->Read(&m_iGlobalCounterModifier);
+	stream->Read(&m_iGlobalCounterCombatPercent);
+	stream->Read(&m_iGlobalCounterModifierOnCombat);
+	stream->Read(&m_iGlobalCounterModifierOnCombatWon);
+	stream->Read(&m_iGlobalCounterModifierOnCombatLost);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 void CvPromotionInfo::write(FDataStreamBase* stream)
@@ -2416,6 +2448,14 @@ void CvPromotionInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumTerrainInfos(), m_pbTerrainDoubleMove);
 	stream->Write(GC.getNumFeatureInfos(), m_pbFeatureDoubleMove);
 	stream->Write(GC.getNumUnitCombatInfos(), m_pbUnitCombat);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Write(m_iPrereqGlobalCounter);
+	stream->Write(m_iGlobalCounterModifier);
+	stream->Write(m_iGlobalCounterCombatPercent);
+	stream->Write(m_iGlobalCounterModifierOnCombat);
+	stream->Write(m_iGlobalCounterModifierOnCombatWon);
+	stream->Write(m_iGlobalCounterModifierOnCombatLost);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 #endif
 bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
@@ -2483,6 +2523,14 @@ bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_piDamageTypeCombat, "DamageTypeCombats", GC.getNumDamageInfos());
 	pXML->SetVariableListTagPair(&m_piDamageTypeResist, "DamageTypeResists", GC.getNumDamageInfos());
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iPrereqGlobalCounter, "iPrereqGlobalCounter");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifier, "iGlobalCounterModifier");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterCombatPercent, "iGlobalCounterCombatPercent");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifierOnCombat, "iGlobalCounterModifierOnCombat");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifierOnCombatWon, "iGlobalCounterModifierOnCombatWon");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifierOnCombatLost, "iGlobalCounterModifierOnCombatLost");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	return true;
 }

@@ -16,6 +16,9 @@
 #include "CvDLLSymbolIFaceBase.h"
 #include "CvDLLPlotBuilderIFaceBase.h"
 #include "CvDLLFlagEntityIFaceBase.h"
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+#include "MagicWeightMap.h"
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 /*	advc.make: I've added safeIntCast calls in a few places that looked at least
 	slightly hazardous. Beyond that, explicit casts would only add clutter.
@@ -77,6 +80,9 @@ CvPlot::CvPlot() // advc: Merged with the deleted reset function
 	m_iRiverCrossingCount = 0;
 	m_iLatitude = -1; // advc.tsl
 	m_iTotalCulture = 0; // advc.opt
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	m_iPlotCounter = 0;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	m_bStartingPlot = false;
 	m_bNOfRiver = false;
@@ -8585,3 +8591,68 @@ wchar const* CvPlot::debugStr() const
 		out << L" (" << GET_PLAYER(getOwner()).getCivilizationShortDescription() << L")";
 	return out.str().c_str();
 }
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+void CvPlot::changePlotCounter(int iChange)
+{
+	if (iChange != 0)
+	{
+		if (!GC.getGame().isGlobalCounterFrozen())
+		{
+			bool const bHeavenlyWorld = (iChange < 0 && m_iPlotCounter >= 0 && m_iPlotCounter + iChange <= 0); // XANA (note): Did iChange cause the plot counter to go negative?
+			bool const bHellishWorld = (iChange > 0 && m_iPlotCounter <= 0 && m_iPlotCounter + iChange >= 0); // XANA (note): Did iChange cause the plot counter to go positive?
+			
+			if ((m_iPlotCounter + iChange) > 100)
+			{
+				m_iPlotCounter = 100;
+			}
+			else if ((m_iPlotCounter + iChange) < -100)
+			{
+				m_iPlotCounter = -100;
+			}
+			else
+			{
+				m_iPlotCounter += iChange;
+			}
+			
+			GC.getGame().getMagicWeightMap().getActivityMap().setinfluencedPlot(this, iChange);
+			
+			if (!getArea().isMysticalThresholdFrozen())
+			{
+				const int eTerrain = getTerrainType();
+				CvTerrainInfo const& kTerrain = GC.getInfo(eTerrain);
+				bool bPlotWasAltered = false;
+				
+				if (m_iPlotCounter < 0 &&
+				m_iPlotCounter > kTerrain.getLightTerrainThreshold() &&
+				kTerrain.getLightTerrainType() != NO_TERRAIN &&
+				bHeavenlyWorld)
+				{
+					setTerrainType(kTerrain.getLightTerrainType(), true, true);
+					bPlotWasAltered = (getTerrainType() != eTerrain); // XANA (note): Only true if plot's terrain was different before being altered by magical forces.
+				}
+				
+				else if (m_iPlotCounter > 0 &&
+				m_iPlotCounter > kTerrain.getDarkTerrainThreshold() &&
+				kTerrain.getDarkTerrainType() != NO_TERRAIN &&
+				bHellishWorld)
+				{
+					setTerrainType(kTerrain.getDarkTerrainType(), true, true);
+					bPlotWasAltered = (getTerrainType() != eTerrain); // XANA (note): Only true if plot's terrain was different before being altered by magical forces.
+				}
+				
+				if (bPlotWasAltered)
+				{
+					if (getFeatureType() != NO_FEATURE)
+					{
+						if (!GC.getInfo(getFeatureType()).isTerrain(getTerrainType()))
+						{
+							setFeatureType(NO_FEATURE);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv

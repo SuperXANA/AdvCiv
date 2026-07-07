@@ -1464,6 +1464,10 @@ public:
 	DllExport bool hasSpaceshipArrived() const;
 	void announceGameNameChange(CvWString szOldName, CvWString szNewName); // advc.135c
 	bool showGoodyOnResourceLayer() const; // advc.004z
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	ProphecyTypes getProphecyFollowed() const;
+	void changeGlobalCounterContrib(int iChange);
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// <advc.003u>
 	CvPlayerAI& AI()
 	{	//return *static_cast<CvPlayerAI*>(const_cast<CvPlayer*>(this));

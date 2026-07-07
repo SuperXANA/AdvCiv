@@ -362,6 +362,10 @@ public: /*  All const functions are exposed to Python except some related to art
 	int getDamageTypeCombat(DamageTypes eDamage) const;
 	int getDamageTypeResist(DamageTypes eDamage) const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getPrereqGlobalCounter() const { return m_iPrereqGlobalCounter; }
+	int getGlobalCounterModifier() const { return m_iGlobalCounterModifier; }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	const CvArtInfoUnit* getArtInfo(int i, EraTypes eEra, UnitArtStyleTypes eStyle) const;
 	#if ENABLE_XML_FILE_CACHE
@@ -499,6 +503,10 @@ protected:
 	bool m_bAlwaysHostile;
 	bool m_bNoRevealMap;
 	int m_iLeaderPromotion;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iPrereqGlobalCounter;
+	int m_iGlobalCounterModifier;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	float m_fUnitMaxSpeed;
 	float m_fUnitPadTime;
@@ -697,6 +705,15 @@ public: // All the const functions are exposed to Python
 	int getDamageTypeCombat(DamageTypes eDamage) const;
 	int getDamageTypeResist(DamageTypes eDamage) const;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getPrereqGlobalCounter() const { return m_iPrereqGlobalCounter; }
+	int getGlobalCounterModifier() const { return m_iGlobalCounterModifier; }
+	int getGlobalCounterCombatPercent() const { return m_iGlobalCounterCombatPercent; }
+	int getGlobalCounterCombatStrength() const { return m_iGlobalCounterCombatPercent / 100; }
+	int getGlobalCounterModifierOnCombat() const { return m_iGlobalCounterModifierOnCombat; }
+	int getGlobalCounterModifierOnCombatWon() const { return m_iGlobalCounterModifierOnCombatWon; }
+	int getGlobalCounterModifierOnCombatLost() const { return m_iGlobalCounterModifierOnCombatLost; }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
 	void write(FDataStreamBase* stream);
@@ -752,6 +769,13 @@ protected:
 	bool m_bAlwaysHeal;
 	bool m_bHillsDoubleMove;
 	bool m_bImmuneToFirstStrikes;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iPrereqGlobalCounter;
+	int m_iGlobalCounterModifier;
+	int m_iGlobalCounterModifierOnCombat;
+	int m_iGlobalCounterModifierOnCombatWon;
+	int m_iGlobalCounterModifierOnCombatLost;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	CvString m_szSound;
 

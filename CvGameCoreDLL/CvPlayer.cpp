@@ -142,6 +142,10 @@ bool CvPlayer::initOtherData()
 	/*  advc.003q: Moved into a (sub-)subroutine - except for the setCivics code;
 		that's handled (only) by resetCivTypeEffects. */
 	processTraits(1);
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	GC.getGame().changeGlobalCounterLimit(12);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	return true;
 }
 
@@ -4506,6 +4510,21 @@ void CvPlayer::raze(CvCity& kCity) // advc: param was CvCity*
 	FAssert(kCity.getOwner() == getID());
 
 	AI().AI_processRazeMemory(kCity); // advc.003n: Moved into subroutine
+	
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int iCost = 1;
+	if ((kCity.getPopulation() - 5) > 0)
+	{
+		iCost += (kCity.getPopulation() - 5) * 1;
+	}
+	
+	if (getProphecyFollowed() != NO_PROPHECY && GET_PLAYER(kCity.getOwner()).getProphecyFollowed() != NO_PROPHECY)
+		CvProphecyInfo const& kOurProphecy = GC.getInfo(getProphecyFollowed());
+		if (kOurProphecy.getHatedProphecy() == GET_PLAYER(kCity.getOwner()).getProphecyFollowed())
+			iCost *= -1; // XANA (note): Roleplaying for characters. Delaying the End of the World by removing influence among the population is "good" when battling against an opposing prophecy.
+		
+	changeGlobalCounterContrib(iCost);
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	wchar szBuffer[1024];
 	swprintf(szBuffer, gDLL->getText("TXT_KEY_MISC_DESTROYED_CITY",
@@ -5188,6 +5207,14 @@ bool CvPlayer::canTrain(UnitTypes eUnit, bool bContinue, bool bTestVisible, bool
 	if (!GC.getGame().canTrain(eUnit, bIgnoreCost, bTestVisible))
 		return false; // </advc>
 
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eUnit).getPrereqGlobalCounter() != 0)
+	{
+        if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < GC.getInfo(eUnit).getPrereqGlobalCounter())
+            return false;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+
 	/*if (GET_TEAM(getTeam()).isUnitClassMaxedOut(eUnitClass))
 		return false;
 	if (isUnitClassMaxedOut(eUnitClass))
@@ -5299,6 +5326,14 @@ bool CvPlayer::canConstruct(BuildingTypes eBuilding, bool bContinue, bool bTestV
 			return false;
 		}
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eBuilding).getPrereqGlobalCounter() != 0)
+	{
+		if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < GC.getInfo(eBuilding).getPrereqGlobalCounter()))
+			return false;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if(bTestVisible)
 		return true;
@@ -5354,6 +5389,14 @@ bool CvPlayer::canCreate(ProjectTypes eProject, bool bContinue, bool bTestVisibl
 			return false;
 		}
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eProject).getPrereqGlobalCounter() != 0)
+	{
+		if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < GC.getInfo(eProject).getPrereqGlobalCounter()))
+			return false;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if (GC.getGame().isProjectMaxedOut(eProject))
 		return false;
@@ -7031,6 +7074,11 @@ void CvPlayer::foundReligion(ReligionTypes eReligion, ReligionTypes eSlotReligio
 				initUnit(eFreeUnit, pBestCity->getX(), pBestCity->getY());
 		}
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eReligion).getGlobalCounterModifier() != 0)
+		changeGlobalCounterContrib(GC.getInfo(eReligion).getGlobalCounterModifier());
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 
@@ -15815,6 +15863,14 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
 	}
 
 	CvEventInfo& kEvent = GC.getInfo(eEvent);
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (kEvent.getPrereqGlobalCounter() != 0)
+	{
+        if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < kEvent.getPrereqGlobalCounter())
+            return false;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	int const iGold = std::min(getEventCost(eEvent, kTriggeredData.m_eOtherPlayer, false),
 			getEventCost(eEvent, kTriggeredData.m_eOtherPlayer, true));
@@ -17172,6 +17228,14 @@ int CvPlayer::getEventTriggerWeight(EventTriggerTypes eTrigger) const
 		if (isTriggerFired(eTrigger))
 			return 0;
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (kTrigger.getPrereqGlobalCounter() != 0)
+	{
+        if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < kTrigger.getPrereqGlobalCounter())
+            return 0;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if (kTrigger.getNumPrereqOrTechs() > 0)
 	{
@@ -19784,6 +19848,40 @@ bool CvPlayer::showGoodyOnResourceLayer() const
 	return (/*isOption(PLAYEROPTION_NO_UNIT_RECOMMENDATIONS) &&*/
 			BUGOption::isEnabled("MainInterface__TribalVillageIcons", true));
 }
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+ProphecyTypes CvPlayer::getProphecyFollowed() const
+{
+	if (GC.getInfo(getLeaderType()).getFavoriteProphecy() != NO_PROPHECY)  // XANA (note): Mystical natures aren't linked to personality, but the actual character in play.
+	{
+		return GC.getInfo(getLeaderType()).getFavoriteProphecy(); // XANA (note): Roleplaying. Characters with a favorite Prophecy can't easily escape their destiny.  
+	}
+	if (getStateReligion() != NO_RELIGION)
+	{
+		return GC.getInfo(getStateReligion()).getProphecyFollowed();
+	}
+	return NO_PROPHECY;
+}
+
+void CvPlayer::changeGlobalCounterContrib(int iChange)
+{
+	if (iChange != 0)
+	{
+		if (getProphecyFollowed() != NO_PROPHECY)
+		{
+			CvProphecyInfo const& kProphecy = GC.getInfo(getProphecyFollowed());
+			
+			if (iChange < 0)
+				const int iProphecyValue = kProphecy.getProphecyAvertWorldsEndValue();
+			else
+				const int iProphecyValue = kProphecy.getProphecyHastenWorldsEndValue();
+			
+			CvGame const& kGame = GC.getGame();
+			kGame.changeGlobalCounterContribPerTurn(getID(), (iChange * iProphecyValue));
+		}
+	}
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 // Used by Globeview resource layer
 void CvPlayer::getResourceLayerColors(GlobeLayerResourceOptionTypes eOption,

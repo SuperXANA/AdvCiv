@@ -240,6 +240,9 @@ public: // advc: All the const functions are exposed to Python except those adde
 	DllExport const CvArtInfoLeaderhead* getArtInfo() const;
 	const TCHAR* getLeaderHead() const;
 	const TCHAR* getButton() const;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	ProphecyTypes getFavoriteProphecy() const { return m_eFavoriteProphecy; }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
 	void write(FDataStreamBase* stream);
@@ -335,6 +338,9 @@ protected:
 	int m_iLoveOfPeace; // advc.104
 	CivicTypes m_eFavoriteCivic;
 	ReligionTypes m_eFavoriteReligion;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	ProphecyTypes m_eFavoriteProphecy;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	CvString m_szArtDefineTag;
 

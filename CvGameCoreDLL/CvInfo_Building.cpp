@@ -116,7 +116,11 @@ m_bNukeImmune(false),
 m_bPrereqReligion(false),
 m_bCenterInCity(false),
 m_bStateReligion(false),
-m_bAllowsNukes(false)
+m_bAllowsNukes(false),
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_iPrereqGlobalCounter(0),
+m_iGlobalCounterModifier(0)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 // advc.003w:
@@ -359,6 +363,10 @@ void CvBuildingInfo::read(FDataStreamBase* stream)
 	stream->ReadString(m_szConstructSound);
 	stream->ReadString(m_szArtDefineTag);
 	stream->ReadString(m_szMovieDefineTag);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Read(&m_iPrereqGlobalCounter);
+	stream->Read(&m_iGlobalCounterModifier);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// <advc.003t>
 	int iPrereqAndTechs;
 	stream->Read(&iPrereqAndTechs);
@@ -540,6 +548,10 @@ void CvBuildingInfo::write(FDataStreamBase* stream)
 	stream->WriteString(m_szConstructSound);
 	stream->WriteString(m_szArtDefineTag);
 	stream->WriteString(m_szMovieDefineTag);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Write(m_iPrereqGlobalCounter);
+	stream->Write(m_iGlobalCounterModifier);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// <advc.003t>
 	{
 		int iPrereqAndTechs = getNumPrereqAndTechs();
@@ -824,6 +836,10 @@ bool CvBuildingInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(MagicClassCombatPoints(), "MagicClassCombatPoints");
 	pXML->SetVariableListTagPair(MagicClassResistPoints(), "MagicClassResistPoints");
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iPrereqGlobalCounter, "iPrereqGlobalCounter");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifier, "iGlobalCounterModifier");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	return true;
 }
@@ -1054,7 +1070,11 @@ m_eEveryoneSpecialBuilding(NO_SPECIALBUILDING),
 m_iVictoryDelayPercent(0),
 m_iSuccessRate(0),
 m_bSpaceship(false),
-m_bAllowsNukes(false)
+m_bAllowsNukes(false),
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_iPrereqGlobalCounter(0),
+m_iGlobalCounterModifier(0)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 const char* CvProjectInfo::getMovieArtDef() const
@@ -1122,6 +1142,10 @@ bool CvProjectInfo::read(CvXMLLoadUtility* pXML)
 	} // </advc.003t>
 	pXML->GetChildXmlValByName(&m_iVictoryDelayPercent, "iVictoryDelayPercent");
 	pXML->GetChildXmlValByName(&m_iSuccessRate, "iSuccessRate");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iPrereqGlobalCounter, "iPrereqGlobalCounter");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifier, "iGlobalCounterModifier");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	CvString szTextVal;
 	pXML->GetChildXmlValByName(szTextVal, "CreateSound");

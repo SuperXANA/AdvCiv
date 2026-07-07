@@ -993,6 +993,34 @@ public:
 	// </advc.703>
 	void setHallOfFame(CvHallOfFameInfo* pHallOfFame); // advc.106i
 	std::set<int>& getActivePlayerCycledGroups(); // advc
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getProphecyCounter(ProphecyTypes eProphecy, bool bUseNormalizedValue=true) const
+	{
+		return bUseNormalizedValue ? (m_aiProphecyGlobalCounters.get(eProphecy) / 100) : m_aiProphecyGlobalCounters.get(eProphecy);
+	}
+	int getProphecyMaxCounter(ProphecyTypes eProphecy, bool bUseNormalizedValue=true) const
+	{
+		return bUseNormalizedValue ? (m_aiProphecyMaxGlobalCounters.get(eProphecy) / 100) : m_aiProphecyMaxGlobalCounters.get(eProphecy);
+	}
+	void setProphecyCounter(ProphecyTypes eProphecy, int iNewValue);
+	void changeGlobalCounter(ProphecyTypes eProphecy, int iChange);
+	int getGlobalCounterLimit() const { return m_iGlobalCounterLimit; }
+	void setProphecyMaxCounter(ProphecyTypes eProphecy, int iNewValue);
+	void changeGlobalCounterLimit(int iChange);
+	void setGlobalCounterFrozen(bool b);
+	bool isGlobalCounterFrozen();
+	int getGlobalCounterContrib(PlayerTypes ePlayer) const												// Exposed to Python
+	{
+		return m_aiPlayerGlobalCounterContrib.get(ePlayer);
+	}
+	void changeGlobalCounterContrib(PlayerTypes ePlayer, int iChange);
+	int getGlobalCounterContribPerTurn(PlayerTypes ePlayer) const												// Exposed to Python
+	{
+		return m_aiPlayerGlobalCounterContribPerTurn.get(ePlayer);
+	}
+	void changeGlobalCounterContribPerTurn(PlayerTypes ePlayer, int iChange);
+	void updateGlobalCounter();
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// <advc.003u>
 	CvGameAI& AI()
 	{	//return *static_cast<CvGameAI*>(const_cast<CvGame*>(this));
@@ -1043,6 +1071,10 @@ protected:
 	bool m_bCityScreenUp; // </advc.004n>
 	unsigned int m_uiInitialTime;
 	unsigned int m_uiSaveFlag; // advc
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iGlobalCounterLimit;
+	bool m_bGlobalCounterFrozen;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	bool m_bScoreDirty;
 	bool m_bCircumnavigated;
@@ -1108,6 +1140,12 @@ protected:
 
 	ArrayEnumMap<ReligionTypes,PlotNumTypes> m_aeHolyCity;
 	ArrayEnumMap<CorporationTypes,PlotNumTypes> m_aeHeadquarters;
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	ArrayEnumMap<ProphecyTypes,int> m_aiProphecyGlobalCounters;
+	ArrayEnumMap<ProphecyTypes,int> m_aiProphecyMaxGlobalCounters;
+	EagerEnumMap<PlayerTypes,int> m_aiPlayerGlobalCounterContrib;
+	EagerEnumMap<PlayerTypes,int> m_aiPlayerGlobalCounterContribPerTurn;
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	IDInfo* m_pLegacyOrgSeatData;
 	//int** m_apaiPlayerVote; // obsoleted by BtS
 	// </advc.enum>

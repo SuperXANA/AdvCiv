@@ -167,5 +167,10 @@ void CyGlobalContextPythonInterface4(python::class_<CyGlobalContext>& x)
 		.def("getContactTypes", &CyGlobalContext::getContactTypes, "string () - Returns enum string")
 
 		.def("getDiplomacyPowerTypes", &CyGlobalContext::getDiplomacyPowerTypes, "string () - Returns enum string")
+		
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		.def("getNumProphecyInfos", &CyGlobalContext::getNumProphecyInfos, "() - Total Prophecy Infos XML\\BasicInfos\\CIV4ProphecyInfos.xml")
+		.def("getProphecyInfo", &CyGlobalContext::getProphecyInfo, python::return_value_policy<python::reference_existing_object>(), "(ProphecyID) - CvInfo for ProphecyID")
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 		;
 }

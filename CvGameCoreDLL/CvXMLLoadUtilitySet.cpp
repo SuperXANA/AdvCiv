@@ -659,7 +659,9 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paDamageInfo, "CIV4DamageInfos", "Units", "Civ4DamageInfos/DamageInfos/DamageInfo", false);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
-	LoadGlobalClassInfo(GC.m_paTerrainInfo, "CIV4TerrainInfos", "Terrain", "Civ4TerrainInfos/TerrainInfos/TerrainInfo", false);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	LoadGlobalClassInfo(GC.m_paTerrainInfo, "CIV4TerrainInfos", "Terrain", "Civ4TerrainInfos/TerrainInfos/TerrainInfo", true);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paEraInfo, "CIV4EraInfos", "GameInfo", "Civ4EraInfos/EraInfos/EraInfo", false);
 	LoadGlobalClassInfo(GC.m_paUnitClassInfo, "CIV4UnitClassInfos", "Units", "Civ4UnitClassInfos/UnitClassInfos/UnitClassInfo", false);
 	LoadGlobalClassInfo(GC.m_paSpecialistInfo, "CIV4SpecialistInfos", "GameInfo", "Civ4SpecialistInfos/SpecialistInfos/SpecialistInfo", false);
@@ -702,6 +704,9 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paCivicInfo, "CIV4CivicInfos", "GameInfo", "Civ4CivicInfos/CivicInfos/CivicInfo", false, &CvDLLUtilityIFaceBase::createCivicInfoCacheObject);
 	FOR_EACH_ENUM(VoteSource)
 		GC.getInfo(eLoopVoteSource).readPass3();
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	LoadGlobalClassInfo(GC.m_paProphecyInfo, "CIV4ProphecyInfos", "GameInfo", "Civ4ProphecyInfos/ProphecyInfos/ProphecyInfo", true);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paLeaderHeadInfo, "CIV4LeaderHeadInfos", "Civilizations", "Civ4LeaderHeadInfos/LeaderHeadInfos/LeaderHeadInfo", false, &CvDLLUtilityIFaceBase::createLeaderHeadInfoCacheObject);
 	LoadGlobalClassInfo(GC.m_paColorInfo, "CIV4ColorVals", "Interface", "Civ4ColorVals/ColorVals/ColorVal", false);
 	LoadGlobalClassInfo(GC.m_paPlayerColorInfo, "CIV4PlayerColorInfos", "Interface", "Civ4PlayerColorInfos/PlayerColorInfos/PlayerColorInfo", false);

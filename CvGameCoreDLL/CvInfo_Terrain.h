@@ -56,11 +56,20 @@ public: // All the const functions are exposed to Python except for those relate
 		return m_piMagicClassResistPoints[i];
 	}
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getLightTerrainThreshold() const { return m_iLightTerrainThreshold; }
+	TerrainTypes getLightTerrainType() const { return m_eLightTerrain; }
+	int getDarkTerrainThreshold() const { return m_iDarkTerrainThreshold; }
+	TerrainTypes getDarkTerrainType() const { return m_eDarkTerrain; }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	const CvArtInfoTerrain* getArtInfo() const;
 	const TCHAR* getButton() const;
 
 	bool read(CvXMLLoadUtility* pXML);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	bool readPass2(CvXMLLoadUtility* pXML);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 protected:
 	int m_iMovementCost;
@@ -85,6 +94,12 @@ protected:
 	int* m_piMagicClassCombatPoints;
 	int* m_piMagicClassResistPoints;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iLightTerrainLimit;
+	TerrainTypes m_eLightTerrain;
+	int m_iDarkTerrainLimit;
+	TerrainTypes m_eDarkTerrain;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 private:
 	CvString m_szArtDefineTag;

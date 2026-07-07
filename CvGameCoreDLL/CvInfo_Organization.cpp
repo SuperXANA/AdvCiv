@@ -9,7 +9,11 @@ m_wcSymbol(0),
 m_eTechPrereq(NO_TECH),
 m_eFreeUnitClass(NO_UNITCLASS),
 m_eMissionType(NO_MISSION),
-m_iSpreadFactor(0)
+m_iSpreadFactor(0),
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_iGlobalCounterModifier(0),
+m_iGlobalCounterModifierOnSpread(0)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 wchar CvOrganizationInfo::getChar() const
@@ -56,6 +60,10 @@ bool CvOrganizationInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(m_szMovieFile, "MovieFile");
 	pXML->GetChildXmlValByName(m_szMovieSound, "MovieSound");
 	pXML->GetChildXmlValByName(m_szSound, "Sound");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifier, "iGlobalCounterModifier");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifierOnSpread, "iGlobalCounterModifierOnSpread");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	return true;
 }
@@ -65,7 +73,10 @@ m_cHolyCityChar(0),
 m_iNumFreeUnits(0),
 m_paiGlobalReligionCommerce(NULL),
 m_paiHolyCityCommerce(NULL),
-m_paiStateReligionCommerce(NULL)
+m_paiStateReligionCommerce(NULL),
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_eProphecyFollowed(NO_PROPHECY)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 CvReligionInfo::~CvReligionInfo()
@@ -154,6 +165,13 @@ int* CvReligionInfo::getStateReligionCommerceArray() const
 	return m_paiStateReligionCommerce;
 }
 
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+ProphecyTypes getProphecyFollowed() const
+{
+	return m_eProphecyFollowed;
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+
 bool CvReligionInfo::read(CvXMLLoadUtility* pXML)
 {
 	if (!CvOrganizationInfo::read(pXML))
@@ -185,6 +203,10 @@ bool CvReligionInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(m_szTechButton, "TechButton");
 	pXML->GetChildXmlValByName(m_szGenericTechButton, "GenericTechButton");
 	pXML->GetChildXmlValByName(m_szAdjectiveKey, "Adjective");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->SetInfoIDFromChildXmlVal(m_eProphecyFollowed,
+			"WorldsEndProphecy");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	return true;
 }
@@ -334,3 +356,61 @@ bool isCorporationTech(TechTypes eTech)
 	}
 	return false;
 }
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+CvProphecyInfo::CvProphecyInfo() :
+m_eHatedProphecy(NO_PROPHECY),
+m_bOppositeCounterActions(false)
+{}
+
+CvProphecyInfo::~CvProphecyInfo()
+{
+	
+}
+
+ProphecyTypes CvProphecyInfo::getHatedProphecy() const
+{
+	return m_eHatedProphecy;
+}
+
+int CvProphecyInfo::getProphecyHastenWorldsEndValue() const
+{
+	return (m_bOppositeCounterActions == false) ? 1 : -1;
+}
+
+int CvProphecyInfo::getProphecyAvertWorldsEndValue() const
+{
+	return (m_bOppositeCounterActions == false) ? -1 : 1;
+}
+
+const TCHAR* CvProphecyInfo::getShortDescription() const
+{
+	return m_szShortDescription;
+}
+
+void CvProphecyInfo::setShortDescription(const TCHAR* szVal)
+{
+	m_szShortDescription = szVal;
+}
+
+bool CvProphecyInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+	{
+		CvString szTextVal;
+		pXML->GetChildXmlValByName(szTextVal, "ShortDescription");
+		setShortDescription(szTextVal);
+	}
+	pXML->GetChildXmlValByName(&m_bOppositeCounterActions, "bOppositeCounterActions");
+
+	return true;
+}
+
+bool CvProphecyInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	pXML->SetInfoIDFromChildXmlVal(m_eHatedProphecy,
+			"HatedProphecy");
+	return true;
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv

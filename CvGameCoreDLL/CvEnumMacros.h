@@ -44,6 +44,9 @@
 	DO(Upkeep, UPKEEP) \
 	DO(CultureLevel, CULTURELEVEL) \
 	DO(CivicOption, CIVICOPTION) \
+/* XANA: 06-17-2025 Armageddon Counter for AdvancedCiv */ \
+	DO(Prophecy, PROPHECY) \
+/* XANA: 06-17-2025 Armageddon Counter for AdvancedCiv */ \
 /* XANA: 04-19-2025 FfH Damage Types for AdvancedCiv */ \
 	DO(Damage, DAMAGE)
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv

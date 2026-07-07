@@ -117,6 +117,9 @@ public:
 	CvInfoBase* getSeasonInfo(int i) const;
 	CvInfoBase* getMonthInfo(int i) const;
 	CvInfoBase* getDenialInfo(int i) const;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	CvProphecyInfo* getProphecyInfo(int i) const;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	//CvQuestInfo* getQuestInfo(int i) const; // advc.003j
 	CvTutorialInfo* getTutorialInfo(int i) const;
 	CvEventTriggerInfo* getEventTriggerInfo(int i) const;
@@ -218,6 +221,9 @@ public:
 	int getNumSeasonInfos() const { return kGlobals.getNumSeasonInfos(); }
 	int getNumMonthInfos() const { return kGlobals.getNumMonthInfos(); }
 	int getNumDenialInfos() const { return NUM_DENIAL_TYPES; } // advc.enum
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getNumProphecyInfos() const { return kGlobals.getNumProphecyInfos(); }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	//int getNumQuestInfos() const { return kGlobals.getNumQuestInfos(); } // advc.003j
 	int getNumTutorialInfos() const { return kGlobals.getNumTutorialInfos(); }
 	int getNumEventTriggerInfos() const { return kGlobals.getNumEventTriggerInfos(); }

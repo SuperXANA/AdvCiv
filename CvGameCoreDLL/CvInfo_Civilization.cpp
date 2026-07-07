@@ -550,8 +550,11 @@ m_piDiploWarIntroMusicScriptIds(NULL),
 m_piDiploWarMusicScriptIds(NULL),
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 m_piMagicClassCombatPoints(NULL),
-m_piMagicClassResistPoints(NULL)
+m_piMagicClassResistPoints(NULL),
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_eFavoriteProphecy(NO_PROPHECY)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 // <advc.xmldefault>
@@ -887,6 +890,9 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	m_piMagicClassResistPoints = new int[GC.getNumMagicClassInfos()];
 	stream->Read(GC.getNumMagicClassInfos(), m_piMagicClassResistPoints);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Read((int*)&m_eFavoriteProphecy);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 void CvLeaderHeadInfo::write(FDataStreamBase* stream)
@@ -997,6 +1003,9 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumMagicClassInfos(), m_piMagicClassCombatPoints);
 	stream->Write(GC.getNumMagicClassInfos(), m_piMagicClassResistPoints);
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Write(m_eFavoriteProphecy);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 #endif
 
@@ -1147,6 +1156,10 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_piMagicClassResistPoints, "MagicClassResistPoints", GC.getNumMagicClassInfos());
 	pXML->SetVariableListTagPair(&m_piMagicClassLevelLocks, "MagicClassLocks", GC.getNumMagicClassInfos());
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->SetInfoIDFromChildXmlVal(m_eFavoriteProphecy,
+			"FavoritePhrophecy");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// <advc.xmldefault>
 	#ifdef FASSERT_ENABLE
 	if (!isDefaultsType())
