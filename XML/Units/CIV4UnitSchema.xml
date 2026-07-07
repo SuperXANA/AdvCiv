@@ -1080,8 +1080,8 @@
 	<ElementType name="Civ4EquipmentClassInfos" content="eltOnly">
 		<element type="EquipmentClassInfos" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
-	<ElementType name="EquipmentLowestLevelRequired" content="textOnly"/>
-	<ElementType name="EquipmentHighestLevelRequired" content="textOnly"/>
+	<ElementType name="iEquipmentLowestLevelRequired" content="textOnly" dt:type="int"/>
+	<ElementType name="iEquipmentHighestLevelRequired" content="textOnly" dt:type="int"/>
 	<ElementType name="EquipmentInfo" content="eltOnly">
 		<element type="Class"/>
 		<element type="Type"/>
@@ -1089,8 +1089,8 @@
 		<element type="Civilopedia"/>
 		<element type="Strategy"/>
 		<element type="Help" minOccurs="0"/>
-		<element type="EquipmentLowestLevelRequired" minOccurs="0"/>
-		<element type="EquipmentHighestLevelRequired" minOccurs="0"/>
+		<element type="iEquipmentLowestLevelRequired" minOccurs="0"/>
+		<element type="iEquipmentHighestLevelRequired" minOccurs="0"/>
 		<element type="EquipmentHoldOptions" minOccurs="0" maxOccurs="1"/>
 	</ElementType>
 	<ElementType name="EquipmentInfos" content="eltOnly">

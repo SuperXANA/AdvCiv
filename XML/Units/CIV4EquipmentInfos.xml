@@ -13,8 +13,8 @@
 			<Description>TXT_KEY_EQUIPMENT_ALICORN_AMULET</Description>
 			<Civilopedia>TXT_KEY_EQUIPMENT_ALICORN_AMULET_PEDIA</Civilopedia>
 			<Strategy>TXT_KEY_EQUIPMENT_ALICORN_AMULET_STRATEGY</Strategy>
-			<EquipmentLowestLevelRequired>CHARACTER_LEVEL_D</EquipmentLowestLevelRequired>
-			<EquipmentHighestLevelRequired>CHARACTER_LEVEL_B_PLUS</EquipmentHighestLevelRequired>
+			<iEquipmentLowestLevelRequired>1</iEquipmentLowestLevelRequired>
+			<iEquipmentHighestLevelRequired>9</iEquipmentHighestLevelRequired>
 		</EquipmentInfo>
 	</EquipmentInfos>
 </Civ4EquipmentInfos>
