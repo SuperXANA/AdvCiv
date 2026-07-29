@@ -14519,7 +14519,7 @@ int CvPlayerAI::AI_totalWaterAreaUnitAIs(CvArea const& kArea,
 	for(size_t i = 0; i < aeUnitAI.size(); i++)
 		iCount += AI_totalAreaUnitAIs(kArea, aeUnitAI[i]);
 	// </advc.081>
-	for (PlayerIter<MAJOR_CIV> it; it.hasNext(); ++it)
+	for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
 	{
 		CvPlayer const& kOwner = *it;
 		// <advc.opt> No need to go through cities that our ships can't enter
@@ -14529,7 +14529,7 @@ int CvPlayerAI::AI_totalWaterAreaUnitAIs(CvArea const& kArea,
 		{
 			if (pLoopCity->waterArea() != &kArea)
 				continue;
-			for(size_t j = 0; j < aeUnitAI.size(); j++) // advc.081
+			for (size_t j = 0; j < aeUnitAI.size(); j++) // advc.081
 			{
 				iCount += pLoopCity->getPlot().plotCount(PUF_isUnitAIType,
 						aeUnitAI[j], -1, getID()); // advc.081
