@@ -2052,8 +2052,6 @@ void CvUnit::updateFoundingBorder(bool bForceClear) const
 	if (!GC.getGame().isFinalInitialized())
 		return;
 	int iMode = BUGOption::getValue("MainInterface__FoundingBorder", 2);
-	if(BUGOption::isEnabled("MainInterface__FoundingYields", false) && iMode == 1)
-		return; // BtS behavior
 	gDLL->getEngineIFace()->clearAreaBorderPlots(AREA_BORDER_LAYER_FOUNDING_BORDER);
 	if(bForceClear || iMode <= 0 || !isFound())
 		return;
