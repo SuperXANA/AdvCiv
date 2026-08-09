@@ -2521,11 +2521,16 @@ void CvCityAI::AI_chooseProduction()
 
 	if (!bUnitExempt && iTotalFloatingDefenders < iNeededFloatingDefenders &&
 		(!bFinancialTrouble || bLandWar))
-	{
-		if (AI_chooseLeastRepresentedUnit(floatingDefenderWeight, 50))
-		{
-			if (gCityLogLevel >= 2) logBBAI("      City %S uses choose floating defender 2", getName().GetCString());
-			return;
+	{	// <advc.107> Respect spending cap unless low on defenders (based on SAS)
+		bool bFloatingDefendersLow = (iTotalFloatingDefenders * 100 <
+				iNeededFloatingDefenders * 72);
+		if (bLandWar || bFloatingDefendersLow || iUnitSpending < iMaxUnitSpending + 15)
+		{	// </advc.107>
+			if (AI_chooseLeastRepresentedUnit(floatingDefenderWeight, 50))
+			{
+				if (gCityLogLevel >= 2) logBBAI("      City %S uses choose floating defender 2", getName().GetCString());
+				return;
+			}
 		}
 	}
 
