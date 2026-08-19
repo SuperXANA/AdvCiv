@@ -3784,7 +3784,7 @@ int CvCityAI::AI_buildingValue(BuildingTypes eBuilding, int iFocusFlags,
 	if (iFocusFlags & BUILDINGFOCUS_WORLDWONDER)
 	{
 		if (!kBuilding.isWorldWonder() ||
-			findBaseYieldRateRank(YIELD_PRODUCTION) <= 3)
+			findBaseYieldRateRank(YIELD_PRODUCTION) > 3) // advc.001 (from SAS): was <=
 		{
 			/*	Note / TODO: the production condition is from the original BtS code.
 				I intend to remove / change that condition in the future. */
