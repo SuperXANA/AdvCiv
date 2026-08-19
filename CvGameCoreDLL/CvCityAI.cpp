@@ -731,7 +731,8 @@ void CvCityAI::AI_chooseProduction()
 		/*	<advc.192> If city keeps growing, but production stays slow,
 			then we should bite the bullet and start a slow culture building
 			rather sooner than later. */
-		if (iBestBuildingValue >= 60 && getPopulation() > 2 &&
+		if (bCultureBuilding &&
+			iBestBuildingValue >= 60 && getPopulation() > 2 &&
 			AI_isSwiftBorderExpansion(iProductionTurns /
 			std::min(getPopulation() - 1, 3)))
 		{
