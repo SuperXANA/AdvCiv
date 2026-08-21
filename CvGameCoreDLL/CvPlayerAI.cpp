@@ -23355,8 +23355,9 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 		else if (iUnitValue == -1)
 			iUnitValue = 2000; //Great Person?  // (was 200)
 
-		iUnitValue *= GC.getInfo(GC.getGame().getGameSpeedType()).getTrainPercent();
-		iUnitValue /= 100; // K-Mod
+		iUnitValue *= GC.getInfo(GC.getGame().getGameSpeedType()).
+				getTrainPercent();
+		iUnitValue /= 100; // K-Mod (bugfix)
 		iValue -= iUnitValue;
 	}
 	{
@@ -23375,6 +23376,7 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 
 				iBuildingValue *= GC.getInfo(GC.getGame().getGameSpeedType()).
 						getConstructPercent();
+				iBuildingValue /= 100; // advc.001 (from SAS; like the K-Mod fix above)
 				iValue += kEvent.getBuildingChange() * iBuildingValue;
 			}
 		}
