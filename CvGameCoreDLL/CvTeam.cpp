@@ -2510,10 +2510,15 @@ PlayerTypes CvTeam::getRandomMemberAlive(bool bHuman) const
 	int iValid = (bHuman ? PlayerIter<HUMAN,MEMBER_OF>::count(getID()) :
 			getAliveCount());
 	int iIndex = SyncRandNum(iValid);
+	// For the bHuman case. From SAS, fixing an earlier AdvCiv bug.
+	int iValidIndex = 0;
 	for (MemberIter itMember(getID()); itMember.hasNext(); ++itMember)
 	{
-		if ((!bHuman || itMember->isHuman()) && itMember.nextIndex() >= iIndex)
+		if (bHuman && !itMember->isHuman())
+			continue;
+		if (iValidIndex >= iIndex)
 			return itMember->getID();
+		iValidIndex++;
 	}
 	FErrorMsg("Team not alive?");
 	return NO_PLAYER;
