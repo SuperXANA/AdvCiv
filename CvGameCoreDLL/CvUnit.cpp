@@ -7426,7 +7426,7 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 		}
 	}
 
-	// if we are attacking to an plot with an unknown defender, the calc the modifier in reverse
+	// if we are attacking to a plot with an unknown defender, then calc the modifier in reverse
 	if (bAttackingUnknownDefender)
 		pAttacker = this;
 
@@ -7473,7 +7473,7 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 		else
 		{
 			iExtraModifier = -pAttacker->terrainAttackModifier(pAttackedPlot->getTerrainType());
-			iModifier += iExtraModifier;
+			iTempModifier += iExtraModifier; // advc.001 (from SAS): was iModifier on the left
 			if (pCombatDetails != NULL)
 				pCombatDetails->iTerrainAttackModifier = iExtraModifier;
 		}
