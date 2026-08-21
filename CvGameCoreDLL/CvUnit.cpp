@@ -7337,7 +7337,10 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 						getAIBarbarianCombatModifier();
 				iModifier += iExtraModifier;
 				if (pCombatDetails != NULL)
-					pCombatDetails->iAIBarbarianCombatModifierTB = iExtraModifier;
+				{	/*	advc.001 (from SAS): Was ...TB ("this is Barbarian"),
+						but the attacker is the Barbarian here. */
+					pCombatDetails->iAIBarbarianCombatModifierAB = iExtraModifier;
+				}
 			}
 			// <advc.313>
 			if (pAttacker->isKnownSeaBarbarian())
