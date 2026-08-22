@@ -9654,6 +9654,33 @@ void CvGame::addPlayer(PlayerTypes eNewPlayer, LeaderHeadTypes eLeader, Civiliza
 	// BETTER_BTS_AI_MOD: END
 }
 
+
+// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+PlayerTypes CvGame::getBestAvailablePlayerSlot() const
+{
+	FOR_EACH_ENUM(CivPlayer) // Don't try to use BARBARIAN_PLAYER slot!
+	{
+		CvPlayer& kLoopPlayer = GET_PLAYER(static_cast<PlayerTypes>(eLoopPlayer));
+		if (!kLoopPlayer.isAlive() &&
+			kLoopPlayer.isEverAlive())
+		{
+			return eLoopPlayer;
+		}
+	}
+	return NO_PLAYER;
+}
+
+
+void CvGame::addPlayerSimplified(LeaderHeadTypes eLeader, CivilizationTypes eCiv)
+{
+	if (getBestAvailablePlayerSlot() != NO_PLAYER)
+	{
+		addPlayer(getBestAvailablePlayerSlot(), eLeader, eCiv);
+	}
+}
+// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+
+
 /*	BETTER_BTS_AI_MOD, Debug, 8/1/08, jdog5000: START
 	(advc: Merged with code from nextActivePlayer) */
 void CvGame::changeHumanPlayer(PlayerTypes eNewHuman,
