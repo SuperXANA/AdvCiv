@@ -19360,6 +19360,76 @@ void CvGameTextMgr::setEventHelp(CvWStringBuffer& szBuffer,
 					GC.getInfo((TechTypes)(kEvent.getPrereqTech())).getTextKeyWide()));
 		}
 	}
+	
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	if (kEvent.getPrereqLeader() != NO_LEADER)
+	{
+        if (kActivePlayer.getLeaderType() != kEvent.getPrereqLeader())
+        {
+            szBuffer.append(NEWLINE);
+            szBuffer.append(gDLL->getText("TXT_KEY_THIS_REQUIRES", GC.getInfo((LeaderHeadTypes)kEvent.getPrereqLeader()).getDescription()));
+        }
+	}
+	if (kEvent.getPrereqNotLeader() != NO_LEADER)
+	{
+        if (kActivePlayer.getLeaderType() == kEvent.getPrereqNotLeader())
+        {
+            szBuffer.append(NEWLINE);
+            szBuffer.append(gDLL->getText("TXT_KEY_THIS_REQUIRES_NOT", GC.getInfo((LeaderHeadTypes)kEvent.getPrereqNotLeader()).getDescription()));
+        }
+	}
+	if (kEvent.getPrereqCivilization() != NO_CIVILIZATION)
+	{
+        if (kActivePlayer.getCivilizationType() != kEvent.getPrereqCivilization())
+        {
+            szBuffer.append(NEWLINE);
+            szBuffer.append(gDLL->getText("TXT_KEY_THIS_REQUIRES", GC.getInfo((CivilizationTypes)kEvent.getPrereqCivilization()).getDescription()));
+        }
+	}
+	if (kEvent.getPrereqNotCivilization() != NO_CIVILIZATION)
+	{
+        if (kActivePlayer.getCivilizationType() == kEvent.getPrereqNotCivilization())
+        {
+            szBuffer.append(NEWLINE);
+            szBuffer.append(gDLL->getText("TXT_KEY_THIS_REQUIRES_NOT", GC.getInfo((CivilizationTypes)kEvent.getPrereqNotCivilization()).getDescription()));
+        }
+	}
+	if (pTriggeredData->m_eOtherPlayer != NO_PLAYER)
+	{
+		if (kEvent.getPrereqOtherLeader() != NO_LEADER)
+		{
+			if (GET_PLAYER(pTriggeredData->m_eOtherPlayer).getLeaderType() != kEvent.getPrereqOtherLeader())
+			{
+				szBuffer.append(NEWLINE);
+				szBuffer.append(gDLL->getText("TXT_KEY_THIS_ALSO_REQUIRES", GC.getInfo((LeaderHeadTypes)kEvent.getPrereqOtherLeader()).getDescription()));
+			}
+		}
+		if (kEvent.getPrereqOtherNotLeader() != NO_LEADER)
+		{
+			if (GET_PLAYER(pTriggeredData->m_eOtherPlayer).getLeaderType() == kEvent.getPrereqOtherNotLeader())
+			{
+				szBuffer.append(NEWLINE);
+				szBuffer.append(gDLL->getText("TXT_KEY_THIS_ALSO_REQUIRES_NOT", GC.getInfo((LeaderHeadTypes)kEvent.getPrereqOtherNotLeader()).getDescription()));
+			}
+		}
+		if (kEvent.getPrereqOtherCivilization() != NO_CIVILIZATION)
+		{
+			if (GET_PLAYER(pTriggeredData->m_eOtherPlayer).getCivilizationType() != kEvent.getPrereqOtherCivilization())
+			{
+				szBuffer.append(NEWLINE);
+				szBuffer.append(gDLL->getText("TXT_KEY_THIS_ALSO_REQUIRES", GC.getInfo((CivilizationTypes)kEvent.getPrereqOtherCivilization()).getDescription()));
+			}
+        }
+		if (kEvent.getPrereqOtherNotCivilization() != NO_CIVILIZATION)
+		{
+			if (GET_PLAYER(pTriggeredData->m_eOtherPlayer).getCivilizationType() == kEvent.getPrereqOtherNotCivilization())
+			{
+				szBuffer.append(NEWLINE);
+				szBuffer.append(gDLL->getText("TXT_KEY_THIS_ALSO_REQUIRES_NOT", GC.getInfo((CivilizationTypes)kEvent.getPrereqOtherNotCivilization()).getDescription()));
+			}
+        }
+	}
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
 
 	bool bDone = false;
 	while (!bDone)

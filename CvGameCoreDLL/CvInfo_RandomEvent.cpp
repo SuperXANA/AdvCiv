@@ -68,7 +68,33 @@ CvEventInfo::CvEventInfo() :
 	m_piAdditionalEventTime(NULL),
 	m_piClearEventChance(NULL),
 	m_piUnitCombatPromotions(NULL),
-	m_piUnitClassPromotions(NULL)
+	m_piUnitClassPromotions(NULL),
+	
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	m_iPrereqLeader(NO_LEADER),
+	m_iPrereqNotLeader(NO_LEADER),
+	m_iPrereqCivilization(NO_CIVILIZATION),
+	m_iPrereqNotCivilization(NO_CIVILIZATION),
+	m_iPrereqOtherLeader(NO_LEADER),
+	m_iPrereqOtherNotLeader(NO_LEADER),
+	m_iPrereqOtherCivilization(NO_CIVILIZATION),
+	m_iPrereqOtherNotCivilization(NO_CIVILIZATION),
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	
+	/* XANA (note):
+	Event Summons Specific Single Leader For City Takeover
+	*/
+	m_iSummonThirdLeader(NO_LEADER),
+	m_iSummonThirdCivilization(NO_CIVILIZATION),
+	/* XANA (note):
+	Event Summons Random Single Leader For City Takeover
+	*/
+	m_piSummonThirdLeaderChance(NULL),
+	m_piSummonThirdCivilizationChance(NULL)
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 {}
 
 CvEventInfo::~CvEventInfo()
@@ -81,6 +107,10 @@ CvEventInfo::~CvEventInfo()
 	SAFE_DELETE_ARRAY(m_piClearEventChance);
 	SAFE_DELETE_ARRAY(m_piUnitCombatPromotions);
 	SAFE_DELETE_ARRAY(m_piUnitClassPromotions);
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	SAFE_DELETE_ARRAY(m_piSummonThirdLeaderChance);
+	SAFE_DELETE_ARRAY(m_piSummonThirdCivilizationChance);
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 }
 
 bool CvEventInfo::isGlobal() const
@@ -357,6 +387,65 @@ int CvEventInfo::getAIValue() const
 {
 	return m_iAIValue;
 }
+
+// XANA: FfH Events for AdvancedCiv 03-01-2025
+int CvEventInfo::getPrereqLeader() const
+{
+	return m_iPrereqLeader;
+}
+int CvEventInfo::getPrereqNotLeader() const
+{
+	return m_iPrereqNotLeader;
+}
+int CvEventInfo::getPrereqCivilization() const
+{
+	return m_iPrereqCivilization;
+}
+int CvEventInfo::getPrereqNotCivilization() const
+{
+	return m_iPrereqNotCivilization;
+}
+int CvEventInfo::getPrereqOtherLeader() const
+{
+	return m_iPrereqOtherLeader;
+}
+int CvEventInfo::getPrereqOtherNotLeader() const
+{
+	return m_iPrereqOtherNotLeader;
+}
+int CvEventInfo::getPrereqOtherCivilization() const
+{
+	return m_iPrereqOtherCivilization;
+}
+int CvEventInfo::getPrereqOtherNotCivilization() const
+{
+	return m_iPrereqOtherNotCivilization;
+}
+// XANA: FfH Events for AdvancedCiv 03-01-2025
+
+// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+int CvEventInfo::getSummonLeader() const
+{
+	return m_iSummonThirdLeader;
+}
+
+int CvEventInfo::getSummonCivilization() const
+{
+	return m_iSummonThirdCivilization;
+}
+
+int CvEventInfo::getSummonLeaderChance(int i) const
+{
+	FAssertBounds(0, GC.getNumLeaderHeadInfos(), i);
+	return m_piSummonThirdLeaderChance ? m_piSummonThirdLeaderChance[i] : 0;
+}
+
+int CvEventInfo::getSummonCivilizationChance(int i) const
+{
+	FAssertBounds(0, GC.getNumCivilizationInfos(), i);
+	return m_piSummonThirdCivilizationChance ? m_piSummonThirdCivilizationChance[i] : 0;
+}
+// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 int CvEventInfo::getAdditionalEventChance(int i) const
 {
@@ -785,6 +874,18 @@ bool CvEventInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(BuildingHappyChange(), "BuildingExtraHappies");
 	pXML->SetVariableListTagPair(BuildingHealthChange(), "BuildingExtraHealths");
 	// </advc.003t>
+	
+	// XANA: FfH Events for AdvancedCiv 03-08-2025
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqLeader, "PrereqLeader");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqNotLeader, "PrereqNotLeader");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqCivilization, "PrereqCivilization");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqNotCivilization, "PrereqNotCivilization");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqOtherLeader, "PrereqOtherLeader");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqOtherNotLeader, "PrereqOtherNotLeader");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqOtherCivilization, "PrereqOtherCivilization");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqOtherNotCivilization, "PrereqOtherNotCivilization");
+	// XANA: FfH Events for AdvancedCiv 03-08-2025
+	
 	return true;
 }
 
@@ -845,7 +946,23 @@ CvEventTriggerInfo::CvEventTriggerInfo() :
 	m_bHeadquarters(false),
 	m_bProbabilityUnitMultiply(false),
 	m_bProbabilityBuildingMultiply(false),
-	m_bPrereqEventCity(false)
+	m_bPrereqEventCity(false),
+	
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	m_iPrereqLeader(NO_LEADER),
+	m_iPrereqNotLeader(NO_LEADER),
+	m_iPrereqCivilization(NO_CIVILIZATION),
+	m_iPrereqNotCivilization(NO_CIVILIZATION),
+	m_iPrereqOtherLeader(NO_LEADER),
+	m_iPrereqOtherNotLeader(NO_LEADER),
+	m_iPrereqOtherCivilization(NO_CIVILIZATION),
+	m_iPrereqOtherNotCivilization(NO_CIVILIZATION),
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	m_iPrereqThirdLeader(NO_LEADER),
+	m_iPrereqThirdCivilization(NO_CIVILIZATION),
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 {}
 
 int CvEventTriggerInfo::getPercentGamesActive() const
@@ -1296,6 +1413,52 @@ const char* CvEventTriggerInfo::getPythonCanDoUnit() const
 {
 	return m_szPythonCanDoUnit;
 }
+
+// XANA: FfH Events for AdvancedCiv 03-01-2025
+int CvEventTriggerInfo::getPrereqLeader() const
+{
+	return m_iPrereqLeader;
+}
+int CvEventTriggerInfo::getPrereqNotLeader() const
+{
+	return m_iPrereqNotLeader;
+}
+int CvEventTriggerInfo::getPrereqCivilization() const
+{
+	return m_iPrereqCivilization;
+}
+int CvEventTriggerInfo::getPrereqNotCivilization() const
+{
+	return m_iPrereqNotCivilization;
+}
+int CvEventTriggerInfo::getPrereqOtherLeader() const
+{
+	return m_iPrereqOtherLeader;
+}
+int CvEventTriggerInfo::getPrereqOtherNotLeader() const
+{
+	return m_iPrereqOtherNotLeader;
+}
+int CvEventTriggerInfo::getPrereqOtherCivilization() const
+{
+	return m_iPrereqOtherCivilization;
+}
+int CvEventTriggerInfo::getPrereqOtherNotCivilization() const
+{
+	return m_iPrereqOtherNotCivilization;
+}
+// XANA: FfH Events for AdvancedCiv 03-01-2025
+
+// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+int CvEventTriggerInfo::getPrereqThirdLeader() const
+{
+	return m_iPrereqThirdLeader;
+}
+int CvEventTriggerInfo::getPrereqThirdCivilization() const
+{
+	return m_iPrereqThirdCivilization;
+}
+// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 #if ENABLE_XML_FILE_CACHE
 void CvEventTriggerInfo::read(FDataStreamBase* stream)
 {
@@ -2094,6 +2257,22 @@ bool CvEventTriggerInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(m_szPythonCanDo, "PythonCanDo");
 	pXML->GetChildXmlValByName(m_szPythonCanDoCity, "PythonCanDoCity");
 	pXML->GetChildXmlValByName(m_szPythonCanDoUnit, "PythonCanDoUnit");
+	
+	// XANA: FfH Events for AdvancedCiv 03-08-2025
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqLeader, "PrereqLeader");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqNotLeader, "PrereqNotLeader");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqCivilization, "PrereqCivilization");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqNotCivilization, "PrereqNotCivilization");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqOtherLeader, "PrereqOtherLeader");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqOtherNotLeader, "PrereqOtherNotLeader");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqOtherCivilization, "PrereqOtherCivilization");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqOtherNotCivilization, "PrereqOtherNotCivilization");
+	// XANA: FfH Events for AdvancedCiv 03-08-2025
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqThirdLeader, "PrereqThirdLeader");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqThirdCivilization, "PrereqThirdCivilization");
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	return true;
 }

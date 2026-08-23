@@ -15968,6 +15968,67 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
 			}
 		}
 	}
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	if (kEvent.getPrereqLeader() != NO_LEADER)
+	{
+        if (getLeaderType() != kEvent.getPrereqLeader())
+        {
+            return false;
+		}
+	}
+	if (kEvent.getPrereqNotLeader() != NO_LEADER)
+	{
+        if (getLeaderType() == kEvent.getPrereqNotLeader())
+        {
+            return false;
+		}
+	}
+	if (kEvent.getPrereqCivilization() != NO_CIVILIZATION)
+	{
+        if (getCivilizationType() != kEvent.getPrereqCivilization())
+        {
+            return false;
+		}
+	}
+	if (kEvent.getPrereqNotCivilization() != NO_CIVILIZATION)
+	{
+        if (getCivilizationType() == kEvent.getPrereqNotCivilization())
+        {
+            return false;
+		}
+	}
+	if (kTriggeredData.m_eOtherPlayer != NO_PLAYER)
+	{
+		if (kEvent.getPrereqOtherLeader() != NO_LEADER)
+		{
+			if (GET_PLAYER(kTriggeredData.m_eOtherPlayer).getLeaderType() != kEvent.getPrereqOtherLeader())
+			{
+				return false;
+			}
+		}
+		if (kEvent.getPrereqOtherNotLeader() != NO_LEADER)
+		{
+			if (GET_PLAYER(kTriggeredData.m_eOtherPlayer).getLeaderType() == kEvent.getPrereqOtherNotLeader())
+			{
+				return false;
+			}
+		}
+		if (kEvent.getPrereqOtherCivilization() != NO_CIVILIZATION)
+		{
+			if (GET_PLAYER(kTriggeredData.m_eOtherPlayer).getCivilizationType() != kEvent.getPrereqOtherCivilization())
+			{
+				return false;
+			}
+		}
+		if (kEvent.getPrereqOtherNotCivilization() != NO_CIVILIZATION)
+		{
+			if (GET_PLAYER(kTriggeredData.m_eOtherPlayer).getCivilizationType() == kEvent.getPrereqOtherNotCivilization())
+			{
+				return false;
+			}
+		}
+	}
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
 	if (!GC.getPythonCaller()->canDoEvent(eEvent, kTriggeredData))
 		return false;
 
@@ -16998,6 +17059,100 @@ bool CvPlayer::canTrigger(EventTriggerTypes eTrigger, PlayerTypes ePlayer, Relig
 				return false;
 		}
 	}
+	
+	// XANA: FfH Events for AdvancedCiv 03-08-2025
+	if (kTrigger.getPrereqLeader() != NO_LEADER)
+	{
+	    if (kPlayer.getLeaderType() != kTrigger.getPrereqLeader())
+	    {
+	        return false;
+	    }
+	}
+	if (kTrigger.getPrereqNotLeader() != NO_LEADER)
+	{
+	    if (kPlayer.getLeaderType() == kTrigger.getPrereqNotLeader())
+	    {
+	        return false;
+	    }
+	}
+	if (kTrigger.getPrereqCivilization() != NO_CIVILIZATION)
+	{
+	    if (kPlayer.getCivilizationType() != kTrigger.getPrereqCivilization())
+	    {
+	        return false;
+	    }
+	}
+	if (kTrigger.getPrereqNotCivilization() != NO_CIVILIZATION)
+	{
+	    if (kPlayer.getCivilizationType() == kTrigger.getPrereqNotCivilization())
+	    {
+	        return false;
+	    }
+	}
+	if (kTrigger.getPrereqOtherLeader() != NO_LEADER)
+	{
+	    if (getLeaderType() != kTrigger.getPrereqOtherLeader())
+	    {
+	        return false;
+	    }
+	}
+	if (kTrigger.getPrereqOtherNotLeader() != NO_LEADER)
+	{
+	    if (getLeaderType() == kTrigger.getPrereqOtherNotLeader())
+	    {
+	        return false;
+	    }
+	}
+	if (kTrigger.getPrereqOtherCivilization() != NO_CIVILIZATION)
+	{
+	    if (getCivilizationType() != kTrigger.getPrereqOtherCivilization())
+	    {
+	        return false;
+	    }
+	}
+	if (kTrigger.getPrereqOtherNotCivilization() != NO_CIVILIZATION)
+	{
+	    if (getCivilizationType() == kTrigger.getPrereqOtherNotCivilization())
+	    {
+	        return false;
+	    }
+	}
+	// XANA: FfH Events for AdvancedCiv 03-08-2025
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	if (kTrigger.getPrereqThirdLeader() != NO_LEADER)
+	{
+		bool bLeaderPresent = false;
+		for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
+		{
+			if (it->getLeaderType() == kTrigger.getPrereqThirdLeader())
+			{
+				bLeaderPresent = true;
+				break;
+			}
+		}
+        if (!bLeaderPresent)
+        {
+            return false;
+        }
+	}
+	if (kTrigger.getPrereqThirdCivilization() != NO_CIVILIZATION)
+	{
+		bool bCivilizationPresent = false;
+		for (PlayerIter<CIV_ALIVE> it; it.hasNext(); ++it)
+		{
+			if (it->getCivilizationType() == kTrigger.getPrereqThirdCivilization())
+			{
+				bCivilizationPresent = true;
+				break;
+			}
+		}
+        if (!bCivilizationPresent)
+        {
+            return false;
+        }
+	}
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	return true;
 }
@@ -17143,6 +17298,72 @@ int CvPlayer::getEventTriggerWeight(EventTriggerTypes eTrigger) const
 		if (!bFoundValid)
 			return 0;
 	}
+	
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	if (kTrigger.getPrereqLeader() != NO_LEADER)
+	{
+	    if (getLeaderType() != kTrigger.getPrereqLeader())
+	    {
+	        return 0;
+	    }
+	}
+	if (kTrigger.getPrereqNotLeader() != NO_LEADER)
+	{
+	    if (getLeaderType() == kTrigger.getPrereqNotLeader())
+	    {
+	        return 0;
+	    }
+	}
+	if (kTrigger.getPrereqCivilization() != NO_CIVILIZATION)
+	{
+	    if (getCivilizationType() != kTrigger.getPrereqCivilization())
+	    {
+	        return 0;
+	    }
+	}
+	if (kTrigger.getPrereqNotCivilization() != NO_CIVILIZATION)
+	{
+	    if (getCivilizationType() == kTrigger.getPrereqNotCivilization())
+	    {
+	        return 0;
+	    }
+	}
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	if (kTrigger.getPrereqThirdLeader() != NO_LEADER)
+	{
+		bool bLeaderPresent = false;
+		for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
+		{
+			if (it->getLeaderType() == kTrigger.getPrereqThirdLeader())
+			{
+				bLeaderPresent = true;
+				break;
+			}
+		}
+        if (!bLeaderPresent)
+        {
+            return 0;
+        }
+	}
+	if (kTrigger.getPrereqThirdCivilization() != NO_CIVILIZATION)
+	{
+		bool bCivilizationPresent = false;
+		for (PlayerIter<CIV_ALIVE> it; it.hasNext(); ++it)
+		{
+			if (it->getCivilizationType() == kTrigger.getPrereqThirdCivilization())
+			{
+				bCivilizationPresent = true;
+				break;
+			}
+		}
+        if (!bCivilizationPresent)
+        {
+            return 0;
+        }
+	}
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	if (kTrigger.getMinTreasury() > 0 && getGold() < kTrigger.getMinTreasury())
 		return 0;

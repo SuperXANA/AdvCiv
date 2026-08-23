@@ -9661,8 +9661,9 @@ PlayerTypes CvGame::getBestAvailablePlayerSlot() const
 	FOR_EACH_ENUM(CivPlayer) // Don't try to use BARBARIAN_PLAYER slot!
 	{
 		CvPlayer& kLoopPlayer = GET_PLAYER(static_cast<PlayerTypes>(eLoopPlayer));
-		if (!kLoopPlayer.isAlive() &&
-			kLoopPlayer.isEverAlive())
+		if (kLoopPlayer.isEverAlive() &&
+			/* XANA (note): from CvPlayer::splitEmpire */
+			!GET_TEAM(eLoopPlayer).isAlive())
 		{
 			return eLoopPlayer;
 		}

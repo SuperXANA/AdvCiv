@@ -74,6 +74,26 @@ public: // All the const functions returning primitive types are exposed to Pyth
 	int getInflationModifier() const;
 	int getSpaceProductionModifier() const;
 	int getAIValue() const;
+	
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	int getPrereqLeader() const;
+	int getPrereqNotLeader() const;
+	int getPrereqCivilization() const;
+	int getPrereqNotCivilization() const;
+	int getPrereqOtherLeader() const;
+	int getPrereqOtherNotLeader() const;
+	int getPrereqOtherCivilization() const;
+	int getPrereqOtherNotCivilization() const;
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	int getPrereqThirdLeader() const;
+	int getPrereqThirdCivilization() const;
+	int getSummonLeader() const;
+	int getSummonCivilization() const;
+	int getSummonLeaderChance(int i) const;
+	int getSummonCivilizationChance(int i) const;
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	int getAdditionalEventChance(int i) const;
 	int getAdditionalEventTime(int i) const;
@@ -184,6 +204,22 @@ private:
 	CvWString m_szQuestFailText;
 	CvWString m_szLocalInfoText;
 	std::vector<CvWString> m_aszWorldNews;
+	
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	int m_iPrereqLeader;
+	int m_iPrereqNotLeader;
+	int m_iPrereqCivilization;
+	int m_iPrereqNotCivilization;
+	int m_iPrereqOtherLeader;
+	int m_iPrereqOtherNotLeader;
+	int m_iPrereqOtherCivilization;
+	int m_iPrereqOtherNotCivilization;
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	int m_iPrereqThirdLeader;
+	int m_iPrereqThirdCivilization;
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 };
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -287,6 +323,22 @@ public: // All the const functions returning primitive types are exposed to Pyth
 	const char* getPythonCanDo() const;
 	const char* getPythonCanDoCity() const;
 	const char* getPythonCanDoUnit() const;
+	
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	int getPrereqLeader() const;
+	int getPrereqNotLeader() const;
+	int getPrereqCivilization() const;
+	int getPrereqNotCivilization() const;
+	int getPrereqOtherLeader() const;
+	int getPrereqOtherNotLeader() const;
+	int getPrereqOtherCivilization() const;
+	int getPrereqOtherNotCivilization() const;
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	int getPrereqThirdLeader() const;
+	int getPrereqThirdCivilization() const;
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* );
 	void write(FDataStreamBase* );
@@ -367,6 +419,22 @@ private:
 	CvString m_szPythonCanDo;
 	CvString m_szPythonCanDoCity;
 	CvString m_szPythonCanDoUnit;
+	
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	int m_iPrereqLeader;
+	int m_iPrereqNotLeader;
+	int m_iPrereqCivilization;
+	int m_iPrereqNotCivilization;
+	int m_iPrereqOtherLeader;
+	int m_iPrereqOtherNotLeader;
+	int m_iPrereqOtherCivilization;
+	int m_iPrereqOtherNotCivilization;
+	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	int m_iPrereqThirdLeader;
+	int m_iPrereqThirdCivilization;
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 };
 
 #endif
