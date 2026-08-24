@@ -194,6 +194,11 @@ private:
 	int* m_piClearEventChance;
 	int* m_piUnitCombatPromotions;
 	int* m_piUnitClassPromotions;
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	int* m_piSummonThirdLeaderChance;
+	int* m_piSummonThirdCivilizationChance;
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	CvString m_szPythonCallback;
 	CvString m_szPythonExpireCheck;
@@ -219,6 +224,8 @@ private:
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	int m_iPrereqThirdLeader;
 	int m_iPrereqThirdCivilization;
+	int m_iSummonThirdLeader;
+	int m_iSummonThirdCivilization;
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 };
 

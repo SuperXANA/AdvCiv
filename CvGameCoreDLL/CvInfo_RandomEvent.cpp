@@ -886,6 +886,18 @@ bool CvEventInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetInfoIDFromChildXmlVal(m_iPrereqOtherNotCivilization, "PrereqOtherNotCivilization");
 	// XANA: FfH Events for AdvancedCiv 03-08-2025
 	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqThirdLeader, "PrereqInGameLeader");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqThirdCivilization, "PrereqInGameCivilization");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqThirdLeader, "PrereqInGameLeader");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqThirdCivilization, "PrereqInGameCivilization");
+	pXML->SetInfoIDFromChildXmlVal(m_iSummonThirdLeader, "SummonLeaderToGame");
+	pXML->SetInfoIDFromChildXmlVal(m_iSummonThirdCivilization, "SummonCivilizationToGame");
+	
+	pXML->SetVariableListTagPair(&m_piSummonThirdLeaderChance, "SummonLeaderToGameRandomChances", GC.getNumLeaderHeadInfos());
+	pXML->SetVariableListTagPair(&m_piSummonThirdCivilizationChance, "SummonCivilizationToGameRandomChances", GC.getNumCivilizationInfos());
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	
 	return true;
 }
 
@@ -2270,8 +2282,8 @@ bool CvEventTriggerInfo::read(CvXMLLoadUtility* pXML)
 	// XANA: FfH Events for AdvancedCiv 03-08-2025
 	
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
-	pXML->SetInfoIDFromChildXmlVal(m_iPrereqThirdLeader, "PrereqThirdLeader");
-	pXML->SetInfoIDFromChildXmlVal(m_iPrereqThirdCivilization, "PrereqThirdCivilization");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqThirdLeader, "PrereqInGameLeader");
+	pXML->SetInfoIDFromChildXmlVal(m_iPrereqThirdCivilization, "PrereqInGameCivilization");
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	return true;

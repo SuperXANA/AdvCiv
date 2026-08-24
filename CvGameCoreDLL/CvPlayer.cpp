@@ -16029,6 +16029,41 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
 		}
 	}
 	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	if (kEvent.getPrereqThirdLeader() != NO_LEADER)
+	{
+		bool bLeaderPresent = false;
+		for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
+		{
+			if (it->getLeaderType() == kEvent.getPrereqThirdLeader())
+			{
+				bLeaderPresent = true;
+				break;
+			}
+		}
+        if (!bLeaderPresent)
+        {
+            return false;
+        }
+	}
+	if (kEvent.getPrereqThirdCivilization() != NO_CIVILIZATION)
+	{
+		bool bCivilizationPresent = false;
+		for (PlayerIter<CIV_ALIVE> it; it.hasNext(); ++it)
+		{
+			if (it->getCivilizationType() == kEvent.getPrereqThirdCivilization())
+			{
+				bCivilizationPresent = true;
+				break;
+			}
+		}
+        if (!bCivilizationPresent)
+        {
+            return false;
+        }
+	}
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	if (!GC.getPythonCaller()->canDoEvent(eEvent, kTriggeredData))
 		return false;
 
