@@ -3227,7 +3227,7 @@ bool CvTeamAI::AI_acceptSurrender(TeamTypes eSurrenderTeam) const
 	{
 		if (itOther->getID() == getID()) 
 			continue;
-		if (kSurrenderTeam.AI_getAtWarCounter(itOther->getID()) <
+		if (kSurrenderTeam.AI_getAtWarCounter(itOther->getID()) >=
 			12 - itOther->AI_getCurrEraFactor() && // advc.112: was 10 flat
 			kSurrenderTeam.AI_getWarSuccess(itOther->getID()) +
 			std::min(kSurrenderTeam.getNumCities(), 4) *
@@ -3343,7 +3343,7 @@ bool CvTeamAI::AI_acceptSurrender(TeamTypes eSurrenderTeam) const
 	}
 	// K-Mod.
 	if (iCitiesThreatenedByOthers > (1 + iCitiesThreatenedByUs/2) &&
-			(bMightCapToOther || iCitiesThreatenedByOthers >= iValuableCities)) //
+		(bMightCapToOther || iCitiesThreatenedByOthers >= iValuableCities)) //
 	{	// Keep others from capturing spoils, but let it go if surrender civ is too small to care about
 		/*if (6 * (iValuableCities + kSurrenderTeam.getNumCities()) > getNumCities())
 			return true;*/ // BBAI
@@ -3356,10 +3356,11 @@ bool CvTeamAI::AI_acceptSurrender(TeamTypes eSurrenderTeam) const
 	// If we're low on the totem pole, accept so enemies don't drag anyone else into war with us
 	// Top rank is 0, second is 1, etc.
 	if ((bMightCapToOther || iOurWarSuccessRating < 60) &&
-			GC.getGame().getTeamRank(getID()) >
-			1 + GC.getGame().countCivTeamsAlive()/3)
+		GC.getGame().getTeamRank(getID()) >
+		1 + GC.getGame().countCivTeamsAlive()/3)
+	{
 		return true;
-
+	}
 	if (iOurWarSuccessRating < 50)
 	{
 		// Accept if we have other wars to fight
@@ -3384,7 +3385,10 @@ bool CvTeamAI::AI_acceptSurrender(TeamTypes eSurrenderTeam) const
 	if (!bMightCapToOther)
 	{
 		iWearinessThreshold += 20*iValuableCities + 30*iCitiesThreatenedByUs;
-		iWearinessThreshold += 10*std::max(0, GC.getInfo(GC.getMap().getWorldSize()).getTargetNumCities() - kSurrenderTeam.getNumCities()); // (to help finish off small civs)
+		// (to help finish off small civs)
+		iWearinessThreshold += 10*std::max(0,
+			GC.getInfo(GC.getMap().getWorldSize()).getTargetNumCities()
+			- kSurrenderTeam.getNumCities());
 	}
 
 	for (MemberIter it(getID()); it.hasNext(); ++it)
