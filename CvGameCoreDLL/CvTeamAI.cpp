@@ -5456,8 +5456,10 @@ TeamTypes CvTeamAI::AI_diploVoteCounterCandidate(VoteSourceTypes eVS) const
 {
 	/*  Only cover this obvious case: we're among the two teams with the
 		most votes (clearly ahead of the third). Otherwise, don't hazard a guess. */
-	TeamTypes eCounterCandidate = NO_TEAM;
 	int iFirstMostVotes = -1, iSecondMostVotes = -1, iThirdMostVotes = -1;
+	/*	(The corrected handling of the case where we're not the biggest voter
+		is from the SAS mod. */
+	TeamTypes eBiggestVoter = NO_TEAM, eSecondBiggestVoter = NO_TEAM;
 	for (TeamIter<MAJOR_CIV> it; it.hasNext(); ++it)
 	{
 		CvTeam const& kTeam = *it;
@@ -5479,15 +5481,14 @@ TeamTypes CvTeamAI::AI_diploVoteCounterCandidate(VoteSourceTypes eVS) const
 					iThirdMostVotes = iSecondMostVotes;
 					iSecondMostVotes = iFirstMostVotes;
 					iFirstMostVotes = iVotes;
-					if (kTeam.getID() != getID())
-						eCounterCandidate = kTeam.getID();
+					eSecondBiggestVoter = eBiggestVoter;
+					eBiggestVoter = kTeam.getID();
 				}
 				else
 				{
 					iThirdMostVotes = iSecondMostVotes;
 					iSecondMostVotes = iVotes;
-					if (iFirstMostVotes == getID())
-						eCounterCandidate = kTeam.getID();
+					eSecondBiggestVoter = kTeam.getID();
 				}
 			}
 			else iThirdMostVotes = iVotes;
@@ -5499,7 +5500,11 @@ TeamTypes CvTeamAI::AI_diploVoteCounterCandidate(VoteSourceTypes eVS) const
 	{
 		return NO_TEAM;
 	}
-	return eCounterCandidate;
+	if (eBiggestVoter == getID())
+		return eSecondBiggestVoter;
+	if (eSecondBiggestVoter == getID())
+		return eBiggestVoter;
+	return NO_TEAM;
 } // </advc.104>
 
 
