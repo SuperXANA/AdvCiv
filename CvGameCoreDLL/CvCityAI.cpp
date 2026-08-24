@@ -9364,12 +9364,13 @@ bool CvCityAI::AI_chooseLeastRepresentedUnit(UnitAIWeightMap const& kWeights,
 	return false;
 }
 
-bool CvCityAI::AI_bestSpreadUnit(bool bMissionary, bool bExecutive, int iBaseChance, UnitTypes* eBestSpreadUnit, int* iBestSpreadUnitValue)
+bool CvCityAI::AI_bestSpreadUnit(bool bMissionary, bool bExecutive, int iBaseChance,
+	UnitTypes* peBestSpreadUnit, int* piBestSpreadUnitValue)
 {
 	CvPlayerAI const& kPlayer = GET_PLAYER(getOwner());
 	CvTeamAI const& kTeam = GET_TEAM(getTeam());
 
-	FAssert(eBestSpreadUnit != NULL && iBestSpreadUnitValue != NULL);
+	FAssert(peBestSpreadUnit != NULL && piBestSpreadUnitValue != NULL);
 
 	int iBestValue = 0;
 
@@ -9420,8 +9421,8 @@ bool CvCityAI::AI_bestSpreadUnit(bool bMissionary, bool bExecutive, int iBaseCha
 						if (iValue > iBestValue)
 						{
 							iBestValue = iValue;
-							*eBestSpreadUnit = eLoopUnit;
-							*iBestSpreadUnitValue = iReligionValue;
+							*peBestSpreadUnit = eLoopUnit;
+							*piBestSpreadUnitValue = iReligionValue;
 						}
 					}
 				}
@@ -9498,16 +9499,15 @@ bool CvCityAI::AI_bestSpreadUnit(bool bMissionary, bool bExecutive, int iBaseCha
 						if (iValue > iBestValue)
 						{
 							iBestValue = iValue;
-							*eBestSpreadUnit = eLoopUnit;
-							*iBestSpreadUnitValue = iCorporationValue;
+							*peBestSpreadUnit = eLoopUnit;
+							*piBestSpreadUnitValue = iCorporationValue;
 						}
 					}
 				}
 			}
 		}
 	}
-
-	return (*eBestSpreadUnit != NULL);
+	return (*peBestSpreadUnit != NO_UNIT); // advc.001 (from SAS): was != NULL
 }
 
 bool CvCityAI::AI_chooseBuilding(int iFocusFlags, int iMaxTurns, int iMinThreshold,
