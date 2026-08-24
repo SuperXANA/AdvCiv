@@ -680,7 +680,7 @@ int CvTeamAI::AI_calculateCapitalProximity(TeamTypes eTeam) const { ... }*/
 bool CvTeamAI::AI_haveSeenCities(TeamTypes eTeam, bool bPrimaryAreaOnly, int iMinimum) const
 {
 	int iCount = 0;
-	for (MemberIter it(getID()); it.hasNext(); ++it)
+	for (MemberIter it(eTeam); it.hasNext(); ++it)
 	{
 		CvPlayer const& kMember = *it;
 		FOR_EACH_CITY(pLoopCity, kMember)
