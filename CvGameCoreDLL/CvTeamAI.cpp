@@ -985,39 +985,46 @@ void CvTeamAI::AI_preDeclareWar(TeamTypes eTarget, WarPlanTypes eWarPlan, bool b
 	for (MemberAIIter itOur(getID()); itOur.hasNext(); ++itOur)
 	{
 		CvPlayerAI& kOurMember = *itOur;
-		for (PlayerAIIter<MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itEnemy(getID());
-			itEnemy.hasNext(); ++itEnemy)
+		// <advc.130o> (Corrected based on SAS)
+		if (bPrimaryDoW)
 		{
-			CvPlayerAI& kPlayer = *itEnemy;
-			// <advc.130o>
-			if (bPrimaryDoW && kOurMember.isHuman() && !kPlayer.isHuman() &&
-				kTarget.AI_getMemoryCount(getID(), MEMORY_MADE_DEMAND) > 0)
+			for (PlayerAIIter<MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getID());
+				itRival.hasNext(); ++itRival)
 			{
-				// Raise it to 8 (or what XML says)
-				int iMemory = kPlayer.AI_getMemoryCount(kOurMember.getID(),
-						MEMORY_MADE_DEMAND_RECENT);
-				static int const iWAR_DESPITE_TRIBUTE_MEMORY = GC.getDefineINT(
-						"WAR_DESPITE_TRIBUTE_MEMORY");
-				int iDelta = iWAR_DESPITE_TRIBUTE_MEMORY;
-				iDelta = std::max(iMemory, iDelta) - iMemory;
-				kPlayer.AI_changeMemoryCount(kOurMember.getID(),
-						MEMORY_MADE_DEMAND_RECENT, iDelta);
+				CvPlayerAI& kRival = *itRival;
+				if (kOurMember.isHuman() && !kRival.isHuman() &&
+					kTarget.isHasMet(kRival.getTeam()) &&
+					kTarget.AI_getMemoryCount(getID(), MEMORY_MADE_DEMAND) > 0)
+				{
+					// Raise it to 8 (or what XML says)
+					int iMemory = kRival.AI_getMemoryCount(kOurMember.getID(),
+							MEMORY_MADE_DEMAND_RECENT);
+					static int const iWAR_DESPITE_TRIBUTE_MEMORY = GC.getDefineINT(
+							"WAR_DESPITE_TRIBUTE_MEMORY");
+					int iDelta = iWAR_DESPITE_TRIBUTE_MEMORY;
+					iDelta = std::max(iMemory, iDelta) - iMemory;
+					kRival.AI_changeMemoryCount(kOurMember.getID(),
+							MEMORY_MADE_DEMAND_RECENT, iDelta);
+				}
+				kOurMember.AI_setMemoryCount(kRival.getID(), MEMORY_MADE_DEMAND, 0);
 			}
-			if (bPrimaryDoW)
-				kOurMember.AI_setMemoryCount(kPlayer.getID(), MEMORY_MADE_DEMAND, 0);
-			// </advc.130o>
-			if (kPlayer.getTeam() == eTarget)
+		} // </advc.130o>
+		for (PlayerAIIter<MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getID());
+			itRival.hasNext(); ++itRival)
+		{
+			CvPlayerAI& kRival = *itRival;
+			if (kRival.getTeam() == eTarget)
 			{
 				if(bPrimaryDoW) // advc.130y
 				{
 					// advc.130j:
-					kPlayer.AI_rememberEvent(kOurMember.getID(), MEMORY_DECLARED_WAR);
+					kRival.AI_rememberEvent(kOurMember.getID(), MEMORY_DECLARED_WAR);
 				}
 				// advc.130y:
-				else kPlayer.AI_changeMemoryCount(kOurMember.getID(), MEMORY_DECLARED_WAR, 2);
+				else kRival.AI_changeMemoryCount(kOurMember.getID(), MEMORY_DECLARED_WAR, 2);
 			} // advc.130h:
-			if (kPlayer.AI_disapprovesOfDoW(getID(), eTarget)) // advc.130j:
-				kPlayer.AI_rememberEvent(kOurMember.getID(), MEMORY_DECLARED_WAR_ON_FRIEND);
+			if (kRival.AI_disapprovesOfDoW(getID(), eTarget)) // advc.130j:
+				kRival.AI_rememberEvent(kOurMember.getID(), MEMORY_DECLARED_WAR_ON_FRIEND);
 		}
 	}  // <advc.104i>
 	if (eSponsor != NO_PLAYER)
