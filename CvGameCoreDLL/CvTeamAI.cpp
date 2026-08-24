@@ -6296,7 +6296,8 @@ void CvTeamAI::AI_doWar()
 	// K-Mod end
 	{
 		bool bAggressive = kGame.isOption(GAMEOPTION_AGGRESSIVE_AI);
-
+		/*	advc (note): This calculation assumes that the three strategies
+			in question are mutually exclusive. (Which indeed they should be.) */
 		int iFinancialTroubleCount = 0;
 		int iDaggerCount = 0;
 		int iGetBetterUnitsCount = 0;
