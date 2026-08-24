@@ -1960,7 +1960,10 @@ scaled CvTeamAI::AI_knownTechValModifier(TechTypes eTech) const
 	for (TeamIter<CIV_ALIVE,OTHER_KNOWN_TO> it(getID()); it.hasNext(); ++it)
 	{
 		CvTeam const& kOther = *it;
-		if (kOther.isHasTech(eTech) /* advc.551: */ && !kOther.isCapitulated())
+		// <advc.551>
+		if (kOther.isCapitulated())
+			continue; // </advc.551>
+		if (kOther.isHasTech(eTech))
 			iTechCivs++;
 		iCivsMet++;
 	}
