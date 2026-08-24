@@ -4343,7 +4343,8 @@ int CvTeamAI::AI_enmityValue(TeamTypes eEnemy) const
 	// advc.148: Rather than RELATIONS_THRESH_ANNOYED
 	int const iAttitudeThresh = GC.getDefineINT(CvGlobals::RELATIONS_THRESH_WORST_ENEMY);
 	if (!kEnemy.isAlive() ||
-		kEnemy.isCapitulated() || // advc.130d
+		// advc.130d:
+		kEnemy.isCapitulated() || getMasterTeam() == kEnemy.getMasterTeam() ||
 		((AI_getAttitudeVal(eEnemy) > iAttitudeThresh ||
 		AI_getAttitudeVal(eEnemy, false) > iAttitudeThresh) && // advc.130d
 		!isAtWar(eEnemy)))
