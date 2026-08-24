@@ -1678,7 +1678,7 @@ int CvTeamAI::AI_warCommitmentCost(TeamTypes eTarget, WarPlanTypes eWarPlan,
 		{
 			CvPlayerAI const& kMember = *it;
 			 // (ugly, I know. But that's just how it's done.)
-			int iEstimatedPercentAnger = kMember.getModifiedWarWearinessPercentAnger(iWWCost) / 10;
+			int iEstimatedPercentAnger = kMember.getModifiedWarWearinessPercentAnger(iTotalWW) / 10;
 			// note. Unfortunately, we haven't taken the effect of jails into account.
 			iWWCost += iS * kMember.getNumCities() * kMember.AI_getHappinessWeight(iS * iEstimatedPercentAnger *
 					(100 + kMember.getWarWearinessModifier()) / 100, 0, true) / 20;
