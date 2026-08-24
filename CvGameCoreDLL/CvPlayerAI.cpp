@@ -21753,6 +21753,9 @@ void CvPlayerAI::AI_proposeWarTrade(PlayerTypes eHireling)
 				{
 					iBestValue = iValue;
 					eBestTarget = kTarget.getID();
+					// <advc.104o> Moved up (as in SAS)
+					iBestTeamPrice = kOurTeam.AI_declareWarTradeVal(
+							eBestTarget, kHireling.getTeam()); // </advc.104o>
 				}
 			}
 		}
