@@ -3120,6 +3120,7 @@ int CvTeamAI::AI_getAirPower() const
 }
 
 /*	Sum up air power of enemies plus average of other civs we've met
+	advc: No, enemies plus average of all rivals (incl. enemies).
 	K-Mod: I've rewritten this BBAI function to loop over unit classes
 	rather than unit types. This is because a loop over unit types will double-count
 	if there are two units in the same class. */
@@ -3142,28 +3143,28 @@ int CvTeamAI::AI_getRivalAirPower() const
 	// Count enemy air units, not just those visible to us
 	int iRivalAirPower = 0;
 	int iEnemyAirPower = 0;
-	int iTeamCount = 0;
-	for (size_t i = 0; i < aeAirUnitTypes.size(); i++) // advc.opt
-	{
-		CvUnitInfo const& kUnit = GC.getInfo(aeAirUnitTypes[i]);
-		UnitClassTypes eUnitClass = kUnit.getUnitClassType();
-		// advc.001: Surely our vassals shouldn't count for rival air power
-		TeamAIIter<MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getID());
-		for (; itRival.hasNext(); ++itRival)
+	int iRivals = 0; // advc: was "iTeamCount"
+	/*	advc.001: Switched the order of the loops to avoid counting rival teams
+		once per air unit class as K-Mod did (bugfix from SAS).
+		And surely our vassals shouldn't count for rival air power. */
+	for (TeamAIIter<MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getID());
+		itRival.hasNext(); ++itRival)
+	{	// <advc.131>
+		if (isMajorCiv() && itRival->AI_isAvoidWar(getID()))
+			continue; // </advc.131>
+		iRivals++;
+		for (size_t i = 0; i < aeAirUnitTypes.size(); i++) // advc.opt
 		{
-			// <advc.131>
-			if (!isBarbarian() && itRival->AI_isAvoidWar(getID()))
-				continue; // </advc.131>
+			CvUnitInfo const& kUnit = GC.getInfo(aeAirUnitTypes[i]);
 			int iUnitPower = kUnit.getPowerValue() *
 					// advc (note): This is cheating
-					itRival->getUnitClassCount(eUnitClass);
+					itRival->getUnitClassCount(kUnit.getUnitClassType());
 			iRivalAirPower += iUnitPower;
 			if (AI_getWarPlan(itRival->getID()) != NO_WARPLAN)
 				iEnemyAirPower += iUnitPower;
 		}
-		iTeamCount += itRival.nextIndex();
 	}
-	return iEnemyAirPower + iRivalAirPower / std::max(1, iTeamCount);
+	return iEnemyAirPower + iRivalAirPower / std::max(1, iRivals);
 }
 
 // K-Mod:
