@@ -81,8 +81,8 @@ void CvDynamicDiploManager::updateAIPlayerAvailableResponses(LLMResultData const
 	DO NOT USE FIRAXIS GLOBAL FUNCTIONS OR ASSERTIONS HERE
 	THIS OPERATION WILL BE CALLED VIA A BACKGROUND THREAD
 	ATTEMPTING TO DO SO WILL CRASH THE GAME */
-	if (!m_bInitialized || kResult.getID() <= NO_PLAYER || kResult.getID() > MAX_PLAYERS
-		|| kResult.getType() <= NO_DIPLOCOMMENT || kResult.getType() > m_iNumDiploCommentTypes) /* Enum Bounds Validation - Safe No Global Function Use */
+	if (!m_bInitialized || kResult.getID() <= NO_PLAYER || kResult.getID() => MAX_PLAYERS
+		|| kResult.getType() <= NO_DIPLOCOMMENT || kResult.getType() => m_iNumDiploCommentTypes) /* Enum Bounds Validation - Safe No Global Function Use */
 	{
 		return;
 	}
