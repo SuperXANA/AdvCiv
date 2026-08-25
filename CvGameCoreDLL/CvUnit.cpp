@@ -6020,7 +6020,7 @@ bool CvUnit::canInfiltrate(const CvPlot* pPlot, bool bTestVisible) const
 		return false;
 	if (!bTestVisible)
 	{
-		if (NULL != pCity && pCity->getTeam() == getTeam())
+		if (pCity != NULL && pCity->getTeam() == getTeam())
 			return false;
 	}
 	return true;

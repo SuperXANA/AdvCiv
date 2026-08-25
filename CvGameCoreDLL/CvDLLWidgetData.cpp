@@ -2775,7 +2775,8 @@ void CvDLLWidgetData::parseActionHelp_Mission(CvActionInfo const& kAction,
 			pNode != NULL; pNode = gDLL->UI().nextSelectionListNode(pNode))
 		{
 			CvUnit const& kSelectedUnit = *::getUnit(pNode->m_data);
-			if (!kSelectedUnit.canEspionage(&kMissionPlot))
+			// advc.001 (from SAS): was canEspionage (and bTestVisible=false)
+			if (!kSelectedUnit.canInfiltrate(&kMissionPlot, true))
 				continue;
 			szTempBuffer.Format(L"%s+%d%c", NEWLINE,
 					kSelectedUnit.getEspionagePoints(&kMissionPlot),
