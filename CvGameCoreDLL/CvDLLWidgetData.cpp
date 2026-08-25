@@ -1066,7 +1066,6 @@ bool CvDLLWidgetData::executeAltAction(CvWidgetDataStruct &widgetDataExternal)
 	CvPythonCaller const& py = *GC.getPythonCaller();
 	int iData1 = widgetDataStruct.m_iData1;
 	int iData2 = widgetDataStruct.m_iData2; // </advc.003y>
-	CvCivilization const& kActiveCiv = *GC.getGame().getActiveCivilization();
 	bool bHandled = true;
 	switch (widgetDataStruct.m_eWidgetType)
 	{
@@ -1086,10 +1085,12 @@ bool CvDLLWidgetData::executeAltAction(CvWidgetDataStruct &widgetDataExternal)
 		break;
 	// K-Mod end
 	case WIDGET_TRAIN:
-		py.jumpToPedia(kActiveCiv.getUnit((UnitClassTypes)iData1), "Unit");
+		py.jumpToPedia(GC.getGame().getActiveCivilization()->
+				getUnit((UnitClassTypes)iData1), "Unit");
 		break;
 	case WIDGET_CONSTRUCT:
-		py.jumpToPedia(kActiveCiv.getBuilding((BuildingClassTypes)iData1), "Building");
+		py.jumpToPedia(GC.getGame().getActiveCivilization()->
+				getBuilding((BuildingClassTypes)iData1), "Building");
 		break;
 	case WIDGET_CREATE:
 		py.jumpToPedia(iData1, "Project");
