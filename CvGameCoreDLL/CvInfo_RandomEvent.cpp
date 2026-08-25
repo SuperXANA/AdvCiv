@@ -445,6 +445,16 @@ int CvEventInfo::getSummonCivilizationChance(int i) const
 	FAssertBounds(0, GC.getNumCivilizationInfos(), i);
 	return m_piSummonThirdCivilizationChance ? m_piSummonThirdCivilizationChance[i] : 0;
 }
+
+int* CvEventInfo::getSummonLeaderChanceArray() const
+{
+	return m_piSummonThirdLeaderChance;
+}
+
+int* CvEventInfo::getSummonCivilizationChanceArray() const
+{
+	return m_piSummonThirdCivilizationChance;
+}
 // XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 int CvEventInfo::getAdditionalEventChance(int i) const

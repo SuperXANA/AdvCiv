@@ -16063,7 +16063,8 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
             return false;
         }
 	}
-	if (kTrigger.isSummonLeaderToGame() || kTrigger.isSummonCivilizationToGame())
+	if ((kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonLeaderChanceArray() != NULL) ||
+		(kEvent.getSummonCivilization() != NO_CIVILIZATION || kEvent.getSummonCivilizationChanceArray() !+ NULL))
 	{
 		if (getNumCities() <= 3) // XANA (note): Player must be a civilization that can survive losing a city to a breakaway event [i.e. must have more than 3 cities].
 		{

@@ -93,6 +93,8 @@ public: // All the const functions returning primitive types are exposed to Pyth
 	int getSummonCivilization() const;
 	int getSummonLeaderChance(int i) const;
 	int getSummonCivilizationChance(int i) const;
+	int* getSummonLeaderChanceArray() const;
+	int* getSummonCivilizationChanceArray() const;
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	int getAdditionalEventChance(int i) const;

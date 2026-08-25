@@ -19430,6 +19430,16 @@ void CvGameTextMgr::setEventHelp(CvWStringBuffer& szBuffer,
         }
 	}
 	// XANA: FfH Events for AdvancedCiv 03-01-2025
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	if (getNumCities() <= 3 && 
+		(kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonLeaderChanceArray() != NULL) ||
+		(kEvent.getSummonCivilization() != NO_CIVILIZATION || kEvent.getSummonCivilizationChanceArray() !+ NULL))
+	{
+		szBuffer.append(NEWLINE);
+		szBuffer.append(gDLL->getText("TXT_KEY_CITIES_REQUIRED_FOR_SUMMONING", /* Num Minimum Cities: */ 4);
+	}
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	bool bDone = false;
 	while (!bDone)
