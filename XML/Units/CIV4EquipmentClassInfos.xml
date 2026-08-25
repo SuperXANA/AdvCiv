@@ -115,7 +115,7 @@
 				</EquipmentHoldOption>
 			</EquipmentHoldOptions>
 		</EquipmentClassInfo>
-	<!-- Bashing & Magic Casing Weapons -->
+	<!-- Bashing & Magic Casting Weapons -->
 		<EquipmentClassInfo>
 			<Type>EQUIPMENTCLASS_STAFF</Type>
 			<Description>TXT_KEY_EQUIPMENT_CLASS_STAFF</Description>

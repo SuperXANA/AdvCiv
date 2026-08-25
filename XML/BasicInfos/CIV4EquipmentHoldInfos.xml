@@ -30,7 +30,7 @@
 		</EquipmentHoldInfo>
 		<EquipmentHoldInfo>
 			<Class>EQUIPMENTHOLDCLASS_CLIPPED_TO_HAIR</Class>
-			<Type>EQUIPMENT_HOLD_HAIR_ACCESSORY</Type> <!-- Brooches and hair-clips that boost random value states - e.x. provide specialized magial fields for defense or casts magical effects upon users  -->
+			<Type>EQUIPMENT_HOLD_HAIR_ACCESSORY</Type> <!-- Brooches and hair-clips that boost random value states - e.x. provide specialized magical fields for defense or casts magical effects upon users  -->
 			<Description>TXT_KEY_EQUIPMENT_HOLD_HAIR_ACCESSORY</Description>
 		</EquipmentHoldInfo>
 		<EquipmentHoldInfo>
@@ -40,7 +40,7 @@
 		</EquipmentHoldInfo>
 		<EquipmentHoldInfo>
 			<Class>EQUIPMENTHOLDCLASS_CLASPED_AROUND_NECK</Class>
-			<Type>EQUIPMENT_HOLD_NECK_ACCESSORY</Type> <!-- Amulets that boost random value states - e.x. provide specialized magial fields for power or casts magical effects upon users  -->
+			<Type>EQUIPMENT_HOLD_NECK_ACCESSORY</Type> <!-- Amulets that boost random value states - e.x. provide specialized magical fields for power or casts magical effects upon users  -->
 			<Description>TXT_KEY_EQUIPMENT_HOLD_NECK_ACCESSORY</Description>
 		</EquipmentHoldInfo>
 		<EquipmentHoldInfo>
@@ -60,7 +60,7 @@
 		</EquipmentHoldInfo>
 		<EquipmentHoldInfo>
 			<Class>EQUIPMENTHOLDCLASS_CLIPPED_TO_SINGLE_BODY_SIDE</Class>
-			<Type>EQUIPMENT_HOLD_PEGASUS_WING_ACCESSORY_SINGLE</Type> <!-- Pegasi specific accessory bands that boost random value states - e.x. provide specialized magial fields for speed or casts magical effects upon users -->
+			<Type>EQUIPMENT_HOLD_PEGASUS_WING_ACCESSORY_SINGLE</Type> <!-- Pegasi specific accessory bands that boost random value states - e.x. provide specialized magical fields for speed or casts magical effects upon users -->
 			<Description>TXT_KEY_EQUIPMENT_HOLD_PEGASUS_WING_ACCESSORY_SINGLE</Description>
 		</EquipmentHoldInfo>
 		<EquipmentHoldInfo>
@@ -70,7 +70,7 @@
 		</EquipmentHoldInfo>
 		<EquipmentHoldInfo>
 			<Class>EQUIPMENTHOLDCLASS_CLIPPED_TO_BOTH_BODY_SIDES</Class>
-			<Type>EQUIPMENT_HOLD_PEGASUS_WING_ACCESSORY_DOUBLE</Type> <!-- Pegasi specific accessory bands that boost random value states - e.x. provide specialized magial fields for speed or casts magical effects upon users -->
+			<Type>EQUIPMENT_HOLD_PEGASUS_WING_ACCESSORY_DOUBLE</Type> <!-- Pegasi specific accessory bands that boost random value states - e.x. provide specialized magical fields for speed or casts magical effects upon users -->
 			<Description>TXT_KEY_EQUIPMENT_HOLD_PONY_SIDE_BOUND_DOUBLE</Description>
 		</EquipmentHoldInfo>
 		<EquipmentHoldInfo>
