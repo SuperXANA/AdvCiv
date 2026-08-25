@@ -974,6 +974,8 @@ CvEventTriggerInfo::CvEventTriggerInfo() :
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	m_iPrereqThirdLeader(NO_LEADER),
 	m_iPrereqThirdCivilization(NO_CIVILIZATION),
+	m_bSummonLeaderToGame(false),
+	m_bSummonCivilizationToGame(false)
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 {}
 
@@ -1469,6 +1471,14 @@ int CvEventTriggerInfo::getPrereqThirdLeader() const
 int CvEventTriggerInfo::getPrereqThirdCivilization() const
 {
 	return m_iPrereqThirdCivilization;
+}
+int CvEventTriggerInfo::isSummonLeaderToGame() const
+{
+	return m_bSummonLeaderToGame;
+}
+int CvEventTriggerInfo::isSummonCivilizationToGame() const
+{
+	return m_bSummonCivilizationToGame;
 }
 // XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 #if ENABLE_XML_FILE_CACHE
@@ -2284,6 +2294,8 @@ bool CvEventTriggerInfo::read(CvXMLLoadUtility* pXML)
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	pXML->SetInfoIDFromChildXmlVal(m_iPrereqThirdLeader, "PrereqInGameLeader");
 	pXML->SetInfoIDFromChildXmlVal(m_iPrereqThirdCivilization, "PrereqInGameCivilization");
+	pXML->GetChildXmlValByName(&m_bSummonLeaderToGame, "bSummonLeaderToGame");
+	pXML->GetChildXmlValByName(&m_bSummonCivilizationToGame, "bSummonCivilizationToGame");
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	return true;

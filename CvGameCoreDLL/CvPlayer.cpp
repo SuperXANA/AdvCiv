@@ -16063,6 +16063,13 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
             return false;
         }
 	}
+	if (kTrigger.isSummonLeaderToGame() || kTrigger.isSummonCivilizationToGame())
+	{
+		if (getNumCities() <= 3) // XANA (note): Player must be a civilization that can survive losing a city to a breakaway event [i.e. must have more than 3 cities].
+		{
+			return false;
+		}
+	}
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	if (!GC.getPythonCaller()->canDoEvent(eEvent, kTriggeredData))
 		return false;
@@ -17397,6 +17404,13 @@ int CvPlayer::getEventTriggerWeight(EventTriggerTypes eTrigger) const
         {
             return 0;
         }
+	}
+	if (kTrigger.isSummonLeaderToGame() || kTrigger.isSummonCivilizationToGame())
+	{
+		if (getNumCities() <= 3) // XANA (note): Player must be a civilization that can survive losing a city to a breakaway event [i.e. must have more than 3 cities].
+		{
+			return 0;
+		}
 	}
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 

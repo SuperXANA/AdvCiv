@@ -12428,6 +12428,24 @@ int CvCity::getTriggerValue(EventTriggerTypes eTrigger) const
 		if (!bFoundValid)
 			return MIN_INT;
 	}
+	
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	if (kTrigger.isSummonLeaderToGame() || kTrigger.isSummonCivilizationToGame())
+	{
+		if (isBarbarian() ||
+			isCapital() ||
+			isGovernmentCenter() ||
+			isAutoRaze() ||
+			isHolyCity() ||
+			isHeadquarters() ||
+			isOccupation() ||
+			isDisorder() ||
+			isCoastal())
+		{
+			return MIN_INT;
+		}
+	}
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	if (getFood() == 0 && kTrigger.getCityFoodWeight() > 0)
 		return MIN_INT;

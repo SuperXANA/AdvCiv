@@ -345,6 +345,8 @@ public: // All the const functions returning primitive types are exposed to Pyth
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	int getPrereqThirdLeader() const;
 	int getPrereqThirdCivilization() const;
+	bool isSummonLeaderToGame() const;
+	bool isSummonCivilizationToGame() const;
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* );
@@ -441,6 +443,8 @@ private:
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	int m_iPrereqThirdLeader;
 	int m_iPrereqThirdCivilization;
+	bool m_bSummonLeaderToGame;
+	bool m_bSummonCivilizationToGame;
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 };
 
