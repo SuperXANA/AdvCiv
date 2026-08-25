@@ -7125,6 +7125,8 @@ bool CvUnit::isGarrisonInTeamCity() const
 	if (!getPlot().isCity())
 		return false;
 	CvTeam const& kCityTeam = GET_TEAM(getPlot().getTeam());
+	/*	Note that I've changed the bCheckCargo effect in isInvisible so that
+		the city team can see what cargo is in port */
 	if (isInvisible(kCityTeam.getID(), false))
 		return false;
 	return (kCityTeam.getID() == getTeam() ||
@@ -8229,8 +8231,12 @@ bool CvUnit::isInvisible(TeamTypes eTeam, bool bDebug, bool bCheckCargo) const
 		return false;
 	if (alwaysInvisible())
 		return true;
-	if (bCheckCargo && isCargo())
+	if (bCheckCargo && isCargo() &&
+		// advc.184: Not invisible when in port in eTeam's city
+		(!getPlot().isCity() || getPlot().getPlotCity()->getTeam() != eTeam))
+	{
 		return true;
+	}
 	if (getInvisibleType() == NO_INVISIBLE)
 		return false;
 	return !getPlot().isInvisibleVisible(eTeam, getInvisibleType());
