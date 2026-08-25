@@ -316,7 +316,9 @@ class CvTechSplashScreen:
 
 				if (bTechFound == 1):
 					if (CyGlobalContext().getBuildInfo(j).getImprovement() == -1):
-						screen.attachImageButton( panelName3, "", CyGlobalContext().getBuildInfo(j).getButton(), GenericButtonSizes.BUTTON_SIZE_CUSTOM, WidgetTypes.WIDGET_HELP_IMPROVEMENT, j, 1, False )
+						screen.attachImageButton( panelName3, "", CyGlobalContext().getBuildInfo(j).getButton(), GenericButtonSizes.BUTTON_SIZE_CUSTOM, WidgetTypes.WIDGET_HELP_IMPROVEMENT,
+								self.iTech, j, # advc.001 (from SAS): was j, 1
+								False )
 					else:
 						screen.attachImageButton( panelName3, "", CyGlobalContext().getBuildInfo(j).getButton(), GenericButtonSizes.BUTTON_SIZE_CUSTOM, WidgetTypes.WIDGET_PEDIA_JUMP_TO_IMPROVEMENT, CyGlobalContext().getBuildInfo(j).getImprovement(), 1, False )
 
