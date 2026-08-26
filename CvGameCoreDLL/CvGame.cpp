@@ -9672,12 +9672,9 @@ PlayerTypes CvGame::getBestAvailablePlayerSlot() const
 }
 
 
-void CvGame::addPlayerSimplified(LeaderHeadTypes eLeader, CivilizationTypes eCiv)
+void CvGame::addPlayerSimplified(PlayerTypes eNewPlayer, LeaderHeadTypes eLeader, CivilizationTypes eCiv)
 {
-	if (getBestAvailablePlayerSlot() != NO_PLAYER)
-	{
-		addPlayer(getBestAvailablePlayerSlot(), eLeader, eCiv);
-	}
+	addPlayer(eNewPlayer, eLeader, eCiv);
 }
 // XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 

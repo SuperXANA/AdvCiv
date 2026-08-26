@@ -15651,6 +15651,53 @@ EventTriggeredData* CvPlayer::initTriggeredData(EventTriggerTypes eEventTrigger,
 		}
 	}
 
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	if (kTrigger.isSummonLeaderToGame() || kTrigger.isSummonCivilizationToGame())
+	{
+		if (pCity == NULL)
+			pCity = pickTriggerCity(eEventTrigger);
+		
+		std::vector<PlayerTypes> aePlayers;
+		std::vector<CvCity*> apCities;
+
+		if (eOtherPlayer == NO_PLAYER)
+		{	// advc.001: No minors (from Dawn of Civilization)
+			for (PlayerIter<MAJOR_CIV> itPlayer; itPlayer.hasNext(); ++itPlayer)
+			{
+				if (!itPlayer->canTrigger(eEventTrigger, getID(), eReligion))
+					continue;
+				if (kTrigger.isPickOtherPlayerCity())
+				{
+					CvCity* pBestCity = NULL;
+					if (pCity != NULL)
+					{
+						pBestCity = GC.getMap().findCity(pCity->getX(), pCity->getY(),
+								itPlayer->getID());
+					}
+					else pBestCity = itPlayer->pickTriggerCity(eEventTrigger);
+					if (pBestCity != NULL)
+					{
+						apCities.push_back(pBestCity);
+						aePlayers.push_back(itPlayer->getID());
+					}
+				}
+				else
+				{
+					apCities.push_back(NULL);
+					aePlayers.push_back(itPlayer->getID());
+				}
+			}
+			if (aePlayers.size() > 0)
+			{
+				int iChosen = SyncRandNum(aePlayers.size());
+				eOtherPlayer = aePlayers[iChosen];
+				pOtherPlayerCity = apCities[iChosen];
+			}
+			else return NULL;
+		}
+	}
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+
 	EventTriggeredData* pTriggerData = addEventTriggered();
 
 	if (pTriggerData != NULL)
@@ -16046,6 +16093,10 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
         {
             return false;
         }
+		if (getCivilizationType() == kEvent.getPrereqThirdCivilization() || (kTriggeredData.m_eOtherPlayer != NO_PLAYER && GET_PLAYER(kTriggeredData.m_eOtherPlayer).getCivilizationType() == kEvent.getPrereqThirdCivilization()))
+		{
+			return false;
+		}
 	}
 	if (kEvent.getPrereqThirdCivilization() != NO_CIVILIZATION)
 	{
@@ -16062,6 +16113,10 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
         {
             return false;
         }
+		if (getLeaderType() == kEvent.getPrereqThirdLeader() || (kTriggeredData.m_eOtherPlayer != NO_PLAYER && GET_PLAYER(kTriggeredData.m_eOtherPlayer).getLeaderType() == kEvent.getPrereqThirdLeader()))
+		{
+			return false;
+		}
 	}
 	if ((kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonLeaderChanceArray() != NULL) ||
 		(kEvent.getSummonCivilization() != NO_CIVILIZATION || kEvent.getSummonCivilizationChanceArray() !+ NULL))
@@ -16555,6 +16610,54 @@ void CvPlayer::applyEvent(EventTypes eEvent, int iEventTriggeredId, bool bUpdate
 			}
 		}
 	}
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	if ((kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonLeaderChanceArray() != NULL) ||
+	(kEvent.getSummonCivilization() != NO_CIVILIZATION || kEvent.getSummonCivilizationChanceArray() !+ NULL))
+	{
+		if (kEvent.getSummonLeader() != NO_LEADER && kEvent.getSummonCivilization() != NO_CIVILIZATION)
+		{
+			CvGame& kGame = GC.getGame();
+			PlayerTypes eCityTakeoverPlayer = kGame.getBestAvailablePlayerSlot();
+			if (eCityTakeoverPlayer != NO_PLAYER && (pCity != NULL && kEvent.isCityEffect() || pOtherPlayerCity != NULL && kEvent.isOtherPlayerCityEffect()))
+			{
+				kGame.addPlayerSimplified(eCityTakeoverPlayer, kEvent.getSummonLeader(), kEvent.getSummonCivilization());
+				if (kEvent.isCityEffect())
+				{
+					CvPlot& kCityPlot = *pCity->plot();
+					GET_PLAYER(eCityTakeoverPlayer).acquireCity(pCity, false, /*bTrade=*/true, /*bUpdatePlotGroups=*/true, false, /*bForFree=*/true);
+					pCity = kCityPlot.getPlotCity();
+				}
+				else if (kEvent.isOtherPlayerCityEffect())
+				{
+					CvPlot& kCityPlot = *pOtherPlayerCity->plot();
+					GET_PLAYER(eCityTakeoverPlayer).acquireCity(pOtherPlayerCity, false, /*bTrade=*/true, /*bUpdatePlotGroups=*/true, false, /*bForFree=*/true);
+					pOtherPlayerCity = kCityPlot.getPlotCity();
+				}
+			}
+		}
+		else if (kEvent.getSummonLeaderChanceArray() != NULL || kEvent.getSummonCivilizationChanceArray() !+ NULL)
+		{
+			// CvGame& kGame = GC.getGame();
+			// PlayerTypes eCityTakeoverPlayer = kGame.getBestAvailablePlayerSlot();
+			// if (eCityTakeoverPlayer != NO_PLAYER && (pCity != NULL && kEvent.isCityEffect() || pOtherPlayerCity != NULL && kEvent.isOtherPlayerCityEffect()))
+			// {
+				// kGame.addPlayerSimplified(eCityTakeoverPlayer, eEventLeaderHead, eEventCivilization);
+				// if (kEvent.isCityEffect())
+				// {
+					// CvPlot& kCityPlot = *pCity->plot();
+					// GET_PLAYER(eCityTakeoverPlayer).acquireCity(pCity, false, false, /*bUpdatePlotGroups=*/true, false, /*bForFree=*/true);
+					// pCity = kCityPlot.getPlotCity();
+				// }
+				// else if (kEvent.isOtherPlayerCityEffect())
+				// {
+					// CvPlot& kCityPlot = *pOtherPlayerCity->plot();
+					// GET_PLAYER(eCityTakeoverPlayer).acquireCity(pOtherPlayerCity, false, false, /*bUpdatePlotGroups=*/true, false, /*bForFree=*/true);
+					// pOtherPlayerCity = kCityPlot.getPlotCity();
+				// }
+			// }
+		}
+	}
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	GC.getPythonCaller()->applyEvent(eEvent, *pTriggeredData);
 
@@ -17195,6 +17298,20 @@ bool CvPlayer::canTrigger(EventTriggerTypes eTrigger, PlayerTypes ePlayer, Relig
             return false;
         }
 	}
+	if (kEvent.getPrereqThirdLeader() != NO_LEADER)
+	{
+		if (getLeaderType() == kEvent.getPrereqThirdLeader() || kPlayer.getLeaderType() == kEvent.getPrereqThirdLeader())
+		{
+			return false;
+		}
+	}
+	if (kEvent.getPrereqThirdCivilization() != NO_CIVILIZATION)
+	{
+		if (getCivilizationType() == kEvent.getPrereqThirdCivilization() || kPlayer.getCivilizationType() == kEvent.getPrereqThirdCivilization())
+		{
+			return false;
+		}
+	}
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	return true;
@@ -17405,6 +17522,20 @@ int CvPlayer::getEventTriggerWeight(EventTriggerTypes eTrigger) const
         {
             return 0;
         }
+	}
+	if (kTrigger.getPrereqThirdLeader() != NO_LEADER)
+	{
+	    if (getLeaderType() == kTrigger.getPrereqThirdLeader())
+	    {
+	        return 0;
+	    }
+	}
+	if (kTrigger.getPrereqThirdCivilization() != NO_CIVILIZATION)
+	{
+	    if (getCivilizationType() == kTrigger.getPrereqThirdCivilization())
+	    {
+	        return 0;
+	    }
 	}
 	if (kTrigger.isSummonLeaderToGame() || kTrigger.isSummonCivilizationToGame())
 	{

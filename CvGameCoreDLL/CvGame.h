@@ -866,7 +866,7 @@ public:
 	void addPlayer(PlayerTypes eNewPlayer, LeaderHeadTypes eLeader, CivilizationTypes eCiv);			// Exposed to Python
 // XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	PlayerTypes getBestAvailablePlayerSlot() const;
-	void addPlayerSimplified(LeaderHeadTypes eLeader, CivilizationTypes eCiv);
+	void addPlayerSimplified(PlayerTypes eNewPlayer, LeaderHeadTypes eLeader, CivilizationTypes eCiv);
 // XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	// BETTER_BTS_AI_MOD, Debug, 8/1/08, jdog5000:
 	void changeHumanPlayer(PlayerTypes eNewHuman, /* advc: */ bool bSetTurnActive = false);
