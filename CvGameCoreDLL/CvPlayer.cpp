@@ -15657,11 +15657,11 @@ EventTriggeredData* CvPlayer::initTriggeredData(EventTriggerTypes eEventTrigger,
 		if (pCity == NULL)
 			pCity = pickTriggerCity(eEventTrigger);
 		
-		std::vector<PlayerTypes> aePlayers;
-		std::vector<CvCity*> apCities;
-
-		if (eOtherPlayer == NO_PLAYER)
-		{	// advc.001: No minors (from Dawn of Civilization)
+		if (!kTrigger.isPickPlayer() && eOtherPlayer == NO_PLAYER)
+		{	
+			std::vector<PlayerTypes> aePlayers;
+			std::vector<CvCity*> apCities;
+			
 			for (PlayerIter<MAJOR_CIV> itPlayer; itPlayer.hasNext(); ++itPlayer)
 			{
 				if (!itPlayer->canTrigger(eEventTrigger, getID(), eReligion))
@@ -16089,11 +16089,10 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
 				break;
 			}
 		}
-        if (!bLeaderPresent)
-        {
-            return false;
-        }
-		if (getCivilizationType() == kEvent.getPrereqThirdCivilization() || (kTriggeredData.m_eOtherPlayer != NO_PLAYER && GET_PLAYER(kTriggeredData.m_eOtherPlayer).getCivilizationType() == kEvent.getPrereqThirdCivilization()))
+		if (!bLeaderPresent)
+			return false;
+		if (getLeaderType() == kEvent.getPrereqThirdLeader() || 
+			(kTriggeredData.m_eOtherPlayer != NO_PLAYER && GET_PLAYER(kTriggeredData.m_eOtherPlayer).getLeaderType() == kEvent.getPrereqThirdLeader()))
 		{
 			return false;
 		}
@@ -16109,22 +16108,21 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
 				break;
 			}
 		}
-        if (!bCivilizationPresent)
-        {
-            return false;
-        }
-		if (getLeaderType() == kEvent.getPrereqThirdLeader() || (kTriggeredData.m_eOtherPlayer != NO_PLAYER && GET_PLAYER(kTriggeredData.m_eOtherPlayer).getLeaderType() == kEvent.getPrereqThirdLeader()))
+		if (!bCivilizationPresent)
+			return false;
+		if (getCivilizationType() == kEvent.getPrereqThirdCivilization() || 
+			(kTriggeredData.m_eOtherPlayer != NO_PLAYER && GET_PLAYER(kTriggeredData.m_eOtherPlayer).getCivilizationType() == kEvent.getPrereqThirdCivilization()))
 		{
 			return false;
 		}
 	}
-	if ((kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonLeaderChanceArray() != NULL) ||
-		(kEvent.getSummonCivilization() != NO_CIVILIZATION || kEvent.getSummonCivilizationChanceArray() !+ NULL))
+	if (kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonLeaderChanceArray() != NULL ||
+		kEvent.getSummonCivilization() != NO_CIVILIZATION || kEvent.getSummonCivilizationChanceArray() != NULL)
 	{
-		if (getNumCities() <= 3) // XANA (note): Player must be a civilization that can survive losing a city to a breakaway event [i.e. must have more than 3 cities].
-		{
+		if (getNumCities() <= 3)
 			return false;
-		}
+		if (GC.getGame().getBestAvailablePlayerSlot() == NO_PLAYER)
+			return false;
 	}
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	if (!GC.getPythonCaller()->canDoEvent(eEvent, kTriggeredData))
@@ -17298,16 +17296,16 @@ bool CvPlayer::canTrigger(EventTriggerTypes eTrigger, PlayerTypes ePlayer, Relig
             return false;
         }
 	}
-	if (kEvent.getPrereqThirdLeader() != NO_LEADER)
+	if (kTrigger.getPrereqThirdLeader() != NO_LEADER)
 	{
-		if (getLeaderType() == kEvent.getPrereqThirdLeader() || kPlayer.getLeaderType() == kEvent.getPrereqThirdLeader())
+		if (getLeaderType() == kEvent.getPrereqThirdLeader() || kPlayer.getLeaderType() == kTrigger.getPrereqThirdLeader())
 		{
 			return false;
 		}
 	}
-	if (kEvent.getPrereqThirdCivilization() != NO_CIVILIZATION)
+	if (kTrigger.getPrereqThirdCivilization() != NO_CIVILIZATION)
 	{
-		if (getCivilizationType() == kEvent.getPrereqThirdCivilization() || kPlayer.getCivilizationType() == kEvent.getPrereqThirdCivilization())
+		if (getCivilizationType() == kEvent.getPrereqThirdCivilization() || kPlayer.getCivilizationType() == kTrigger.getPrereqThirdCivilization())
 		{
 			return false;
 		}
@@ -17542,6 +17540,10 @@ int CvPlayer::getEventTriggerWeight(EventTriggerTypes eTrigger) const
 		if (getNumCities() <= 3) // XANA (note): Player must be a civilization that can survive losing a city to a breakaway event [i.e. must have more than 3 cities].
 		{
 			return 0;
+		}
+		if (GC.getGame().getBestAvailablePlayerSlot() == NO_PLAYER)
+		{
+			return 0;	
 		}
 	}
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
