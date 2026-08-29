@@ -15772,11 +15772,13 @@ namespace
 				{
 					iCreateNum = 1; // 1 Unit by Default: Represents the leader and their guard force
 				}
+				int iNumSummonedUnits = 0;
 				for (int i = 0; i < iCreateNum; i++)
 				{
-					if (SyncRandNum(100) < iCreateChance)
+					if (iNumSummonedUnits == 0 || ((iNumSummonedUnits < iCreateNum) && SyncRandNum(100) < iCreateChance))
 					{
 						kNewPlayer.initUnit(kCity.getConscriptUnit(), kCity.getX(), kCity.getY());
+						iNumSummonedUnits++;
 					}
 				}
 			}
@@ -15883,7 +15885,7 @@ namespace
 							if (bSummonerTechsMoreLikely &&
 								it->getID() == eSummoner)
 							{
-								iAdditionalChance = 5; // Summoning civ grants additional chance because new leader/civ springs from their city / local population
+								iAdditionalChance = 5; // Summoning civ grants additional 5% chance because new leader/civ springs from their city / local population
 							}
 						}
 					}
