@@ -91,6 +91,8 @@ public: // All the const functions returning primitive types are exposed to Pyth
 	int getPrereqThirdCivilization() const;
 	int getSummonLeader() const;
 	int getSummonCivilization() const;
+	int getSummonUnitCreateChance() const;
+	int getSummonUnitDefectChance() const;
 	int getSummonLeaderChance(int i) const;
 	int getSummonCivilizationChance(int i) const;
 	int* getSummonLeaderChanceArray() const;
@@ -228,6 +230,8 @@ private:
 	int m_iPrereqThirdCivilization;
 	int m_iSummonThirdLeader;
 	int m_iSummonThirdCivilization;
+	int m_iSummonUnitCreateChance;
+	int m_iSummonUnitDefectChance;
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 };
 

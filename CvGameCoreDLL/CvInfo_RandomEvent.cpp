@@ -81,7 +81,9 @@ CvEventInfo::CvEventInfo() :
 	m_iPrereqOtherNotCivilization(NO_CIVILIZATION),
 	// XANA: FfH Events for AdvancedCiv 03-01-2025
 	
-	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
+	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ,
+	m_iSummonUnitCreateChance(0),
+	m_iSummonUnitDefectChance(0),
 	
 	/* XANA (note):
 	Event Summons Specific Single Leader For City Takeover
@@ -432,6 +434,16 @@ int CvEventInfo::getSummonLeader() const
 int CvEventInfo::getSummonCivilization() const
 {
 	return m_iSummonThirdCivilization;
+}
+
+int CvEventInfo::getSummonUnitCreateChance() const
+{
+	return m_iSummonUnitCreateChance;
+}
+
+int CvEventInfo::getSummonUnitDefectChance() const
+{
+	return m_iSummonUnitDefectChance;
 }
 
 int CvEventInfo::getSummonLeaderChance(int i) const
@@ -904,6 +916,9 @@ bool CvEventInfo::read(CvXMLLoadUtility* pXML)
 	
 	pXML->SetVariableListTagPair(&m_piSummonThirdLeaderChance, "SummonLeaderToGameRandomChances", GC.getNumLeaderHeadInfos());
 	pXML->SetVariableListTagPair(&m_piSummonThirdCivilizationChance, "SummonCivilizationToGameRandomChances", GC.getNumCivilizationInfos());
+	
+	pXML->GetChildXmlValByName(&m_iSummonUnitCreateChance, "iUnitCreationForSummonChance");
+	pXML->GetChildXmlValByName(&m_iSummonUnitDefectChance, "iUnitDefectionToSummonChance");
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	
 	return true;
