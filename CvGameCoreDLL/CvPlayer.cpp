@@ -15377,7 +15377,7 @@ namespace
 			return NO_LEADER;
 		
 		int iRoll = SyncRandNum(iTotalWeight);
-		for (int i = 0; i < iNumLeaders; ++i)
+		for (int i = 0; i < iEnumLength; ++i)
 		{
 			if (piChances[i] > 0 && !isLeaderInGame((LeaderHeadTypes)i))
 			{
@@ -15411,7 +15411,7 @@ namespace
 			return NO_CIVILIZATION;
 		
 		int iRoll = SyncRandNum(iTotalWeight);
-		for (int i = 0; i < iNumCivs; ++i)
+		for (int i = 0; i < iEnumLength; ++i)
 		{
 			if (piChances[i] > 0 && !isCivilizationInGame((CivilizationTypes)i))
 			{
@@ -15435,9 +15435,9 @@ namespace
 		std::vector<CivilizationTypes> aeCivs;
 		std::vector<int> aiWeights;
 		int iTotalWeight = 0;
-		int const iNumCivs = GC.getNumCivilizationInfos();
+		int const iEnumLength = GC.getNumCivilizationInfos();
 
-		for (int i = 0; i < iNumCivs; ++i)
+		for (int i = 0; i < iEnumLength; ++i)
 		{
 			CivilizationTypes eCiv = (CivilizationTypes)i;
 			
@@ -15448,9 +15448,9 @@ namespace
 			CvCivilizationInfo& kCiv = GC.getInfo(eCiv);
 
 			bool bValid = false;
-			int iEnumLength = kCiv.getNumLeaders();
+			int iEnumLengthL = kCiv.getNumLeaders();
 			
-			for (int j = 0; j < iEnumLength; ++j)
+			for (int j = 0; j < iEnumLengthL; ++j)
 			{
 				if (kCiv.getLeader(j) == eLeader)
 				{
@@ -15651,7 +15651,8 @@ namespace
 				// Verify the specific civ is actually compatible with our chosen leader
 				CvCivilizationInfo& kCiv = GC.getInfo(eCiv);
 				bool bCompatible = false;
-				for (int i = 0; i < kCiv.getNumLeaders(); ++i)
+				int const iEnumLength = kCiv.getNumLeaders();
+				for (int i = 0; i < iEnumLength; ++i)
 				{
 					if (kCiv.getLeader(i) == eOutLeader)
 					{
@@ -15660,7 +15661,7 @@ namespace
 					}
 				}
 				if (bCompatible)
-					eOutCiv = eTestCiv;
+					eOutCiv = eCiv;
 			}
 			else if (bHasCivArray)
 			{
