@@ -15365,9 +15365,9 @@ namespace
 			return NO_LEADER;
 
 		int iTotalWeight = 0;
-		int iNumLeaders = GC.getNumLeaderHeadInfos();
+		int const iEnumLength = GC.getNumLeaderHeadInfos();
 		
-		for (int i = 0; i < iNumLeaders; ++i)
+		for (int i = 0; i < iEnumLength; ++i)
 		{
 			if (!isLeaderInGame((LeaderHeadTypes)i))
 				iTotalWeight += piChances[i];
@@ -15399,9 +15399,9 @@ namespace
 			return NO_CIVILIZATION;
 
 		int iTotalWeight = 0;
-		int iNumCivs = GC.getNumCivilizationInfos();
+		int const iEnumLength = GC.getNumCivilizationInfos();
 		
-		for (int i = 0; i < iNumCivs; ++i)
+		for (int i = 0; i < iEnumLength; ++i)
 		{
 			if (!isCivilizationInGame((CivilizationTypes)i))
 				iTotalWeight += piChances[i];
@@ -15435,7 +15435,7 @@ namespace
 		std::vector<CivilizationTypes> aeCivs;
 		std::vector<int> aiWeights;
 		int iTotalWeight = 0;
-		int iNumCivs = GC.getNumCivilizationInfos();
+		int const iNumCivs = GC.getNumCivilizationInfos();
 
 		for (int i = 0; i < iNumCivs; ++i)
 		{
@@ -15448,9 +15448,9 @@ namespace
 			CvCivilizationInfo& kCiv = GC.getInfo(eCiv);
 
 			bool bValid = false;
-			int iNumCivLeaders = kCiv.getNumLeaders();
+			int iEnumLength = kCiv.getNumLeaders();
 			
-			for (int j = 0; j < iNumCivLeaders; ++j)
+			for (int j = 0; j < iEnumLength; ++j)
 			{
 				if (kCiv.getLeader(j) == eLeader)
 				{
@@ -15506,9 +15506,9 @@ namespace
 		std::vector<LeaderHeadTypes> aeLeaders;
 		std::vector<int> aiWeights;
 		int iTotalWeight = 0;
-		int iNumCivLeaders = kCiv.getNumLeaders();
+		int const iEnumLength = kCiv.getNumLeaders();
 
-		for (int i = 0; i < iNumCivLeaders; ++i)
+		for (int i = 0; i < iEnumLength; ++i)
 		{
 			LeaderHeadTypes eLeader = (LeaderHeadTypes)kCiv.getLeader(i);
 			if (eLeader == NO_LEADER)
@@ -15564,10 +15564,10 @@ namespace
 		eOutLeader = NO_LEADER;
 		eOutCiv = NO_CIVILIZATION;
 
-		bool bHasSpecificLeader = (kEvent.getSummonLeader() != NO_LEADER);
-		bool bHasSpecificCiv    = (kEvent.getSummonCivilization() != NO_CIVILIZATION);
-		bool bHasLeaderArray    = (kEvent.getSummonLeaderChanceArray() != NULL);
-		bool bHasCivArray       = (kEvent.getSummonCivilizationChanceArray() != NULL);
+		bool const bHasSpecificLeader = (kEvent.getSummonLeader() != NO_LEADER);
+		bool const bHasSpecificCiv = (kEvent.getSummonCivilization() != NO_CIVILIZATION);
+		bool const bHasLeaderArray = (kEvent.getSummonLeaderChanceArray() != NULL);
+		bool const bHasCivArray = (kEvent.getSummonCivilizationChanceArray() != NULL);
 		
 		// Case 1: Both specific IDs defined -> deterministic, but verify not already in game
 		if (bHasSpecificLeader && bHasSpecificCiv)
@@ -15671,6 +15671,333 @@ namespace
 				eOutCiv = selectCompatibleCivForSummonLeader(eOutLeader, NULL);
 		}
 		return (eOutLeader != NO_LEADER && eOutCiv != NO_CIVILIZATION);
+	}
+	
+	void defectUnitToPlayer(CvUnit* pUnit, CvPlayer& kNewPlayer)
+	{
+		if (pUnit == NULL) return;
+		// Skip irreplaceable souls — no Great People, no Settlers, no Heroes
+		if (pUnit->isGreatPerson() || pUnit->canFoundCity() || pUnit->isHero()) 
+			return;
+		
+		CvPlot* pPlot = pUnit->plot();
+		UnitTypes const eType = pUnit->getUnitType();
+		int const iExp = pUnit->getExperience();
+		int const iDamage = pUnit->getDamage();
+		int const iLevel = pUnit->getLevel();
+		pUnit->kill(false); // No combat death messages
+		CvUnit* pNewUnit = kNewPlayer.initUnit(eType, pPlot->getX(), pPlot->getY());
+		if (pNewUnit != NULL)
+		{
+			pNewUnit->setExperience(iExp);
+			pNewUnit->setDamage(iDamage, NO_PLAYER);
+			pNewUnit->setLevel(iLevel);
+			// Promotions: intentionally omitted. Many promotions are civ-specific
+			// or require techs the new owner lacks. Let them earn their own identity.
+		}
+	}
+	
+	void doWorldMilitaryUnitBreachforSummonedPlayer(const CvEventInfo& kEvent, CvPlot& kEventPlot, CvPlayer& kNewPlayer, PlayerTypes eSummoner)
+	{
+		{
+			int const iCreateChance = kEvent.getSummonUnitCreateChance();
+			if (iCreateChance > 0)
+			{
+				CvCity& kCity = *kEventPlot.getPlotCity();
+				int const iCreateNum = (kCity.getPopulation() / 2);
+				if (iCreateNum <= 0)
+				{
+					iCreateNum = 1; // 1 Unit by Default: Represents the leader and their guard force
+				}
+				for (int i = 0; i < iCreateNum; i++)
+				{
+					if (SyncRandNum(100) < iCreateChance)
+					{
+						kNewPlayer.initUnit(kCity.getConscriptUnit(), kCity.getX(), kCity.getY());
+					}
+				}
+			}
+		}
+		if (eSummoner != NO_PLAYER);
+		{
+			int const iDefectChance = kEvent.getSummonUnitDefectChance();
+			if (iDefectChance > 0)
+			{
+				FOR_EACH_UNIT_IN(pLoopUnit, kEventPlot)
+				{
+					if (!pLoopUnit->isGreatPerson() && !pLoopUnit->canFoundCity())
+					{
+						if (pLoopUnit->getVisualOwner() != kNewPlayer.getID() &&
+							pLoopUnit->getVisualOwner() == eSummoner)
+						{
+							if (SyncRandNum(100) < iDefectChance)
+							{
+								apDefectors.push_back(pLoopUnit);
+							}
+						}
+					}
+				}
+				if ((int)apDefectors.size() > 0)
+				{
+					for (int i = 0; i < (int)apDefectors.size(); i++)
+					{
+						defectUnitToPlayer(apDefectors[i], kNewPlayer);
+					}
+				}
+			}
+		}
+	}
+	
+	void doWorldTechDiffusionForSummonedPlayer(CvPlayer& kNewPlayer, PlayerTypes eSummoner)
+	{
+		int const iEnumLength = GC.getNumTechInfos();
+		std::vector<bool> vbGranted(iEnumLength, false);
+		std::vector<bool> vbBase(iEnumLength, false);
+		CvTeam& kTeam = GET_TEAM(kNewPlayer.getID());
+		for (int i = 0; i < iEnumLength; ++i)
+		{
+			if (kTeam.isHasTech((TechTypes)i))
+				vbBase[i] = true;
+		}
+		
+		bool bContinueLoopProgress = true;
+		int const iBaseChance = 5;      // 5% if exactly one player knows it
+		int const iPerOwner = 8;        // +8% for each additional owner
+		int const iMaxChance = 75;      // hard cap to preserve randomness
+		bool const bSummonerTechsMoreLikely = (eSummoner != NO_PLAYER);
+		while (bContinueLoopProgress)
+		{
+			bContinueLoopProgress = false;
+			for (int i = 0; i < iEnumLength; ++i)
+			{
+				TechTypes eTech = (TechTypes)i;
+				if (vbBase[i] || vbGranted[i]) continue;
+				
+				CvTechInfo& kTech = GC.getInfo(eTech);
+				
+				// Prereq check: ANDs must all be met (base or newly granted)
+				{
+					bool bAndMet = (kTech.getNumPrereqAndTechs() > 0);
+					if (bAndMet)
+					{
+						for (int j = 0; j < kTech.getNumPrereqAndTechs(); ++j)
+						{
+							int iPrereq = kTech.getPrereqAndTechs(j);
+							if (!vbBase[iPrereq] && !vbGranted[iPrereq])
+								bAndMet = false;
+						}
+						if (!bAndMet) continue;
+					}
+				}
+				
+				// Prereq check: ORs need at least one met, if any exist
+				{
+					bool bOrMet = (kTech.getNumPrereqOrTechs() > 0);
+					if (bOrMet)
+					{
+						for (int j = 0; j < kTech.getNumPrereqOrTechs(); ++j)
+						{
+							int iPrereq = kTech.getPrereqOrTechs(j);
+							if (vbBase[iPrereq] || vbGranted[iPrereq])
+								bOrMet = true;
+						}
+						if (!bOrMet) continue;
+					}
+				}
+				
+				// Count living owners
+				{
+					int iOwners = 0;
+					if (bSummonerTechsMoreLikely)
+					{
+						int iAdditionalChance = 0;
+					}
+					for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
+					{
+						if (GET_TEAM(it->getTeam()).isHasTech(eTech))
+						{
+							++iOwners;
+							if (bSummonerTechsMoreLikely &&
+								it->getID() == eSummoner)
+							{
+								iAdditionalChance = 5; // Summoning civ grants additional chance because new leader/civ springs from their city / local population
+							}
+						}
+					}
+					if (iOwners == 0) continue;
+					int iChance = 0;
+					if (bSummonerTechsMoreLikely)
+					{
+						iChance = ((iBaseChance + iAdditionalChance) + (iOwners - 1)) * iPerOwner;
+					}
+					else
+					{
+						iChance = (iBaseChance + (iOwners - 1)) * iPerOwner;
+					}
+					if (iChance > iMaxChance)
+					{
+						iChance = iMaxChance;
+					}
+					if (SyncRandNum(100) < iChance)
+					{
+						vbGranted[i] = true;
+						bContinueLoopProgress = true;
+					}
+				}
+			}
+		}
+		for (int i = 0; i < iEnumLength; ++i)
+		{
+			if (vbGranted[i])
+			{
+				kTeam.setHasTech((TechTypes)i, true, eNewPlayer, false, false);
+			}
+		}
+	}
+	
+	EraTypes calculateMedianEraOfMajorCivs() const
+	{
+		std::vector<EraTypes> aeEras;
+		for (PlayerIter<MAJOR_CIV> it; it.hasNext(); ++it)
+		{
+			if (it->isAlive())
+			{
+				aeEras.push_back(it->getCurrentEra());
+			}
+		}
+		if (aeEras.empty())
+		{
+			return enum_traits<EraTypes>::first;
+		}
+		
+		std::sort(aeEras.begin(), aeEras.end());
+		// Conservative floor: use the lower median for even counts
+		// e.g. 6 civs -> index 2 (the 3rd era in sorted order)
+		return aeEras[static_cast<int>((aeEras.size()) / 2)];
+	}
+	
+	void grantTechAndMissingPrereqs(TeamTypes eTeam, TechTypes eTech, CvPlayer& kNewPlayer)
+	{
+		if (eTech == NO_TECH || GET_TEAM(eTeam).isHasTech(eTech))
+			return;
+
+		CvTechInfo& kTech = GC.getInfo(eTech);
+
+		// Grant all AND prerequisites first
+		for (int i = 0; i < kTech.getNumPrereqAndTechs(); ++i)
+		{
+			TechTypes ePrereq = (TechTypes)kTech.getPrereqAndTechs(i);
+			if (ePrereq != NO_TECH)
+				grantTechAndMissingPrereqs(eTeam, ePrereq, kNewPlayer);
+		}
+
+		// If there are OR prerequisites, ensure at least one is satisfied
+		if (kTech.getNumPrereqOrTechs() > 0)
+		{
+			bool bHasAnyOr = false;
+			for (int i = 0; i < kTech.getNumPrereqOrTechs(); ++i)
+			{
+				TechTypes eOrPrereq = (TechTypes)kTech.getPrereqOrTechs(i);
+				if (eOrPrereq != NO_TECH && GET_TEAM(eTeam).isHasTech(eOrPrereq))
+				{
+					bHasAnyOr = true;
+					break;
+				}
+			}
+
+			if (!bHasAnyOr)
+			{
+				// Pick the cheapest missing OR prerequisite to grant
+				TechTypes eCheapestOr = NO_TECH;
+				int iCheapestCost = INT_MAX;
+
+				for (int i = 0; i < kTech.getNumPrereqOrTechs(); ++i)
+				{
+					TechTypes eOrPrereq = (TechTypes)kTech.getPrereqOrTechs(i);
+					if (eOrPrereq != NO_TECH && !GET_TEAM(eTeam).isHasTech(eOrPrereq))
+					{
+						int iCost = GC.getInfo(eOrPrereq).getResearchCost();
+						if (iCost < iCheapestCost)
+						{
+							iCheapestCost = iCost;
+							eCheapestOr = eOrPrereq;
+						}
+					}
+				}
+
+				if (eCheapestOr != NO_TECH)
+					grantTechAndMissingPrereqs(eTeam, eCheapestOr, kNewPlayer);
+			}
+		}
+
+		// Now safe to grant the tech itself
+		// bFirst=false, bAnnounce=false to avoid spamming the world log
+		GET_TEAM(eTeam).setHasTech(eTech, true, kNewPlayer.getID(), false, false);
+	}
+	
+	void grantCheapestTechsToReachEra(CvPlayer& kNewPlayer, EraTypes eTargetEra)
+	{
+		if (eTargetEra <= enum_traits<EraTypes>::first)
+			return;
+		// Already at or above the floor — nothing to do
+		if (kNewPlayer.getCurrentEra() >= eTargetEra)
+			return;
+
+		TeamTypes eTeam = kNewPlayer.getTeam();
+		// Gather every tech at or below the target era that we don't yet have
+		std::vector< std::pair<int, TechTypes> > aTechCosts; // (base cost, tech)
+		FOR_EACH_ENUM(Tech)
+		{
+			CvTechInfo& kTech = GC.getInfo(eLoopTech);
+			if (kTech.getEra() <= eTargetEra && !GET_TEAM(eTeam).isHasTech(eLoopTech))
+			{
+				aTechCosts.push_back(std::make_pair(kTech.getResearchCost(), eLoopTech));
+			}
+		}
+		if (aTechCosts.empty())
+		{
+			return;
+		}
+		// Sort by base cost ascending — "cheap" means lowest XML iCost
+		std::sort(aTechCosts.begin(), aTechCosts.end());
+		// Grant techs in cost order until we hit the desired era
+		for (int i = 0; i < (int)aTechCosts.size(); ++i)
+		{
+			if (kNewPlayer.getCurrentEra() >= eTargetEra)
+				break;
+
+			TechTypes eTech = aTechCosts[i].second;
+			if (!GET_TEAM(eTeam).isHasTech(eTech))
+			{
+				grantTechAndMissingPrereqs(eTeam, eTech, kNewPlayer);
+			}
+		}
+	}
+	
+	void acquireCityForSummonedPlayer(CvEvent const& kEvent, CvCity*& pTargetCity, CvPlayer& kCityTakeoverPlayer, bool& bDoWorldTechDiffusion)
+	{
+		if (pTargetCity == NULL)
+		{
+			return;
+		}
+		CvPlot& kCityPlot = *pTargetCity->plot();
+		PlayerTypes const eSummoner = pTargetCity->getOwner();
+		if (eSummoner == NO_PLAYER)
+		{
+			return;
+		}
+		doWorldMilitaryUnitBreachforSummonedPlayer(kEvent, kCityPlot, kCityTakeoverPlayer, eSummoner);
+		
+		kCityTakeoverPlayer.acquireCity(pTargetCity, false, true, true, false, true);
+		if (bDoWorldTechDiffusion)
+		{
+			doWorldTechDiffusionForSummonedPlayer(kCityTakeoverPlayer, eSummoner);
+			bDoWorldTechDiffusion = false; // Only do tech diffusion once
+		}
+		
+		// acquireCity() may invalidate/reassign the CvCity pointer,
+		// so refresh it from the plot.
+		pTargetCity = kCityPlot.getPlotCity();
 	}
 }
 /*
@@ -16966,38 +17293,41 @@ void CvPlayer::applyEvent(EventTypes eEvent, int iEventTriggeredId, bool bUpdate
 		}
 	}
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
-	if ((kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonCivilization !+ NO_CIVILIZATION) ||
-		(kEvent.getSummonLeaderChanceArray() != NULL || kEvent.getSummonCivilizationChanceArray() !+ NULL))
+	if ((kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonCivilization() != NO_CIVILIZATION) ||
+		(kEvent.getSummonLeaderChanceArray() != NULL || kEvent.getSummonCivilizationChanceArray() != NULL))
 	{
-		CvGame& kGame = GC.getGame();
-		PlayerTypes eCityTakeoverPlayer = kGame.getBestAvailablePlayerSlot();
-		LeaderHeadTypes eSummonLeader = NO_LEADER;
-		CivilizationTypes eSummonCiv = NO_CIVILIZATION;
-		if (eCityTakeoverPlayer != NO_PLAYER && resolveSummonLeaderAndCiv(kEvent, eSummonLeader, eSummonCiv))
+		bool const bAffectsOurCity = (kEvent.isCityEffect() && pCity != NULL);
+		bool const bAffectsOtherCity = (kEvent.isOtherPlayerCityEffect() && pOtherPlayerCity != NULL);
+		if (bAffectsOurCity || bAffectsOtherCity)
 		{
-			CvCity* pTargetCity = NULL;
-			if (kEvent.isCityEffect() && pCity != NULL)
-			{
-				pTargetCity = pCity;
-			}
-			else if (kEvent.isOtherPlayerCityEffect() && pOtherPlayerCity != NULL)
-			{
-				pTargetCity = pOtherPlayerCity;
-			}
-			if (pTargetCity != NULL)
+			bool bDoWorldTechDiffusion = true;
+			CvGame& kGame = GC.getGame();
+			PlayerTypes const eCityTakeoverPlayer = kGame.getBestAvailablePlayerSlot();
+			
+			LeaderHeadTypes eSummonLeader = NO_LEADER;
+			CivilizationTypes eSummonCiv = NO_CIVILIZATION;
+			if (eCityTakeoverPlayer != NO_PLAYER && resolveSummonLeaderAndCiv(kEvent, eSummonLeader, eSummonCiv))
 			{
 				kGame.addPlayerSimplified(eCityTakeoverPlayer, eSummonLeader, eSummonCiv);
+				CvPlayer& kCityTakeoverPlayer = GET_PLAYER(eCityTakeoverPlayer);
 
-				CvPlot& kCityPlot = *pTargetCity->plot();
-				GET_PLAYER(eCityTakeoverPlayer).acquireCity(pTargetCity, false, true, true, false, true);
-
-				if (kEvent.isCityEffect())
+				if (bAffectsOurCity)
 				{
-					pCity = kCityPlot.getPlotCity();
+					acquireCityForSummonedPlayer(kEvent, pCity, kCityTakeoverPlayer, bDoWorldTechDiffusion);
 				}
-				else
+
+				if (bAffectsOtherCity)
 				{
-					pOtherPlayerCity = kCityPlot.getPlotCity();
+					acquireCityForSummonedPlayer(kEvent, pOtherPlayerCity, kCityTakeoverPlayer, bDoWorldTechDiffusion);
+				}
+
+				if (kCityTakeoverPlayer.isAlive())
+				{
+					EraTypes const eWorldTechMedian = calculateMedianEraOfMajorCivs();
+					if (kCityTakeoverPlayer.getCurrentEra() < eWorldTechMedian)
+					{
+						grantCheapestTechsToReachEra(kCityTakeoverPlayer, eWorldTechMedian);
+					}
 				}
 			}
 		}
