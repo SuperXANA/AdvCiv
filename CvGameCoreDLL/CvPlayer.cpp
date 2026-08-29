@@ -16338,7 +16338,7 @@ EventTriggeredData* CvPlayer::initTriggeredData(EventTriggerTypes eEventTrigger,
 			pCity = pickTriggerCity(eEventTrigger);
 		
 		if (!kTrigger.isPickPlayer() && eOtherPlayer == NO_PLAYER)
-		{	
+		{
 			std::vector<PlayerTypes> aePlayers;
 			std::vector<CvCity*> apCities;
 			
@@ -16760,6 +16760,11 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	if (kEvent.getPrereqThirdLeader() != NO_LEADER)
 	{
+		if (getLeaderType() == kEvent.getPrereqThirdLeader() || 
+			(kTriggeredData.m_eOtherPlayer != NO_PLAYER && GET_PLAYER(kTriggeredData.m_eOtherPlayer).getLeaderType() == kEvent.getPrereqThirdLeader()))
+		{
+			return false;
+		}
 		bool bLeaderPresent = false;
 		for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
 		{
@@ -16771,14 +16776,14 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
 		}
 		if (!bLeaderPresent)
 			return false;
-		if (getLeaderType() == kEvent.getPrereqThirdLeader() || 
-			(kTriggeredData.m_eOtherPlayer != NO_PLAYER && GET_PLAYER(kTriggeredData.m_eOtherPlayer).getLeaderType() == kEvent.getPrereqThirdLeader()))
-		{
-			return false;
-		}
 	}
 	if (kEvent.getPrereqThirdCivilization() != NO_CIVILIZATION)
 	{
+		if (getCivilizationType() == kEvent.getPrereqThirdCivilization() || 
+			(kTriggeredData.m_eOtherPlayer != NO_PLAYER && GET_PLAYER(kTriggeredData.m_eOtherPlayer).getCivilizationType() == kEvent.getPrereqThirdCivilization()))
+		{
+			return false;
+		}
 		bool bCivilizationPresent = false;
 		for (PlayerIter<CIV_ALIVE> it; it.hasNext(); ++it)
 		{
@@ -16790,14 +16795,9 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
 		}
 		if (!bCivilizationPresent)
 			return false;
-		if (getCivilizationType() == kEvent.getPrereqThirdCivilization() || 
-			(kTriggeredData.m_eOtherPlayer != NO_PLAYER && GET_PLAYER(kTriggeredData.m_eOtherPlayer).getCivilizationType() == kEvent.getPrereqThirdCivilization()))
-		{
-			return false;
-		}
 	}
-	if (kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonLeaderChanceArray() != NULL ||
-		kEvent.getSummonCivilization() != NO_CIVILIZATION || kEvent.getSummonCivilizationChanceArray() != NULL)
+	if ((kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonLeaderChanceArray() != NULL) ||
+		(kEvent.getSummonCivilization() != NO_CIVILIZATION || kEvent.getSummonCivilizationChanceArray() != NULL))
 	{
 		if (getNumCities() <= 3)
 			return false;
@@ -17943,6 +17943,10 @@ bool CvPlayer::canTrigger(EventTriggerTypes eTrigger, PlayerTypes ePlayer, Relig
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	if (kTrigger.getPrereqThirdLeader() != NO_LEADER)
 	{
+		if (getLeaderType() == kTrigger.getPrereqThirdLeader() || kPlayer.getLeaderType() == kTrigger.getPrereqThirdLeader())
+		{
+			return false;
+		}
 		bool bLeaderPresent = false;
 		for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
 		{
@@ -17959,6 +17963,10 @@ bool CvPlayer::canTrigger(EventTriggerTypes eTrigger, PlayerTypes ePlayer, Relig
 	}
 	if (kTrigger.getPrereqThirdCivilization() != NO_CIVILIZATION)
 	{
+		if (getCivilizationType() == kTrigger.getPrereqThirdCivilization() || kPlayer.getCivilizationType() == kTrigger.getPrereqThirdCivilization())
+		{
+			return false;
+		}
 		bool bCivilizationPresent = false;
 		for (PlayerIter<CIV_ALIVE> it; it.hasNext(); ++it)
 		{
@@ -17972,20 +17980,6 @@ bool CvPlayer::canTrigger(EventTriggerTypes eTrigger, PlayerTypes ePlayer, Relig
         {
             return false;
         }
-	}
-	if (kTrigger.getPrereqThirdLeader() != NO_LEADER)
-	{
-		if (getLeaderType() == kTrigger.getPrereqThirdLeader() || kPlayer.getLeaderType() == kTrigger.getPrereqThirdLeader())
-		{
-			return false;
-		}
-	}
-	if (kTrigger.getPrereqThirdCivilization() != NO_CIVILIZATION)
-	{
-		if (getCivilizationType() == kTrigger.getPrereqThirdCivilization() || kPlayer.getCivilizationType() == kTrigger.getPrereqThirdCivilization())
-		{
-			return false;
-		}
 	}
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
@@ -18168,6 +18162,10 @@ int CvPlayer::getEventTriggerWeight(EventTriggerTypes eTrigger) const
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	if (kTrigger.getPrereqThirdLeader() != NO_LEADER)
 	{
+	    if (getLeaderType() == kTrigger.getPrereqThirdLeader())
+	    {
+	        return 0;
+	    }
 		bool bLeaderPresent = false;
 		for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
 		{
@@ -18184,6 +18182,10 @@ int CvPlayer::getEventTriggerWeight(EventTriggerTypes eTrigger) const
 	}
 	if (kTrigger.getPrereqThirdCivilization() != NO_CIVILIZATION)
 	{
+	    if (getCivilizationType() == kTrigger.getPrereqThirdCivilization())
+	    {
+	        return 0;
+	    }
 		bool bCivilizationPresent = false;
 		for (PlayerIter<CIV_ALIVE> it; it.hasNext(); ++it)
 		{
@@ -18197,20 +18199,6 @@ int CvPlayer::getEventTriggerWeight(EventTriggerTypes eTrigger) const
         {
             return 0;
         }
-	}
-	if (kTrigger.getPrereqThirdLeader() != NO_LEADER)
-	{
-	    if (getLeaderType() == kTrigger.getPrereqThirdLeader())
-	    {
-	        return 0;
-	    }
-	}
-	if (kTrigger.getPrereqThirdCivilization() != NO_CIVILIZATION)
-	{
-	    if (getCivilizationType() == kTrigger.getPrereqThirdCivilization())
-	    {
-	        return 0;
-	    }
 	}
 	if (kTrigger.isSummonLeaderToGame() || kTrigger.isSummonCivilizationToGame())
 	{
