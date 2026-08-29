@@ -15329,48 +15329,78 @@ void CvPlayer::setTriggerFired(EventTriggeredData const& kTriggeredData, bool bO
 // XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 namespace
 {
-	// Returns true if a leader is currently in use by any alive player.
-	bool isLeaderInGame(LeaderHeadTypes eLeader)
+	void buildEligibleSummonCandidates(std::vector<LeaderHeadTypes>& aeEligibleLeaders, std::vector<CivilizationTypes>& aeEligibleCivs)
 	{
-		if (eLeader == NO_LEADER)
-			return false;
+		aeEligibleLeaders.clear();
+		aeEligibleCivs.clear();
+		std::vector<bool> abLeaderInGame(GC.getNumLeaderHeadInfos(), false);
+		std::vector<bool> abCivInGame(GC.getNumCivilizationInfos(), false);
+
+		// Snapshot leaders currently in use.
 		for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
 		{
-			if (it->getLeaderType() == eLeader)
-				return true;
-		}
-		return false;
-	}
+			LeaderHeadTypes const eLeader = it->getLeaderType();
 
-	// Returns true if a civilization is currently in use by any alive player.
-	bool isCivilizationInGame(CivilizationTypes eCiv)
-	{
-		if (eCiv == NO_CIVILIZATION)
-			return false;
+			if (eLeader != NO_LEADER)
+			{
+				abLeaderInGame[eLeader] = true;
+			}
+		}
+
+		// Snapshot civilizations currently in use.
 		for (PlayerIter<CIV_ALIVE> it; it.hasNext(); ++it)
 		{
-			if (it->getCivilizationType() == eCiv)
-				return true;
+			CivilizationTypes const eCiv = it->getCivilizationType();
+			if (eCiv != NO_CIVILIZATION)
+			{
+				abCivInGame[eCiv] = true;
+			}
 		}
-		return false;
+
+		// Build eligible leader pool.
+		{
+			int iEnumLength = GC.getNumLeaderHeadInfos();
+			for (int i = 0; i < iEnumLength; ++i)
+			{
+				LeaderHeadTypes const eLeader = (LeaderHeadTypes)i;
+
+				if (!abLeaderInGame[eLeader])
+				{
+					aeEligibleLeaders.push_back(eLeader);
+				}
+			}
+		}
+
+		// Build eligible civilization pool.
+		{
+			int iEnumLength = GC.getNumCivilizationInfos();
+			for (int i = 0; i < iEnumLength; ++i)
+			{
+				CivilizationTypes const eCiv = (CivilizationTypes)i;
+
+				if (!abCivInGame[eCiv])
+				{
+					aeEligibleCivs.push_back(eCiv);
+				}
+			}
+		}
 	}
 
 	// Picks a leader from the event's SummonLeaderToGameRandomChances array.
 	// Skips leaders already present in the game.
 	// Returns NO_LEADER if the array is missing or has zero valid weight.
-	LeaderHeadTypes selectWeightedSummonLeader(const CvEventInfo& kEvent)
+	LeaderHeadTypes selectWeightedSummonLeader(const CvEventInfo& kEvent, std::vector<LeaderHeadTypes>& aeEligibleLeaders)
 	{
 		int* piChances = kEvent.getSummonLeaderChanceArray();
 		if (piChances == NULL)
 			return NO_LEADER;
 
 		int iTotalWeight = 0;
-		int const iEnumLength = GC.getNumLeaderHeadInfos();
+		int const iEnumLength = (int)aeEligibleLeaders.size();
 		
 		for (int i = 0; i < iEnumLength; ++i)
 		{
-			if (!isLeaderInGame((LeaderHeadTypes)i))
-				iTotalWeight += piChances[i];
+			iTotalWeight += piChances[i];
 		}
 
 		if (iTotalWeight <= 0)
@@ -15379,7 +15409,7 @@ namespace
 		int iRoll = SyncRandNum(iTotalWeight);
 		for (int i = 0; i < iEnumLength; ++i)
 		{
-			if (piChances[i] > 0 && !isLeaderInGame((LeaderHeadTypes)i))
+			if (piChances[i] > 0)
 			{
 				iRoll -= piChances[i];
 				if (iRoll < 0)
@@ -15392,19 +15422,18 @@ namespace
 	// Picks a civilization from the event's SummonCivilizationToGameRandomChances array.
 	// Skips civilizations already present in the game.
 	// Returns NO_CIVILIZATION if the array is missing or has zero valid weight.
-	CivilizationTypes selectWeightedSummonCiv(const CvEventInfo& kEvent)
+	CivilizationTypes selectWeightedSummonCiv(const CvEventInfo& kEvent, std::vector<CivilizationTypes>& aeEligibleCivs)
 	{
 		int* piChances = kEvent.getSummonCivilizationChanceArray();
 		if (piChances == NULL)
 			return NO_CIVILIZATION;
 
 		int iTotalWeight = 0;
-		int const iEnumLength = GC.getNumCivilizationInfos();
+		int const iEnumLength = (int)aeEligibleCivs.size();
 		
 		for (int i = 0; i < iEnumLength; ++i)
 		{
-			if (!isCivilizationInGame((CivilizationTypes)i))
-				iTotalWeight += piChances[i];
+			iTotalWeight += piChances[i];
 		}
 
 		if (iTotalWeight <= 0)
@@ -15413,7 +15442,7 @@ namespace
 		int iRoll = SyncRandNum(iTotalWeight);
 		for (int i = 0; i < iEnumLength; ++i)
 		{
-			if (piChances[i] > 0 && !isCivilizationInGame((CivilizationTypes)i))
+			if (piChances[i] > 0)
 			{
 				iRoll -= piChances[i];
 				if (iRoll < 0)
@@ -15427,7 +15456,7 @@ namespace
 	// If pEventFilter is non-NULL, only civs with a positive weight in the event's
 	// civilization chance array are considered (and also must not be in-game).
 	// When no filter is used, compatible civs are chosen with equal probability.
-	CivilizationTypes selectCompatibleCivForSummonLeader(LeaderHeadTypes eLeader, const CvEventInfo* pEventFilter)
+	CivilizationTypes selectCompatibleCivForSummonLeader(LeaderHeadTypes eLeader, const CvEventInfo* pEventFilter, std::vector<CivilizationTypes>& aeEligibleCivs)
 	{
 		if (eLeader == NO_LEADER)
 			return NO_CIVILIZATION;
@@ -15435,31 +15464,27 @@ namespace
 		std::vector<CivilizationTypes> aeCivs;
 		std::vector<int> aiWeights;
 		int iTotalWeight = 0;
-		int const iEnumLength = GC.getNumCivilizationInfos();
+		int const iEnumLength = (int)aeEligibleCivs.size();
 
 		for (int i = 0; i < iEnumLength; ++i)
 		{
 			CivilizationTypes eCiv = (CivilizationTypes)i;
-			
-			// Skip civs already present in the world
-			if (isCivilizationInGame(eCiv))
-				continue;
-
-			CvCivilizationInfo& kCiv = GC.getInfo(eCiv);
-
-			bool bValid = false;
-			int iEnumLengthL = kCiv.getNumLeaders();
-			
-			for (int j = 0; j < iEnumLengthL; ++j)
-			{
-				if (kCiv.getLeader(j) == eLeader)
-				{
-					bValid = true;
-					break;
-				}
-			}
+			bool bValid = GC.getGame().isOption(GAMEOPTION_LEAD_ANY_CIV);
 			if (!bValid)
-				continue;
+			{
+				int const iEnumLengthL = kCiv.getNumLeaders();
+				
+				for (int j = 0; j < iEnumLengthL; ++j)
+				{
+					if (kCiv.getLeader(j) == eLeader)
+					{
+						bValid = true;
+						break;
+					}
+				}
+				if (!bValid)
+					continue;
+			}
 
 			if (pEventFilter != NULL && pEventFilter->getSummonCivilizationChanceArray() != NULL)
 			{
@@ -15514,10 +15539,6 @@ namespace
 			if (eLeader == NO_LEADER)
 				continue;
 
-			// Skip leaders already present in the world
-			if (isLeaderInGame(eLeader))
-				continue;
-
 			if (pEventFilter != NULL && pEventFilter->getSummonLeaderChanceArray() != NULL)
 			{
 				int iWeight = pEventFilter->getSummonLeaderChance(eLeader);
@@ -15559,119 +15580,160 @@ namespace
 	//     to respect the civ array/filter. If that yields nothing, fall back to any
 	//     compatible civ for that leader.
 	// Returns true if a valid pair was resolved.
-	bool resolveSummonLeaderAndCiv(const CvEventInfo& kEvent, LeaderHeadTypes& eOutLeader, CivilizationTypes& eOutCiv)
+	bool resolveSummonLeaderAndCiv(const CvEventInfo& kEvent, std::vector<LeaderHeadTypes>& aeEligibleLeaders, std::vector<CivilizationTypes>& aeEligibleCivs, LeaderHeadTypes& eOutLeader, CivilizationTypes& eOutCiv)
 	{
-		eOutLeader = NO_LEADER;
-		eOutCiv = NO_CIVILIZATION;
-
 		bool const bHasSpecificLeader = (kEvent.getSummonLeader() != NO_LEADER);
 		bool const bHasSpecificCiv = (kEvent.getSummonCivilization() != NO_CIVILIZATION);
 		bool const bHasLeaderArray = (kEvent.getSummonLeaderChanceArray() != NULL);
 		bool const bHasCivArray = (kEvent.getSummonCivilizationChanceArray() != NULL);
-		
-		// Case 1: Both specific IDs defined -> deterministic, but verify not already in game
-		if (bHasSpecificLeader && bHasSpecificCiv)
+		/*
+		 * Nothing to resolve.
+		 */
+		if (!bHasSpecificLeader &&
+			!bHasSpecificCiv &&
+			!bHasLeaderArray &&
+			!bHasCivArray)
 		{
-			LeaderHeadTypes eLeader = (LeaderHeadTypes)kEvent.getSummonLeader();
-			CivilizationTypes eCiv = (CivilizationTypes)kEvent.getSummonCivilization();
-			
-			if (!isLeaderInGame(eLeader) && !isCivilizationInGame(eCiv))
-			{
-				eOutLeader = eLeader;
-				eOutCiv = eCiv;
-				return true;
-			}
-			return false; // One or both already exists
+			return false;
 		}
-		// Case 2: Only leader source(s) defined -> leader first, then any compatible civ
-		if ((bHasLeaderArray || bHasSpecificLeader) && !bHasCivArray && !bHasSpecificCiv)
+		/*
+		 * ============================================================
+		 * STEP 1: Resolve explicitly specified values.
+		 * ============================================================
+		 */
+		if (bHasSpecificLeader)
 		{
-			eOutLeader = bHasSpecificLeader ? (LeaderHeadTypes)kEvent.getSummonLeader()
-											: selectWeightedSummonLeader(kEvent);
-			// If specific leader is already in game, abort
-			if (bHasSpecificLeader && isLeaderInGame(eOutLeader))
-				return false;
-				
-			if (eOutLeader != NO_LEADER)
-				eOutCiv = selectCompatibleCivForSummonLeader(eOutLeader, NULL);
+			eOutLeader = (LeaderHeadTypes)kEvent.getSummonLeader();
+		}
+		if (bHasSpecificCiv)
+		{
+			eOutCiv = (CivilizationTypes)kEvent.getSummonCivilization();
+		}
+		/*
+		 * ============================================================
+		 * STEP 2: If we have a specific value on one side, resolve
+		 * the other side around it.
+		 * ============================================================
+		 */
+		if (eOutLeader != NO_LEADER &&
+			eOutCiv == NO_CIVILIZATION)
+		{
+			/*
+			 * Specific leader + civ array.
+			 */
+			if (bHasCivArray)
+			{
+				eOutCiv = selectCompatibleCivForSummonLeader(eOutLeader, &kEvent, aeEligibleCivs);
+			}
+			/*
+			 * If the civ filter couldn't produce anything, fall back
+			 * to any compatible civilization.
+			 */
+			if (eOutCiv == NO_CIVILIZATION)
+			{
+				eOutCiv = selectCompatibleCivForSummonLeader(eOutLeader, NULL, aeEligibleCivs);
+			}
+
 			return (eOutCiv != NO_CIVILIZATION);
 		}
-		
-		// Case 3: Only civ source(s) defined -> civ first, then any compatible leader
-		if ((bHasCivArray || bHasSpecificCiv) && !bHasLeaderArray && !bHasSpecificLeader)
+		if (eOutCiv != NO_CIVILIZATION &&
+			eOutLeader == NO_LEADER)
 		{
-			eOutCiv = bHasSpecificCiv ? (CivilizationTypes)kEvent.getSummonCivilization()
-									  : selectWeightedSummonCiv(kEvent);
-			// If specific civ is already in game, abort
-			if (bHasSpecificCiv && isCivilizationInGame(eOutCiv))
-				return false;
-				
-			if (eOutCiv != NO_CIVILIZATION)
-				eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, NULL);
-			return (eOutLeader != NO_LEADER);
-		}
-		
-		// Case 4: Both sources present. Leader-first: pick the character, then find a kingdom.
-		if (bHasLeaderArray || bHasSpecificLeader)
-		{
-			eOutLeader = bHasSpecificLeader ? (LeaderHeadTypes)kEvent.getSummonLeader()
-											: selectWeightedSummonLeader(kEvent);
-			// If specific leader is already in game, abort
-			if (bHasSpecificLeader && isLeaderInGame(eOutLeader))
-				return false;
-		}
-		else if (bHasCivArray || bHasSpecificCiv)
-		{
-			// Edge case: we have civ data but no leader data at all
-			eOutCiv = bHasSpecificCiv ? (CivilizationTypes)kEvent.getSummonCivilization()
-									  : selectWeightedSummonCiv(kEvent);
-			if (bHasSpecificCiv && isCivilizationInGame(eOutCiv))
-				return false;
-				
-			if (eOutCiv != NO_CIVILIZATION)
+			/*
+			 * Specific civ + leader array.
+			 */
+			if (bHasLeaderArray)
 			{
 				eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, &kEvent);
-				if (eOutLeader == NO_LEADER)
-					eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, NULL);
+			}
+			/*
+			 * Fall back to any compatible leader.
+			 */
+			if (eOutLeader == NO_LEADER)
+			{
+				eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, NULL);
 			}
 			return (eOutLeader != NO_LEADER);
 		}
-		
-		// Resolve a compatible civ for the selected leader, respecting filters if present
-		if (eOutLeader != NO_LEADER)
+		/*
+		 * ============================================================
+		 * STEP 3: Neither side is currently resolved.
+		 *
+		 * Try the leader side first if it exists.
+		 * ============================================================
+		 */
+		if (bHasLeaderArray)
 		{
-			if (bHasSpecificCiv)
+			eOutLeader = selectWeightedSummonLeader(kEvent, aeEligibleLeaders);
+			if (eOutLeader != NO_LEADER)
 			{
-				CivilizationTypes eCiv = (CivilizationTypes)kEvent.getSummonCivilization();
-				
-				// Skip if already in game
-				if (isCivilizationInGame(eCiv))
-					return false;
-					
-				// Verify the specific civ is actually compatible with our chosen leader
-				CvCivilizationInfo& kCiv = GC.getInfo(eCiv);
-				bool bCompatible = false;
-				int const iEnumLength = kCiv.getNumLeaders();
-				for (int i = 0; i < iEnumLength; ++i)
+				/*
+				 * We successfully found a leader. Now find a compatible
+				 * civilization, respecting the event's civ filter.
+				 */
+				if (bHasCivArray)
 				{
-					if (kCiv.getLeader(i) == eOutLeader)
-					{
-						bCompatible = true;
-						break;
-					}
+					eOutCiv = selectCompatibleCivForSummonLeader(eOutLeader, &kEvent, aeEligibleCivs);
 				}
-				if (bCompatible)
-					eOutCiv = eCiv;
+				/*
+				 * If the civ filter produced nothing, any compatible
+				 * civ is acceptable.
+				 */
+				if (eOutCiv == NO_CIVILIZATION)
+				{
+					eOutCiv = selectCompatibleCivForSummonLeader(eOutLeader, NULL, aeEligibleCivs);
+				}
+				if (eOutCiv != NO_CIVILIZATION)
+				{
+					return true;
+				}
+				/*
+				 * Important:
+				 *
+				 * We found a leader, but couldn't build a valid pair
+				 * around it. Don't immediately return false. We can
+				 * still try the civilization side below.
+				 */
+				eOutLeader = NO_LEADER;
 			}
-			else if (bHasCivArray)
-			{
-				eOutCiv = selectCompatibleCivForSummonLeader(eOutLeader, &kEvent);
-			}
-			// Fallback to any compatible civ if the filter didn't yield one
-			if (eOutCiv == NO_CIVILIZATION)
-				eOutCiv = selectCompatibleCivForSummonLeader(eOutLeader, NULL);
 		}
-		return (eOutLeader != NO_LEADER && eOutCiv != NO_CIVILIZATION);
+		/*
+		 * ============================================================
+		 * STEP 4: Try the civilization side if the leader-first path
+		 * failed.
+		 * ============================================================
+		 */
+		if (bHasCivArray)
+		{
+			eOutCiv = selectWeightedSummonCiv(kEvent, aeEligibleCivs);
+			if (eOutCiv != NO_CIVILIZATION)
+			{
+				/*
+				 * Prefer leaders allowed by the event's leader filter.
+				 */
+				if (bHasLeaderArray)
+				{
+					eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, &kEvent);
+				}
+				/*
+				 * Fall back to any compatible leader.
+				 */
+				if (eOutLeader == NO_LEADER)
+				{
+					eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, NULL);
+				}
+				if (eOutLeader != NO_LEADER)
+				{
+					return true;
+				}
+			}
+		}
+		/*
+		 * No valid leader/civ pair could be constructed.
+		 */
+		LeaderHeadTypes eSummonLeader = NO_LEADER;
+		CivilizationTypes eSummonCiv = NO_CIVILIZATION;
+		return false;
 	}
 	
 	void defectUnitToPlayer(CvUnit* pUnit, CvPlayer& kNewPlayer)
@@ -15698,7 +15760,7 @@ namespace
 		}
 	}
 	
-	void doWorldMilitaryUnitBreachforSummonedPlayer(const CvEventInfo& kEvent, CvPlot& kEventPlot, CvPlayer& kNewPlayer, PlayerTypes eSummoner)
+	void doWorldMilitaryUnitBreachforSummonedPlayer(const CvEventInfo& kEvent, CvPlot& kEventPlot, CvPlayer& kNewPlayer, PlayerTypes const eSummoner)
 	{
 		{
 			int const iCreateChance = kEvent.getSummonUnitCreateChance();
@@ -15749,7 +15811,7 @@ namespace
 		}
 	}
 	
-	void doWorldTechDiffusionForSummonedPlayer(CvPlayer& kNewPlayer, PlayerTypes eSummoner)
+	void doWorldTechDiffusionForSummonedPlayer(CvPlayer& kNewPlayer, PlayerTypes const eSummoner)
 	{
 		int const iEnumLength = GC.getNumTechInfos();
 		std::vector<bool> vbGranted(iEnumLength, false);
@@ -15877,7 +15939,7 @@ namespace
 		return aeEras[static_cast<int>((aeEras.size()) / 2)];
 	}
 	
-	void grantTechAndMissingPrereqs(TeamTypes eTeam, TechTypes eTech, CvPlayer& kNewPlayer)
+	void grantTechAndMissingPrereqs(TeamTypes eTeam, TechTypes const eTech, CvPlayer& kNewPlayer)
 	{
 		if (eTech == NO_TECH || GET_TEAM(eTeam).isHasTech(eTech))
 			return;
@@ -15936,7 +15998,7 @@ namespace
 		GET_TEAM(eTeam).setHasTech(eTech, true, kNewPlayer.getID(), false, false);
 	}
 	
-	void grantCheapestTechsToReachEra(CvPlayer& kNewPlayer, EraTypes eTargetEra)
+	void grantCheapestTechsToReachEra(CvPlayer& kNewPlayer, EraTypes const eTargetEra)
 	{
 		if (eTargetEra <= enum_traits<EraTypes>::first)
 			return;
@@ -16804,9 +16866,16 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
 			return false;
 		if (GC.getGame().getBestAvailablePlayerSlot() == NO_PLAYER)
 			return false;
-		LeaderHeadTypes eSummonLeader = NO_LEADER;
-		CivilizationTypes eSummonCiv = NO_CIVILIZATION;
-		if (!resolveSummonLeaderAndCiv(kEvent, eSummonLeader, eSummonCiv))
+		bool bCanDoSummon = false;
+		{
+			LeaderHeadTypes eSummonLeader = NO_LEADER;
+			CivilizationTypes eSummonCiv = NO_CIVILIZATION;
+			std::vector<LeaderHeadTypes> aeLeadersNotInGame;
+			std::vector<CivilizationTypes> aeCivsNotInGame;
+			buildEligibleSummonCandidates(aeLeadersNotInGame. aeCivsNotInGame);
+			bCanDoSummon = resolveSummonLeaderAndCiv(kEvent, aeLeadersNotInGame, aeCivsNotInGame, eSummonLeader, eSummonCiv);
+		}
+		if (!bCanDoSummon)
 			return false;
 	}
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
@@ -17307,7 +17376,15 @@ void CvPlayer::applyEvent(EventTypes eEvent, int iEventTriggeredId, bool bUpdate
 			
 			LeaderHeadTypes eSummonLeader = NO_LEADER;
 			CivilizationTypes eSummonCiv = NO_CIVILIZATION;
-			if (eCityTakeoverPlayer != NO_PLAYER && resolveSummonLeaderAndCiv(kEvent, eSummonLeader, eSummonCiv))
+			bool bCanDoSummon = false;
+			{
+				std::vector<LeaderHeadTypes> aeLeadersNotInGame;
+				std::vector<CivilizationTypes> aeCivsNotInGame;
+				buildEligibleSummonCandidates(aeLeadersNotInGame. aeCivsNotInGame);
+				bCanDoSummon = resolveSummonLeaderAndCiv(kEvent, aeLeadersNotInGame, aeCivsNotInGame, eSummonLeader, eSummonCiv);
+			}
+			
+			if (eCityTakeoverPlayer != NO_PLAYER && bCanDoSummon)
 			{
 				kGame.addPlayerSimplified(eCityTakeoverPlayer, eSummonLeader, eSummonCiv);
 				CvPlayer& kCityTakeoverPlayer = GET_PLAYER(eCityTakeoverPlayer);
