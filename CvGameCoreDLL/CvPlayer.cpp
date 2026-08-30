@@ -16067,6 +16067,30 @@ namespace
 		// so refresh it from the plot.
 		pTargetCity = kCityPlot.getPlotCity();
 	}
+	
+	void doShowCitySplitMessageForSummonedPlayer(CvCity*& pNewCapital, PlayerTypes eNewPlayer, PlayerTypes eObserver, TeamTypes eTeamObserver, bool& bShownMessage)
+	{
+		if (bShownMessage)
+			return;
+		for (PlayerIter<MAJOR_CIV> it; it.hasNext(); ++it)
+		{
+			CvPlayer const& kObs = *it;
+			if (kObs.getID() == eObserver || kObs.getID() == eNewPlayer ||
+				GET_TEAM(eTeamObserver).isHasMet(kObs.getTeam()) ||
+				kObs.isSpectator()) // advc.127
+			{
+				bool bRev = (pNewCapital != NULL && pNewCapital->isRevealed(
+						kObs.getTeam(), true));
+				LPCSTR szButton = (bRev ? ARTFILEMGR.getInterfaceArtInfo(
+						"INTERFACE_CITY_BAR_CAPITAL_TEXTURE")->getPath() : NULL);
+				gDLL->UI().addMessage(kObs.getID(), false, -1, szMessage,
+						"AS2D_REVOLTEND", MESSAGE_TYPE_MAJOR_EVENT,
+						szButton, NO_COLOR, bRev ? pNewCapital->getX() : -1,
+						bRev ? pNewCapital->getY() : -1);
+				bShownMessage = true;
+			}
+		}
+	}
 }
 /*
 	XANA (note):
@@ -17406,10 +17430,46 @@ void CvPlayer::applyEvent(EventTypes eEvent, int iEventTriggeredId, bool bUpdate
 
 				if (kCityTakeoverPlayer.isAlive())
 				{
-					EraTypes const eWorldTechMedian = calculateMedianEraOfMajorCivs();
-					if (kCityTakeoverPlayer.getCurrentEra() < eWorldTechMedian)
 					{
-						grantCheapestTechsToReachEra(kCityTakeoverPlayer, eWorldTechMedian);
+						EraTypes const eWorldTechMedian = calculateMedianEraOfMajorCivs();
+						if (kCityTakeoverPlayer.getCurrentEra() < eWorldTechMedian)
+						{
+							grantCheapestTechsToReachEra(kCityTakeoverPlayer, eWorldTechMedian);
+						}
+					}
+					{
+						CvString szMessage;
+						szMessage = gDLL->getText("TXT_KEY_MISC_MOD_CITY_SPLIT", getNameKey(),
+								GC.getInfo(eSummonCiv).getShortDescriptionKey().
+								GC.getInfo(eSummonLeader).getTextKeyWide());
+						kGame.addReplayMessage(REPLAY_MESSAGE_MAJOR_EVENT, getID(), szMessage, GC.getColorType("HIGHLIGHT_TEXT"));
+						
+						if (bAffectsOurCity)
+						{
+							kCityTakeoverPlayer.AI_updateAttitude(getID());
+							AI().AI_updateAttitude(eCityTakeoverPlayer);
+						}
+						if (bAffectsOtherCity)
+						{
+							PlayerTypes const eOtherPlayer = pTriggeredData->m_eOtherPlayer;
+							kCityTakeoverPlayer.AI_updateAttitude(eOtherPlayer);
+							GET_PLAYER(eOtherPlayer).AI_updateAttitude(eCityTakeoverPlayer);
+						}
+						
+						if (getUWAI().isEnabled())
+							getUWAI().processNewPlayerInGame(eCityTakeoverPlayer);
+						
+						bool bShownMessage = false;
+						CvCity const* pNewCapital = kCityTakeoverPlayer.getCapital();
+						if (bAffectsOurCity && !bShownMessage)
+						{
+							doShowCitySplitMessageForSummonedPlayer(pNewCapital, eCityTakeoverPlayer, getID(), getTeam(), bShownMessage);
+						}
+						if (bAffectsOtherCity && !bShownMessage)
+						{
+							PlayerTypes const eOtherPlayer = pTriggeredData->m_eOtherPlayer;
+							doShowCitySplitMessageForSummonedPlayer(pNewCapital, eCityTakeoverPlayer, eOtherPlayer, GET_PLAYER(eOtherPlayer).getTeam(), bShownMessage);
+						}
 					}
 				}
 			}
