@@ -15400,7 +15400,7 @@ namespace
 		
 		for (int i = 0; i < iEnumLength; ++i)
 		{
-			iTotalWeight += piChances[i];
+			iTotalWeight += piChances[aeEligibleLeaders[i]];
 		}
 
 		if (iTotalWeight <= 0)
@@ -15409,11 +15409,12 @@ namespace
 		int iRoll = SyncRandNum(iTotalWeight);
 		for (int i = 0; i < iEnumLength; ++i)
 		{
-			if (piChances[i] > 0)
+			LeaderHeadTypes eLeader = aeEligibleLeaders[i];
+			if (piChances[eLeader] > 0)
 			{
-				iRoll -= piChances[i];
+				iRoll -= piChances[eLeader];
 				if (iRoll < 0)
-					return (LeaderHeadTypes)i;
+					return eLeader;
 			}
 		}
 		return NO_LEADER;
@@ -15433,7 +15434,7 @@ namespace
 		
 		for (int i = 0; i < iEnumLength; ++i)
 		{
-			iTotalWeight += piChances[i];
+			iTotalWeight += piChances[aeEligibleCivs[i]];
 		}
 
 		if (iTotalWeight <= 0)
@@ -15442,11 +15443,12 @@ namespace
 		int iRoll = SyncRandNum(iTotalWeight);
 		for (int i = 0; i < iEnumLength; ++i)
 		{
-			if (piChances[i] > 0)
+			CivilizationTypes eCiv = aeEligibleCivs[i];
+			if (piChances[eCiv] > 0)
 			{
-				iRoll -= piChances[i];
+				iRoll -= piChances[eCiv];
 				if (iRoll < 0)
-					return (CivilizationTypes)i;
+					return eCiv;
 			}
 		}
 		return NO_CIVILIZATION;
@@ -15468,11 +15470,12 @@ namespace
 
 		for (int i = 0; i < iEnumLength; ++i)
 		{
-			CivilizationTypes eCiv = (CivilizationTypes)i;
+			CivilizationTypes eCiv = aeEligibleCivs[i];
 			bool bValid = GC.getGame().isOption(GAMEOPTION_LEAD_ANY_CIV);
 			if (!bValid)
 			{
-				int const iEnumLengthL = kCiv.getNumLeaders();
+				CvCivilizationInfo& kCiv = GC.getInfo(eCiv);
+				int iEnumLengthL = kCiv.getNumLeaders();
 				
 				for (int j = 0; j < iEnumLengthL; ++j)
 				{
@@ -15488,7 +15491,7 @@ namespace
 
 			if (pEventFilter != NULL && pEventFilter->getSummonCivilizationChanceArray() != NULL)
 			{
-				int iWeight = pEventFilter->getSummonCivilizationChance(i);
+				int iWeight = pEventFilter->getSummonCivilizationChance(eCiv);
 				if (iWeight <= 0)
 					continue;
 				aeCivs.push_back(eCiv);
