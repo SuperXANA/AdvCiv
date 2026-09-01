@@ -19433,8 +19433,8 @@ void CvGameTextMgr::setEventHelp(CvWStringBuffer& szBuffer,
 	
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	if (getNumCities() <= 3 && 
-		((kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonLeaderChanceArray() != NULL) ||
-		 (kEvent.getSummonCivilization() != NO_CIVILIZATION || kEvent.getSummonCivilizationChanceArray() != NULL)))
+		((kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonLeaderWeightArray() != NULL) ||
+		 (kEvent.getSummonCivilization() != NO_CIVILIZATION || kEvent.getSummonCivilizationWeightArray() != NULL)))
 	{
 		szBuffer.append(NEWLINE);
 		szBuffer.append(gDLL->getText("TXT_KEY_CITIES_REQUIRED_FOR_SUMMONING", /* Num Minimum Cities: */ 4);

@@ -93,8 +93,8 @@ CvEventInfo::CvEventInfo() :
 	/* XANA (note):
 	Event Summons Random Single Leader For City Takeover
 	*/
-	m_piSummonThirdLeaderChance(NULL),
-	m_piSummonThirdCivilizationChance(NULL)
+	m_piSummonThirdLeaderWeight(NULL),
+	m_piSummonThirdCivilizationWeight(NULL)
 	
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 {}
@@ -110,8 +110,8 @@ CvEventInfo::~CvEventInfo()
 	SAFE_DELETE_ARRAY(m_piUnitCombatPromotions);
 	SAFE_DELETE_ARRAY(m_piUnitClassPromotions);
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
-	SAFE_DELETE_ARRAY(m_piSummonThirdLeaderChance);
-	SAFE_DELETE_ARRAY(m_piSummonThirdCivilizationChance);
+	SAFE_DELETE_ARRAY(m_piSummonThirdLeaderWeight);
+	SAFE_DELETE_ARRAY(m_piSummonThirdCivilizationWeight);
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 }
 
@@ -446,26 +446,26 @@ int CvEventInfo::getSummonUnitDefectChance() const
 	return m_iSummonUnitDefectChance;
 }
 
-int CvEventInfo::getSummonLeaderChance(int i) const
+int CvEventInfo::getSummonLeaderWeight(int i) const
 {
 	FAssertBounds(0, GC.getNumLeaderHeadInfos(), i);
-	return m_piSummonThirdLeaderChance ? m_piSummonThirdLeaderChance[i] : 0;
+	return m_piSummonThirdLeaderWeight ? m_piSummonThirdLeaderWeight[i] : 0;
 }
 
-int CvEventInfo::getSummonCivilizationChance(int i) const
+int CvEventInfo::getSummonCivilizationWeight(int i) const
 {
 	FAssertBounds(0, GC.getNumCivilizationInfos(), i);
-	return m_piSummonThirdCivilizationChance ? m_piSummonThirdCivilizationChance[i] : 0;
+	return m_piSummonThirdCivilizationWeight ? m_piSummonThirdCivilizationWeight[i] : 0;
 }
 
-int* CvEventInfo::getSummonLeaderChanceArray() const
+int* CvEventInfo::getSummonLeaderWeightArray() const
 {
-	return m_piSummonThirdLeaderChance;
+	return m_piSummonThirdLeaderWeight;
 }
 
-int* CvEventInfo::getSummonCivilizationChanceArray() const
+int* CvEventInfo::getSummonCivilizationWeightArray() const
 {
-	return m_piSummonThirdCivilizationChance;
+	return m_piSummonThirdCivilizationWeight;
 }
 // XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
@@ -914,8 +914,8 @@ bool CvEventInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetInfoIDFromChildXmlVal(m_iSummonThirdLeader, "SummonLeaderToGame");
 	pXML->SetInfoIDFromChildXmlVal(m_iSummonThirdCivilization, "SummonCivilizationToGame");
 	
-	pXML->SetVariableListTagPair(&m_piSummonThirdLeaderChance, "SummonLeaderToGameRandomChances", GC.getNumLeaderHeadInfos());
-	pXML->SetVariableListTagPair(&m_piSummonThirdCivilizationChance, "SummonCivilizationToGameRandomChances", GC.getNumCivilizationInfos());
+	pXML->SetVariableListTagPair(&m_piSummonThirdLeaderWeight, "SummonLeaderToGameWeights", GC.getNumLeaderHeadInfos());
+	pXML->SetVariableListTagPair(&m_piSummonThirdCivilizationWeight, "SummonCivilizationToGameWeights", GC.getNumCivilizationInfos());
 	
 	pXML->GetChildXmlValByName(&m_iSummonUnitCreateChance, "iUnitCreationForSummonChance");
 	pXML->GetChildXmlValByName(&m_iSummonUnitDefectChance, "iUnitDefectionToSummonChance");

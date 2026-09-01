@@ -15391,7 +15391,7 @@ namespace
 	// Returns NO_LEADER if the array is missing or has zero valid weight.
 	LeaderHeadTypes selectWeightedSummonLeader(const CvEventInfo& kEvent, std::vector<LeaderHeadTypes>& aeEligibleLeaders)
 	{
-		int* piChances = kEvent.getSummonLeaderChanceArray();
+		int* piChances = kEvent.getSummonLeaderWeightArray();
 		if (piChances == NULL)
 			return NO_LEADER;
 
@@ -15425,7 +15425,7 @@ namespace
 	// Returns NO_CIVILIZATION if the array is missing or has zero valid weight.
 	CivilizationTypes selectWeightedSummonCiv(const CvEventInfo& kEvent, std::vector<CivilizationTypes>& aeEligibleCivs)
 	{
-		int* piChances = kEvent.getSummonCivilizationChanceArray();
+		int* piChances = kEvent.getSummonCivilizationWeightArray();
 		if (piChances == NULL)
 			return NO_CIVILIZATION;
 
@@ -15489,9 +15489,9 @@ namespace
 					continue;
 			}
 
-			if (pEventFilter != NULL && pEventFilter->getSummonCivilizationChanceArray() != NULL)
+			if (pEventFilter != NULL && pEventFilter->getSummonCivilizationWeightArray() != NULL)
 			{
-				int iWeight = pEventFilter->getSummonCivilizationChance(eCiv);
+				int iWeight = pEventFilter->getSummonCivilizationWeight(eCiv);
 				if (iWeight <= 0)
 					continue;
 				aeCivs.push_back(eCiv);
@@ -15509,7 +15509,7 @@ namespace
 			return NO_CIVILIZATION;
 
 		// No filter: equal weight (simple uniform random)
-		if (pEventFilter == NULL || pEventFilter->getSummonCivilizationChanceArray() == NULL)
+		if (pEventFilter == NULL || pEventFilter->getSummonCivilizationWeightArray() == NULL)
 			return aeCivs[SyncRandNum(aeCivs.size())];
 		
 		int iRoll = SyncRandNum(iTotalWeight);
@@ -15542,9 +15542,9 @@ namespace
 			if (eLeader == NO_LEADER)
 				continue;
 
-			if (pEventFilter != NULL && pEventFilter->getSummonLeaderChanceArray() != NULL)
+			if (pEventFilter != NULL && pEventFilter->getSummonLeaderWeightArray() != NULL)
 			{
-				int iWeight = pEventFilter->getSummonLeaderChance(eLeader);
+				int iWeight = pEventFilter->getSummonLeaderWeight(eLeader);
 				if (iWeight <= 0)
 					continue;
 				aeLeaders.push_back(eLeader);
@@ -15561,7 +15561,7 @@ namespace
 		if (aeLeaders.empty())
 			return NO_LEADER;
 
-		if (pEventFilter == NULL || pEventFilter->getSummonLeaderChanceArray() == NULL)
+		if (pEventFilter == NULL || pEventFilter->getSummonLeaderWeightArray() == NULL)
 			return aeLeaders[SyncRandNum(aeLeaders.size())];
 		
 		int iRoll = SyncRandNum(iTotalWeight);
@@ -15587,8 +15587,8 @@ namespace
 	{
 		bool const bHasSpecificLeader = (kEvent.getSummonLeader() != NO_LEADER);
 		bool const bHasSpecificCiv = (kEvent.getSummonCivilization() != NO_CIVILIZATION);
-		bool const bHasLeaderArray = (kEvent.getSummonLeaderChanceArray() != NULL);
-		bool const bHasCivArray = (kEvent.getSummonCivilizationChanceArray() != NULL);
+		bool const bHasLeaderArray = (kEvent.getSummonLeaderWeightArray() != NULL);
+		bool const bHasCivArray = (kEvent.getSummonCivilizationWeightArray() != NULL);
 		/*
 		 * Nothing to resolve.
 		 */
@@ -16888,8 +16888,8 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
 		if (!bCivilizationPresent)
 			return false;
 	}
-	if ((kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonLeaderChanceArray() != NULL) ||
-		(kEvent.getSummonCivilization() != NO_CIVILIZATION || kEvent.getSummonCivilizationChanceArray() != NULL))
+	if ((kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonLeaderWeightArray() != NULL) ||
+		(kEvent.getSummonCivilization() != NO_CIVILIZATION || kEvent.getSummonCivilizationWeightArray() != NULL))
 	{
 		if (getNumCities() <= 3)
 			return false;
@@ -17393,7 +17393,7 @@ void CvPlayer::applyEvent(EventTypes eEvent, int iEventTriggeredId, bool bUpdate
 	}
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 	if ((kEvent.getSummonLeader() != NO_LEADER || kEvent.getSummonCivilization() != NO_CIVILIZATION) ||
-		(kEvent.getSummonLeaderChanceArray() != NULL || kEvent.getSummonCivilizationChanceArray() != NULL))
+		(kEvent.getSummonLeaderWeightArray() != NULL || kEvent.getSummonCivilizationWeightArray() != NULL))
 	{
 		bool const bAffectsOurCity = (kEvent.isCityEffect() && pCity != NULL);
 		bool const bAffectsOtherCity = (kEvent.isOtherPlayerCityEffect() && pOtherPlayerCity != NULL);

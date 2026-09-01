@@ -93,10 +93,10 @@ public: // All the const functions returning primitive types are exposed to Pyth
 	int getSummonCivilization() const;
 	int getSummonUnitCreateChance() const;
 	int getSummonUnitDefectChance() const;
-	int getSummonLeaderChance(int i) const;
-	int getSummonCivilizationChance(int i) const;
-	int* getSummonLeaderChanceArray() const;
-	int* getSummonCivilizationChanceArray() const;
+	int getSummonLeaderWeight(int i) const;
+	int getSummonCivilizationWeight(int i) const;
+	int* getSummonLeaderWeightArray() const;
+	int* getSummonCivilizationWeightArray() const;
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	int getAdditionalEventChance(int i) const;
@@ -200,8 +200,8 @@ private:
 	int* m_piUnitClassPromotions;
 	
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
-	int* m_piSummonThirdLeaderChance;
-	int* m_piSummonThirdCivilizationChance;
+	int* m_piSummonThirdLeaderWeight;
+	int* m_piSummonThirdCivilizationWeight;
 	// XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ
 
 	CvString m_szPythonCallback;
