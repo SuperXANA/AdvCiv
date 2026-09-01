@@ -279,6 +279,32 @@
 	<ElementType name="PrereqOtherCivilization" content="textOnly"/>
 	<ElementType name="PrereqOtherNotCivilization" content="textOnly"/>
 		<!-- XANA: FfH Events for AdvancedCiv 03-01-2025 -->
+		<!-- XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ -->
+	<ElementType name="PrereqInGameLeader" content="textOnly"/>
+	<ElementType name="PrereqInGameCivilization" content="textOnly"/>
+	<ElementType name="SummonLeaderToGame" content="textOnly"/>
+	<ElementType name="SummonCivilizationToGame" content="textOnly"/>
+	<ElementType name="bSummonLeaderToGame" content="textOnly" dt:type="boolean"/>
+	<ElementType name="bSummonCivilizationToGame" content="textOnly" dt:type="boolean"/>
+	<ElementType name="LeaderType" content="textOnly"/>
+	<ElementType name="SummonLeaderToGameWeight" content="eltOnly">
+		<element type="LeaderType"/>
+		<element type="iWeight"/>
+	</ElementType>
+	<ElementType name="SummonLeaderToGameWeights" content="eltOnly">
+		<element type="SummonLeaderToGameWeight" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="CivilizationType" content="textOnly"/>
+	<ElementType name="SummonCivilizationToGameWeight" content="eltOnly">
+		<element type="CivilizationType"/>
+		<element type="iWeight"/>
+	</ElementType>
+	<ElementType name="SummonCivilizationToGameWeights" content="eltOnly">
+		<element type="SummonCivilizationToGameWeight" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="iUnitCreationForSummonChance" content="textOnly" dt:type="int"/>
+	<ElementType name="iUnitDefectionToSummonChance" content="textOnly" dt:type="int"/>
+		<!-- XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ -->
 	<ElementType name="EventTriggerInfo" content="eltOnly">
 		<element type="Type"/>
 		<element type="WorldNewsTexts"/>
@@ -359,6 +385,12 @@
 		<element type="PrereqOtherCivilization" minOccurs="0"/>
 		<element type="PrereqOtherNotCivilization" minOccurs="0"/>
 		<!-- XANA: FfH Events for AdvancedCiv 03-01-2025 -->
+		<!-- XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ -->
+		<element type="PrereqInGameLeader" minOccurs="0"/>
+		<element type="PrereqInGameCivilization" minOccurs="0"/>
+		<element type="bSummonLeaderToGame" minOccurs="0"/>
+		<element type="bSummonCivilizationToGame" minOccurs="0"/>
+		<!-- XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ -->
 	</ElementType>
 	<ElementType name="EventTriggerInfos" content="eltOnly">
 		<element type="EventTriggerInfo" minOccurs="0" maxOccurs="*"/>
@@ -456,6 +488,16 @@
 		<element type="PrereqOtherCivilization" minOccurs="0"/>
 		<element type="PrereqOtherNotCivilization" minOccurs="0"/>
 		<!-- XANA: FfH Events for AdvancedCiv 03-01-2025 -->
+		<!-- XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ -->
+		<element type="PrereqInGameLeader" minOccurs="0"/>
+		<element type="PrereqInGameCivilization" minOccurs="0"/>
+		<element type="SummonLeaderToGame" minOccurs="0"/>
+		<element type="SummonCivilizationToGame" minOccurs="0"/>
+		<element type="SummonLeaderToGameWeights" minOccurs="0"/>
+		<element type="SummonCivilizationToGameWeights" minOccurs="0"/>
+		<element type="iUnitCreationForSummonChance" minOccurs="0"/>
+		<element type="iUnitDefectionToSummonChance" minOccurs="0"/>
+		<!-- XANA: 08-22-2026 FfH2-like Summonable Leaders and Civilizations for Advanced Civ -->
 	</ElementType>
 	<ElementType name="EventInfos" content="eltOnly">
 		<element type="EventInfo" minOccurs="0" maxOccurs="*"/>
