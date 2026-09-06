@@ -23834,7 +23834,7 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 	{
 		CvEventPreferenceInfo const& kPref = *AI_getLeaderEventPreferences();
 		int const iNumPreferences = static_cast<int>(kPref.getNumEventPreferences());
-		for (iPref = 0; iPref < iNumPreferences; iPref++)
+		for (int iPref = 0; iPref < iNumPreferences; iPref++)
 		{
 			EventPreferenceData const& kPrefData = kPref.getEventPreference(iPref);
 			EventTypes const eOurChoice = (EventTypes)kPrefData.getEventType();
@@ -23863,7 +23863,7 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 	{
 		CvEventPreferenceInfo const& kPref = *AI_getCivilizationEventPreferences();
 		int const iNumPreferences = static_cast<int>(kPref.getNumEventPreferences());
-		for (iPref = 0; iPref < iNumPreferences; iPref++)
+		for (int iPref = 0; iPref < iNumPreferences; iPref++)
 		{
 			EventPreferenceData const& kPrefData = kPref.getEventPreference(iPref);
 			EventTypes const eOurChoice = (EventTypes)kPrefData.getEventType();
