@@ -23851,9 +23851,10 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 					iValue = MIN_INT;
 					return iValue;
 				}
-				else if (kPrefData.getAIWeightModifier() != 0)
+				else if (kPrefData.getAIWeightModifierPercent() != 0)
 				{
-					iValue += kPrefData.getAIWeightModifier();
+					iValue *= kPrefData.getAIWeightModifierPercent();
+					iValue /= 100;
 				}
 			}
 		}
@@ -23879,9 +23880,10 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 					iValue = MIN_INT;
 					return iValue;
 				}
-				else if (kPrefData.getAIWeightModifier() != 0)
+				else if (kPrefData.getAIWeightModifierPercent() != 0)
 				{
-					iValue += kPrefData.getAIWeightModifier();
+					iValue *= kPrefData.getAIWeightModifierPercent();
+					iValue /= 100;
 				}
 			}
 		}

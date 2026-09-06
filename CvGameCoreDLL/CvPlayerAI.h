@@ -979,9 +979,13 @@ protected:
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 	CvEventPreferenceInfo* m_pLeaderDecisionPreference;
 	CvEventPreferenceInfo* m_pCivilizationDecisionPreference;
+	
 	void AI_initEventPreferences();
 	void AI_clearEventPreferences();
 	void AI_updateEventPreferences();
+	
+	CvEventPreferenceInfo const* AI_getLeaderEventPreferences() const { return m_pLeaderDecisionPreference; }
+	CvEventPreferenceInfo const* AI_getCivilizationEventPreferences() const { return m_pCivilizationDecisionPreference; }
 	CvEventPreferenceInfo* AI_getLeaderEventPreferences() const { return m_pLeaderDecisionPreference; }
 	CvEventPreferenceInfo* AI_getCivilizationEventPreferences() const { return m_pCivilizationDecisionPreference; }
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process

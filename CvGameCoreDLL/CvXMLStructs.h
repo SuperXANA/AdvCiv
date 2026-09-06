@@ -6,18 +6,18 @@
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 struct EventPreferenceData
 {
-	EventPreferenceData() : iEvent(NO_EVENT), iEventChoiceAIWeightMod(0), 
+	EventPreferenceData() : iEvent(NO_EVENT), iAIWeightModifierPercent(0), 
 	bAlwaysSelectChoice(false), bNeverSelectChoice(false) {}
 	
 	int getEventType() const;
-	int getAIWeightModifier() const;
+	int getAIWeightModifierPercent() const;
 	bool isAlwaysSelectChoice() const;
 	bool isNeverSelectChoice() const;
 	
 	bool read(CvXMLLoadUtility* pXML);
 	
 	int iEvent;
-	int iAIWeightModifier;
+	int iAIWeightModifierPercent;
 	bool bAlwaysSelectChoice;
 	bool bNeverSelectChoice;
 };
