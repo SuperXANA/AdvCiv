@@ -87,6 +87,10 @@ CvPlayerAI::CvPlayerAI(/* advc.003u: */ PlayerTypes eID) : CvPlayer(eID)
 	m_aiBonusValueTrade = NULL; // advc.036
 	m_aiUnitClassWeights = NULL;
 	m_aiUnitCombatWeights = NULL;
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+	m_pLeaderDecisionPreference = NULL;
+	m_pCivilizationDecisionPreference = NULL;
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 	//m_aiCloseBordersAttitude = new int[MAX_PLAYERS];
 	m_aiCloseBordersAttitude.resize(MAX_PLAYERS); // K-Mod
 
@@ -128,6 +132,10 @@ CvPlayerAI::~CvPlayerAI()
 	SAFE_DELETE_ARRAY(m_aiAverageCommerceExchange);
 	//SAFE_DELETE_ARRAY(m_aiCloseBordersAttitude); // disabled by K-Mod
 	SAFE_DELETE(m_pUWAI); // advc.104
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+	SAFE_DELETE(m_pLeaderDecisionPreference);
+	SAFE_DELETE(m_pCivilizationDecisionPreference);
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 }
 
 
@@ -369,6 +377,9 @@ void CvPlayerAI::AI_updateCacheData()
 	// <advc.139>
 	if(isBarbarian())
 		return;
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+	AI_initEventPreferences();
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 	std::vector<scaled> rCityValues;
 	FOR_EACH_CITYAI(c, *this)
 		rCityValues.push_back(AI_assetVal(*c, true));
@@ -23818,6 +23829,64 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 			}
 		}
 	}
+	// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+	if (AI_getLeaderEventPreferences() != NULL)
+	{
+		CvEventPreferenceInfo const& kPref = *AI_getLeaderEventPreferences();
+		int const iNumPreferences = static_cast<int>(kPref.getNumEventPreferences());
+		for (iPref = 0; iPref < iNumPreferences; iPref++)
+		{
+			EventPreferenceData const& kPrefData = kPref.getEventPreference(iPref);
+			EventTypes const eOurChoice = (EventTypes)kPrefData.getEventType();
+			if (eOurChoice != NO_EVENT &&
+				eOurChoice == eEvent)
+			{
+				if (kPrefData.isAlwaysSelectChoice())
+				{
+					iValue = MAX_INT;
+					return iValue;
+				}
+				else if (kPrefData.isNeverSelectChoice())
+				{
+					iValue = MIN_INT;
+					return iValue;
+				}
+				else if (kPrefData.getAIWeightModifier() != 0)
+				{
+					iValue += kPrefData.getAIWeightModifier();
+				}
+			}
+		}
+	}
+	if (AI_getCivilizationEventPreferences() != NULL)
+	{
+		CvEventPreferenceInfo const& kPref = *AI_getCivilizationEventPreferences();
+		int const iNumPreferences = static_cast<int>(kPref.getNumEventPreferences());
+		for (iPref = 0; iPref < iNumPreferences; iPref++)
+		{
+			EventPreferenceData const& kPrefData = kPref.getEventPreference(iPref);
+			EventTypes const eOurChoice = (EventTypes)kPrefData.getEventType();
+			if (eOurChoice != NO_EVENT &&
+				eOurChoice == eEvent)
+			{
+				if (kPrefData.isAlwaysSelectChoice())
+				{
+					iValue = MAX_INT;
+					return iValue;
+				}
+				else if (kPrefData.isNeverSelectChoice())
+				{
+					iValue = MIN_INT;
+					return iValue;
+				}
+				else if (kPrefData.getAIWeightModifier() != 0)
+				{
+					iValue += kPrefData.getAIWeightModifier();
+				}
+			}
+		}
+	}
+	// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 
 	iValue *= 100 + SyncRandNum(20);
 	iValue /= 100;
@@ -23832,29 +23901,6 @@ EventTypes CvPlayerAI::AI_chooseEvent(int iTriggeredId) const
 		return NO_EVENT;
 
 	CvEventTriggerInfo& kTrigger = GC.getInfo(pTriggeredData->m_eTrigger);
-// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
-	CvEventPreferenceInfo* pDecisionPreference = NULL;
-	FOR_EACH_ENUM(EventPreference)
-	{
-		CvEventPreferenceInfo& kLoopPref = GC.getInfo(eLoopEventPreference);
-		
-		LeaderHeadTypes eLeader = (LeaderHeadTypes)kLoopPref.getLeaderType();
-		CivilizationTypes eCivilization = (CivilizationTypes)kLoopPref.getCivilizationType();
-		
-		if (eLeader != NO_LEADER &&
-			eLeader == getLeaderType())
-		{
-			pDecisionPreference = &kLoopPref;
-			break;
-		}
-		else if (eCivilization != NO_CIVILIZATION && 
-			eCivilization == getCivilizationType())
-		{
-			pDecisionPreference = &kLoopPref;
-			break;
-		}
-	}
-// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 
 	//int iBestValue = -MAX_INT;
 	int iBestValue = MIN_INT; // K-Mod  (advc: K-Mod had used INT_MIN)
@@ -23865,37 +23911,6 @@ EventTypes CvPlayerAI::AI_chooseEvent(int iTriggeredId) const
 		if (eEvent != NO_EVENT && canDoEvent(eEvent, *pTriggeredData))
 		{
 			int iValue = AI_eventValue(eEvent, *pTriggeredData);
-			// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
-			if (pDecisionPreference != NULL)
-			{
-				CvEventPreferenceInfo& kPref = *pDecisionPreference;
-				int iNumPreferences = static_cast<int>(kPref.getNumEventPreferences());
-				for (iPref = 0; iPref < iNumPreferences; iPref++)
-				{
-					EventPreferenceData& kPrefData = kPref.getEventPreference(iPref);
-					EventTypes eOurChoice = (EventTypes)kPrefData.getEventType();
-					if (eOurChoice != NO_EVENT &&
-						eOurChoice == eEvent)
-					{
-						if (kPrefData.isAlwaysSelectChoice())
-						{
-							iValue = MAX_INT;
-							break;
-						}
-						else if (kPrefData.isNeverSelectChoice())
-						{
-							iValue = MIN_INT;
-							break;
-						}
-						else if (kPrefData.getAIWeightModifier() != 0)
-						{
-							iValue += kPrefData.getAIWeightModifier();
-							break;
-						}
-					}
-				}
-			}
-			// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 			if (iValue > iBestValue)
 			{
 				iBestValue = iValue;
@@ -29754,6 +29769,54 @@ void CvPlayerAI::logFoundValue(CvPlot const& kPlot, bool bStartingLoc) const
 			GC.getDefineINT("MIN_BARBARIAN_CITY_STARTING_DISTANCE") : -1, bStartingLoc);
 	eval.log(kPlot);
 }
+
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+void CvPlayerAI::AI_initEventPreferences()
+{
+	if (m_pLeaderDecisionPreference == NULL && m_pCivilizationDecisionPreference == NULL)
+	{
+		if (!GC.getGame().isOption(GAMEOPTION_NO_EVENTS))
+			return;
+		FOR_EACH_ENUM(EventPreference)
+		{
+			CvEventPreferenceInfo& kLoopPref = GC.getInfo(eLoopEventPreference);
+			
+			LeaderHeadTypes eLeader = (LeaderHeadTypes)kLoopPref.getLeaderType();
+			CivilizationTypes eCivilization = (CivilizationTypes)kLoopPref.getCivilizationType();
+			
+			if (eLeader != NO_LEADER &&
+				eLeader == getLeaderType())
+			{
+				m_pLeaderDecisionPreference = &kLoopPref;
+			}
+			if (eCivilization != NO_CIVILIZATION && 
+				eCivilization == getCivilizationType())
+			{
+				m_pCivilizationDecisionPreference = &kLoopPref;
+			}
+		}
+	}
+}
+
+void CvPlayerAI::AI_clearEventPreferences()
+{
+	if (m_pLeaderDecisionPreference != NULL)
+	{
+		m_pLeaderDecisionPreference = NULL;
+	}
+	
+	if (m_pCivilizationDecisionPreference != NULL))
+	{
+		m_pCivilizationDecisionPreference = NULL;
+	}
+}
+
+void CvPlayerAI::AI_updateEventPreferences()
+{
+	AI_clearEventPreferences();
+	AI_initEventPreferences();
+}
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 
 // BETTER_BTS_AI_MOD, General AI/ Efficiency (plot danger cache), 08/20/09, jdog5000: START
 /*	The vast majority of checks for plot danger are boolean checks

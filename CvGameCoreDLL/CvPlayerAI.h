@@ -975,6 +975,16 @@ protected:
 	// </advc>
 	void AI_setHuman(bool b); // advc.127
 	void logFoundValue(CvPlot const& kPlot, bool bStartingLoc = false) const; // advc.031c
+	
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+	CvEventPreferenceInfo* m_pLeaderDecisionPreference;
+	CvEventPreferenceInfo* m_pCivilizationDecisionPreference;
+	void AI_initEventPreferences();
+	void AI_clearEventPreferences();
+	void AI_updateEventPreferences();
+	CvEventPreferenceInfo* AI_getLeaderEventPreferences() const { return m_pLeaderDecisionPreference; }
+	CvEventPreferenceInfo* AI_getCivilizationEventPreferences() const { return m_pCivilizationDecisionPreference; }
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 
 	friend class CvGameTextMgr;
 	friend class CvPlayer; // advc.003u: So that protected functions can be called through CvPlayer::AI
