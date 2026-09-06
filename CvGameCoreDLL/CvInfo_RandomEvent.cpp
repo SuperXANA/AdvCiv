@@ -2097,3 +2097,65 @@ bool CvEventTriggerInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+CvEventPreferenceInfo::CvEventPreferenceInfo() :
+	m_iLeaderType(NO_LEADER),
+	m_iCivilizationType(NO_CIVILIZATION)
+{}
+
+int CvEventPreferenceInfo::getLeaderType() const
+{
+	return m_iLeaderType;
+}
+
+int CvEventPreferenceInfo::getCivilizationType() const
+{
+	return m_iCivilizationType;
+}
+
+const EventPreferenceData& CvEventPreferenceInfo::getEventPreference(int i) const
+{
+	FAssertBounds(0, (int)m_vEventPrefData.size(), i);
+	return m_vEventPrefData[i];
+}
+
+int CvEventPreferenceInfo::getNumEventPreferences() const
+{
+	return m_vEventPrefData.size();
+}
+
+bool CvEventPreferenceInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	pXML->SetInfoIDFromChildXmlVal(m_iLeaderType, "Leader");
+	pXML->SetInfoIDFromChildXmlVal(m_iCivilizationType, "Civilization");
+
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "EventPreferences"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			m_vEventPrefData.clear();
+			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+			{
+				for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
+				{
+					EventPreferenceData kEventPref;
+					kEventPref.read(pXML);
+					m_vEventPrefData.push_back(kEventPref);
+					
+					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+						break;
+				}
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+
+	return true;
+}
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process

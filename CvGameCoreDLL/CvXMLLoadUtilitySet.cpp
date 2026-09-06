@@ -855,6 +855,9 @@ bool CvXMLLoadUtility::LoadOptionalGlobals()
 			return false;
 		LoadGlobalClassInfo(GC.m_paEventInfo, "CIV4EventInfos", "Events", "Civ4EventInfos/EventInfos/EventInfo", true, &CvDLLUtilityIFaceBase::createEventInfoCacheObject);
 		LoadGlobalClassInfo(GC.m_paEventTriggerInfo, "CIV4EventTriggerInfos", "Events", "Civ4EventTriggerInfos/EventTriggerInfos/EventTriggerInfo", false, &CvDLLUtilityIFaceBase::createEventTriggerInfoCacheObject);
+	// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+		LoadGlobalClassInfo(GC.m_paEventPreferenceInfo, "CIV4EventPreferenceInfos", "Events", "Civ4EventPreferenceInfos/EventPreferenceInfos/EventPreferenceInfo", false);
+	// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 		m->bEventsLoaded = true;
 		bFXmlCreated = true;
 	}

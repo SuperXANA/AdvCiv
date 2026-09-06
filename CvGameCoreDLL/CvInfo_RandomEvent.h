@@ -369,4 +369,31 @@ private:
 	CvString m_szPythonCanDoUnit;
 };
 
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvEventPreferenceInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvEventPreferenceInfo : public CvInfoBase
+{
+	typedef CvInfoBase base_t;
+	friend class CvXMLLoadUtility;
+public: // All the const functions returning primitive types are exposed to Python
+	CvEventPreferenceInfo();
+	~CvEventPreferenceInfo();
+
+	int getLeaderType() const;
+	int getCivilizationType() const;
+	const EventPreferenceData& getEventPreference(int i) const;
+	int getNumEventPreferences() const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+
+private:
+	int m_iLeaderType;
+	int m_iCivilizationType;
+
+	std::vector<EventPreferenceData> m_vEventPrefData;
+};
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+
 #endif

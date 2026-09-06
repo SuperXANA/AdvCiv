@@ -81,7 +81,10 @@
 	/* <advc.tsl> (not exposed to Python) */ \
 	DO(TruCiv, TRUCIV) \
 	DO(TruLeader, TRULEADER) \
-	DO(TruBonus, TRUBONUS) /* </advc.tsl> */
+	DO(TruBonus, TRUBONUS) /* </advc.tsl> */ \
+	/* XANA: 09-05-2026 Event Preferences for AI Decision-Making Process */ \
+	DO(EventPreference, EVENTPREFERENCE)
+	// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 
 // Number of instances not known at compile time
 #define DO_FOR_EACH_DYN_INFO_TYPE(DO) \
