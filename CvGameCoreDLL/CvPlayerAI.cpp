@@ -23832,6 +23832,29 @@ EventTypes CvPlayerAI::AI_chooseEvent(int iTriggeredId) const
 		return NO_EVENT;
 
 	CvEventTriggerInfo& kTrigger = GC.getInfo(pTriggeredData->m_eTrigger);
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+	CvEventPreferenceInfo* pDecisionPreference = NULL;
+	FOR_EACH_ENUM(EventPreference)
+	{
+		CvEventPreferenceInfo& kLoopPref = GC.getInfo(eLoopEventPreference);
+		
+		LeaderHeadTypes eLeader = (LeaderHeadTypes)kLoopPref.getLeaderType();
+		CivilizationTypes eCivilization = (CivilizationTypes)kLoopPref.getCivilizationType();
+		
+		if (eLeader != NO_LEADER &&
+			eLeader == getLeaderType())
+		{
+			pDecisionPreference = &kLoopPref;
+			break;
+		}
+		else if (eCivilization != NO_CIVILIZATION && 
+			eCivilization == getCivilizationType())
+		{
+			pDecisionPreference = &kLoopPref;
+			break;
+		}
+	}
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 
 	//int iBestValue = -MAX_INT;
 	int iBestValue = MIN_INT; // K-Mod  (advc: K-Mod had used INT_MIN)
@@ -23842,6 +23865,37 @@ EventTypes CvPlayerAI::AI_chooseEvent(int iTriggeredId) const
 		if (eEvent != NO_EVENT && canDoEvent(eEvent, *pTriggeredData))
 		{
 			int iValue = AI_eventValue(eEvent, *pTriggeredData);
+			// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+			if (pDecisionPreference != NULL)
+			{
+				CvEventPreferenceInfo& kPref = *pDecisionPreference;
+				int iNumPreferences = static_cast<int>(kPref.getNumEventPreferences());
+				for (iPref = 0; iPref < iNumPreferences; iPref++)
+				{
+					EventPreferenceData& kPrefData = kPref.getEventPreference(iPref);
+					EventTypes eOurChoice = (EventTypes)kPrefData.getEventType();
+					if (eOurChoice != NO_EVENT &&
+						eOurChoice == eEvent)
+					{
+						if (kPrefData.isAlwaysSelectChoice())
+						{
+							iValue = MAX_INT;
+							break;
+						}
+						else if (kPrefData.isNeverSelectChoice())
+						{
+							iValue = MIN_INT;
+							break;
+						}
+						else if (kPrefData.getAIWeightModifier() != 0)
+						{
+							iValue += kPrefData.getAIWeightModifier();
+							break;
+						}
+					}
+				}
+			}
+			// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 			if (iValue > iBestValue)
 			{
 				iBestValue = iValue;
