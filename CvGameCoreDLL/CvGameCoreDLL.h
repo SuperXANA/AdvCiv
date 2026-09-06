@@ -90,6 +90,9 @@
 #include "EnumTraits.h"
 #include "IntegerConversion.h" // advc
 #include "CvStructs.h"
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+#include "CvXMLStructs.h"
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 #include "FProfiler.h" // (includes CvDLLUtilityIFaceBase.h)
 #include "CvGameCoreUtils.h"
 #include "ScaledNum.h"
