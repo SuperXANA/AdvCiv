@@ -433,4 +433,30 @@
 	<ElementType name="Civ4EventInfos" content="eltOnly">
 		<element type="EventInfos" minOccurs="1" maxOccurs="1"/>
 	</ElementType>
+	<!-- XANA: 09-05-2026 Event Preferences for AI Decision-Making Process -->
+	<ElementType name="iAIWeightModifierPercent" content="textOnly" dt:type="int"/>
+	<ElementType name="bAlwaysSelectChoice" content="textOnly" dt:type="boolean"/>
+	<ElementType name="bNeverSelectChoice" content="textOnly" dt:type="boolean"/>
+	<ElementType name="EventPreference" content="eltOnly">
+		<element type="Event"/>
+		<element type="iAIWeightModifierPercent" minOccurs="0"/>
+		<element type="bAlwaysSelectChoice" minOccurs="0"/>
+		<element type="bNeverSelectChoice" minOccurs="0"/>
+	</ElementType>
+	<ElementType name="EventPreferences" content="eltOnly">
+		<element type="EventPreference" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="EventPreferenceInfo" content="eltOnly">
+		<element type="Type"/>
+		<element type="Leader"/>
+		<element type="Civilization"/>
+		<element type="EventPreferences"/>
+	</ElementType>
+	<ElementType name="EventPreferenceInfos" content="eltOnly">
+		<element type="EventPreferenceInfo" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="Civ4EventPerferenceInfos" content="eltOnly">
+		<element type="EventPreferenceInfos" minOccurs="1" maxOccurs="1"/>
+	</ElementType>
+	<!-- XANA: 09-05-2026 Event Preferences for AI Decision-Making Process -->
 </Schema>

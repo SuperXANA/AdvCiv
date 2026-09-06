@@ -28,7 +28,7 @@ bool EventPreferenceData::read(CvXMLLoadUtility* pXML)
 {	
 	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 	{
-		pXML->SetInfoIDFromChildXmlVal(iEvent, "EventType");
+		pXML->SetInfoIDFromChildXmlVal(iEvent, "Event");
 		pXML->GetChildXmlValByName(&iAIWeightModifierPercent, "iAIWeightModifierPercent");
 		pXML->GetChildXmlValByName(&bAlwaysSelectChoice, "bAlwaysSelectChoice");
 		pXML->GetChildXmlValByName(&bNeverSelectChoice, "bNeverSelectChoice");
