@@ -82,6 +82,9 @@
 	DO(TruCiv, TRUCIV) \
 	DO(TruLeader, TRULEADER) \
 	DO(TruBonus, TRUBONUS) /* </advc.tsl> */ \
+	/* XANA: 04-26-2025 Favorite Technologies for Advanced Civ */ \
+	DO(TechPreference, TECHPREFERENCE) \
+	/* XANA: 04-26-2025 Favorite Technologies for Advanced Civ */ \
 	/* XANA: 09-05-2026 Event Preferences for AI Decision-Making Process */ \
 	DO(EventPreference, EVENTPREFERENCE)
 	// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process

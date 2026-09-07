@@ -1561,3 +1561,66 @@ bool CvDiplomacyInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+CvTechPreferenceInfo::CvTechPreferenceInfo() :
+	m_iLeaderType(NO_LEADER),
+	m_iCivilizationType(NO_CIVILIZATION)
+{}
+
+int CvTechPreferenceInfo::getLeaderType() const
+{
+	return m_iLeaderType;
+}
+
+int CvTechPreferenceInfo::getCivilizationType() const
+{
+	return m_iCivilizationType;
+}
+
+const TechPreferenceData& CvTechPreferenceInfo::getTechPreference(int i) const
+{
+	FAssertBounds(0, (int)m_vTechPrefData.size(), i);
+	return m_vTechPrefData[i];
+}
+
+int CvTechPreferenceInfo::getNumTechPreferences() const
+{
+	return m_vTechPrefData.size();
+}
+
+bool CvTechPreferenceInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	pXML->SetInfoIDFromChildXmlVal(m_iLeaderType, "Leader");
+	pXML->SetInfoIDFromChildXmlVal(m_iCivilizationType, "Civilization");
+
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "TechPreferences"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			m_vTechPrefData.clear();
+			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+			{
+				for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
+				{
+					TechPreferenceData kTechPref;
+					kTechPref.read(pXML);
+					m_vTechPrefData.push_back(kTechPref);
+					
+					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+						break;
+				}
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+
+	return true;
+}
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ

@@ -87,9 +87,13 @@ CvPlayerAI::CvPlayerAI(/* advc.003u: */ PlayerTypes eID) : CvPlayer(eID)
 	m_aiBonusValueTrade = NULL; // advc.036
 	m_aiUnitClassWeights = NULL;
 	m_aiUnitCombatWeights = NULL;
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+	m_pLeaderTechDecisionPreference = NULL;
+	m_pCivilizationTechDecisionPreference = NULL;
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
-	m_pLeaderDecisionPreference = NULL;
-	m_pCivilizationDecisionPreference = NULL;
+	m_pLeaderEventDecisionPreference = NULL;
+	m_pCivilizationEventDecisionPreference = NULL;
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 	//m_aiCloseBordersAttitude = new int[MAX_PLAYERS];
 	m_aiCloseBordersAttitude.resize(MAX_PLAYERS); // K-Mod
@@ -132,9 +136,13 @@ CvPlayerAI::~CvPlayerAI()
 	SAFE_DELETE_ARRAY(m_aiAverageCommerceExchange);
 	//SAFE_DELETE_ARRAY(m_aiCloseBordersAttitude); // disabled by K-Mod
 	SAFE_DELETE(m_pUWAI); // advc.104
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+	SAFE_DELETE(m_pLeaderTechDecisionPreference);
+	SAFE_DELETE(m_pCivilizationTechDecisionPreference);
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
-	SAFE_DELETE(m_pLeaderDecisionPreference);
-	SAFE_DELETE(m_pCivilizationDecisionPreference);
+	SAFE_DELETE(m_pLeaderEventDecisionPreference);
+	SAFE_DELETE(m_pCivilizationEventDecisionPreference);
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 }
 
@@ -377,6 +385,9 @@ void CvPlayerAI::AI_updateCacheData()
 	// <advc.139>
 	if(isBarbarian())
 		return;
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+	AI_initTechPreferences();
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 	AI_initEventPreferences();
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
@@ -4644,6 +4655,63 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
 		I've used long-long with some iValue <= MAX_INT assertions for a year or so,
 		and those assertions never failed. */
 	int iValue = 1;
+	
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+	CvTechPreferenceInfo const* pLeaderPref = AI_getLeaderTechPreferences();
+	bool const bHasLeaderPreference = (pLeaderPref != NULL);
+	
+	CvTechPreferenceInfo const* pCivilizationPref = AI_getCivilizationTechPreferences();
+	bool bHasCivilizationPreference = (pCivilizationPref != NULL);
+	
+	if (bHasLeaderPreference)
+	{
+		CvTechPreferenceInfo& kPref = *pLeaderPref;
+		int iNumPreferences = static_cast<int>(kPref.getNumTechPreferences());
+		for (int iPref = 0; iPref < iNumPreferences; iPref++)
+		{
+			TedhPreferenceData const& kPrefData = kPref.getEventPreference(iPref);
+			TechTypes const eOurChoice = (TechTypes)kPrefData.getTechType();
+			if (eOurChoice != NO_TECH &&
+				eOurChoice == eTech)
+			{
+				if (kPrefData.isAlwaysSelectChoice())
+				{
+					iValue = MAX_INT;
+					return iValue;
+				}
+				else if (kPrefData.isNeverSelectChoice())
+				{
+					iValue = 1;
+					return iValue;
+				}
+			}
+		}
+	}
+	if (bHasCivilizationPreference)
+	{
+		CvTechPreferenceInfo const& kPref = *pCivilizationPref;
+		int const iNumPreferences = static_cast<int>(kPref.getNumTechPreferences());
+		for (int iPref = 0; iPref < iNumPreferences; iPref++)
+		{
+			TechPreferenceData& kPrefData = kPref.getEventPreference(iPref);
+			TechTypes eOurChoice = (TechTypes)kPrefData.getTechType();
+			if (eOurChoice != NO_TECH &&
+				eOurChoice == eTech)
+			{
+				if (kPrefData.isAlwaysSelectChoice())
+				{
+					iValue = MAX_INT;
+					return iValue;
+				}
+				else if (kPrefData.isNeverSelectChoice())
+				{
+					iValue = 1;
+					return iValue;
+				}
+			}
+		}
+	}
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 
 	CvCity const* pCapital = getCapital();
 	CvTeamAI const& kTeam = GET_TEAM(getTeam());
@@ -6055,6 +6123,50 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
 	/*	advc: iRandomMax is disused; checking it only to make sure
 		that I haven't missed any randomized code. */
 	else FAssert(iRandomMax == 0);
+	
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+	if (bHasLeaderPreference)
+	{
+		CvTechPreferenceInfo const& kPref = *pLeaderPref;
+		int const iNumPreferences = static_cast<int>(kPref.getNumTechPreferences());
+		for (int iPref = 0; iPref < iNumPreferences; iPref++)
+		{
+			TedhPreferenceData& kPrefData = kPref.getEventPreference(iPref);
+			TechTypes eOurChoice = (TechTypes)kPrefData.getTechType();
+			if (eOurChoice != NO_TECH &&
+				eOurChoice == eTech)
+			{
+				if (kPrefData.getTechValueModifierPercent() != 0)
+				{
+					int iPrefValue = kPrefData.getTechValueModifierPercent();
+					iValue *= iPrefValue;
+					iValue /= ((iPrefValue > 0) ? 100 : -100);
+				}
+			}
+		}
+	}
+	if (bHasCivilizationPreference)
+	{
+		CvTechPreferenceInfo const& kPref = *pCivilizationPref;
+		int const iNumPreferences = static_cast<int>(kPref.getNumTechPreferences());
+		for (int iPref = 0; iPref < iNumPreferences; iPref++)
+		{
+			TechPreferenceData& kPrefData = kPref.getEventPreference(iPref);
+			TechTypes eOurChoice = (TechTypes)kPrefData.getTechType();
+			if (eOurChoice != NO_TECH &&
+				eOurChoice == eTech)
+			{
+				if (kPrefData.getTechValueModifierPercent() != 0)
+				{
+					int iPrefValue = kPrefData.getTechValueModifierPercent();
+					iValue *= iPrefValue;
+					iValue /= ((iPrefValue > 0) ? 100 : -100);
+				}
+			}
+		}
+	}
+	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+	
 	// advc (note): Not a safe was to do this - and no longer needed.
 	//iValue = range(iValue, 0, MAX_INT);
 	// K-Mod end
@@ -29772,10 +29884,56 @@ void CvPlayerAI::logFoundValue(CvPlot const& kPlot, bool bStartingLoc) const
 	eval.log(kPlot);
 }
 
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+void CvPlayerAI::AI_initTechPreferences()
+{
+	if (m_pLeaderTechDecisionPreference == NULL && m_pCivilizationTechDecisionPreference == NULL)
+	{
+		FOR_EACH_ENUM(TechPreference)
+		{
+			CvTechPreferenceInfo& kLoopPref = GC.getInfo(eLoopTechPreference);
+			
+			LeaderHeadTypes eLeader = (LeaderHeadTypes)kLoopPref.getLeaderType();
+			CivilizationTypes eCivilization = (CivilizationTypes)kLoopPref.getCivilizationType();
+			
+			if (eLeader != NO_LEADER &&
+				eLeader == getLeaderType())
+			{
+				m_pLeaderTechDecisionPreference = &kLoopPref;
+			}
+			if (eCivilization != NO_CIVILIZATION && 
+				eCivilization == getCivilizationType())
+			{
+				m_pCivilizationTechDecisionPreference = &kLoopPref;
+			}
+		}
+	}
+}
+
+void CvPlayerAI::AI_clearTechPreferences()
+{
+	if (m_pLeaderEventDecisionPreference != NULL)
+	{
+		SAFE_DELETE(m_pLeaderEventDecisionPreference);
+	}
+	
+	if (m_pCivilizationEventDecisionPreference != NULL))
+	{
+		SAFE_DELETE(m_pCivilizationEventDecisionPreference);
+	}
+}
+
+void CvPlayerAI::AI_updateTechPreferences()
+{
+	AI_clearTechPreferences();
+	AI_initTechPreferences();
+}
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 void CvPlayerAI::AI_initEventPreferences()
 {
-	if (m_pLeaderDecisionPreference == NULL && m_pCivilizationDecisionPreference == NULL)
+	if (m_pLeaderEventDecisionPreference == NULL && m_pCivilizationEventDecisionPreference == NULL)
 	{
 		if (!GC.getGame().isOption(GAMEOPTION_NO_EVENTS))
 			return;
@@ -29789,12 +29947,12 @@ void CvPlayerAI::AI_initEventPreferences()
 			if (eLeader != NO_LEADER &&
 				eLeader == getLeaderType())
 			{
-				m_pLeaderDecisionPreference = &kLoopPref;
+				m_pLeaderEventDecisionPreference = &kLoopPref;
 			}
 			if (eCivilization != NO_CIVILIZATION && 
 				eCivilization == getCivilizationType())
 			{
-				m_pCivilizationDecisionPreference = &kLoopPref;
+				m_pCivilizationEventDecisionPreference = &kLoopPref;
 			}
 		}
 	}
@@ -29802,14 +29960,14 @@ void CvPlayerAI::AI_initEventPreferences()
 
 void CvPlayerAI::AI_clearEventPreferences()
 {
-	if (m_pLeaderDecisionPreference != NULL)
+	if (m_pLeaderEventDecisionPreference != NULL)
 	{
-		m_pLeaderDecisionPreference = NULL;
+		SAFE_DELETE(m_pLeaderEventDecisionPreference);
 	}
 	
-	if (m_pCivilizationDecisionPreference != NULL))
+	if (m_pCivilizationEventDecisionPreference != NULL))
 	{
-		m_pCivilizationDecisionPreference = NULL;
+		SAFE_DELETE(m_pCivilizationEventDecisionPreference);
 	}
 }
 

@@ -506,4 +506,31 @@ protected:
 	std::vector<CvDiplomacyResponse*> m_pResponses;
 };
 
+// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvTechPreferenceInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvTechPreferenceInfo : public CvInfoBase
+{
+	typedef CvInfoBase base_t;
+	friend class CvXMLLoadUtility;
+public: // All the const functions returning primitive types are exposed to Python
+	CvTechPreferenceInfo();
+	~CvTechPreferenceInfo();
+
+	int getLeaderType() const;
+	int getCivilizationType() const;
+	const TechPreferenceData& getEventPreference(int i) const;
+	int getNumTechPreferences() const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+
+private:
+	int m_iLeaderType;
+	int m_iCivilizationType;
+
+	std::vector<TechPreferenceData> m_vTechPrefData;
+};
+// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+
 #endif
