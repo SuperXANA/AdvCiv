@@ -28,7 +28,7 @@ bool TechPreferenceData::read(CvXMLLoadUtility* pXML)
 {	
 	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 	{
-		pXML->SetInfoIDFromChildXmlVal(iTech, "Tech");
+		pXML->SetInfoIDFromChildXmlVal(iTech, "TechType");
 		pXML->GetChildXmlValByName(&iTechValueModifierPercent, "iTechValueModifierPercent");
 		pXML->GetChildXmlValByName(&bAlwaysSelectChoice, "bAlwaysSelectChoice");
 		pXML->GetChildXmlValByName(&bNeverSelectChoice, "bNeverSelectChoice");

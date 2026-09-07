@@ -434,6 +434,8 @@
 		<element type="EventInfos" minOccurs="1" maxOccurs="1"/>
 	</ElementType>
 	<!-- XANA: 09-05-2026 Event Preferences for AI Decision-Making Process -->
+	<ElementType name="Leader" content="textOnly"/>
+	<ElementType name="Civilization" content="textOnly"/>
 	<ElementType name="iAIWeightModifierPercent" content="textOnly" dt:type="int"/>
 	<ElementType name="bAlwaysSelectChoice" content="textOnly" dt:type="boolean"/>
 	<ElementType name="bNeverSelectChoice" content="textOnly" dt:type="boolean"/>
