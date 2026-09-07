@@ -4669,7 +4669,7 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
 		int iNumPreferences = static_cast<int>(kPref.getNumTechPreferences());
 		for (int iPref = 0; iPref < iNumPreferences; iPref++)
 		{
-			TedhPreferenceData const& kPrefData = kPref.getEventPreference(iPref);
+			TedhPreferenceData const& kPrefData = kPref.getTechPreference(iPref);
 			TechTypes const eOurChoice = (TechTypes)kPrefData.getTechType();
 			if (eOurChoice != NO_TECH &&
 				eOurChoice == eTech)
@@ -4693,7 +4693,7 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
 		int const iNumPreferences = static_cast<int>(kPref.getNumTechPreferences());
 		for (int iPref = 0; iPref < iNumPreferences; iPref++)
 		{
-			TechPreferenceData& kPrefData = kPref.getEventPreference(iPref);
+			TechPreferenceData& kPrefData = kPref.getTechPreference(iPref);
 			TechTypes eOurChoice = (TechTypes)kPrefData.getTechType();
 			if (eOurChoice != NO_TECH &&
 				eOurChoice == eTech)
@@ -6131,7 +6131,7 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
 		int const iNumPreferences = static_cast<int>(kPref.getNumTechPreferences());
 		for (int iPref = 0; iPref < iNumPreferences; iPref++)
 		{
-			TedhPreferenceData& kPrefData = kPref.getEventPreference(iPref);
+			TedhPreferenceData& kPrefData = kPref.getTechPreference(iPref);
 			TechTypes eOurChoice = (TechTypes)kPrefData.getTechType();
 			if (eOurChoice != NO_TECH &&
 				eOurChoice == eTech)
@@ -6151,7 +6151,7 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
 		int const iNumPreferences = static_cast<int>(kPref.getNumTechPreferences());
 		for (int iPref = 0; iPref < iNumPreferences; iPref++)
 		{
-			TechPreferenceData& kPrefData = kPref.getEventPreference(iPref);
+			TechPreferenceData& kPrefData = kPref.getTechPreference(iPref);
 			TechTypes eOurChoice = (TechTypes)kPrefData.getTechType();
 			if (eOurChoice != NO_TECH &&
 				eOurChoice == eTech)
