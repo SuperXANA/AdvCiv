@@ -1613,12 +1613,11 @@ bool CvTechPreferenceInfo::read(CvXMLLoadUtility* pXML)
 			m_vTechPrefData.clear();
 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 			{
+				SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
+				m_aiVectorIndexMap = new int[GC.getNumTechInfos()];
+				FOR_EACH_ENUM(Tech)
 				{
-					SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
-					FOR_EACH_ENUM(Tech)
-					{
-						m_aiVectorIndexMap[eLoopTech] = -1; // -1 means no preference
-					}
+					m_aiVectorIndexMap[eLoopTech] = -1; // -1 means no preference
 				}
 				for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
 				{

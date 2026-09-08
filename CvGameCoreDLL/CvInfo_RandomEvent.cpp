@@ -2148,12 +2148,11 @@ bool CvEventPreferenceInfo::read(CvXMLLoadUtility* pXML)
 			m_vEventPrefData.clear();
 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 			{
+				SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
+				m_aiVectorIndexMap = new int[GC.getNumEventInfos()];
+				FOR_EACH_ENUM(Event)
 				{
-					SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
-					FOR_EACH_ENUM(Event)
-					{
-						m_aiVectorIndexMap[eLoopEvent] = -1; // -1 means no preference
-					}
+					m_aiVectorIndexMap[eLoopEvent] = -1; // -1 means no preference
 				}
 				for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
 				{
