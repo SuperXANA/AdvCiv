@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Alex Mantzaris (Firaxis Games) -->
+<!-- Sid Meier's Civilization 4 -->
+<!-- Copyright Firaxis Games 2005 -->
+<!-- -->
+<!-- Leader Infos and AI Settings -->
+<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
+<Civ4TechPreferenceInfos xmlns="x-schema:CIV4CivilizationsSchema.xml">
+	<TechPreferenceInfos>
+		<TechPreferenceInfo>
+			<Type>TECHPREFERENCE_LEADER_DECA</Type>
+			<LeaderType>LEADER_DECA</LeaderType>
+			<TechPreferences>
+				<TechPreference>
+					<TechType>TECH_ROCKETRY</TechType>
+					<iTechValueModifierPercent>33</iTechValueModifierPercent>
+					<bPreferredChoice>0</bPreferredChoice>
+					<bNotPreferredChoice>0</bNotPreferredChoice>
+				</TechPreference>
+				<TechPreference>
+					<TechType>TECH_COMPUTERS</TechType>
+					<iTechValueModifierPercent>50</iTechValueModifierPercent>
+					<bPreferredChoice>0</bPreferredChoice>
+					<bNotPreferredChoice>0</bNotPreferredChoice>
+				</TechPreference>
+			</TechPreferences>
+		</TechPreferenceInfo>
+		<TechPreferenceInfo>
+			<Type>TECHPREFERENCE_CIVILIZATION_SIREN</Type>
+			<CivilizationType>CIVILIZATION_SIREN</CivilizationType>
+			<TechPreferences>
+				<TechPreference>
+					<TechType>TECH_MUSIC</TechType>
+					<iTechValueModifierPercent>0</iTechValueModifierPercent>
+					<bPreferredChoice>1</bPreferredChoice>
+					<bNotPreferredChoice>0</bNotPreferredChoice>
+				</TechPreference>
+			</TechPreferences>
+		</TechPreferenceInfo>
+	</TechPreferenceInfos>
+</Civ4TechPreferenceInfos>
+<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
