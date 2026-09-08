@@ -436,14 +436,14 @@
 	<!-- XANA: 09-05-2026 Event Preferences for AI Decision-Making Process -->
 	<ElementType name="Leader" content="textOnly"/>
 	<ElementType name="Civilization" content="textOnly"/>
-	<ElementType name="iAIWeightModifierPercent" content="textOnly" dt:type="int"/>
-	<ElementType name="bAlwaysSelectChoice" content="textOnly" dt:type="boolean"/>
-	<ElementType name="bNeverSelectChoice" content="textOnly" dt:type="boolean"/>
+	<ElementType name="iEventValueModifierPercent" content="textOnly" dt:type="int"/>
+	<ElementType name="bPreferredChoice" content="textOnly" dt:type="boolean"/>
+	<ElementType name="bNotPreferredChoice" content="textOnly" dt:type="boolean"/>
 	<ElementType name="EventPreference" content="eltOnly">
 		<element type="Event"/>
-		<element type="iAIWeightModifierPercent" minOccurs="0"/>
-		<element type="bAlwaysSelectChoice" minOccurs="0"/>
-		<element type="bNeverSelectChoice" minOccurs="0"/>
+		<element type="iEventValueModifierPercent" minOccurs="0"/>
+		<element type="bPreferredChoice" minOccurs="0"/>
+		<element type="bNotPreferredChoice" minOccurs="0"/>
 	</ElementType>
 	<ElementType name="EventPreferences" content="eltOnly">
 		<element type="EventPreference" minOccurs="0" maxOccurs="*"/>

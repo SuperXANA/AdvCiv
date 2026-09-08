@@ -551,13 +551,13 @@
 	<ElementType name="LeaderType" content="textOnly"/>
 	<ElementType name="CivilizationType" content="textOnly"/>
 	<ElementType name="iTechValueModifierPercent" content="textOnly" dt:type="int"/>
-	<ElementType name="bAlwaysSelectChoice" content="textOnly" dt:type="boolean"/>
-	<ElementType name="bNeverSelectChoice" content="textOnly" dt:type="boolean"/>
+	<ElementType name="bPreferredChoice" content="textOnly" dt:type="boolean"/>
+	<ElementType name="bNotPreferredChoice" content="textOnly" dt:type="boolean"/>
 	<ElementType name="TechPreference" content="eltOnly">
 		<element type="TechType"/>
 		<element type="iTechValueModifierPercent" minOccurs="0"/>
-		<element type="bAlwaysSelectChoice" minOccurs="0"/>
-		<element type="bNeverSelectChoice" minOccurs="0"/>
+		<element type="bPreferredChoice" minOccurs="0"/>
+		<element type="bNotPreferredChoice" minOccurs="0"/>
 	</ElementType>
 	<ElementType name="TechPreferences" content="eltOnly">
 		<element type="TechPreference" minOccurs="0" maxOccurs="*"/>

@@ -14,14 +14,14 @@ int TechPreferenceData::getTechValueModifierPercent() const
 	return iTechValueModifierPercent;
 }
 
-bool TechPreferenceData::isAlwaysSelectChoice() const
+bool TechPreferenceData::isPreferredChoice() const
 {
-	return bAlwaysSelectChoice;
+	return bPreferredChoice;
 }
 
-bool TechPreferenceData::isNeverSelectChoice() const
+bool TechPreferenceData::isbNotPreferredChoice() const
 {
-	return bNeverSelectChoice;
+	return bNotPreferredChoice;
 }
 
 bool TechPreferenceData::read(CvXMLLoadUtility* pXML)
@@ -30,8 +30,8 @@ bool TechPreferenceData::read(CvXMLLoadUtility* pXML)
 	{
 		pXML->SetInfoIDFromChildXmlVal(iTech, "TechType");
 		pXML->GetChildXmlValByName(&iTechValueModifierPercent, "iTechValueModifierPercent");
-		pXML->GetChildXmlValByName(&bAlwaysSelectChoice, "bAlwaysSelectChoice");
-		pXML->GetChildXmlValByName(&bNeverSelectChoice, "bNeverSelectChoice");
+		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
+		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
 
 		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 	}
@@ -46,19 +46,19 @@ int EventPreferenceData::getEventType() const
 	return iEvent;
 }
 
-int EventPreferenceData::getAIWeightModifierPercent() const
+int EventPreferenceData::getEventValueModifierPercent() const
 {
-	return iAIWeightModifierPercent;
+	return iEventValueModifierPercent;
 }
 
-bool EventPreferenceData::isAlwaysSelectChoice() const
+bool EventPreferenceData::isPreferredChoice() const
 {
-	return bAlwaysSelectChoice;
+	return bPreferredChoice;
 }
 
-bool EventPreferenceData::isNeverSelectChoice() const
+bool EventPreferenceData::isNotPreferredChoice() const
 {
-	return bNeverSelectChoice;
+	return bNotPreferredChoice;
 }
 
 bool EventPreferenceData::read(CvXMLLoadUtility* pXML)
@@ -66,9 +66,9 @@ bool EventPreferenceData::read(CvXMLLoadUtility* pXML)
 	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 	{
 		pXML->SetInfoIDFromChildXmlVal(iEvent, "Event");
-		pXML->GetChildXmlValByName(&iAIWeightModifierPercent, "iAIWeightModifierPercent");
-		pXML->GetChildXmlValByName(&bAlwaysSelectChoice, "bAlwaysSelectChoice");
-		pXML->GetChildXmlValByName(&bNeverSelectChoice, "bNeverSelectChoice");
+		pXML->GetChildXmlValByName(&iEventValueModifierPercent, "iEventValueModifierPercent");
+		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
+		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
 
 		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 	}

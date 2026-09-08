@@ -7,19 +7,19 @@
 struct TechPreferenceData
 {
 	TechPreferenceData() : iTech(NO_TECH), iTechValueModifierPercent(0), 
-	bAlwaysSelectChoice(false), bNeverSelectChoice(false) {}
+	bPreferredChoice(false), bNotPreferredChoice(false) {}
 	
 	int getTechType() const;
 	int getTechValueModifierPercent() const;
-	bool isAlwaysSelectChoice() const;
-	bool isNeverSelectChoice() const;
+	bool isPreferredChoice() const;
+	bool isNotPreferredChoice() const;
 	
 	bool read(CvXMLLoadUtility* pXML);
 	
 	int iTech;
 	int iTechValueModifierPercent;
-	bool bAlwaysSelectChoice;
-	bool bNeverSelectChoice;
+	bool bPreferredChoice;
+	bool bNotPreferredChoice;
 };
 // XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 
@@ -27,20 +27,20 @@ struct TechPreferenceData
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 struct EventPreferenceData
 {
-	EventPreferenceData() : iEvent(NO_EVENT), iAIWeightModifierPercent(0), 
-	bAlwaysSelectChoice(false), bNeverSelectChoice(false) {}
+	EventPreferenceData() : iEvent(NO_EVENT), iEventValueModifierPercent(0), 
+	bPreferredChoice(false), bNotPreferredChoice(false) {}
 	
 	int getEventType() const;
-	int getAIWeightModifierPercent() const;
-	bool isAlwaysSelectChoice() const;
-	bool isNeverSelectChoice() const;
+	int getEventValueModifierPercent() const;
+	bool isPreferredChoice() const;
+	bool isNotPreferredChoice() const;
 	
 	bool read(CvXMLLoadUtility* pXML);
 	
 	int iEvent;
-	int iAIWeightModifierPercent;
-	bool bAlwaysSelectChoice;
-	bool bNeverSelectChoice;
+	int iEventValueModifierPercent;
+	bool bPreferredChoice;
+	bool bNotPreferredChoice;
 };
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 	

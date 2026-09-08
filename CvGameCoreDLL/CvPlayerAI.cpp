@@ -4685,29 +4685,25 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
 	if (bHasLeaderPreference)
 	{
 		TechPreferenceData const& kPrefData = *pLeaderPref;
-		if (kPrefData.isAlwaysSelectChoice())
+		if (kPrefData.isPreferredChoice())
 		{
-			iValue = MAX_INT;
-			return iValue;
+			iValue += 10000;
 		}
-		else if (kPrefData.isNeverSelectChoice())
+		else if (kPrefData.isNotPreferredChoice())
 		{
-			iValue = 1;
-			return iValue;
+			iValue = 0;
 		}
 	}
 	if (bHasCivilizationPreference)
 	{
 		TechPreferenceData const& kPrefData = *pCivilizationPref;
-		if (kPrefData.isAlwaysSelectChoice())
+		if (kPrefData.isPreferredChoice())
 		{
-			iValue = MAX_INT;
-			return iValue;
+			iValue += 10000;
 		}
-		else if (kPrefData.isNeverSelectChoice())
+		else if (kPrefData.isNotPreferredChoice())
 		{
-			iValue = 1;
-			return iValue;
+			iValue = 0;
 		}
 	}
 	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
@@ -23380,62 +23376,6 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 	EventTriggeredData const& kTriggeredData) const
 {
 	CvEventInfo const& kEvent = GC.getInfo(eEvent);
-	
-	// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
-	EventPreferenceData* pLeaderPref = NULL;
-	EventPreferenceData* pCivilizationPref = NULL;
-	
-	if (AI_getLeaderEventPreferences() != NULL)
-	{
-		CvEventPreferenceInfo const& kPref = *AI_getLeaderEventPreferences();
-		int const iPrefIndex = kPref.getEventPreferenceIndex(eEvent); 
-		if (iPrefIndex != -1)
-		{
-			pLeaderPref = &kPref.getEventPreference(iPrefIndex);
-		}
-	}
-	if (AI_getCivilizationEventPreferences() != NULL)
-	{
-		CvEventPreferenceInfo const& kPref = *AI_getCivilizationEventPreferences();
-		int const iPrefIndex = kPref.getEventPreferenceIndex(eEvent); 
-		if (iPrefIndex != -1)
-		{
-			pCivilizationPref = &kPref.getEventPreference(iPrefIndex);
-		}
-	}
-	
-	bool const bHasLeaderPreference = (pLeaderPref != NULL);
-	bool const bHasCivilizationPreference = (pCivilizationPref != NULL);
-	
-	if (bHasLeaderPreference)
-	{
-		EventPreferenceData const& kPrefData = *pLeaderPref;
-		if (kPrefData.isAlwaysSelectChoice())
-		{
-			iValue = MAX_INT;
-			return iValue;
-		}
-		else if (kPrefData.isNeverSelectChoice())
-		{
-			iValue = MIN_INT;
-			return iValue;
-		}
-	}
-	if (bHasCivilizationPreference)
-	{
-		EventPreferenceData const& kPrefData = *pCivilizationPref;
-		if (kPrefData.isAlwaysSelectChoice())
-		{
-			iValue = MAX_INT;
-			return iValue;
-		}
-		else if (kPrefData.isNeverSelectChoice())
-		{
-			iValue = MIN_INT;
-			return iValue;
-		}
-	}
-	// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 
 	CvTeamAI const& kTeam = GET_TEAM(getTeam()); // K-Mod
 
@@ -23471,6 +23411,59 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 	int const iGameSpeedPercent = GC.getGame().getSpeedPercent();
 
 	int iValue = SyncRandNum(kEvent.getAIValue());
+	
+	// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+	EventPreferenceData* pLeaderPref = NULL;
+	EventPreferenceData* pCivilizationPref = NULL;
+	
+	if (AI_getLeaderEventPreferences() != NULL)
+	{
+		CvEventPreferenceInfo const& kPref = *AI_getLeaderEventPreferences();
+		int const iPrefIndex = kPref.getEventPreferenceIndex(eEvent); 
+		if (iPrefIndex != -1)
+		{
+			pLeaderPref = &kPref.getEventPreference(iPrefIndex);
+		}
+	}
+	if (AI_getCivilizationEventPreferences() != NULL)
+	{
+		CvEventPreferenceInfo const& kPref = *AI_getCivilizationEventPreferences();
+		int const iPrefIndex = kPref.getEventPreferenceIndex(eEvent); 
+		if (iPrefIndex != -1)
+		{
+			pCivilizationPref = &kPref.getEventPreference(iPrefIndex);
+		}
+	}
+	
+	bool const bHasLeaderPreference = (pLeaderPref != NULL);
+	bool const bHasCivilizationPreference = (pCivilizationPref != NULL);
+	
+	if (bHasLeaderPreference)
+	{
+		EventPreferenceData const& kPrefData = *pLeaderPref;
+		if (kPrefData.isPreferredChoice())
+		{
+			iValue += 10000;
+		}
+		else if (kPrefData.isNotPreferredChoice())
+		{
+			iValue = 0;
+		}
+	}
+	if (bHasCivilizationPreference)
+	{
+		EventPreferenceData const& kPrefData = *pCivilizationPref;
+		if (kPrefData.isPreferredChoice())
+		{
+			iValue += 10000;
+		}
+		else if (kPrefData.isNotPreferredChoice())
+		{
+			iValue = 0;
+		}
+	}
+	// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+	
 	iValue += (getEventCost(eEvent, kTriggeredData.m_eOtherPlayer, false) +
 			getEventCost(eEvent, kTriggeredData.m_eOtherPlayer, true)) / 2;
 
@@ -23987,9 +23980,9 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 	if (bHasCivilizationPreference)
 	{
 		EventPreferenceData const& kPrefData = *pCivilizationPref;
-		if (kPrefData.getAIWeightModifierPercent() != 0)
+		if (kPrefData.getEventValueModifierPercent() != 0)
 		{
-			iValue *= kPrefData.getAIWeightModifierPercent();
+			iValue *= kPrefData.getEventValueModifierPercent();
 			iValue /= 100;
 		}
 	}
