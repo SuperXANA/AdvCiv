@@ -90,6 +90,9 @@
 #include "EnumTraits.h"
 #include "IntegerConversion.h" // advc
 #include "CvStructs.h"
+// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+#include "CvXMLStructs.h"
+// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 #include "FProfiler.h" // (includes CvDLLUtilityIFaceBase.h)
 #include "CvGameCoreUtils.h"
 #include "ScaledNum.h"
@@ -102,6 +105,9 @@
 #include "CvInfo_Asset.h"
 #include "CvInfo_Tech.h"
 #include "CvInfo_Civilization.h"
+// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+#include "CvInfo_GameplayMechanic.h"
+// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 #include "CvInfo_Organization.h"
 #include "CvInfo_Symbol.h"
 #include "CvInfo_RandomEvent.h"

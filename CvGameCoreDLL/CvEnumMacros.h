@@ -81,7 +81,10 @@
 	/* <advc.tsl> (not exposed to Python) */ \
 	DO(TruCiv, TRUCIV) \
 	DO(TruLeader, TRULEADER) \
-	DO(TruBonus, TRUBONUS) /* </advc.tsl> */
+	DO(TruBonus, TRUBONUS) /* </advc.tsl> */ \
+	/* XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration */ \
+	DO(GameplayMechanic, GAMEPLAY_MECHANIC)
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
 // Number of instances not known at compile time
 #define DO_FOR_EACH_DYN_INFO_TYPE(DO) \

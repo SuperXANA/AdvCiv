@@ -717,6 +717,11 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paGameOptionInfo, "CIV4GameOptionInfos", "GameInfo", "Civ4GameOptionInfos/GameOptionInfos/GameOptionInfo", false);
 	LoadGlobalClassInfo(GC.m_paMPOptionInfo, "CIV4MPOptionInfos", "GameInfo", "Civ4MPOptionInfos/MPOptionInfos/MPOptionInfo", false);
 	LoadGlobalClassInfo(GC.m_paForceControlInfo, "CIV4ForceControlInfos", "GameInfo", "Civ4ForceControlInfos/ForceControlInfos/ForceControlInfo", false);
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+	LoadGlobalClassInfo(GC.m_paGameplayMechanicInfo, "CIV4GameplayMechanicInfos", "GameInfo", "Civ4GameplayMechanicInfos/GameplayMechanicInfos/GameplayMechanicInfo", false);
+	FOR_EACH_ENUM(GameplayMechanic)
+		GC.getInfo(eLoopGameplayMechanic).readPass3();
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
 	// Allow data to be cached
 	CvEraInfo::allInfosRead(); // advc.erai
