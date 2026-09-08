@@ -1566,8 +1566,14 @@ bool CvDiplomacyInfo::read(CvXMLLoadUtility* pXML)
 // XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 CvTechPreferenceInfo::CvTechPreferenceInfo() :
 	m_iLeaderType(NO_LEADER),
-	m_iCivilizationType(NO_CIVILIZATION)
+	m_iCivilizationType(NO_CIVILIZATION),
+	m_aiVectorIndexMap(NULL)
 {}
+
+CvTechPreferenceInfo::~CvTechPreferenceInfo() :
+{
+	SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
+}
 
 int CvTechPreferenceInfo::getLeaderType() const
 {
@@ -1579,15 +1585,16 @@ int CvTechPreferenceInfo::getCivilizationType() const
 	return m_iCivilizationType;
 }
 
+int CvTechPreferenceInfo::getTechPreferenceIndex(int i) const
+{
+	FAssertBounds(0, GC.getNumTechInfos(), i);
+	return m_aiVectorIndexMap ? m_aiVectorIndexMap[i] : -1;
+}
+
 const TechPreferenceData& CvTechPreferenceInfo::getTechPreference(int i) const
 {
 	FAssertBounds(0, (int)m_vTechPrefData.size(), i);
 	return m_vTechPrefData[i];
-}
-
-int CvTechPreferenceInfo::getNumTechPreferences() const
-{
-	return m_vTechPrefData.size();
 }
 
 bool CvTechPreferenceInfo::read(CvXMLLoadUtility* pXML)
@@ -1606,6 +1613,13 @@ bool CvTechPreferenceInfo::read(CvXMLLoadUtility* pXML)
 			m_vTechPrefData.clear();
 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 			{
+				{
+					SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
+					FOR_EACH_ENUM(Tech)
+					{
+						m_aiVectorIndexMap[eLoopTech] = -1; // -1 means no preference
+					}
+				}
 				for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
 				{
 					TechPreferenceData kTechPref;
@@ -1616,6 +1630,18 @@ bool CvTechPreferenceInfo::read(CvXMLLoadUtility* pXML)
 						break;
 				}
 				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+			if (m_vTechPrefData.size() > 0)
+			{
+				int const iPrefLength = (int)m_vTechPrefData.size();
+				for (int iPref = 0; iPref < iPrefLength; ++iPref)
+				{
+					TechTypes eTech = static_cast<TechTypes>(getTechPreference(iPref).getTechType());
+					if (eTech != NO_TECH)
+					{
+						m_aiVectorIndexMap[eTech] = iPref;
+					}
+				}
 			}
 		}
 		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());

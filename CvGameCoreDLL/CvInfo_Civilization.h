@@ -520,8 +520,8 @@ public: // All the const functions returning primitive types are exposed to Pyth
 
 	int getLeaderType() const;
 	int getCivilizationType() const;
-	const TechPreferenceData& getEventPreference(int i) const;
-	int getNumTechPreferences() const;
+	int getTechPreferenceIndex(int i) const;
+	const TechPreferenceData& getTechPreference(int i) const;
 	
 	bool read(CvXMLLoadUtility* pXML);
 
@@ -530,6 +530,7 @@ private:
 	int m_iCivilizationType;
 
 	std::vector<TechPreferenceData> m_vTechPrefData;
+	int* m_aiVectorIndexMap;
 };
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 

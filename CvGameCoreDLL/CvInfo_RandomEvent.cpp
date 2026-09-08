@@ -2101,8 +2101,14 @@ bool CvEventTriggerInfo::read(CvXMLLoadUtility* pXML)
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 CvEventPreferenceInfo::CvEventPreferenceInfo() :
 	m_iLeaderType(NO_LEADER),
-	m_iCivilizationType(NO_CIVILIZATION)
+	m_iCivilizationType(NO_CIVILIZATION),
+	m_aiVectorIndexMap(NULL)
 {}
+
+CvEventPreferenceInfo::~CvEventPreferenceInfo() :
+{
+	SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
+}
 
 int CvEventPreferenceInfo::getLeaderType() const
 {
@@ -2114,15 +2120,16 @@ int CvEventPreferenceInfo::getCivilizationType() const
 	return m_iCivilizationType;
 }
 
+int CvEventPreferenceInfo::getEventPreferenceIndex(int i) const
+{
+	FAssertBounds(0, GC.getNumEventInfos(), i);
+	return m_aiVectorIndexMap ? m_aiVectorIndexMap[i] : -1;
+}
+
 const EventPreferenceData& CvEventPreferenceInfo::getEventPreference(int i) const
 {
 	FAssertBounds(0, (int)m_vEventPrefData.size(), i);
 	return m_vEventPrefData[i];
-}
-
-int CvEventPreferenceInfo::getNumEventPreferences() const
-{
-	return m_vEventPrefData.size();
 }
 
 bool CvEventPreferenceInfo::read(CvXMLLoadUtility* pXML)
@@ -2141,6 +2148,13 @@ bool CvEventPreferenceInfo::read(CvXMLLoadUtility* pXML)
 			m_vEventPrefData.clear();
 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 			{
+				{
+					SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
+					FOR_EACH_ENUM(Event)
+					{
+						m_aiVectorIndexMap[eLoopEvent] = -1; // -1 means no preference
+					}
+				}
 				for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
 				{
 					EventPreferenceData kEventPref;
@@ -2151,6 +2165,18 @@ bool CvEventPreferenceInfo::read(CvXMLLoadUtility* pXML)
 						break;
 				}
 				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+			if (m_vEventPrefData.size() > 0)
+			{
+				int const iPrefLength = (int)m_vEventPrefData.size();
+				for (int iPref = 0; iPref < iPrefLength; ++iPref)
+				{
+					EventTypes eEvent = static_cast<EventTypes>(getEventPreference(iPref).getEventType());
+					if (eEvent != NO_EVENT)
+					{
+						m_aiVectorIndexMap[eEvent] = iPref;
+					}
+				}
 			}
 		}
 		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
