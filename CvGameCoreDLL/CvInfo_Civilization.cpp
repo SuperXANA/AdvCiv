@@ -1602,8 +1602,8 @@ bool CvTechPreferenceInfo::read(CvXMLLoadUtility* pXML)
 	if (!base_t::read(pXML))
 		return false;
 
-	pXML->SetInfoIDFromChildXmlVal(m_iLeaderType, "Leader");
-	pXML->SetInfoIDFromChildXmlVal(m_iCivilizationType, "Civilization");
+	pXML->SetInfoIDFromChildXmlVal(m_iLeaderType, "LeaderType");
+	pXML->SetInfoIDFromChildXmlVal(m_iCivilizationType, "CivilizationType");
 
 	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "TechPreferences"))
 	{
