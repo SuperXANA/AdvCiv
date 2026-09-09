@@ -14689,9 +14689,6 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		}
 		else GC.getGame().getRiseFall().setPlayerHandicap(getID(), isHuman(), true);
 	} // </advc.708>
-	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
-	updateGameplayMechanicCache();
-	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 }
 
 // save object to a stream
@@ -20332,13 +20329,14 @@ bool CvPlayer::isGameplayMechanicValid(GameplayMechanicTypes eMechanic) const
 	if (eMechanic != NO_GAMEPLAY_MECHANIC)
 	{
 		CvGameplayMechanicInfo const& kMechanic = GC.getInfo(eMechanic);
-		if (getLeaderType() == kMechanic.getLeaderType())
 		{
-			return true;
-		}
-		if (getCivilizationType() == kMechanic.getCivilizationType())
-		{
-			return true;
+			LeaderHeadTypes const eLeader = kMechanic.getLeaderType();
+			CivilizationTypes const eCivilization = kMechanic.getCivilizationType();
+			if (((eLeader != NO_LEADER && getLeaderType() == eLeader) || eLeader == NO_LEADER) &&
+				((eCivilization != NO_CIVILIZATION && getCivilizationType() == eCivilization) || eCivilization == NO_CIVILIZATION))
+			{
+				return true;
+			}
 		}
 	}
 	return false;
@@ -20368,12 +20366,6 @@ void CvPlayer::resetGameplayMechanicCache()
 	{
 		m_bNoFoodPopulationGrowth = false;
 	}
-}
-
-void CvPlayer::updateGameplayMechanicCache()
-{
-	resetGameplayMechanicCache();
-	initGameplayMechanicCache();
 }
 // XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
