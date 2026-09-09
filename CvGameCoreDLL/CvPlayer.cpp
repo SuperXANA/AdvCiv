@@ -438,6 +438,9 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 	m_bSavingReplay = false; // advc.106i
 	m_bScoreboardExpanded = false; // advc.085
 	m_bRandomWBStart = false; // advc.027
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+	m_bNoFoodPopulationGrowth = false; // m_bFallow - FfH2
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
 	m_eID = eID;
 	updateTeamType();
@@ -14699,6 +14702,7 @@ void CvPlayer::read(FDataStreamBase* pStream)
 			m_abActiveGameplayMechanics.push_back(bValue);
 		}
 	}
+	pStream->Read(&m_bNoFoodPopulationGrowth);
 	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 }
 
@@ -15076,6 +15080,7 @@ void CvPlayer::write(FDataStreamBase* pStream)
 			pStream->Write((*it));
 		}
 	}
+	pStream->Write(m_bNoFoodPopulationGrowth);
 	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 	REPRO_TEST_END_WRITE();
 }
@@ -19730,77 +19735,6 @@ void CvPlayer::updateGameplayMechanicCache()
 	resetGameplayMechanicCache();
 	initGameplayMechanicCache();
 }
-
-/* XANA (note):
-This is an anonymous namespace meant to keep file-local private accessors that are only ever used by CvPlayer
-functions inside the *.cpp file.
-
-"bool CvPlayer::isFallow() const" Example:
-This would only ever need to call
-the isGameplayMechanicValid function and pass in the address of the
-isFallow() function inside the CvGameplayMechanicInfo class
-(i.e. &CvGameplayMechanicInfo::isFallow) to call,
-then it will work properly. No header bloat here!
-
-All other classes would simply call CvPlayer::isFallow() like normal.
-
-Caveat:
-Ensure that all CvPlayer functions which will call one of these file-local accessors
-will follow after the namespace declaration ends with the closing "}" brace!
-*/
-namespace
-{
-		template <typename T>
-		bool isGameplayMechanicValid(T pFunctionPointer) const
-		{
-			FOR_EACH_ENUM(GameplayMechanic)
-			{
-				if (m_abActiveGameplayMechanics[eLoopGameplayMechanic])
-				{
-					if ((GC.getGameplayMechanicInfo(eLoopGameplayMechanic).*pFunctionPointer)())
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-		template <typename T, typename P1>
-		bool isGameplayMechanicValid(T pFunctionPointer, P1 FunctionParam1) const
-		{
-			FOR_EACH_ENUM(GameplayMechanic)
-			{
-				if (m_abActiveGameplayMechanics[eLoopGameplayMechanic])
-				{
-					if ((GC.getGameplayMechanicInfo(eLoopGameplayMechanic).*pFunctionPointer)(FunctionParam1))
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-		template <typename T, typename P1, typename P2>
-		bool isGameplayMechanicValid(T pFunctionPointer, P1 FunctionParam1, P2 FunctionParam2) const
-		{
-			FOR_EACH_ENUM(GameplayMechanic)
-			{
-				if (m_abActiveGameplayMechanics[eLoopGameplayMechanic])
-				{
-					if ((GC.getGameplayMechanicInfo(eLoopGameplayMechanic).*pFunctionPointer)(FunctionParam1, FunctionParam2))
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		}	
-}
-/* XANA (note):
-End anonymous namspace.
-
-All functions following after this are subject to normal CvPlayer header rules!
-*/
 // XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
 // Used by Globeview resource layer
@@ -20424,15 +20358,26 @@ void CvPlayer::initGameplayMechanicCache()
 	m_abActiveGameplayMechanics.assign(GC.getNumGameplayMechanicInfos(), false);
 	FOR_EACH_ENUM(GameplayMechanic)
 	{
-		if (GC.getInfo(eLoopGameplayMechanic).isPlayerValid(kThis))
+		CvGameplayMechanicInfo& kGameplayMechanic = GC.getInfo(eLoopGameplayMechanic);
+		if (kGameplayMechanic.isPlayerValid(kThis))
 		{
 			m_abActiveGameplayMechanics[eLoopGameplayMechanic] = true;
+			
+			// m_bFallow - FfH2
+			if (kGameplayMechanic.isNoFoodPopulationGrowth())
+			{
+				m_bNoFoodPopulationGrowth = true;
+			}
 		}
 	}
 }
 
 void CvPlayer::resetGameplayMechanicCache()
 {
+	if (m_bNoFoodPopulationGrowth)
+	{
+		m_bNoFoodPopulationGrowth = false;
+	}
 	m_abActiveGameplayMechanics.clear();
 }
 

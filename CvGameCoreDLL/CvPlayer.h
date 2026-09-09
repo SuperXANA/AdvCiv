@@ -1453,6 +1453,7 @@ public:
 	bool showGoodyOnResourceLayer() const; // advc.004z
 	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 	void updateGameplayMechanicCache();
+	bool isNoFoodPopulationGrowth() { return m_bNoFoodPopulationGrowth; }
 	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 	// <advc.003u>
 	CvPlayerAI& AI()
@@ -1595,6 +1596,9 @@ protected:  // <advc.210>
 	bool m_bSavingReplay; // advc.106i
 	bool m_bScoreboardExpanded; // advc.085
 	bool m_bRandomWBStart; // advc.027
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+	bool m_bNoFoodPopulationGrowth; // m_bFallow - FfH2
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
 	LeaderHeadTypes m_ePersonalityType; // advc (tbd.): Move to CvPlayerAI
 	EraTypes m_eCurrentEra;
