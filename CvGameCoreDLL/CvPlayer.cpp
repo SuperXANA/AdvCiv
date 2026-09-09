@@ -14689,20 +14689,8 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		}
 		else GC.getGame().getRiseFall().setPlayerHandicap(getID(), isHuman(), true);
 	} // </advc.708>
-
 	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
-	{
-		m_abActiveGameplayMechanics.clear();
-		uint iSize;
-		pStream->Read(&iSize);
-		for (uint i = 0; i < iSize; i++)
-		{
-			bool bValue;
-			pStream->Read(&bValue);
-			m_abActiveGameplayMechanics.push_back(bValue);
-		}
-	}
-	pStream->Read(&m_bNoFoodPopulationGrowth);
+	updateGameplayMechanicCache();
 	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 }
 
@@ -15069,19 +15057,6 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	pStream->Write(m_iPopRushHurryCount);
 	pStream->Write(m_iGoldRushHurryCount); // advc.064b
 	pStream->Write(m_iInflationModifier);
-	
-	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
-	{
-		uint iSize = m_abActiveGameplayMechanics.size();
-		pStream->Write(iSize);
-		std::vector<bool>::iterator it;
-		for (it = m_abActiveGameplayMechanics.begin(); it != m_abActiveGameplayMechanics.end(); ++it)
-		{
-			pStream->Write((*it));
-		}
-	}
-	pStream->Write(m_bNoFoodPopulationGrowth);
-	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 	REPRO_TEST_END_WRITE();
 }
 
@@ -20355,14 +20330,11 @@ void CvPlayer::announceEspionageToThirdParties(EspionageMissionTypes eMission,
 void CvPlayer::initGameplayMechanicCache()
 {
 	CvPlayer const& kThis = *this;
-	m_abActiveGameplayMechanics.assign(GC.getNumGameplayMechanicInfos(), false);
 	FOR_EACH_ENUM(GameplayMechanic)
 	{
 		CvGameplayMechanicInfo& kGameplayMechanic = GC.getInfo(eLoopGameplayMechanic);
 		if (kGameplayMechanic.isPlayerValid(kThis))
 		{
-			m_abActiveGameplayMechanics[eLoopGameplayMechanic] = true;
-			
 			// m_bFallow - FfH2
 			if (kGameplayMechanic.isNoFoodPopulationGrowth())
 			{
@@ -20374,11 +20346,11 @@ void CvPlayer::initGameplayMechanicCache()
 
 void CvPlayer::resetGameplayMechanicCache()
 {
+	// m_bFallow - FfH2
 	if (m_bNoFoodPopulationGrowth)
 	{
 		m_bNoFoodPopulationGrowth = false;
 	}
-	m_abActiveGameplayMechanics.clear();
 }
 
 void CvPlayer::updateGameplayMechanicCache()

@@ -1769,9 +1769,6 @@ protected:  // <advc.210>
 			std::vector<CvPlotIndicatorData>& aIndicators) const;
 	void getCultureLayerColors(std::vector<NiColorA>& aColors,
 			std::vector<CvPlotIndicatorData>& aIndicators) const;
-	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
-	std::vector<bool> m_abActiveGameplayMechanics;
-	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
 private:
 	/*  advc.003u: The remaining virtual functions should not be called within
