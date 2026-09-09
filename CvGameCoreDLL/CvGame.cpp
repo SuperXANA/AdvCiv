@@ -6216,7 +6216,15 @@ void CvGame::doTurn()
 			autoSave();
 		}
 	} // (Otherwise, autosave in CvPlayer::setTurnActive.)
-	// </advc.044>
+	// </advc.044>for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
+
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+	for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
+	{
+		CvPlayer& kPlayer = *it;
+		kPlayer.updateGameplayMechanicCache();
+	}
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 }
 
 // advc.106b:
