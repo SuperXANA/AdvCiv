@@ -1738,6 +1738,7 @@ protected:  // <advc.210>
 	// advc.120f:
 	void announceEspionageToThirdParties(EspionageMissionTypes eMission, PlayerTypes eTarget);
 	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+	void isGameplayMechanicValid(GameplayMechanicTypes eMechanic);
 	void initGameplayMechanicCache();
 	void resetGameplayMechanicCache();
 	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration

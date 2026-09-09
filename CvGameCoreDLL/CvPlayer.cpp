@@ -20327,14 +20327,31 @@ void CvPlayer::announceEspionageToThirdParties(EspionageMissionTypes eMission,
 }
 
 // XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+bool CvPlayer::isGameplayMechanicValid(GameplayMechanicTypes eMechanic) const
+{
+	if (eMechanic != NO_GAMEPLAY_MECHANIC)
+	{
+		CvGameplayMechanicInfo const& kMechanic = GC.getInfo(eMechanic);
+		if (getLeaderType() == kMechanic.getLeaderType())
+		{
+			return true;
+		}
+		if (getCivilizationType() == kMechanic.getCivilizationType())
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void CvPlayer::initGameplayMechanicCache()
 {
-	CvPlayer const& kThis = *this;
 	FOR_EACH_ENUM(GameplayMechanic)
 	{
-		CvGameplayMechanicInfo& kGameplayMechanic = GC.getInfo(eLoopGameplayMechanic);
-		if (kGameplayMechanic.isPlayerValid(kThis))
+		if (isGameplayMechanicValid(eLoopGameplayMechanic))
 		{
+			CvGameplayMechanicInfo& kGameplayMechanic = GC.getInfo(eLoopGameplayMechanic);
+			
 			// m_bFallow - FfH2
 			if (kGameplayMechanic.isNoFoodPopulationGrowth())
 			{

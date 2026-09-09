@@ -17,7 +17,6 @@ public: // advc: All the const functions are exposed to Python
 
 	int getLeaderType() const;
 	int getCivilizationType() const;
-	bool isPlayerValid(const CvPlayer& kPlayer) const;
 
 	// Array access:
 
