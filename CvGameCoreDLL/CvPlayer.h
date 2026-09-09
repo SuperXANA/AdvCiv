@@ -1454,6 +1454,7 @@ public:
 	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 	void updateGameplayMechanicCache();
 	bool isNoFoodPopulationGrowth() { return m_bNoFoodPopulationGrowth; }
+	int getBonusYieldChanges(BonusTypes eBonus, YieldTypes eYield) const;
 	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 	// <advc.003u>
 	CvPlayerAI& AI()
@@ -1697,6 +1698,9 @@ protected:  // <advc.210>
 	UnitClassPromotionArray m_aFreeUnitClassPromotions;
 	std::vector<std::pair<int, PlayerVoteTypes> > m_aVote;
 	std::vector<std::pair<UnitClassTypes,int> > m_aUnitExtraCosts;
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+	ArrayEnumMap2D<BonusTypes,YieldTypes,short> m_aaiBonusYieldChanges; // m_ppiBonusYieldChanges - FfH2
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
 	CvMessageQueue m_listGameMessages;
 	CvPopupQueue m_listPopups;

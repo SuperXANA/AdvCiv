@@ -1949,6 +1949,15 @@ void CvGame::normalizeRemoveBadTerrain()
 				CvTerrainInfo const& kTerrain = GC.getInfo(p.getTerrainType());
 				int iPlotFood = kTerrain.getYield(YIELD_FOOD);
 				int iPlotProduction = kTerrain.getYield(YIELD_PRODUCTION);
+				// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+				if (p.getBonusType(itPlayer->getTeam()) != NO_BONUS)
+				{
+					CvPlayer& kPlayer = *itPlayer;
+					BonusTypes eBonus = p.getBonusType(itPlayer->getTeam());
+					iPlotFood += kPlayer.getBonusYieldChanges(eBonus, YIELD_FOOD);
+					iPlotProduction += kPlayer.getBonusYieldChanges(eBonus, YIELD_PRODUCTION);
+				}
+				// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 				if (iPlotFood + iPlotProduction > 1)
 					continue;
 				// <advc.108>

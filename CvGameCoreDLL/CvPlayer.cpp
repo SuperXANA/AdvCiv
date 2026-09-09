@@ -543,6 +543,9 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 		m_aVote.clear();
 		m_aUnitExtraCosts.clear();
 		m_triggersFired.clear();
+		// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+		m_aaiBonusYieldChanges.clear(); // m_ppiBonusYieldChanges - FfH2
+		// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 		clearMessageCopies(); // advc.106b
 	}
 
@@ -19707,6 +19710,11 @@ void CvPlayer::updateGameplayMechanicCache()
 	resetGameplayMechanicCache();
 	initGameplayMechanicCache();
 }
+
+int CvPlayer::getBonusYieldChanges(BonusTypes eBonus, YieldTypes eYield) const
+{
+	return m_aaiBonusYieldChanges.get(eBonus, eYield);
+}
 // XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
 // Used by Globeview resource layer
@@ -20355,6 +20363,26 @@ void CvPlayer::initGameplayMechanicCache()
 			{
 				m_bNoFoodPopulationGrowth = true;
 			}
+			
+			// m_ppiBonusYieldChanges - FfH2
+			if (kGameplayMechanic.getBonusYieldChangesSize() > 0)
+			{
+				int iVectorSize = kGameplayMechanic.getBonusYieldChangesSize();
+				for (int iLoop = 0; iLoop < iVectorSize; ++iLoop)
+				{
+					if (kGameplayMechanic.isBonusHasYieldChanges(iLoop))
+					{
+						BonusTypes eBonus = kGameplayMechanic.getYieldChangeBonusType(iLoop);
+						FOR_EACH_ENUM(Yield)
+						{
+							if (kGameplayMechanic.getBonusYieldChanges(iLoop, eLoopYield) != 0)
+							{
+								m_aaiBonusYieldChanges.add(eBonus, eLoopYield, kGameplayMechanic.getBonusYieldChanges(iLoop, eLoopYield));
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -20366,6 +20394,9 @@ void CvPlayer::resetGameplayMechanicCache()
 	{
 		m_bNoFoodPopulationGrowth = false;
 	}
+	
+	// m_ppiBonusYieldChanges - FfH2
+	m_aaiBonusYieldChanges.reset();
 }
 // XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 

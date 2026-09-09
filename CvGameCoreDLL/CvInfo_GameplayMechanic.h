@@ -17,8 +17,20 @@ public: // advc: All the const functions are exposed to Python
 
 	int getLeaderType() const;
 	int getCivilizationType() const;
+	
+	bool isNoFoodPopulationGrowth() const { return m_bNoFoodPopulationGrowth; }
+	
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+	int getBonusYieldChangesSize() const;
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 
 	// Array access:
+	
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+	BonusTypes getYieldChangeBonusType(int i) const;
+	bool isBonusHasYieldChanges(int i) const;
+	int getBonusYieldChanges(int i, int j) const;
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 
 	bool read(CvXMLLoadUtility* pXML);
 	bool readPass3();
@@ -26,6 +38,12 @@ public: // advc: All the const functions are exposed to Python
 protected:
 	int m_iLeaderType;
 	int m_iCivilizationType;
+	
+	bool m_bNoFoodPopulationGrowth;
+	
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+	std::vector<std::pair<BonusTypes, int*> > m_apBonusYieldChanges;
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 };
 
 // XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
