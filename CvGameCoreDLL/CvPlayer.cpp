@@ -14686,6 +14686,20 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		}
 		else GC.getGame().getRiseFall().setPlayerHandicap(getID(), isHuman(), true);
 	} // </advc.708>
+
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+	{
+		m_abActiveGameplayMechanics.clear();
+		uint iSize;
+		pStream->Read(&iSize);
+		for (uint i = 0; i < iSize; i++)
+		{
+			bool bValue;
+			pStream->Read(&bValue);
+			m_abActiveGameplayMechanics.push_back(bValue);
+		}
+	}
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 }
 
 // save object to a stream
@@ -15051,6 +15065,18 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	pStream->Write(m_iPopRushHurryCount);
 	pStream->Write(m_iGoldRushHurryCount); // advc.064b
 	pStream->Write(m_iInflationModifier);
+	
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+	{
+		uint iSize = m_abActiveGameplayMechanics.size();
+		pStream->Write(iSize);
+		std::vector<bool>::iterator it;
+		for (it = m_abActiveGameplayMechanics.begin(); it != m_abActiveGameplayMechanics.end(); ++it)
+		{
+			pStream->Write((*it));
+		}
+	}
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 	REPRO_TEST_END_WRITE();
 }
 
