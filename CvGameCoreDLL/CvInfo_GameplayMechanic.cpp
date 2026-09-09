@@ -22,6 +22,25 @@ int CvGameplayMechanicInfo::getCivilizationType() const
 	return m_iCivilizationType;
 }
 
+bool CvGameplayMechanicInfo::isPlayerValid(const CvPlayer& kPlayer) const
+{
+	if (getLeaderType() != NO_LEADER)
+	{
+		if (kPlayer.getLeaderType() == getLeaderType())
+		{
+			return true;
+		}
+	}
+	if (getCivilizationType() != NO_CIVILIZATION)
+	{
+		if (kPlayer.getCivilizationType() == getCivilizationType())
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 {
 	if (!base_t::read(pXML))

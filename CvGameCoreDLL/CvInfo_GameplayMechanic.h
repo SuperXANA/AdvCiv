@@ -4,6 +4,7 @@
 #define CV_INFO_GAMEPLAYMECHANIC_H
 
 // XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+class CvPlayer;
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  class : CvGameplayMechanicInfo
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -16,6 +17,7 @@ public: // advc: All the const functions are exposed to Python
 
 	int getLeaderType() const;
 	int getCivilizationType() const;
+	bool isPlayerValid(const CvPlayer& kPlayer) const;
 
 	// Array access:
 

@@ -1451,6 +1451,9 @@ public:
 	DllExport bool hasSpaceshipArrived() const;
 	void announceGameNameChange(CvWString szOldName, CvWString szNewName); // advc.135c
 	bool showGoodyOnResourceLayer() const; // advc.004z
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+	void updateGameplayMechanicCache();
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 	// <advc.003u>
 	CvPlayerAI& AI()
 	{	//return *static_cast<CvPlayerAI*>(const_cast<CvPlayer*>(this));
@@ -1730,6 +1733,10 @@ protected:  // <advc.210>
 			bool bCheckPoints = true) const; // advc.085
 	// advc.120f:
 	void announceEspionageToThirdParties(EspionageMissionTypes eMission, PlayerTypes eTarget);
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+	void initGameplayMechanicCache();
+	void resetGameplayMechanicCache();
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 	bool checkExpireEvent(EventTypes eEvent, const EventTriggeredData& kTriggeredData) const;
 	void expireEvent(EventTypes eEvent, const EventTriggeredData& kTriggeredData, bool bFail);
 	bool isValidTriggerReligion(const CvEventTriggerInfo& kTrigger, CvCity const* pCity,
@@ -1758,6 +1765,9 @@ protected:  // <advc.210>
 			std::vector<CvPlotIndicatorData>& aIndicators) const;
 	void getCultureLayerColors(std::vector<NiColorA>& aColors,
 			std::vector<CvPlotIndicatorData>& aIndicators) const;
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+	std::vector<bool> m_abActiveGameplayMechanics;
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
 private:
 	/*  advc.003u: The remaining virtual functions should not be called within

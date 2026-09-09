@@ -475,6 +475,9 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 			GET_PLAYER(eLoopPlayer).m_aiGoldPerTurnByPlayer.resetVal(getID());
 			GET_PLAYER(eLoopPlayer).m_abEverSeenDemographics.resetVal(getID()); // advc.091
 		}
+		// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+		updateGameplayMechanicCache();
+		// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 	}
 	m_aiEspionageSpendingWeightAgainstTeam.reset();
 	if (!bConstructorCall && getTeam() != NO_TEAM)
@@ -19695,6 +19698,85 @@ bool CvPlayer::showGoodyOnResourceLayer() const
 			BUGOption::isEnabled("MainInterface__TribalVillageIcons", true));
 }
 
+// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+void CvPlayer::updateGameplayMechanicCache()
+{
+	resetGameplayMechanicCache();
+	initGameplayMechanicCache();
+}
+
+/* XANA (note):
+This is an anonymous namespace meant to keep file-local private accessors that are only ever used by CvPlayer
+functions inside the *.cpp file.
+
+"bool CvPlayer::isFallow() const" Example:
+This would only ever need to call
+the isGameplayMechanicValid function and pass in the address of the
+isFallow() function inside the CvGameplayMechanicInfo class
+(i.e. &CvGameplayMechanicInfo::isFallow) to call,
+then it will work properly. No header bloat here!
+
+All other classes would simply call CvPlayer::isFallow() like normal.
+
+Caveat:
+Ensure that all CvPlayer functions which will call one of these file-local accessors
+will follow after the namespace declaration ends with the closing "}" brace!
+*/
+namespace
+{
+		template <typename T>
+		bool isGameplayMechanicValid(T pFunctionPointer) const
+		{
+			FOR_EACH_ENUM(GameplayMechanic)
+			{
+				if (m_abActiveGameplayMechanics[eLoopGameplayMechanic])
+				{
+					if ((GC.getGameplayMechanicInfo(eLoopGameplayMechanic).*pFunctionPointer)())
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		template <typename T, typename P1>
+		bool isGameplayMechanicValid(T pFunctionPointer, P1 FunctionParam1) const
+		{
+			FOR_EACH_ENUM(GameplayMechanic)
+			{
+				if (m_abActiveGameplayMechanics[eLoopGameplayMechanic])
+				{
+					if ((GC.getGameplayMechanicInfo(eLoopGameplayMechanic).*pFunctionPointer)(FunctionParam1))
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		template <typename T, typename P1, typename P2>
+		bool isGameplayMechanicValid(T pFunctionPointer, P1 FunctionParam1, P2 FunctionParam2) const
+		{
+			FOR_EACH_ENUM(GameplayMechanic)
+			{
+				if (m_abActiveGameplayMechanics[eLoopGameplayMechanic])
+				{
+					if ((GC.getGameplayMechanicInfo(eLoopGameplayMechanic).*pFunctionPointer)(FunctionParam1, FunctionParam2))
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}	
+}
+/* XANA (note):
+End anonymous namspace.
+
+All functions following after this are subject to normal CvPlayer header rules!
+*/
+// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+
 // Used by Globeview resource layer
 void CvPlayer::getResourceLayerColors(GlobeLayerResourceOptionTypes eOption,
 	std::vector<NiColorA>& aColors, std::vector<CvPlotIndicatorData>& aIndicators) const
@@ -20308,6 +20390,32 @@ void CvPlayer::announceEspionageToThirdParties(EspionageMissionTypes eMission,
 		GC.getGame().addReplayMessage(REPLAY_MESSAGE_MAJOR_EVENT, eTarget, szTmp);
 	}
 }
+
+// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+void CvPlayer::initGameplayMechanicCache()
+{
+	CvPlayer const& kThis = *this;
+	m_abActiveGameplayMechanics.assign(GC.getNumGameplayMechanicInfos(), false);
+	FOR_EACH_ENUM(GameplayMechanic)
+	{
+		if (GC.getInfo(eLoopGameplayMechanic).isPlayerValid(kThis))
+		{
+			m_abActiveGameplayMechanics[eLoopGameplayMechanic] = true;
+		}
+	}
+}
+
+void CvPlayer::resetGameplayMechanicCache()
+{
+	m_abActiveGameplayMechanics.clear();
+}
+
+void CvPlayer::updateGameplayMechanicCache()
+{
+	resetGameplayMechanicCache();
+	initGameplayMechanicCache();
+}
+// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
 // <advc.opt> Global; see CvPlayer.h.
 CvCity* getCityExternal(IDInfo city)
