@@ -6409,6 +6409,52 @@ void CvGameTextMgr::parseCivInfos(CvWStringBuffer &szInfoText, CivilizationTypes
 		}
 	}
 
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+	if (getActivePlayer() != NO_PLAYER &&
+		GET_PLAYER(getActivePlayer()).getCivilizationType() == eCivilization)
+	{
+		CvPlayer const& kPlayer = GET_PLAYER(getActivePlayer());
+		bool bFirst = true;
+		FOR_EACH_ENUM(Bonus)
+		{
+			FOR_EACH_ENUM(Yield)
+			{
+				int iTerrainYieldChange = kPlayer.getBonusYieldChanges(eLoopBonus, eLoopYield);
+				if (iTerrainYieldChange != 0)
+				{
+					if (bFirst)
+					{
+						CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN");
+						if (bDawnOfMan)
+						{
+							szBuffer.Format(L"%s:\n", szText.GetCString());
+							szInfoText.append(szBuffer);
+						}
+						else
+						{
+							szBuffer.Format(NEWLINE SETCOLR L"%s" ENDCOLR , TEXT_COLOR("COLOR_ALT_HIGHLIGHT_TEXT"), szText.GetCString());
+							szInfoText.append(szBuffer);
+						}
+						bFirst = false;
+					}
+					
+					CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN_MOD", iTerrainYieldChange, GC.getInfo(eLoopYield).getChar(), GC.getInfo(eLoopBonus).getTextKeyWide());
+					if (bDawnOfMan)
+					{
+						szBuffer.Format(L"    %s\n", szText.GetCString());
+						szInfoText.append(szBuffer);
+					}
+					else
+					{
+						szBuffer.Format(L"%s  %c%s", NEWLINE, gDLL->getSymbolID(BULLET_CHAR), szText.GetCString());
+						szInfoText.append(szBuffer);
+					}
+				}
+			}
+		}
+	}
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+
 	// Free Units
 	CvWString szText = gDLL->getText("TXT_KEY_FREE_UNITS");
 	if (bDawnOfMan)

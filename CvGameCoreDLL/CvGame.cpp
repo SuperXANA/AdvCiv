@@ -1953,7 +1953,7 @@ void CvGame::normalizeRemoveBadTerrain()
 				if (p.getBonusType(itPlayer->getTeam()) != NO_BONUS)
 				{
 					CvPlayer& kPlayer = *itPlayer;
-					BonusTypes eBonus = p.getBonusType(itPlayer->getTeam());
+					BonusTypes eBonus = p.getBonusType(kPlayer.getTeam());
 					iPlotFood += kPlayer.getBonusYieldChanges(eBonus, YIELD_FOOD);
 					iPlotProduction += kPlayer.getBonusYieldChanges(eBonus, YIELD_PRODUCTION);
 				}
@@ -2243,13 +2243,16 @@ void CvGame::normalizeAddGoodTerrain()
 				FOR_EACH_ENUM(Terrain)
 				{
 					CvTerrainInfo const& kLoopTerrain = GC.getInfo(eLoopTerrain);
-					if (!kLoopTerrain.isWater() && kLoopTerrain.getYield(YIELD_FOOD) >=
+					// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+					int iTerrainYieldChanges = kPlayer.getBonusYieldChanges(kPlot.getBonusType(kPlayer.getTeam()), YIELD_FOOD);
+					if (!kLoopTerrain.isWater() && kLoopTerrain.getYield(YIELD_FOOD) + iTerrainYieldChanges >=
 						GC.getFOOD_CONSUMPTION_PER_POPULATION())
 					{
 						kPlot.setTerrainType(eLoopTerrain);
 						bChanged = true;
 						break;
 					}
+					// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 				}
 			}
 			if (kPlot.calculateNatureYield(YIELD_PRODUCTION, kPlayer.getTeam()) == 0)
