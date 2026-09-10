@@ -39,6 +39,7 @@ BonusTypes CvGameplayMechanicInfo::getYieldChangeBonusType(int i) const
 {
 	FAssertMsg(i < (int)m_apBonusYieldChanges.size(), "Index out of bounds");
 	FAssertMsg(i > -1, "Index out of bounds");
+	
 	return m_apBonusYieldChanges[i].first;
 }
 
@@ -46,6 +47,7 @@ bool CvGameplayMechanicInfo::isBonusHasYieldChanges(int i) const
 {
 	FAssertMsg(i < (int)m_apBonusYieldChanges.size(), "Index out of bounds");
 	FAssertMsg(i > -1, "Index out of bounds");
+	
 	return (m_apBonusYieldChanges[i].second != NULL);
 }
 
@@ -55,14 +57,64 @@ int CvGameplayMechanicInfo::getBonusYieldChanges(int i, int j) const
 	FAssertMsg(i > -1, "Index out of bounds");
 	FAssertMsg(j < NUM_YIELD_TYPES, "Index out of bounds");
 	FAssertMsg(j > -1, "Index out of bounds");
-	int const* piBonusChanges = m_apBonusYieldChanges[i].second;
-	if (piBonusChanges != NULL)
+	
+	return (m_apBonusYieldChanges[i].second ? m_apBonusYieldChanges[i].second[j] : 0);
+}
+// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+
+// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
+int CvGameplayMechanicInfo::getTerrainYieldChangesSize() const
+{
+	return m_aTerrainYieldChanges.size();
+}
+
+TerrainTypes CvGameplayMechanicInfo::getYieldChangeTerrainType(int i, YieldChangeLocationTypes eLocation) const
+{
+	FAssertMsg(i < (int)m_aTerrainYieldChanges.size(), "Index out of bounds");
+	FAssertMsg(i > -1, "Index out of bounds");
+	FAssertMsg(eLocation < NUM_YIELD_CHANGE_LOCATION_TYPES, "Index out of bounds");
+	FAssertMsg(eLocation > -1, "Index out of bounds");
+	
+	TerrainYieldChangeData const& kStruct = m_aTerrainYieldChanges[i];
+	if (kStruct.getTerrainLocationType() == eLocation)
 	{
-		return piBonusChanges[j];
+		return kStruct.getTerrainType();
+	}
+	return NO_TERRAIN;
+}
+
+bool CvGameplayMechanicInfo::isTerrainHasYieldChanges(int i, YieldChangeLocationTypes eLocation) const
+{
+	FAssertMsg(i < (int)m_aTerrainYieldChanges.size(), "Index out of bounds");
+	FAssertMsg(i > -1, "Index out of bounds");
+	FAssertMsg(eLocation < NUM_YIELD_CHANGE_LOCATION_TYPES, "Index out of bounds");
+	FAssertMsg(eLocation > -1, "Index out of bounds");
+	
+	TerrainYieldChangeData const& kStruct = m_apTerrainYieldChanges[i];
+	if (kStruct.getTerrainLocationType() == eLocation)
+	{
+		return (kStruct.getYieldChangesArray() != NULL);
+	}
+	return false;
+}
+
+int CvGameplayMechanicInfo::getTerrainYieldChanges(int i, int j, YieldChangeLocationTypes eLocation) const
+{
+	FAssertMsg(i < (int)m_aTerrainYieldChanges.size(), "Index out of bounds");
+	FAssertMsg(i > -1, "Index out of bounds");
+	FAssertMsg(j < NUM_YIELD_TYPES, "Index out of bounds");
+	FAssertMsg(j > -1, "Index out of bounds");
+	FAssertMsg(eLocation < NUM_YIELD_CHANGE_LOCATION_TYPES, "Index out of bounds");
+	FAssertMsg(eLocation > -1, "Index out of bounds");
+	
+	TerrainYieldChangeData const& kStruct = m_aTerrainYieldChanges[i];
+	if (kStruct.getTerrainLocationType() == eLocation)
+	{
+		return kStruct.getYieldChange(j);
 	}
 	return 0;
 }
-// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 
 bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 {
@@ -109,6 +161,44 @@ bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 	}
 	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+	
+	// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
+	for (int iLocationType = 0; iLocationType < NUM_YIELD_CHANGE_LOCATION_TYPES; ++iLocationType)
+	{
+		if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),
+			((iLocationType == INLAND_ONLY) ? 
+			"TerrainYieldChanges" :
+			"TerrainRiverYieldChanges")))
+		{
+			if (pXML->SkipToNextVal())
+			{
+				int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+				if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+				{
+					if (0 < iNumSibs)
+					{
+						CvString szTextVal;
+						for (int j = 0; j < iNumSibs; j++)
+						{
+							pXML->GetChildXmlValByName(szTextVal, "TerrainType");
+							TerrainTypes eIndex = (BonusTypes)pXML->FindInInfoClass(szTextVal);
+							if (eIndex != NO_TERRAIN)
+							{
+								TerrainYieldChangeData kStruct(eIndex, iLocationType);
+								kStruct.read(pXML);
+								m_aTerrainYieldChanges.push_back(kStruct);
+							}
+							if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+								break;
+						}
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+		}
+	}
+	// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 
 	return true;
 }

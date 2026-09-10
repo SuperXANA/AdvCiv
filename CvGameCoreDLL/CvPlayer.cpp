@@ -545,6 +545,8 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 		m_triggersFired.clear();
 		// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 		m_aaiBonusYieldChanges.clear(); // m_ppiBonusYieldChanges - FfH2
+		m_aaiTerrainYieldChanges.clear(); // m_ppiTerrainYieldChanges - FfH2
+		m_aaiTerrainRiverYieldChanges.clear(); // m_ppiTerrainYieldChanges - FfH2
 		// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 		clearMessageCopies(); // advc.106b
 	}
@@ -19715,6 +19717,16 @@ int CvPlayer::getBonusYieldChanges(BonusTypes eBonus, YieldTypes eYield) const
 {
 	return m_aaiBonusYieldChanges.get(eBonus, eYield);
 }
+
+int CvPlayer::getTerrainYieldChanges(TerrainTypes eTerrain, YieldTypes eYield) const
+{
+	return m_aaiTerrainYieldChanges.get(eTerrain, eYield);
+}
+
+int CvPlayer::getTerrainRiverYieldChanges(TerrainTypes eTerrain, YieldTypes eYield) const
+{
+	return m_aaiTerrainRiverYieldChanges.get(eTerrain, eYield);
+}
 // XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
 // Used by Globeview resource layer
@@ -20383,6 +20395,55 @@ void CvPlayer::initGameplayMechanicCache()
 					}
 				}
 			}
+			
+			// m_ppiTerrainYieldChanges - FfH2
+			if (kGameplayMechanic.getTerrainYieldChangesSize() > 0)
+			{
+				int iVectorSize = kGameplayMechanic.getTerrainYieldChangesSize();
+				for (int iLoop = 0; iLoop < iVectorSize; ++iLoop)
+				{
+					for (int iLocationType = 0; iLocationType < NUM_YIELD_CHANGE_LOCATION_TYPES; ++iLocationType)
+					{
+						YieldChangeLocationTypes eLocation = static_cast<YieldChangeLocationTypes>(iLocationType);
+						if (kGameplayMechanic.isTerrainHasYieldChanges(iLoop, eLocation))
+						{
+							TerrainTypes eTerrain = kGameplayMechanic.getYieldChangeTerrainType(iLoop, eLocation);
+							if (eTerrain != NO_TERRAIN)
+							{
+								switch (eLocation)
+								{
+									case INLAND_ONLY:
+									{
+										FOR_EACH_ENUM(Yield)
+										{
+											if (kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation) != 0)
+											{
+												m_aaiTerrainYieldChanges.add(eTerrain, eLoopYield, kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation));
+											}
+										}
+										break;
+									}
+									case RIVERSIDE_ONLY:
+									{
+										FOR_EACH_ENUM(Yield)
+										{
+											if (kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation) != 0)
+											{
+												m_aaiTerrainRiverYieldChanges.add(eTerrain, eLoopYield, kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation));
+											}
+										}
+										break;
+									}
+									default:
+									{	FErrorMsg("cannot update terrain yield changes array due to an invalid terrain location");
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -20397,6 +20458,12 @@ void CvPlayer::resetGameplayMechanicCache()
 	
 	// m_ppiBonusYieldChanges - FfH2
 	m_aaiBonusYieldChanges.reset();
+	
+	// m_ppiTerrainYieldChanges - FfH2
+	m_aaiTerrainYieldChanges.reset();
+	
+	// m_ppiTerrainYieldChanges - FfH2
+	m_aaiTerrainRiverYieldChanges.reset();
 }
 // XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
