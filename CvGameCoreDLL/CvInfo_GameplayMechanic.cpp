@@ -17,6 +17,10 @@ CvGameplayMechanicInfo::~CvGameplayMechanicInfo() :
 	}
 	m_apBonusYieldChanges.clear();
 // XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+
+// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
+	m_aTerrainYieldChanges.clear();
+// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 }
 
 int CvGameplayMechanicInfo::getLeaderType() const
@@ -181,7 +185,7 @@ bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 						for (int j = 0; j < iNumSibs; j++)
 						{
 							pXML->GetChildXmlValByName(szTextVal, "TerrainType");
-							TerrainTypes eIndex = (BonusTypes)pXML->FindInInfoClass(szTextVal);
+							TerrainTypes eIndex = (TerrainTypes)pXML->FindInInfoClass(szTextVal);
 							if (eIndex != NO_TERRAIN)
 							{
 								TerrainYieldChangeData kStruct(eIndex, iLocationType);

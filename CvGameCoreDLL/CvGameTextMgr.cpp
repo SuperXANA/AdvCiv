@@ -6409,51 +6409,120 @@ void CvGameTextMgr::parseCivInfos(CvWStringBuffer &szInfoText, CivilizationTypes
 		}
 	}
 
-	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
-	if (getActivePlayer() != NO_PLAYER &&
-		GET_PLAYER(getActivePlayer()).getCivilizationType() == eCivilization)
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+	FOR_EACH_ENUM(GameplayMechanic)
 	{
-		CvPlayer const& kPlayer = GET_PLAYER(getActivePlayer());
-		bool bFirst = true;
-		FOR_EACH_ENUM(Bonus)
+		if (eLoopGameplayMechanic != NO_GAMEPLAY_MECHANIC && 
+			GC.getInfo(eLoopGameplayMechanic).getCivilizationType() == eCivilization)
 		{
-			FOR_EACH_ENUM(Yield)
+			bool bFirst = true;
+			CvGameplayMechanicInfo& kGameplayMechanic = GC.getInfo(eLoopGameplayMechanic);
+			
+			// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+			if (kGameplayMechanic.getBonusYieldChangesSize() > 0)
 			{
-				int iTerrainYieldChange = kPlayer.getBonusYieldChanges(eLoopBonus, eLoopYield);
-				if (iTerrainYieldChange != 0)
+				int iVectorSize = kGameplayMechanic.getBonusYieldChangesSize();
+				for (int iLoop = 0; iLoop < iVectorSize; ++iLoop)
 				{
-					if (bFirst)
+					if (kGameplayMechanic.isBonusHasYieldChanges(iLoop))
 					{
-						CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN");
-						if (bDawnOfMan)
+						BonusTypes eBonus = kGameplayMechanic.getYieldChangeBonusType(iLoop);
+						FOR_EACH_ENUM(Yield)
 						{
-							szBuffer.Format(L"%s:\n", szText.GetCString());
-							szInfoText.append(szBuffer);
+							int iTerrainYieldChange = kGameplayMechanic.getBonusYieldChanges(iLoop, eLoopYield);
+							if (iTerrainYieldChange != 0)
+							{
+								if (bFirst)
+								{
+									CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN");
+									if (bDawnOfMan)
+									{
+										szBuffer.Format(L"%s:\n", szText.GetCString());
+										szInfoText.append(szBuffer);
+									}
+									else
+									{
+										szBuffer.Format(NEWLINE SETCOLR L"%s" ENDCOLR , TEXT_COLOR("COLOR_ALT_HIGHLIGHT_TEXT"), szText.GetCString());
+										szInfoText.append(szBuffer);
+									}
+									bFirst = false;
+								}
+								
+								CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN_MOD", iTerrainYieldChange, GC.getInfo(eLoopYield).getChar(), GC.getInfo(eBonus).getTextKeyWide());
+								if (bDawnOfMan)
+								{
+									szBuffer.Format(L"    %s\n", szText.GetCString());
+									szInfoText.append(szBuffer);
+								}
+								else
+								{
+									szBuffer.Format(L"%s  %c%s", NEWLINE, gDLL->getSymbolID(BULLET_CHAR), szText.GetCString());
+									szInfoText.append(szBuffer);
+								}
+							}
 						}
-						else
-						{
-							szBuffer.Format(NEWLINE SETCOLR L"%s" ENDCOLR , TEXT_COLOR("COLOR_ALT_HIGHLIGHT_TEXT"), szText.GetCString());
-							szInfoText.append(szBuffer);
-						}
-						bFirst = false;
-					}
-					
-					CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN_MOD", iTerrainYieldChange, GC.getInfo(eLoopYield).getChar(), GC.getInfo(eLoopBonus).getTextKeyWide());
-					if (bDawnOfMan)
-					{
-						szBuffer.Format(L"    %s\n", szText.GetCString());
-						szInfoText.append(szBuffer);
-					}
-					else
-					{
-						szBuffer.Format(L"%s  %c%s", NEWLINE, gDLL->getSymbolID(BULLET_CHAR), szText.GetCString());
-						szInfoText.append(szBuffer);
 					}
 				}
 			}
+			// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+			
+			// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
+			if (kGameplayMechanic.getTerrainYieldChangesSize() > 0)
+			{
+				int iVectorSize = kGameplayMechanic.getTerrainYieldChangesSize();
+				for (int iLoop = 0; iLoop < iVectorSize; ++iLoop)
+				{
+					for (int iLocationType = 0; iLocationType < NUM_YIELD_CHANGE_LOCATION_TYPES; ++iLocationType)
+					{
+						YieldChangeLocationTypes eLocation = static_cast<YieldChangeLocationTypes>(iLocationType);
+						if (kGameplayMechanic.isTerrainHasYieldChanges(iLoop, eLocation))
+						{
+							TerrainTypes eTerrain = kGameplayMechanic.getYieldChangeTerrainType(iLoop, eLocation);
+							if (eTerrain != NO_TERRAIN)
+							{
+								FOR_EACH_ENUM(Yield)
+								{
+									int iTerrainYieldChange = kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation);
+									if (iTerrainYieldChange != 0)
+									{
+										if (bFirst)
+										{
+											CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN");
+											if (bDawnOfMan)
+											{
+												szBuffer.Format(L"%s:\n", szText.GetCString());
+												szInfoText.append(szBuffer);
+											}
+											else
+											{
+												szBuffer.Format(NEWLINE SETCOLR L"%s" ENDCOLR , TEXT_COLOR("COLOR_ALT_HIGHLIGHT_TEXT"), szText.GetCString());
+												szInfoText.append(szBuffer);
+											}
+											bFirst = false;
+										}
+								
+										CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN_MOD", iTerrainYieldChange, GC.getInfo(eLoopYield).getChar(), GC.getInfo(eTerrain).getTextKeyWide());
+										if (bDawnOfMan)
+										{
+											szBuffer.Format(L"    %s\n", szText.GetCString());
+											szInfoText.append(szBuffer);
+										}
+										else
+										{
+											szBuffer.Format(L"%s  %c%s", NEWLINE, gDLL->getSymbolID(BULLET_CHAR), szText.GetCString());
+											szInfoText.append(szBuffer);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 		}
 	}
-	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
 	// Free Units
 	CvWString szText = gDLL->getText("TXT_KEY_FREE_UNITS");
