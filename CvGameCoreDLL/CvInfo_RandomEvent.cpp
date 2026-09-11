@@ -2158,24 +2158,18 @@ bool CvEventPreferenceInfo::read(CvXMLLoadUtility* pXML)
 				{
 					EventPreferenceData kEventPref;
 					kEventPref.read(pXML);
-					m_vEventPrefData.push_back(kEventPref);
+					
+					EventTypes eEvent = static_cast<EventTypes>(kEventPref.getEventType());
+					if (eEvent != NO_EVENT)
+					{
+						m_vEventPrefData.push_back(kEventPref);
+						m_aiVectorIndexMap[eEvent] = iLoop;
+					}
 					
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
 						break;
 				}
 				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-			}
-			if (m_vEventPrefData.size() > 0)
-			{
-				int const iPrefLength = (int)m_vEventPrefData.size();
-				for (int iPref = 0; iPref < iPrefLength; ++iPref)
-				{
-					EventTypes eEvent = static_cast<EventTypes>(getEventPreference(iPref).getEventType());
-					if (eEvent != NO_EVENT)
-					{
-						m_aiVectorIndexMap[eEvent] = iPref;
-					}
-				}
 			}
 		}
 		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());

@@ -1623,24 +1623,18 @@ bool CvTechPreferenceInfo::read(CvXMLLoadUtility* pXML)
 				{
 					TechPreferenceData kTechPref;
 					kTechPref.read(pXML);
-					m_vTechPrefData.push_back(kTechPref);
+					
+					TechTypes eTech = static_cast<TechTypes>(kTechPref.getTechType());
+					if (eTech != NO_TECH)
+					{
+						m_vTechPrefData.push_back(kTechPref);
+						m_aiVectorIndexMap[eTech] = iLoop;
+					}
 					
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
 						break;
 				}
 				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-			}
-			if (m_vTechPrefData.size() > 0)
-			{
-				int const iPrefLength = (int)m_vTechPrefData.size();
-				for (int iPref = 0; iPref < iPrefLength; ++iPref)
-				{
-					TechTypes eTech = static_cast<TechTypes>(getTechPreference(iPref).getTechType());
-					if (eTech != NO_TECH)
-					{
-						m_aiVectorIndexMap[eTech] = iPref;
-					}
-				}
 			}
 		}
 		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
