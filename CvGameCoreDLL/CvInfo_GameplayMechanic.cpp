@@ -203,6 +203,42 @@ bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 		}
 	}
 	// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
+	
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "FeatureYieldChanges"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+			{
+				if (0 < iNumSibs)
+				{
+					CvString szTextVal;
+					for (int j = 0; j < iNumSibs; j++)
+					{
+						pXML->GetChildXmlValByName(szTextVal, "FeatureType");
+						FeatureTypes eIndex = (FeatureTypes)pXML->FindInInfoClass(szTextVal);
+						if (eIndex != NO_FEATURE)
+						{
+							int* piFeatureChanges = NULL;
+							if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),"FeatureYields"))
+							{
+								pXML->SetYieldArray(&piFeatureChanges);
+							}
+							else pXML->InitList(&piFeatureChanges, NUM_YIELD_TYPES);
+							m_apFeatureYieldChanges.push_back(std::make_pair(eIndex, piFeatureChanges));
+						}
+						if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+							break;
+					}
+				}
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 
 	return true;
 }

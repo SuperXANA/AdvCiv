@@ -5183,6 +5183,22 @@ int CvPlot::calculateNatureYield(YieldTypes eYield, TeamTypes eTeam, bool bIgnor
 {
 	// advc.016: Cut from calculateYield
 	int iYieldRate = GC.getMap().getPlotExtraYield(*this, eYield);
+	// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
+	bool const bIsOownedPlot = isOwned();
+	if (bIsOownedPlot)
+	{
+		YieldChangeLocationTypes eLocation = NONE;
+		if (isRiver())
+		{
+			eLocation = RIVERSIDE_ONLY;
+		}
+		else
+		{
+			eLocation = INLAND_ONLY;
+		}
+		iYieldRate += GET_PLAYER(getOwner()).getTerrainYieldChanges(getTerrainType(), eYield, eLocation);
+	}
+	// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 	if (isImpassable())
 	{
 		//return 0;
@@ -5204,7 +5220,7 @@ int CvPlot::calculateNatureYield(YieldTypes eYield, TeamTypes eTeam, bool bIgnor
 		if (eBonus != NO_BONUS)
 			iYieldRate += GC.getInfo(eBonus).getYieldChange(eYield);
 			// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
-			if (isOwned())
+			if (bIsOownedPlot)
 			{
 				iYieldRate += GET_PLAYER(getOwner()).getBonusYieldChanges(eBonus, eYield);
 			}
@@ -5222,6 +5238,13 @@ int CvPlot::calculateNatureYield(YieldTypes eYield, TeamTypes eTeam, bool bIgnor
 			iRivers++;*/
 		iYieldRate += iRivers * iYieldPerRiver; // </advc.500a>
 	}
+	
+	// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
+	if (bIsOownedPlot)
+	{
+		iYieldRate += GET_PLAYER(getOwner()).getFeatureYieldChanges(getFeatureType(), eYield);
+	}
+	// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
 
 	if (bHills)
 	{

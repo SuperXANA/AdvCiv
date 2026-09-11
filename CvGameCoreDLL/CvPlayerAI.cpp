@@ -27695,6 +27695,20 @@ void CvPlayerAI::AI_doAdvancedStart(bool bNoExit)
 						iFoodYield += itPlayer->getBonusYieldChanges(pAdj->getBonusType(), YIELD_FOOD);
 					}
 					// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+					// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
+					{
+						YieldChangeLocationTypes eLocation = NONE;
+						if (pAdj->isRiver())
+						{
+							eLocation = RIVERSIDE_ONLY;
+						}
+						else
+						{
+							eLocation = INLAND_ONLY;
+						}
+						iFoodYield += itPlayer->getTerrainYieldChanges(pAdj->getTerrainType(), YIELD_FOOD, eLocation);
+					}
+					// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 					if (pAdj->isFeature())
 					{
 						iFoodYield += GC.getInfo(pAdj->getFeatureType()).

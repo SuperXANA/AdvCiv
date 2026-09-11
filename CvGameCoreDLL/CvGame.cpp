@@ -1950,14 +1950,39 @@ void CvGame::normalizeRemoveBadTerrain()
 				int iPlotFood = kTerrain.getYield(YIELD_FOOD);
 				int iPlotProduction = kTerrain.getYield(YIELD_PRODUCTION);
 				// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
-				if (p.getBonusType(itPlayer->getTeam()) != NO_BONUS)
+				CvPlayer& kPlayer = *itPlayer;
+				if (p.getBonusType(kPlayer.getTeam()) != NO_BONUS)
 				{
-					CvPlayer& kPlayer = *itPlayer;
 					BonusTypes eBonus = p.getBonusType(kPlayer.getTeam());
 					iPlotFood += kPlayer.getBonusYieldChanges(eBonus, YIELD_FOOD);
 					iPlotProduction += kPlayer.getBonusYieldChanges(eBonus, YIELD_PRODUCTION);
 				}
 				// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+				
+				// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
+				{
+					YieldChangeLocationTypes eLocation = NONE;
+					if (p.isRiver())
+					{
+						eLocation = RIVERSIDE_ONLY;
+					}
+					else
+					{
+						eLocation = INLAND_ONLY;
+					}
+					iPlotFood += kPlayer.getTerrainYieldChanges(p.getTerrainType(), YIELD_FOOD, eLocation);
+					iPlotProduction += kPlayer.getTerrainYieldChanges(p.getTerrainType(), YIELD_PRODUCTION, eLocation);
+				}
+				// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
+				
+				// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
+				if (p.getFeatureType() != NO_FEATURE)
+				{
+					FeatureTypes eFeature = p.getFeatureType();
+					iPlotFood += kPlayer.getFeatureYieldChanges(eFeature, YIELD_FOOD);
+					iPlotProduction += kPlayer.getFeatureYieldChanges(eFeature, YIELD_PRODUCTION);
+				}
+				// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 				if (iPlotFood + iPlotProduction > 1)
 					continue;
 				// <advc.108>
@@ -1992,14 +2017,52 @@ void CvGame::normalizeRemoveBadTerrain()
 					iTargetFood = 1 + MapRandNum(2);
 				}
 				else iTargetFood = (p.isCoastalLand() ? 2 : 1);
+				// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
+				int iTerrainYieldChanges[NUM_YIELD_TYPES] = {0};
+				{
+					{
+						iTerrainYieldChanges[YIELD_FOOD] = kPlayer.getBonusYieldChanges(p.getBonusType(kPlayer.getTeam()), YIELD_FOOD);
+						{
+							YieldChangeLocationTypes eLocation = NONE;
+							if (kPlot.isRiver())
+							{
+								eLocation = RIVERSIDE_ONLY;
+							}
+							else
+							{
+								eLocation = INLAND_ONLY;
+							}
+							iTerrainYieldChanges[YIELD_FOOD] += kPlayer.getTerrainYieldChanges(p.getTerrainType(), YIELD_FOOD, eLocation);
+						}
+						iTerrainYieldChanges[YIELD_FOOD] += kPlayer.getFeatureYieldChanges(p.getFeatureType(), YIELD_FOOD);
+					}
+					{
+						iTerrainYieldChanges[YIELD_PRODUCTION] = kPlayer.getBonusYieldChanges(p.getBonusType(kPlayer.getTeam()), YIELD_PRODUCTION);
+						{
+							YieldChangeLocationTypes eLocation = NONE;
+							if (kPlot.isRiver())
+							{
+								eLocation = RIVERSIDE_ONLY;
+							}
+							else
+							{
+								eLocation = INLAND_ONLY;
+							}
+							iTerrainYieldChanges[YIELD_PRODUCTION] += kPlayer.getTerrainYieldChanges(p.getTerrainType(), YIELD_PRODUCTION, eLocation);
+						}
+						iTerrainYieldChanges[YIELD_PRODUCTION] += kPlayer.getFeatureYieldChanges(p.getFeatureType(), YIELD_PRODUCTION);
+					}
+				}
+				// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 				FOR_EACH_ENUM(Terrain)
 				{
 					CvTerrainInfo const& kRepl = GC.getInfo(eLoopTerrain);
 					if (kRepl.isWater())
 						continue;
-					if (kRepl.getYield(YIELD_FOOD) == iTargetFood && // advc.108: was >=
+					if (kRepl.getYield(YIELD_FOOD) + iTerrainYieldChanges[YIELD_FOOD] == iTargetFood && // advc.108: was >=
 						kRepl.getYield(YIELD_FOOD) +
-						kRepl.getYield(YIELD_PRODUCTION) == iTargetTotal)
+						kRepl.getYield(YIELD_PRODUCTION) + 
+						(iTerrainYieldChanges[YIELD_FOOD] + iTerrainYieldChanges[YIELD_PRODUCTION]) == iTargetTotal)
 					{
 						if (!p.isFeature() ||
 							GC.getInfo(p.getFeatureType()).isTerrain(eLoopTerrain))
@@ -2245,6 +2308,19 @@ void CvGame::normalizeAddGoodTerrain()
 					CvTerrainInfo const& kLoopTerrain = GC.getInfo(eLoopTerrain);
 					// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 					int iTerrainYieldChanges = kPlayer.getBonusYieldChanges(kPlot.getBonusType(kPlayer.getTeam()), YIELD_FOOD);
+					{
+						YieldChangeLocationTypes eLocation = NONE;
+						if (kPlot.isRiver())
+						{
+							eLocation = RIVERSIDE_ONLY;
+						}
+						else
+						{
+							eLocation = INLAND_ONLY;
+						}
+						iTerrainYieldChanges += kPlayer.getTerrainYieldChanges(kPlot.getTerrainType(), YIELD_FOOD, eLocation);
+					}
+					iTerrainYieldChanges += kPlayer.getFeatureYieldChanges(kPlot.getFeatureType(), YIELD_FOOD);
 					if (!kLoopTerrain.isWater() && kLoopTerrain.getYield(YIELD_FOOD) + iTerrainYieldChanges >=
 						GC.getFOOD_CONSUMPTION_PER_POPULATION())
 					{

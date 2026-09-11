@@ -547,6 +547,7 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 		m_aaiBonusYieldChanges.clear(); // m_ppiBonusYieldChanges - FfH2
 		m_aaiTerrainYieldChanges.clear(); // m_ppiTerrainYieldChanges - FfH2
 		m_aaiTerrainRiverYieldChanges.clear(); // m_ppiTerrainYieldChanges - FfH2
+		m_aaiFeatureYieldChanges.clear(); // m_ppiFeatureChanges - FfH2
 		// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 		clearMessageCopies(); // advc.106b
 	}
@@ -19718,14 +19719,25 @@ int CvPlayer::getBonusYieldChanges(BonusTypes eBonus, YieldTypes eYield) const
 	return m_aaiBonusYieldChanges.get(eBonus, eYield);
 }
 
-int CvPlayer::getTerrainYieldChanges(TerrainTypes eTerrain, YieldTypes eYield) const
+int CvPlayer::getTerrainYieldChanges(TerrainTypes eTerrain, YieldTypes eYield, YieldChangeLocationTypes eLocation) const
 {
-	return m_aaiTerrainYieldChanges.get(eTerrain, eYield);
+	switch (eLocation)
+	{
+		case INLAND_ONLY:
+			return m_aaiTerrainYieldChanges.get(eTerrain, eYield);
+		
+		case RIVERSIDE_ONLY:
+			return m_aaiTerrainRiverYieldChanges.get(eTerrain, eYield);
+		
+		default:
+			FErrorMsg("cannot get terrain yield changes array due to an invalid terrain location");
+			return 0;
+	}
 }
 
-int CvPlayer::getTerrainRiverYieldChanges(TerrainTypes eTerrain, YieldTypes eYield) const
+int CvPlayer::getFeatureYieldChanges(FeatureTypes eFeature, YieldTypes eYield) const
 {
-	return m_aaiTerrainRiverYieldChanges.get(eTerrain, eYield);
+	return m_aaiFeatureYieldChanges.get(eFeature, eYield);
 }
 // XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
@@ -20444,6 +20456,26 @@ void CvPlayer::initGameplayMechanicCache()
 					}
 				}
 			}
+			
+			// m_ppiFeatureYieldChanges - FfH2
+			if (kGameplayMechanic.getFeatureYieldChangesSize() > 0)
+			{
+				int iVectorSize = kGameplayMechanic.getFeatureYieldChangesSize();
+				for (int iLoop = 0; iLoop < iVectorSize; ++iLoop)
+				{
+					if (kGameplayMechanic.isFeatureHasYieldChanges(iLoop))
+					{
+						FeatureTypes eFeature = kGameplayMechanic.getYieldChangeFeatureType(iLoop);
+						FOR_EACH_ENUM(Yield)
+						{
+							if (kGameplayMechanic.getFeatureYieldChanges(iLoop, eLoopYield) != 0)
+							{
+								m_aaiFeatureYieldChanges.add(eFeature, eLoopYield, kGameplayMechanic.getFeatureYieldChanges(iLoop, eLoopYield));
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -20464,6 +20496,9 @@ void CvPlayer::resetGameplayMechanicCache()
 	
 	// m_ppiTerrainYieldChanges - FfH2
 	m_aaiTerrainRiverYieldChanges.reset();
+	
+	// m_ppiFeatureYieldChanges - FfH2
+	m_aaiFeatureYieldChanges.reset();
 }
 // XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 

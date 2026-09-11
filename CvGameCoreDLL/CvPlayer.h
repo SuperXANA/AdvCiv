@@ -1453,10 +1453,10 @@ public:
 	bool showGoodyOnResourceLayer() const; // advc.004z
 	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 	void updateGameplayMechanicCache();
-	bool isNoFoodPopulationGrowth() { return m_bNoFoodPopulationGrowth; }
+	bool isNoFoodPopulationGrowth() const { return m_bNoFoodPopulationGrowth; }
 	int getBonusYieldChanges(BonusTypes eBonus, YieldTypes eYield) const;
-	int getTerrainYieldChanges(TerrainTypes eTerrain, YieldTypes eYield) const;
-	int getTerrainRiverYieldChanges(TerrainTypes eTerrain, YieldTypes eYield) const;
+	int getTerrainYieldChanges(TerrainTypes eTerrain, YieldTypes eYield, YieldChangeLocationTypes eLocation) const;
+	int getFeatureYieldChanges(FeatureTypes eFeature, YieldTypes eYield) const;
 	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 	// <advc.003u>
 	CvPlayerAI& AI()
@@ -1704,6 +1704,7 @@ protected:  // <advc.210>
 	ArrayEnumMap2D<BonusTypes,YieldTypes,short> m_aaiBonusYieldChanges; // m_ppiBonusYieldChanges - FfH2
 	ArrayEnumMap2D<TerrainTypes,YieldTypes,short> m_aaiTerrainYieldChanges; // m_ppiTerrainYieldChanges - FfH2
 	ArrayEnumMap2D<TerrainTypes,YieldTypes,short> m_aaiTerrainRiverYieldChanges; // m_ppiTerrainYieldChanges - FfH2
+	ArrayEnumMap2D<FeatureTypes,YieldTypes,short> m_aaiFeatureYieldChanges; // m_ppiFeatureYieldChanges - FfH2
 	// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 
 	CvMessageQueue m_listGameMessages;
