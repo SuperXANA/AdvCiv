@@ -5,7 +5,9 @@
 CvGameplayMechanicInfo::CvGameplayMechanicInfo() :
 	m_iLeaderType(NO_LEADER),
 	m_iCivilizationType(NO_CIVILIZATION),
-	m_bNoFoodPopulationGrowth(false)
+	m_bNoFoodPopulationGrowth(false),
+	m_iElysiumTerrainAxis(NO_TERRAINAXIS),
+	m_iGehennaTerrainAxis(NO_TERRAINAXIS)
 {}
 
 CvGameplayMechanicInfo::~CvGameplayMechanicInfo() :
@@ -21,16 +23,14 @@ CvGameplayMechanicInfo::~CvGameplayMechanicInfo() :
 // XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 	m_aTerrainYieldChanges.clear();
 // XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
-}
-
-int CvGameplayMechanicInfo::getLeaderType() const
 {
-	return m_iLeaderType;
-}
-
-int CvGameplayMechanicInfo::getCivilizationType() const
-{
-	return m_iCivilizationType;
+// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
+	for (int i = 0; i < (int)m_apFeatureYieldChanges.size(); ++i)
+	{
+		SAFE_DELETE_ARRAY(m_apFeatureYieldChanges[i].second); 
+	}
+	m_apFeatureYieldChanges.clear();
+// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
 }
 
 // XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
@@ -120,6 +120,39 @@ int CvGameplayMechanicInfo::getTerrainYieldChanges(int i, int j, YieldChangeLoca
 }
 // XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 
+// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
+int CvGameplayMechanicInfo::getFeatureYieldChangesSize() const
+{
+	return m_apFeatureYieldChanges.size();
+}
+
+FeatureTypes CvGameplayMechanicInfo::getYieldChangeFeatureType(int i) const
+{
+	FAssertMsg(i < (int)m_apFeatureYieldChanges.size(), "Index out of bounds");
+	FAssertMsg(i > -1, "Index out of bounds");
+	
+	return m_apFeatureYieldChanges[i].first;
+}
+
+bool CvGameplayMechanicInfo::isFeatureHasYieldChanges(int i) const
+{
+	FAssertMsg(i < (int)m_apFeatureYieldChanges.size(), "Index out of bounds");
+	FAssertMsg(i > -1, "Index out of bounds");
+	
+	return (m_apFeatureYieldChanges[i].second != NULL);
+}
+
+int CvGameplayMechanicInfo::getFeatureYieldChanges(int i, int j) const
+{
+	FAssertMsg(i < (int)m_apFeatureYieldChanges.size(), "Index out of bounds");
+	FAssertMsg(i > -1, "Index out of bounds");
+	FAssertMsg(j < NUM_YIELD_TYPES, "Index out of bounds");
+	FAssertMsg(j > -1, "Index out of bounds");
+	
+	return (m_apFeatureYieldChanges[i].second ? m_apFeatureYieldChanges[i].second[j] : 0);
+}
+// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
+
 bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 {
 	if (!base_t::read(pXML))
@@ -129,6 +162,11 @@ bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetInfoIDFromChildXmlVal(m_iCivilizationType, "CivilizationType");
 	
 	pXML->GetChildXmlValByName(&m_bNoFoodPopulationGrowth, "bNoFoodPopulationGrowth");
+	
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	pXML->SetInfoIDFromChildXmlVal(m_iGehennaTerrainAxis, "PositiveRagnarokCounterTerrainChangeType");
+	pXML->SetInfoIDFromChildXmlVal(m_iElysiumTerrainAxis, "NegativeRagnarokCounterTerrainChangeType");
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	
 	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "BonusYieldChanges"))
@@ -204,7 +242,7 @@ bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 	}
 	// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 	
-	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+	// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
 	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "FeatureYieldChanges"))
 	{
 		if (pXML->SkipToNextVal())
@@ -238,7 +276,7 @@ bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 		}
 		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 	}
-	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
+	// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
 
 	return true;
 }

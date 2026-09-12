@@ -24,10 +24,15 @@ public: // advc: All the const functions are exposed to Python
 	CvGameplayMechanicInfo();
 	~CvGameplayMechanicInfo();
 
-	int getLeaderType() const;
-	int getCivilizationType() const;
+	int getLeaderType() const { return m_iLeaderType; }
+	int getCivilizationType() const { return m_iCivilizationType; }
 	
 	bool isNoFoodPopulationGrowth() const { return m_bNoFoodPopulationGrowth; }
+
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	int getElysiumTerrainAxis() const { return m_iElysiumTerrainAxis; } // FfH2 - Armageddon Counter - Positive ( N > 0)
+	int getGehennaTerrainAxis() const { return m_iGehennaTerrainAxis; } // FfH2 - Armageddon Counter - Negative ( N < 0)
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	
 	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 	int getBonusYieldChangesSize() const;
@@ -50,9 +55,9 @@ public: // advc: All the const functions are exposed to Python
 	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 	
 	// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
-	TerrainTypes getYieldChangeTerrainType(int i, YieldChangeLocationTypes eLocation = INLAND_ONLY) const;
-	bool isTerrainHasYieldChanges(int i, YieldChangeLocationTypes eLocation = INLAND_ONLY) const;
-	int getTerrainYieldChanges(int i, int j, YieldChangeLocationTypes eLocation = INLAND_ONLY) const;
+	TerrainTypes getYieldChangeTerrainType(int i, YieldChangeLocationTypes eLocation) const;
+	bool isTerrainHasYieldChanges(int i, YieldChangeLocationTypes eLocation) const;
+	int getTerrainYieldChanges(int i, int j, YieldChangeLocationTypes eLocation) const;
 	// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 	
 	// XANA: 10-18-2025 FfH Civilization Feature Yield Changes for AdvancedCiv
@@ -67,6 +72,11 @@ public: // advc: All the const functions are exposed to Python
 protected:
 	int m_iLeaderType;
 	int m_iCivilizationType;
+	
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	int m_iElysiumTerrainAxis;
+	int m_iGehennaTerrainAxis;
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	
 	bool m_bNoFoodPopulationGrowth;
 	

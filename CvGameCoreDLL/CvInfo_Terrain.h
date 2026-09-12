@@ -74,6 +74,26 @@ private:
 	CvString m_szArtDefineTag;
 };
 
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvTerrainAxisInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvTerrainAxisInfo : public CvInfoBase
+{
+	typedef CvInfoBase base_t;
+public:
+	CvTerrainAxisInfo();
+	~CvTerrainAxisInfo();
+
+	TerrainTypes getReplacementTerrain(int i) const;
+
+	bool read(CvXMLLoadUtility* pXML);
+
+protected:
+	TerrainTypes* m_paeReplacementTerrainTypes;
+};
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //  class : CvFeatureInfo
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
