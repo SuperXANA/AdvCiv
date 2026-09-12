@@ -5187,7 +5187,7 @@ int CvPlot::calculateNatureYield(YieldTypes eYield, TeamTypes eTeam, bool bIgnor
 	bool const bIsOownedPlot = isOwned();
 	if (bIsOownedPlot)
 	{
-		YieldChangeLocationTypes eLocation = NONE;
+		YieldChangeLocationTypes eLocation = NO_YIELD_CHANGE_LOCATION;
 		if (isRiver())
 		{
 			eLocation = RIVERSIDE_ONLY;

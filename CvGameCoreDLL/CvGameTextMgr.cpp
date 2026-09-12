@@ -6475,42 +6475,45 @@ void CvGameTextMgr::parseCivInfos(CvWStringBuffer &szInfoText, CivilizationTypes
 					for (int iLocationType = 0; iLocationType < NUM_YIELD_CHANGE_LOCATION_TYPES; ++iLocationType)
 					{
 						YieldChangeLocationTypes eLocation = static_cast<YieldChangeLocationTypes>(iLocationType);
-						if (kGameplayMechanic.isTerrainHasYieldChanges(iLoop, eLocation))
+						if (eLocation != NO_YIELD_CHANGE_LOCATION)
 						{
-							TerrainTypes eTerrain = kGameplayMechanic.getYieldChangeTerrainType(iLoop, eLocation);
-							if (eTerrain != NO_TERRAIN)
+							if (kGameplayMechanic.isTerrainHasYieldChanges(iLoop, eLocation))
 							{
-								FOR_EACH_ENUM(Yield)
+								TerrainTypes eTerrain = kGameplayMechanic.getYieldChangeTerrainType(iLoop, eLocation);
+								if (eTerrain != NO_TERRAIN)
 								{
-									int iTerrainYieldChange = kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation);
-									if (iTerrainYieldChange != 0)
+									FOR_EACH_ENUM(Yield)
 									{
-										if (bFirst)
+										int iTerrainYieldChange = kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation);
+										if (iTerrainYieldChange != 0)
 										{
-											CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN");
+											if (bFirst)
+											{
+												CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN");
+												if (bDawnOfMan)
+												{
+													szBuffer.Format(L"%s:\n", szText.GetCString());
+													szInfoText.append(szBuffer);
+												}
+												else
+												{
+													szBuffer.Format(NEWLINE SETCOLR L"%s" ENDCOLR , TEXT_COLOR("COLOR_ALT_HIGHLIGHT_TEXT"), szText.GetCString());
+													szInfoText.append(szBuffer);
+												}
+												bFirst = false;
+											}
+									
+											CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN_MOD", iTerrainYieldChange, GC.getInfo(eLoopYield).getChar(), GC.getInfo(eTerrain).getTextKeyWide());
 											if (bDawnOfMan)
 											{
-												szBuffer.Format(L"%s:\n", szText.GetCString());
+												szBuffer.Format(L"    %s\n", szText.GetCString());
 												szInfoText.append(szBuffer);
 											}
 											else
 											{
-												szBuffer.Format(NEWLINE SETCOLR L"%s" ENDCOLR , TEXT_COLOR("COLOR_ALT_HIGHLIGHT_TEXT"), szText.GetCString());
+												szBuffer.Format(L"%s  %c%s", NEWLINE, gDLL->getSymbolID(BULLET_CHAR), szText.GetCString());
 												szInfoText.append(szBuffer);
 											}
-											bFirst = false;
-										}
-								
-										CvWString szText = gDLL->getText("TXT_KEY_MISC_CIV_TERRAIN_MOD", iTerrainYieldChange, GC.getInfo(eLoopYield).getChar(), GC.getInfo(eTerrain).getTextKeyWide());
-										if (bDawnOfMan)
-										{
-											szBuffer.Format(L"    %s\n", szText.GetCString());
-											szInfoText.append(szBuffer);
-										}
-										else
-										{
-											szBuffer.Format(L"%s  %c%s", NEWLINE, gDLL->getSymbolID(BULLET_CHAR), szText.GetCString());
-											szInfoText.append(szBuffer);
 										}
 									}
 								}

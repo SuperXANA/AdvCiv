@@ -8,7 +8,7 @@ class CvPlayer;
 
 enum YieldChangeLocationTypes
 {
-	NONE = -1,
+	NO_YIELD_CHANGE_LOCATION = -1,
 	INLAND_ONLY,
 	RIVERSIDE_ONLY,
 	NUM_YIELD_CHANGE_LOCATION_TYPES

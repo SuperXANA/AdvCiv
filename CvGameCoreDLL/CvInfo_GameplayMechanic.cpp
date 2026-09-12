@@ -207,37 +207,41 @@ bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 	// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 	for (int iLocationType = 0; iLocationType < NUM_YIELD_CHANGE_LOCATION_TYPES; ++iLocationType)
 	{
-		if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),
-			((iLocationType == INLAND_ONLY) ? 
-			"TerrainYieldChanges" :
-			"TerrainRiverYieldChanges")))
+		YieldChangeLocationTypes eLocation = static_cast<YieldChangeLocationTypes>(iLocationType);
+		if (eLocation != NO_YIELD_CHANGE_LOCATION)
 		{
-			if (pXML->SkipToNextVal())
+			if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),
+				((eLocation == INLAND_ONLY) ? 
+				"TerrainYieldChanges" :
+				"TerrainRiverYieldChanges")))
 			{
-				int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
-				if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+				if (pXML->SkipToNextVal())
 				{
-					if (0 < iNumSibs)
+					int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+					if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 					{
-						CvString szTextVal;
-						for (int j = 0; j < iNumSibs; j++)
+						if (0 < iNumSibs)
 						{
-							pXML->GetChildXmlValByName(szTextVal, "TerrainType");
-							TerrainTypes eIndex = (TerrainTypes)pXML->FindInInfoClass(szTextVal);
-							if (eIndex != NO_TERRAIN)
+							CvString szTextVal;
+							for (int j = 0; j < iNumSibs; j++)
 							{
-								TerrainYieldChangeData kStruct(eIndex, iLocationType);
-								kStruct.read(pXML);
-								m_aTerrainYieldChanges.push_back(kStruct);
+								pXML->GetChildXmlValByName(szTextVal, "TerrainType");
+								TerrainTypes eIndex = (TerrainTypes)pXML->FindInInfoClass(szTextVal);
+								if (eIndex != NO_TERRAIN)
+								{
+									TerrainYieldChangeData kStruct(eIndex, iLocationType);
+									kStruct.read(pXML);
+									m_aTerrainYieldChanges.push_back(kStruct);
+								}
+								if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+									break;
 							}
-							if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
-								break;
 						}
+						gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 					}
-					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 				}
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 			}
-			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 		}
 	}
 	// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv

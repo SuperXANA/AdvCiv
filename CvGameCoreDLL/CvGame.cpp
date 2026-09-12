@@ -1961,7 +1961,7 @@ void CvGame::normalizeRemoveBadTerrain()
 				
 				// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 				{
-					YieldChangeLocationTypes eLocation = NONE;
+					YieldChangeLocationTypes eLocation = NO_YIELD_CHANGE_LOCATION;
 					if (p.isRiver())
 					{
 						eLocation = RIVERSIDE_ONLY;
@@ -2023,7 +2023,7 @@ void CvGame::normalizeRemoveBadTerrain()
 					{
 						iTerrainYieldChanges[YIELD_FOOD] = kPlayer.getBonusYieldChanges(p.getBonusType(kPlayer.getTeam()), YIELD_FOOD);
 						{
-							YieldChangeLocationTypes eLocation = NONE;
+							YieldChangeLocationTypes eLocation = NO_YIELD_CHANGE_LOCATION;
 							if (kPlot.isRiver())
 							{
 								eLocation = RIVERSIDE_ONLY;
@@ -2309,7 +2309,7 @@ void CvGame::normalizeAddGoodTerrain()
 					// XANA: 09-12-2026 Fantasy Gameplay Mechanics Configuration
 					int iTerrainYieldChanges = kPlayer.getBonusYieldChanges(kPlot.getBonusType(kPlayer.getTeam()), YIELD_FOOD);
 					{
-						YieldChangeLocationTypes eLocation = NONE;
+						YieldChangeLocationTypes eLocation = NO_YIELD_CHANGE_LOCATION;
 						if (kPlot.isRiver())
 						{
 							eLocation = RIVERSIDE_ONLY;

@@ -20417,38 +20417,41 @@ void CvPlayer::initGameplayMechanicCache()
 					for (int iLocationType = 0; iLocationType < NUM_YIELD_CHANGE_LOCATION_TYPES; ++iLocationType)
 					{
 						YieldChangeLocationTypes eLocation = static_cast<YieldChangeLocationTypes>(iLocationType);
-						if (kGameplayMechanic.isTerrainHasYieldChanges(iLoop, eLocation))
+						if (eLocation != NO_YIELD_CHANGE_LOCATION)
 						{
-							TerrainTypes eTerrain = kGameplayMechanic.getYieldChangeTerrainType(iLoop, eLocation);
-							if (eTerrain != NO_TERRAIN)
+							if (kGameplayMechanic.isTerrainHasYieldChanges(iLoop, eLocation))
 							{
-								switch (eLocation)
+								TerrainTypes eTerrain = kGameplayMechanic.getYieldChangeTerrainType(iLoop, eLocation);
+								if (eTerrain != NO_TERRAIN)
 								{
-									case INLAND_ONLY:
+									switch (eLocation)
 									{
-										FOR_EACH_ENUM(Yield)
+										case INLAND_ONLY:
 										{
-											if (kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation) != 0)
+											FOR_EACH_ENUM(Yield)
 											{
-												m_aaiTerrainYieldChanges.add(eTerrain, eLoopYield, kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation));
+												if (kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation) != 0)
+												{
+													m_aaiTerrainYieldChanges.add(eTerrain, eLoopYield, kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation));
+												}
 											}
+											break;
 										}
-										break;
-									}
-									case RIVERSIDE_ONLY:
-									{
-										FOR_EACH_ENUM(Yield)
+										case RIVERSIDE_ONLY:
 										{
-											if (kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation) != 0)
+											FOR_EACH_ENUM(Yield)
 											{
-												m_aaiTerrainRiverYieldChanges.add(eTerrain, eLoopYield, kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation));
+												if (kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation) != 0)
+												{
+													m_aaiTerrainRiverYieldChanges.add(eTerrain, eLoopYield, kGameplayMechanic.getTerrainYieldChanges(iLoop, eLoopYield, eLocation));
+												}
 											}
+											break;
 										}
-										break;
-									}
-									default:
-									{	FErrorMsg("cannot update terrain yield changes array due to an invalid terrain location");
-										break;
+										default:
+										{	FErrorMsg("cannot update terrain yield changes array due to an invalid terrain location");
+											break;
+										}
 									}
 								}
 							}

@@ -27697,7 +27697,7 @@ void CvPlayerAI::AI_doAdvancedStart(bool bNoExit)
 					// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv
 					// XANA: 03-15-2025 FfH Civilization Terrain Yield Changes for AdvancedCiv
 					{
-						YieldChangeLocationTypes eLocation = NONE;
+						YieldChangeLocationTypes eLocation = NO_YIELD_CHANGE_LOCATION;
 						if (pAdj->isRiver())
 						{
 							eLocation = RIVERSIDE_ONLY;
