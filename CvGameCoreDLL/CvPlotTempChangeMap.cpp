@@ -1,6 +1,5 @@
 #include "CvGameCoreDLL.h"
 #include "CvPlotTempChangeMap.h"
-#include "CvGame.h"
 
 
 void PlotTempChangeMap::setRealTerrainType(CvPlot const& kPlot, TerrainTypes eNewValue)
