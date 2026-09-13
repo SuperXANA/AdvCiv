@@ -263,7 +263,7 @@ void PlotTempChangeMap::update(CvPlot const& kPlot)
 			setTempTerrainType(ePlotNum, NO_TERRAIN);
 			if (bGraphicsReady)
 			{
-				kPlot.setTerrainType(eReal, true, true, true);
+				kPlot.setTerrainType(eReal);
 			}
 		}
 	}

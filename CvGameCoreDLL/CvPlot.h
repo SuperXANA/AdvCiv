@@ -823,6 +823,26 @@ public:
 	void write(FDataStreamBase* pStream);
 	// advc.003h: Adopted from We The People mod (devolution)
 	static void setMaxVisibilityRangeCache();
+	
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	/*
+	No get functions, those are needed for Plot Help Display only.
+	The mapping functionality already takes care of it
+	because kPlot is already passed in to the civiliopedia function and
+	we can simply access the map directly in that function.
+	*/
+	void setTempTerrainType(TerrainTypes eNewValue, int iTimer);
+	void setTempFeatureType(FeatureTypes eFeature, int iVariety, int iTimer);
+	void setTempBonusType(BonusTypes eBonus, int iTimer);
+	void setTempImprovementType(ImprovementTypes eImprovement, int iTimer);
+	void setTempRouteType(RouteTypes eRoute, int iTimer);
+	
+	void changeTempTerrainTimer(int iChange, bool bIgnoreNoPlotTempChange = true);
+	void changeTempFeatureTimer(int iChange, bool bIgnoreNoPlotTempChange = true);
+	void changeTempBonusTimer(int iChange, bool bIgnoreNoPlotTempChange = true);
+	void changeTempImprovementTimer(int iChange, bool bIgnoreNoPlotTempChange = true);
+	void changeTempRouteTimer(int iChange, bool bIgnoreNoPlotTempChange = true);
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 protected:
 	/*	advc (note): Should keep the data members in an order that optimizes

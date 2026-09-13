@@ -3624,6 +3624,30 @@ void CvGameTextMgr::setPlotHelp(CvWStringBuffer& szString, CvPlot const& kPlot)
 			szString.append(CvWString::format( ENDCOLR));
 		} // UNOFFICIAL_PATCH: END
 	}
+	
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	CvPlotChangeMap const& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
+	if (kTempChangesMap.getTempTerrainTimer(kPlot) > 0)
+	{
+		szString.append(gDLL->getText("TXT_KEY_PLOT_TERRAIN_BECOMES_TURNS", GC.getInfo(kTempChangesMap.getRealTerrainType(kPlot)).getDescription(), kTempChangesMap.getTempTerrainTimer(kPlot)));
+	}
+	if (kTempChangesMap.getTempFeatureTimer(kPlot) > 0)
+	{
+		szString.append(gDLL->getText("TXT_KEY_PLOT_FEATURE_BECOMES_TURNS", GC.getInfo(kTempChangesMap.getRealFeatureType(kPlot).first).getDescription(), kTempChangesMap.getTempFeatureTimer(kPlot)));
+	}
+	if (kTempChangesMap.getTempBonusTimer(kPlot) > 0)
+	{
+		szString.append(gDLL->getText("TXT_KEY_PLOT_BONUS_BECOMES_TURNS", GC.getInfo(kTempChangesMap.getRealBonusType(kPlot)).getDescription(), kTempChangesMap.getTempBonusTimer(kPlot)));
+	}
+	if (kTempChangesMap.getTempImprovementTimer(kPlot) > 0)
+	{
+		szString.append(gDLL->getText("TXT_KEY_PLOT_IMPROVEMENT_BECOMES_TURNS", GC.getInfo(kTempChangesMap.getRealImprovementType(kPlot)).getDescription(), kTempChangesMap.getTempImprovementTimer(kPlot)));
+	}
+	if (kTempChangesMap.getTempRouteTimer(kPlot) > 0)
+	{
+		szString.append(gDLL->getText("TXT_KEY_PLOT_ROUTE_BECOMES_TURNS", GC.getInfo(kTempChangesMap.getRealRouteType(kPlot)).getDescription(), kTempChangesMap.getTempRouteTimer(kPlot)));
+	}
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 }
 
 // <advc.059>
