@@ -118,29 +118,60 @@ bool CvTerrainInfo::read(CvXMLLoadUtility* pXML)
 }
 
 // XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-CvTerrainAxisInfo::CvTerrainAxisInfo() :
-m_paeReplacementTerrainTypes(NULL)
+CvPlotChangeAxisInfo::CvPlotChangeAxisInfo() :
+m_paeReplacementTerrainTypes(NULL),
+m_paeReplacementFeatureTypes(NULL),
+m_paeReplacementBonusTypes(NULL),
+m_paeReplacementImprovementTypes(NULL),
+m_paeReplacementRouteTypes(NULL)
 {}
 
-CvTerrainAxisInfo::~CvTerrainAxisInfo()
+CvPlotChangeAxisInfo::~CvPlotChangeAxisInfo()
 {
 	SAFE_DELETE_ARRAY(m_paeReplacementTerrainTypes);
+	SAFE_DELETE_ARRAY(m_paeReplacementFeatureTypes);
+	SAFE_DELETE_ARRAY(m_paeReplacementBonusTypes);
+	SAFE_DELETE_ARRAY(m_paeReplacementImprovementTypes);
+	SAFE_DELETE_ARRAY(m_paeReplacementRouteTypes);
 }
 
-TerrainTypes CvTerrainAxisInfo::getReplacementTerrain(int i) const
+TerrainTypes CvPlotChangeAxisInfo::getReplacementTerrain(int i) const
 {
 	FAssertBounds(0, GC.getNumTerrainInfos(), i);
 	return m_paeReplacementTerrainTypes ? m_paeReplacementTerrainTypes[i] : NO_TERRAIN;
 }
 
-bool CvTerrainAxisInfo::read(CvXMLLoadUtility* pXML)
+FeatureTypes CvPlotChangeAxisInfo::getReplacementFeature(int i) const
+{
+	FAssertBounds(0, GC.getNumFeatureInfos(), i);
+	return m_paeReplacementFeatureTypes ? m_paeReplacementFeatureTypes[i] : NO_FEATURE;
+}
+
+BonusTypes CvPlotChangeAxisInfo::getReplacementBonus(int i) const
+{
+	FAssertBounds(0, GC.getNumBonusInfos(), i);
+	return m_paeReplacementBonusTypes ? m_paeReplacementBonusTypes[i] : NO_BONUS;
+}
+
+ImprovementTypes CvPlotChangeAxisInfo::getReplacementImprovement(int i) const
+{
+	FAssertBounds(0, GC.getNumImprovementInfos(), i);
+	return m_paeReplacementImprovementTypes ? m_paeReplacementImprovementTypes[i] : NO_IMPROVEMENT;
+}
+
+RouteTypes CvPlotChangeAxisInfo::getReplacementRoute(int i) const
+{
+	FAssertBounds(0, GC.getNumRouteInfos(), i);
+	return m_paeReplacementRouteTypes ? m_paeReplacementRouteTypes[i] : NO_ROUTE;
+}
+
+bool CvPlotChangeAxisInfo::read(CvXMLLoadUtility* pXML)
 {
 	if (!base_t::read(pXML))
 		return false;
 	
 	CvString* pszClassNames = NULL;
 	pXML->SetVariableListTagPair(&pszClassNames, "TerrainReplacements", GC.getNumTerrainInfos());
-	
 	if (pszClassNames != NULL)
 	{
 		m_paeReplacementTerrainTypes = new TerrainTypes[GC.getNumTerrainInfos()];
@@ -151,6 +182,62 @@ bool CvTerrainAxisInfo::read(CvXMLLoadUtility* pXML)
 				m_paeReplacementTerrainTypes[eLoopTerrain] = static_cast<TerrainTypes>(pXML->FindInInfoClass(pszClassNames[eLoopTerrain]));
 			}
 			else m_paeReplacementTerrainTypes[eLoopTerrain] = NO_TERRAIN;
+		}
+		SAFE_DELETE_ARRAY(pszClassNames);
+	}
+	pXML->SetVariableListTagPair(&pszClassNames, "FeatureReplacements", GC.getNumFeatureInfos());
+	if (pszClassNames != NULL)
+	{
+		m_paeReplacementFeatureTypes = new FeatureTypes[GC.getNumFeatureInfos()];
+		FOR_EACH_ENUM(Feature)
+		{
+			if (!pszClassNames[eLoopFeature].isEmpty())
+			{
+				m_paeReplacementFeatureTypes[eLoopFeature] = static_cast<FeatureTypes>(pXML->FindInInfoClass(pszClassNames[eLoopFeature]));
+			}
+			else m_paeReplacementFeatureTypes[eLoopFeature] = NO_FEATURE;
+		}
+		SAFE_DELETE_ARRAY(pszClassNames);
+	}
+	pXML->SetVariableListTagPair(&pszClassNames, "BonusReplacements", GC.getNumBonusInfos());
+	if (pszClassNames != NULL)
+	{
+		m_paeReplacementBonusTypes = new BonusTypes[GC.getNumBonusInfos()];
+		FOR_EACH_ENUM(Bonus)
+		{
+			if (!pszClassNames[eLoopBonus].isEmpty())
+			{
+				m_paeReplacementBonusTypes[eLoopBonus] = static_cast<BonusTypes>(pXML->FindInInfoClass(pszClassNames[eLoopBonus]));
+			}
+			else m_paeReplacementBonusTypes[eLoopBonus] = NO_BONUS;
+		}
+		SAFE_DELETE_ARRAY(pszClassNames);
+	}
+	pXML->SetVariableListTagPair(&pszClassNames, "ImprovementReplacements", GC.getNumImprovementInfos());
+	if (pszClassNames != NULL)
+	{
+		m_paeReplacementImprovementTypes = new ImprovementTypes[GC.getNumImprovementInfos()];
+		FOR_EACH_ENUM(Improvement)
+		{
+			if (!pszClassNames[eLoopImprovement].isEmpty())
+			{
+				m_paeReplacementImprovementTypes[eLoopImprovement] = static_cast<ImprovementTypes>(pXML->FindInInfoClass(pszClassNames[eLoopImprovement]));
+			}
+			else m_paeReplacementImprovementTypes[eLoopImprovement] = NO_IMPROVEMENT;
+		}
+		SAFE_DELETE_ARRAY(pszClassNames);
+	}
+	pXML->SetVariableListTagPair(&pszClassNames, "RouteReplacements", GC.getNumRouteInfos());
+	if (pszClassNames != NULL)
+	{
+		m_paeReplacementRouteTypes = new RouteTypes[GC.getNumRouteInfos()];
+		FOR_EACH_ENUM(Route)
+		{
+			if (!pszClassNames[eLoopRoute].isEmpty())
+			{
+				m_paeReplacementRouteTypes[eLoopRoute] = static_cast<RouteTypes>(pXML->FindInInfoClass(pszClassNames[eLoopRoute]));
+			}
+			else m_paeReplacementRouteTypes[eLoopRoute] = NO_ROUTE;
 		}
 		SAFE_DELETE_ARRAY(pszClassNames);
 	}

@@ -30,8 +30,8 @@ public: // advc: All the const functions are exposed to Python
 	bool isNoFoodPopulationGrowth() const { return m_bNoFoodPopulationGrowth; }
 
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-	int getElysiumTerrainAxis() const { return m_iElysiumTerrainAxis; } // FfH2 - Armageddon Counter - Positive ( N > 0)
-	int getGehennaTerrainAxis() const { return m_iGehennaTerrainAxis; } // FfH2 - Armageddon Counter - Negative ( N < 0)
+	int getElysiumPlotChangeAxis() const { return m_iElysiumPlotChangeAxis; } // FfH2 - Armageddon Counter - Positive ( N > 0)
+	int getGehennaPlotChangeAxis() const { return m_iGehennaPlotChangeAxis; } // FfH2 - Armageddon Counter - Negative ( N < 0)
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	
 	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv

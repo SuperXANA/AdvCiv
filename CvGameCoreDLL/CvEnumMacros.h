@@ -16,11 +16,11 @@
 	DO(Climate, CLIMATE) \
 	DO(SeaLevel, SEALEVEL) \
 	DO(Terrain, TERRAIN) \
-	/* XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ */ \
-	DO(TerrainAxis, TERRAINAXIS) \
-	/* XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ */ \
 	DO(Feature, FEATURE) \
 	DO(Improvement, IMPROVEMENT) \
+	/* XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ */ \
+	DO(PlotChangeAxis, PLOT_CHANGE_AXIS) \
+	/* XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ */ \
 	DO(TurnTimer, TURNTIMER) \
 	DO(Handicap, HANDICAP) \
 	DO(GameSpeed, GAMESPEED) \

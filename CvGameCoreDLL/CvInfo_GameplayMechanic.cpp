@@ -6,8 +6,8 @@ CvGameplayMechanicInfo::CvGameplayMechanicInfo() :
 	m_iLeaderType(NO_LEADER),
 	m_iCivilizationType(NO_CIVILIZATION),
 	m_bNoFoodPopulationGrowth(false),
-	m_iElysiumTerrainAxis(NO_TERRAINAXIS),
-	m_iGehennaTerrainAxis(NO_TERRAINAXIS)
+	m_iElysiumPlotChangeAxisAxis(NO_PLOT_CHANGE_AXIS),
+	m_iGehennaPlotChangeAxisAxis(NO_PLOT_CHANGE_AXIS)
 {}
 
 CvGameplayMechanicInfo::~CvGameplayMechanicInfo() :
@@ -164,8 +164,8 @@ bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(&m_bNoFoodPopulationGrowth, "bNoFoodPopulationGrowth");
 	
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-	pXML->SetInfoIDFromChildXmlVal(m_iGehennaTerrainAxis, "PositiveRagnarokCounterTerrainChangeType");
-	pXML->SetInfoIDFromChildXmlVal(m_iElysiumTerrainAxis, "NegativeRagnarokCounterTerrainChangeType");
+	pXML->SetInfoIDFromChildXmlVal(m_iGehennaPlotChangeAxis, "PositiveRagnarokCounterPlotChangeType");
+	pXML->SetInfoIDFromChildXmlVal(m_iElysiumPlotChangeAxis, "NegativeRagnarokCounterPlotChangeType");
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	
 	// XANA: 10-19-2025 FfH Civilization Bonus Yield Changes for AdvancedCiv

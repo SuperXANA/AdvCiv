@@ -76,21 +76,29 @@ private:
 
 // XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//  class : CvTerrainAxisInfo
+//  class : CvPlotChangeAxisInfo
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-class CvTerrainAxisInfo : public CvInfoBase
+class CvPlotChangeAxisInfo : public CvInfoBase
 {
 	typedef CvInfoBase base_t;
 public:
-	CvTerrainAxisInfo();
-	~CvTerrainAxisInfo();
+	CvPlotChangeAxisInfo();
+	~CvPlotChangeAxisInfo();
 
 	TerrainTypes getReplacementTerrain(int i) const;
+	FeatureTypes getReplacementFeature(int i) const;
+	BonusTypes getReplacementBonus(int i) const;
+	ImprovementTypes getReplacementImprovement(int i) const;
+	RouteTypes getReplacementRoute(int i) const;
 
 	bool read(CvXMLLoadUtility* pXML);
 
 protected:
 	TerrainTypes* m_paeReplacementTerrainTypes;
+	FeatureTypes* m_paeReplacementFeatureTypes;
+	BonusTypes* m_paeReplacementBonusTypes;
+	ImprovementTypes* m_paeReplacementImprovementTypes;
+	RouteTypes* m_paeReplacementRouteTypes;
 };
 // XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
