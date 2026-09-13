@@ -3626,7 +3626,7 @@ void CvGameTextMgr::setPlotHelp(CvWStringBuffer& szString, CvPlot const& kPlot)
 	}
 	
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-	CvPlotChangeMap const& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
+	PlotTempChangeMap const& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
 	if (kTempChangesMap.getTempTerrainTimer(kPlot) > 0)
 	{
 		szString.append(gDLL->getText("TXT_KEY_PLOT_TERRAIN_BECOMES_TURNS", GC.getInfo(kTempChangesMap.getRealTerrainType(kPlot)).getDescription(), kTempChangesMap.getTempTerrainTimer(kPlot)));

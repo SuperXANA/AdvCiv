@@ -557,6 +557,10 @@ public: // advc: made several functions const
 	// </advc.108c>
 	void updateReplayTexture(); // advc.106n
 	byte const* getReplayTexture() const; // advc.106n
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	PlotTempChangeMap const& getPlotTempChangeMap() const { return *m_pTempChangesMap; }
+	PlotTempChangeMap& getPlotTempChangeMap() { return *m_pTempChangesMap; }
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	/*	<advc.002a> Set through BUG options, but I worry that accessing those
 		while redrawing the minimap plot for plot would be too slow.
 		Let BUG cache the settings here whenever they change. */
@@ -621,6 +625,9 @@ protected:
 	void updateLakes();
 	// </advc.030>
 	void updateNumPlots(); // advc.opt
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	PlotTempChangeMap* m_pTempChangesMap;
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 };
 
 /*	advc.304: Interface for CvMap::syncRandPlot weights. Would prefer to

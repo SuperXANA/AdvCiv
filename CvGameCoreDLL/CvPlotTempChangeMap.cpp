@@ -252,7 +252,6 @@ void PlotTempChangeMap::changeTempRouteTimer(PlotNumTypes ePlotNum, int iChange)
 void PlotTempChangeMap::update(CvPlot const& kPlot)
 {
 	PlotNumTypes const ePlotNum = kPlot.plotNum();
-	bool const bGraphicsReady = GC.IsGraphicsInitialized();
 	if (getTempTerrainTimer(ePlotNum) > 0)
 	{
 		changeTempTerrainTimer(ePlotNum, -1);
@@ -261,10 +260,7 @@ void PlotTempChangeMap::update(CvPlot const& kPlot)
 			TerrainTypes const eReal = getRealTerrainType(ePlotNum);
 			setRealTerrainType(ePlotNum, NO_TERRAIN);
 			setTempTerrainType(ePlotNum, NO_TERRAIN);
-			if (bGraphicsReady)
-			{
-				kPlot.setTerrainType(eReal);
-			}
+			kPlot.setTerrainType(eReal);
 		}
 	}
 	if (getTempFeatureTimer(ePlotNum) > 0)
@@ -275,10 +271,7 @@ void PlotTempChangeMap::update(CvPlot const& kPlot)
 			std::pair<FeatureTypes, int> kReal = getRealFeatureType(ePlotNum);
 			setRealFeatureType(ePlotNum, NO_FEATURE, -1);
 			setTempFeatureType(ePlotNum, NO_FEATURE, -1);
-			if (bGraphicsReady)
-			{
-				kPlot.setFeatureType(kReal.first, kReal.second);
-			}
+			kPlot.setFeatureType(kReal.first, kReal.second);
 		}
 	}
 	if (getTempBonusTimer(ePlotNum) > 0)
@@ -289,10 +282,7 @@ void PlotTempChangeMap::update(CvPlot const& kPlot)
 			BonusTypes const eReal = getRealBonusType(ePlotNum);
 			setRealBonusType(ePlotNum, NO_BONUS);
 			setTempBonusType(ePlotNum, NO_BONUS);
-			if (bGraphicsReady)
-			{
-				kPlot.setBonusType(eReal);
-			}
+			kPlot.setBonusType(eReal);
 		}
 	}
 	if (getTempImprovementTimer(ePlotNum) > 0)
@@ -303,10 +293,7 @@ void PlotTempChangeMap::update(CvPlot const& kPlot)
 			ImprovementTypes const eReal = getRealImprovementType(ePlotNum);
 			setRealImprovementType(ePlotNum, NO_IMPROVEMENT);
 			setTempImprovementType(ePlotNum, NO_IMPROVEMENT);
-			if (bGraphicsReady)
-			{
-				kPlot.setImprovementType(eReal);
-			}
+			kPlot.setImprovementType(eReal);
 		}
 	}
 	if (getTempRouteTimer(ePlotNum) > 0)
@@ -317,10 +304,7 @@ void PlotTempChangeMap::update(CvPlot const& kPlot)
 			RouteTypes const eReal = getRealRouteType(ePlotNum);
 			setRealRouteType(ePlotNum, NO_ROUTE);
 			setTempRouteType(ePlotNum, NO_ROUTE);
-			if (bGraphicsReady)
-			{
-				kPlot.setRouteType(eReal);
-			}
+			kPlot.setRouteType(eReal);
 		}
 	}
 }

@@ -32,6 +32,9 @@ CvMap::CvMap()
 {
 	CvMapInitData defaultMapData;
 	m_pMapPlots = NULL;
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	m_pTempChangesMap = NULL;
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	reset(&defaultMapData);
 }
 
@@ -71,6 +74,9 @@ void CvMap::init(CvMapInitData* pInitInfo)
 	FOR_EACH_ENUM(PlotNum)
 		getPlotByIndex(eLoopPlotNum).initAdjList(); // </advc.003s>
 	calculateAreas();
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	m_pTempChangesMap = new PlotTempChangeMap;
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	gDLL->logMemState("CvMap after init plots");
 }
 
@@ -81,6 +87,9 @@ void CvMap::uninit()
 	m_replayTexture.clear(); // advc.106n
 	m_areas.uninit();
 	CvSelectionGroup::uninitPathFinder(); // advc.pf
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	SAFE_DELETE(m_pTempChangesMap);
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 }
 
 // Initializes data members that are serialized.
@@ -202,6 +211,9 @@ void CvMap::reset(CvMapInitData const* pInitInfo,
 	if (bResetPlotExtraData)
 		resetPlotExtraData(); // </advc.enum>
 	m_areas.removeAll();
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	m_pTempChangesMap.reset();
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 }
 
 // Initializes all data that is not serialized but needs to be initialized after loading
@@ -332,8 +344,20 @@ void CvMap::setAllPlotTypes(PlotTypes ePlotType)
 void CvMap::doTurn()
 {
 	//PROFILE("CvMap::doTurn()"); // advc.003o
-	for(int i = 0; i < numPlots(); i++)
-		getPlotByIndex(i).doTurn();
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	PlotTempChangeMap& kTempChangesMap = getPlotTempChangeMap();
+	int const iNumPlots = numPlots();
+	bool const bGraphicsReady = GC.IsGraphicsInitialized();
+	for (int i = 0; i < iNumPlots; i++)
+	{
+		CvPlot& kLoopPlot = getPlotByIndex(i);
+		kLoopPlot.doTurn();
+		if (bGraphicsReady)
+		{
+			kTempChangesMap.update(kLoopPlot);
+		}
+	}
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 }
 
 
@@ -1315,6 +1339,9 @@ void CvMap::read(FDataStreamBase* pStream)
 			m_replayTexture.push_back(ucPixel);
 		}
 	} // </advc.106n>
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	m_pTempChangesMap.read(pStream);
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 }
 
 
@@ -1363,6 +1390,9 @@ void CvMap::write(FDataStreamBase* pStream)
 	// <advc.106n>
 	pStream->Write(m_replayTexture.size());
 	pStream->Write(m_replayTexture.size(), &m_replayTexture[0]);
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	m_pTempChangesMap.write(pStream);
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	// </advc.106n>
 }
 
