@@ -36,6 +36,7 @@ void CvDynamicDiploManager::uninit()
 			{
 				clearResponses(eLoopPlayer);
 			}
+			m_LLMDiploResponses.clear();
 			m_bInitialized = false;
 		}
 	}
