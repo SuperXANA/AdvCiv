@@ -10,7 +10,7 @@ struct TerrainYieldChangeData
 	piTerrainChanges(NULL) {}
 	
 	int getTerrainType() const;
-	int getTerrainModifyType() const;
+	int getTerrainLocationType() const;
 	
 	int* getYieldChangesArray() const;
 	int getYieldChange(YieldTypes eYield) const;

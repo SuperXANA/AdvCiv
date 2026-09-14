@@ -179,6 +179,7 @@ bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 				if (0 < iNumSibs)
 				{
 					CvString szTextVal;
+					m_apBonusYieldChanges.reserve(iNumSibs);
 					for (int j = 0; j < iNumSibs; j++)
 					{
 						pXML->GetChildXmlValByName(szTextVal, "BonusType");
@@ -223,13 +224,14 @@ bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 						if (0 < iNumSibs)
 						{
 							CvString szTextVal;
+							m_aTerrainYieldChanges.reserve(iNumSibs);
 							for (int j = 0; j < iNumSibs; j++)
 							{
 								pXML->GetChildXmlValByName(szTextVal, "TerrainType");
 								TerrainTypes eIndex = (TerrainTypes)pXML->FindInInfoClass(szTextVal);
 								if (eIndex != NO_TERRAIN)
 								{
-									TerrainYieldChangeData kStruct(eIndex, iLocationType);
+									TerrainYieldChangeData kStruct(eIndex, eLocation);
 									kStruct.read(pXML);
 									m_aTerrainYieldChanges.push_back(kStruct);
 								}
@@ -257,6 +259,7 @@ bool CvGameplayMechanicInfo::read(CvXMLLoadUtility* pXML)
 				if (0 < iNumSibs)
 				{
 					CvString szTextVal;
+					m_apFeatureYieldChanges.reserve(iNumSibs);
 					for (int j = 0; j < iNumSibs; j++)
 					{
 						pXML->GetChildXmlValByName(szTextVal, "FeatureType");
