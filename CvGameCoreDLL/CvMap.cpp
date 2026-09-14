@@ -27,7 +27,7 @@
 #include "CvDLLIniParserIFaceBase.h"
 #include <boost/algorithm/string.hpp> // advc.108b
 // XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-#include "CvPlotTempChangeMap.h"
+#include "PlotTempChangeMap.h"
 // XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 

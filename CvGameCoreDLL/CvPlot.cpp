@@ -17,7 +17,7 @@
 #include "CvDLLPlotBuilderIFaceBase.h"
 #include "CvDLLFlagEntityIFaceBase.h"
 // XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-#include "CvPlotTempChangeMap.h"
+#include "PlotTempChangeMap.h"
 // XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 /*	advc.make: I've added safeIntCast calls in a few places that looked at least
@@ -2058,7 +2058,7 @@ void CvPlot::setTempTerrainType(TerrainTypes eNewValue, int iTimer)
 	if (eNewValue != getTerrainType())
 	{
 		PlotTempChangeMap& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
-		CvPlot& kPlot = *this;
+		CvPlot const& kPlot = *this;
 		
 		if (kTempChangesMap.getRealTerrainType(kPlot) == NO_TERRAIN)
 		{
@@ -2077,7 +2077,7 @@ void CvPlot::setTempFeatureType(FeatureTypes eFeature, int iVariety, int iTimer)
 	if (eFeature != getFeatureType())
 	{
 		PlotTempChangeMap& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
-		CvPlot& kPlot = *this;
+		CvPlot const& kPlot = *this;
 		
 		if (kTempChangesMap.getRealFeatureType(kPlot).first == NO_FEATURE)
 		{
@@ -2096,7 +2096,7 @@ void CvPlot::setTempBonusType(BonusTypes eBonus, int iTimer)
 	if (eBonus != getBonusType())
 	{
 		PlotTempChangeMap& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
-		CvPlot& kPlot = *this;
+		CvPlot const& kPlot = *this;
 		
 		if (kTempChangesMap.getRealBonusType(kPlot) == NO_BONUS)
 		{
@@ -2116,7 +2116,7 @@ void CvPlot::setTempImprovementType(ImprovementTypes eImprovement, int iTimer)
 	if (eImprovement != getImprovementType())
 	{
 		PlotTempChangeMap& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
-		CvPlot& kPlot = *this;
+		CvPlot const& kPlot = *this;
 		
 		if (kTempChangesMap.getRealImprovementType(kPlot) == NO_IMPROVEMENT)
 		{
@@ -2136,7 +2136,7 @@ void CvPlot::setTempRouteType(RouteTypes eRoute, int iTimer)
 	if (eRoute != getRouteType())
 	{
 		PlotTempChangeMap& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
-		CvPlot& kPlot = *this;
+		CvPlot const& kPlot = *this;
 		
 		if (kTempChangesMap.getRealRouteType(kPlot) == NO_ROUTE)
 		{
@@ -2151,35 +2151,35 @@ void CvPlot::setTempRouteType(RouteTypes eRoute, int iTimer)
 	
 }
 
-void CvPlot::changeTempTerrainTimer(int iChange, bool bIgnoreNoPlotTempChange)
+void CvPlot::changeTempTerrainTimer(int iChange, bool bIgnoreNoPlotTempChange) const
 {
 	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempTerrainType(*this) == NO_TERRAIN)
 		return;
 	GC.getMap().getPlotTempChangeMap().changeTempRouteTimer(*this, iChange);
 }
 
-void CvPlot::changeTempFeatureTimer(int iChange, bool bIgnoreNoPlotTempChange)
+void CvPlot::changeTempFeatureTimer(int iChange, bool bIgnoreNoPlotTempChange) const
 {
 	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempFeatureType(*this).first == NO_FEATURE)
 		return;
 	GC.getMap().getPlotTempChangeMap().changeTempFeatureTimer(*this, iChange);
 }
 
-void CvPlot::changeTempBonusTimer(int iChange, bool bIgnoreNoPlotTempChange)
+void CvPlot::changeTempBonusTimer(int iChange, bool bIgnoreNoPlotTempChange) const
 {
 	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempBonusType(*this) == NO_BONUS)
 		return;
 	GC.getMap().getPlotTempChangeMap().changeTempBonusTimer(*this, iChange);
 }
 
-void CvPlot::changeTempImprovementTimer(int iChange, bool bIgnoreNoPlotTempChange)
+void CvPlot::changeTempImprovementTimer(int iChange, bool bIgnoreNoPlotTempChange) const
 {
 	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempImprovementType(*this) == NO_IMPROVEMENT)
 		return;
 	GC.getMap().getPlotTempChangeMap().changeTempImprovementTimer(*this, iChange);
 }
 
-void CvPlot::changeTempRouteTimer(int iChange, bool bIgnoreNoPlotTempChange)
+void CvPlot::changeTempRouteTimer(int iChange, bool bIgnoreNoPlotTempChange) const
 {
 	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempRouteType(*this) == NO_ROUTE)
 		return;

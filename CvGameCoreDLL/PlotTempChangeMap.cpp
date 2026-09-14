@@ -1,5 +1,5 @@
 #include "CvGameCoreDLL.h"
-#include "CvPlotTempChangeMap.h"
+#include "PlotTempChangeMap.h"
 
 
 void PlotTempChangeMap::setRealTerrainType(CvPlot const& kPlot, TerrainTypes eNewValue)
@@ -249,7 +249,7 @@ void PlotTempChangeMap::changeTempRouteTimer(PlotNumTypes ePlotNum, int iChange)
 }
 
 
-void PlotTempChangeMap::update(CvPlot const& kPlot)
+void PlotTempChangeMap::update(CvPlot& kPlot)
 {
 	PlotNumTypes const ePlotNum = kPlot.plotNum();
 	if (getTempTerrainTimer(ePlotNum) > 0)
@@ -268,7 +268,7 @@ void PlotTempChangeMap::update(CvPlot const& kPlot)
 		changeTempFeatureTimer(ePlotNum, -1);
 		if (getTempFeatureTimer(ePlotNum) == 0)
 		{
-			std::pair<FeatureTypes, int> kReal = getRealFeatureType(ePlotNum);
+			std::pair<FeatureTypes, int> const kReal = getRealFeatureType(ePlotNum);
 			setRealFeatureType(ePlotNum, NO_FEATURE, -1);
 			setTempFeatureType(ePlotNum, NO_FEATURE, -1);
 			kPlot.setFeatureType(kReal.first, kReal.second);

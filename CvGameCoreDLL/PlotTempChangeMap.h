@@ -141,7 +141,7 @@ public:
 	void changeTempImprovementTimer(CvPlot const& kPlot, int iChange);
 	void changeTempRouteTimer(CvPlot const& kPlot, int iChange);
 	
-	void update(CvPlot const& kPlot);
+	void update(CvPlot& kPlot);
 
 private:
 	ArrayEnumMap<PlotNumTypes,TerrainTypes> m_RealTerrainTypeMap;
