@@ -253,12 +253,13 @@ CvWString CvDatabaseManager::getLocationForFile()
 	if (!hShell) return ""; // If we can't load "shell32.lib" Windows library dynamically, fail early to avoid loading sqlite3 data from an invalid location.
 	FN_SHGetFolderPathA pGetOSFilePath = reinterpret_cast<FN_SHGetFolderPathA>(GetProcAddress(hShell, "SHGetFolderPathA"));
 	CvWString CvFilePath;
+	if (pGetOSFilePath)
 	{
 		wchar_t szPath[MAX_PATH];
 		szPath[0] = 0;
 		// CSIDL_PERSONAL refers to the "My Documents" folder.
 		// SHGFP_TYPE_CURRENT ensures we get the current path even if redirected (e.g., OneDrive).
-		if (pGetOSFilePath && SUCCEEDED(pGetOSFilePath(NULL, /* CSIDL_PERSONAL: 0x0005 */ 0x0005, NULL, /* SHGFP_TYPE_CURRENT: 0 */ 0, szPath)) && szPath[0])
+		if (SUCCEEDED(pGetOSFilePath(NULL, /* CSIDL_PERSONAL: 0x0005 */ 0x0005, NULL, /* SHGFP_TYPE_CURRENT: 0 */ 0, szPath)) && szPath[0])
 		{
 			CvFilePath += (CvWString(szPath) + L"\\My Games\\");  // XANA (note): We'll put the game database inside the usual My Games folder to keep it nominally safe from modification or deletion
 			CvFilePath += (CvWString(GC.getModName().getName()) + L"\\"); // XANA (note): We'll use the mod folder's name for simplictiy's sake and to keep everything neat and tidy around here
