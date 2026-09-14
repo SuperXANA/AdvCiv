@@ -212,7 +212,7 @@ void CvMap::reset(CvMapInitData const* pInitInfo,
 		resetPlotExtraData(); // </advc.enum>
 	m_areas.removeAll();
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-	m_pTempChangesMap.reset();
+	m_pTempChangesMap->reset();
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 }
 
@@ -346,15 +346,13 @@ void CvMap::doTurn()
 	//PROFILE("CvMap::doTurn()"); // advc.003o
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	PlotTempChangeMap& kTempChangesMap = getPlotTempChangeMap();
-	int const iNumPlots = numPlots();
 	bool const bGraphicsReady = GC.IsGraphicsInitialized();
-	for (int i = 0; i < iNumPlots; i++)
+	for (int i = 0; i < numPlots(); i++)
 	{
-		CvPlot& kLoopPlot = getPlotByIndex(i);
-		kLoopPlot.doTurn();
+		getPlotByIndex(i).doTurn();
 		if (bGraphicsReady)
 		{
-			kTempChangesMap.update(kLoopPlot);
+			kTempChangesMap.update(getPlotByIndex(i));
 		}
 	}
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
@@ -1340,7 +1338,7 @@ void CvMap::read(FDataStreamBase* pStream)
 		}
 	} // </advc.106n>
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-	m_pTempChangesMap.read(pStream);
+	m_pTempChangesMap->read(pStream);
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 }
 
@@ -1391,7 +1389,7 @@ void CvMap::write(FDataStreamBase* pStream)
 	pStream->Write(m_replayTexture.size());
 	pStream->Write(m_replayTexture.size(), &m_replayTexture[0]);
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-	m_pTempChangesMap.write(pStream);
+	m_pTempChangesMap->write(pStream);
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	// </advc.106n>
 }
