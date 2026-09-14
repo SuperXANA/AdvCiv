@@ -14,6 +14,9 @@ class CvArea;
 class FAStar;
 class CvPlotGroup;
 class CvSelectionGroup;
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+class CvPlotTempChangeMap;
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 struct CvMapInitData // holds initialization info
 {

@@ -16,6 +16,9 @@
 #include "CvDLLSymbolIFaceBase.h"
 #include "CvDLLPlotBuilderIFaceBase.h"
 #include "CvDLLFlagEntityIFaceBase.h"
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+#include "CvPlotTempChangeMap.h"
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 /*	advc.make: I've added safeIntCast calls in a few places that looked at least
 	slightly hazardous. Beyond that, explicit casts would only add clutter.

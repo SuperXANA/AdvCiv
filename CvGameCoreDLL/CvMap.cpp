@@ -26,6 +26,9 @@
 #include "BarbarianWeightMap.h" // advc.304
 #include "CvDLLIniParserIFaceBase.h"
 #include <boost/algorithm/string.hpp> // advc.108b
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+#include "CvPlotTempChangeMap.h"
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 
 CvMap::CvMap()
