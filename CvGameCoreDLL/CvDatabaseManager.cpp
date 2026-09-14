@@ -2,9 +2,6 @@
 #include "SQLiteConnection.h"
 #include "CvDatabaseFwd.h"
 #include <fstream>
-#include <shlobj.h>
-
-#pragma comment(lib, "shell32.lib")
 
 CvDatabaseManager::CvDatabaseManager() : m_sqlite(NULL), m_bDoCache(false), m_bActive(false), m_bSqlLoaded(false)
 {}
@@ -251,45 +248,60 @@ bool CvDatabaseManager::runSchemaScript(const CvString& szPath)
 
 CvWString CvDatabaseManager::getLocationForFile()
 {
+	typedef HRESULT (__stdcall *FN_SHGetFolderPathA)(HWND, int, HANDLE, DWORD, char*);
+	HMODULE hShell = LoadLibraryA("shell32.dll");
+	if (!hShell) return ""; // If we can't load "shell32.lib" Windows library dynamically, fail early to avoid loading sqlite3 data from an invalid location.
+	FN_SHGetFolderPathA pGetOSFilePath = reinterpret_cast<FN_SHGetFolderPathA>(GetProcAddress(hShell, "SHGetFolderPathA"));
 	CvWString CvFilePath;
 	{
 		wchar_t szPath[MAX_PATH];
+		szPath[0] = 0;
 		// CSIDL_PERSONAL refers to the "My Documents" folder.
 		// SHGFP_TYPE_CURRENT ensures we get the current path even if redirected (e.g., OneDrive).
-		if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, szPath)))
+		if (pGetOSFilePath && SUCCEEDED(pGetOSFilePath(NULL, /* CSIDL_PERSONAL: 0x0005 */ 0x0005, NULL, /* SHGFP_TYPE_CURRENT: 0 */ 0, szPath)) && szPath[0])
 		{
 			CvFilePath += (CvWString(szPath) + L"\\My Games\\");  // XANA (note): We'll put the game database inside the usual My Games folder to keep it nominally safe from modification or deletion
 			CvFilePath += (CvWString(GC.getModName().getName()) + L"\\"); // XANA (note): We'll use the mod folder's name for simplictiy's sake and to keep everything neat and tidy around here
 		}
 	}
+	FreeLibrary(hShell);
 	if (!CvFilePath.empty()) // XANA (note): If we successfully found the user's valid, writable My Documents folder (path not empty)
 	{
 		bool bValidLocation = true;
 		{
-			// XANA (note): Create the location for the database file if needed (otherwise verify that the directory structure already exists)
-			size_t position = 0;
-			do
+			typedef BOOL (WINAPI *PFN_CreateDirectoryW)(LPCWSTR, LPSECURITY_ATTRIBUTES);
+			HMODULE hKernel = LoadLibraryA("kernel32.dll");
+			if (!hKernel) return ""; // If we can't load "kernel32.lib" Windows library dynamically, fail early to avoid loading sqlite3 data from an invalid location.
+			PFN_CreateDirectoryW pCreateOSDir = reinterpret_cast<PFN_CreateDirectoryW>(GetProcAddress(hKernel, "CreateDirectoryW"));
+			if (pCreateOSDir)
 			{
-				// Find the next slash (handle both \ and / just in case)
-				position = CvFilePath.find_first_of(L"\\/", position + 1);
-				std::wstring directory = CvFilePath.substr(0, position);
-				// Skip drive letters like "C:" to avoid access errors
-				if (directory.length() > 0 && directory[directory.length() - 1] != L':')
+				// XANA (note): Create the location for the database file if needed (otherwise verify that the directory structure already exists)
+				size_t position = 0;
+				do
 				{
-					if (!CreateDirectoryW(directory.c_str(), NULL))
+					// Find the next slash (handle both \ and / just in case)
+					position = CvFilePath.find_first_of(L"\\/", position + 1);
+					std::wstring directory = CvFilePath.substr(0, position);
+					// Skip drive letters like "C:" to avoid access errors
+					if (directory.length() > 0 && directory[directory.length() - 1] != L':')
 					{
-						DWORD error = GetLastError();
-						// If it already exists, we are good to keep going, however if there was some other error then that is a problem and it means we should stop immediately
-						if (error != ERROR_ALREADY_EXISTS)
+						if (!pCreateOSDir(directory.c_str(), NULL))
 						{
-							bValidLocation = false;
-							break;
+							DWORD error = GetLastError();
+							// If it already exists, we are good to keep going, however if there was some other error then that is a problem and it means we should stop immediately
+							if (error != ERROR_ALREADY_EXISTS)
+							{
+								bValidLocation = false;
+								break;
+							}
 						}
 					}
 				}
+				while (position != std::wstring::npos);
 			}
-			while (position != std::wstring::npos);
+			else bValidLocation = false;
 		}
+		FreeLibrary(hKernel);
 		if (bValidLocation)
 		{
 			CvFilePath += "CvGameDatabase"; // XANA (note): If the file somehow gets removed, that's fine for Civ4, it won't affect actual gameplay much since the game doesn't depend on SQL to function
