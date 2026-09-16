@@ -48,9 +48,11 @@ struct EventPreferenceData
 // XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 struct UnitPreferenceData
 {
-	UnitPreferenceData() : iUnit(NO_UNIT), iUnitValueModifierPercent(0), 
-	bPreferredChoice(false), bNotPreferredChoice(false) {}
+	UnitPreferenceData() : iUnitCombat(NO_UNITCOMBAT), iUnitClass(NO_UNITCLASS), iUnit(NO_UNIT),
+	iUnitValueModifierPercent(0), bPreferredChoice(false), bNotPreferredChoice(false) {}
 	
+	int getUnitCombatType() const;
+	int getUnitClassType() const;
 	int getUnitType() const;
 	int getUnitValueModifierPercent() const;
 	bool isPreferredChoice() const;
@@ -58,6 +60,8 @@ struct UnitPreferenceData
 	
 	bool read(CvXMLLoadUtility* pXML);
 	
+	int iUnitCombat;
+	int iUnitClass;
 	int iUnit;
 	int iUnitValueModifierPercent;
 	bool bPreferredChoice;

@@ -78,6 +78,16 @@ bool EventPreferenceData::read(CvXMLLoadUtility* pXML)
 
 
 // XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
+int UnitPreferenceData::getUnitCombatType() const
+{
+	return iUnitCombat;
+}
+
+int UnitPreferenceData::getUnitClassType() const
+{
+	return iUnitClass;
+}
+
 int UnitPreferenceData::getUnitType() const
 {
 	return iUnit;
@@ -102,7 +112,15 @@ bool UnitPreferenceData::read(CvXMLLoadUtility* pXML)
 {
 	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 	{
-		pXML->SetInfoIDFromChildXmlVal(iUnit, "UnitType");
+		pXML->SetInfoIDFromChildXmlVal(iUnitCombat, "UnitCombatType");
+		if (iUnitCombat == NO_UNITCOMBAT)
+		{
+			pXML->SetInfoIDFromChildXmlVal(iUnitClass, "UnitClassType");
+		}
+		else if (iUnitClass == NO_UNITCLASS)
+		{
+			pXML->SetInfoIDFromChildXmlVal(iUnit, "UnitType");
+		}
 		pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
 		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
 		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");

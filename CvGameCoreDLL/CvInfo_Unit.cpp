@@ -2643,11 +2643,11 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
 					UnitPreferenceData kUnitPref;
 					kUnitPref.read(pXML);
 					
-					UnitCombatTypes eUnitCombat = static_cast<UnitCombatTypes>(kUnitPref.getUnitType());
+					UnitCombatTypes eUnitCombat = static_cast<UnitCombatTypes>(kUnitPref.getUnitCombatType());
 					if (eUnitCombat != NO_UNITCOMBAT)
 					{
 						m_vUnitCombatPrefData.push_back(kUnitPref);
-						m_aiVectorIndexMapForUnitCombats[eUnitCombat] = iLoop;
+						m_aiVectorIndexMapForUnitCombats[eUnitCombat] = ((int)m_vUnitCombatPrefData.size() - 1);
 					}
 					
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
@@ -2677,11 +2677,11 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
 					UnitPreferenceData kUnitPref;
 					kUnitPref.read(pXML);
 					
-					UnitClassTypes eUnitClass = static_cast<UnitClassTypes>(kUnitPref.getUnitType());
+					UnitClassTypes eUnitClass = static_cast<UnitClassTypes>(kUnitPref.getUnitClassType());
 					if (eUnitClass != NO_UNITCLASS)
 					{
 						m_vUnitClassPrefData.push_back(kUnitPref);
-						m_aiVectorIndexMapForUnitClasses[eUnitClass] = iLoop;
+						m_aiVectorIndexMapForUnitClasses[eUnitClass] = ((int)m_vUnitClassPrefData.size() - 1);
 					}
 					
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
@@ -2715,7 +2715,7 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
 					if (eUnit != NO_UNIT)
 					{
 						m_vUnitPrefData.push_back(kUnitPref);
-						m_aiVectorIndexMapForUnits[eUnit] = iLoop;
+						m_aiVectorIndexMapForUnits[eUnit] = ((int)m_vUnitPrefData.size() - 1);
 					}
 					
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
