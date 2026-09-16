@@ -1628,7 +1628,7 @@ bool CvTechPreferenceInfo::read(CvXMLLoadUtility* pXML)
 					if (eTech != NO_TECH)
 					{
 						m_vTechPrefData.push_back(kTechPref);
-						m_aiVectorIndexMap[eTech] = iLoop;
+						m_aiVectorIndexMap[eTech] = ((int)m_vTechPrefData.size() - 1);
 					}
 					
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))

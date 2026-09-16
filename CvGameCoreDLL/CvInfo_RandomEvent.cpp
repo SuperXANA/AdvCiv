@@ -2163,7 +2163,7 @@ bool CvEventPreferenceInfo::read(CvXMLLoadUtility* pXML)
 					if (eEvent != NO_EVENT)
 					{
 						m_vEventPrefData.push_back(kEventPref);
-						m_aiVectorIndexMap[eEvent] = iLoop;
+						m_aiVectorIndexMap[eEvent] = ((int)m_vEventPrefData.size() - 1);
 					}
 					
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
