@@ -704,6 +704,9 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paUnitInfo, "CIV4UnitInfos", "Units", "Civ4UnitInfos/UnitInfos/UnitInfo", false, &CvDLLUtilityIFaceBase::createUnitInfoCacheObject);
 	FOR_EACH_ENUM(UnitClass)
 		GC.getInfo(eLoopUnitClass).readPass3();
+	// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
+	LoadGlobalClassInfo(GC.m_paUnitPreferenceInfo, "CIV4UnitPreferenceInfos", "Units", "Civ4UnitPreferenceInfos/UnitPreferenceInfos/UnitPreferenceInfo", false);
+	// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 	LoadGlobalClassInfo(GC.m_paUnitArtStyleInfo, "CIV4UnitArtStyleTypeInfos", "Civilizations", "Civ4UnitArtStyleTypeInfos/UnitArtStyleTypeInfos/UnitArtStyleTypeInfo", false);
 	LoadGlobalClassInfo(GC.m_paCivilizationInfo, "CIV4CivilizationInfos", "Civilizations", "Civ4CivilizationInfos/CivilizationInfos/CivilizationInfo", true, &CvDLLUtilityIFaceBase::createCivilizationInfoCacheObject);
 	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ

@@ -62,7 +62,7 @@ bool EventPreferenceData::isNotPreferredChoice() const
 }
 
 bool EventPreferenceData::read(CvXMLLoadUtility* pXML)
-{	
+{
 	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 	{
 		pXML->SetInfoIDFromChildXmlVal(iEvent, "Event");
@@ -75,3 +75,40 @@ bool EventPreferenceData::read(CvXMLLoadUtility* pXML)
 	return true;
 }
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+
+
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
+int UnitPreferenceData::getUnitType() const
+{
+	return iUnit;
+}
+
+int UnitPreferenceData::getUnitValueModifierPercent() const
+{
+	return iUnitValueModifierPercent;
+}
+
+bool UnitPreferenceData::isPreferredChoice() const
+{
+	return bPreferredChoice;
+}
+
+bool UnitPreferenceData::isNotPreferredChoice() const
+{
+	return bNotPreferredChoice;
+}
+
+bool UnitPreferenceData::read(CvXMLLoadUtility* pXML)
+{
+	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+	{
+		pXML->SetInfoIDFromChildXmlVal(iUnit, "UnitType");
+		pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
+		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
+		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
+
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+	return true;
+}
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type

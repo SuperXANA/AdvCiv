@@ -86,8 +86,11 @@
 	DO(TechPreference, TECHPREFERENCE) \
 	/* XANA: 04-26-2025 Favorite Technologies for Advanced Civ */ \
 	/* XANA: 09-05-2026 Event Preferences for AI Decision-Making Process */ \
-	DO(EventPreference, EVENTPREFERENCE)
-	// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+	DO(EventPreference, EVENTPREFERENCE) \
+	/* XANA: 09-05-2026 Event Preferences for AI Decision-Making Process */ \
+	/* XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type */ \
+	DO(UnitPreference, UNITPREFERENCE)
+	// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 
 // Number of instances not known at compile time
 #define DO_FOR_EACH_DYN_INFO_TYPE(DO) \

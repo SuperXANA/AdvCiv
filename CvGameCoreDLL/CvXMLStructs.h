@@ -43,5 +43,26 @@ struct EventPreferenceData
 	bool bNotPreferredChoice;
 };
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+
+
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
+struct UnitPreferenceData
+{
+	UnitPreferenceData() : iUnit(NO_UNIT), iUnitValueModifierPercent(0), 
+	bPreferredChoice(false), bNotPreferredChoice(false) {}
+	
+	int getUnitType() const;
+	int getUnitValueModifierPercent() const;
+	bool isPreferredChoice() const;
+	bool isNotPreferredChoice() const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+	
+	int iUnit;
+	int iUnitValueModifierPercent;
+	bool bPreferredChoice;
+	bool bNotPreferredChoice;
+};
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 	
 #endif	// CVXMLSTRUCTS_H
