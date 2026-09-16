@@ -2640,7 +2640,7 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
 				}
 				for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
 				{
-					UnitPreferenceData kUnitPref;
+					UnitCombatPreferenceData kUnitPref;
 					kUnitPref.read(pXML);
 					
 					UnitCombatTypes eUnitCombat = static_cast<UnitCombatTypes>(kUnitPref.getUnitCombatType());
@@ -2674,7 +2674,7 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
 				}
 				for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
 				{
-					UnitPreferenceData kUnitPref;
+					UnitClassPreferenceData kUnitPref;
 					kUnitPref.read(pXML);
 					
 					UnitClassTypes eUnitClass = static_cast<UnitClassTypes>(kUnitPref.getUnitClassType());

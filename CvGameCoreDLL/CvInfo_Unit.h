@@ -836,8 +836,8 @@ private:
 	int m_iLeaderType;
 	int m_iCivilizationType;
 
-	std::vector<UnitPreferenceData> m_vUnitCombatPrefData;
-	std::vector<UnitPreferenceData> m_vUnitClassPrefData;
+	std::vector<UnitCombatPreferenceData> m_vUnitCombatPrefData;
+	std::vector<UnitClassPreferenceData> m_vUnitClassPrefData;
 	std::vector<UnitPreferenceData> m_vUnitPrefData;
 	int* m_aiVectorIndexMapForUnitCombats;
 	int* m_aiVectorIndexMapForUnitClasses;

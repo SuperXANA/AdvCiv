@@ -46,14 +46,12 @@ struct EventPreferenceData
 
 
 // XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
-struct UnitPreferenceData
+struct UnitCombatPreferenceData
 {
-	UnitPreferenceData() : iUnitCombat(NO_UNITCOMBAT), iUnitClass(NO_UNITCLASS), iUnit(NO_UNIT),
-	iUnitValueModifierPercent(0), bPreferredChoice(false), bNotPreferredChoice(false) {}
+	UnitCombatPreferenceData() : iUnitCombat(NO_UNITCOMBAT), iUnitValueModifierPercent(0), 
+	bPreferredChoice(false), bNotPreferredChoice(false) {}
 	
 	int getUnitCombatType() const;
-	int getUnitClassType() const;
-	int getUnitType() const;
 	int getUnitValueModifierPercent() const;
 	bool isPreferredChoice() const;
 	bool isNotPreferredChoice() const;
@@ -61,7 +59,41 @@ struct UnitPreferenceData
 	bool read(CvXMLLoadUtility* pXML);
 	
 	int iUnitCombat;
+	int iUnitValueModifierPercent;
+	bool bPreferredChoice;
+	bool bNotPreferredChoice;
+};
+
+struct UnitClassPreferenceData
+{
+	UnitClassPreferenceData() : iUnitClass(NO_UNITCLASS), iUnitValueModifierPercent(0), 
+	bPreferredChoice(false), bNotPreferredChoice(false) {}
+	
+	int getUnitClassType() const;
+	int getUnitValueModifierPercent() const;
+	bool isPreferredChoice() const;
+	bool isNotPreferredChoice() const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+	
 	int iUnitClass;
+	int iUnitValueModifierPercent;
+	bool bPreferredChoice;
+	bool bNotPreferredChoice;
+};
+
+struct UnitPreferenceData
+{
+	UnitPreferenceData() : iUnit(NO_UNIT), iUnitValueModifierPercent(0), 
+	bPreferredChoice(false), bNotPreferredChoice(false) {}
+	
+	int getUnitType() const;
+	int getUnitValueModifierPercent() const;
+	bool isPreferredChoice() const;
+	bool isNotPreferredChoice() const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+	
 	int iUnit;
 	int iUnitValueModifierPercent;
 	bool bPreferredChoice;
