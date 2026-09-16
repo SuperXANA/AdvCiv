@@ -88,13 +88,17 @@ CvPlayerAI::CvPlayerAI(/* advc.003u: */ PlayerTypes eID) : CvPlayer(eID)
 	m_aiUnitClassWeights = NULL;
 	m_aiUnitCombatWeights = NULL;
 // XANA: 04-26-2025 Favorite Technologies for Advanced Civ
-	m_pLeaderTechDecisionPreference = NULL;
-	m_pCivilizationTechDecisionPreference = NULL;
+	m_eLeaderTechDecisionPreference = NO_TECHPREFERENCE;
+	m_eCivilizationTechDecisionPreference = NO_TECHPREFERENCE;
 // XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
-	m_pLeaderEventDecisionPreference = NULL;
-	m_pCivilizationEventDecisionPreference = NULL;
+	m_eLeaderEventDecisionPreference = NO_EVENTPREFERENCE;
+	m_eCivilizationEventDecisionPreference = NO_EVENTPREFERENCE;
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
+	m_eLeaderUnitDecisionPreference = NO_UNITPREFERENCE;
+	m_eCivilizationUnitDecisionPreference = NO_UNITPREFERENCE;
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 	//m_aiCloseBordersAttitude = new int[MAX_PLAYERS];
 	m_aiCloseBordersAttitude.resize(MAX_PLAYERS); // K-Mod
 
@@ -136,14 +140,6 @@ CvPlayerAI::~CvPlayerAI()
 	SAFE_DELETE_ARRAY(m_aiAverageCommerceExchange);
 	//SAFE_DELETE_ARRAY(m_aiCloseBordersAttitude); // disabled by K-Mod
 	SAFE_DELETE(m_pUWAI); // advc.104
-// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
-	SAFE_DELETE(m_pLeaderTechDecisionPreference);
-	SAFE_DELETE(m_pCivilizationTechDecisionPreference);
-// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
-// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
-	SAFE_DELETE(m_pLeaderEventDecisionPreference);
-	SAFE_DELETE(m_pCivilizationEventDecisionPreference);
-// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 }
 
 
@@ -391,6 +387,9 @@ void CvPlayerAI::AI_updateCacheData()
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 	AI_initEventPreferences();
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
+	AI_initUnitPreferences();
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 	std::vector<scaled> rCityValues;
 	FOR_EACH_CITYAI(c, *this)
 		rCityValues.push_back(AI_assetVal(*c, true));
@@ -4660,18 +4659,18 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
 	TechPreferenceData* pLeaderPref = NULL;
 	TechPreferenceData* pCivilizationPref = NULL;
 	
-	if (AI_getLeaderTechPreferences() != NULL)
+	if (AI_getLeaderTechPreferences() != NO_TECHPREFERENCE)
 	{
-		CvTechPreferenceInfo const& kPref = *AI_getLeaderTechPreferences();
+		CvTechPreferenceInfo const& kPref = GC.getInfo(AI_getLeaderTechPreferences());
 		int const iPrefIndex = kPref.getTechPreferenceIndex(eTech); 
 		if (iPrefIndex != -1)
 		{
 			pLeaderPref = &kPref.getTechPreference(iPrefIndex);
 		}
 	}
-	if (AI_getCivilizationTechPreferences() != NULL)
+	if (AI_getCivilizationTechPreferences() != NO_TECHPREFERENCE)
 	{
-		CvTechPreferenceInfo const& kPref = *AI_getCivilizationTechPreferences();
+		CvTechPreferenceInfo const& kPref = GC.getInfo(AI_getCivilizationTechPreferences());
 		int const iPrefIndex = kPref.getTechPreferenceIndex(eTech); 
 		if (iPrefIndex != -1)
 		{
@@ -23416,18 +23415,18 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 	EventPreferenceData* pLeaderPref = NULL;
 	EventPreferenceData* pCivilizationPref = NULL;
 	
-	if (AI_getLeaderEventPreferences() != NULL)
+	if (AI_getLeaderEventPreferences() != NO_EVENTPREFERENCE)
 	{
-		CvEventPreferenceInfo const& kPref = *AI_getLeaderEventPreferences();
+		CvEventPreferenceInfo const& kPref = GC.getInfo(AI_getLeaderEventPreferences());
 		int const iPrefIndex = kPref.getEventPreferenceIndex(eEvent); 
 		if (iPrefIndex != -1)
 		{
 			pLeaderPref = &kPref.getEventPreference(iPrefIndex);
 		}
 	}
-	if (AI_getCivilizationEventPreferences() != NULL)
+	if (AI_getCivilizationEventPreferences() != NO_EVENTPREFERENCE)
 	{
-		CvEventPreferenceInfo const& kPref = *AI_getCivilizationEventPreferences();
+		CvEventPreferenceInfo const& kPref = GC.getInfo(AI_getCivilizationEventPreferences());
 		int const iPrefIndex = kPref.getEventPreferenceIndex(eEvent); 
 		if (iPrefIndex != -1)
 		{
@@ -29873,7 +29872,7 @@ void CvPlayerAI::logFoundValue(CvPlot const& kPlot, bool bStartingLoc) const
 // XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 void CvPlayerAI::AI_initTechPreferences()
 {
-	if (m_pLeaderTechDecisionPreference == NULL && m_pCivilizationTechDecisionPreference == NULL)
+	if (m_eLeaderTechDecisionPreference == NO_TECHPREFERENCE && m_eCivilizationTechDecisionPreference == NO_TECHPREFERENCE)
 	{
 		FOR_EACH_ENUM(TechPreference)
 		{
@@ -29885,12 +29884,12 @@ void CvPlayerAI::AI_initTechPreferences()
 			if (eLeader != NO_LEADER &&
 				eLeader == getLeaderType())
 			{
-				m_pLeaderTechDecisionPreference = &kLoopPref;
+				m_eLeaderTechDecisionPreference = eLoopTechPreference;
 			}
 			if (eCivilization != NO_CIVILIZATION && 
 				eCivilization == getCivilizationType())
 			{
-				m_pCivilizationTechDecisionPreference = &kLoopPref;
+				m_eCivilizationTechDecisionPreference = eLoopTechPreference;
 			}
 		}
 	}
@@ -29898,14 +29897,14 @@ void CvPlayerAI::AI_initTechPreferences()
 
 void CvPlayerAI::AI_clearTechPreferences()
 {
-	if (m_pLeaderEventDecisionPreference != NULL)
+	if (m_eLeaderTechDecisionPreference != NO_TECHPREFERENCE)
 	{
-		SAFE_DELETE(m_pLeaderEventDecisionPreference);
+		m_eLeaderTechDecisionPreference = NO_TECHPREFERENCE;
 	}
 	
-	if (m_pCivilizationEventDecisionPreference != NULL))
+	if (m_eCivilizationTechDecisionPreference != NO_TECHPREFERENCE)
 	{
-		SAFE_DELETE(m_pCivilizationEventDecisionPreference);
+		m_eCivilizationTechDecisionPreference = NO_TECHPREFERENCE;
 	}
 }
 
@@ -29919,10 +29918,8 @@ void CvPlayerAI::AI_updateTechPreferences()
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
 void CvPlayerAI::AI_initEventPreferences()
 {
-	if (m_pLeaderEventDecisionPreference == NULL && m_pCivilizationEventDecisionPreference == NULL)
+	if (m_eLeaderEventDecisionPreference == NO_EVENTPREFERENCE && m_eCivilizationEventDecisionPreference == NO_EVENTPREFERENCE)
 	{
-		if (!GC.getGame().isOption(GAMEOPTION_NO_EVENTS))
-			return;
 		FOR_EACH_ENUM(EventPreference)
 		{
 			CvEventPreferenceInfo& kLoopPref = GC.getInfo(eLoopEventPreference);
@@ -29933,12 +29930,12 @@ void CvPlayerAI::AI_initEventPreferences()
 			if (eLeader != NO_LEADER &&
 				eLeader == getLeaderType())
 			{
-				m_pLeaderEventDecisionPreference = &kLoopPref;
+				m_eLeaderEventDecisionPreference = eLoopEventPreference;
 			}
 			if (eCivilization != NO_CIVILIZATION && 
 				eCivilization == getCivilizationType())
 			{
-				m_pCivilizationEventDecisionPreference = &kLoopPref;
+				m_eCivilizationEventDecisionPreference = eLoopEventPreference;
 			}
 		}
 	}
@@ -29946,14 +29943,14 @@ void CvPlayerAI::AI_initEventPreferences()
 
 void CvPlayerAI::AI_clearEventPreferences()
 {
-	if (m_pLeaderEventDecisionPreference != NULL)
+	if (m_eLeaderEventDecisionPreference != NO_EVENTPREFERENCE)
 	{
-		SAFE_DELETE(m_pLeaderEventDecisionPreference);
+		m_eLeaderEventDecisionPreference = NO_EVENTPREFERENCE;
 	}
 	
-	if (m_pCivilizationEventDecisionPreference != NULL))
+	if (m_eCivilizationEventDecisionPreference != NO_EVENTPREFERENCE)
 	{
-		SAFE_DELETE(m_pCivilizationEventDecisionPreference);
+		m_eCivilizationEventDecisionPreference = NO_EVENTPREFERENCE;
 	}
 }
 
@@ -29963,6 +29960,52 @@ void CvPlayerAI::AI_updateEventPreferences()
 	AI_initEventPreferences();
 }
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
+void CvPlayerAI::AI_initUnitPreferences()
+{
+	if (m_eLeaderUnitDecisionPreference == NO_UNITPREFERENCE && m_eCivilizationUnitDecisionPreference == NO_UNITPREFERENCE)
+	{
+		FOR_EACH_ENUM(UnitPreference)
+		{
+			CvUnitPreferenceInfo& kLoopPref = GC.getInfo(eLoopUnitPreference);
+			
+			LeaderHeadTypes eLeader = (LeaderHeadTypes)kLoopPref.getLeaderType();
+			CivilizationTypes eCivilization = (CivilizationTypes)kLoopPref.getCivilizationType();
+			
+			if (eLeader != NO_LEADER &&
+				eLeader == getLeaderType())
+			{
+				m_eLeaderUnitDecisionPreference = eLoopUnitPreference;
+			}
+			if (eCivilization != NO_CIVILIZATION && 
+				eCivilization == getCivilizationType())
+			{
+				m_eCivilizationUnitDecisionPreference = eLoopUnitPreference;
+			}
+		}
+	}
+}
+
+void CvPlayerAI::AI_clearUnitPreferences()
+{
+	if (m_eLeaderUnitDecisionPreference != NO_UNITPREFERENCE)
+	{
+		m_eLeaderUnitDecisionPreference = NO_UNITPREFERENCE;
+	}
+	
+	if (m_eCivilizationUnitDecisionPreference != NO_UNITPREFERENCE)
+	{
+		m_eCivilizationUnitDecisionPreference = NO_UNITPREFERENCE;
+	}
+}
+
+void CvPlayerAI::AI_updateUnitPreferences()
+{
+	AI_clearUnitPreferences();
+	AI_initUnitPreferences();
+}
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 
 // BETTER_BTS_AI_MOD, General AI/ Efficiency (plot danger cache), 08/20/09, jdog5000: START
 /*	The vast majority of checks for plot danger are boolean checks

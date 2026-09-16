@@ -977,32 +977,40 @@ protected:
 	void logFoundValue(CvPlot const& kPlot, bool bStartingLoc = false) const; // advc.031c
 	
 // XANA: 04-26-2025 Favorite Technologies for Advanced Civ
-	CvTechPreferenceInfo* m_pLeaderTechDecisionPreference;
-	CvTechPreferenceInfo* m_pCivilizationTechDecisionPreference;
+	TechPreferenceTypes m_eLeaderTechDecisionPreference;
+	TechPreferenceTypes m_eCivilizationTechDecisionPreference;
 	
 	void AI_initTechPreferences();
 	void AI_clearTechPreferences();
 	void AI_updateTechPreferences();
 	
-	CvTechPreferenceInfo const* AI_getLeaderTechPreferences() const { return m_pLeaderTechDecisionPreference; }
-	CvTechPreferenceInfo const* AI_getCivilizationTechPreferences() const { return m_pCivilizationTechDecisionPreference; }
-	CvTechPreferenceInfo* AI_getLeaderTechPreferences() const { return m_pLeaderTechDecisionPreference; }
-	CvTechPreferenceInfo* AI_getCivilizationTechPreferences() const { return m_pCivilizationTechDecisionPreference; }
+	TechPreferenceTypes AI_getLeaderTechPreferences() const { return m_eLeaderTechDecisionPreference; }
+	TechPreferenceTypes AI_getCivilizationTechPreferences() const { return m_eCivilizationTechDecisionPreference; }
 // XANA: 04-26-2025 Favorite Technologies for Advanced Civ
 	
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
-	CvEventPreferenceInfo* m_pLeaderEventDecisionPreference;
-	CvEventPreferenceInfo* m_pCivilizationEventDecisionPreference;
+	EventPreferenceTypes m_eLeaderEventDecisionPreference;
+	EventPreferenceTypes m_eCivilizationEventDecisionPreference;
 	
 	void AI_initEventPreferences();
 	void AI_clearEventPreferences();
 	void AI_updateEventPreferences();
 	
-	CvEventPreferenceInfo const* AI_getLeaderEventPreferences() const { return m_pLeaderEventDecisionPreference; }
-	CvEventPreferenceInfo const* AI_getCivilizationEventPreferences() const { return m_pCivilizationEventDecisionPreference; }
-	CvEventPreferenceInfo* AI_getLeaderEventPreferences() const { return m_pLeaderEventDecisionPreference; }
-	CvEventPreferenceInfo* AI_getCivilizationEventPreferences() const { return m_pCivilizationEventDecisionPreference; }
+	EventPreferenceTypes AI_getLeaderEventPreferences() const { return m_eLeaderEventDecisionPreference; }
+	EventPreferenceTypes AI_getCivilizationEventPreferences() const { return m_eCivilizationEventDecisionPreference; }
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+	
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
+	UnitPreferenceTypes m_eLeaderUnitDecisionPreference;
+	UnitPreferenceTypes m_eCivilizationUnitDecisionPreference;
+	
+	void AI_initUnitPreferences();
+	void AI_clearUnitPreferences();
+	void AI_updateUnitPreferences();
+	
+	UnitPreferenceTypes AI_getLeaderUnitPreferences() const { return m_eLeaderUnitDecisionPreference; }
+	UnitPreferenceTypes AI_getCivilizationUnitPreferences() const { return m_eCivilizationUnitDecisionPreference; }
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 
 	friend class CvGameTextMgr;
 	friend class CvPlayer; // advc.003u: So that protected functions can be called through CvPlayer::AI

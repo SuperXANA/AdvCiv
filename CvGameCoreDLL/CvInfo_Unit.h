@@ -822,10 +822,10 @@ public: // All the const functions returning primitive types are exposed to Pyth
 	int getLeaderType() const;
 	int getCivilizationType() const;
 	int getUnitCombatPreferenceIndex(int i) const;
-	const UnitPreferenceData& getUnitCombatPreference(int i) const;
+	const UnitCombatPreferenceData& getUnitCombatPreference(int i) const;
 	
 	int getUnitClassPreferenceIndex(int i) const;
-	const UnitPreferenceData& getUnitClassPreference(int i) const;
+	const UnitClassPreferenceData& getUnitClassPreference(int i) const;
 	
 	int getUnitPreferenceIndex(int i) const;
 	const UnitPreferenceData& getUnitPreference(int i) const;

@@ -2586,7 +2586,7 @@ int CvUnitPreferenceInfo::getUnitCombatPreferenceIndex(int i) const
 	return m_aiVectorIndexMapForUnitCombats ? m_aiVectorIndexMapForUnitCombats[i] : -1;
 }
 
-const UnitPreferenceData& CvUnitPreferenceInfo::getUnitCombatPreference(int i) const
+const UnitCombatPreferenceData& CvUnitPreferenceInfo::getUnitCombatPreference(int i) const
 {
 	FAssertBounds(0, (int)m_vUnitCombatPrefData.size(), i);
 	return m_vUnitCombatPrefData[i];
@@ -2598,7 +2598,7 @@ int CvUnitPreferenceInfo::getUnitClassPreferenceIndex(int i) const
 	return m_aiVectorIndexMapForUnitClasses ? m_aiVectorIndexMapForUnitClasses[i] : -1;
 }
 
-const UnitPreferenceData& CvUnitPreferenceInfo::getUnitClassPreference(int i) const
+const UnitClassPreferenceData& CvUnitPreferenceInfo::getUnitClassPreference(int i) const
 {
 	FAssertBounds(0, (int)m_vUnitClassPrefData.size(), i);
 	return m_vUnitClassPrefData[i];
