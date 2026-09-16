@@ -2551,3 +2551,182 @@ bool CvEspionageMissionInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+
+
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
+CvUnitPreferenceInfo::CvUnitPreferenceInfo() :
+	m_iLeaderType(NO_LEADER),
+	m_iCivilizationType(NO_CIVILIZATION),
+	m_aiVectorIndexMapForUnitCombats(NULL),
+	m_aiVectorIndexMapForUnitClasses(NULL),
+	m_aiVectorIndexMapForUnits(NULL)
+{}
+
+CvUnitPreferenceInfo::~CvUnitPreferenceInfo() :
+{
+	SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitCombats);
+	SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitClasses);
+	SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnits);
+}
+
+int CvUnitPreferenceInfo::getLeaderType() const
+{
+	return m_iLeaderType;
+}
+
+int CvUnitPreferenceInfo::getCivilizationType() const
+{
+	return m_iCivilizationType;
+}
+
+int CvUnitPreferenceInfo::getUnitCombatPreferenceIndex(int i) const
+{
+	FAssertBounds(0, GC.getNumUnitCombatInfos(), i);
+	return m_aiVectorIndexMapForUnitCombats ? m_aiVectorIndexMapForUnitCombats[i] : -1;
+}
+
+const UnitPreferenceData& CvUnitPreferenceInfo::getUnitCombatPreference(int i) const
+{
+	FAssertBounds(0, (int)m_vUnitCombatPrefData.size(), i);
+	return m_vUnitCombatPrefData[i];
+}
+
+int CvUnitPreferenceInfo::getUnitClassPreferenceIndex(int i) const
+{
+	FAssertBounds(0, GC.getNumUnitClassInfos(), i);
+	return m_aiVectorIndexMapForUnitClasses ? m_aiVectorIndexMapForUnitClasses[i] : -1;
+}
+
+const UnitPreferenceData& CvUnitPreferenceInfo::getUnitClassPreference(int i) const
+{
+	FAssertBounds(0, (int)m_vUnitClassPrefData.size(), i);
+	return m_vUnitClassPrefData[i];
+}
+
+int CvUnitPreferenceInfo::getUnitPreferenceIndex(int i) const
+{
+	FAssertBounds(0, GC.getNumUnitInfos(), i);
+	return m_aiVectorIndexMapForUnits ? m_aiVectorIndexMapForUnits[i] : -1;
+}
+
+const UnitPreferenceData& CvUnitPreferenceInfo::getUnitPreference(int i) const
+{
+	FAssertBounds(0, (int)m_vUnitPrefData.size(), i);
+	return m_vUnitPrefData[i];
+}
+
+bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	pXML->SetInfoIDFromChildXmlVal(m_iLeaderType, "LeaderType");
+	pXML->SetInfoIDFromChildXmlVal(m_iCivilizationType, "CivilizationType");
+
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "UnitCombatPreferences"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			m_vUnitCombatPrefData.clear();
+			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+			{
+				SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitCombats);
+				m_aiVectorIndexMapForUnitCombats = new int[GC.getNumUnitCombatInfos()];
+				FOR_EACH_ENUM(UnitCombat)
+				{
+					m_aiVectorIndexMapForUnitCombats[eLoopUnitCombat] = -1; // -1 means no preference
+				}
+				for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
+				{
+					UnitPreferenceData kUnitPref;
+					kUnitPref.read(pXML);
+					
+					UnitCombatTypes eUnitCombat = static_cast<UnitCombatTypes>(kUnitPref.getUnitType());
+					if (eUnitCombat != NO_UNITCOMBAT)
+					{
+						m_vUnitCombatPrefData.push_back(kUnitPref);
+						m_aiVectorIndexMapForUnitCombats[eUnitCombat] = iLoop;
+					}
+					
+					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+						break;
+				}
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "UnitClassPreferences"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			m_vUnitClassPrefData.clear();
+			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+			{
+				SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitClasses);
+				m_aiVectorIndexMapForUnitClasses = new int[GC.getNumUnitClassInfos()];
+				FOR_EACH_ENUM(UnitClass)
+				{
+					m_aiVectorIndexMapForUnitClasses[eLoopUnitClass] = -1; // -1 means no preference
+				}
+				for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
+				{
+					UnitPreferenceData kUnitPref;
+					kUnitPref.read(pXML);
+					
+					UnitClassTypes eUnitClass = static_cast<UnitClassTypes>(kUnitPref.getUnitType());
+					if (eUnitClass != NO_UNITCLASS)
+					{
+						m_vUnitClassPrefData.push_back(kUnitPref);
+						m_aiVectorIndexMapForUnitClasses[eUnitClass] = iLoop;
+					}
+					
+					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+						break;
+				}
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "UnitPreferences"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			m_vUnitPrefData.clear();
+			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+			{
+				SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnits);
+				m_aiVectorIndexMapForUnits = new int[GC.getNumUnitInfos()];
+				FOR_EACH_ENUM(Unit)
+				{
+					m_aiVectorIndexMapForUnits[eLoopUnit] = -1; // -1 means no preference
+				}
+				for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
+				{
+					UnitPreferenceData kUnitPref;
+					kUnitPref.read(pXML);
+					
+					UnitTypes eUnit = static_cast<UnitTypes>(kUnitPref.getUnitType());
+					if (eUnit != NO_UNIT)
+					{
+						m_vUnitPrefData.push_back(kUnitPref);
+						m_aiVectorIndexMapForUnits[eUnit] = iLoop;
+					}
+					
+					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+						break;
+				}
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+
+	return true;
+}
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type

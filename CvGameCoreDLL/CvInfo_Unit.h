@@ -807,4 +807,42 @@ protected:
 	bool m_bReturnToCapital; // advc.103
 };
 
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvUnitPreferenceInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvUnitPreferenceInfo : public CvInfoBase
+{
+	typedef CvInfoBase base_t;
+	friend class CvXMLLoadUtility;
+public: // All the const functions returning primitive types are exposed to Python
+	CvUnitPreferenceInfo();
+	~CvUnitPreferenceInfo();
+
+	int getLeaderType() const;
+	int getCivilizationType() const;
+	int getUnitCombatPreferenceIndex(int i) const;
+	const UnitPreferenceData& getUnitCombatPreference(int i) const;
+	
+	int getUnitClassPreferenceIndex(int i) const;
+	const UnitPreferenceData& getUnitClassPreference(int i) const;
+	
+	int getUnitPreferenceIndex(int i) const;
+	const UnitPreferenceData& getUnitPreference(int i) const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+
+private:
+	int m_iLeaderType;
+	int m_iCivilizationType;
+
+	std::vector<UnitPreferenceData> m_vUnitCombatPrefData;
+	std::vector<UnitPreferenceData> m_vUnitClassPrefData;
+	std::vector<UnitPreferenceData> m_vUnitPrefData;
+	int* m_aiVectorIndexMapForUnitCombats;
+	int* m_aiVectorIndexMapForUnitClasses;
+	int* m_aiVectorIndexMapForUnits;
+};
+// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
+
 #endif
