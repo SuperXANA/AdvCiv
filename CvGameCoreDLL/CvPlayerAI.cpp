@@ -13947,6 +13947,105 @@ int CvPlayerAI::AI_unitValue(UnitTypes eUnit, UnitAITypes eUnitAI,
 	int const iCombatValue = GC.AI_getGame().AI_combatValue(eUnit);
 
 	int iValue = 1;
+	
+	// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
+	UnitPreferenceData* pLeaderPref = NULL;
+	UnitPreferenceData* pCivilizationPref = NULL;
+	
+	if (AI_getLeaderUnitPreferences() != NO_UNITPREFERENCE)
+	{
+		CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getLeaderUnitPreferences());
+		int const iPrefIndex = kPref.getUnitPreferenceIndex(eUnit); 
+		if (iPrefIndex != -1)
+		{
+			pLeaderPref = &kPref.getUnitPreference(iPrefIndex);
+		}
+	}
+	if (AI_getCivilizationUnitPreferences() != NO_UNITPREFERENCE)
+	{
+		CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getCivilizationUnitPreferences());
+		int const iPrefIndex = kPref.getUnitPreferenceIndex(eUnit); 
+		if (iPrefIndex != -1)
+		{
+			pCivilizationPref = &kPref.getUnitPreference(iPrefIndex);
+		}
+	}
+	
+	bool bHasLeaderPreference = (pLeaderPref != NULL);
+	bool bHasCivilizationPreference = (pCivilizationPref != NULL);
+	
+	if (!bHasLeaderPreference && !bHasCivilizationPreference)
+	{
+		if (AI_getLeaderUnitPreferences() != NO_UNITPREFERENCE)
+		{
+			CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getLeaderUnitPreferences());
+			int const iPrefIndex = kPref.getUnitClassPreferenceIndex(u.getUnitClassType()); 
+			if (iPrefIndex != -1)
+			{
+				pLeaderPref = &kPref.getUnitClassPreference(iPrefIndex);
+			}
+		}
+		if (AI_getCivilizationUnitPreferences() != NO_UNITPREFERENCE)
+		{
+			CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getCivilizationUnitPreferences());
+			int const iPrefIndex = kPref.getUnitClassPreferenceIndex(u.getUnitClassType()); 
+			if (iPrefIndex != -1)
+			{
+				pCivilizationPref = &kPref.getUnitClassPreference(iPrefIndex);
+			}
+		}
+		bHasLeaderPreference = (pLeaderPref != NULL);
+		bHasCivilizationPreference = (pCivilizationPref != NULL);
+	}
+	if (!bHasLeaderPreference && !bHasCivilizationPreference)
+	{
+		if (AI_getLeaderUnitPreferences() != NO_UNITPREFERENCE)
+		{
+			CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getLeaderUnitPreferences());
+			int const iPrefIndex = kPref.getUnitCombatPreferenceIndex(u.getUnitCombatType()); 
+			if (iPrefIndex != -1)
+			{
+				pLeaderPref = &kPref.getUnitCombatPreference(iPrefIndex);
+			}
+		}
+		if (AI_getCivilizationUnitPreferences() != NO_UNITPREFERENCE)
+		{
+			CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getCivilizationUnitPreferences());
+			int const iPrefIndex = kPref.getUnitCombatPreferenceIndex(u.getUnitCombatType()); 
+			if (iPrefIndex != -1)
+			{
+				pCivilizationPref = &kPref.getUnitCombatPreference(iPrefIndex);
+			}
+		}
+		bHasLeaderPreference = (pLeaderPref != NULL);
+		bHasCivilizationPreference = (pCivilizationPref != NULL);
+	}
+		
+	if (bHasLeaderPreference)
+	{
+		UnitPreferenceData const& kPrefData = *pLeaderPref;
+		if (kPrefData.isPreferredChoice())
+		{
+			iValue += 10000;
+		}
+		else if (kPrefData.isNotPreferredChoice())
+		{
+			iValue = 0;
+		}
+	}
+	if (bHasCivilizationPreference)
+	{
+		UnitPreferenceData const& kPrefData = *pCivilizationPref;
+		if (kPrefData.isPreferredChoice())
+		{
+			iValue += 10000;
+		}
+		else if (kPrefData.isNotPreferredChoice())
+		{
+			iValue = 0;
+		}
+	}
+	// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 
 	iValue += u.getAIWeight();
 
@@ -29892,6 +29991,10 @@ void CvPlayerAI::AI_initTechPreferences()
 				m_eCivilizationTechDecisionPreference = eLoopTechPreference;
 			}
 		}
+		if (m_eLeaderTechDecisionPreference == m_eCivilizationTechDecisionPreference)
+		{
+			m_eCivilizationTechDecisionPreference = NO_TECHPREFERENCE;
+		}
 	}
 }
 
@@ -29938,6 +30041,10 @@ void CvPlayerAI::AI_initEventPreferences()
 				m_eCivilizationEventDecisionPreference = eLoopEventPreference;
 			}
 		}
+		if (m_eLeaderEventDecisionPreference == m_eCivilizationEventDecisionPreference)
+		{
+			m_eCivilizationEventDecisionPreference = NO_EVENTPREFERENCE;
+		}
 	}
 }
 
@@ -29983,6 +30090,10 @@ void CvPlayerAI::AI_initUnitPreferences()
 			{
 				m_eCivilizationUnitDecisionPreference = eLoopUnitPreference;
 			}
+		}
+		if (m_eLeaderUnitDecisionPreference == m_eCivilizationUnitDecisionPreference)
+		{
+			m_eCivilizationUnitDecisionPreference = NO_UNITPREFERENCE;
 		}
 	}
 }
