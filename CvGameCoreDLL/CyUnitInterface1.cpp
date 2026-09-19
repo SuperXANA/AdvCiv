@@ -253,6 +253,13 @@ void CyUnitPythonInterface1(python::class_<CyUnit>& x)
 		.def("isGroupHead", &CyUnit::isGroupHead, "bool ()")
 		.def("getGroup", &CyUnit::getGroup, python::return_value_policy<python::manage_new_object>(), "CySelectionGroup* ()")
 
+		// XANA: 09-26-2026 AI Strategy Party System
+		.def("getPartyID", &CyUnit::getPartyID, "int ()")
+		.def("isInParty", &CyUnit::isInParty, "bool ()")
+		.def("isPartyLeader", &CyUnit::isPartyLeader, "bool ()")
+		.def("getParty", &CyUnit::getParty, python::return_value_policy<python::manage_new_object>(), "CyPartyGroup* ()")
+		// XANA: 09-26-2026 AI Strategy Party System
+
 		.def("getHotKeyNumber", &CyUnit::getHotKeyNumber, "int () - returns the HotKey number for this unit")
 		.def("setHotKeyNumber", &CyUnit::setHotKeyNumber, "void (int iNewValue)")
 

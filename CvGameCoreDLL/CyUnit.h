@@ -270,6 +270,13 @@ public:
 	bool isGroupHead();
 	CySelectionGroup* getGroup();
 
+	// XANA: 09-26-2026 AI Strategy Party System
+	int getPartyID();
+	bool isInParty();
+	bool isPartyLeader();
+	CyPartyGroup* getParty();
+	// XANA: 09-26-2026 AI Strategy Party System
+
 	int getHotKeyNumber();
 	void setHotKeyNumber(int iNewValue);
 

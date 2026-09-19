@@ -12,6 +12,9 @@ class CyPlot;
 class CyArea;
 class CyUnit;
 class CvSelectionGroup;
+// XANA: 09-26-2026 AI Strategy Party System
+class CvPartyGroup;
+// XANA: 09-26-2026 AI Strategy Party System
 
 class CySelectionGroup
 {
@@ -90,6 +93,48 @@ public:
 protected:
 	CvSelectionGroup* m_pSelectionGroup;
 };
+
+// XANA: 09-26-2026 AI Strategy Party System
+class CyPartyGroup
+{
+public:
+	CyPartyGroup();
+	CyPartyGroup(CvPartyGroup* pPartyGroup);		// Call from C++
+	CyPartyGroup(CvPartyGroup const& kPartynGroup); // advc.003y
+	CvPartyGroup* getPartyGroup() { return m_pPartyGroup;	}	// Call from C++
+
+	bool isNone() { return (m_pPartyGroup==NULL); }
+	void pushMission(MissionTypes eMission, int iData1, int iData2, int iFlags, bool bAppend, bool bManual, MissionAITypes eMissionAI, CyPlot* pMissionAIPlot, CyUnit* pMissionAIUnit);
+	void pushMoveToMission(int iX, int iY);
+	void popMission();
+	CyPlot* lastMissionPlot();
+	bool canStartMission(int iMission, int iData1, int iData2, CyPlot* pPlot, bool bTestVisible);
+
+	bool isHuman();
+	bool isWaiting();
+	bool isFull();
+	bool hasCargo();
+	bool canFight();
+	bool canDefend();
+	int countNumUnitAIType(UnitAITypes eUnitAI);
+	
+	int getID();
+	int /*PlayerTypes*/ getOwner();
+	int /*TeamTypes*/ getTeam();
+	int getNumUnits();
+	void clearMissionQueue();
+	int getLengthMissionQueue();
+	int getMissionType(int iNode);
+	int getMissionData1(int iNode);
+	int getMissionData2(int iNode);
+	MissionData* getMissionFromQueue(int iIndex);
+	CyUnit* getHeadUnit();
+	CyUnit* getUnitAt(int iIndex);
+
+protected:
+	CvPartyGroup* m_pPartyGroup;
+};
+// XANA: 09-26-2026 AI Strategy Party System
 
 #endif	// #ifndef CySelectionGroup_h
 

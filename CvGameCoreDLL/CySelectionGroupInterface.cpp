@@ -78,4 +78,37 @@ void CySelectionGroupInterface()
 		.def("getMissionData1", &CySelectionGroup::getMissionData1, "int (int iNode)")
 		.def("getMissionData2", &CySelectionGroup::getMissionData2, "int (int iNode)")
 		;
+
+	// XANA: 09-26-2026 AI Strategy Party System
+	python::class_<CyPartyGroup>("CyPartyGroup")
+		.def("isNone", &CyPartyGroup::isNone, "bool () - is this CySelectionGroup instance valid?")
+		 // XXX replace pushMission with pushStrategy? Keep as Mission and extend Mission Tyoes enum? Need to determine how this is used...
+		.def("pushMission", &CyPartyGroup::pushMission, "void (eMission, iData1, iData2, iFlags, bAppend, bManual, eMissionAI, pMissionAIPlot, pMissionAIUnit)") // see above XXX
+		.def("pushMoveToMission", &CyPartyGroup::pushMoveToMission, "void (plotX, plotY)") // XXX replace with Strategy?
+		.def("popMission", &CyPartyGroup::popMission, "void () - removes mission from queue") // XXX replace with Strategy?
+		.def("lastMissionPlot", &CyPartyGroup::lastMissionPlot, python::return_value_policy<python::manage_new_object>(), "CvPlot* ()") // XXX replace with Strategy?
+		.def("canStartMission", &CyPartyGroup::canStartMission, "bool (int iMission, int iData1, int iData2, CyPlot* pPlot, bool bTestVisible)") // XXX replace with Strategy?
+
+		.def("isHuman", &CyPartyGroup::isHuman, "bool ()")
+		.def("isWaiting", &CyPartyGroup::isWaiting, "bool ()")
+		.def("isFull", &CyPartyGroup::isFull, "bool ()")
+		.def("hasCargo", &CyPartyGroup::hasCargo, "bool ()")
+		.def("canFight", &CyPartyGroup::canFight, "bool ()")
+		.def("canDefend", &CyPartyGroup::canDefend, "bool ()")
+
+		.def("getID", &CyPartyGroup::getID, "int () - the ID for the SelectionGroup")
+		.def("getOwner", &CyPartyGroup::getOwner, "int (PlayerTypes) () - ID for owner of the group")
+		.def("getTeam", &CyPartyGroup::getTeam, "int (TeamTypes) () - ID for team owner of the group")
+
+		.def("getNumUnits", &CyPartyGroup::getNumUnits, "int ()")
+		.def("clearMissionQueue", &CyPartyGroup::clearMissionQueue, "void ()") // XXX replace with Strategy?
+		.def("getLengthMissionQueue", &CyPartyGroup::getLengthMissionQueue, "int ()") // XXX replace with Strategy?
+		.def("getMissionFromQueue", &CyPartyGroup::getMissionFromQueue, python::return_value_policy<python::manage_new_object>(), "MissionData* (int iIndex)") // XXX replace with Strategy?
+		.def("getHeadUnit", &CyPartyGroup::getHeadUnit, python::return_value_policy<python::manage_new_object>(), "CyUnit* ()")
+		.def("getUnitAt", &CyPartyGroup::getUnitAt, python::return_value_policy<python::manage_new_object>(), "CyUnit* (int index)")
+		.def("getMissionType", &CyPartyGroup::getMissionType, "int (int iNode)") // XXX replace with Strategy?
+		.def("getMissionData1", &CyPartyGroup::getMissionData1, "int (int iNode)") // XXX replace with Strategy?
+		.def("getMissionData2", &CyPartyGroup::getMissionData2, "int (int iNode)") // XXX replace with Strategy?
+		;
+	// XANA: 09-26-2026 AI Strategy Party System
 }

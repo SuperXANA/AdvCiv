@@ -91,6 +91,9 @@ void CvPlayer::initContainers()
 	m_cities.init();
 	m_units.init();
 	m_selectionGroups.init();
+	// XANA: 09-26-2026 AI Strategy Party System
+	m_partyGroups.init();
+	// XANA: 09-26-2026 AI Strategy Party System
 	m_eventsTriggered.init();
 	// <advc.004s> For civs that don't start on turn 0
 	FOR_EACH_ENUM(PlayerHistory)
@@ -306,6 +309,9 @@ void CvPlayer::uninit()
 	m_cities.uninit();
 	m_units.uninit();
 	m_selectionGroups.uninit();
+	// XANA: 09-26-2026 AI Strategy Party System
+	m_partyGroups.uninit();
+	// XANA: 09-26-2026 AI Strategy Party System
 	m_eventsTriggered.uninit();
 
 	clearMessages();
@@ -544,6 +550,9 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 	m_cities.removeAll();
 	m_units.removeAll();
 	m_selectionGroups.removeAll();
+	// XANA: 09-26-2026 AI Strategy Party System
+	m_partyGroups.removeAll();
+	// XANA: 09-26-2026 AI Strategy Party System
 	m_eventsTriggered.removeAll();
 
 	if (!bConstructorCall)
@@ -10944,6 +10953,25 @@ void CvPlayer::deleteSelectionGroup(int iID)
 	FAssertMsg(bRemoved, "could not find group, delete failed");
 }
 
+
+// XANA: 09-26-2026 AI Strategy Party System
+CvPartyGroupAI* CvPlayer::addPartyGroup()
+{
+	CvPartyGroupAI* pGroup = m_partyGroups.AI_add();
+	return pGroup;
+}
+
+
+void CvPlayer::deletePartyGroup(int iID)
+{
+	#ifdef FASSERT_ENABLE
+	bool bRemoved =
+	#endif
+	m_partyGroups.removeAt(iID);
+	FAssertMsg(bRemoved, "could not find group, delete failed");
+}
+// XANA: 09-26-2026 AI Strategy Party System
+
 EventTriggeredData* CvPlayer::firstEventTriggered(int *pIterIdx, bool bRev) const
 {
 	return (!bRev ? m_eventsTriggered.beginIter(pIterIdx) : m_eventsTriggered.endIter(pIterIdx));
@@ -14402,6 +14430,9 @@ void CvPlayer::read(FDataStreamBase* pStream)
 	ReadStreamableFFreeListTrashArray(m_cities, pStream);
 	ReadStreamableFFreeListTrashArray(m_units, pStream);
 	ReadStreamableFFreeListTrashArray(m_selectionGroups, pStream);
+	// XANA: 09-26-2026 AI Strategy Party System
+	ReadStreamableFFreeListTrashArray(m_partyGroups, pStream);
+	// XANA: 09-26-2026 AI Strategy Party System
 	ReadStreamableFFreeListTrashArray(m_eventsTriggered, pStream);
 
 	{
@@ -14900,6 +14931,9 @@ void CvPlayer::write(FDataStreamBase* pStream)
 		WriteStreamableFFreeListTrashArray(m_cities, pStream);
 		WriteStreamableFFreeListTrashArray(m_units, pStream);
 		WriteStreamableFFreeListTrashArray(m_selectionGroups, pStream);
+	// XANA: 09-26-2026 AI Strategy Party System
+		WriteStreamableFFreeListTrashArray(m_partyGroups, pStream);
+	// XANA: 09-26-2026 AI Strategy Party System
 		WriteStreamableFFreeListTrashArray(m_eventsTriggered, pStream);
 	}
 	{

@@ -18,6 +18,9 @@ class CvPlayerAI;
 class CvCity; class CvCityAI;
 class CvUnit; class CvUnitAI;
 class CvSelectionGroup; class CvSelectionGroupAI;
+// XANA: 09-26-2026 AI Strategy Party System
+class CvPartyGroup; class CvPartyGroupAI;
+// XANA: 09-26-2026 AI Strategy Party System
 class CvPlotGroup;
 // </advc.003u>
 class CvCivilization; // advc.003w
@@ -1292,6 +1295,29 @@ public:
 	CvSelectionGroup* addSelectionGroup();
 	void deleteSelectionGroup(int iID);
 
+	// XANA: 09-26-2026 AI Strategy Party System
+	// party groups iteration (advc.inl: inlined)
+	CvPartyGroup* firstPartyGroup(int *pIterIdx, bool bRev=false) const
+	{
+		FAssert(!bRev);
+		return m_partyGroups.beginIter(pIterIdx);
+	}
+	CvPartyGroup* nextPartyGroup(int *pIterIdx, bool bRev=false) const
+	{
+		return m_partyGroups.nextIter(pIterIdx);
+	}
+	int getNumPartyGroups() const
+	{
+		return m_partyGroups.getCount();
+	}
+	CvPartyGroup* getPartyGroup(int iID) const
+	{
+		return m_partyGroups.getAt(iID);
+	}
+	CvPartyGroup* addPartyGroup();
+	void deletePartyGroup(int iID);
+	// XANA: 09-26-2026 AI Strategy Party System
+
 	// pending triggers iteration (advc.003j - unused)
 	EventTriggeredData* firstEventTriggered(int *pIterIdx, bool bRev=false) const;
 	EventTriggeredData* nextEventTriggered(int *pIterIdx, bool bRev=false) const;
@@ -1681,6 +1707,9 @@ protected:  // <advc.210>
 	FFreeListTrashArray<CvCity,CvCityAI> m_cities;
 	FFreeListTrashArray<CvUnit,CvUnitAI> m_units;
 	FFreeListTrashArray<CvSelectionGroup,CvSelectionGroupAI> m_selectionGroups;
+	// XANA: 09-26-2026 AI Strategy Party System
+	FFreeListTrashArray<CvPartyGroup, CvPartyGroupAI> m_partyGroups;
+	// XANA: 09-26-2026 AI Strategy Party System
 	FFreeListTrashArray<EventTriggeredData> m_eventsTriggered;
 
 	CvEventMap m_mapEventsOccured;

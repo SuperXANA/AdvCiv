@@ -362,6 +362,9 @@ void WriteStreamableFFreeListTrashArray(
 	DO(CvUnit,CvUnitAI) \
 	DO(CvCity,CvCityAI) \
 	DO(CvSelectionGroup,CvSelectionGroupAI) \
+	/* XANA: 09-26-2026 AI Strategy Party System */ \
+	DO(CvPartyGroup,CvPartyGroupAI) \
+	/* XANA: 09-26-2026 AI Strategy Party System */ \
 	DO(CvPlotGroup,CvPlotGroup) \
 	DO(CvArea,CvArea) \
 	DO(CvDeal,CvDeal) \

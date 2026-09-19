@@ -1093,6 +1093,29 @@ CySelectionGroup* CyUnit::getGroup()
 	return m_pUnit ? new CySelectionGroup(m_pUnit->getGroup()) : NULL;
 }
 
+// XANA: 09-26-2026 AI Strategy Party System
+int CyUnit::getPartyID()
+{
+	return m_pUnit ? m_pUnit->getPartyID() : -1;
+}
+
+bool CyUnit::isInParty()
+{
+	// advc: Cut from CvUnit::isInGroup. I've removed that function.
+	return m_pUnit ? (m_pUnit->getPartyID() != FFreeList::INVALID_INDEX) : false;
+}
+
+bool CyUnit::isPartyLeader()
+{
+	return m_pUnit ? m_pUnit->isPartyLeader() : false;
+}
+
+CyPartyGroup* CyUnit::getParty()
+{
+	return m_pUnit ? new CyPartyGroup(m_pUnit->getParty()) : NULL;
+}
+// XANA: 09-26-2026 AI Strategy Party System
+
 int CyUnit::getHotKeyNumber()
 {
 	return m_pUnit ? m_pUnit->getHotKeyNumber() : -1;

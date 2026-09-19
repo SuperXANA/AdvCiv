@@ -60,6 +60,21 @@
 	int iANON_FREELIST_POS; \
 	for(CvSelectionGroupAI* pGroup = (kOwner).AI_firstSelectionGroup(&iANON_FREELIST_POS); pGroup != NULL; pGroup = (kOwner).AI_nextSelectionGroup(&iANON_FREELIST_POS))
 
+// XANA: 09-26-2026 AI Strategy Party System
+#define FOR_EACH_PARTY(pParty, kOwner) \
+	int iANON_FREELIST_POS; \
+	for (CvPartyGroup const* pParty = (kOwner).firstPartyGroup(&iANON_FREELIST_POS); pParty != NULL; pParty = (kOwner).nextPartyGroup(&iANON_FREELIST_POS))
+#define FOR_EACH_PARTY_VAR(pParty, kOwner) \
+	int iANON_FREELIST_POS; \
+	for (CvPartyGroup* pParty = (kOwner).firstPartyGroup(&iANON_FREELIST_POS); pParty != NULL; pParty = (kOwner).nextPartyGroup(&iANON_FREELIST_POS))
+#define FOR_EACH_PARTYAI(pParty, kOwner) \
+	int iANON_FREELIST_POS; \
+	for (CvPartyGroupAI const* pParty = (kOwner).AI_firstPartyGroup(&iANON_FREELIST_POS); pParty != NULL; pParty = (kOwner).AI_nextPartyGroup(&iANON_FREELIST_POS))
+#define FOR_EACH_PARTYAI_VAR(pParty, kOwner) \
+	int iANON_FREELIST_POS; \
+	for (CvPartyGroupAI* pParty = (kOwner).AI_firstPartyGroup(&iANON_FREELIST_POS); pParty != NULL; pParty = (kOwner).AI_nextPartyGroup(&iANON_FREELIST_POS))
+// XANA: 09-26-2026 AI Strategy Party System
+
 /*  To avoid calling GC.getMap() in every iteration; probably makes no difference,
 	but don't want to rely on inlining too much. */
 #define MAPVARNAME CONCATVARNAME(kMap_, __LINE__)

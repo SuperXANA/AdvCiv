@@ -327,3 +327,145 @@ int CySelectionGroup::getMissionData2(int iNode)
 {
 	return m_pSelectionGroup ? m_pSelectionGroup->getMissionData2(iNode) : -1;
 }
+
+// XANA: 09-26-2026 AI Strategy Party System
+CyPartyGroup::CyPartyGroup() : m_pPartyGroup(NULL) {}
+
+CyPartyGroup::CyPartyGroup(CyPartyGroup* pPartyGroup) : m_pPartyGroup(pPartyGroup) {}
+// advc.003y: (see CyCity.cpp)
+CyPartyGroup::CyPartyGroup(CyPartyGroup const& kPartyGroup) : m_pPartyGroup(const_cast<CyPartyGroup*>(&kPartyGroup)) {}
+
+void CyPartyGroup::pushMission(MissionTypes eMission, int iData1, int iData2, int iFlags, bool bAppend, bool bManual, MissionAITypes eMissionAI, CyPlot* pMissionAIPlot, CyUnit* pMissionAIUnit)
+{
+	if (m_pPartyGroup)
+	{
+		return m_pPartyGroup->pushMission(eMission, iData1, iData2,
+				(MovementFlags)iFlags, bAppend, bManual, eMissionAI,
+				pMissionAIPlot->getPlot(), pMissionAIUnit->getUnit());
+	}
+}
+
+void CyPartyGroup::pushMoveToMission(int iX, int iY)
+{
+	if (m_pPartyGroup)
+		return m_pSelectionGroup->pushMission(MISSION_MOVE_TO, iX, iY);
+}
+
+void CyPartyGroup::popMission()
+{
+	if (m_pPartyGroup)
+		return m_pSelectionGroup->popMission();
+}
+
+CyPlot* CyPartyGroup::lastMissionPlot()
+{
+	return m_pPartyGroup ? new CyPlot(m_pSelectionGroup->lastMissionPlot()) : NULL;
+}
+
+bool CyPartyGroup::canStartMission(int iMission, int iData1, int iData2, CyPlot* pPlot, bool bTestVisible)
+{
+	return m_pPartyGroup ? m_pSelectionGroup->canStartMission((MissionTypes)iMission,
+			iData1, iData2, pPlot->getPlot(), bTestVisible) : false;
+}
+
+bool CyPartyGroup::isHuman()
+{
+	return m_pPartyGroup ? m_pPartyGroup->isHuman() : false;
+}
+
+bool CyPartyGroup::isWaiting()
+{
+	return m_pPartyGroup ? m_pPartyGroup->isWaiting() : false;
+}
+
+bool CyPartyGroup::isFull()
+{
+	return m_pPartyGroup ? m_pPartyGroup->isFull() : false;
+}
+
+bool CyPartyGroup::hasCargo()
+{
+	return m_pPartyGroup ? m_pPartyGroup->hasCargo() : false;
+}
+
+bool CyPartyGroup::canFight()
+{
+	return m_pPartyGroup ? m_pPartyGroup->canFight() : false;
+}
+
+bool CyPartyGroup::canDefend()
+{
+	return m_pPartyGroup ? m_pPartyGroup->canDefend() : false;
+}
+
+int CyPartyGroup::countNumUnitAIType(UnitAITypes eUnitAI)
+{
+	return m_pPartyGroup ? m_pPartyGroup->countNumUnitAIType(eUnitAI) : -1;
+}
+
+int CyPartyGroup::getID()
+{
+	return m_pPartyGroup ? m_pPartyGroup->getID() : -1;
+}
+
+int /*PlayerTypes*/ CyPartyGroup::getOwner()
+{
+	return m_pPartyGroup ? m_pPartyGroup->getOwner() : -1;
+}
+
+int /*TeamTypes*/ CyPartyGroup::getTeam()
+{
+	return m_pPartyGroup ? (TeamTypes) m_pPartyGroup->getTeam() : -1;
+}
+
+int CyPartyGroup::getNumUnits()
+{
+	return m_pPartyGroup ? m_pPartyGroup->getNumUnits() : -1;
+}
+
+void CyPartyGroup::clearMissionQueue()
+{
+	if (m_pPartyGroup)
+		m_pPartyGroup->clearMissionQueue();
+}
+
+int CyPartyGroup::getLengthMissionQueue()
+{
+	return m_pPartyGroup ? m_pPartyGroup->getLengthMissionQueue() : -1;
+}
+
+MissionData* CyPartyGroup::getMissionFromQueue(int iIndex)
+{
+	return m_pPartyGroup ? m_pPartyGroup->getMissionFromQueue(iIndex) : NULL;
+}
+
+CyUnit* CyPartyGroup::getHeadUnit()
+{
+	return m_pPartyGroup ? new CyUnit(m_pPartyGroup->getHeadUnit()) : NULL;
+}
+
+CyUnit* CyPartyGroup::getUnitAt(int iIndex)
+{
+	if (m_pPartyGroup == NULL)
+		return NULL;
+	// <advc> Moved from CvSelectionGroup. Foolproofing should be handled here.
+	if (iIndex < 0 || m_pPartyGroup->getNumUnits() <= iIndex)
+		return NULL; // </advc>
+	return new CyUnit(m_pPartyGroup->getUnitAt(iIndex));
+}
+
+int CyPartyGroup::getMissionType(int iNode)
+{
+	return m_pPartyGroup ? m_pPartyGroup->getMissionType(iNode) : -1;
+}
+
+int CyPartyGroup::getMissionData1(int iNode)
+{
+	return m_pPartyGroup ? m_pPartyGroup->getMissionData1(iNode) : -1;
+}
+
+int CyPartyGroup::getMissionData2(int iNode)
+{
+	return m_pPartyGroup ? m_pPartyGroup->getMissionData2(iNode) : -1;
+}
+// XANA: 09-26-2026 AI Strategy Party System

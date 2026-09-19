@@ -11,6 +11,9 @@ class CvDeal;
 class CvCityAI;
 class CvUnitAI;
 class CvSelectionGroupAI;
+// XANA: 09-26-2026 AI Strategy Party System
+class CvPartyGroupAI;
+// XANA: 09-26-2026 AI Strategy Party System
 class UWAICity; // advc.104d
 
 /*	<advc.003u> Overwrite definition in CvPlayer.h (should perhaps instead define a
@@ -78,6 +81,21 @@ public:
 	CvSelectionGroupAI* AI_getSelectionGroup(int iID) const {
 		return m_selectionGroups.AI_getAt(iID);
 	}
+	
+	// XANA: 09-26-2026 AI Strategy Party System
+	CvPartyGroupAI* AI_firstPartyGroup(int *pIterIdx) const
+	{
+		return m_partyGroups.AI_beginIter(pIterIdx);
+	}
+	CvPartyGroupAI* AI_nextPartyGroup(int *pIterIdx) const
+	{
+		return m_partyGroups.AI_nextIter(pIterIdx);
+	}
+	CvPartyGroupAI* AI_getPartyGroup(int iID) const
+	{
+		return m_partyGroups.AI_getAt(iID);
+	}
+	// XANA: 09-26-2026 AI Strategy Party System
 	// </advc.003u>
 	int AI_getFlavorValue(FlavorTypes eFlavor) const;
 
