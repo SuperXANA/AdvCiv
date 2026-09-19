@@ -1206,6 +1206,22 @@ public:
 	CLLNode<TechTypes>* headResearchQueueNode() const { return m_researchQueue.head(); }
 	CLLNode<TechTypes>* tailResearchQueueNode() const { return m_researchQueue.tail(); }
 
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	int findMagicPathLength(MagicTechTypes eTech, bool bCost = true) const;
+	int getMagicQueuePosition(MagicTechTypes eTech) const;
+	void clearMagicResearchQueue();
+	bool pushMagicResearch(MagicTechTypes eTech, bool bClear = false,
+			bool bKillPopup = true);
+	void popMagicResearch(MagicTechTypes eTech);
+	int getLengthMagicResearchQueue() const { return m_magicResearchQueue.getLength(); }																																// Exposed to Python
+	CLLNode<MagicTechTypes>* nextMagicResearchQueueNode(CLLNode<MagicTechTypes>* pNode) const
+	{
+		return m_magicResearchQueue.next(pNode);
+	}
+	CLLNode<MagicTechTypes>* headMagicResearchQueueNode() const { return m_magicResearchQueue.head(); }
+	CLLNode<MagicTechTypes>* tailMagicResearchQueueNode() const { return m_magicResearchQueue.tail(); }
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+
 	void addCityName(const CvWString& szName);																		// Exposed to Python
 	int getNumCityNames() const;																					// Exposed to Python
 	CvWString getCityName(int iIndex) const;																		// Exposed to Python
@@ -1727,6 +1743,9 @@ protected:  // <advc.210>
 
 	void doGold();
 	void doResearch();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	void doMagicResearch();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	void doEspionagePoints();
 	void doWarnings();
 	void doEvents();

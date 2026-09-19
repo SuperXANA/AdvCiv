@@ -314,6 +314,9 @@ void CvPlayer::uninit()
 
 	m_groupCycle.clear();
 	m_researchQueue.clear();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	m_magicResearchQueue.clear();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	m_cityNames.clear();
 
 	m_plotGroups.uninit();
@@ -935,6 +938,9 @@ void CvPlayer::initFreeState()
 	changeGold(GC.getInfo(GC.getGame().getStartEra()).getStartingGold());
 
 	clearResearchQueue();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	clearMagicResearchQueue();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 }
 
 
@@ -2863,6 +2869,9 @@ void CvPlayer::doTurn()
 	verifyGoldCommercePercent();
 	doGold();
 	doResearch();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	doMagicResearch();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	doEspionagePoints();
 
 	FOR_EACH_CITY_VAR(pLoopCity, *this)
@@ -6496,6 +6505,18 @@ bool CvPlayer::canEverResearch(TechTypes eTech) const
 }
 
 
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+bool CvPlayer::canEverResearchMagic(MagicTechTypes eTech) const
+{
+	if (GC.getInfo(eTech).isDisable())
+		return false;
+	if (GC.getInfo(getCivilizationType()).isCivilizationDisableMagicTechs(eTech))
+		return false;
+	return true;
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+
+
 TechTypes CvPlayer::getDiscoveryTech(UnitTypes eUnit) const
 {
 	TechTypes eBestTech = NO_TECH;
@@ -6589,6 +6610,17 @@ TechTypes CvPlayer::getCurrentResearch() const
 		return NO_TECH;
 	return pResearchNode->m_data;
 }
+
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+MagicTechTypes CvPlayer::getCurrentMagicResearch() const
+{
+	CLLNode<MagicTechTypes>* pResearchNode = headMagicResearchQueueNode();
+	if (pResearchNode == NULL)
+		return NO_MAGIC_TECH;
+	return pResearchNode->m_data;
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 
 bool CvPlayer::isCurrentResearchRepeat() const
@@ -11002,6 +11034,191 @@ void CvPlayer::popResearch(TechTypes eTech)
 	}
 }
 
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+//	Finds the path length from this tech type to one you already know
+int CvPlayer::findMagicPathLength(MagicTechTypes eTech, bool bCost) const
+{
+	if (GET_TEAM(getTeam()).isHasTech(eTech) || isResearchingTech(eTech))
+	{
+		//	We have this tech, no reason to add this to the pre-reqs
+		//	Base case return 0, we know it...
+		return 0;
+	}
+	int iPathLength = 0;
+	//	Cycle through the and paths and add up their tech lengths
+	for (int i = 0; i < GC.getInfo(eTech).getNumAndTechPrereqs(); i++)
+	{
+		iPathLength += findMagicPathLength(
+				GC.getInfo(eTech).getPrereqAndTechs(i), bCost);
+	}
+
+	MagicTechTypes eShortestOr = NO_MAGIC_TECH;
+	int iShortestPath = MAX_INT;
+	//	Find the shortest OR tech
+	for (int i = 0; i < GC.getInfo(eTech).getNumOrTechPrereqs(); i++)
+	{
+		MagicTechTypes const ePreReq = GC.getInfo(eTech).getPrereqOrTechs(i);
+		//	Recursively find the path length (takes into account all ANDs)
+		// k146 (note): This will double-count any shared AND-prepreqs.
+		int iNumSteps = findMagicPathLength(ePreReq, bCost);
+		//	If the prereq is a valid tech and its the current shortest, mark it as such
+		if (iNumSteps < iShortestPath)
+		{
+			eShortestOr = ePreReq;
+			iShortestPath = iNumSteps;
+		}
+	}
+
+	//	If the shortest OR is a valid tech, add the steps to it...
+	if (eShortestOr != NO_MAGIC_TECH)
+		iPathLength += iShortestPath;
+
+	return iPathLength + (bCost ? GET_TEAM(getTeam()).getResearchCost(eTech) : 1);
+}
+
+
+//	Function specifically for python/tech chooser screen
+int CvPlayer::getMagicQueuePosition(MagicTechTypes eTech) const
+{
+	int i = 1;
+	for (CLLNode<MagicTechTypes>* pResearchNode = headMagicResearchQueueNode();
+		pResearchNode != NULL; pResearchNode = nextMagicResearchQueueNode(pResearchNode))
+	{
+		if (pResearchNode->m_data == eTech)
+			return i;
+		i++;
+	}
+	return -1;
+}
+
+
+void CvPlayer::clearMagicResearchQueue()
+{
+	m_magicResearchQueue.clear();
+
+	FOR_EACH_ENUM(MagicTech)
+		setResearchingTech(eLoopMagicTech, false);
+
+	if (GET_TEAM(getTeam()).isActive())
+	{
+		gDLL->UI().setDirty(ResearchButtons_DIRTY_BIT, true);
+		gDLL->UI().setDirty(GameData_DIRTY_BIT, true);
+		gDLL->UI().setDirty(Score_DIRTY_BIT, true);
+	}
+}
+
+/*	Pushes research onto the queue.
+	If it is an append it will put it and its pre-reqs into the queue.
+	If it is not an append it will change research immediately and
+	should be used with bClear. bClear will clear the entire queue. */
+bool CvPlayer::pushMagicResearch(MagicTechTypes eTech, bool bClear, /* advc.004x: */ bool bKillPopup)
+{
+	FAssert(eTech != NO_MAGIC_TECH);
+
+	if (GET_TEAM(getTeam()).isHasTech(eTech) || isResearchingTech(eTech))
+	{	// We have this tech, no reason to add this to the pre-reqs
+		return true;
+	}
+	if (!canEverResearchMagic(eTech))
+		return false;
+
+	bool const bWasEmpty = (m_magicResearchQueue.getLength() == 0); // advc.004x
+	// Pop the entire queue...
+	if (bClear)
+		clearMagicResearchQueue();
+
+	// Add in all the pre-reqs for the and techs...
+	for (int i = 0; i < GC.getInfo(eTech).getNumAndTechPrereqs(); i++)
+	{
+		if (!pushMagicResearch(GC.getInfo(eTech).getPrereqAndTechs(i)))
+			return false;
+	}
+
+	// Will return the shortest path of all the or techs. Tie breaker goes to the first one...
+	MagicTechTypes eShortestOr = NO_MAGIC_TECH;
+	int iShortestPath = MAX_INT;
+	bool bOrPrereqFound = false;
+	// Cycle through all the OR techs
+	for (int i = 0; i < GC.getInfo(eTech).getNumOrTechPrereqs(); i++)
+	{
+		MagicTechTypes const ePreReq = GC.getInfo(eTech).getPrereqOrTechs(i);
+		bOrPrereqFound = true;
+		/*	If the pre-req exists, and we have it, it is the shortest path,
+			get out, we're done */
+		if (GET_TEAM(getTeam()).isHasTech(ePreReq))
+		{
+			eShortestOr = ePreReq;
+			break;
+		}
+		if (canEverResearchMagic(ePreReq))
+		{
+			// Find the length of the path to this pre-req
+			int iNumSteps = findMagicPathLength(ePreReq);
+			/*	If this pre-req is a valid tech, and it's the shortest current path,
+				set it as such */
+			if (iNumSteps < iShortestPath)
+			{
+				eShortestOr = ePreReq;
+				iShortestPath = iNumSteps;
+			}
+		}
+	}
+
+	/*	If the shortest path tech is valid, push it (and its children)
+		onto the research queue recursively */
+	if (eShortestOr != NO_MAGIC_TECH)
+	{
+		if (!pushMagicResearch(eShortestOr))
+			return false;
+	}
+	else if (bOrPrereqFound)
+		return false;
+
+	// Insert this tech at the end of the queue
+	m_magicResearchQueue.insertAtEnd(eTech);
+
+	setResearchingTech(eTech, true);
+
+	// Set the dirty bits
+	if (GET_TEAM(getTeam()).isActive())
+	{
+		gDLL->UI().setDirty(ResearchButtons_DIRTY_BIT, true);
+		gDLL->UI().setDirty(GameData_DIRTY_BIT, true);
+		gDLL->UI().setDirty(Score_DIRTY_BIT, true);
+		// <advc.004x>
+		if(bKillPopup && bWasEmpty && isActive())
+			killAll(BUTTONPOPUP_CHOOSETECH, 0); // </advc.004x>
+	}
+	// ONEVENT - Tech selected (any)
+	CvEventReporter::getInstance().techSelected(eTech, getID());
+	return true;
+}
+
+
+void CvPlayer::popMagicResearch(MagicTechTypes eTech)
+{
+	CLLNode<MagicTechTypes>* pResearchNode;
+	for (pResearchNode = headResearchQueueNode(); pResearchNode;
+		pResearchNode = nextResearchQueueNode(pResearchNode))
+	{
+		if (pResearchNode->m_data == eTech)
+		{
+			m_magicResearchQueue.deleteNode(pResearchNode);
+			break;
+		}
+	}
+
+	setResearchingTech(eTech, false);
+
+	if (GET_TEAM(getTeam()).isActive())
+	{
+		gDLL->UI().setDirty(ResearchButtons_DIRTY_BIT, true);
+		gDLL->UI().setDirty(GameData_DIRTY_BIT, true);
+		gDLL->UI().setDirty(Score_DIRTY_BIT, true);
+	}
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+
 
 void CvPlayer::addCityName(const CvWString& szName)
 {
@@ -11778,6 +11995,46 @@ void CvPlayer::doResearch()
 			clearResearchQueue();
 	}
 }
+
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+void CvPlayer::doMagicResearch()
+{
+	if (isResearch() /* K-Mod: */ && !isAnarchy())
+	{
+		bool bForceResearchChoice = false;
+		if (getCurrentResearch() == NO_TECH /* K-Mod: */ && isHuman())
+		{
+			if (isActive())
+				chooseTech();
+			AI().AI_chooseResearch();
+			bForceResearchChoice = true;
+		}
+
+		MagicTechTypes eCurrentTech = getCurrentResearch();
+		if (eCurrentTech == NO_MAGIC_TECH)
+		{
+			int iOverflow = (100 * calculateResearchRate()) /
+					std::max(1, calculateResearchModifier(eCurrentTech));
+			changeOverflowResearch(iOverflow);
+		}
+		else
+		{
+			int iOverflowResearch = (getOverflowResearch() *
+					calculateResearchModifier(eCurrentTech)) / 100;
+			setOverflowResearch(0);
+			GET_TEAM(getTeam()).changeResearchProgress(eCurrentTech,
+					// K-Mod (replacing the minimum which used to be in calculateResearchRate)
+					std::max(1, calculateResearchRate()) +
+					iOverflowResearch, getID());
+		}
+
+		if (bForceResearchChoice)
+			clearMagicResearchQueue();
+	}
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+
 
 void CvPlayer::doEspionagePoints()
 {
@@ -14517,6 +14774,9 @@ void CvPlayer::read(FDataStreamBase* pStream)
 	} // </advc.912g>
 	m_groupCycle.Read(pStream);
 	m_researchQueue.Read(pStream);
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	m_magicResearchQueue.Read(pStream);
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 	{
 		m_cityNames.clear();
@@ -15017,6 +15277,9 @@ void CvPlayer::write(FDataStreamBase* pStream)
 
 	m_groupCycle.Write(pStream);
 	m_researchQueue.Write(pStream);
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	m_magicResearchQueue.Write(pStream);
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 	{
 		CLLNode<CvWString>* pNode;
