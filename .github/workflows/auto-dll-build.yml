@@ -16,6 +16,24 @@ jobs:
 
     - name: Build DLL via MSBuild
       shell: bash
+      env: 
+          # YAML automatically preserves this multi-line string exactly as written
+          PS_CODE: |
+            param(
+              [string]$config
+            )
+            # Set configuration based on current active branch
+            Write-Output "Targeting configuration: $config"
+            $vcvarsall = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
+            $projectDir = "R:\CvGameCoreDLL\Project"
+            # Run vcvarsall, change directory, and build all in ONE cmd session.
+            # No need to import env vars into PowerShell.
+            $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && msbuild AdvCiv.vcxproj /p:Configuration=$config"
+            cmd.exe /c $buildCmd
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "MSBuild compilation process encountered errors."
+              exit $LASTEXITCODE
+            }
       run: |
           # Set configuration based on current active branch (Using standard Bash syntax)
           CONFIG="Release"
@@ -27,11 +45,11 @@ jobs:
           # Sync the repository's files into the RAM disk workspace
           #rsync -avz --blocking-io -e "ssh -o IPQoS=throughput" --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
-          # Construct a pure Bash command execution chain
-          BUILD_CMD="C:/\Civ4SDK/\civ4-msbuild-evoke.ps1 $CONFIG"
+          # Encode the command for PowerShell
+          ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
           
           # Connect to local virtual machine and start the build remotely
-          ssh Administrator@192.168.2.252 "powershell $BUILD_CMD"
+          ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT $CONFIG"
 
     - name: Copy DLL files Over To Linux
       shell: bash
@@ -40,10 +58,12 @@ jobs:
         CONFIG="Release"
         if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
             CONFIG="Debug"
+        fi
         # Copy files so upload-artifact can upload them
         scp Administrator@192.168.2.252:/R:/CvGameCoreDLL/Project/$CONFIG/*.dll ./
         if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
-            scp Administrator@192.168.2.252:/R:/CvGameCoreDLL/Project/$CONFIG/*.pdb ./
+          scp Administrator@192.168.2.252:/R:/CvGameCoreDLL/Project/$CONFIG/*.pdb ./
+        fi
 
     - name: Upload Compiled DLL Artifact
       uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
