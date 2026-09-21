@@ -28,13 +28,14 @@ jobs:
           rsync -avz --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
           
           VC_VARS='C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat'
-          PROJECT_DIR='R:\CvGameCoreDLL\Project'
-          
-          # Construct the command safely using backslashes to escape inner quotes for cmd.exe
-          BUILD_CMD="call \"$VC_VARS\" x86 && cd /d \"$PROJECT_DIR\" && msbuild AdvCiv.vcxproj /p:Configuration=$CONFIG"
+          # Use Cygwin POSIX path style for navigating inside Bash
+          PROJECT_DIR='/cygdrive/r/CvGameCoreDLL/Project'
+
+          # Construct a pure Bash command execution chain
+          BUILD_CMD="cd \"$PROJECT_DIR\" && cmd.exe /c \"call \\\"$VC_VARS\\\" x86 && msbuild AdvCiv.vcxproj /p:Configuration=$CONFIG\""
           
           # Connect to local virtual machine and start the build remotely
-          ssh Administrator@192.168.2.252 "cmd.exe /c $BUILD_CMD"
+          ssh Administrator@192.168.2.252 "$BUILD_CMD"
 
     - name: Copy DLL files Over To Linux
       shell: bash
