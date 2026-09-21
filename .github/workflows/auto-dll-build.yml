@@ -28,7 +28,7 @@ jobs:
           #rsync -avz --blocking-io -e "ssh -o IPQoS=throughput" --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
           # Construct a pure Bash command execution chain
-          BUILD_CMD="C:\Civ4SDK\civ4-msbuild-evoke.ps1 $CONFIG"
+          BUILD_CMD="C:\\\Civ4SDK\\\civ4-msbuild-evoke.ps1 $CONFIG"
           
           # Connect to local virtual machine and start the build remotely
           ssh Administrator@192.168.2.252 "powershell $BUILD_CMD"
