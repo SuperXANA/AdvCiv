@@ -31,7 +31,7 @@ jobs:
         
         # Sync the repository's files into the RAM disk workspace
         # (Using Get-ChildItem is more reliable than Move-Item -Path ".*")
-        Get-ChildItem -Path "." -Exclude @("Project",".git") | Move-Item -Destination "R:\CvGameCoreDLL\" -Force
+        Get-ChildItem -Path "." -Exclude @("Project",".git") | Copy-Item -Destination "R:\CvGameCoreDLL\" -Force
         
         $vcvarsall = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
         $projectDir = "R:\CvGameCoreDLL\Project"
