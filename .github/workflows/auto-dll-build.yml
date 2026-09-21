@@ -1,0 +1,73 @@
+name: Automated Civ4 DLL Build
+
+on:
+  push:
+    branches:
+      - 'dll-build'
+      - 'dll-build-debug'
+
+jobs:
+  build-dll:
+    runs-on: self-hosted # Use local virtual machine for building
+    
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+    - name: Build DLL via MSBuild
+      shell: powershell
+      run: |
+        # Set configuration based on current active branch
+        $config = "Release"
+        if ("${{ github.ref_name }}" -eq "dll-debug-build")
+        {
+            $config = "Debug"
+        }
+        Write-Output "Targeting configuration: $config"
+        
+        # Sync the repository's files into the RAM disk workspace
+        # Move CvGameCoreDLL folder and exclude existing build configuration
+        Move-Item -Path ".*" -Destination "R:\" -Recurse -Force -Exclude "Project"
+        
+        # Locate the structural MSBuild needed for VS2010 project systems
+        $vcvar = & "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86
+        # Load VC 2010 local variables into executable environment
+        $vcvar
+        
+        # Navigate down into the VS2010 Project folder inside the workflow environment
+        Set-Location "R:\CvGameCoreDLL\Project"
+        
+        # Execute MSBuild targets mapped out by the AdvCiv codebase Makefile
+        & msbuild AdvCiv.vcxproj /p:Configuration=$config
+        if ($LASTEXITCODE -ne 0)
+        {
+            Write-Error "MSBuild compilation process encountered errors."
+            exit $LASTEXITCODE
+        }
+
+    - name: Upload Compiled DLL Artifact
+      uses: actions/upload-artifact@60a1d31e97bb2abe624af7fa1e624159849114b7
+      
+      with:
+        name: CvGameCoreDLL-${{ github.ref_name }}-${{ github.sha }}
+        path: |
+          Project/Release/CvGameCoreDLL.dll
+          Project/Debug/CvGameCoreDLL.dll
+        if-no-files-found: error
+
+    - name: Clean Up RAM Disk Build Files
+      if: always()
+      
+      shell: powershell
+      run: |
+        Write-Output "Scrubbing workspace build artifacts..."
+        
+        # Clean intermediate directories to preserve space on the RAM disk
+        $cleanupDirs = @("Project/Release", "Project/Debug", "Project/temp_files", "Project/objs")
+        foreach ($dir in $cleanupDirs)
+        {
+            if (Test-Path $dir) {
+                Remove-Item -Path $dir -Recurse -Force
+                Write-Output "Successfully wiped: $dir"
+            }
+        }
