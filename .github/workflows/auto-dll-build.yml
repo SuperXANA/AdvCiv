@@ -32,13 +32,13 @@ jobs:
         Move-Item -Path ".*" -Destination "R:\CvGameCoreDLL\" -Force -Exclude "Project"
 
         # Locate the structural MSBuild needed for VS2010 project systems 
-        $vcvarsall = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
+        \$vcvarsall = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
         
         # Run vcvarsall.bat in cmd, extract environment variables, and apply them to PowerShell
-        cmd.exe /c " `"$vcvarsall`" x86 && set " | Foreach-Object {
-            if (\(_ -match '^([^=]+)=(.*)\)') {
-                [System.Environment]::SetEnvironmentVariable(\(Matches[1],\)Matches[2], [System.EnvironmentVariableTarget]::Process)
-            }
+        cmd.exe /c "`"$vcvarsall`" x86 && set" | Foreach-Object {
+          if (\(_ -match '^([^=]+)=(.*)\)') {
+            [System.Environment]::SetEnvironmentVariable(\(Matches[1],\)Matches[2], [System.EnvironmentVariableTarget]::Process)
+          }
         }
         
         # Navigate down into the VS2010 Project folder inside the workflow environment
