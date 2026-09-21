@@ -17,24 +17,25 @@ jobs:
     - name: Build DLL via MSBuild
       shell: bash
       run: |
-        # Set configuration based on current active branch
-        CONFIG="Release"
-        if ("${{ github.ref_name }}" -eq "dll-build-debug") {
-            CONFIG="Debug"
-        }
-        echo "Targeting configuration: $CONFIG"
-        
-        # Sync the repository's files into the RAM disk workspace
-        rsync -avz --exclude='.git/' --exclude='Project/' ./ Administrator@192.168.2.252:"R:/CvGameCoreDLL"
-        
-        VC_VARS="C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
-        PROJECT_DIR="R:\CvGameCoreDLL\Project"
-        
-        # Run vcvarsall, change directory, and build all in ONE cmd session.
-        # No need to import env vars into PowerShell.
-        BUILD_CMD="call `"$VC_VARS`" x86 && cd /d `"$PROJECT_DIR`" && msbuild AdvCiv.vcxproj /p:Configuration=$CONFIG"
-        ssh Administrator@192.168.2.252 "cmd.exe /c $BUILD_CMD" # connect to local virtual machine and start the build remotely
-        # The build process is not handled by this orchestrator virtual machine
+        run: |
+          # Set configuration based on current active branch (Using standard Bash syntax)
+          CONFIG="Release"
+          if [ "dll-build" = "dll-build-debug" ]; then
+              CONFIG="Debug"
+          fi
+          echo "Targeting configuration: $CONFIG"
+          
+          # Sync the repository's files into the RAM disk workspace
+          rsync -avz --exclude='.git/' --exclude='Project/' ./ Administrator@192.168.2.252:"R:/CvGameCoreDLL"
+          
+          VC_VARS='C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat'
+          PROJECT_DIR='R:\CvGameCoreDLL\Project'
+          
+          # Construct the command safely using backslashes to escape inner quotes for cmd.exe
+          BUILD_CMD="call \"$VC_VARS\" x86 && cd /d \"$PROJECT_DIR\" && msbuild AdvCiv.vcxproj /p:Configuration=$CONFIG"
+          
+          # Connect to local virtual machine and start the build remotely
+          ssh Administrator@192.168.2.252 "cmd.exe /c $BUILD_CMD"
 
     - name: Copy DLL files Over To Linux
       shell: bash
