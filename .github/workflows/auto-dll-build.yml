@@ -30,7 +30,7 @@ jobs:
         
         # Sync the repository's files into the RAM disk workspace
         # Move CvGameCoreDLL folder and exclude existing build configuration
-        Move-Item -Path ".*" -Destination "R:\" -Recurse -Force -Exclude "Project"
+        Move-Item -Path ".*" -Destination "R:\" -Force -Exclude "Project"
         
         # Locate the structural MSBuild needed for VS2010 project systems
         $vcvar = & "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86
