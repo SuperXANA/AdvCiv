@@ -25,7 +25,7 @@ jobs:
           echo "Targeting configuration: $CONFIG"
           
           # Sync the repository's files into the RAM disk workspace
-          rsync -avz --blocking-io -e "ssh -o IPQoS=throughput" --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
+          #rsync -avz --blocking-io -e "ssh -o IPQoS=throughput" --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
           # Use Cygwin POSIX path style for navigating inside Bash
           VC_VARS='C:/Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat'
