@@ -27,15 +27,11 @@ jobs:
           # Sync the repository's files into the RAM disk workspace
           #rsync -avz --blocking-io -e "ssh -o IPQoS=throughput" --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
-          # Use Cygwin POSIX path style for navigating inside Bash
-          VC_VARS='C:/Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat'
-          PROJECT_DIR='/cygdrive/r/CvGameCoreDLL/Project'
-
           # Construct a pure Bash command execution chain
-          BUILD_CMD="cd \"$PROJECT_DIR\" && cmd.exe /c \"call \"$VC_VARS\" x86 && msbuild AdvCiv.vcxproj /p:Configuration=$CONFIG\""
+          BUILD_CMD="C:\Civ4SDK\civ4-msbuild-evoke.ps1 $CONFIG"
           
           # Connect to local virtual machine and start the build remotely
-          ssh Administrator@192.168.2.252 "$BUILD_CMD"
+          ssh Administrator@192.168.2.252 "powershell $BUILD_CMD"
 
     - name: Copy DLL files Over To Linux
       shell: bash
