@@ -5,10 +5,6 @@ on:
     branches:
       - 'dll-build'
       - 'dll-build-debug'
-env:
-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: 'true'
-  NODE_SKIP_PLATFORM_CHECK: '1'
-  ACTIONS_RUNNER_HOOK_DISABLE_AUTOUPDATE: 'true'
 
 jobs:
   build-dll:
@@ -16,59 +12,69 @@ jobs:
     
     steps:
     - name: Checkout Code
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
 
     - name: Build DLL via MSBuild
-      shell: powershell
+      shell: bash
       run: |
         # Set configuration based on current active branch
-        $config = "Release"
-        # NOTE: Fixed branch name to match the trigger ('dll-build-debug', not 'dll-debug-build')
+        CONFIG = "Release"
         if ("${{ github.ref_name }}" -eq "dll-build-debug") {
-            $config = "Debug"
+            CONFIG = "Debug"
         }
-        Write-Output "Targeting configuration: $config"
+        echo "Targeting configuration: $CONFIG"
         
         # Sync the repository's files into the RAM disk workspace
-        # (Using Get-ChildItem is more reliable than Move-Item -Path ".*")
-        Get-ChildItem -Path "." -Exclude @("Project",".git") | Copy-Item -Destination "R:\CvGameCoreDLL\" -Force
+        rsync -avz --exclude='.git/' --exclude='Project/' ./ Administrator@192.168.2.252:"R:/CvGameCoreDLL"
         
-        $vcvarsall = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
-        $projectDir = "R:\CvGameCoreDLL\Project"
+        VC_VARS = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
+        PROJECT_DIR = "R:\CvGameCoreDLL\Project"
         
         # Run vcvarsall, change directory, and build all in ONE cmd session.
         # No need to import env vars into PowerShell.
-        $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && msbuild AdvCiv.vcxproj /p:Configuration=$config"
-        cmd.exe /c $buildCmd
-        
-        if ($LASTEXITCODE -ne 0) {
-            Write-Error "MSBuild compilation process encountered errors."
-            exit $LASTEXITCODE
-        }
+        BUILD_CMD = "call `"$VC_VARS`" x86 && cd /d `"$PROJECT_DIR`" && msbuild AdvCiv.vcxproj /p:Configuration=$CONFIG"
+        ssh Administrator@192.168.2.252 "cmd.exe /c $BUILD_CMD" # connect to local virtual machine and start the build remotely
+        # The build process is not handled by this orchestrator virtual machine
+
+    - name: Copy DLL files Over To Linux
+      shell: bash
+      run: |
+        # Set configuration based on current active branch
+        CONFIG = "Release"
+        if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
+            CONFIG = "Debug"
+        # Copy files so upload-artifact can upload them
+        scp Administrator@192.168.2.252:/R:/CvGameCoreDLL/Project/$CONFIG/*.dll ./
+        if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
+            scp Administrator@192.168.2.252:/R:/CvGameCoreDLL/Project/$CONFIG/*.pdb ./
 
     - name: Upload Compiled DLL Artifact
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
       
       with:
         name: CvGameCoreDLL-${{ github.ref_name }}-${{ github.sha }}
         path: |
-          R:\CvGameCoreDLL/Project/Release/CvGameCoreDLL.dll
-          R:\CvGameCoreDLL/Project/Debug/CvGameCoreDLL.dll
+          ./CvGameCoreDLL.dll
         if-no-files-found: error
 
     - name: Clean Up RAM Disk Build Files
       if: always()
       
-      shell: powershell
-      run: |
-        Write-Output "Scrubbing workspace build artifacts..."
-        Set-Location "R:\CvGameCoreDLL"
-        
-        # Clean intermediate directories to preserve space on the RAM disk
-        $cleanupDirs = @("Project/Release", "Project/Debug", "Project/temp_files", "Project/objs")
-        foreach ($dir in $cleanupDirs) {
-            if (Test-Path $dir) {
+      shell: bash
+      env:
+          # YAML automatically preserves this multi-line string exactly as written
+          PS_CODE: |
+            Write-Output "Scrubbing workspace build artifacts..."
+            Set-Location "R:\CvGameCoreDLL"
+            $cleanupDirs = @("Project/Release", "Project/Debug", "Project/temp_files", "Project/objs")
+            foreach ($dir in $cleanupDirs) {
+              if (Test-Path $dir) {
                 Remove-Item -Path $dir -Recurse -Force
                 Write-Output "Successfully wiped: $dir"
-            }
-        }
+              }
+      run: |
+          # Encode the command for PowerShell
+          ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
+          
+          # Execute remotely over SSH
+          ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
