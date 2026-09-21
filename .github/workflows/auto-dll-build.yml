@@ -32,7 +32,7 @@ jobs:
           PROJECT_DIR='/cygdrive/r/CvGameCoreDLL/Project'
 
           # Construct a pure Bash command execution chain
-          BUILD_CMD="cd \"$PROJECT_DIR\" && cmd.exe /c \"call "\\\$VC_VARS\\\" x86 && msbuild AdvCiv.vcxproj /p:Configuration=$CONFIG\""
+          BUILD_CMD="cd \"$PROJECT_DIR\" && cmd.exe /c \"call \\\"$VC_VARS\\\" x86 && msbuild AdvCiv.vcxproj /p:Configuration=$CONFIG\""
           
           # Connect to local virtual machine and start the build remotely
           ssh Administrator@192.168.2.252 "$BUILD_CMD"
