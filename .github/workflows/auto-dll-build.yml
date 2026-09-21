@@ -46,7 +46,7 @@ jobs:
         }
 
     - name: Upload Compiled DLL Artifact
-      uses: actions/upload-artifact@60a1d31e97bb2abe624af7fa1e624159849114b7
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       
       with:
         name: CvGameCoreDLL-${{ github.ref_name }}-${{ github.sha }}
