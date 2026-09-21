@@ -34,14 +34,15 @@ jobs:
         
         # Locate the structural MSBuild needed for VS2010 project systems
         $vcvar = & "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86
-        # Load VC 2010 local variables into executable environment
-        $vcvar
         
         # Navigate down into the VS2010 Project folder inside the workflow environment
         Set-Location "R:\CvGameCoreDLL\Project"
         
+        # Load VC 2010 local variables into executable environment
+        $vcvar
+        
         # Execute MSBuild targets mapped out by the AdvCiv codebase Makefile
-        & msbuild AdvCiv.vcxproj /p:Configuration=$config
+        msbuild AdvCiv.vcxproj /p:Configuration=$config
         if ($LASTEXITCODE -ne 0)
         {
             Write-Error "MSBuild compilation process encountered errors."
