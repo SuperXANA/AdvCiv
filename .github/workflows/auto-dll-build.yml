@@ -22,8 +22,7 @@ jobs:
       run: |
         # Set configuration based on current active branch
         $config = "Release"
-        if ("${{ github.ref_name }}" -eq "dll-debug-build")
-        {
+        if ("${{ github.ref_name }}" -eq "dll-debug-build") {
             $config = "Debug"
         }
         Write-Output "Targeting configuration: $config"
@@ -36,10 +35,8 @@ jobs:
         $vcvarsall = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
         
         # Run vcvarsall.bat in cmd, extract environment variables, and apply them to PowerShell
-        cmd.exe /c " `"$vcvarsall`" x86 && set " | Foreach-Object
-        {
-            if (\(_ -match '^([^=]+)=(.*)\)')
-            {
+        cmd.exe /c " `"$vcvarsall`" x86 && set " | Foreach-Object {
+            if (\(_ -match '^([^=]+)=(.*)\)') {
                 [System.Environment]::SetEnvironmentVariable(\(Matches[1],\)Matches[2], [System.EnvironmentVariableTarget]::Process)
             }
         }
@@ -49,8 +46,7 @@ jobs:
         
         # Execute MSBuild targets mapped out by the AdvCiv codebase Makefile
         msbuild AdvCiv.vcxproj /p:Configuration=$config
-        if ($LASTEXITCODE -ne 0)
-        {
+        if ($LASTEXITCODE -ne 0) {
             Write-Error "MSBuild compilation process encountered errors."
             exit $LASTEXITCODE
         }
@@ -74,8 +70,7 @@ jobs:
         
         # Clean intermediate directories to preserve space on the RAM disk
         $cleanupDirs = @("Project/Release", "Project/Debug", "Project/temp_files", "Project/objs")
-        foreach ($dir in $cleanupDirs)
-        {
+        foreach ($dir in $cleanupDirs) {
             if (Test-Path $dir) {
                 Remove-Item -Path $dir -Recurse -Force
                 Write-Output "Successfully wiped: $dir"
