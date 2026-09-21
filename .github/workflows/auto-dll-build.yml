@@ -25,7 +25,7 @@ jobs:
           echo "Targeting configuration: $CONFIG"
           
           # Sync the repository's files into the RAM disk workspace
-          rsync -avz --exclude='.git/' --exclude='Project/' ./ Administrator@192.168.2.252:"R:/CvGameCoreDLL"
+          rsync -avz --exclude='.git/' --exclude='Project/' ./ Administrator@192.168.2.252:"/cygdrive/r/CvGameCoreDLL"
           
           VC_VARS='C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat'
           PROJECT_DIR='R:\CvGameCoreDLL\Project'
