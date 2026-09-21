@@ -17,7 +17,6 @@ jobs:
     - name: Build DLL via MSBuild
       shell: bash
       run: |
-        run: |
           # Set configuration based on current active branch (Using standard Bash syntax)
           CONFIG="Release"
           if [ "dll-build" = "dll-build-debug" ]; then
