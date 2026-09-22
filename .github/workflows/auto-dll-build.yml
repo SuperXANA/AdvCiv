@@ -37,23 +37,21 @@ jobs:
       run: |
           # Set configuration based on current active branch (Using standard Bash syntax)
           CONFIG="Release"
-          if [ "dll-build" = "dll-build-debug" ]; then
+          if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
               CONFIG="Debug"
           fi
           echo "Targeting configuration: $CONFIG"
           
           # Sync the repository's files into the RAM disk workspace
-          rsync -avz --blocking-io -e "ssh -o IPQoS=throughput" --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
-
-          # Prepend the argument assignment directly to the top of the PowerShell script
-          FULL_PS_CODE="\$cfg = '$CONFIG'; $PS_CODE"
-
-          # Encode the combined script for PowerShell
-          ENCODED_SCRIPT=$(echo -n "$FULL_PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
-
+          rsync -avz --blocking-io \
+          -e "ssh -o IPQoS=throughput" \
+          --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' \
+          ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
+          
+          # Encode the command for PowerShell
+          ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
           # Connect to local virtual machine and start the build remotely
-          ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
-
+          ssh Administrator@192.168.2.252 "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG'\""
     - name: Copy DLL files Over To Linux
       shell: bash
       run: |
@@ -63,11 +61,10 @@ jobs:
             CONFIG="Debug"
         fi
         # Copy files so upload-artifact can upload them
-        scp Administrator@192.168.2.252:/R:/CvGameCoreDLL/Project/$CONFIG/*.dll ./
+        scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$CONFIG/*.dll ./
         if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
-          scp Administrator@192.168.2.252:/R:/CvGameCoreDLL/Project/$CONFIG/*.pdb ./
+          scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/temp_files/$CONFIG/*.pdb ./
         fi
-
     - name: Upload Compiled DLL Artifact
       uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
       
@@ -75,7 +72,8 @@ jobs:
         name: CvGameCoreDLL-${{ github.ref_name }}-${{ github.sha }}
         path: |
           ./CvGameCoreDLL.dll
-        if-no-files-found: error
+          ./*.pdb
+        if-no-files-found: warn
 
     - name: Clean Up RAM Disk Build Files
       if: always()
@@ -86,7 +84,7 @@ jobs:
           PS_CODE: |
             Write-Output "Scrubbing workspace build artifacts..."
             Set-Location "R:\CvGameCoreDLL"
-            $cleanupDirs = @("Project/Release", "Project/Debug", "Project/temp_files", "Project/objs")
+            $cleanupDirs = @("Project/Release", "Project/Debug", "Project/temp_files", "Project/obj")
             foreach ($dir in $cleanupDirs) {
               if (Test-Path $dir) {
                 Remove-Item -Path $dir -Recurse -Force
