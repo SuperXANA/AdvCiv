@@ -43,7 +43,7 @@ jobs:
           echo "Targeting configuration: $CONFIG"
           
           # Sync the repository's files into the RAM disk workspace
-          rsync -avz --blocking-io -e "ssh -o IPQoS=throughput" --rsync-path="'C:\\\\cygwin64\\\\bin\\\\bash.exe' -l -c rsync" --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
+          rsync -avz --blocking-io -e "ssh -o IPQoS=throughput" --rsync-path="'C:\\\/cygwin64\\\/bin\\\/bash.exe' -l -c rsync" --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
           # Prepend the argument assignment directly to the top of the PowerShell script
           FULL_PS_CODE="\$cfg = '$CONFIG'; $PS_CODE"
