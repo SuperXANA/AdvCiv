@@ -49,7 +49,7 @@ jobs:
           ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
           # Encode the combined script for PowerShell
-          ENCODED_SCRIPT=(echo -n "PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
+          ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
 
           # Connect to local virtual machine and start the build remotely
           ssh Administrator@192.168.2.252 "powershell -EncodedCommand \(ENCODED_SCRIPT -cfg '\)CONFIG'"
