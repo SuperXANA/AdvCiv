@@ -37,7 +37,7 @@ jobs:
       run: |
           # Set configuration based on current active branch (Using standard Bash syntax)
           CONFIG="Release"
-          if [ "dll-build" = "dll-build-debug" ]; then
+          if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
               CONFIG="Debug"
           fi
           echo "Targeting configuration: $CONFIG"
@@ -48,14 +48,11 @@ jobs:
           --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' \
           ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
-          # Prepend the argument assignment directly to the top of the PowerShell script
-          FULL_PS_CODE="\$cfg = '$CONFIG'; $PS_CODE"
-
           # Encode the combined script for PowerShell
-          ENCODED_SCRIPT=$(echo -n "$FULL_PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
+          ENCODED_SCRIPT=(echo -n "PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
 
           # Connect to local virtual machine and start the build remotely
-          ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
+          ssh Administrator@192.168.2.252 "powershell -EncodedCommand \(ENCODED_SCRIPT -cfg '\)CONFIG'"
 
     - name: Copy DLL files Over To Linux
       shell: bash
