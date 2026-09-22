@@ -66,9 +66,9 @@ jobs:
             CONFIG="Debug"
         fi
         # Copy files so upload-artifact can upload them
-        scp Administrator@192.168.2.252:/R:/CvGameCoreDLL/Project/$CONFIG/*.dll ./
+        scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$CONFIG/*.dll ./
         if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
-          scp Administrator@192.168.2.252:/R:/CvGameCoreDLL/Project/$CONFIG/*.pdb ./
+          scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$CONFIG/*.pdb ./
         fi
 
     - name: Upload Compiled DLL Artifact
