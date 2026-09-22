@@ -75,27 +75,28 @@ jobs:
         name: CvGameCoreDLL-${{ github.ref_name }}-${{ github.sha }}
         path: |
           ./CvGameCoreDLL.dll
-        if-no-files-found: error
+          ./*.pdb
+        if-no-files-found: warn
 
-    - name: Clean Up RAM Disk Build Files
-      if: always()
-      
-      shell: bash
-      env:
+    #- name: Clean Up RAM Disk Build Files
+    #  if: always()
+    #  
+    #  shell: bash
+    #  env:
           # YAML automatically preserves this multi-line string exactly as written
-          PS_CODE: |
-            Write-Output "Scrubbing workspace build artifacts..."
-            Set-Location "R:\CvGameCoreDLL"
-            $cleanupDirs = @("Project/Release", "Project/Debug", "Project/temp_files", "Project/objs")
-            foreach ($dir in $cleanupDirs) {
-              if (Test-Path $dir) {
-                Remove-Item -Path $dir -Recurse -Force
-                Write-Output "Successfully wiped: $dir"
-              }
-            }
-      run: |
+    #      PS_CODE: |
+    #        Write-Output "Scrubbing workspace build artifacts..."
+    #        Set-Location "R:\CvGameCoreDLL"
+    #        $cleanupDirs = @("Project/Release", "Project/Debug", "Project/temp_files", "Project/objs")
+    #        foreach ($dir in $cleanupDirs) {
+    #          if (Test-Path $dir) {
+    #            Remove-Item -Path $dir -Recurse -Force
+    #            Write-Output "Successfully wiped: $dir"
+    #          }
+    #        }
+    #  run: |
           # Encode the command for PowerShell
-          ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
+    #      ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
           
           # Execute remotely over SSH
-          ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
+    #      ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
