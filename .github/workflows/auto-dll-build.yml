@@ -49,7 +49,7 @@ jobs:
           ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
           # Connect to local virtual machine and start the build remotely
-          ssh Administrator@192.168.2.252 "powershell -Command $ENCODED_SCRIPT $CONFIG"
+          ssh Administrator@192.168.2.252 "powershell -Command $PS_CODE $CONFIG"
 
     - name: Copy DLL files Over To Linux
       shell: bash
