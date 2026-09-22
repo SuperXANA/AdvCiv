@@ -43,9 +43,7 @@ jobs:
           echo "Targeting configuration: $CONFIG"
           
           # Sync the repository's files into the RAM disk workspace
-          rsync -avz --blocking-io \
-          -e "ssh -o IPQoS=throughput" \
-          --rsync-path="'C:/cygwin64/bin/bash.exe' -l -c rsync" \
+          rsync -avz --rsync-path="'C:/cygwin64/bin/bash.exe' -l -c rsync" \
           --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' \
           ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
