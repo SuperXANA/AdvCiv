@@ -20,15 +20,15 @@ jobs:
           # YAML automatically preserves this multi-line string exactly as written
           PS_CODE: |
             param(
-              [string]$config
+              [string]$cfg
             )
             # Set configuration based on current active branch
-            Write-Output "Targeting configuration: $config"
+            Write-Output "Targeting configuration: $cfg"
             $vcvarsall = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
             $projectDir = "R:\CvGameCoreDLL\Project"
             # Run vcvarsall, change directory, and build all in ONE cmd session.
             # No need to import env vars into PowerShell.
-            $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && msbuild AdvCiv.vcxproj /p:Configuration=$config"
+            $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && msbuild AdvCiv.vcxproj /p:Configuration=$cfg"
             cmd.exe /c $buildCmd
             if ($LASTEXITCODE -ne 0) {
               Write-Error "MSBuild compilation process encountered errors."
@@ -45,12 +45,14 @@ jobs:
           # Sync the repository's files into the RAM disk workspace
           #rsync -avz --blocking-io -e "ssh -o IPQoS=throughput" --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
-          # Encode the command for PowerShell
-          ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
-          ENCODED_ARGS=$(echo -n "$CONFIG" | iconv -t UTF-16LE | base64 -w 0)
-          
+          # Prepend the argument assignment directly to the top of the PowerShell script
+          FULL_PS_CODE="\$cfg = '$CONFIG'; $PS_CODE"
+
+          # Encode the combined script for PowerShell
+          ENCODED_SCRIPT=$(echo -n "$FULL_PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
+
           # Connect to local virtual machine and start the build remotely
-          ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT -EncodedArguments $ENCODED_ARGS"
+          ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
 
     - name: Copy DLL files Over To Linux
       shell: bash
