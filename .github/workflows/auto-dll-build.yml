@@ -46,10 +46,11 @@ jobs:
           #rsync -avz --blocking-io -e "ssh -o IPQoS=throughput" --include='*/' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*' ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
           # Encode the command for PowerShell
-          ENCODED_SCRIPT=$(echo -n "$PS_CODE $CONFIG" | iconv -t UTF-16LE | base64 -w 0)
+          ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
+          ENCODED_ARGS=$(echo -n "$CONFIG" | iconv -t UTF-16LE | base64 -w 0)
           
           # Connect to local virtual machine and start the build remotely
-          ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
+          ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT -EncodedArguments $ENCODED_ARGS"
 
     - name: Copy DLL files Over To Linux
       shell: bash
