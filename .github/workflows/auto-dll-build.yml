@@ -1,5 +1,11 @@
 name: Automated Civ4 DLL Build
 
+# Strictly limit GitHub Token privileges. 
+# This strips away all default write access except for what is explicitly defined here.
+permissions:
+  contents: read
+  actions: write
+
 on:
   push:
     branches:
@@ -100,3 +106,6 @@ jobs:
           
           # Execute remotely over SSH
           ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
+          
+          # Clean up the pulled local binaries on the Linux host so subsequent runs start completely fresh without old DLL state.
+          rm -f ./CvGameCoreDLL.dll ./*.pdb
