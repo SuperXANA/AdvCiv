@@ -52,6 +52,7 @@ jobs:
           ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
           # Connect to local virtual machine and start the build remotely
           ssh Administrator@192.168.2.252 "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG'\""
+    
     - name: Copy DLL files Over To Linux
       shell: bash
       run: |
