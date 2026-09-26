@@ -98,3 +98,6 @@ jobs:
           
           # Execute remotely over SSH
           ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
+          
+          # Clean up the pulled local binaries on the Linux host so subsequent runs start completely fresh without old DLL state.
+          rm -f ./CvGameCoreDLL.dll ./*.pdb
