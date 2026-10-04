@@ -11,6 +11,7 @@ on:
     branches:
       - 'dll-build'
       - 'dll-build-debug'
+  workflow_dispatch:
 
 jobs:
   build-dll:
