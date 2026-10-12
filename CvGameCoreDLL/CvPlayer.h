@@ -368,10 +368,16 @@ public:
 
 	bool isResearch() const;																						// Exposed to Python
 	bool canEverResearch(TechTypes eTech) const;																	// Exposed to Python
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	bool canEverResearchMagic(MagicTechTypes eTech) const;
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	TechTypes getDiscoveryTech(UnitTypes eUnit) const; // advc: Moved from CvGameCoreUtils
 	bool canResearch(TechTypes eTech, bool bTrade = false,													 // K-Mod: Exposed to Python
 			bool bFree = false) const; // K-Mod (advc.004x: disused)
 	TechTypes getCurrentResearch() const;																			// Exposed to Python
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	MagicTechTypes getCurrentMagicResearch() const;
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	bool isCurrentResearchRepeat() const;																			// Exposed to Python
 	bool isNoResearchAvailable() const;																				// Exposed to Python
 	int getResearchTurnsLeft(TechTypes eTech, bool bOverflow) const;												// Exposed to Python
