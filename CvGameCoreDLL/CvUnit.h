@@ -645,10 +645,23 @@ public:
 	// <advc.003s> Should make loops over units in a group less hazardous
 	CvSelectionGroup const* getGroup() const;
 	CvSelectionGroup* getGroup();																			// Exposed to Python
+
+	// XANA: 09-26-2026 AI Strategy Party System
+	int getPartyID() const { return m_iPartyID; }															// Exposed to Python
+	bool isInParty() const;
+	bool isPartyLeader() const;
+	// <advc.003s> Should make loops over units in a party less hazardous
+	CvPartyGroup const* getParty() const;
+	CvPartyGroup* getParty();																			// Exposed to Python
+	// XANA: 09-26-2026 AI Strategy Party System
 	// </advc.003s>
 	bool isBeforeUnitCycle(CvUnit const& kOther) const; // advc: Moved from CvGameCoreUtils
 	bool canJoinGroup(const CvPlot* pPlot, CvSelectionGroup const* pSelectionGroup) const;
 	void joinGroup(CvSelectionGroup* pSelectionGroup, bool bRemoveSelected = false, bool bRejoin = true);
+	// XANA: 09-26-2026 AI Strategy Party System
+	bool canJoinParty(const CvPlot* pPlot, CvPartyGroup const* pPartyGroup) const;
+	void joinParty(CvPartyGroup* pPartyGroup, bool bRemoveSelected = false, bool bRejoin = true);
+	// XANA: 09-26-2026 AI Strategy Party System
 
 	DllExport int getHotKeyNumber();																													// Exposed to Python
 	void setHotKeyNumber(int iNewValue);																											// Exposed to Python
@@ -1103,6 +1116,9 @@ protected:
 
 	int m_iID;
 	int m_iGroupID;
+	// XANA: 09-26-2026 AI Strategy Party System
+	int m_iPartyID;
+	// XANA: 09-26-2026 AI Strategy Party System
 	// <advc> Moved up for easier access in debugger
 	PlayerTypes m_eOwner;
 	CvUnitInfo *m_pUnitInfo; // </advc>

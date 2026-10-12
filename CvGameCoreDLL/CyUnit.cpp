@@ -1101,7 +1101,6 @@ int CyUnit::getPartyID()
 
 bool CyUnit::isInParty()
 {
-	// advc: Cut from CvUnit::isInGroup. I've removed that function.
 	return m_pUnit ? (m_pUnit->getPartyID() != FFreeList::INVALID_INDEX) : false;
 }
 

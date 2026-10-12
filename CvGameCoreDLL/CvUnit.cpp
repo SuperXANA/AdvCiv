@@ -27,6 +27,9 @@ CvUnit::CvUnit() // advc.003u: Body cut from the deleted reset function
 
 	m_iID = 0;
 	m_iGroupID = FFreeList::INVALID_INDEX;
+	// XANA: 09-26-2026 AI Strategy Party System
+	m_iPartyID = FFreeList::INVALID_INDEX;
+	// XANA: 09-26-2026 AI Strategy Party System
 	m_iHotKeyNumber = -1;
 	m_iX = INVALID_PLOT_COORD;
 	m_iY = INVALID_PLOT_COORD;
@@ -8614,6 +8617,135 @@ void CvUnit::joinGroup(CvSelectionGroup* pSelectionGroup, bool bRemoveSelected, 
 	if (bRemoveSelected && IsSelected())
 		gDLL->UI().removeFromSelectionList(this);
 }
+
+
+// XANA: 09-26-2026 AI Strategy Party System
+bool CvUnit::canJoinParty(const CvPlot* pPlot, CvPartyGroup const* pPartyGroup) const
+{
+	// do not allow someone to join a group that is about to be split apart
+	// this prevents a case of a never-ending turn
+	if (pPartyGroup->AI().AI_isForceSeparate())
+		return false;
+
+	if (pPartyGroup->getOwner() == NO_PLAYER)
+	{
+		CvUnit const* pHeadUnit = pPartyGroup->getHeadUnit();
+		if (pHeadUnit != NULL)
+		{
+			if (pHeadUnit->getOwner() != getOwner())
+				return false;
+		}
+	}
+	else
+	{
+		if (pPartyGroup->getOwner() != getOwner())
+			return false;
+	}
+
+	if (pPartyGroup->getNumUnits() > 0)
+	{
+		if (!pPartyGroup->atPlot(pPlot))
+			return false;
+		if (pPartyGroup->getDomainType() != getDomainType())
+			return false;
+	}
+
+	return true;
+}
+
+
+void CvUnit::joinParty(CvPartyGroup* pPartyGroup, bool bRemoveSelected, bool bRejoin)
+{
+	pPartyGroup* pOldPartyGroup = GET_PLAYER(getOwner()).getPartyGroup(getPartyID());
+
+	if (pOldPartyGroup != NULL && pPartyGroup == pOldPartyGroup)
+		return; // attempting to join the party we are already in
+
+	CvPlot* pPlot = plot(); // advc (comment): I suppose this could be NULL(?)
+	pPartyGroup* pNewPartyGroup = pPartyGroup;
+
+	if (pNewPartyGroup == NULL && bRejoin)
+	{
+		pNewPartyGroup = GET_PLAYER(getOwner()).addSelectionGroup();
+		pNewPartyGroup->init(pNewPartyGroup->getID(), getOwner());
+	}
+
+	if (pNewPartyGroup == NULL || canJoinParty(pPlot, pNewPartyGroup))
+	{
+		if (pOldPartyGroup != NULL)
+		{
+			bool bWasHead = false;
+			if (!isHuman())
+			{
+				if (pOldPartyGroup->getNumUnits() > 1)
+				{
+					if (pOldPartyGroup->getHeadUnit() == this)
+						bWasHead = true;
+				}
+			}
+
+			pOldPartyGroup->removeUnit(this);
+
+			// if we were the head, if the head unitAI changed, then force the party to separate (non-humans)
+			if (bWasHead)
+			{
+				FAssert(pOldPartyGroup->getHeadUnit() != NULL);
+				if (pOldPartyGroup->getHeadUnit()->AI_getUnitAIType() != AI_getUnitAIType())
+					pOldPartyGroup->AI().AI_setForceSeparate();
+			}
+		}
+
+		if (pNewPartyGroup != NULL && pNewPartyGroup->addUnit(this, false))
+			m_iPartyID = pNewPartyGroup->getID();
+		else m_iPartyID = FFreeList::INVALID_INDEX;
+
+		if (getParty() != NULL)
+		{
+			// K-Mod end
+			if (getParty()->getNumUnits() > 1)
+			{
+				/*	K-Mod
+					For the AI, only wake the group in particular circumstances.
+					This is to avoid AI deadlocks where they just keep grouping
+					and ungroup indefinitely.
+					If the activity type is not changed at all, then that would
+					enable exploits such as adding new units to air patrol groups
+					to bypass the movement conditions. */
+				if (isHuman())
+				{
+					getParty()->setAutomateType(NO_AUTOMATE);
+					getParty()->setActivityType(ACTIVITY_AWAKE);
+					getParty()->clearMissionQueue();
+					/*	K-Mod note. the mission queue has to be cleared because,
+						when the shift key is released, the exe automatically
+						sends the autoMission net message.
+						(if the mission queue isn't cleared, the units will immediately
+						begin their message whenever units are added using shift.) */
+				}
+				else if (getParty()->AI().AI_getMissionAIType() == MISSIONAI_GROUP ||
+					getLastMoveTurn() == GC.getGame().getTurnSlice())
+				{
+					getParty()->setActivityType(ACTIVITY_AWAKE);
+				}
+				else if (getParty()->getActivityType() != ACTIVITY_AWAKE)
+					getParty()->setActivityType(ACTIVITY_HOLD); // don't let them cheat.
+				// K-Mod end
+		}
+
+		if (isActiveTeam())
+		{
+			if (pPlot != NULL)
+				pPlot->setFlagDirty(true);
+		}
+
+		if (pPlot == gDLL->UI().getSelectionPlot())
+			gDLL->UI().setDirty(PlotListButtons_DIRTY_BIT, true);
+	}
+
+	if (bRemoveSelected && IsSelected())
+		gDLL->UI().removeFromSelectionList(this);
+}
+// XANA: 09-26-2026 AI Strategy Party System
 
 
 int CvUnit::getHotKeyNumber()
