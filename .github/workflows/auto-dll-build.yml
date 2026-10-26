@@ -54,6 +54,8 @@ jobs:
           rsync -avz --blocking-io \
           -e "ssh -o IPQoS=throughput" \
           --exclude='/Project/*' \
+          --exclude='/.git/*' \
+          --exclude='/.github/*' \
           --include='*/' --include='*' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*/' --exclude='*' \
           ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
