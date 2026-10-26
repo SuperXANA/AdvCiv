@@ -363,9 +363,9 @@ void BonusThirdPartiesAlert::showMessage(PlayerTypes eFrom, int iData,
 						break;
 					}
 					// XANA: 03-28-2026 Magical Spell System for Advanced Civ
-					MagicTechTypes eTech = kUnit.getPrereqAndMagicTech();
-					if (eTech != NO_MAGIC_TECH &&
-						kTo.getCurrentEra() - GC.getInfo(eTech).getEra() < 2)
+					MagicTechTypes eMagicTech = kUnit.getPrereqAndMagicTech();
+					if (eMagicTech != NO_MAGIC_TECH &&
+						kTo.getCurrentEra() - GC.getInfo(eMagicTech).getEra() < 2)
 					{
 						bStrategic = true;
 						break;
