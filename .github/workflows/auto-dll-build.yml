@@ -8,10 +8,11 @@ permissions:
 
 on:
   push:
-    branches:
-      - 'dll-build'
-      - 'dll-build-debug'
   workflow_dispatch:
+  
+concurrency:
+  group: civ4-dll-chatgpt-workspace
+  cancel-in-progress: false
 
 jobs:
   build-dll:
@@ -22,6 +23,7 @@ jobs:
       uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
 
     - name: Build DLL via MSBuild
+      id: buold
       shell: bash
       env: 
           # YAML automatically preserves this multi-line string exactly as written
@@ -51,11 +53,24 @@ jobs:
           # Sync the repository's files into the RAM disk workspace
           rsync -avz --blocking-io \
           -e "ssh -o IPQoS=throughput" \
+          --exclude='/Project/*' \
           --include='*/' --include='*' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*/' --exclude='*' \
           ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
+
+          # Preserve machine configuration and reject stale/missing source files.
+          # Read-only check: do not delete remote sources or reveal toolchain settings.
+          LOCAL_SOURCES=$(mktemp)
+          REMOTE_SOURCES=$(mktemp)
+          trap 'rm -f "$LOCAL_SOURCES" "$REMOTE_SOURCES"' EXIT
+          git ls-files 'CvGameCoreDLL/*.cpp' | awk -F/ 'NF == 2 {print $2}' | LC_ALL=C sort > "$LOCAL_SOURCES"
+          ssh Administrator@192.168.2.252 "test -f /cygdrive/r/cvgamecoredll/Project/Makefile.user && find /cygdrive/r/cvgamecoredll -maxdepth 1 -type f -name '*.cpp' -printf '%f\n'" | LC_ALL=C sort > "$REMOTE_SOURCES"
+          diff -u "$LOCAL_SOURCES" "$REMOTE_SOURCES"
           
           # Encode the command for PowerShell
           ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
+          # Cleanup is allowed only after we have entered the build invocation.
+          echo "build_started=true" >> "$GITHUB_OUTPUT"
+          
           # Connect to local virtual machine and start the build remotely
           ssh Administrator@192.168.2.252 "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG'\""
     
@@ -84,7 +99,7 @@ jobs:
         if-no-files-found: warn
 
     - name: Clean Up RAM Disk Build Files
-      if: always()
+      if: ${{ steps.build.outputs.build_started == 'true' }}
       
       shell: bash
       env:
