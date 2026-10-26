@@ -1718,6 +1718,9 @@ protected:  // <advc.210>
 
 	CLinkList<int> m_groupCycle;
 	CLinkList<TechTypes> m_researchQueue;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	CLinkList<MagicTechTypes> m_magicResearchQueue;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	CLinkList<CvWString> m_cityNames;
 
 	FFreeListTrashArray<CvPlotGroup> m_plotGroups;
