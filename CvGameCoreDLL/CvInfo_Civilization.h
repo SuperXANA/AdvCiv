@@ -53,6 +53,11 @@ public: // advc: All the const functions are exposed to Python
 	UnitTypes getCivilizationUnits(int i) const;
 	int getCivilizationFreeUnitsClass(int i) const;
 	int getCivilizationInitialCivics(int i) const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getMagicClassCombatPoints(int i) const;
+	int getMagicClassResistPoints(int i) const;
+	bool isMagicClassRestricted(int i, int iLevel = 0) const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	DllExport bool isLeaders(int i) const;
 	bool isCivilizationFreeBuildingClass(int i) const;
@@ -92,6 +97,11 @@ protected:
 	int* m_piCivilizationUnits;
 	int* m_piCivilizationFreeUnitsClass;
 	int* m_piCivilizationInitialCivics;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int* m_piMagicClassCombatPoints;
+	int* m_piMagicClassResistPoints;
+	int* m_piMagicClassLevelLocks;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	bool* m_pbLeaders;
 	bool* m_pbCivilizationFreeBuildingClass;
@@ -220,11 +230,19 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getDiploPeaceMusicScriptIds(int i) const;
 	int getDiploWarIntroMusicScriptIds(int i) const;
 	int getDiploWarMusicScriptIds(int i) const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getMagicClassCombatPoints(int i) const;
+	int getMagicClassResistPoints(int i) const;
+	bool isMagicClassRestricted(int i, int iLevel = 0) const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	// (not exposed to Python)
 	DllExport const CvArtInfoLeaderhead* getArtInfo() const;
 	const TCHAR* getLeaderHead() const;
 	const TCHAR* getButton() const;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	ProphecyTypes getFavoriteProphecy() const { return m_eFavoriteProphecy; }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
 	void write(FDataStreamBase* stream);
@@ -320,6 +338,9 @@ protected:
 	int m_iLoveOfPeace; // advc.104
 	CivicTypes m_eFavoriteCivic;
 	ReligionTypes m_eFavoriteReligion;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	ProphecyTypes m_eFavoriteProphecy;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	CvString m_szArtDefineTag;
 
@@ -339,6 +360,11 @@ protected:
 	int* m_piDiploPeaceMusicScriptIds;
 	int* m_piDiploWarIntroMusicScriptIds;
 	int* m_piDiploWarMusicScriptIds;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int* m_piMagicClassCombatPoints;
+	int* m_piMagicClassResistPoints;
+	int* m_piMagicClassLevelLocks;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;
 	static void GetChildXmlValByName(int& r, TCHAR const* szName, int iDefault = MIN_INT);

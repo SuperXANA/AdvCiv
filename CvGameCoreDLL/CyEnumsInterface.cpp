@@ -2023,4 +2023,10 @@ void CyEnumsPythonInterface()
 		.value("MOVE_HAS_STEPPED", MOVE_HAS_STEPPED)
 		.value("MOVE_ASSUME_VISIBLE", MOVE_ASSUME_VISIBLE)
 		;
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv	
+	python::enum_<ProphecyTypes>("ProphecyTypes")
+		.value("NO_PROPHECY", NO_PROPHECY)
+		;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }

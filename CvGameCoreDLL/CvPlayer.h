@@ -368,10 +368,16 @@ public:
 
 	bool isResearch() const;																						// Exposed to Python
 	bool canEverResearch(TechTypes eTech) const;																	// Exposed to Python
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	bool canEverResearchMagic(MagicTechTypes eTech) const;
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	TechTypes getDiscoveryTech(UnitTypes eUnit) const; // advc: Moved from CvGameCoreUtils
 	bool canResearch(TechTypes eTech, bool bTrade = false,													 // K-Mod: Exposed to Python
 			bool bFree = false) const; // K-Mod (advc.004x: disused)
 	TechTypes getCurrentResearch() const;																			// Exposed to Python
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	MagicTechTypes getCurrentMagicResearch() const;
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	bool isCurrentResearchRepeat() const;																			// Exposed to Python
 	bool isNoResearchAvailable() const;																				// Exposed to Python
 	int getResearchTurnsLeft(TechTypes eTech, bool bOverflow) const;												// Exposed to Python
@@ -1168,6 +1174,19 @@ public:
 		return m_aeeiImprovementYieldChange.get(eImprov, eYield);
 	}
 	void changeImprovementYieldChange(ImprovementTypes eImprov, YieldTypes eYield, int iChange);
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getMagicClassCombatPoints(MagicClassTypes eClass) const
+	{
+		return m_aiMagicClassCombatPoints.get(eClass) + getMagicClassCombatBasePoints(eClass);
+	}
+	void changeMagicClassCombatPoints(MagicClassTypes eClass, int iChange);
+	int getMagicClassResistPoints(MagicClassTypes eClass) const
+	{
+		return m_aiMagicClassResistPoints.get(eClass) + getMagicClassResistBasePoints(eClass);
+	}
+	void changeMagicClassResistPoints(MagicClassTypes eClass, int iChange);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	//void updateGroupCycle(CvUnit* pUnit);
 	void updateGroupCycle(CvSelectionGroup const& kGroup); // K-Mod
@@ -1192,6 +1211,22 @@ public:
 	}
 	CLLNode<TechTypes>* headResearchQueueNode() const { return m_researchQueue.head(); }
 	CLLNode<TechTypes>* tailResearchQueueNode() const { return m_researchQueue.tail(); }
+
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	int findMagicPathLength(MagicTechTypes eTech, bool bCost = true) const;
+	int getMagicQueuePosition(MagicTechTypes eTech) const;
+	void clearMagicResearchQueue();
+	bool pushMagicResearch(MagicTechTypes eTech, bool bClear = false,
+			bool bKillPopup = true);
+	void popMagicResearch(MagicTechTypes eTech);
+	int getLengthMagicResearchQueue() const { return m_magicResearchQueue.getLength(); }																																// Exposed to Python
+	CLLNode<MagicTechTypes>* nextMagicResearchQueueNode(CLLNode<MagicTechTypes>* pNode) const
+	{
+		return m_magicResearchQueue.next(pNode);
+	}
+	CLLNode<MagicTechTypes>* headMagicResearchQueueNode() const { return m_magicResearchQueue.head(); }
+	CLLNode<MagicTechTypes>* tailMagicResearchQueueNode() const { return m_magicResearchQueue.tail(); }
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 	void addCityName(const CvWString& szName);																		// Exposed to Python
 	int getNumCityNames() const;																					// Exposed to Python
@@ -1451,6 +1486,10 @@ public:
 	DllExport bool hasSpaceshipArrived() const;
 	void announceGameNameChange(CvWString szOldName, CvWString szNewName); // advc.135c
 	bool showGoodyOnResourceLayer() const; // advc.004z
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	ProphecyTypes getProphecyFollowed() const;
+	void changeGlobalCounterContrib(int iChange);
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// <advc.003u>
 	CvPlayerAI& AI()
 	{	//return *static_cast<CvPlayerAI*>(const_cast<CvPlayer*>(this));
@@ -1647,6 +1686,10 @@ protected:  // <advc.210>
 	ArrayEnumMap<CorporationTypes,int,char> m_aiHasCorporationCount;
 	ArrayEnumMap<UpkeepTypes,int,char> m_aiUpkeepCount; // advc (comment): unused (but accessible)
 	ArrayEnumMap<SpecialistTypes,int,char> m_aiSpecialistValidCount;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	ArrayEnumMap<MagicClassTypes,int,short> m_aiMagicClassCombatPoints;
+	ArrayEnumMap<MagicClassTypes,int,short> m_aiMagicClassResistPoints;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	/*int** m_paiExtraBuildingYield;
 	int** m_paiExtraBuildingCommerce;*/ // advc: unused
 
@@ -1706,6 +1749,9 @@ protected:  // <advc.210>
 
 	void doGold();
 	void doResearch();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	void doMagicResearch();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	void doEspionagePoints();
 	void doWarnings();
 	void doEvents();
@@ -1747,6 +1793,11 @@ protected:  // <advc.210>
 	//void doUpdateCacheOnTurn(); // advc: unused
 	int getResearchTurnsLeftTimes100(TechTypes eTech, bool bOverflow) const;
 	int groundbreakingPenalty(TechTypes eTech) const; // advc.groundbr
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	void doDecayMagicClassPoints();
+	int getMagicClassCombatBasePoints(MagicClassTypes eClass) const;
+	int getMagicClassResistBasePoints(MagicClassTypes eClass) const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	void getTradeLayerColors(std::vector<NiColorA>& aColors,
 			std::vector<CvPlotIndicatorData>& aIndicators) const;

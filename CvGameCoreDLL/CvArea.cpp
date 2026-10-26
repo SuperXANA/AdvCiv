@@ -76,6 +76,12 @@ void CvArea::reset(int iID, bool bWater, bool bConstructorCall)
 	m_aaiYieldRateModifier.reset();
 	m_aaiNumTrainAIUnits.reset();
 	m_aaiNumAIUnits.reset();
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	m_bMysticalThresholdFrozen = false;
+	m_iMysticalThreshold = 0;
+	m_iNumMysticalTiles = 0;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 
@@ -567,6 +573,13 @@ void CvArea::changeNumImprovements(ImprovementTypes eImprovement, int iChange)
 	m_aiImprovements.add(eImprovement, iChange);
 	FAssert(getNumImprovements(eImprovement) >= 0);
 }*/
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+void CvArea::setMysticalThresholdFrozen(bool b)
+{
+	m_bMysticalThresholdFrozen = b;
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 
 void CvArea::read(FDataStreamBase* pStream)

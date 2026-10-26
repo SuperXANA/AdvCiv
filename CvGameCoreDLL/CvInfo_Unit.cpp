@@ -73,6 +73,9 @@ m_ePrereqReligion(NO_RELIGION),
 m_ePrereqCorporation(NO_CORPORATION),
 m_ePrereqBuilding(NO_BUILDING),
 m_ePrereqAndTech(NO_TECH),
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+m_ePrereqAndMagicTech(NO_MAGIC_TECH),
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 m_ePrereqAndBonus(NO_BONUS),
 m_iGroupSize(0),
 m_iGroupDefinitions(0),
@@ -139,6 +142,10 @@ m_piReligionSpreads(NULL),
 m_piCorporationSpreads(NULL),
 m_piTerrainPassableTech(NULL),
 m_piFeaturePassableTech(NULL),
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+m_piTerrainPassableMagicTech(NULL),
+m_piFeaturePassableMagicTech(NULL),
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 m_pbGreatPeoples(NULL),
 m_pbBuildings(NULL),
 //m_pbForceBuildings(NULL), // advc.003t
@@ -163,7 +170,15 @@ m_pbFreePromotions(NULL),
 m_paszEarlyArtDefineTags(NULL),
 m_paszLateArtDefineTags(NULL),
 m_paszMiddleArtDefineTags(NULL),
-m_paszUnitNames(NULL)
+m_paszUnitNames(NULL),
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+m_piDamageTypeCombat(NULL),
+m_piDamageTypeResist(NULL),
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_iPrereqGlobalCounter(0),
+m_iGlobalCounterModifier(0)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 
@@ -182,6 +197,10 @@ CvUnitInfo::~CvUnitInfo()
 	SAFE_DELETE_ARRAY(m_piCorporationSpreads);
 	SAFE_DELETE_ARRAY(m_piTerrainPassableTech);
 	SAFE_DELETE_ARRAY(m_piFeaturePassableTech);
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	SAFE_DELETE_ARRAY(m_piTerrainPassableMagicTech);
+	SAFE_DELETE_ARRAY(m_piFeaturePassableMagicTech);
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	SAFE_DELETE_ARRAY(m_pbGreatPeoples);
 	SAFE_DELETE_ARRAY(m_pbBuildings);
 	//SAFE_DELETE_ARRAY(m_pbForceBuildings); // advc.003t
@@ -207,6 +226,10 @@ CvUnitInfo::~CvUnitInfo()
 	SAFE_DELETE_ARRAY(m_paszLateArtDefineTags);
 	SAFE_DELETE_ARRAY(m_paszMiddleArtDefineTags);
 	SAFE_DELETE_ARRAY(m_paszUnitNames);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piDamageTypeCombat);
+	SAFE_DELETE_ARRAY(m_piDamageTypeResist);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 int CvUnitInfo::getAdvancedStartCost() const
@@ -235,6 +258,19 @@ bool CvUnitInfo::isTechRequired(TechTypes eTech) const
 	}
 	return false;
 }
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+bool CvUnitInfo::isMagicTechRequired(MagicTechTypes eTech) const
+{
+	if (getPrereqAndMagicTech() == eTech)
+		return true;
+	for (int i = 0; i < getNumPrereqAndMagicTechs(); i++)
+	{
+		if (getPrereqAndMagicTechs(i) == eTech)
+			return true;
+	}
+	return false;
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 int CvUnitInfo::getGroupSize() const
 {
@@ -302,6 +338,16 @@ int CvUnitInfo::py_getPrereqAndTechs(int i) const
 		return NO_TECH;
 	return m_aePrereqAndTechs[i];
 }
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+// <advc.003t> Calls from Python aren't going to respect the bounds
+int CvUnitInfo::py_getPrereqAndMagicTechs(int i) const
+{
+	if (i < 0 || i >= getNumPrereqAndMagicTechs())
+		return NO_MAGIC_TECH;
+	return m_aePrereqAndMagicTechs[i];
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 int CvUnitInfo::py_getPrereqOrBonuses(int i) const
 {
@@ -482,6 +528,20 @@ TechTypes CvUnitInfo::getFeaturePassableTech(int i) const
 	FAssertBounds(0, GC.getNumFeatureInfos(), i);
 	return m_piFeaturePassableTech ? (TechTypes)m_piFeaturePassableTech[i] : NO_TECH; // advc.003t
 }
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+MagicTechTypes CvUnitInfo::getTerrainPassableMagicTech(int i) const
+{
+	FAssertBounds(0, GC.getNumTerrainInfos(), i);
+	return m_piTerrainPassableMagicTech ? (MagicTechTypes)m_piTerrainPassableMagicTech[i] : NO_MAGIC_TECH; // advc.003t
+}
+
+MagicTechTypes CvUnitInfo::getFeaturePassableMagicTech(int i) const
+{
+	FAssertBounds(0, GC.getNumFeatureInfos(), i);
+	return m_piFeaturePassableMagicTech ? (MagicTechTypes)m_piFeaturePassableMagicMagicTech[i] : NO_MAGIC_TECH; // advc.003t
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 bool CvUnitInfo::getGreatPeoples(int i) const
 {
@@ -695,6 +755,18 @@ void CvUnitInfo::setMiddleArtDefineTag(int i, const TCHAR* szVal)
 	FAssertBounds(0, getGroupDefinitions(), i);
 	m_paszMiddleArtDefineTags[i] = szVal;
 }
+
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+int CvUnitInfo::getDamageTypeCombat(DamageTypes eDamage) const
+{
+	return m_piDamageTypeCombat ? m_piDamageTypeCombat[eDamage] : 0;
+}
+
+int CvUnitInfo::getDamageTypeResist(DamageTypes eDamage) const
+{
+	return m_piDamageTypeResist ? m_piDamageTypeResist[eDamage] : 0;
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 const TCHAR* CvUnitInfo::getUnitNames(int i) const
 {
@@ -1001,6 +1073,18 @@ void CvUnitInfo::read(FDataStreamBase* stream)
 	stream->ReadString(m_iNumUnitNames, m_paszUnitNames);
 	stream->ReadString(m_szFormationType);
 	updateArtDefineButton();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piDamageTypeCombat);
+	m_piDamageTypeCombat = new int[GC.getNumDamageInfos()];
+	stream->Read(GC.getNumDamageInfos(), m_piDamageTypeCombat);
+	SAFE_DELETE_ARRAY(m_piDamageTypeResist);
+	m_piDamageTypeResist = new int[GC.getNumDamageInfos()];
+	stream->Read(GC.getNumDamageInfos(), m_piDamageTypeResist);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Read(&m_iPrereqGlobalCounter);
+	stream->Read(&m_iGlobalCounterModifier);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 void CvUnitInfo::write(FDataStreamBase* stream)
@@ -1186,6 +1270,14 @@ void CvUnitInfo::write(FDataStreamBase* stream)
 	stream->WriteString(m_iGroupDefinitions, m_paszMiddleArtDefineTags);
 	stream->WriteString(m_iNumUnitNames, m_paszUnitNames);
 	stream->WriteString(m_szFormationType);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	stream->Write(GC.getNumDamageInfos(), m_piDamageTypeCombat);
+	stream->Write(GC.getNumDamageInfos(), m_piDamageTypeResist);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Write(m_iPrereqGlobalCounter);
+	stream->Write(m_iGlobalCounterModifier);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 #endif
 
@@ -1293,6 +1385,24 @@ bool CvUnitInfo::read(CvXMLLoadUtility* pXML)
 			m_piFeaturePassableTech[i] = pszTemp[i].IsEmpty() ? NO_TECH : pXML->FindInInfoClass(pszTemp[i]);
 		SAFE_DELETE_ARRAY(pszTemp);
 	}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	pXML->SetVariableListTagPair(&pszTemp, "TerrainPassableMagicTechs", GC.getNumTerrainInfos());
+	if (pszTemp != NULL) // advc.003t
+	{
+		m_piTerrainPassableMagicTech = new int[GC.getNumTerrainInfos()];
+		for (int i = 0; i < GC.getNumTerrainInfos(); ++i)
+			m_piTerrainPassableMagicTech[i] = pszTemp[i].IsEmpty() ? NO_MAGIC_TECH : pXML->FindInInfoClass(pszTemp[i]);
+		SAFE_DELETE_ARRAY(pszTemp);
+	}
+	pXML->SetVariableListTagPair(&pszTemp, "FeaturePassableMagicTechs", GC.getNumFeatureInfos());
+	if (pszTemp != NULL) // advc.003t
+	{
+		m_piFeaturePassableMagicTech = new int[GC.getNumFeatureInfos()];
+		for (int i = 0; i < GC.getNumFeatureInfos(); ++i)
+			m_piFeaturePassableMagicTech[i] = pszTemp[i].IsEmpty() ? NO_MAGIC_TECH : pXML->FindInInfoClass(pszTemp[i]);
+		SAFE_DELETE_ARRAY(pszTemp);
+	}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	pXML->SetVariableListTagPair(&m_pbGreatPeoples, "GreatPeoples", GC.getNumSpecialistInfos());
 
 	pXML->SetVariableListTagPair(&m_pbBuildings, "Buildings", GC.getNumBuildingInfos());
@@ -1331,6 +1441,36 @@ bool CvUnitInfo::read(CvXMLLoadUtility* pXML)
 		}
 		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 	}
+	
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	pXML->SetInfoIDFromChildXmlVal(m_ePrereqAndTech, "PrereqMagicTech");
+
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(),"MagicTechTypes"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0)
+			{
+				CvString szTextVal;
+				if (pXML->GetChildXmlVal(szTextVal))
+				{	// advc.003t: The DLL can handle any number, but Python maybe not.
+					FAssert(iNumSibs <= GC.getDefineINT(CvGlobals::NUM_UNIT_AND_TECH_PREREQS));
+					for (int j = 0; j < iNumSibs; j++)
+					{	// <advc.003t>
+						MagicTechTypes eTech = (MagicTechTypes)pXML->FindInInfoClass(szTextVal);
+						if (eTech != NO_MAGIC_TECH)
+							m_aePrereqAndMagicTechs.push_back(eTech); // </advc.003t>
+						if (!pXML->GetNextXmlVal(szTextVal))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 	pXML->SetInfoIDFromChildXmlVal(m_ePrereqAndBonus, "BonusType");
 
@@ -1519,6 +1659,15 @@ bool CvUnitInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(&m_iLeaderExperience, "iLeaderExperience");
 
 	updateArtDefineButton();
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	pXML->SetVariableListTagPair(&m_piDamageTypeCombat, "DamageTypeCombats", GC.getNumDamageInfos());
+	pXML->SetVariableListTagPair(&m_piDamageTypeResist, "DamageTypeResists", GC.getNumDamageInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iPrereqGlobalCounter, "iPrereqGlobalCounter");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifier, "iGlobalCounterModifier");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	return true;
 }
@@ -1766,6 +1915,9 @@ m_iPrereqOrPromotion1(NO_PROMOTION),
 m_iPrereqOrPromotion2(NO_PROMOTION),
 m_iPrereqOrPromotion3(NO_PROMOTION), // K-Mod
 m_iTechPrereq(NO_TECH),
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+m_iMagicTechPrereq(NO_MAGIC_TECH),
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 m_iStateReligionPrereq(NO_RELIGION),
 m_iVisibilityChange(0),
 m_iMovesChange(0),
@@ -1812,7 +1964,19 @@ m_piUnitCombatModifierPercent(NULL),
 m_piDomainModifierPercent(NULL),
 m_pbTerrainDoubleMove(NULL),
 m_pbFeatureDoubleMove(NULL),
-m_pbUnitCombat(NULL)
+m_pbUnitCombat(NULL),
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+m_piDamageTypeCombat(NULL),
+m_piDamageTypeResist(NULL),
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_iPrereqGlobalCounter(0),
+m_iGlobalCounterModifier(0),
+m_iGlobalCounterCombatPercent(0),
+m_iGlobalCounterModifierOnCombat(0),
+m_iGlobalCounterModifierOnCombatWon(0),
+m_iGlobalCounterModifierOnCombatLost(0)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 CvPromotionInfo::~CvPromotionInfo()
@@ -1826,6 +1990,10 @@ CvPromotionInfo::~CvPromotionInfo()
 	SAFE_DELETE_ARRAY(m_pbTerrainDoubleMove);
 	SAFE_DELETE_ARRAY(m_pbFeatureDoubleMove);
 	SAFE_DELETE_ARRAY(m_pbUnitCombat);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piDamageTypeCombat);
+	SAFE_DELETE_ARRAY(m_piDamageTypeResist);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 int CvPromotionInfo::getLayerAnimationPath() const
@@ -1858,6 +2026,13 @@ int CvPromotionInfo::getTechPrereq() const
 {
 	return m_iTechPrereq;
 }
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+int CvPromotionInfo::getMagicTechPrereq() const
+{
+	return m_iMagicTechPrereq;
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 int CvPromotionInfo::getStateReligionPrereq() const
 {
@@ -2112,6 +2287,18 @@ bool CvPromotionInfo::getUnitCombat(int i) const
 	FAssertBounds(0, GC.getNumUnitCombatInfos(), i);
 	return m_pbUnitCombat ? m_pbUnitCombat[i] : false;
 }
+
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+int CvPromotionInfo::getDamageTypeCombat(DamageTypes eDamage) const
+{
+	return m_piDamageTypeCombat ? m_piDamageTypeCombat[eDamage] : 0;
+}
+
+int CvPromotionInfo::getDamageTypeResist(DamageTypes eDamage) const
+{
+	return m_piDamageTypeResist ? m_piDamageTypeResist[eDamage] : 0;
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 #if ENABLE_XML_FILE_CACHE
 void CvPromotionInfo::read(FDataStreamBase* stream)
 {
@@ -2191,6 +2378,14 @@ void CvPromotionInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_pbUnitCombat);
 	m_pbUnitCombat = new bool[GC.getNumUnitCombatInfos()];
 	stream->Read(GC.getNumUnitCombatInfos(), m_pbUnitCombat);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Read(&m_iPrereqGlobalCounter);
+	stream->Read(&m_iGlobalCounterModifier);
+	stream->Read(&m_iGlobalCounterCombatPercent);
+	stream->Read(&m_iGlobalCounterModifierOnCombat);
+	stream->Read(&m_iGlobalCounterModifierOnCombatWon);
+	stream->Read(&m_iGlobalCounterModifierOnCombatLost);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 void CvPromotionInfo::write(FDataStreamBase* stream)
@@ -2253,6 +2448,14 @@ void CvPromotionInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumTerrainInfos(), m_pbTerrainDoubleMove);
 	stream->Write(GC.getNumFeatureInfos(), m_pbFeatureDoubleMove);
 	stream->Write(GC.getNumUnitCombatInfos(), m_pbUnitCombat);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Write(m_iPrereqGlobalCounter);
+	stream->Write(m_iGlobalCounterModifier);
+	stream->Write(m_iGlobalCounterCombatPercent);
+	stream->Write(m_iGlobalCounterModifierOnCombat);
+	stream->Write(m_iGlobalCounterModifierOnCombatWon);
+	stream->Write(m_iGlobalCounterModifierOnCombatLost);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 #endif
 bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
@@ -2264,6 +2467,9 @@ bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
 
 	pXML->SetInfoIDFromChildXmlVal(m_iLayerAnimationPath, "LayerAnimationPath");
 	pXML->SetInfoIDFromChildXmlVal(m_iTechPrereq, "TechPrereq");
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	pXML->SetInfoIDFromChildXmlVal(m_iMagicTechPrereq, "MagicTechPrereq");
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	pXML->SetInfoIDFromChildXmlVal(m_iStateReligionPrereq, "StateReligionPrereq");
 
 	pXML->GetChildXmlValByName(&m_bLeader, "bLeader");
@@ -2313,6 +2519,18 @@ bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pbTerrainDoubleMove, "TerrainDoubleMoves", GC.getNumTerrainInfos());
 	pXML->SetVariableListTagPair(&m_pbFeatureDoubleMove, "FeatureDoubleMoves", GC.getNumFeatureInfos());
 	pXML->SetVariableListTagPair(&m_pbUnitCombat, "UnitCombats", GC.getNumUnitCombatInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	pXML->SetVariableListTagPair(&m_piDamageTypeCombat, "DamageTypeCombats", GC.getNumDamageInfos());
+	pXML->SetVariableListTagPair(&m_piDamageTypeResist, "DamageTypeResists", GC.getNumDamageInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iPrereqGlobalCounter, "iPrereqGlobalCounter");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifier, "iGlobalCounterModifier");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterCombatPercent, "iGlobalCounterCombatPercent");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifierOnCombat, "iGlobalCounterModifierOnCombat");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifierOnCombatWon, "iGlobalCounterModifierOnCombatWon");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifierOnCombatLost, "iGlobalCounterModifierOnCombatLost");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	return true;
 }
@@ -2551,3 +2769,793 @@ bool CvEspionageMissionInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+CvDamageInfo::CvDamageInfo() :
+
+{}
+
+CvDamageInfo::~CvDamageInfo()
+{
+	// XANA (note): Nothing here yet.
+}
+
+bool CvDamageInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	//pXML->GetChildXmlValByName(&m_iHealth, "iHealth"); // XANA (note): Nothing here yet.
+	return true;
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+CvMagicRequirementInfo::CvMagicRequirementInfo() :
+m_pbCivilizationPrereqs(NULL),
+m_pbLeaderPrereqs(NULL)
+{}
+
+CvMagicRequirementInfo::~CvMagicRequirementInfo()
+{
+	SAFE_DELETE_ARRAY(m_pbCivilizationPrereqs);
+	SAFE_DELETE_ARRAY(m_pbLeaderPrereqs);
+}
+
+bool CvMagicRequirementInfo::isRequiredCivilization(int i) const
+{
+	FAssertBounds(0, GC.getNumCivilizationInfos(), i);
+	return m_pbCivilizationPrereqs ? m_pbCivilizationPrereqs[i] : false;
+}
+
+bool CvMagicRequirementInfo::isRequiredLeader(int i) const
+{
+	FAssertBounds(0, GC.getNumLeaderHeadInfos(), i);
+	return m_pbLeaderPrereqs ? m_pbLeaderPrereqs[i] : false;
+}
+
+bool CvMagicRequirementInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	pXML->SetVariableListTagPair(&m_pbCivilizationPrereqs, "Civilizations", GC.getNumCivilizationInfos());
+	pXML->SetVariableListTagPair(&m_pbLeaderPrereqs, "Leaders", GC.getNumLeaderHeadInfos());
+	
+	return true;
+}
+
+CvMagicClassInfo::CvMagicClassInfo() :
+m_iTechClassPrereq(NO_MAGIC_TECH_CLASS)
+m_iReligionPrereq(NO_RELIGION),
+m_iStateReligionPrereq(NO_RELIGION),
+m_iAIWeight(0),
+m_piFlavorValue(NULL),
+m_iDamageChange(0),
+m_iDamageLimit(0),
+m_iDamageType(NO_DAMAGE),
+m_iMiscastChance(0),
+m_iEffect(NO_EFFECT),
+m_piProphecyCounterChange(NULL),
+m_pUnitClassCreationStruct(NULL),
+m_iSpecializedPrereq(NO_MAGIC_REQUIREMENT)
+{}
+
+CvMagicClassInfo::~CvMagicClassInfo()
+{
+	SAFE_DELETE_ARRAY(m_piFlavorValue);
+	SAFE_DELETE_ARRAY(m_piProphecyCounterChange);
+	SAFE_DELETE(m_pUnitClassCreationStruct);
+}
+
+int CvMagicClassInfo::getTechClassPrereq() const
+{
+	return m_iTechClassPrereq;
+}
+
+int CvMagicClassInfo::getReligionPrereq() const
+{
+	return m_iStateReligionPrereq;
+}
+
+int CvMagicClassInfo::getStateReligionPrereq() const
+{
+	return m_iReligionPrereq;
+}
+
+int CvMagicClassInfo::getAIWeight() const
+{
+	return m_iAIWeight;
+}
+
+int CvMagicClassInfo::getDamageChange() const
+{
+	return m_iDamageChange;
+}
+
+int CvMagicClassInfo::getDamageLimit() const
+{
+	return m_iDamageLimit;
+}
+
+int CvMagicClassInfo::getDamageType() const
+{
+	return m_iDamageType;
+}
+
+int CvMagicClassInfo::getMiscastChance() const
+{
+	return m_iMiscastChance;
+}
+
+int CvMagicClassInfo::getEffect() const
+{
+	return m_iEffect;
+}
+
+MagicRequirementTypes CvMagicClassInfo::getExtraPrereq() const
+{
+	return m_iSpecializedPrereq;
+}
+
+int CvMagicClassInfo::getFlavorValue(int i) const
+{
+	FAssertBounds(0, GC.getNumFlavorInfos(), i);
+	return m_piFlavorValue ? m_piFlavorValue[i] : 0;
+}
+
+int CvMagicClassInfo::getProphecyCounterChange(int i) const
+{
+	FAssertBounds(0, GC.getNumProphecyInfos(), i);
+	return m_piProphecyCounterChange ? m_piProphecyCounterChange[i] : 0;
+}
+
+bool CvMagicClassInfo::isRequiredCivilization(int i) const
+{
+	FAssertBounds(0, GC.getNumCivilizationInfos(), i);
+	if (getExtraPrereq() != NO_MAGIC_REQUIREMENT)
+	{
+		return GC.getInfo(getExtraPrereq()).isRequiredCivilization(i);
+	}
+	return true;
+}
+
+bool CvMagicClassInfo::isRequiredLeader(int i) const
+{
+	FAssertBounds(0, GC.getNumLeaderHeadInfos(), i);
+	if (getExtraPrereq() != NO_MAGIC_REQUIREMENT)
+	{
+		return GC.getInfo(getExtraPrereq()).isRequiredLeader(i);
+	}
+	return true;
+}
+
+bool CvMagicClassInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	pXML->SetInfoIDFromChildXmlVal(m_iTechClassPrereq, "TechClassPrereq");
+	pXML->SetInfoIDFromChildXmlVal(m_iReligionPrereq, "ReligionPrereq");
+	pXML->SetInfoIDFromChildXmlVal(m_iStateReligionPrereq, "StateReligionPrereq");
+	pXML->GetChildXmlValByName(&m_iAIWeight, "iAIWeight");
+	pXML->GetChildXmlValByName(&m_iDamageChange, "iDamageChange");
+	pXML->GetChildXmlValByName(&m_iDamageLimit, "iDamageLimit");
+	pXML->GetChildXmlValByName(&m_iDamageType, "DamageType");
+	pXML->GetChildXmlValByName(&m_iMiscastChance, "iMiscastChance");
+	pXML->GetChildXmlValByName(&m_iEffect, "Effect");
+	pXML->SetVariableListTagPair(&m_piFlavorValue, "Flavors", GC.getNumFlavorInfos());
+	pXML->SetVariableListTagPair(&m_piProphecyCounterChange, "ProphecyCounterChanges", GC.getNumProphecyInfos());
+	
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "UnitClassCreationStruct"))
+	{
+		SAFE_DELETE(m_pUnitClassCreationStruct);
+		m_pUnitClassCreationStruct = new UnitClassCreationData();
+		if (m_pUnitClassCreationStruct != NULL)
+		{
+			CvString szTextVal;
+			UnitClassCreationData& kStruct = *m_pUnitClassCreationStruct;
+			if (pXML->GetChildXmlVal(szTextVal))
+			{
+				UnitClassTypes eClass = (UnitClassTypes)GC.getInfoTypeForString(szTextVal);
+				if (eClass != NO_UNITCLASS)
+				{
+					kStruct.setClassType(eClass);
+					SpellUnitCreationSubData& kSubStruct = kStruct.getCreationData();
+					{
+						int iCount = 1;
+						if (pXML->GetChildXmlVal(iCount))
+						{
+							kSubStruct.setCreationNumber(iCount);
+						}
+						else kSubStruct.setCreationNumber(iCount);
+					}
+					{
+						if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "AddPromotions"))
+						{
+							kSubStruct.readPromotions(pXML, "AddPromotions", &kSubStruct.getAddPromotionsArray());
+						}
+						if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "RemovePromotions"))
+						{
+							kSubStruct.readPromotions(pXML, "RemovePromotions", &kSubStruct.getRemovePromotionsArray());
+						}
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+	}
+	
+	CvString szTextVal;
+	pXML->GetChildXmlValByName(szTextVal, "ExtraPrereq");
+	m_aszExtraXMLforPass3.push_back(szTextVal);
+
+	return true;
+}
+
+bool CvMagicClassInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	// XANA (note): Noting here yet.
+
+	return true;
+}
+
+bool CvMagicClassInfo::readPass3()
+{
+	if (m_aszExtraXMLforPass3.size() < 1)
+	{
+		FAssert(false);
+		return false;
+	}
+
+	m_iSpecializedPrereq = GC.getInfoTypeForString(m_aszExtraXMLforPass3[0]);
+	m_aszExtraXMLforPass3.clear();
+	
+	return true;
+}
+
+CvMagicInfo::CvMagicInfo() :
+m_iPrereqPromotion(NO_PROMOTION),
+m_iTechClassPrereq(NO_MAGIC_TECH_CLASS),
+m_iStateReligionPrereq(NO_RELIGION),
+m_pUnitClassCreationStruct(NULL),
+m_pUnitCreationStruct(NULL),
+m_iMoveDiscountChange(0),
+m_iAirRangeChange(0),
+m_iInterceptChange(0),
+m_iEvasionChange(0),
+m_iWithdrawalChange(0),
+m_iCargoChange(0),
+m_iCollateralDamageChange(0),
+m_iBombardRateChange(0),
+m_iFirstStrikesChange(0),
+m_iChanceFirstStrikesChange(0),
+m_iEnemyHealChange(0),
+m_iNeutralHealChange(0),
+m_iFriendlyHealChange(0),
+m_iSameTileHealChange(0),
+m_iAdjacentTileHealChange(0),
+m_iCombatPercent(0),
+m_iCityAttackPercent(0),
+m_iCityDefensePercent(0),
+m_iHillsAttackPercent(0),
+m_iHillsDefensePercent(0),
+m_iCommandType(NO_COMMAND),
+m_iRevoltProtection(0),
+m_iCollateralDamageProtection(0),
+m_iPillageChange(0),
+m_iUpgradeDiscount(0),
+m_iExperiencePercent(0),
+m_iKamikazePercent(0),
+m_bLeader(false),
+m_iBlitz(0), // advc.164
+m_bAmphib(false),
+m_bRiver(false),
+m_bEnemyRoute(false),
+m_bAlwaysHeal(false),
+m_bHillsDoubleMove(false),
+m_bImmuneToFirstStrikes(false),
+m_piTerrainAttackPercent(NULL),
+m_piTerrainDefensePercent(NULL),
+m_piFeatureAttackPercent(NULL),
+m_piFeatureDefensePercent(NULL),
+m_piUnitCombatModifierPercent(NULL),
+m_piDomainModifierPercent(NULL),
+m_pbTerrainDoubleMove(NULL),
+m_pbFeatureDoubleMove(NULL),
+m_pbUnitCombat(NULL)
+{}
+
+CvMagicInfo::~CvMagicInfo()
+{
+	SAFE_DELETE(m_pUnitClassCreationStruct);
+	SAFE_DELETE(m_pUnitCreationStruct);
+	SAFE_DELETE_ARRAY(m_piFeatureAttackPercent);
+	SAFE_DELETE_ARRAY(m_piFeatureDefensePercent);
+	SAFE_DELETE_ARRAY(m_piUnitCombatModifierPercent);
+	SAFE_DELETE_ARRAY(m_piDomainModifierPercent);
+	SAFE_DELETE_ARRAY(m_pbTerrainDoubleMove);
+	SAFE_DELETE_ARRAY(m_pbFeatureDoubleMove);
+	SAFE_DELETE_ARRAY(m_pbUnitCombat);
+}
+
+int CvMagicInfo::getPrereqPromotion() const
+{
+	return m_iPrereqPromotion;
+}
+
+int CvMagicInfo::getPrereqOrPromotion(int i) const
+{
+	FAssertBounds(0, getNumPrereqOrPromotions(), i);
+	return m_paeOrPromotionPrereqs[i];
+}
+
+int CvMagicInfo::getMagicClass(int i) const
+{
+	FAssertBounds(0, getNumMagicClasses(), i);
+	return m_aeClassTypes[i];
+}
+
+int CvMagicInfo::getTechClassPrereq() const
+{
+	return m_iTechClassPrereq;
+}
+
+int CvMagicInfo::getStateReligionPrereq() const
+{
+	return m_iStateReligionPrereq;
+}
+
+int CvMagicInfo::getVisibilityChange() const
+{
+	return m_iVisibilityChange;
+}
+
+int CvMagicInfo::getMovesChange() const
+{
+	return m_iMovesChange;
+}
+
+int CvMagicInfo::getMoveDiscountChange() const
+{
+	return m_iMoveDiscountChange;
+}
+
+int CvMagicInfo::getAirRangeChange() const
+{
+	return m_iAirRangeChange;
+}
+
+int CvMagicInfo::getInterceptChange() const
+{
+	return m_iInterceptChange;
+}
+
+int CvMagicInfo::getEvasionChange() const
+{
+	return m_iEvasionChange;
+}
+
+int CvMagicInfo::getWithdrawalChange() const
+{
+	return m_iWithdrawalChange;
+}
+
+int CvMagicInfo::getCargoChange() const
+{
+	return m_iCargoChange;
+}
+
+int CvMagicInfo::getCollateralDamageChange() const
+{
+	return m_iCollateralDamageChange;
+}
+
+int CvMagicInfo::getBombardRateChange() const
+{
+	return m_iBombardRateChange;
+}
+
+int CvMagicInfo::getFirstStrikesChange() const
+{
+	return m_iFirstStrikesChange;
+}
+
+int CvMagicInfo::getChanceFirstStrikesChange() const
+{
+	return m_iChanceFirstStrikesChange;
+}
+
+int CvMagicInfo::getEnemyHealChange() const
+{
+	return m_iEnemyHealChange;
+}
+
+int CvMagicInfo::getNeutralHealChange() const
+{
+	return m_iNeutralHealChange;
+}
+
+int CvMagicInfo::getFriendlyHealChange() const
+{
+	return m_iFriendlyHealChange;
+}
+
+int CvMagicInfo::getSameTileHealChange() const
+{
+	return m_iSameTileHealChange;
+}
+
+int CvMagicInfo::getAdjacentTileHealChange() const
+{
+	return m_iAdjacentTileHealChange;
+}
+
+int CvMagicInfo::getCombatPercent() const
+{
+	return m_iCombatPercent;
+}
+
+int CvMagicInfo::getCityAttackPercent() const
+{
+	return m_iCityAttackPercent;
+}
+
+int CvMagicInfo::getCityDefensePercent() const
+{
+	return m_iCityDefensePercent;
+}
+
+int CvMagicInfo::getHillsAttackPercent() const
+{
+	return m_iHillsAttackPercent;
+}
+
+int CvMagicInfo::getHillsDefensePercent() const
+{
+	return m_iHillsDefensePercent;
+}
+
+int CvMagicInfo::getCommandType() const
+{
+	return m_iCommandType;
+}
+
+void CvMagicInfo::setCommandType(int iNewType)
+{
+	m_iCommandType = iNewType;
+}
+
+int CvMagicInfo::getRevoltProtection() const
+{
+	return m_iRevoltProtection;
+}
+
+int CvMagicInfo::getCollateralDamageProtection() const
+{
+	return m_iCollateralDamageProtection;
+}
+
+int CvMagicInfo::getPillageChange() const
+{
+	return m_iPillageChange;
+}
+
+int CvMagicInfo::getUpgradeDiscount() const
+{
+	return m_iUpgradeDiscount;
+}
+
+int CvMagicInfo::getExperiencePercent() const
+{
+	return m_iExperiencePercent;
+}
+
+int CvMagicInfo::getKamikazePercent() const
+{
+	return m_iKamikazePercent;
+}
+
+bool CvMagicInfo::isLeader() const
+{
+	return m_bLeader;
+}
+
+int CvMagicInfo::getBlitz() const
+{
+	return m_iBlitz;
+}
+
+bool CvMagicInfo::isAmphib() const
+{
+	return m_bAmphib;
+}
+
+bool CvMagicInfo::isRiver() const
+{
+	return m_bRiver;
+}
+
+bool CvMagicInfo::isEnemyRoute() const
+{
+	return m_bEnemyRoute;
+}
+
+bool CvMagicInfo::isAlwaysHeal() const
+{
+	return m_bAlwaysHeal;
+}
+
+bool CvMagicInfo::isHillsDoubleMove() const
+{
+	return m_bHillsDoubleMove;
+}
+
+bool CvMagicInfo::isImmuneToFirstStrikes() const
+{
+	return m_bImmuneToFirstStrikes;
+}
+
+const TCHAR* CvMagicInfo::getSound() const
+{
+	return m_szSound;
+}
+
+int CvMagicInfo::getTerrainAttackPercent(int i) const
+{
+	FAssertBounds(0, GC.getNumTerrainInfos(), i);
+	return m_piTerrainAttackPercent ? m_piTerrainAttackPercent[i] : 0; // advc.003t
+}
+
+int CvMagicInfo::getTerrainDefensePercent(int i) const
+{
+	FAssertBounds(0, GC.getNumTerrainInfos(), i);
+	return m_piTerrainDefensePercent ? m_piTerrainDefensePercent[i] : 0; // advc.003t
+}
+
+int CvMagicInfo::getFeatureAttackPercent(int i) const
+{
+	FAssertBounds(0, GC.getNumFeatureInfos(), i);
+	return m_piFeatureAttackPercent ? m_piFeatureAttackPercent[i] : 0; // advc.003t
+}
+
+int CvMagicInfo::getFeatureDefensePercent(int i) const
+{
+	FAssertBounds(0, GC.getNumFeatureInfos(), i);
+	return m_piFeatureDefensePercent ? m_piFeatureDefensePercent[i] : 0; // advc.003t
+}
+
+int CvMagicInfo::getUnitCombatModifierPercent(int i) const
+{
+	FAssertBounds(0, GC.getNumUnitCombatInfos(), i);
+	return m_piUnitCombatModifierPercent ? m_piUnitCombatModifierPercent[i] : 0; // advc.003t
+}
+
+int CvMagicInfo::getDomainModifierPercent(int i) const
+{
+	FAssertBounds(0, NUM_DOMAIN_TYPES, i);
+	return m_piDomainModifierPercent ? m_piDomainModifierPercent[i] : 0; // advc.003t
+}
+
+bool CvMagicInfo::getTerrainDoubleMove(int i) const
+{
+	FAssertBounds(0, GC.getNumTerrainInfos(), i);
+	return m_pbTerrainDoubleMove ? m_pbTerrainDoubleMove[i] : false;
+}
+
+bool CvMagicInfo::getFeatureDoubleMove(int i) const
+{
+	FAssertBounds(0, GC.getNumFeatureInfos(), i);
+	return m_pbFeatureDoubleMove ? m_pbFeatureDoubleMove[i] : false;
+}
+
+bool CvMagicInfo::getUnitCombat(int i) const
+{
+	FAssertBounds(0, GC.getNumUnitCombatInfos(), i);
+	return m_pbUnitCombat ? m_pbUnitCombat[i] : false;
+}
+
+bool CvMagicInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+
+	pXML->GetChildXmlValByName(m_szSound, "Sound");
+	
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "Classes"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0)
+			{
+				CvString szTextVal;
+				if (pXML->GetChildXmlVal(szTextVal))
+				{
+					for (int j = 0; j < iNumSibs; j++)
+					{	// <advc.003t>
+						MagicClassTypes eClass = (MagicClassTypes)GC.getInfoTypeForString(szTextVal);
+						if (eClass != NO_MAGIC_CLASS)
+							m_aeClassTypes.push_back(eClass); // </advc.003t>
+						if (!pXML->GetNextXmlVal(szTextVal))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+	pXML->SetInfoIDFromChildXmlVal(m_iTechClassPrereq, "TechClassPrereq");
+	pXML->GetChildXmlValByName(&m_bAmphib, "bAmphib");
+	pXML->GetChildXmlValByName(&m_bRiver, "bRiver");
+	pXML->GetChildXmlValByName(&m_bEnemyRoute, "bEnemyRoute");
+	pXML->GetChildXmlValByName(&m_bAlwaysHeal, "bAlwaysHeal");
+	pXML->GetChildXmlValByName(&m_bHillsDoubleMove, "bHillsDoubleMove");
+	pXML->GetChildXmlValByName(&m_bImmuneToFirstStrikes, "bImmuneToFirstStrikes");
+	pXML->GetChildXmlValByName(&m_iVisibilityChange, "iVisibilityChange");
+	pXML->GetChildXmlValByName(&m_iMovesChange, "iMovesChange");
+	pXML->GetChildXmlValByName(&m_iMoveDiscountChange, "iMoveDiscountChange");
+	pXML->GetChildXmlValByName(&m_iAirRangeChange, "iAirRangeChange");
+	pXML->GetChildXmlValByName(&m_iInterceptChange, "iInterceptChange");
+	pXML->GetChildXmlValByName(&m_iEvasionChange, "iEvasionChange");
+	pXML->GetChildXmlValByName(&m_iWithdrawalChange, "iWithdrawalChange");
+	pXML->GetChildXmlValByName(&m_iCargoChange, "iCargoChange");
+	pXML->GetChildXmlValByName(&m_iCollateralDamageChange, "iCollateralDamageChange");
+	pXML->GetChildXmlValByName(&m_iBombardRateChange, "iBombardRateChange");
+	pXML->GetChildXmlValByName(&m_iFirstStrikesChange, "iFirstStrikesChange");
+	pXML->GetChildXmlValByName(&m_iChanceFirstStrikesChange, "iChanceFirstStrikesChange");
+	pXML->GetChildXmlValByName(&m_iEnemyHealChange, "iEnemyHealChange");
+	pXML->GetChildXmlValByName(&m_iNeutralHealChange, "iNeutralHealChange");
+	pXML->GetChildXmlValByName(&m_iFriendlyHealChange, "iFriendlyHealChange");
+	pXML->GetChildXmlValByName(&m_iSameTileHealChange, "iSameTileHealChange");
+	pXML->GetChildXmlValByName(&m_iAdjacentTileHealChange, "iAdjacentTileHealChange");
+	pXML->GetChildXmlValByName(&m_iCombatPercent, "iCombatPercent");
+	pXML->GetChildXmlValByName(&m_iCityAttackPercent, "iCityAttack");
+	pXML->GetChildXmlValByName(&m_iCityDefensePercent, "iCityDefense");
+	pXML->GetChildXmlValByName(&m_iHillsAttackPercent, "iHillsAttack");
+	pXML->GetChildXmlValByName(&m_iHillsDefensePercent, "iHillsDefense");
+	pXML->GetChildXmlValByName(&m_iRevoltProtection, "iRevoltProtection");
+	pXML->GetChildXmlValByName(&m_iCollateralDamageProtection, "iCollateralDamageProtection");
+	pXML->GetChildXmlValByName(&m_iPillageChange, "iPillageChange");
+	pXML->GetChildXmlValByName(&m_iUpgradeDiscount, "iUpgradeDiscount");
+	pXML->GetChildXmlValByName(&m_iExperiencePercent, "iExperiencePercent");
+	pXML->GetChildXmlValByName(&m_iKamikazePercent, "iKamikazePercent");
+	pXML->SetVariableListTagPair(&m_piTerrainAttackPercent, "TerrainAttacks", GC.getNumTerrainInfos());
+	pXML->SetVariableListTagPair(&m_piTerrainDefensePercent, "TerrainDefenses", GC.getNumTerrainInfos());
+	pXML->SetVariableListTagPair(&m_piFeatureAttackPercent, "FeatureAttacks", GC.getNumFeatureInfos());
+	pXML->SetVariableListTagPair(&m_piFeatureDefensePercent, "FeatureDefenses", GC.getNumFeatureInfos());
+	pXML->SetVariableListTagPair(&m_piUnitCombatModifierPercent, "UnitCombatMods", GC.getNumUnitCombatInfos());
+	pXML->SetVariableListTagPair(&m_piDomainModifierPercent, "DomainMods", NUM_DOMAIN_TYPES);
+	pXML->SetVariableListTagPair(&m_pbTerrainDoubleMove, "TerrainDoubleMoves", GC.getNumTerrainInfos());
+	pXML->SetVariableListTagPair(&m_pbFeatureDoubleMove, "FeatureDoubleMoves", GC.getNumFeatureInfos());
+	pXML->SetVariableListTagPair(&m_pbUnitCombat, "UnitCombats", GC.getNumUnitCombatInfos());
+	
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "UnitClassCreationStruct"))
+	{
+		SAFE_DELETE(m_pUnitClassCreationStruct);
+		m_pUnitClassCreationStruct = new UnitClassCreationData();
+		if (m_pUnitClassCreationStruct != NULL)
+		{
+			CvString szTextVal;
+			UnitClassCreationData& kStruct = *m_pUnitClassCreationStruct;
+			if (pXML->GetChildXmlVal(szTextVal))
+			{
+				UnitClassTypes eClass = (UnitClassTypes)GC.getInfoTypeForString(szTextVal);
+				if (eClass != NO_UNITCLASS)
+				{
+					kStruct.setClassType(eClass);
+					SpellUnitCreationSubData& kSubStruct = kStruct.getCreationData();
+					{
+						int iCount = 1;
+						if (pXML->GetChildXmlVal(iCount))
+						{
+							kSubStruct.setCreationNumber(iCount);
+						}
+						else kSubStruct.setCreationNumber(iCount);
+					}
+					{
+						if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "AddPromotions"))
+						{
+							kSubStruct.readPromotions(pXML, "AddPromotions", &kSubStruct.getAddPromotionsArray());
+						}
+						if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "RemovePromotions"))
+						{
+							kSubStruct.readPromotions(pXML, "RemovePromotions", &kSubStruct.getRemovePromotionsArray());
+						}
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+	}
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "UnitTypeCreationStruct"))
+	{
+		SAFE_DELETE(m_pUnitCreationStruct);
+		m_pUnitCreationStruct = new UnitCreationData();
+		if (m_pUnitCreationStruct != NULL)
+		{
+			CvString szTextVal;
+			UnitCreationData& kStruct = *m_pUnitCreationStruct;
+			if (pXML->GetChildXmlVal(szTextVal))
+			{
+				UnitTypes eUnit = (UnitTypes)GC.getInfoTypeForString(szTextVal);
+				if (eUnit != NO_UNIT)
+				{
+					kStruct.setUnitType(eUnit);
+					SpellUnitCreationSubData& kSubStruct = kStruct.getCreationData();
+					{
+						int iCount = 1;
+						if (pXML->GetChildXmlVal(iCount))
+						{
+							kSubStruct.setCreationNumber(iCount);
+						}
+						else kSubStruct.setCreationNumber(iCount);
+					}
+					{
+						if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "AddPromotions"))
+						{
+							kSubStruct.readPromotions(pXML, "AddPromotions", &kSubStruct.getAddPromotionsArray());
+						}
+						if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "RemovePromotions"))
+						{
+							kSubStruct.readPromotions(pXML, "RemovePromotions", &kSubStruct.getRemovePromotionsArray());
+						}
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+	}
+	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "OrPromotionPreReqs"))
+	{
+		if (pXML->SkipToNextVal())
+		{
+			int const iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			if (iNumSibs > 0)
+			{
+				if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+				{
+					for (int iLoop = 0; iLoop < iNumSibs; iLoop++)
+					{
+						CvString szTextVal;
+						if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+						{
+							if (pXML->SkipToNextVal() && // K-Mod. (without this, a comment in the xml could break this)
+								pXML->GetNextXmlVal(szTextVal))
+							{
+								PromotionTypes ePromotion = (PromotionTypes)GC.getInfoTypeForString(szTextVal);
+								if (ePromotion != NO_PROMOTION)
+								{
+									m_paeOrPromotionPrereqs.push_back(ePromotion);
+								}
+							}
+							gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+						}
+						if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+							break;
+					}
+					gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				}
+			}
+		}
+		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	}
+
+	return true;
+}
+
+bool CvMagicInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	// XANA (note): Noting here yet.
+	
+	return true;
+}
+
+bool CvMagicInfo::readPass3()
+{
+	// XANA (note): Noting here yet.
+	
+	return true;
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ

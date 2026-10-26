@@ -375,8 +375,9 @@ void CvPlayerAI::AI_updateCacheData()
 	int i = 0;
 	FOR_EACH_CITYAI_VAR(pCity, *this)
 	{
-		pCity->AI_setCityValPercent(stats::percentileRank(
-				rCityValues, rCityValues[i] + scaled::epsilon()).getPercent());
+		pCity->AI_setCityValPercent(
+				(1 - stats::percentileRank(
+				rCityValues, rCityValues[i] + scaled::epsilon())).getPercent());
 		pCity->AI_updateSafety();
 		i++;
 	} // </advc.139>
@@ -488,16 +489,6 @@ void CvPlayerAI::AI_doTurnUnitsPre()
 	}
 }
 
-// advc.131e:
-struct DescByExperience
-{
-	bool operator()(CvUnitAI const* pFirst, CvUnitAI const* pSecond) const
-	{
-		if (pFirst->AI_upgradePriority() != pSecond->AI_upgradePriority())
-			return pFirst->AI_upgradePriority() > pSecond->AI_upgradePriority();
-		return pFirst->getID() < pSecond->getID(); // (mustn't let address break ties)
-	}
-};
 
 void CvPlayerAI::AI_doTurnUnitsPost()
 {
@@ -520,7 +511,7 @@ void CvPlayerAI::AI_doTurnUnitsPost()
 	}
 	// BETTER_BTS_AI_MOD, Gold AI, 02/24/10, jdog5000: START
 	//bool bAnyWar = (GET_TEAM(getTeam()).getAnyWarPlanCount(true) > 0);
-	int const iStartingGold = getGold();
+	int iStartingGold = getGold();
 	/* BBAI code
 	int iTargetGold = AI_goldTarget();
 	int iUpgradeBudget = (AI_getGoldToUpgradeAllUnits() / (bAnyWar ? 1 : 2));
@@ -540,30 +531,21 @@ void CvPlayerAI::AI_doTurnUnitsPost()
 		int iMaxBudget = AI_goldTarget(true);
 		iUpgradeBudget = std::min(iMaxBudget, getGold() * iMaxBudget /
 				std::max(1, AI_goldTarget(false)));
-	} // K-Mod end
+	}
+	// K-Mod end
 
 	// Always willing to upgrade 1 unit if we have the money
-	iUpgradeBudget = std::max(iUpgradeBudget, 1);
+	iUpgradeBudget = std::max(iUpgradeBudget,1);
 	// BETTER_BTS_AI_MOD: END
 
 	CvPlot const* pLastUpgradePlot = NULL;
-	// <advc.131e>
-	std::vector<CvUnitAI*> apUnitsByExp;
-	FOR_EACH_UNITAI_VAR(pLoopUnit, *this)
-		apUnitsByExp.push_back(pLoopUnit);
-	std::sort(apUnitsByExp.begin(), apUnitsByExp.end(), DescByExperience());
-	for (int iPass = 0; iPass < 5; iPass++) // Case inserted for upgrade discounts
-	{	// BBAI check moved up to save time
-		if (iPass >= 3 && iStartingGold - getGold() >= iUpgradeBudget)
-			break; // </advc.131e>
-		//FOR_EACH_UNITAI_VAR(pLoopUnit, *this)
-		// <advc.131e>
-		for (std::vector<CvUnitAI*>::iterator itUnit = apUnitsByExp.begin();
-			itUnit != apUnitsByExp.end(); /* Increment later; may want to erase. */)
+	for (int iPass = 0; iPass < 4; iPass++)
+	{
+		FOR_EACH_UNITAI_VAR(pLoopUnit, *this)
 		{
-			CvUnitAI* pLoopUnit = *itUnit; // </advc.131e>
 			bool bNoDisband = false;
 			bool bValid = false;
+
 			switch (iPass)
 			{
 			case 0:
@@ -595,27 +577,23 @@ void CvPlayerAI::AI_doTurnUnitsPost()
 				}
 				break;
 			}
-			// <advc.131e>
 			case 2:
-				if (pLoopUnit->getUpgradeDiscount() >= 40)
-					bValid = true;
-				break; // </advc.131e>
-			case 3:
 				/*if (pLoopUnit->cargoSpace() > 0)
 					bValid = true;*/ // BtS
 				// Only normal transports
 				if (pLoopUnit->cargoSpace() > 0 &&
 					pLoopUnit->specialCargo() == NO_SPECIALUNIT)
 				{
-					bValid = true;
+					bValid = iStartingGold - getGold() < iUpgradeBudget;
 				}
 				// Also upgrade escort ships
 				if (pLoopUnit->AI_getUnitAIType() == UNITAI_ESCORT_SEA)
-					bValid = true;
+					bValid = iStartingGold - getGold() < iUpgradeBudget;
 
 				break;
-			case 4:
-				bValid = true;
+			case 3:
+				//bValid = true; // BtS
+				bValid = iStartingGold - getGold() < iUpgradeBudget;
 				break;
 			default:
 				FAssert(false);
@@ -623,12 +601,7 @@ void CvPlayerAI::AI_doTurnUnitsPost()
 			}
 
 			if (!bValid)
-			{
-				++itUnit; // advc.131e
 				continue;
-			}
-			// advc.131e: One upgrade attempt per unit suffices
-			else itUnit = apUnitsByExp.erase(itUnit);
 
 			bool bKilled = false;
 			if (!bNoDisband)
@@ -636,10 +609,7 @@ void CvPlayerAI::AI_doTurnUnitsPost()
 				//if (pLoopUnit->canFight()) // BtS
 				// K-Mod - bug fix for the rare case of a barb city spawning on top of an animal
 				if (pLoopUnit->getUnitCombatType() != NO_UNITCOMBAT &&
-					!pLoopUnit->isFound() && // advc: Future-proof; from DoC.
-					/*	advc.131e: Will otherwise need to remove cargo from apUnitsByExp.
-						But probably a bad idea to scrap transports with cargo anyway. */
-					!pLoopUnit->hasCargo())
+					!pLoopUnit->isFound()) // advc: Future-proof; from DoC.
 				{
 					int iExp = pLoopUnit->getExperience();
 					CvCityAI const* pPlotCity = pLoopUnit->getPlot().AI_getPlotCity();
@@ -6926,6 +6896,14 @@ int CvPlayerAI::AI_techUnitValue(TechTypes eTech, int iPathLength, bool& bEnable
 
 		iValue += iTotalUnitValue;
 	}
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	FOR_EACH_ENUM(Damage)
+	{
+		iValue += kLoopUnit.getDamageTypeCombat(eLoopDamage);
+		iValue += kLoopUnit.getDamageTypeResist(eLoopDamage) / 100;
+	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	// K-Mod. Rescale to match AI_techValue
 	iValue *= 4 * (getNumCities() /* k146: */ + 2);
@@ -7466,11 +7444,8 @@ bool CvPlayerAI::AI_isWillingToTalk(PlayerTypes ePlayer, /* advc.104l: */ bool b
 			and some of the new code (isPeaceDealPossible) is expensive. */
 		if (gDLL->getDiplomacyPlayer() == getID())
 			return true;
-		if (TEAMID(ePlayer) != getTeam() &&
-			(GET_TEAM(ePlayer).isAlwaysWar() || GET_TEAM(getTeam()).isAlwaysWar()))
-		{
+		if (GET_TEAM(ePlayer).isAlwaysWar() || GET_TEAM(getTeam()).isAlwaysWar())
 			return false;
-		}
 	} // </advc.104i>
 
 	// <advc.003n> In particular, don't call AI_surrenderTrade on non-major civs.
@@ -14519,7 +14494,7 @@ int CvPlayerAI::AI_totalWaterAreaUnitAIs(CvArea const& kArea,
 	for(size_t i = 0; i < aeUnitAI.size(); i++)
 		iCount += AI_totalAreaUnitAIs(kArea, aeUnitAI[i]);
 	// </advc.081>
-	for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
+	for (PlayerIter<MAJOR_CIV> it; it.hasNext(); ++it)
 	{
 		CvPlayer const& kOwner = *it;
 		// <advc.opt> No need to go through cities that our ships can't enter
@@ -14529,7 +14504,7 @@ int CvPlayerAI::AI_totalWaterAreaUnitAIs(CvArea const& kArea,
 		{
 			if (pLoopCity->waterArea() != &kArea)
 				continue;
-			for (size_t j = 0; j < aeUnitAI.size(); j++) // advc.081
+			for(size_t j = 0; j < aeUnitAI.size(); j++) // advc.081
 			{
 				iCount += pLoopCity->getPlot().plotCount(PUF_isUnitAIType,
 						aeUnitAI[j], -1, getID()); // advc.081
@@ -21753,9 +21728,6 @@ void CvPlayerAI::AI_proposeWarTrade(PlayerTypes eHireling)
 				{
 					iBestValue = iValue;
 					eBestTarget = kTarget.getID();
-					// <advc.104o> Moved up (as in SAS)
-					iBestTeamPrice = kOurTeam.AI_declareWarTradeVal(
-							eBestTarget, kHireling.getTeam()); // </advc.104o>
 				}
 			}
 		}
@@ -23358,9 +23330,8 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 		else if (iUnitValue == -1)
 			iUnitValue = 2000; //Great Person?  // (was 200)
 
-		iUnitValue *= GC.getInfo(GC.getGame().getGameSpeedType()).
-				getTrainPercent();
-		iUnitValue /= 100; // K-Mod (bugfix)
+		iUnitValue *= GC.getInfo(GC.getGame().getGameSpeedType()).getTrainPercent();
+		iUnitValue /= 100; // K-Mod
 		iValue -= iUnitValue;
 	}
 	{
@@ -23379,7 +23350,6 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 
 				iBuildingValue *= GC.getInfo(GC.getGame().getGameSpeedType()).
 						getConstructPercent();
-				iBuildingValue /= 100; // advc.001 (from SAS; like the K-Mod fix above)
 				iValue += kEvent.getBuildingChange() * iBuildingValue;
 			}
 		}
@@ -24237,11 +24207,6 @@ int CvPlayerAI::AI_calculateCultureVictoryStage(
 		std::partial_sort(countdownList.begin(), countdownList.begin() +
 				iVictoryCities, countdownList.end());
 		iWinningCountdown = countdownList[iVictoryCities-1];
-	}
-	{	// <advc.sas>
-		int iOwnVictoryCountdown = GET_TEAM(getTeam()).AI_getLowestVictoryCountdown();
-		if (iOwnVictoryCountdown >= 0 && iOwnVictoryCountdown < iWinningCountdown)
-			return 1; // </advc.sas>
 	}
 	if (iCloseToLegendaryCount >= iVictoryCities ||
 		//getCurrentEra() >= (GC.getNumEraInfos() - (2 + AI_getStrategyRand(1) % 2))
@@ -25583,6 +25548,9 @@ void CvPlayerAI::AI_updateStrategyHash()
 	iParanoia /= 7 + std::max(kTeam.getHasMetCivCount(true),
 			//GC.getInfo(GC.getMap().getWorldSize()).getDefaultPlayers()));
 			kGame.getRecommendedPlayers()); // advc.137
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	iParanoia += kGame.getProphecyCounter(getProphecyFollowed()) * 2;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// Alert strategy
 	if (iParanoia >= 200)
 	{

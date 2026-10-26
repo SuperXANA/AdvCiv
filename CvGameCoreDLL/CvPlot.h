@@ -818,11 +818,29 @@ public:
 	// </advc.003s>
 
 	wchar const* debugStr() const; // advc.031c
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getPlotCounter() const { return m_iPlotCounter; };
+	void changePlotCounter(int iChange);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	void read(FDataStreamBase* pStream);
 	void write(FDataStreamBase* pStream);
 	// advc.003h: Adopted from We The People mod (devolution)
 	static void setMaxVisibilityRangeCache();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getMagicClassCombatPoints(MagicClassTypes eClass) const
+	{
+		return m_aiMagicClassCombatPoints.get(eClass);
+	}
+	void changeMagicClassCombatPoints(MagicClassTypes eClass, int iChange);
+	int getMagicClassResistPoints(MagicClassTypes eClass) const
+	{
+		return m_aiMagicClassResistPoints.get(eClass);
+	}
+	void changeMagicClassResistPoints(MagicClassTypes eClass, int iChange);
+	void doDecayMagicClassPoints();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 protected:
 	/*	advc (note): Should keep the data members in an order that optimizes
@@ -887,6 +905,10 @@ protected:
 	// advc.912f: Was short - which would overflow too easily at times-100 precision.
 	int m_iUpgradeProgress;
 	int m_iTotalCulture; // advc.opt
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	char m_iPlotCounter;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	CvPlot** m_paAdjList; // advc.003s (a vector would take up 16 byte)
 	// <advc> m_pArea is enough - except while loading a savegame.
@@ -923,6 +945,10 @@ protected:
 	ArrayEnumMap<BuildTypes,short> m_aiBuildProgress;
 	ListEnumMap2D<PlayerTypes,CultureLevelTypes,char> m_aaiCultureRangeCities;
 	ListEnumMap2D<TeamTypes,InvisibleTypes,short> m_aaiInvisibleVisibilityCount;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	ArrayEnumMap<MagicClassTypes,int,short> m_aiMagicClassCombatPoints;
+	ArrayEnumMap<MagicClassTypes,int,short> m_aiMagicClassResistPoints;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// </advc.enum>
 	CvFeature* m_pFeatureSymbol;
 	CvRoute* m_pRouteSymbol;

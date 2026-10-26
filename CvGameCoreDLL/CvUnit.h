@@ -276,7 +276,7 @@ public:
 	int getStackExperienceToGive(int iNumUnits) const;
 
 	int upgradePrice(UnitTypes eUnit) const;																// Exposed to Python
-	int upgradeXPChange(UnitTypes eUnit = NO_UNIT) const; // advc.080, advc.131e
+	int upgradeXPChange(UnitTypes eUnit) const; // advc.080
 	bool upgradeAvailable(UnitTypes eFromUnit, UnitClassTypes eToUnitClass, int iCount = 0) const;			// Exposed to Python
 	bool canUpgrade(UnitTypes eUnit, bool bTestVisible = false) const;										// Exposed to Python
 	bool isReadyForUpgrade() const;
@@ -444,10 +444,13 @@ public:
 	}
 
 	void setBaseCombatStr(int iCombat);																		// Exposed to Python
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	int baseCombatStr() const																				// Exposed to Python
 	{
-		return m_iBaseCombat;
-	}  // advc: Default values - to make clear that these can be NULL.
+		return m_iBaseCombat + calculateTotalDamageTypeCombat();
+	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	// advc: Default values - to make clear that these can be NULL.
 	int maxCombatStr(CvPlot const* pPlot = NULL, CvUnit const* pAttacker = NULL,							// Exposed to Python
 			CombatDetails* pCombatDetails = NULL,
 			bool bGarrisonStrength = false) const; // advc.500b
@@ -1058,6 +1061,11 @@ public:
 	DllExport int getSelectionSoundScript() const;
 
 	bool isWorker() const; // advc.154  (Exposed to Python)
+	
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getGlobalCounterCombatPercent() const;
+	void changeGlobalCounterCombatPercent(int iChange);
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	bool isBetterDefenderThan(const CvUnit* pDefender, const CvUnit* pAttacker,
 	// Lead From Behind (UncutDragon, edited for K-Mod): START
@@ -1073,6 +1081,10 @@ public:
 	bool LFBisBetterDefenderThan(const CvUnit* pDefender, const CvUnit* pAttacker, int* pBestDefenderRank) const;
 	// (advc: LFBgetDefenderCombatOdds deleted, use 1000 minus calculateCombatOdds instead.)
 	// Lead From Behind: END
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	MagicClassTypes getCombatCutieMark() const { return m_eCombatMark; }
+	MagicClassTypes getResistCutieMark() const { return m_eResistMark; }
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 	// <advc.003u>
 	// virtual for FFreeListTrashArray
@@ -1193,6 +1205,10 @@ protected:
 		the total size of this class in half. */
 	CvWString m_szName;
 	CvString m_szScriptData;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	MagicClassTypes m_eCombatMark;
+	MagicClassTypes m_eResistMark;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 	// <advc.enum>
 	ArrayEnumMap<PromotionTypes,bool> m_abHasPromotion;
@@ -1204,6 +1220,10 @@ protected:
 	ArrayEnumMap<FeatureTypes,int,short> m_aiExtraFeatureAttackPercent;
 	ArrayEnumMap<FeatureTypes,int,short> m_aiExtraFeatureDefensePercent;
 	ArrayEnumMap<UnitCombatTypes,int,short> m_aiExtraUnitCombatModifier;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	ArrayEnumMap<DamageTypes,int,short> m_aiDamageTypeCombat;
+	ArrayEnumMap<DamageTypes,int,short> m_aiDamageTypeResist;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// </advc.enum>
 
 	PlayerTypes getCombatOwner_bulk(TeamTypes eForTeam, CvPlot const& kPlot) const; // advc
@@ -1242,6 +1262,27 @@ protected:
 	void resolveAirCombat(CvUnit* pInterceptor, CvPlot* pPlot, CvAirMissionDefinition& kBattle);
 	void checkRemoveSelectionAfterAttack();
 	void updateFlatMovement();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getDamageTypeCombat(DamageTypes eIndex) const { return m_aiDamageTypeCombat.get(eIndex); }
+	void changeDamageTypeCombat(DamageTypes eIndex, int iChange);
+	void setDamageTypeCombat(DamageTypes eIndex, int iValue);
+	int getDamageTypeResist(DamageTypes eIndex) const { return m_aiDamageTypeResist.get(eIndex); }
+	void changeDamageTypeResist(DamageTypes eIndex, int iChange);
+	void setDamageTypeResist(DamageTypes eIndex, int iValue);
+	int calculateTotalDamageTypeCombat() const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	enum CombatResultTypes
+	{
+		COMBAT_RESULT_ATTACKER_VICTORY,
+		COMBAT_RESULT_DEFENDER_VICTORY,
+		COMBAT_RESULT_BOTH_WITHDRAW
+	};
+	void updateMagicWeights(CvUnit& kDefender, CombatResultTypes eResult);
+	void setCombatCutieMark(MagicClassTypes eMark);
+	void setResistCutieMark(MagicClassTypes eMark);
+	void initMagicCapabilities();
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 // <advc.003u>
 private:
 	void uninitEntity(); // I don't think subclasses should ever call this
@@ -1286,6 +1327,10 @@ struct CombatDetails											// Exposed to Python
 	int iCombatModifierA;
 	int iDomainModifierA;
 	int iDomainModifierT;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int iGlobalCounterModifierA;
+	int iGlobalCounterModifierT;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	int iAnimalCombatModifierA;
 	int iAnimalCombatModifierT;
 	int iRiverAttackModifier;

@@ -531,6 +531,13 @@ CvInfoBase* CyGlobalContext::getDenialInfo(int i) const
 	return (i>=0 && i<NUM_DENIAL_TYPES) ? &GC.getInfo((DenialTypes)i) : NULL;
 }
 
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+CvProphecyInfo* CyGlobalContext::getProphecyInfo(int i) const
+{
+	return (i>=0 && i<GC.getNumProphecyInfos()) ? &GC.getInfo((ProphecyTypes)i) : NULL;
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+
 // advc.003j:
 /*CvQuestInfo* CyGlobalContext::getQuestInfo(int i) const
 {

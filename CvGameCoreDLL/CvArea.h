@@ -194,6 +194,11 @@ public:
 	// advc.opt: No longer used
 	/*int getNumImprovements(ImprovementTypes eImprovement) const;										// Exposed to Python
 	void changeNumImprovements(ImprovementTypes eImprovement, int iChange);*/
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	bool isMysticalThresholdFrozen() const { return m_bMysticalThresholdFrozen; }
+	void setMysticalThresholdFrozen(bool b);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 protected:
 
@@ -235,6 +240,10 @@ protected:
 			YieldChangeMap> m_aaiYieldRateModifier;
 	ArrayEnumMap2D<PlayerTypes,UnitAITypes,int,short> m_aaiNumTrainAIUnits;
 	ArrayEnumMap2D<PlayerTypes,UnitAITypes,int,short> m_aaiNumAIUnits; // </advc.enum>
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	bool m_bMysticalThresholdFrozen;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	IDInfo* m_aTargetCities;
 

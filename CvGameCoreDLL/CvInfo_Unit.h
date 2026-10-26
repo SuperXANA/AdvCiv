@@ -159,7 +159,13 @@ public: /*  All const functions are exposed to Python except some related to art
 	CorporationTypes getPrereqCorporation() const { return m_ePrereqCorporation; }
 	BuildingTypes getPrereqBuilding() const { return m_ePrereqBuilding; }
 	TechTypes getPrereqAndTech() const { return m_ePrereqAndTech; }
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	MagicTechTypes getPrereqAndMagicTech() const { return m_ePrereqAndMagicTech; }
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	bool isTechRequired(TechTypes eTech) const; // advc.003w: Replacing global isTechRequiredForUnit
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	bool isMagicTechRequired(MagicTechTypes eTech) const;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	BonusTypes getPrereqAndBonus() const { return m_ePrereqAndBonus; }
 	int getGroupSize() const; // the initial number of individuals in the unit group
 	int getGroupDefinitions() const; // the number of UnitMeshGroups for this unit
@@ -224,18 +230,31 @@ public: /*  All const functions are exposed to Python except some related to art
 	// Array access:
 	// <advc.003t>
 	int getNumPrereqAndTechs() const { return m_aePrereqAndTechs.size(); }
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	int getNumPrereqAndTechs() const { return m_aePrereqAndMagicTechs.size(); }
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	int getNumPrereqOrBonuses() const { return m_aePrereqOrBonuses.size(); }
 	TechTypes getPrereqAndTechs(int i) const
 	{
 		FAssertBounds(0, getNumPrereqAndTechs(), i);
 		return m_aePrereqAndTechs[i];
 	}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	MagicTechTypes getPrereqAndMagicTechs(int i) const
+	{
+		FAssertBounds(0, getNumPrereqAndMagicTechs(), i);
+		return m_aePrereqAndMagicTechs[i];
+	}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	BonusTypes getPrereqOrBonuses(int i) const
 	{
 		FAssertBounds(0, getNumPrereqOrBonuses(), i);
 		return m_aePrereqOrBonuses[i];
 	}
 	int py_getPrereqAndTechs(int i) const;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	int py_getPrereqAndMagicTechs(int i) const;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	int py_getPrereqOrBonuses(int i) const;
 	// </advc.003t>  <advc.905b>
 	int getNumSpeedBonuses() const { return m_aeiSpeedBonuses.size(); }
@@ -273,6 +292,11 @@ public: /*  All const functions are exposed to Python except some related to art
 	TechTypes getTerrainPassableTech(int i) const;
 	bool isAnyTerrainPassableTech() const { return (m_piTerrainPassableTech != NULL); } // advc.003t
 	TechTypes getFeaturePassableTech(int i) const;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	TechTypes getTerrainPassableMagicTech(int i) const;
+	bool isAnyTerrainPassableMagicTech() const { return (m_piTerrainPassableMagicTech != NULL); } // advc.003t
+	TechTypes getFeaturePassableMagicTech(int i) const;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	int getFlankingStrikeUnitClass(int i) const;
 	bool isAnyFlankingStrikeUnitClass() const { return (m_piFlankingStrikeUnitClass != NULL); } // advc.003t
 
@@ -333,6 +357,15 @@ public: /*  All const functions are exposed to Python except some related to art
 
 	const TCHAR* getButton() const;
 	void updateArtDefineButton();
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getDamageTypeCombat(DamageTypes eDamage) const;
+	int getDamageTypeResist(DamageTypes eDamage) const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getPrereqGlobalCounter() const { return m_iPrereqGlobalCounter; }
+	int getGlobalCounterModifier() const { return m_iGlobalCounterModifier; }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	const CvArtInfoUnit* getArtInfo(int i, EraTypes eEra, UnitArtStyleTypes eStyle) const;
 	#if ENABLE_XML_FILE_CACHE
@@ -417,6 +450,9 @@ protected:
 	CorporationTypes m_ePrereqCorporation;
 	BuildingTypes m_ePrereqBuilding;
 	TechTypes m_ePrereqAndTech;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	MagicTechTypes m_ePrereqAndMagicTech;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	BonusTypes m_ePrereqAndBonus;
 	int m_iGroupSize;
 	int m_iGroupDefinitions;
@@ -467,11 +503,18 @@ protected:
 	bool m_bAlwaysHostile;
 	bool m_bNoRevealMap;
 	int m_iLeaderPromotion;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iPrereqGlobalCounter;
+	int m_iGlobalCounterModifier;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	float m_fUnitMaxSpeed;
 	float m_fUnitPadTime;
 
 	std::vector<TechTypes> m_aePrereqAndTechs; // advc.003t: was int*
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	std::vector<MagicTechTypes> m_aePrereqAndMagicTechs; // advc.003t: was int*
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	std::vector<BonusTypes> m_aePrereqOrBonuses; // advc.003t: was int*
 	std::vector<std::pair<BonusTypes,int> > m_aeiSpeedBonuses; // advc.905b
 	int* m_piProductionTraits;
@@ -491,6 +534,10 @@ protected:
 	int* m_piCorporationSpreads;
 	int* m_piTerrainPassableTech;
 	int* m_piFeaturePassableTech;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	int* m_piTerrainPassableMagicTech;
+	int* m_piFeaturePassableMagicTech;
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	int* m_piFlankingStrikeUnitClass;
 
 	bool* m_pbUpgradeUnitClass;
@@ -516,6 +563,11 @@ protected:
 	CvString* m_paszUnitNames;
 	CvString m_szFormationType;
 	CvString m_szArtDefineButton;
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int* m_piDamageTypeCombat;
+	int* m_piDamageTypeResist;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	std::vector<InvisibleTypes> m_aeSeeInvisibleTypes;
 };
@@ -648,6 +700,20 @@ public: // All the const functions are exposed to Python
 	bool getTerrainDoubleMove(int i) const;
 	bool getFeatureDoubleMove(int i) const;
 	bool getUnitCombat(int i) const;
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getDamageTypeCombat(DamageTypes eDamage) const;
+	int getDamageTypeResist(DamageTypes eDamage) const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int getPrereqGlobalCounter() const { return m_iPrereqGlobalCounter; }
+	int getGlobalCounterModifier() const { return m_iGlobalCounterModifier; }
+	int getGlobalCounterCombatPercent() const { return m_iGlobalCounterCombatPercent; }
+	int getGlobalCounterCombatStrength() const { return m_iGlobalCounterCombatPercent / 100; }
+	int getGlobalCounterModifierOnCombat() const { return m_iGlobalCounterModifierOnCombat; }
+	int getGlobalCounterModifierOnCombatWon() const { return m_iGlobalCounterModifierOnCombatWon; }
+	int getGlobalCounterModifierOnCombatLost() const { return m_iGlobalCounterModifierOnCombatLost; }
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
 	void write(FDataStreamBase* stream);
@@ -703,6 +769,13 @@ protected:
 	bool m_bAlwaysHeal;
 	bool m_bHillsDoubleMove;
 	bool m_bImmuneToFirstStrikes;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int m_iPrereqGlobalCounter;
+	int m_iGlobalCounterModifier;
+	int m_iGlobalCounterModifierOnCombat;
+	int m_iGlobalCounterModifierOnCombatWon;
+	int m_iGlobalCounterModifierOnCombatLost;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	CvString m_szSound;
 
@@ -716,6 +789,10 @@ protected:
 	bool* m_pbTerrainDoubleMove;
 	bool* m_pbFeatureDoubleMove;
 	bool* m_pbUnitCombat;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int* m_piDamageTypeCombat;
+	int* m_piDamageTypeResist;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 };
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -806,5 +883,245 @@ protected:
 	int m_iDifficultyMod;
 	bool m_bReturnToCapital; // advc.103
 };
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvMagicRequirementInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvMagicRequirementInfo : public CvInfoBase
+{
+	typedef CvInfoBase base_t;
+public: // All the const functions are exposed to Python
+	CvMagicRequirementInfo();
+	~CvMagicRequirementInfo();
+
+	// Array access:
+	
+	bool isRequiredCivilization(int i) const;
+	bool isRequiredLeader(int i) const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+
+protected:
+
+	bool* m_pbCivilizationPrereqs;
+	bool* m_pbLeaderPrereqs;
+};
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvMagicClassInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvMagicClassInfo : public CvXMLInfo
+{
+	typedef CvXMLInfo base_t;
+protected:
+	void addElements(ElementList& kElements) const
+	{
+		base_t::addElements(kElements);
+		kElements.addBool(DOES_NOT_DISPERSE_TO_NEARBY_PLOTS, "NoSpellResidueSpreadToNearbyPlots");
+	}
+
+public:
+	// Enum extensions for future use
+	enum IntElementTypes
+	{
+		NUM_INT_ELEMENT_TYPES = base_t::NUM_INT_ELEMENT_TYPES
+	};
+	int get(IntElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::IntElementTypes>(e));
+	}
+	enum BoolElementTypes
+	{
+		DOES_NOT_DISPERSE_TO_NEARBY_PLOTS = base_t::NUM_BOOL_ELEMENT_TYPES,
+		NUM_BOOL_ELEMENT_TYPES
+	};
+	bool get(BoolElementTypes e) const
+	{
+		return base_t::get(static_cast<base_t::BoolElementTypes>(e));
+	}
+	friend class CvXMLLoadUtility;
+public: // All the const functions are exposed to Python
+	CvMagicClassInfo();
+	~CvMagicClassInfo();
+
+	int getTechClassPrereq() const;
+	int getReligionPrereq() const;
+	int getStateReligionPrereq() const;
+	int getAIWeight() const;
+	int getDamageChange() const; // K-Mod, 7/jan/11
+	int getDamageLimit() const;
+	int getDamageType() const;
+	int getMiscastChance() const;
+	int getEffect() const;
+
+	// Array access:
+	
+	int getFlavorValue(int i) const;
+	int getProphecyCounterChange(int i) const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+	bool readPass2(CvXMLLoadUtility* pXML);
+	bool readPass3();
+
+protected:
+	int m_iTechClassPrereq;
+	int m_iReligionPrereq;
+	int m_iStateReligionPrereq;
+	int m_iAIWeight;
+	int m_iDamageChange;
+	int m_iDamageLimit;
+	int m_iDamageType;
+	int m_iMiscastChance;
+	int m_iEffect;
+	int m_iSpecializedPrereq;
+
+	int* m_piFlavorValue;
+	int* m_piProphecyCounterChange;
+	
+	UnitClassCreationData* m_pUnitClassCreationStruct;
+	
+	MagicRequirementTypes getExtraPrereq() const;
+};
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  class : CvMagicInfo
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class CvMagicInfo :	public CvHotkeyInfo
+{
+	typedef CvHotkeyInfo base_t;
+public: // All the const functions are exposed to Python
+	CvMagicInfo();
+	~CvMagicInfo();
+	
+	int getPrereqPromotion() const;
+	int getNumPrereqOrPromotions() const { return (int)m_paeOrPromotionPrereqs.size(); }
+	int getPrereqOrPromotion(int i) const;
+	int getNumMagicClasses() const { return (int)m_aeClassTypes.size(); }
+	int getMagicClass(int i) const;
+	int getTechClassPrereq() const;
+	int getReligionPrereq() const;
+	int getStateReligionPrereq() const;
+	int getVisibilityChange() const;
+	int getMovesChange() const;
+	int getMoveDiscountChange() const;
+	int getAirRangeChange() const;
+	int getInterceptChange() const;
+	int getEvasionChange() const;
+	int getWithdrawalChange() const;
+	int getCargoChange() const;
+	int getCollateralDamageChange() const;
+	int getBombardRateChange() const;
+	int getFirstStrikesChange() const;
+	int getChanceFirstStrikesChange() const;
+	int getEnemyHealChange() const;
+	int getNeutralHealChange() const;
+	int getFriendlyHealChange() const;
+	int getSameTileHealChange() const;
+	int getAdjacentTileHealChange() const;
+	int getCombatPercent() const;
+	int getCityAttackPercent() const;
+	int getCityDefensePercent() const;
+	int getHillsAttackPercent() const;
+	int getHillsDefensePercent() const;
+	int getCommandType() const;
+	void setCommandType(int iNewType);
+
+	int getRevoltProtection() const;
+	int getCollateralDamageProtection() const;
+	int getPillageChange() const;
+	int getUpgradeDiscount() const;
+	int getExperiencePercent() const;
+	int getKamikazePercent() const;
+
+	bool isLeader() const;
+	int getBlitz() const;
+	bool isAmphib() const;
+	bool isRiver() const;
+	bool isEnemyRoute() const;
+	bool isAlwaysHeal() const;
+	bool isHillsDoubleMove() const;
+	bool isImmuneToFirstStrikes() const;
+
+	const TCHAR* getSound() const;
+
+	// Array access
+	
+	int getTerrainAttackPercent(int i) const;
+	int getTerrainDefensePercent(int i) const;
+	int getFeatureAttackPercent(int i) const;
+	int getFeatureDefensePercent(int i) const;
+	int getUnitCombatModifierPercent(int i) const;
+	int getDomainModifierPercent(int i) const;
+
+	bool getTerrainDoubleMove(int i) const;
+	bool getFeatureDoubleMove(int i) const;
+	bool getUnitCombat(int i) const;
+	
+	bool read(CvXMLLoadUtility* pXML);
+	bool readPass2(CvXMLLoadUtility* pXML);
+
+protected:
+	std::vector<MagicClassTypes> m_aeClassTypes;
+	int m_iPrereqPromotion;
+	std::vector<PromotionTypes> m_paeOrPromotionPrereqs;
+
+	int m_iTechClassPrereq;
+	int m_iVisibilityChange;
+	int m_iMovesChange;
+	int m_iMoveDiscountChange;
+	int m_iAirRangeChange;
+	int m_iInterceptChange;
+	int m_iEvasionChange;
+	int m_iWithdrawalChange;
+	int m_iCargoChange;
+	int m_iCollateralDamageChange;
+	int m_iBombardRateChange;
+	int m_iFirstStrikesChange;
+	int m_iChanceFirstStrikesChange;
+	int m_iEnemyHealChange;
+	int m_iNeutralHealChange;
+	int m_iFriendlyHealChange;
+	int m_iSameTileHealChange;
+	int m_iAdjacentTileHealChange;
+	int m_iCombatPercent;
+	int m_iCityAttackPercent;
+	int m_iCityDefensePercent;
+	int m_iHillsAttackPercent;
+	int m_iHillsDefensePercent;
+	int m_iCommandType;
+	int m_iRevoltProtection;
+	int m_iCollateralDamageProtection;
+	int m_iPillageChange;
+	int m_iUpgradeDiscount;
+	int m_iExperiencePercent;
+	int m_iKamikazePercent;
+
+	bool m_bLeader;
+	int m_iBlitz;
+	bool m_bAmphib;
+	bool m_bRiver;
+	bool m_bEnemyRoute;
+	bool m_bAlwaysHeal;
+	bool m_bHillsDoubleMove;
+	bool m_bImmuneToFirstStrikes;
+
+	CvString m_szSound;
+
+	int* m_piTerrainAttackPercent;
+	int* m_piTerrainDefensePercent;
+	int* m_piFeatureAttackPercent;
+	int* m_piFeatureDefensePercent;
+	int* m_piUnitCombatModifierPercent;
+	int* m_piDomainModifierPercent;
+
+	bool* m_pbTerrainDoubleMove;
+	bool* m_pbFeatureDoubleMove;
+	bool* m_pbUnitCombat;
+	
+	UnitClassCreationData* m_pUnitClassCreationStruct;
+	UnitCreationData* m_pUnitCreationStruct;
+};
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 #endif

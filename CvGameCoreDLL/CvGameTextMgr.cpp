@@ -1279,6 +1279,56 @@ void CvGameTextMgr::setUnitHelp(CvWStringBuffer &szString, const CvUnit* pUnit,
 			}
 		}
 	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	{
+		CvWString szTempBuffer;
+		bool bFirst = true;
+		FOR_EACH_ENUM(Damage)
+		{
+			if (pUnit->getDamageTypeCombat(eLoopDamage) != 0)
+			{
+				const int iMagicPower = pUnit->getDamageTypeCombat(eLoopDamage);
+				if (bFirst)
+					bFirst = false;
+				else szTempBuffer += L", ";
+				szTempBuffer.Format((iMagicPower < 0) ? L", -%d " : L", +%d ", iMagicPower;
+				szTempBuffer += CvWString::format(L"<link=literal>%s</link>",
+						GC.getInfo(eLoopDamage).getDescription());
+			}
+		}
+		if (!bFirst)
+		{
+			szString.append(NEWLINE);
+			szString.append(gDLL->getText("TXT_KEY_UNIT_MAGIC_STRENGTH",
+					szTempBuffer.GetCString()));
+		}
+	}
+	{
+		CvWString szTempBuffer;
+		bool bFirst = true;
+		FOR_EACH_ENUM(Damage)
+		{
+			if (pUnit->getDamageTypeResist(eLoopDamage) != 0)
+			{
+				const int iMagicResistance = pUnit->getDamageTypeResist(eLoopDamage);
+				if (bFirst)
+					bFirst = false;
+				else szTempBuffer += L", ";
+				szTempBuffer.Format((iMagicResistance == 100) ? L", Immunue To " : L", %d ", iMagicResistance);
+				szTempBuffer += CvWString::format(L"<link=literal>%s</link>",
+						GC.getInfo(eLoopDamage).getDescription());
+				if (iMagicResistance < 100)
+					szTempBuffer += L" Resistance";
+			}
+		}
+		if (!bFirst)
+		{
+			szString.append(NEWLINE);
+			szString.append(gDLL->getText("TXT_KEY_UNIT_MAGIC_DEFENSE",
+					szTempBuffer.GetCString()));
+		}
+	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	if (pUnit->isSpy())
 	{
@@ -3068,17 +3118,6 @@ void CvGameTextMgr::setPlotHelp(CvWStringBuffer& szString, CvPlot const& kPlot)
 		}
 	}
 	CvUnit const* pHeadSelectedUnit = gDLL->UI().getHeadSelectedUnit(); // advc
-	// advc.004h: (Could show founding border in Go To mode here like BtS does)
-	/*static CvPlot const* pPrevPlot = NULL;
-	if (&kPlot != pPrevPlot)
-	{
-		pPrevPlot = &kPlot;
-		if (pHeadSelectedUnit != NULL &&
-			gDLL->UI().getInterfaceMode() == INTERFACEMODE_GO_TO)
-		{
-			pHeadSelectedUnit->updateFoundingBorder();
-		}
-	}*/
 	// <advc.012>
 	TeamTypes const eDefTeam = (eRevealedOwner != NO_PLAYER ?
 			GET_PLAYER(eRevealedOwner).getTeam() :

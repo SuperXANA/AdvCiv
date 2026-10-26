@@ -23,7 +23,11 @@ m_pbLeaders(NULL),
 m_pbCivilizationFreeBuildingClass(NULL),
 m_pbCivilizationFreeTechs(NULL),
 m_pbCivilizationDisableTechs(NULL),
-m_paszCityNames(NULL)
+m_paszCityNames(NULL),
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+m_piMagicClassCombatPoints(NULL),
+m_piMagicClassResistPoints(NULL)
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 {}
 
 CvCivilizationInfo::~CvCivilizationInfo()
@@ -37,6 +41,10 @@ CvCivilizationInfo::~CvCivilizationInfo()
 	SAFE_DELETE_ARRAY(m_pbCivilizationFreeTechs);
 	SAFE_DELETE_ARRAY(m_pbCivilizationDisableTechs);
 	SAFE_DELETE_ARRAY(m_paszCityNames);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piMagicClassCombatPoints);
+	SAFE_DELETE_ARRAY(m_piMagicClassResistPoints);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 void CvCivilizationInfo::reset()
@@ -195,6 +203,31 @@ std::string CvCivilizationInfo::getCityNames(int i) const
 	return m_paszCityNames[i];
 }
 
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+int CvCivilizationInfo::getMagicClassCombatPoints(int i) const
+{
+	FAssertBounds(0, GC.getNumMagicClassInfos(), i);
+	return m_piMagicClassCombatPoints ? m_piMagicClassCombatPoints[i] : 0;
+}
+
+int CvCivilizationInfo::getMagicClassResistPoints(int i) const
+{
+	FAssertBounds(0, GC.getNumMagicClassInfos(), i);
+	return m_piMagicClassResistPoints ? m_piMagicClassResistPoints[i] : 0;
+}
+
+bool CvCivilizationInfo::isMagicClassRestricted(int i, int iLevel) const
+{
+	FAssertBounds(0, GC.getNumMagicClassInfos(), i);
+	int const iClassLock = (m_piMagicClassLevelLocks ? m_piMagicClassLevelLocks[i] : 0);
+	if ((iLevel < 0 || iClassLock > 0) && iClassLock > iLevel)
+	{
+		return true
+	}
+	return false;
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
 #if ENABLE_XML_FILE_CACHE
 void CvCivilizationInfo::read(FDataStreamBase* stream)
 {
@@ -242,6 +275,14 @@ void CvCivilizationInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_paszCityNames);
 	m_paszCityNames = new CvString[m_iNumCityNames];
 	stream->ReadString(m_iNumCityNames, m_paszCityNames);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piMagicClassCombatPoints);
+	m_piMagicClassCombatPoints = new int[GC.getNumMagicClassInfos()];
+	stream->Read(GC.getNumMagicClassInfos(), m_piMagicClassCombatPoints);
+	SAFE_DELETE_ARRAY(m_piMagicClassResistPoints);
+	m_piMagicClassResistPoints = new int[GC.getNumMagicClassInfos()];
+	stream->Read(GC.getNumMagicClassInfos(), m_piMagicClassResistPoints);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 void CvCivilizationInfo::write(FDataStreamBase* stream)
@@ -272,6 +313,10 @@ void CvCivilizationInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumTechInfos(), m_pbCivilizationFreeTechs);
 	stream->Write(GC.getNumTechInfos(), m_pbCivilizationDisableTechs);
 	stream->WriteString(m_iNumCityNames, m_paszCityNames);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	stream->Write(GC.getNumMagicClassInfos(), m_piMagicClassCombatPoints);
+	stream->Write(GC.getNumMagicClassInfos(), m_piMagicClassResistPoints);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 #endif
 
@@ -389,6 +434,11 @@ bool CvCivilizationInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pbLeaders, "Leaders", GC.getNumLeaderHeadInfos());
 	CvString szTextVal;
 	pXML->GetChildXmlValByName(szTextVal, "CivilizationSelectionSound");
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	pXML->SetVariableListTagPair(&m_piMagicClassCombatPoints, "MagicClassCombatPoints", GC.getNumMagicClassInfos());
+	pXML->SetVariableListTagPair(&m_piMagicClassResistPoints, "MagicClassResistPoints", GC.getNumMagicClassInfos());
+	pXML->SetVariableListTagPair(&m_piMagicClassLevelLocks, "MagicClassLocks", GC.getNumMagicClassInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	return true;
 }
@@ -497,7 +547,14 @@ m_piImprovementWeightModifier(NULL),
 m_piDiploPeaceIntroMusicScriptIds(NULL),
 m_piDiploPeaceMusicScriptIds(NULL),
 m_piDiploWarIntroMusicScriptIds(NULL),
-m_piDiploWarMusicScriptIds(NULL)
+m_piDiploWarMusicScriptIds(NULL),
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+m_piMagicClassCombatPoints(NULL),
+m_piMagicClassResistPoints(NULL),
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_eFavoriteProphecy(NO_PROPHECY)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 // <advc.xmldefault>
@@ -533,6 +590,10 @@ CvLeaderHeadInfo::CvLeaderHeadInfo(CvLeaderHeadInfo const& kOther)
 	allocCopy(m_piDiploPeaceMusicScriptIds, kOther.m_piDiploPeaceMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarIntroMusicScriptIds, kOther.m_piDiploWarIntroMusicScriptIds, GC.getNumEraInfos());
 	allocCopy(m_piDiploWarMusicScriptIds, kOther.m_piDiploWarMusicScriptIds, GC.getNumEraInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	allocCopy(m_piMagicClassCombatPoints, kOther.m_piMagicClassCombatPoints, GC.getNumMagicClassInfos());
+	allocCopy(m_piMagicClassResistPoints, kOther.m_piMagicClassResistPoints, GC.getNumMagicClassInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 } // </advc.xmldefault>
 
 CvLeaderHeadInfo::~CvLeaderHeadInfo()
@@ -550,6 +611,10 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploPeaceMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piMagicClassCombatPoints);
+	SAFE_DELETE_ARRAY(m_piMagicClassResistPoints);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const
@@ -656,6 +721,31 @@ const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 
 	return NULL;
 }
+
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+int CvLeaderHeadInfo::getMagicClassCombatPoints(int i) const
+{
+	FAssertBounds(0, GC.getNumMagicClassInfos(), i);
+	return m_piMagicClassCombatPoints ? m_piMagicClassCombatPoints[i] : 0;
+}
+
+int CvLeaderHeadInfo::getMagicClassResistPoints(int i) const
+{
+	FAssertBounds(0, GC.getNumMagicClassInfos(), i);
+	return m_piMagicClassResistPoints ? m_piMagicClassResistPoints[i] : 0;
+}
+
+bool CvLeaderHeadInfo::isMagicClassRestricted(int i, int iLevel) const
+{
+	FAssertBounds(0, GC.getNumMagicClassInfos(), i);
+	int const iClassLock = (m_piMagicClassLevelLocks ? m_piMagicClassLevelLocks[i] : 0);
+	if ((iLevel < 0 || iClassLock > 0) && iClassLock > iLevel)
+	{
+		return true
+	}
+	return false;
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 #if ENABLE_XML_FILE_CACHE
 void CvLeaderHeadInfo::read(FDataStreamBase* stream)
@@ -792,6 +882,17 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
 	m_piDiploWarMusicScriptIds = new int[GC.getNumEraInfos()];
 	stream->Read(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piMagicClassCombatPoints);
+	m_piMagicClassCombatPoints = new int[GC.getNumMagicClassInfos()];
+	stream->Read(GC.getNumDamageInfos(), m_piMagicClassCombatPoints);
+	SAFE_DELETE_ARRAY(m_piMagicClassResistPoints);
+	m_piMagicClassResistPoints = new int[GC.getNumMagicClassInfos()];
+	stream->Read(GC.getNumMagicClassInfos(), m_piMagicClassResistPoints);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Read((int*)&m_eFavoriteProphecy);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 void CvLeaderHeadInfo::write(FDataStreamBase* stream)
@@ -898,6 +999,13 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumEraInfos(), m_piDiploPeaceMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarIntroMusicScriptIds);
 	stream->Write(GC.getNumEraInfos(), m_piDiploWarMusicScriptIds);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	stream->Write(GC.getNumMagicClassInfos(), m_piMagicClassCombatPoints);
+	stream->Write(GC.getNumMagicClassInfos(), m_piMagicClassResistPoints);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Write(m_eFavoriteProphecy);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 #endif
 
@@ -1043,6 +1151,15 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_piImprovementWeightModifier, "ImprovementWeightModifiers", GC.getNumImprovementInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploPeaceIntroMusicScriptIds, "DiplomacyIntroMusicPeace", GC.getNumEraInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploPeaceMusicScriptIds, "DiplomacyMusicPeace", GC.getNumEraInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	pXML->SetVariableListTagPair(&m_piMagicClassCombatPoints, "MagicClassCombatPoints", GC.getNumMagicClassInfos());
+	pXML->SetVariableListTagPair(&m_piMagicClassResistPoints, "MagicClassResistPoints", GC.getNumMagicClassInfos());
+	pXML->SetVariableListTagPair(&m_piMagicClassLevelLocks, "MagicClassLocks", GC.getNumMagicClassInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->SetInfoIDFromChildXmlVal(m_eFavoriteProphecy,
+			"FavoritePhrophecy");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// <advc.xmldefault>
 	#ifdef FASSERT_ENABLE
 	if (!isDefaultsType())

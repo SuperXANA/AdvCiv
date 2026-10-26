@@ -116,7 +116,11 @@ m_bNukeImmune(false),
 m_bPrereqReligion(false),
 m_bCenterInCity(false),
 m_bStateReligion(false),
-m_bAllowsNukes(false)
+m_bAllowsNukes(false),
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_iPrereqGlobalCounter(0),
+m_iGlobalCounterModifier(0)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 // advc.003w:
@@ -359,6 +363,10 @@ void CvBuildingInfo::read(FDataStreamBase* stream)
 	stream->ReadString(m_szConstructSound);
 	stream->ReadString(m_szArtDefineTag);
 	stream->ReadString(m_szMovieDefineTag);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Read(&m_iPrereqGlobalCounter);
+	stream->Read(&m_iGlobalCounterModifier);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// <advc.003t>
 	int iPrereqAndTechs;
 	stream->Read(&iPrereqAndTechs);
@@ -410,6 +418,10 @@ void CvBuildingInfo::read(FDataStreamBase* stream)
 	BuildingClassNeededInCity().read(stream);
 	SpecialistYieldChange().read(stream);
 	BonusYieldModifier().read(stream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	MagicClassCombatPoints().read(stream);
+	MagicClassResistPoints().read(stream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// </advc.003t>
 }
 
@@ -536,6 +548,10 @@ void CvBuildingInfo::write(FDataStreamBase* stream)
 	stream->WriteString(m_szConstructSound);
 	stream->WriteString(m_szArtDefineTag);
 	stream->WriteString(m_szMovieDefineTag);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	stream->Write(m_iPrereqGlobalCounter);
+	stream->Write(m_iGlobalCounterModifier);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	// <advc.003t>
 	{
 		int iPrereqAndTechs = getNumPrereqAndTechs();
@@ -585,6 +601,10 @@ void CvBuildingInfo::write(FDataStreamBase* stream)
 	BuildingClassNeededInCity().write(stream);
 	SpecialistYieldChange().write(stream);
 	BonusYieldModifier().write(stream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	MagicClassCombatPoints().write(stream);
+	MagicClassResistPoints().write(stream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	// </advc.003t>
 }
 #endif
@@ -812,6 +832,14 @@ bool CvBuildingInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(FlavorValue(), "Flavors");
 	pXML->SetVariableListTagPair(ImprovementFreeSpecialist(), "ImprovementFreeSpecialists");
 	pXML->SetVariableListTagPair(BuildingHappinessChanges(), "BuildingHappinessChanges");
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	pXML->SetVariableListTagPair(MagicClassCombatPoints(), "MagicClassCombatPoints");
+	pXML->SetVariableListTagPair(MagicClassResistPoints(), "MagicClassResistPoints");
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iPrereqGlobalCounter, "iPrereqGlobalCounter");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifier, "iGlobalCounterModifier");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	return true;
 }
@@ -960,7 +988,7 @@ bool CvVoteSourceInfo::read(CvXMLLoadUtility* pXML)
 		m_aszExtraXMLforPass3.push_back(szTextVal);
 	}
 	pXML->SetYieldList(ReligionYield(), "ReligionYields");
-	pXML->SetCommerceList(ReligionCommerce(), "ReligionCommerces");
+	pXML->SetCommerceList(ReligionYield(), "ReligionCommerces");
 
 	return true;
 }
@@ -1042,7 +1070,11 @@ m_eEveryoneSpecialBuilding(NO_SPECIALBUILDING),
 m_iVictoryDelayPercent(0),
 m_iSuccessRate(0),
 m_bSpaceship(false),
-m_bAllowsNukes(false)
+m_bAllowsNukes(false),
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_iPrereqGlobalCounter(0),
+m_iGlobalCounterModifier(0)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 const char* CvProjectInfo::getMovieArtDef() const
@@ -1110,6 +1142,10 @@ bool CvProjectInfo::read(CvXMLLoadUtility* pXML)
 	} // </advc.003t>
 	pXML->GetChildXmlValByName(&m_iVictoryDelayPercent, "iVictoryDelayPercent");
 	pXML->GetChildXmlValByName(&m_iSuccessRate, "iSuccessRate");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iPrereqGlobalCounter, "iPrereqGlobalCounter");
+	pXML->GetChildXmlValByName(&m_iGlobalCounterModifier, "iGlobalCounterModifier");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	CvString szTextVal;
 	pXML->GetChildXmlValByName(szTextVal, "CreateSound");

@@ -396,6 +396,10 @@ public:
 
 	const CvArtInfoUnit* getArtInfo(int i, EraTypes eEra) const;
 	std::string getButton() const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	int getDamageTypeCombat(int /*DamageTypes*/ eDamageType) const;
+	int getDamageTypeResist(int /*DamageTypes*/ eDamageType) const;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	// Python Helper Functions
 

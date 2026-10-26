@@ -576,4 +576,63 @@ struct DealItemData
 	int iData, iDeal;
 };
 
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+// XANA: 10-26-2026 Spell creation data ownership (ChatGPT)
+class CvXMLLoadUtility;
+
+struct SpellUnitCreationSubData
+{
+	SpellUnitCreationSubData()
+	:	iCreateNum(0), m_pbAddPromotionTypes(NULL), m_pbRemovePromotionTypes(NULL)
+	{}
+	~SpellUnitCreationSubData();
+	int iCreateNum;
+	
+	bool* m_pbAddPromotionTypes;
+	bool* m_pbRemovePromotionTypes;
+	
+	// XANA: 10-26-2026 Return the owned pointers by reference for XML loading.
+	bool*& getAddPromotionsArray() { return m_pbAddPromotionTypes; }
+	bool*& getRemovePromotionsArray() { return m_pbRemovePromotionTypes; }
+	bool const* getAddPromotionsArray() const { return m_pbAddPromotionTypes; }
+	bool const* getRemovePromotionsArray() const { return m_pbRemovePromotionTypes; }
+	
+	int getCreationNumber() const { return iCreateNum; }
+	void setCreationNumber(int iValue);
+	void readPromotions(CvXMLLoadUtility* pXML, TCHAR const* szSubTagName, bool** ppArray);
+
+private:
+	// XANA: 10-26-2026 Owning arrays must not be shallow-copied (C++03).
+	SpellUnitCreationSubData(SpellUnitCreationSubData const&);
+	SpellUnitCreationSubData& operator=(SpellUnitCreationSubData const&);
+};
+
+struct UnitClassCreationData
+{	// advc:
+	UnitClassCreationData()
+	:	eType(NO_UNITCLASS) {}
+	UnitClassTypes eType;
+	SpellUnitCreationSubData kCreationInfo;
+
+	UnitClassTypes getClassType() const { return eType; }
+	void setClassType(UnitClassTypes eUnitClass);
+	// XANA: 10-26-2026 Load into the stored data, not a temporary copy.
+	SpellUnitCreationSubData& getCreationData() { return kCreationInfo; }
+	SpellUnitCreationSubData const& getCreationData() const { return kCreationInfo; }
+};
+
+struct UnitCreationData
+{	// advc:
+	UnitCreationData()
+	:	eType(NO_UNIT) {}
+	UnitTypes eType;
+	SpellUnitCreationSubData kCreationInfo;
+	UnitTypes getUnitType() const { return eType; }
+	void setUnitType(UnitTypes eUnitType);
+	// XANA: 10-26-2026 Load into the stored data, not a temporary copy.
+	SpellUnitCreationSubData& getCreationData() { return kCreationInfo; }
+	SpellUnitCreationSubData const& getCreationData() const { return kCreationInfo; }
+};
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+
 #endif	// CVSTRUCTS_H

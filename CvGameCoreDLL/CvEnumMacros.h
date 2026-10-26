@@ -43,7 +43,13 @@
 	DO(Hurry, HURRY) \
 	DO(Upkeep, UPKEEP) \
 	DO(CultureLevel, CULTURELEVEL) \
-	DO(CivicOption, CIVICOPTION)
+	DO(CivicOption, CIVICOPTION) \
+/* XANA: 06-17-2025 Armageddon Counter for AdvancedCiv */ \
+	DO(Prophecy, PROPHECY) \
+/* XANA: 06-17-2025 Armageddon Counter for AdvancedCiv */ \
+/* XANA: 04-19-2025 FfH Damage Types for AdvancedCiv */ \
+	DO(Damage, DAMAGE)
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 // Number of instances not known at compile time; can be greater than MAX_CHAR.
 #define DO_FOR_EACH_BIG_DYN_INFO_TYPE(DO) \
@@ -81,7 +87,14 @@
 	/* <advc.tsl> (not exposed to Python) */ \
 	DO(TruCiv, TRUCIV) \
 	DO(TruLeader, TRULEADER) \
-	DO(TruBonus, TRUBONUS) /* </advc.tsl> */
+	DO(TruBonus, TRUBONUS) /* </advc.tsl> */ \
+	 /* XANA: 03-28-2026 Magical Spell System for Advanced Civ */ \
+	DO(MagicTechClass, MAGIC_TECH_CLASS) \
+	DO(MagicClass, MAGICCLASS) \
+	DO(MagicTech, MAGIC_TECH) \
+	DO(MagicRequirement, MAGIC_REQUIREMENT) \
+	DO(Magic, MAGIC)
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 // Number of instances not known at compile time
 #define DO_FOR_EACH_DYN_INFO_TYPE(DO) \

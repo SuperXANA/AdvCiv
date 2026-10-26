@@ -105,6 +105,9 @@ CvUnit::CvUnit() // advc.003u: Body cut from the deleted reset function
 	m_iBaseCombat = 0;
 	m_iCargoCapacity = 0;
 	m_iLastReconTurn = -1; // advc.029
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	m_iGlobalCounterCombatPercent = 0;
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 // advc.003u: Param eUnitAI moved to CvUnitAI::init
@@ -302,6 +305,10 @@ void CvUnit::finalizeInit() // advc.003u: Body cut from init
 			kGame.setBestLandUnit(getUnitType());
 		}
 	}
+	
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	kOwner.changeGlobalCounterContrib(m_pUnitInfo->getGlobalCounterModifier());
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if (isActiveOwned())
 		gDLL->UI().setDirty(GameData_DIRTY_BIT, true);
@@ -346,6 +353,9 @@ void CvUnit::finalizeInit() // advc.003u: Body cut from init
 		GC.getGame().addReplayMessage(getPlot(), REPLAY_MESSAGE_MAJOR_EVENT,
 				kOwner.getID(), szBuffer, GC.getColorType("UNIT_TEXT"));
 	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	initMagicCapabilities();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	CvEventReporter::getInstance().unitCreated(this);
 }
@@ -504,6 +514,23 @@ void CvUnit::kill(bool bDelay, PlayerTypes ePlayer)
 		startDelayedDeath();
 		return;
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (ePlayer != NO_PLAYER)
+    {
+		int iCost = -1;
+		if (getProphecyFollowed() != NO_PROPHECY && GET_PLAYER(ePlayer).getProphecyFollowed() != NO_PROPHECY)
+			CvProphecyInfo const& kProphecy = GC.getInfo(getProphecyFollowed());
+			if (kProphecy.getHatedProphecy() == GET_PLAYER(ePlayer).getProphecyFollowed())
+				iCost = 1; // XANA (note): Roleplaying for characters. Hastening the End of the World by killing enemy units is "bad" when battling against an opposing prophecy.
+	    
+		GET_PLAYER(ePlayer).changeGlobalCounterContrib(iCost * m_pUnitInfo->getGlobalCounterModifier());
+	}
+	else
+	{
+	    kOwner.changeGlobalCounterContrib(-1 * m_pUnitInfo->getGlobalCounterModifier());
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if (isMadeAttack() && isNuke())
 	{
@@ -1489,6 +1516,10 @@ void CvUnit::updateCombat(bool bQuick, /* <advc.004c> */ bool* pbIntercepted,
 	PlayerTypes const ePlotOwner = pPlot->getOwner(); // advc.130m
 	if (isDead())
 	{
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		updateMagicWeights(*pDefender, COMBAT_RESULT_DEFENDER_VICTORY);
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		
 		if (isBarbarian())
 		{
 			GET_PLAYER(pDefender->getOwner()).changeWinsVsBarbs(1);
@@ -1539,12 +1570,20 @@ void CvUnit::updateCombat(bool bQuick, /* <advc.004c> */ bool* pbIntercepted,
 			}
 		} // <advc.130m>
 
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+        pDefender->combatVictory(this, false);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+
 		addDefenseSuccessMessages(*pDefender); // advc: Moved into new function
 		// report event to Python, along with some other key state
 		CvEventReporter::getInstance().combatResult(pDefender, this);
 	}
 	else if (pDefender->isDead())
 	{
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		updateMagicWeights(*pDefender, COMBAT_RESULT_ATTACKER_VICTORY);
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		
 		if (pDefender->isBarbarian())
 		{
 			GET_PLAYER(getOwner()).changeWinsVsBarbs(1);
@@ -1587,6 +1626,9 @@ void CvUnit::updateCombat(bool bQuick, /* <advc.004c> */ bool* pbIntercepted,
 					iWS, getTeam(), pDefender->getTeam(), true);
 			}
 		} // <advc.130m>
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		combatVictory(pDefender, true);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 		// report event to Python, along with some other key state
 		CvEventReporter::getInstance().combatResult(this, pDefender);
 		bool bAdvance = false;
@@ -1636,6 +1678,10 @@ void CvUnit::updateCombat(bool bQuick, /* <advc.004c> */ bool* pbIntercepted,
 	}
 	else
 	{
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		updateMagicWeights(*pDefender, COMBAT_RESULT_BOTH_WITHDRAW);
+		// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		
 		addWithdrawalMessages(*pDefender); // advc: Moved into new function
 		changeMoves(std::max(GC.getMOVE_DENOMINATOR(),
 				pPlot->movementCost(*this, getPlot())));
@@ -2052,20 +2098,22 @@ void CvUnit::updateFoundingBorder(bool bForceClear) const
 	if (!GC.getGame().isFinalInitialized())
 		return;
 	int iMode = BUGOption::getValue("MainInterface__FoundingBorder", 2);
+	if(BUGOption::isEnabled("MainInterface__FoundingYields", false) && iMode == 1)
+		return; // BtS behavior
 	gDLL->getEngineIFace()->clearAreaBorderPlots(AREA_BORDER_LAYER_FOUNDING_BORDER);
-	if (bForceClear || iMode <= 0 || !isFound())
+	if(bForceClear || iMode <= 0 || !isFound())
 		return;
 	FOR_EACH_UNIT_IN(pUnit, *getGroup())
 	{
-		if (pUnit->IsSelected() && !pUnit->isFound())
+		if(pUnit == NULL || (pUnit->IsSelected() && !pUnit->isFound()))
 			return;
 	}
 	CvPlot* pGoToPlot = gDLL->UI().getGotoPlot();
 	CvPlot* pCenter;
-	if (pGoToPlot == NULL)
+	if(pGoToPlot == NULL)
 		pCenter = plot();
 	else pCenter = pGoToPlot;
-	if (pCenter == NULL || !pCenter->isRevealed(TEAMID(getOwner())) ||
+	if(pCenter == NULL || !pCenter->isRevealed(TEAMID(getOwner())) ||
 		(!atPlot(pCenter) && !canMoveInto(*pCenter)) || !canFound(pCenter))
 	{
 		return;
@@ -6020,7 +6068,7 @@ bool CvUnit::canInfiltrate(const CvPlot* pPlot, bool bTestVisible) const
 		return false;
 	if (!bTestVisible)
 	{
-		if (pCity != NULL && pCity->getTeam() == getTeam())
+		if (NULL != pCity && pCity->getTeam() == getTeam())
 			return false;
 	}
 	return true;
@@ -6615,7 +6663,7 @@ int CvUnit::upgradePrice(UnitTypes eUnit) const
 	return std::max(0, iPrice); // advc.mnai: max (future-proofing)
 }
 
-// advc.080, 131e: Based on code cut from CvUnit::upgrade. The param is (so far) unused.
+// advc.080: Based on code cut from CvUnit::upgrade. The param is (so far) unused.
 int CvUnit::upgradeXPChange(UnitTypes eUnit) const
 {
 	if(getLeaderUnitType() != NO_UNIT)
@@ -7125,8 +7173,6 @@ bool CvUnit::isGarrisonInTeamCity() const
 	if (!getPlot().isCity())
 		return false;
 	CvTeam const& kCityTeam = GET_TEAM(getPlot().getTeam());
-	/*	Note that I've changed the bCheckCargo effect in isInvisible so that
-		the city team can see what cargo is in port */
 	if (isInvisible(kCityTeam.getID(), false))
 		return false;
 	return (kCityTeam.getID() == getTeam() ||
@@ -7212,6 +7258,18 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 	PROFILE_FUNC(); // advc: This does get called a lot. Not all that slow though.
 	FAssert(pPlot == NULL || pPlot->getTerrainType() != NO_TERRAIN);
 
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+    const CvUnit* pDefender = NULL;
+    if (pPlot == NULL)
+    {
+        if (pAttacker != NULL)
+        {
+            pDefender = pAttacker;
+            pAttacker = NULL;
+        }
+    }
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
 	// handle our new special case
 	CvPlot const* pAttackedPlot = NULL;
 	bool bAttackingUnknownDefender = false;
@@ -7230,9 +7288,18 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 
 	if (pCombatDetails != NULL)
 		pCombatDetails->reset(getOwner(), getVisualOwner(), getName().c_str()); // advc
+	
+	// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+    int iBaseCombat = baseCombatStr();
+    } /* XANA (note): Commented out because AdvCiv doesn't separate defense/attack unit strength values.
+    else
+    {
+        iStr = baseCombatStrDefense();
+    } */
 
-	if (baseCombatStr() == 0)
+	if (iBaseCombat == 0) // was baseCombatStr()
 		return 0;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	int iModifier = 0;
 	int iExtraModifier;
@@ -7339,10 +7406,7 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 						getAIBarbarianCombatModifier();
 				iModifier += iExtraModifier;
 				if (pCombatDetails != NULL)
-				{	/*	advc.001 (from SAS): Was ...TB ("this is Barbarian"),
-						but the attacker is the Barbarian here. */
-					pCombatDetails->iAIBarbarianCombatModifierAB = iExtraModifier;
-				}
+					pCombatDetails->iAIBarbarianCombatModifierTB = iExtraModifier;
 			}
 			// <advc.313>
 			if (pAttacker->isKnownSeaBarbarian())
@@ -7431,7 +7495,7 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 		}
 	}
 
-	// if we are attacking to a plot with an unknown defender, then calc the modifier in reverse
+	// if we are attacking to an plot with an unknown defender, the calc the modifier in reverse
 	if (bAttackingUnknownDefender)
 		pAttacker = this;
 
@@ -7478,7 +7542,7 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 		else
 		{
 			iExtraModifier = -pAttacker->terrainAttackModifier(pAttackedPlot->getTerrainType());
-			iTempModifier += iExtraModifier; // advc.001 (from SAS): was iModifier on the left
+			iModifier += iExtraModifier;
 			if (pCombatDetails != NULL)
 				pCombatDetails->iTerrainAttackModifier = iExtraModifier;
 		}
@@ -7567,6 +7631,19 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 			if (pCombatDetails != NULL)
 				pCombatDetails->iKamikazeModifier = iExtraModifier;
 		}
+		
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		const int iGlobalCounter = GC.getGame().getGlobalCounter();
+		iExtraModifier = getGlobalCounterCombatPercent() * iGlobalCounter;
+		iTempModifier += iExtraModifier;
+		if (pCombatDetails != NULL)
+			pCombatDetails->iGlobalCounterModifierA = iExtraModifier;
+
+		iExtraModifier = -pAttacker->getGlobalCounterCombatPercent() * iGlobalCounter;
+		iTempModifier += iExtraModifier;
+		if (pCombatDetails != NULL)
+			pCombatDetails->iGlobalCounterModifierT = iExtraModifier;
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 		// if we are attacking an unknown defender, then use the reverse of the modifier
 		if (bAttackingUnknownDefender)
@@ -7579,6 +7656,18 @@ int CvUnit::maxCombatStr(CvPlot const* pPlot, CvUnit const* pAttacker,
 		pCombatDetails->iModifierTotal = iModifier;
 		pCombatDetails->iBaseCombatStr = baseCombatStr();
 	}
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	if (!bAttackingUnknownDefender) // XANA (note): We are the defender fighting against a known attacking unit
+		iBaseCombat *= 100;
+		FOR_EACH_ENUM(Damage)
+			int iDamageAmount = getDamageTypeCombat(eLoopDamage);
+			int iResistancePercent = pAttacker->getDamageTypeResist(eLoopDamageType);
+			// 'iBaseCombat' is increased by the damage amount, factored by the attacker's resistance.
+			// If resistance is 100, no change. If resistance is 0, full damage amount added.
+			iBaseCombat += iDamageAmount * (100 - iResistancePercent) / 100;
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+			
 	int iCombat;
 	if (iModifier > 0)
 		iCombat = (baseCombatStr() * (iModifier + 100));
@@ -8231,12 +8320,8 @@ bool CvUnit::isInvisible(TeamTypes eTeam, bool bDebug, bool bCheckCargo) const
 		return false;
 	if (alwaysInvisible())
 		return true;
-	if (bCheckCargo && isCargo() &&
-		// advc.184: Not invisible when in port in eTeam's city
-		(!getPlot().isCity() || getPlot().getPlotCity()->getTeam() != eTeam))
-	{
+	if (bCheckCargo && isCargo())
 		return true;
-	}
 	if (getInvisibleType() == NO_INVISIBLE)
 		return false;
 	return !getPlot().isInvisibleVisible(eTeam, getInvisibleType());
@@ -10451,6 +10536,21 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 		changeExtraDomainModifier(eLoopDomain,
 				GC.getInfo(ePromotion).getDomainModifierPercent(eLoopDomain) * iChange);
 	}
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	FOR_EACH_ENUM(Damage)
+	{
+		changeDamageTypeCombat(eLoopDamage,
+				GC.getInfo(ePromotion).getDamageTypeCombat(eLoopDamage) * iChange);
+		changeDamageTypeResist(eLoopDamage,
+				GC.getInfo(ePromotion).getDamageTypeResist(eLoopDamage) * iChange);
+	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	GET_PLAYER(getOwner()).changeGlobalCounterContrib(GC.getInfo(ePromotion).getGlobalCounterModifier() * iChange);
+	changeGlobalCounterCombatPercent(GC.getInfo(ePromotion).getGlobalCounterCombatPercent() * iChange);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if (IsSelected())
 	{
@@ -10482,6 +10582,212 @@ int CvUnit::getSubUnitsAlive(int iDamage) const
 	return std::max(1, ((m_pUnitInfo->getGroupSize() * (maxHitPoints() - iDamage)) +
 			(maxHitPoints() / ((m_pUnitInfo->getGroupSize() * 2) + 1))) / maxHitPoints());
 }
+
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+int CvUnit::getDamageTypeCombat(DamageTypes eIndex) const
+{ 
+	return m_aiDamageTypeCombat.get(eIndex) + m_pUnitInfo->getDamageTypeCombat(eIndex); 
+}
+
+void CvUnit::changeDamageTypeCombat(DamageTypes eIndex, int iChange)
+{
+	if (iChange != 0)
+	{
+		int iStrength = getDamageTypeCombat(eIndex);
+		if (iStrength + iChange <= -100)
+		{
+			setDamageTypeCombat(eIndex, -100); // Weakened by Magic!
+		}
+    	if (iStrength + iChange >= 100)
+    	{
+        	setDamageTypeCombat(eIndex, 100); // Super-Effective!
+    	}
+		m_aiDamageTypeCombat.add(eIndex, iChange);
+	}
+}
+
+void CvUnit::setDamageTypeCombat(DamageTypes eIndex, int iValue)
+{
+	m_aiDamageTypeCombat.set(eIndex, iValue);
+}
+
+int CvUnit::getDamageTypeResist(DamageTypes eIndex) const
+{
+	return m_aiDamageTypeResist.get(eIndex) + m_pUnitInfo->getDamageTypeResist(eIndex); 
+}
+
+void CvUnit::changeDamageTypeResist(DamageTypes eIndex, int iChange)
+{
+	if (iChange != 0)
+	{
+		int iResistance = getDamageTypeResist(eIndex);
+		if (iResistance + iChange <= -100)
+    	{
+        	setDamageTypeResist(eIndex, -100); // Super-Effective!
+    	}
+    	if (iResistance + iChange >= 100)
+    	{
+        	setDamageTypeResist(eIndex, 100); // Immune to Magic!
+    	}
+		m_aiDamageTypeResist.add(eIndex, iChange);
+	}
+}
+
+void CvUnit::setDamageTypeResist(DamageTypes eIndex, int iValue)
+{
+	m_aiDamageTypeResist.set(eIndex, iValue);
+}
+
+int CvUnit::calculateTotalDamageTypeCombat() const
+{
+	int iMagicPower = 0;
+	FOR_EACH_ENUM(Damage)
+		iMagicPower += getDamageTypeCombat(eLoopDamage);
+	return iMagicPower;
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+void CvUnit::updateMagicWeights(CvUnit& kDefender, CombatResultTypes eResult)
+{
+	CvPlayer& kDefendingPlayer = GET_PLAYER(kDefender.getOwner());
+	CvPlayer& kAttackingPlayer = GET_PLAYER(getOwner());
+	MagicClassTypes const eCombatMarkDefender = kDefender.getCombatCutieMark();
+	MagicClassTypes const eResistMarkDefender = kDefender.getResistCutieMark();
+	MagicClassTypes const eCombatMarkAttacker = getCombatCutieMark();
+	MagicClassTypes const eResistMarkAttacker = getResistCutieMark();
+	if (eResult == COMBAT_RESULT_DEFENDER_VICTORY)
+	{
+		// Defender Wins: Boosts own affinity, penalizes attacker's affinity
+		kDefendingPlayer.changeMagicClassCombatPoints(eCombatMarkDefender, 4);
+		kDefendingPlayer.changeMagicClassResistPoints(eResistMarkDefender, 4);
+		kDefendingPlayer.changeMagicClassCombatPoints(eCombatMarkAttacker, -3);
+		kDefendingPlayer.changeMagicClassResistPoints(eResistMarkAttacker, -3);
+		
+		// Attacker Loses: Penalizes own affinity, learns opponent's affinity is strong
+		kAttackingPlayer.changeMagicClassCombatPoints(eCombatMarkAttacker, -4);
+		kAttackingPlayer.changeMagicClassResistPoints(eResistMarkAttacker, -4);
+		kAttackingPlayer.changeMagicClassCombatPoints(eCombatMarkDefender, 3);
+		kAttackingPlayer.changeMagicClassResistPoints(eResistMarkDefender, 3);
+	}
+	else if (eResult == COMBAT_RESULT_ATTACKER_VICTORY)
+	{
+		// Attacker Wins: Boosts own affinity, penalizes defender's affinity
+		kAttackingPlayer.changeMagicClassCombatPoints(eCombatMarkAttacker, 4);
+		kAttackingPlayer.changeMagicClassResistPoints(eResistMarkAttacker, 4);
+		kAttackingPlayer.changeMagicClassCombatPoints(eCombatMarkDefender, -3);
+		kAttackingPlayer.changeMagicClassResistPoints(eResistMarkDefender, -3);
+		
+		// Defender Loses: Penalizes own affinity, learns opponent's affinity is strong
+		kDefendingPlayer.changeMagicClassCombatPoints(eCombatMarkDefender, -4);
+		kDefendingPlayer.changeMagicClassResistPoints(eResistMarkDefender, -4);
+		kDefendingPlayer.changeMagicClassCombatPoints(eCombatMarkAttacker, 3);
+		kDefendingPlayer.changeMagicClassResistPoints(eResistMarkAttacker, 3);
+	}
+	else if (eResult == COMBAT_RESULT_BOTH_WITHDRAW)
+	{
+		// Draw/Withdraw: Both sides survive; minor adjustments favoring defensive posture
+		kDefendingPlayer.changeMagicClassCombatPoints(eCombatMarkDefender, 1);
+		kDefendingPlayer.changeMagicClassResistPoints(eResistMarkDefender, 2);
+		
+		kAttackingPlayer.changeMagicClassCombatPoints(eCombatMarkAttacker, 1);
+		kAttackingPlayer.changeMagicClassResistPoints(eResistMarkAttacker, 2);
+	}
+}
+
+void CvUnit::setCombatCutieMark(MagicClassTypes eMark)
+{
+	if (eMark == NO_MAGIC_CLASS)
+		return;
+	m_eCombatMark = eMark;
+}
+
+void CvUnit::setResistCutieMark(MagicClassTypes eMark)
+{
+	if (eMark == NO_MAGIC_CLASS)
+		return;
+	m_eResistMark = eMark;
+}
+
+void CvUnit::initMagicCapabilities()
+{
+	CvPlot const& kPlot = getPlot();
+	CvPlayer const& kPlayer = GET_PLAYER(getOwner());
+	int const iNumMagicClasses = GC.getNumMagicClassInfos();
+	std::vector<int> aiCombatWeights(iNumMagicClasses, 0);
+	std::vector<int> aiResistWeights(iNumMagicClasses, 0);
+	int iTotalCombatWeight = 0;
+	int iTotalResistWeight = 0;
+	FOR_EACH_ENUM(MagicClass)
+	{
+		CvMagicClassInfo const& kLoopClass = GC.getInfo(eLoopMagicClass);
+		if (kLoopClass.isRequiredCivilization(kPlayer.getCivilizationType()) &&
+			kLoopClass.isRequiredLeader(kPlayer.getLeaderType()))
+		{
+			if (kLoopClass.get(CvMagicClassInfo::CAN_ATTACK_WITH_MAGIC))
+			{
+				int iWeight = kPlot.getMagicClassCombatPoints(eLoopMagicClass) + kPlayer.getMagicClassCombatPoints(eLoopMagicClass);
+				if (iWeight > 0)
+				{
+					aiCombatWeights[eLoopMagicClass] = iWeight;
+					iTotalCombatWeight += iWeight;
+				}
+			}
+			if (kLoopClass.get(CvMagicClassInfo::CAN_DEFEND_WITH_MAGIC))
+			{
+				int iWeight = kPlot.getMagicClassResistPoints(eLoopMagicClass) + kPlayer.getMagicClassResistPoints(eLoopMagicClass);
+				if (iWeight > 0)
+				{
+					aiResistWeights[eLoopMagicClass] = iWeight;
+					iTotalResistWeight += iWeight;
+				}
+			}
+		}
+	}
+	MagicClassTypes eBestCombatClass = NO_MAGIC_CLASS;
+	if (iTotalCombatWeight > 0)
+	{
+		int iCombatDiceRoll = SyncRandNum(iTotalCombatWeight);
+		FOR_EACH_ENUM(MagicClass)
+		{
+			if (aiCombatWeights[eLoopMagicClass] > 0)
+			{
+				iCombatDiceRoll -= aiCombatWeights[eLoopMagicClass];
+				if (iCombatDiceRoll < 0)
+				{
+					eBestCombatClass = eLoopMagicClass;
+					break;
+				}
+			}
+		}
+	}
+	MagicClassTypes eBestResistClass = NO_MAGIC_CLASS;
+	if (iTotalResistWeight > 0)
+	{
+		int iResistDiceRoll = SyncRandNum(iTotalResistWeight);
+		FOR_EACH_ENUM(MagicClass)
+		{
+			if (aiResistWeights[eLoopMagicClass] > 0)
+			{
+				iResistDiceRoll -= aiResistWeights[eLoopMagicClass];
+				if (iResistDiceRoll < 0)
+				{
+					eBestResistClass = eLoopMagicClass;
+					break;
+				}
+			}
+		}
+	}
+	if (eBestCombatClass != NO_MAGIC_CLASS)
+	{
+		setCombatCutieMark(eBestCombatClass);
+	}
+	if (eBestResistClass != NO_MAGIC_CLASS)
+	{
+		setResistCutieMark(eBestResistClass);
+	}
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 
 void CvUnit::read(FDataStreamBase* pStream)
@@ -10641,6 +10947,10 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.read(pStream);
 		m_aiExtraFeatureDefensePercent.read(pStream);
 		m_aiExtraUnitCombatModifier.read(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		m_aiDamageTypeCombat.read(pStream);
+		m_aiDamageTypeResist.read(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	}
 	else
 	{
@@ -10651,7 +10961,14 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.readArray<int>(pStream);
 		m_aiExtraFeatureDefensePercent.readArray<int>(pStream);
 		m_aiExtraUnitCombatModifier.readArray<int>(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		m_aiDamageTypeCombat.readArray<int>(pStream);
+		m_aiDamageTypeResist.readArray<int>(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pStream->Read(&m_iGlobalCounterCombatPercent);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 
@@ -10763,6 +11080,13 @@ void CvUnit::write(FDataStreamBase* pStream)
 	m_aiExtraFeatureAttackPercent.write(pStream);
 	m_aiExtraFeatureDefensePercent.write(pStream);
 	m_aiExtraUnitCombatModifier.write(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	m_aiDamageTypeCombat.write(pStream);
+	m_aiDamageTypeResist.write(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pStream->Read(m_iGlobalCounterCombatPercent);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	REPRO_TEST_END_WRITE();
 }
 
@@ -11900,6 +12224,58 @@ bool CvUnit::isWorker() const
 {
 	return (AI_getUnitAIType() == UNITAI_WORKER || AI_getUnitAIType() == UNITAI_WORKER_SEA);
 }
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+void CvUnit::combatVictory(CvUnit* pLoser, bool bAttacking)
+{
+	CvPlayerAI& kAttackingPlayer = GET_PLAYER(getOwner());
+	CvPlayerAI& kDefendingPlayer = GET_PLAYER(pLoser->getOwner());
+	
+	// XANA (note): Check Promotions of Attacking Unit for Special Modifiers
+	FOR_EACH_ENUM(Promotion)
+	{
+		if (!isHasPromotion(eLoopPromotion))
+			continue;
+		CvPromotionInfo const& kLoopPromo = GC.getInfo(eLoopPromotion);
+		
+		if (kLoopPromo.getGlobalCounterModifierOnCombat() != 0)
+		{
+			kAttackingPlayer.changeGlobalCounterContrib(kLoopPromo.getGlobalCounterModifierOnCombat());
+		}
+		if (kLoopPromo.getGlobalCounterModifierOnCombatWon() != 0)
+		{
+			kAttackingPlayer.changeGlobalCounterContrib(kLoopPromo.getGlobalCounterModifierOnCombatWon());
+		}
+	}
+	
+	// XANA (note): Check Promotions of Defending Unit for Special Modifiers
+	FOR_EACH_ENUM(Promotion)
+	{
+		if (!(pLoser->isHasPromotion(eLoopPromotion)))
+			continue;
+		CvPromotionInfo const& kLoopPromo = GC.getInfo(eLoopPromotion);
+		
+		if (kLoopPromo.getGlobalCounterModifierOnCombatLost() != 0)
+		{
+			kDefendingPlayer.changeGlobalCounterContrib(kLoopPromo.getGlobalCounterModifierOnCombatLost());
+		}
+	}
+}
+
+int CvUnit::getGlobalCounterCombatPercent() const
+{
+	return m_iGlobalCounterCombatPercent;
+}
+
+void CvUnit::changeGlobalCounterCombatPercent(int iChange)
+{
+	if (iChange != 0)
+	{
+		m_iGlobalCounterCombatPercent = (m_iGlobalCounterCombatPercent + iChange);
+		setInfoBarDirty(true);
+	}
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 /*	BETTER_BTS_AI_MOD, Lead From Behind (UncutDragon), 02/21/10, jdog5000: START
 	Original isBetterDefenderThan call (without the extra parameter) -

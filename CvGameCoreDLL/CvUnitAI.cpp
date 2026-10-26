@@ -419,9 +419,9 @@ void CvUnitAI::AI_upgrade()
 	if (!isReadyForUpgrade())
 		return;
 
-	CvPlayerAI const& kOwner = GET_PLAYER(getOwner());
-	UnitAITypes const eUnitAI = AI_getUnitAIType();
-	CvArea const* pArea = area();
+	const CvPlayerAI& kOwner = GET_PLAYER(getOwner());
+	UnitAITypes eUnitAI = AI_getUnitAIType();
+	CvArea* pArea = area();
 
 	int iBestValue = kOwner.AI_unitValue(getUnitType(), eUnitAI, pArea) * 100;
 	UnitTypes eBestUnit = NO_UNIT;
@@ -508,15 +508,6 @@ void CvUnitAI::AI_promote()
 		promote(eBestPromotion);
 		AI_promote();
 	}
-}
-
-/*	advc.131e: The higher, the greater the priority. Can be negative when
-	a lot of XP will be lost. Most of the prioritization still happens in
-	CvPlayerAI::AI_doTurnUnitsPost; should perhaps move here. */
-scaled CvUnitAI::AI_upgradePriority() const
-{	/*	The post-upgrade XP with extra weight for the (normally non-positive)
-		change upon upgrading */
-	return getExperience() + fixp(1.6) * upgradeXPChange();
 }
 
 // <advc.003u>, advc.003s
@@ -5072,7 +5063,6 @@ void CvUnitAI::AI_greatPersonMove()
 	// 3) Attempt to carry out missions, starting with the highest value.
 
 	CvPlot* pBestPlot = NULL;
-	CvCity const* pBestCity = NULL; // advc.001 (from SAS)
 	SpecialistTypes eBestSpecialist = NO_SPECIALIST;
 	BuildingTypes eBestBuilding = NO_BUILDING;
 	int iBestValue = 1;
@@ -5103,9 +5093,6 @@ void CvUnitAI::AI_greatPersonMove()
 				{
 					iBestValue = iValue;
 					pBestPlot = &getPathEndTurnPlot();
-					// <advc.001> (from SAS)
-					pBestCity = pLoopCity;
-					iBestPathTurns = iPathTurns; // </advc.001>
 					eBestSpecialist = eLoopSpecialist;
 					eBestBuilding = NO_BUILDING;
 				}
@@ -5127,9 +5114,6 @@ void CvUnitAI::AI_greatPersonMove()
 				{
 					iBestValue = iValue;
 					pBestPlot = &getPathEndTurnPlot();
-					// <advc.001> (from SAS)
-					pBestCity = pLoopCity;
-					iBestPathTurns = iPathTurns; // </advc.001>
 					eBestBuilding = eBuilding;
 					eBestSpecialist = NO_SPECIALIST;
 				}
@@ -5174,7 +5158,6 @@ void CvUnitAI::AI_greatPersonMove()
 				{
 					iBestValue = iValue;
 					pBestPlot = &getPathEndTurnPlot();
-					pBestCity = pLoopCity; // advc.001 (from SAS)
 					iBestPathTurns = iPathTurns;
 					eBestBuilding = eBuilding;
 					eBestSpecialist = NO_SPECIALIST;
@@ -5430,9 +5413,7 @@ void CvUnitAI::AI_greatPersonMove()
 			}
 			if (eBestBuilding != NO_BUILDING)
 			{
-				MissionAITypes eMissionAI = canConstruct(
-						pBestCity->plot(), // advc.001: was pBestPlot
-						eBestBuilding) ? MISSIONAI_CONSTRUCT : MISSIONAI_HURRY;
+				MissionAITypes eMissionAI = canConstruct(pBestPlot, eBestBuilding) ? MISSIONAI_CONSTRUCT : MISSIONAI_HURRY;
 				if (gUnitLogLevel > 2) logBBAI("    %S %s 'build' (%S) with their %S (value: %d, choice #%d)", GET_PLAYER(getOwner()).getCivilizationDescription(0), AI_getGroup()->AI_getMissionAIType() == eMissionAI?"continues" :"chooses", GC.getInfo(eBestBuilding).getDescription(), getName(0).GetCString(), iSlowValue, iChoice);
 				if (at(*pBestPlot))
 				{
@@ -9233,6 +9214,29 @@ int CvUnitAI::AI_promotionValue(PromotionTypes ePromotion)
 			iValue += ((iTemp * 2) / 3);
 		else iValue += (iTemp / 8);
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	iTemp = GC.getInfo(ePromotion).getGlobalCounterCombatPercent();
+	if (iTemp != 0)
+	{
+		ProphecyTypes const& eOurProphecy = GET_PLAYER(getOwner()).getProphecyFollowed();
+		iExtra = (getUnitInfo().getGlobalCounterModifier() + (GC.getGame().getProphecyCounter(eOurProphecy) * 4));
+		iTemp *= (100 + iExtra);
+		iTemp /= 100;
+		if (AI_getUnitAIType() == UNITAI_ATTACK)
+		{
+			iValue += (iTemp * 4) / 3;
+		}
+		else if (AI_getUnitAIType() == UNITAI_COUNTER ||
+			AI_getUnitAIType() == UNITAI_CITY_COUNTER ||
+			AI_getUnitAIType() == UNITAI_RESERVE ||
+			getLeaderUnitType() != NO_UNIT)
+		{
+			iValue += iTemp * 1;
+		}
+		else iValue += (iTemp / 4);
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	iTemp = GC.getInfo(ePromotion).getBombardRateChange();
 	if (AI_getUnitAIType() == UNITAI_ATTACK_CITY)
@@ -9605,6 +9609,31 @@ int CvUnitAI::AI_promotionValue(PromotionTypes ePromotion)
 		}
 		else iValue += (iTemp / 8);
 	}
+	// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	const int iMPLimit = getLevel(); // XANA (note): Experienced spellweavers are focused on mastering their particular magical domains.
+	const int iMRLimit = 100; // XANA (note): Spellweavers seek to develop immunity to the magical domains that they focus upon.
+	FOR_EACH_ENUM(Damage)
+	{
+		int iMagicPower = getDamageTypeCombat(eLoopDamage);
+		int iMagicResistance = getDamageTypeResist(eLoopDamage);
+		if (iMagicPower != iMPLimit)
+		{
+			iTemp = GC.getInfo(ePromotion).getDamageTypeCombat(eLoopDamage);
+			if (iTemp != 0)
+			{
+				iValue += ((iTemp * 10) + iMagicPower);
+			}
+		}
+		if (iMagicResistance != iMRLimit)
+		{
+			iTemp = GC.getInfo(ePromotion).getDamageTypeResist(eLoopDamage);
+			if (iTemp != 0)
+			{
+				iValue += ((iTemp / 10) + (iMagicResistance / 100));
+			}
+		}
+	}
+	// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	if (iValue > 0)
 		iValue += SyncRandNum(15);
 	return iValue;

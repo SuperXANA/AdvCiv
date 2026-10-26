@@ -316,8 +316,8 @@ void CvCity::kill(bool bUpdatePlotGroups, /* advc.001: */ bool bBumpUnits)
 	{
 		if (it->getWorkingCityOverride() == this)
 			it->setWorkingCityOverride(NULL);
-	}
-
+	}	
+	
 	setCultureLevel(NO_CULTURELEVEL, false);
 
 	FOR_EACH_ENUM(Building)
@@ -3070,6 +3070,9 @@ void CvCity::processBuilding(BuildingTypes eBuilding, int iChange, bool bObsolet
 		//changeNoUnhealthyPopulationCount(kBuilding.isNoUnhealthyPopulation() ? iChange : 0);
 		changeUnhealthyPopulationModifier(kBuilding.getUnhealthyPopulationModifier() * iChange); // K-Mod
 		changeBuildingOnlyHealthyCount(kBuilding.isBuildingOnlyHealthy() ? iChange : 0);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		kOwner.changeGlobalCounterContrib(kBuilding.getGlobalCounterModifier() * iChange);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 		FOR_EACH_ENUM2(Yield, y)
 		{
@@ -3115,6 +3118,20 @@ void CvCity::processBuilding(BuildingTypes eBuilding, int iChange, bool bObsolet
 			changeImprovementFreeSpecialists(perImprovementVal.first,
 					perImprovementVal.second * iChange);
 		}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		FOR_EACH_NON_DEFAULT_PAIR(kBuilding.
+			getMagicClassCombatPoints(), MagicClass, int)
+		{
+			GET_PLAYER(getOwner()).changeMagicClassCombatPoints(perMagicClassVal.first,
+					(perMagicClassVal.second / 10) * iChange);
+		}
+		FOR_EACH_NON_DEFAULT_PAIR(kBuilding.
+			getMagicClassResistPoints(), MagicClass, int)
+		{
+			GET_PLAYER(getOwner()).changeMagicClassResistPoints(perMagicClassVal.first,
+					(perMagicClassVal.second / 10) * iChange);
+		}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 		FOR_EACH_ENUM(Bonus)
 		{
 			if (!hasBonus(eLoopBonus))
@@ -3223,7 +3240,8 @@ void CvCity::processBuilding(BuildingTypes eBuilding, int iChange, bool bObsolet
 			if (eDirtyPlayer != NO_PLAYER)
 			{
 				gDLL->UI().setDirty(GlobeLayer_DIRTY_BIT, true);
-				GET_PLAYER(getOwner()).setBonusHelpDirty(); // advc.003p
+				// advc.003p:
+				GET_PLAYER(getOwner()).setBonusHelpDirty();
 			}
 		} // </advc.004w>
 	}
@@ -3444,6 +3462,10 @@ void CvCity::setHeadquarters(CorporationTypes eCorp)
 		if (eFreeUnit != NO_UNIT)
 			GET_PLAYER(getOwner()).initUnit(eFreeUnit, getX(), getY());
 	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eCorp).getGlobalCounterModifier() != 0)
+		GET_PLAYER(getOwner()).changeGlobalCounterContrib(GC.getInfo(eCorp).getGlobalCounterModifier());
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 bool CvCity::isHeadquarters() const
@@ -8414,13 +8436,6 @@ void CvCity::changeNumBonuses(BonusTypes eBonus, int iChange,
 
 	if (isCorporationBonus(eBonus))
 		updateCorporation(/* advc.06d: */ bVerifyProduction);
-	// <advc.003p> CvPlayer::getNumAvailableBonuses has changed
-	if (isActiveOwned() && isCapital())
-	{
-		GET_PLAYER(getOwner()).setBonusHelpDirty();
-		// (New routes, improvements don't already set this.)
-		gDLL->UI().setDirty(GlobeLayer_DIRTY_BIT, true);
-	} // </advc.003p>
 }
 
 // advc.149:
@@ -9311,10 +9326,15 @@ void CvCity::setHasReligion(ReligionTypes eReligion, bool bNewValue, bool bAnnou
 				if (isActiveOwned() && kGame.getCurrentLayer() == GLOBE_LAYER_RESOURCE)
 				{
 					gDLL->UI().setDirty(GlobeLayer_DIRTY_BIT, true);
-					kOwner.setBonusHelpDirty(); // advc.003p
+					// advc.003p:
+					kOwner.setBonusHelpDirty();
 				} // </advc.004w>
 			}
 		}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		if (GC.getInfo(eReligion).getGlobalCounterModifierOnSpread() != 0)
+			kOwner.changeGlobalCounterContrib(GC.getInfo(eReligion).getGlobalCounterModifierOnSpread());
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	} // K-Mod start
 	else // religion removed
 	{
@@ -9340,6 +9360,10 @@ void CvCity::setHasReligion(ReligionTypes eReligion, bool bNewValue, bool bAnnou
 						getX(), getY(), bArrows, bArrows);
 			}
 		}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		if (GC.getInfo(eReligion).getGlobalCounterModifierOnSpread() != 0)
+			kOwner.changeGlobalCounterContrib(-1 * GC.getInfo(eReligion).getGlobalCounterModifierOnSpread());
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	} // K-Mod end
 	if (bNewValue)
 		CvEventReporter::getInstance().religionSpread(eReligion, kOwner.getID(), this);
@@ -9557,6 +9581,11 @@ void CvCity::setHasCorporation(CorporationTypes eCorp, bool bNewValue, bool bAnn
 			}
 		}
 	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+		if (GC.getInfo(eCorp).getGlobalCounterModifierOnSpread() != 0)
+			int iCost = (bNewValue) ? 1 : -1;
+			kOwner.changeGlobalCounterContrib(iCost * GC.getInfo(eCorp).getGlobalCounterModifierOnSpread());
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	if (bNewValue)
 		CvEventReporter::getInstance().corporationSpread(eCorp, getOwner(), this);
 	else CvEventReporter::getInstance().corporationRemove(eCorp, getOwner(), this);

@@ -13,6 +13,7 @@
 
 #include "CvGameCoreDLL.h"
 #include "CvStructs.h"
+#include "CvXMLLoadUtility.h" // XANA: 10-26-2026 Spell promotion loading
 #include "CvUnit.h"
 #include "CvPlot.h" // advc.071
 #include "CvInfo_Command.h" // advc (for NukeMissionDef)
@@ -603,3 +604,33 @@ FirstContactData::FirstContactData(CvPlot const* pAt1, CvPlot const* pAt2,
 		u2.iID = pUnit2->getID();
 	}
 }
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+// XANA: 10-26-2026 Release promotion arrays with their creation data.
+SpellUnitCreationSubData::~SpellUnitCreationSubData()
+{
+	SAFE_DELETE_ARRAY(m_pbAddPromotionTypes);
+	SAFE_DELETE_ARRAY(m_pbRemovePromotionTypes);
+}
+
+void SpellUnitCreationSubData::setCreationNumber(int iValue)
+{
+	iCreateNum = iValue;
+}
+
+void SpellUnitCreationSubData::readPromotions(CvXMLLoadUtility* pXML, TCHAR const* szSubTagName, bool** ppArray)
+{
+	gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+	pXML->SetVariableListTagPair(ppArray, szSubTagName, GC.getNumPromotionInfos());
+}
+
+void UnitClassCreationData::setClassType(UnitClassTypes eUnitClass)
+{
+	eType = eUnitClass; // XANA: 10-26-2026 Match the stored class type.
+}
+
+void UnitCreationData::setUnitType(UnitTypes eUnitType)
+{
+	eType = eUnitType; // XANA: 10-26-2026 Match the stored unit type.
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ

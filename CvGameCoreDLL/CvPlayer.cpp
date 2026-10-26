@@ -129,9 +129,23 @@ bool CvPlayer::initOtherData()
 	FOR_EACH_ENUM2(Commerce, eCommerce)
 		setCommercePercent(eCommerce, GC.getInfo(eCommerce).getInitialPercent(), true);
 
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	FOR_EACH_ENUM2(MagicClass, eClass)
+	{
+		changeMagicClassCombatPoints(eClass, getCivilization().getMagicClassCombatPoints(eClass) / 10);
+		changeMagicClassResistPoints(eClass, getCivilization().getMagicClassResistPoints(eClass) / 10);
+		changeMagicClassCombatPoints(eClass, GC.getInfo(getPersonalityType()).getMagicClassCombatPoints(eClass) / 10);
+		changeMagicClassResistPoints(eClass, GC.getInfo(getPersonalityType()).getMagicClassResistPoints(eClass) / 10);
+	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
 	/*  advc.003q: Moved into a (sub-)subroutine - except for the setCivics code;
 		that's handled (only) by resetCivTypeEffects. */
 	processTraits(1);
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	GC.getGame().changeGlobalCounterLimit(12);
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	return true;
 }
 
@@ -300,6 +314,9 @@ void CvPlayer::uninit()
 
 	m_groupCycle.clear();
 	m_researchQueue.clear();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	m_magicResearchQueue.clear();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	m_cityNames.clear();
 
 	m_plotGroups.uninit();
@@ -921,6 +938,9 @@ void CvPlayer::initFreeState()
 	changeGold(GC.getInfo(GC.getGame().getStartEra()).getStartingGold());
 
 	clearResearchQueue();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	clearMagicResearchQueue();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 }
 
 
@@ -2849,6 +2869,9 @@ void CvPlayer::doTurn()
 	verifyGoldCommercePercent();
 	doGold();
 	doResearch();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	doMagicResearch();
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	doEspionagePoints();
 
 	FOR_EACH_CITY_VAR(pLoopCity, *this)
@@ -2922,6 +2945,10 @@ void CvPlayer::doTurn()
 
 	showForeignPromoGlow(false); // advc.002e: To match call in doWarnings
 	gDLL->UI().setDirty(CityInfo_DIRTY_BIT, true);
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	doDecayMagicClassPoints();
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	AI().AI_doTurnPost();
 	// <advc.700>
@@ -3897,10 +3924,7 @@ bool CvPlayer::canTradeItem(PlayerTypes eWhoTo, TradeData item, bool bTestDenial
 	{
 		FAssertBounds(0, MAX_CIV_TEAMS, item.m_iData);
 		TeamTypes eTargetTeam = (TeamTypes)item.m_iData;
-		// <advc.104> (correction from SAS)
-		bool bVassalStatusValid = (!GET_TEAM(eTargetTeam).isAVassal() ||
-				(getUWAI().isEnabled() && !GET_TEAM(eTargetTeam).isCapitulated()));
-		if (bVassalStatusValid && // </advc.104>
+		if (!GET_TEAM(eTargetTeam).isAVassal() &&
 			kOurTeam.isHasMet(eTargetTeam) && kToTeam.isHasMet(eTargetTeam) &&
 			kOurTeam.canDeclareWar(eTargetTeam))
 		{
@@ -4495,6 +4519,21 @@ void CvPlayer::raze(CvCity& kCity) // advc: param was CvCity*
 	FAssert(kCity.getOwner() == getID());
 
 	AI().AI_processRazeMemory(kCity); // advc.003n: Moved into subroutine
+	
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	int iCost = 1;
+	if ((kCity.getPopulation() - 5) > 0)
+	{
+		iCost += (kCity.getPopulation() - 5) * 1;
+	}
+	
+	if (getProphecyFollowed() != NO_PROPHECY && GET_PLAYER(kCity.getOwner()).getProphecyFollowed() != NO_PROPHECY)
+		CvProphecyInfo const& kOurProphecy = GC.getInfo(getProphecyFollowed());
+		if (kOurProphecy.getHatedProphecy() == GET_PLAYER(kCity.getOwner()).getProphecyFollowed())
+			iCost *= -1; // XANA (note): Roleplaying for characters. Delaying the End of the World by removing influence among the population is "good" when battling against an opposing prophecy.
+		
+	changeGlobalCounterContrib(iCost);
+	// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	wchar szBuffer[1024];
 	swprintf(szBuffer, gDLL->getText("TXT_KEY_MISC_DESTROYED_CITY",
@@ -5177,6 +5216,14 @@ bool CvPlayer::canTrain(UnitTypes eUnit, bool bContinue, bool bTestVisible, bool
 	if (!GC.getGame().canTrain(eUnit, bIgnoreCost, bTestVisible))
 		return false; // </advc>
 
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eUnit).getPrereqGlobalCounter() != 0)
+	{
+        if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < GC.getInfo(eUnit).getPrereqGlobalCounter())
+            return false;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+
 	/*if (GET_TEAM(getTeam()).isUnitClassMaxedOut(eUnitClass))
 		return false;
 	if (isUnitClassMaxedOut(eUnitClass))
@@ -5288,6 +5335,14 @@ bool CvPlayer::canConstruct(BuildingTypes eBuilding, bool bContinue, bool bTestV
 			return false;
 		}
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eBuilding).getPrereqGlobalCounter() != 0)
+	{
+		if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < GC.getInfo(eBuilding).getPrereqGlobalCounter()))
+			return false;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if(bTestVisible)
 		return true;
@@ -5343,6 +5398,14 @@ bool CvPlayer::canCreate(ProjectTypes eProject, bool bContinue, bool bTestVisibl
 			return false;
 		}
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eProject).getPrereqGlobalCounter() != 0)
+	{
+		if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < GC.getInfo(eProject).getPrereqGlobalCounter()))
+			return false;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if (GC.getGame().isProjectMaxedOut(eProject))
 		return false;
@@ -6442,6 +6505,18 @@ bool CvPlayer::canEverResearch(TechTypes eTech) const
 }
 
 
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+bool CvPlayer::canEverResearchMagic(MagicTechTypes eTech) const
+{
+	if (GC.getInfo(eTech).isDisable())
+		return false;
+	if (GC.getInfo(getCivilizationType()).isCivilizationDisableMagicTechs(eTech))
+		return false;
+	return true;
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+
+
 TechTypes CvPlayer::getDiscoveryTech(UnitTypes eUnit) const
 {
 	TechTypes eBestTech = NO_TECH;
@@ -6535,6 +6610,17 @@ TechTypes CvPlayer::getCurrentResearch() const
 		return NO_TECH;
 	return pResearchNode->m_data;
 }
+
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+MagicTechTypes CvPlayer::getCurrentMagicResearch() const
+{
+	CLLNode<MagicTechTypes>* pResearchNode = headMagicResearchQueueNode();
+	if (pResearchNode == NULL)
+		return NO_MAGIC_TECH;
+	return pResearchNode->m_data;
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 
 bool CvPlayer::isCurrentResearchRepeat() const
@@ -7020,6 +7106,11 @@ void CvPlayer::foundReligion(ReligionTypes eReligion, ReligionTypes eSlotReligio
 				initUnit(eFreeUnit, pBestCity->getX(), pBestCity->getY());
 		}
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (GC.getInfo(eReligion).getGlobalCounterModifier() != 0)
+		changeGlobalCounterContrib(GC.getInfo(eReligion).getGlobalCounterModifier());
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 }
 
 
@@ -10576,6 +10667,57 @@ void CvPlayer::changeImprovementYieldChange(ImprovementTypes eImprov, YieldTypes
 	}
 }
 
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+void CvPlayer::changeMagicClassCombatPoints(MagicClassTypes eClass, int iChange)
+{
+	if (iChange != 0)
+	{
+		int const iNewValue = std::max(0, m_aiMagicClassCombatPoints.get(eClass) + iChange);
+		m_aiMagicClassCombatPoints.set(eClass, iNewValue); 
+	}
+}
+
+void CvPlayer::changeMagicClassResistPoints(MagicClassTypes eClass, int iChange)
+{
+	if (iChange != 0)
+	{
+		int const iNewValue = std::max(0, m_aiMagicClassResistPoints.get(eClass) + iChange);
+		m_aiMagicClassResistPoints.set(eClass, iNewValue);
+	}
+}
+void CvPlayer::decayMagicClassPoints()
+{
+	FOR_EACH_ENUM(MagicClass)
+	{
+		if (getMagicClassCombatPoints(eLoopMagicClass) != getMagicClassCombatBasePoints(eLoopMagicClass))
+		{
+			int const iDelta = (getMagicClassCombatPoints(eLoopMagicClass) - getMagicClassCombatBasePoints(eLoopMagicClass));
+			int const iAbsDelta = std::abs(iDelta);
+			int const iChange = scaled(iAbsDelta / 800, iAbsDelta).clamp(1, iAbsDelta).round();
+			changeMagicClassCombatPoints(eLoopMagicClass, ((iDelta > 0) ? -iChange : iChange));
+		}
+		if (getMagicClassResistPoints(eLoopMagicClass) != getMagicClassResistBasePoints(eLoopMagicClass))
+		{
+			int const iDelta = (getMagicClassResistPoints(eLoopMagicClass) - getMagicClassResistBasePoints(eLoopMagicClass));
+			int const iAbsDelta = std::abs(iDelta);
+			int const iChange = scaled(iAbsDelta / 800, iAbsDelta).clamp(1, iAbsDelta).round();
+			changeMagicClassResistPoints(eLoopMagicClass, ((iDelta > 0) ? -iChange : iChange));
+		}
+	}
+}
+int CvPlayer::getMagicClassCombatBasePoints(MagicClassTypes eClass) const
+{
+	return (getCivilization().getMagicClassCombatPoints(eClass) 
+				+ GC.getInfo(getPersonalityType()).getMagicClassCombatPoints(eClass));
+}
+int CvPlayer::getMagicClassResistBasePoints(MagicClassTypes eClass) const
+{
+	return (getCivilization().getMagicClassResistPoints(eClass) 
+				+ GC.getInfo(getPersonalityType()).getMagicClassResistPoints(eClass));
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
 
 /*	K-Mod. I've changed this function from using pUnit to using pGroup.
 	I've also rewritten most of the code, to give more natural ordering,
@@ -10891,6 +11033,191 @@ void CvPlayer::popResearch(TechTypes eTech)
 		gDLL->UI().setDirty(Score_DIRTY_BIT, true);
 	}
 }
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+//	Finds the path length from this tech type to one you already know
+int CvPlayer::findMagicPathLength(MagicTechTypes eTech, bool bCost) const
+{
+	if (GET_TEAM(getTeam()).isHasTech(eTech) || isResearchingTech(eTech))
+	{
+		//	We have this tech, no reason to add this to the pre-reqs
+		//	Base case return 0, we know it...
+		return 0;
+	}
+	int iPathLength = 0;
+	//	Cycle through the and paths and add up their tech lengths
+	for (int i = 0; i < GC.getInfo(eTech).getNumAndTechPrereqs(); i++)
+	{
+		iPathLength += findMagicPathLength(
+				GC.getInfo(eTech).getPrereqAndTechs(i), bCost);
+	}
+
+	MagicTechTypes eShortestOr = NO_MAGIC_TECH;
+	int iShortestPath = MAX_INT;
+	//	Find the shortest OR tech
+	for (int i = 0; i < GC.getInfo(eTech).getNumOrTechPrereqs(); i++)
+	{
+		MagicTechTypes const ePreReq = GC.getInfo(eTech).getPrereqOrTechs(i);
+		//	Recursively find the path length (takes into account all ANDs)
+		// k146 (note): This will double-count any shared AND-prepreqs.
+		int iNumSteps = findMagicPathLength(ePreReq, bCost);
+		//	If the prereq is a valid tech and its the current shortest, mark it as such
+		if (iNumSteps < iShortestPath)
+		{
+			eShortestOr = ePreReq;
+			iShortestPath = iNumSteps;
+		}
+	}
+
+	//	If the shortest OR is a valid tech, add the steps to it...
+	if (eShortestOr != NO_MAGIC_TECH)
+		iPathLength += iShortestPath;
+
+	return iPathLength + (bCost ? GET_TEAM(getTeam()).getResearchCost(eTech) : 1);
+}
+
+
+//	Function specifically for python/tech chooser screen
+int CvPlayer::getMagicQueuePosition(MagicTechTypes eTech) const
+{
+	int i = 1;
+	for (CLLNode<MagicTechTypes>* pResearchNode = headMagicResearchQueueNode();
+		pResearchNode != NULL; pResearchNode = nextMagicResearchQueueNode(pResearchNode))
+	{
+		if (pResearchNode->m_data == eTech)
+			return i;
+		i++;
+	}
+	return -1;
+}
+
+
+void CvPlayer::clearMagicResearchQueue()
+{
+	m_magicResearchQueue.clear();
+
+	FOR_EACH_ENUM(MagicTech)
+		setResearchingTech(eLoopMagicTech, false);
+
+	if (GET_TEAM(getTeam()).isActive())
+	{
+		gDLL->UI().setDirty(ResearchButtons_DIRTY_BIT, true);
+		gDLL->UI().setDirty(GameData_DIRTY_BIT, true);
+		gDLL->UI().setDirty(Score_DIRTY_BIT, true);
+	}
+}
+
+/*	Pushes research onto the queue.
+	If it is an append it will put it and its pre-reqs into the queue.
+	If it is not an append it will change research immediately and
+	should be used with bClear. bClear will clear the entire queue. */
+bool CvPlayer::pushMagicResearch(MagicTechTypes eTech, bool bClear, /* advc.004x: */ bool bKillPopup)
+{
+	FAssert(eTech != NO_MAGIC_TECH);
+
+	if (GET_TEAM(getTeam()).isHasTech(eTech) || isResearchingTech(eTech))
+	{	// We have this tech, no reason to add this to the pre-reqs
+		return true;
+	}
+	if (!canEverResearchMagic(eTech))
+		return false;
+
+	bool const bWasEmpty = (m_magicResearchQueue.getLength() == 0); // advc.004x
+	// Pop the entire queue...
+	if (bClear)
+		clearMagicResearchQueue();
+
+	// Add in all the pre-reqs for the and techs...
+	for (int i = 0; i < GC.getInfo(eTech).getNumAndTechPrereqs(); i++)
+	{
+		if (!pushMagicResearch(GC.getInfo(eTech).getPrereqAndTechs(i)))
+			return false;
+	}
+
+	// Will return the shortest path of all the or techs. Tie breaker goes to the first one...
+	MagicTechTypes eShortestOr = NO_MAGIC_TECH;
+	int iShortestPath = MAX_INT;
+	bool bOrPrereqFound = false;
+	// Cycle through all the OR techs
+	for (int i = 0; i < GC.getInfo(eTech).getNumOrTechPrereqs(); i++)
+	{
+		MagicTechTypes const ePreReq = GC.getInfo(eTech).getPrereqOrTechs(i);
+		bOrPrereqFound = true;
+		/*	If the pre-req exists, and we have it, it is the shortest path,
+			get out, we're done */
+		if (GET_TEAM(getTeam()).isHasTech(ePreReq))
+		{
+			eShortestOr = ePreReq;
+			break;
+		}
+		if (canEverResearchMagic(ePreReq))
+		{
+			// Find the length of the path to this pre-req
+			int iNumSteps = findMagicPathLength(ePreReq);
+			/*	If this pre-req is a valid tech, and it's the shortest current path,
+				set it as such */
+			if (iNumSteps < iShortestPath)
+			{
+				eShortestOr = ePreReq;
+				iShortestPath = iNumSteps;
+			}
+		}
+	}
+
+	/*	If the shortest path tech is valid, push it (and its children)
+		onto the research queue recursively */
+	if (eShortestOr != NO_MAGIC_TECH)
+	{
+		if (!pushMagicResearch(eShortestOr))
+			return false;
+	}
+	else if (bOrPrereqFound)
+		return false;
+
+	// Insert this tech at the end of the queue
+	m_magicResearchQueue.insertAtEnd(eTech);
+
+	setResearchingTech(eTech, true);
+
+	// Set the dirty bits
+	if (GET_TEAM(getTeam()).isActive())
+	{
+		gDLL->UI().setDirty(ResearchButtons_DIRTY_BIT, true);
+		gDLL->UI().setDirty(GameData_DIRTY_BIT, true);
+		gDLL->UI().setDirty(Score_DIRTY_BIT, true);
+		// <advc.004x>
+		if(bKillPopup && bWasEmpty && isActive())
+			killAll(BUTTONPOPUP_CHOOSETECH, 0); // </advc.004x>
+	}
+	// ONEVENT - Tech selected (any)
+	CvEventReporter::getInstance().techSelected(eTech, getID());
+	return true;
+}
+
+
+void CvPlayer::popMagicResearch(MagicTechTypes eTech)
+{
+	CLLNode<MagicTechTypes>* pResearchNode;
+	for (pResearchNode = headResearchQueueNode(); pResearchNode;
+		pResearchNode = nextResearchQueueNode(pResearchNode))
+	{
+		if (pResearchNode->m_data == eTech)
+		{
+			m_magicResearchQueue.deleteNode(pResearchNode);
+			break;
+		}
+	}
+
+	setResearchingTech(eTech, false);
+
+	if (GET_TEAM(getTeam()).isActive())
+	{
+		gDLL->UI().setDirty(ResearchButtons_DIRTY_BIT, true);
+		gDLL->UI().setDirty(GameData_DIRTY_BIT, true);
+		gDLL->UI().setDirty(Score_DIRTY_BIT, true);
+	}
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 
 void CvPlayer::addCityName(const CvWString& szName)
@@ -11668,6 +11995,46 @@ void CvPlayer::doResearch()
 			clearResearchQueue();
 	}
 }
+
+
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+void CvPlayer::doMagicResearch()
+{
+	if (isResearch() /* K-Mod: */ && !isAnarchy())
+	{
+		bool bForceResearchChoice = false;
+		if (getCurrentResearch() == NO_TECH /* K-Mod: */ && isHuman())
+		{
+			if (isActive())
+				chooseTech();
+			AI().AI_chooseResearch();
+			bForceResearchChoice = true;
+		}
+
+		MagicTechTypes eCurrentTech = getCurrentResearch();
+		if (eCurrentTech == NO_MAGIC_TECH)
+		{
+			int iOverflow = (100 * calculateResearchRate()) /
+					std::max(1, calculateResearchModifier(eCurrentTech));
+			changeOverflowResearch(iOverflow);
+		}
+		else
+		{
+			int iOverflowResearch = (getOverflowResearch() *
+					calculateResearchModifier(eCurrentTech)) / 100;
+			setOverflowResearch(0);
+			GET_TEAM(getTeam()).changeResearchProgress(eCurrentTech,
+					// K-Mod (replacing the minimum which used to be in calculateResearchRate)
+					std::max(1, calculateResearchRate()) +
+					iOverflowResearch, getID());
+		}
+
+		if (bForceResearchChoice)
+			clearMagicResearchQueue();
+	}
+}
+// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+
 
 void CvPlayer::doEspionagePoints()
 {
@@ -14320,6 +14687,10 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		m_aiHasCorporationCount.read(pStream);
 		m_aiUpkeepCount.read(pStream);
 		m_aiSpecialistValidCount.read(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		m_aiMagicClassCombatPoints.read(pStream);
+		m_aiMagicClassResistPoints.read(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 		if (uiFlag >= 21)
 			m_abResearchingTech.read(pStream);
 		else LegacyArrayEnumMap<TechTypes,bool>::convert(m_abResearchingTech, pStream);
@@ -14345,6 +14716,10 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		m_aiHasCorporationCount.readArray<int>(pStream);
 		m_aiUpkeepCount.readArray<int>(pStream);
 		m_aiSpecialistValidCount.readArray<int>(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+		m_aiMagicClassCombatPoints.readArray<int>(pStream);
+		m_aiMagicClassResistPoints.readArray<int>(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 		m_abResearchingTech.readArray<bool>(pStream);
 	}
 	// <advc.091>
@@ -14399,6 +14774,9 @@ void CvPlayer::read(FDataStreamBase* pStream)
 	} // </advc.912g>
 	m_groupCycle.Read(pStream);
 	m_researchQueue.Read(pStream);
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	m_magicResearchQueue.Read(pStream);
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 	{
 		m_cityNames.clear();
@@ -14886,6 +15264,10 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	m_aiHasCorporationCount.write(pStream);
 	m_aiUpkeepCount.write(pStream);
 	m_aiSpecialistValidCount.write(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	m_aiMagicClassCombatPoints.write(pStream);
+	m_aiMagicClassResistPoints.write(pStream);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	m_abResearchingTech.write(pStream);
 	m_abEverSeenDemographics.write(pStream); // advc.091
 	m_abLoyalMember.write(pStream);
@@ -14895,6 +15277,9 @@ void CvPlayer::write(FDataStreamBase* pStream)
 
 	m_groupCycle.Write(pStream);
 	m_researchQueue.Write(pStream);
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
+	m_magicResearchQueue.Write(pStream);
+	// XANA: 03-28-2026 Magical Spell System for Advanced Civ
 
 	{
 		CLLNode<CvWString>* pNode;
@@ -15741,6 +16126,14 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
 	}
 
 	CvEventInfo& kEvent = GC.getInfo(eEvent);
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (kEvent.getPrereqGlobalCounter() != 0)
+	{
+        if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < kEvent.getPrereqGlobalCounter())
+            return false;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	int const iGold = std::min(getEventCost(eEvent, kTriggeredData.m_eOtherPlayer, false),
 			getEventCost(eEvent, kTriggeredData.m_eOtherPlayer, true));
@@ -16454,6 +16847,19 @@ void CvPlayer::applyEvent(EventTypes eEvent, int iEventTriggeredId, bool bUpdate
 			}
 		}
 	}
+	
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	FOR_EACH_NON_DEFAULT_PAIR(kEvent.
+		getMagicClassCombatPoints(), MagicClass, int)
+	{
+		changeMagicClassCombatPoints(perMagicClassVal.first, perMagicClassVal.second / 10)
+	}
+	FOR_EACH_NON_DEFAULT_PAIR(kEvent.
+		getMagicClassResistPoints(), MagicClass, int)
+	{
+		changeMagicClassResistPoints(perMagicClassVal.first, perMagicClassVal.second / 10)
+	}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 
 	GC.getPythonCaller()->applyEvent(eEvent, *pTriggeredData);
 
@@ -17085,6 +17491,14 @@ int CvPlayer::getEventTriggerWeight(EventTriggerTypes eTrigger) const
 		if (isTriggerFired(eTrigger))
 			return 0;
 	}
+	
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	if (kTrigger.getPrereqGlobalCounter() != 0)
+	{
+        if (GC.getGame().getProphecyCounter(getProphecyFollowed()) < kTrigger.getPrereqGlobalCounter())
+            return 0;
+	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 	if (kTrigger.getNumPrereqOrTechs() > 0)
 	{
@@ -19697,6 +20111,40 @@ bool CvPlayer::showGoodyOnResourceLayer() const
 	return (/*isOption(PLAYEROPTION_NO_UNIT_RECOMMENDATIONS) &&*/
 			BUGOption::isEnabled("MainInterface__TribalVillageIcons", true));
 }
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+ProphecyTypes CvPlayer::getProphecyFollowed() const
+{
+	if (GC.getInfo(getLeaderType()).getFavoriteProphecy() != NO_PROPHECY)  // XANA (note): Mystical natures aren't linked to personality, but the actual character in play.
+	{
+		return GC.getInfo(getLeaderType()).getFavoriteProphecy(); // XANA (note): Roleplaying. Characters with a favorite Prophecy can't easily escape their destiny.  
+	}
+	if (getStateReligion() != NO_RELIGION)
+	{
+		return GC.getInfo(getStateReligion()).getProphecyFollowed();
+	}
+	return NO_PROPHECY;
+}
+
+void CvPlayer::changeGlobalCounterContrib(int iChange)
+{
+	if (iChange != 0)
+	{
+		if (getProphecyFollowed() != NO_PROPHECY)
+		{
+			CvProphecyInfo const& kProphecy = GC.getInfo(getProphecyFollowed());
+			
+			if (iChange < 0)
+				const int iProphecyValue = kProphecy.getProphecyAvertWorldsEndValue();
+			else
+				const int iProphecyValue = kProphecy.getProphecyHastenWorldsEndValue();
+			
+			CvGame const& kGame = GC.getGame();
+			kGame.changeGlobalCounterContribPerTurn(getID(), (iChange * iProphecyValue));
+		}
+	}
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 // Used by Globeview resource layer
 void CvPlayer::getResourceLayerColors(GlobeLayerResourceOptionTypes eOption,

@@ -20,7 +20,17 @@ m_iWorldSoundscapeScriptId(0),
 m_piYields(NULL),
 m_piRiverYieldChange(NULL),
 m_piHillsYieldChange(NULL),
-m_pi3DAudioScriptFootstepIndex(NULL)
+m_pi3DAudioScriptFootstepIndex(NULL),
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+m_piMagicClassCombatPoints(NULL),
+m_piMagicClassResistPoints(NULL)
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv,
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+m_iLightTerrainThreshold(0),
+m_eLightTerrain(NO_TERRAIN),
+m_iDarkTerrainThreshold(0)
+m_eDarkTerrain(NO_TERRAIN)
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 {}
 
 CvTerrainInfo::~CvTerrainInfo()
@@ -29,6 +39,10 @@ CvTerrainInfo::~CvTerrainInfo()
 	SAFE_DELETE_ARRAY(m_piRiverYieldChange);
 	SAFE_DELETE_ARRAY(m_piHillsYieldChange);
 	SAFE_DELETE_ARRAY(m_pi3DAudioScriptFootstepIndex);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_piMagicClassCombatPoints);
+	SAFE_DELETE_ARRAY(m_piMagicClassResistPoints);
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 }
 
 const TCHAR* CvTerrainInfo::getArtDefineTag() const
@@ -107,6 +121,10 @@ bool CvTerrainInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(&m_iDefenseModifier, "iDefense");
 
 	pXML->SetVariableListTagPairForAudioScripts(&m_pi3DAudioScriptFootstepIndex, "FootstepSounds", GC.getNumFootstepAudioTypes());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+	pXML->SetVariableListTagPair(&m_piMagicClassCombatPoints, "MagicClassCombatPoints", GC.getNumMagicClassInfos());
+	pXML->SetVariableListTagPair(&m_piMagicClassResistPoints, "MagicClassResistPoints", GC.getNumMagicClassInfos());
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 	{
 		CvString szTextVal;
 		pXML->GetChildXmlValByName(szTextVal, "WorldSoundscapeAudioScript", /* advc.006b: */ "");
@@ -114,8 +132,22 @@ bool CvTerrainInfo::read(CvXMLLoadUtility* pXML)
 			m_iWorldSoundscapeScriptId = gDLL->getAudioTagIndex(szTextVal.GetCString(), AUDIOTAG_SOUNDSCAPE);
 		else m_iWorldSoundscapeScriptId = -1;
 	}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+	pXML->GetChildXmlValByName(&m_iLightTerrainThreshold, "iLightTerrainThreshold");
+	pXML->GetChildXmlValByName(&m_iDarkTerrainThreshold, "iDarkTerrainThreshold");
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	return true;
 }
+
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
+bool CvTerrainInfo::readPass2(CvXMLLoadUtility* pXML)
+{
+	pXML->SetInfoIDFromChildXmlVal(m_eLightTerrain, "LightTerrainChange");
+	pXML->SetInfoIDFromChildXmlVal(m_eDarkTerrain, "DarkTerrainChange");
+	
+	return true;
+}
+// XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
 const TCHAR* CvTerrainInfo::getButton() const
 {

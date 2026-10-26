@@ -138,9 +138,35 @@ void CvGameAI::AI_updateAssignWork()
 }
 
 
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+int CvGameAI::AI_magicCombatValue(UnitTypes eUnit) const
+{
+	int iCombat = 0;
+
+	CvUnitInfo& kUnitInfo = GC.getInfo(eUnit);
+	
+	FOR_EACH_ENUM(Damage)
+	{
+		iCombat += kUnitInfo.getDamageTypeCombat(eLoopDamage);
+		iCombat += kUnitInfo.getDamageTypeResist(eLoopDamage) / 100;
+	}
+	
+	if (iCombat > 0)
+	{
+		return iCombat;
+	}
+	return 0;
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
 int CvGameAI::AI_combatValue(UnitTypes eUnit) /* K-Mod: */ const
 {
+	int iMagicPower = AI_magicCombatValue(eUnit);
 	int iValue = 100;
+	if (iMagicPower > 0)
+	{
+		iValue *= iMagicPower;
+	}
 	if (GC.getInfo(eUnit).getDomainType() == DOMAIN_AIR)
 		iValue *= GC.getInfo(eUnit).getAirCombat();
 	else

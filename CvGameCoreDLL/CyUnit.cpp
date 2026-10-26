@@ -1668,6 +1668,18 @@ bool CyUnit::IsSelected()
 	return m_pUnit ? m_pUnit->IsSelected() : false;
 }
 
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+int CyUnit::getDamageTypeCombat(int /*DamageTypes*/ eDamageType) const
+{
+	return m_pUnit ? m_pUnit->getDamageTypeCombat((DamageTypes)eDamageType) : 0;
+}
+
+int CyUnit::getDamageTypeResist(int /*DamageTypes*/ eDamageType) const
+{
+	return m_pUnit ? m_pUnit->getDamageTypeResist((DamageTypes)eDamageType) : 0;
+}
+// XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
+
 // Python Helper Functions
 void CyUnit::centerCamera()
 {
