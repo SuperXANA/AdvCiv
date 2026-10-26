@@ -8,8 +8,6 @@ permissions:
 
 on:
   push:
-    branches:
-      - 'FFHSpellCreationBuild-ChatGPT'
   workflow_dispatch:
 
 # Serializes our build workflows only; legacy workflows do not share this group.
