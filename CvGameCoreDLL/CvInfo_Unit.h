@@ -231,7 +231,7 @@ public: /*  All const functions are exposed to Python except some related to art
 	// <advc.003t>
 	int getNumPrereqAndTechs() const { return m_aePrereqAndTechs.size(); }
 // XANA: 03-28-2026 Magical Spell System for Advanced Civ
-	int getNumPrereqAndTechs() const { return m_aePrereqAndMagicTechs.size(); }
+	int getNumPrereqAndMagicTechs() const { return m_aePrereqAndMagicTechs.size(); }
 // XANA: 03-28-2026 Magical Spell System for Advanced Civ
 	int getNumPrereqOrBonuses() const { return m_aePrereqOrBonuses.size(); }
 	TechTypes getPrereqAndTechs(int i) const
