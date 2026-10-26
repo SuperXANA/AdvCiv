@@ -1351,8 +1351,8 @@ struct CombatDetails											// Exposed to Python
 	{
 		/*	Not nice - but we mustn't zero the string, and we don't want to
 			repeat all the int members. */
-		ZeroMemory(this, 41 * sizeof(int));
-		BOOST_STATIC_ASSERT(sizeof(CombatDetails) == 41 * sizeof(int) + 2 * sizeof(PlayerTypes) + sizeof(std::wstring));
+		ZeroMemory(this, 43 * sizeof(int));
+		BOOST_STATIC_ASSERT(sizeof(CombatDetails) == 43 * sizeof(int) + 2 * sizeof(PlayerTypes) + sizeof(std::wstring));
 		this->eOwner = eOwner;
 		this->eVisualOwner = eVisualOwner;
 		this->sUnitName = sUnitName;
