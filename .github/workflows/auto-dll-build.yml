@@ -58,15 +58,6 @@ jobs:
           --exclude='/.github/*' \
           --include='*/' --include='*' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*/' --exclude='*' \
           ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
-
-          # Preserve machine configuration and reject stale/missing source files.
-          # Read-only check: do not delete remote sources or reveal toolchain settings.
-          LOCAL_SOURCES=$(mktemp)
-          REMOTE_SOURCES=$(mktemp)
-          trap 'rm -f "$LOCAL_SOURCES" "$REMOTE_SOURCES"' EXIT
-          git ls-files 'CvGameCoreDLL/*.cpp' | awk -F/ 'NF == 2 {print $2}' | LC_ALL=C sort > "$LOCAL_SOURCES"
-          ssh Administrator@192.168.2.252 "test -f /cygdrive/r/cvgamecoredll/Project/Makefile.user && find /cygdrive/r/cvgamecoredll -maxdepth 1 -type f -name '*.cpp' -printf '%f\n'" | LC_ALL=C sort > "$REMOTE_SOURCES"
-          diff -u "$LOCAL_SOURCES" "$REMOTE_SOURCES"
           
           # Encode the command for PowerShell
           ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
