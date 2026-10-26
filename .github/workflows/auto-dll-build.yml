@@ -54,7 +54,7 @@ jobs:
           # Sync the repository's files into the RAM disk workspace
           rsync -avz --blocking-io \
           -e "ssh -o IPQoS=throughput" \
-          --exclude='/Project/Makefile.user' \
+          --exclude='/Project/*' \
           --include='*/' --include='*' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*/' --exclude='*' \
           ./CvGameCoreDLL/ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
           
