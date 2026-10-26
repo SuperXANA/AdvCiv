@@ -95,9 +95,9 @@ protected:
 	int* m_piMagicClassResistPoints;
 // XANA: 04-19-2025 FfH Damage Types for AdvancedCiv
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
-	int m_iLightTerrainLimit;
+	int m_iLightTerrainThreshold;
 	TerrainTypes m_eLightTerrain;
-	int m_iDarkTerrainLimit;
+	int m_iDarkTerrainThreshold;
 	TerrainTypes m_eDarkTerrain;
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 
