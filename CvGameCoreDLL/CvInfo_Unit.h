@@ -771,6 +771,7 @@ protected:
 	bool m_bImmuneToFirstStrikes;
 // XANA: 06-17-2025 Armageddon Counter for AdvancedCiv
 	int m_iPrereqGlobalCounter;
+	int m_iGlobalCounterCombatPercent;
 	int m_iGlobalCounterModifier;
 	int m_iGlobalCounterModifierOnCombat;
 	int m_iGlobalCounterModifierOnCombatWon;
