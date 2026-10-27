@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Civ4GameText xmlns="http://www.firaxis.com">
+	<!-- XANA: 05-11-2025 City Bonus Diplomacy Modifier -->
+	<!-- XANA: 10-27-2026 Resource-attitude help text -->
+	<TEXT>
+		<Tag>TXT_KEY_MISC_ATTITUDE_FAVORED_BONUS</Tag>
+		<English>%D1: "Your cities have access to %s2."</English>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MISC_ATTITUDE_DISFAVORED_BONUS</Tag>
+		<English>%D1: "We disapprove of your cities' access to %s2."</English>
+	</TEXT>
+	<!-- XANA: 10-27-2026 Resource-attitude help text -->
+	<!-- XANA: 05-11-2025 City Bonus Diplomacy Modifier -->
+</Civ4GameText>

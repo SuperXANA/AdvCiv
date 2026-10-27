@@ -1,0 +1,9 @@
+bool CvPlayer::hasBonus(BonusTypes eBonus) const
+{
+	FOR_EACH_CITY(pLoopCity, *this)
+	{
+		if (pLoopCity->hasBonus(eBonus))
+			return true;
+	}
+	return false;
+}

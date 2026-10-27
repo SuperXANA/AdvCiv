@@ -199,6 +199,19 @@
 	</ElementType>
 	<!-- advc.xmldefault: Made many subelements optional (minOccurs 0).
 		 None were optional before except the ones added by advc.ctr. -->
+	<!-- XANA: 05-11-2025 City Bonus Diplomacy Modifier -->
+	<!-- XANA: 10-27-2026 Optional resource-attitude configuration -->
+	<ElementType name="BonusType" content="textOnly"/>
+	<ElementType name="iAttitudeChange" content="textOnly" dt:type="int"/>
+	<ElementType name="BonusAttitudeChange" content="eltOnly">
+		<element type="BonusType"/>
+		<element type="iAttitudeChange"/>
+	</ElementType>
+	<ElementType name="BonusAttitudeChanges" content="eltOnly">
+		<element type="BonusAttitudeChange" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 10-27-2026 Optional resource-attitude configuration -->
+	<!-- XANA: 05-11-2025 City Bonus Diplomacy Modifier -->
 	<ElementType name="LeaderHeadInfo" content="eltOnly">
 		<element type="Type"/>
 		<element type="Description"/>
@@ -304,6 +317,9 @@
 		<element type="DiplomacyMusicPeace"/>
 		<element type="DiplomacyIntroMusicWar"/>
 		<element type="DiplomacyMusicWar"/>
+		<!-- XANA: 05-11-2025 City Bonus Diplomacy Modifier -->
+		<element type="BonusAttitudeChanges" minOccurs="0"/>
+		<!-- XANA: 05-11-2025 City Bonus Diplomacy Modifier -->
 	</ElementType>
 	<ElementType name="LeaderHeadInfos" content="eltOnly">
 		<element type="LeaderHeadInfo" maxOccurs="*"/>

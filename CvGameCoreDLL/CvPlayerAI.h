@@ -254,6 +254,9 @@ public:
 	// END: Show Hidden Attitude Mod
 	int AI_getExpansionistAttitude(PlayerTypes ePlayer) const; // advc.130w
 	void AI_updateIdeologyAttitude(int iChange, CvCity const& kCity); // advc.130n
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
+	int AI_getBonusPreferenceAttitude(PlayerTypes ePlayer, BonusTypes eBonus) const;
+	// XANA: 05-11-2025 City Bonus Diplomacy Modifier
 
 	PlayerVoteTypes AI_diploVote(const VoteSelectionSubData& kVoteData, VoteSourceTypes eVoteSource, bool bPropose);
 
