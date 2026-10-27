@@ -513,6 +513,9 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 	m_abLoyalMember.reset();
 	m_aeeiSpecialistExtraYield.reset();
 	m_aeeiImprovementYieldChange.reset();
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+	m_aiUpgradeCostModifers.reset();
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
 
 	if (!bConstructorCall)
 	{
@@ -602,6 +605,11 @@ void CvPlayer::processTraits(int iChange)
 			if (GC.getInfo(eLoopCivicOption).getTraitNoUpkeep(eTrait))
 				changeNoCivicUpkeepCount(eLoopCivicOption, iChange);
 		}
+		// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+		FOR_EACH_ENUM(UnitCombat)
+			changeUpgradeCostUnitCombatModifier(eLoopUnitCombat,
+			iChange * kTrait.getUpgradeCostUnitCombatModifier(eLoopUnitCombat));
+		// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
 	}
 
 	/*  advc.003q: BBAI had only put the update calls into addTraitBonuses,
@@ -14404,6 +14412,26 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		m_aeeiSpecialistExtraYield.readArray<int>(pStream);
 		m_aeeiImprovementYieldChange.readArray<int>(pStream);
 	}
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+	// XANA: 10-27-2026 Version 24 stores the raw, reversible modifier total.
+	m_aiUpgradeCostModifers.reset();
+	if (uiFlag >= 24)
+		m_aiUpgradeCostModifers.read(pStream);
+	else
+	{
+		// Baseline saves have no modifier map. Rebuild it without reading bytes.
+		FOR_EACH_ENUM(Trait)
+		{
+			if (!hasTrait(eLoopTrait))
+				continue;
+			FOR_EACH_ENUM(UnitCombat)
+			{
+				changeUpgradeCostUnitCombatModifier(eLoopUnitCombat,
+						GC.getInfo(eLoopTrait).getUpgradeCostUnitCombatModifier(eLoopUnitCombat));
+			}
+		}
+	}
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
 	// <advc> Future-proofing
 	if (isBarbarian())
 		m_abLoyalMember.setAll(false); // </advc>
@@ -14736,7 +14764,8 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	//uiFlag = 20; // advc.912g
 	//uiFlag = 21; // advc.enum: Bugfix in bool-valued ArrayEnumMap
 	//uiFlag = 22; // advc: Bugs fixed with civ-wide special commerce rate cache
-	uiFlag = 23; // advc: Larger EnumMap for religion, corporation count
+	//uiFlag = 23; // advc: Larger EnumMap for religion, corporation count
+	uiFlag = 24; // XANA: 10-27-2026 Per-UnitCombat raw upgrade-cost totals
 	pStream->Write(uiFlag);
 
 	// <advc.027>
@@ -14915,6 +14944,9 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	m_aeCivics.write(pStream);
 	m_aeeiSpecialistExtraYield.write(pStream);
 	m_aeeiImprovementYieldChange.write(pStream);
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+	m_aiUpgradeCostModifers.write(pStream);
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
 
 	m_groupCycle.Write(pStream);
 	m_researchQueue.Write(pStream);
@@ -20334,6 +20366,15 @@ void CvPlayer::announceEspionageToThirdParties(EspionageMissionTypes eMission,
 		GC.getGame().addReplayMessage(REPLAY_MESSAGE_MAJOR_EVENT, eTarget, szTmp);
 	}
 }
+
+// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+void CvPlayer::changeUpgradeCostUnitCombatModifier(UnitCombatTypes eUnitCombat, int iChange)
+{
+	// XANA: 10-27-2026 Preserve raw sums so removing a trait reverses its addition.
+	if (iChange != 0)
+		m_aiUpgradeCostModifers.add(eUnitCombat, iChange);
+}
+// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
 
 // <advc.opt> Global; see CvPlayer.h.
 CvCity* getCityExternal(IDInfo city)

@@ -6612,6 +6612,18 @@ int CvUnit::upgradePrice(UnitTypes eUnit) const
 	}
 	iPrice -= (iPrice * getUpgradeDiscount()) / 100;
 
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+	UnitCombatTypes eCombatType = GC.getInfo(eUnit).getUnitCombatType();
+	if (eCombatType != NO_UNITCOMBAT)
+	{
+		int iUpgradeCostModifier = GET_PLAYER(getOwner()).getUpgradeCostUnitCombatModifier(eCombatType);
+		if (iUpgradeCostModifier != 0)
+		{
+			iPrice += (iPrice * iUpgradeCostModifier / 100);
+		}
+	}
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+
 	return std::max(0, iPrice); // advc.mnai: max (future-proofing)
 }
 

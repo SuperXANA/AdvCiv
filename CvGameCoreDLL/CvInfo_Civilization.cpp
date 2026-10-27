@@ -1094,7 +1094,10 @@ m_paiTradeYieldModifier(NULL),
 m_paiCommerceChange(NULL),
 m_paiCommerceModifier(NULL),
 m_pabFreePromotionUnitCombat(NULL),
-m_pabFreePromotion(NULL)
+m_pabFreePromotion(NULL),
+// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+m_paiUpgradeCostUnitCombatModifier(NULL)
+// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
 {}
 
 CvTraitInfo::~CvTraitInfo()
@@ -1105,6 +1108,9 @@ CvTraitInfo::~CvTraitInfo()
 	SAFE_DELETE_ARRAY(m_paiCommerceModifier);
 	SAFE_DELETE_ARRAY(m_pabFreePromotionUnitCombat);
 	SAFE_DELETE_ARRAY(m_pabFreePromotion);
+// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+	SAFE_DELETE_ARRAY(m_paiUpgradeCostUnitCombatModifier);
+// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
 }
 
 int CvTraitInfo::getHealth() const
@@ -1210,6 +1216,14 @@ bool CvTraitInfo::isFreePromotionUnitCombat(int i) const // advc.003t: Return ty
 	return m_pabFreePromotionUnitCombat ? m_pabFreePromotionUnitCombat[i] : false;
 }
 
+// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+int CvTraitInfo::getUpgradeCostUnitCombatModifier(int i) const
+{
+	FAssertBounds(0, GC.getNumUnitCombatInfos(), i);
+	return m_paiUpgradeCostUnitCombatModifier ? m_paiUpgradeCostUnitCombatModifier[i] : 0;
+}
+// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+
 bool CvTraitInfo::read(CvXMLLoadUtility* pXML)
 {
 	if (!base_t::read(pXML)) // advc.tag
@@ -1269,6 +1283,9 @@ bool CvTraitInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pabFreePromotion, "FreePromotions", GC.getNumPromotionInfos());
 
 	pXML->SetVariableListTagPair(&m_pabFreePromotionUnitCombat, "FreePromotionUnitCombats", GC.getNumUnitCombatInfos());
+// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+	pXML->SetVariableListTagPair(&m_paiUpgradeCostUnitCombatModifier, "UpgradeCostModifierUnitCombats", GC.getNumUnitCombatInfos());
+// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
 
 	return true;
 }

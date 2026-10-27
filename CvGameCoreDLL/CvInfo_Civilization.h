@@ -400,6 +400,10 @@ public:
 	bool isAnyFreePromotion() const { return (m_pabFreePromotion != NULL); } // advc.003t
 	bool isFreePromotionUnitCombat(int i) const; // advc.003t: Return type was int
 
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+	int getUpgradeCostUnitCombatModifier(int i) const;
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+
 	bool read(CvXMLLoadUtility* pXML);
 
 protected:
@@ -424,6 +428,10 @@ protected:
 
 	bool* m_pabFreePromotion;
 	bool* m_pabFreePromotionUnitCombat;
+
+// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+	int* m_paiUpgradeCostUnitCombatModifier;
+// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
 };
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

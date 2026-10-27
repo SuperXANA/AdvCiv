@@ -360,9 +360,21 @@
 		<element type="UnitCombatType"/>
 		<element type="bFreePromotionUnitCombat"/>
 	</ElementType>
+	<!-- XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv -->
+	<ElementType name="iUpgradeCostUnitCombat" content="textOnly" dt:type="int"/>
+	<ElementType name="UpgradeCostModifierUnitCombat" content="eltOnly">
+		<element type="UnitCombatType"/>
+		<element type="iUpgradeCostUnitCombat"/>
+	</ElementType>
+	<!-- XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv -->
 	<ElementType name="FreePromotionUnitCombats" content="eltOnly">
 		<element type="FreePromotionUnitCombat" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
+	<!-- XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv -->
+	<ElementType name="UpgradeCostModifierUnitCombats" content="eltOnly">
+		<element type="UpgradeCostModifierUnitCombat" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv -->
 	<ElementType name="TraitInfo" content="eltOnly">
 		<element type="Type"/>
 		<element type="Description"/>
@@ -394,6 +406,9 @@
 		<element type="CommerceModifiers"/>
 		<element type="FreePromotions"/>
 		<element type="FreePromotionUnitCombats"/>
+	<!-- XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv -->
+		<element type="UpgradeCostModifierUnitCombats" minOccurs="0"/>
+	<!-- XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv -->
 	</ElementType>
 	<ElementType name="TraitInfos" content="eltOnly">
 		<element type="TraitInfo" maxOccurs="*"/>

@@ -1451,6 +1451,15 @@ public:
 	DllExport bool hasSpaceshipArrived() const;
 	void announceGameNameChange(CvWString szOldName, CvWString szNewName); // advc.135c
 	bool showGoodyOnResourceLayer() const; // advc.004z
+
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+	int getUpgradeCostUnitCombatModifier(UnitCombatTypes eUnitCombat) const
+	{
+		// XANA: 10-27-2026 Cap the effective value without losing stored contributions.
+		return std::max(-100, std::min(100, m_aiUpgradeCostModifers.get(eUnitCombat)));
+	}
+	void changeUpgradeCostUnitCombatModifier(UnitCombatTypes eUnitCombat, int iChange);
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
 	// <advc.003u>
 	CvPlayerAI& AI()
 	{	//return *static_cast<CvPlayerAI*>(const_cast<CvPlayer*>(this));
@@ -1699,6 +1708,10 @@ protected:  // <advc.210>
 	CvWString** m_aszBonusHelp; // advc.003p  (not serialized)
 	// advc.004s: Replacing seven separate maps
 	PlayerHistory m_playerHistory[NUM_PLAYER_HISTORY_TYPES];
+
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
+	ListEnumMap<UnitCombatTypes,int> m_aiUpgradeCostModifers;
+	// XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv
 
 	void uninit();
 	void initContainers();

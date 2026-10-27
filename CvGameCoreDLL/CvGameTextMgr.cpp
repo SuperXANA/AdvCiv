@@ -6295,6 +6295,21 @@ void CvGameTextMgr::parseTraits(CvWStringBuffer &szHelpString, TraitTypes eTrait
 					iLast, iHappiness);
 		}
 	}
+	// XANA: 03-22-2025 FfH Unit Upgrade Cost Modifiers for AdvancedCiv
+	{
+		int iLast = 0;
+		FOR_EACH_ENUM(UnitCombat)
+		{
+			int const iUpgradeCostModifier = kTrait.getUpgradeCostUnitCombatModifier(eLoopUnitCombat);
+			if (iUpgradeCostModifier == 0)
+				continue; // XANA: 10-27-2026 Do not reuse another combat's help text.
+			szText = gDLL->getText("TXT_KEY_UPGRADE_COST_MODIFIER_HELP", iUpgradeCostModifier);
+			CvWString szUnitCombat;
+			szUnitCombat.Format(L"<link=literal>%s</link>", GC.getInfo(eLoopUnitCombat).getDescription());
+			setListHelp(szHelpString, szText.GetCString(), szUnitCombat, L", ", iLast, iUpgradeCostModifier);
+		}
+	}
+	// XANA: 03-22-2025 FfH Unit Upgrade Cost Modifiers for AdvancedCiv
 }
 
 // parseLeaderTraits - SimpleCivPicker
