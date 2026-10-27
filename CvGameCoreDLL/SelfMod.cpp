@@ -435,92 +435,174 @@ private:
 };
 
 // XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
-class SidSaysMod : public SelfMod
+// Discovery only: candidate literals are not verified UI patch sites.
+class SidSaysLocator
 {
-	protected:
-	bool apply() // override
+public:
+	SidSaysLocator() : m_pBase(NULL), m_iImageBytes(0),
+		m_iCandidates(0), m_iUnreadableBlocks(0) {}
+
+	bool inspect()
 	{
-		bool bFoundAny = false;
-
-		/* Both pairs are same-length, so in-place replacement is safe.
-		   "Sid Says:"  -> "Sol Says:"   (9 chars)
-		   "Sid's Tips" -> "Sol's Tips"  (10 chars) */
-
-		// Narrow / ANSI strings
-		bFoundAny |= patchNarrow("Sid Says:",  "Sol Says:",  9);
-		bFoundAny |= patchNarrow("Sid's Tips", "Sol's Tips", 10);
-
-		// Wide / UTF-16 strings (defensive; Civ4 usually uses ANSI,
-		// but some UI paths may load wide literals)
-		bFoundAny |= patchWide(L"Sid Says:",  L"Sol Says:",  9);
-		bFoundAny |= patchWide(L"Sid's Tips", L"Sol's Tips", 10);
-
-		if (!bFoundAny)
+		m_iImageBytes = m_iCandidates = m_iUnreadableBlocks = 0;
+		m_pBase = reinterpret_cast<byte const*>(GetModuleHandle(NULL));
+		if (m_pBase == NULL)
+			return fail("No executable module available");
+		IMAGE_DOS_HEADER kDos;
+		if (!readMemory(0, &kDos, sizeof(kDos)) ||
+			kDos.e_magic != IMAGE_DOS_SIGNATURE ||
+			kDos.e_lfanew < static_cast<LONG>(sizeof(kDos)) ||
+			kDos.e_lfanew > 1024 * 1024)
 		{
-			FErrorMsg("Could not locate 'Sid Says:' or 'Sid's Tips' in EXE memory");
-			return false;
+			return fail("Unsupported DOS/PE header");
 		}
-		return true;
+		IMAGE_NT_HEADERS32 kNt;
+		DWORD const iNtOffset = static_cast<DWORD>(kDos.e_lfanew);
+		if (!readMemory(iNtOffset, &kNt, sizeof(kNt)) ||
+			kNt.Signature != IMAGE_NT_SIGNATURE ||
+			kNt.FileHeader.Machine != IMAGE_FILE_MACHINE_I386 ||
+			kNt.OptionalHeader.Magic != IMAGE_NT_OPTIONAL_HDR32_MAGIC ||
+			kNt.FileHeader.SizeOfOptionalHeader != sizeof(IMAGE_OPTIONAL_HEADER32) ||
+			kNt.FileHeader.NumberOfSections == 0 ||
+			kNt.FileHeader.NumberOfSections > 96)
+		{
+			return fail("Unsupported executable layout (expected PE32/i386)");
+		}
+		m_iImageBytes = kNt.OptionalHeader.SizeOfImage;
+		if (m_iImageBytes < sizeof(kDos) || m_iImageBytes > 256 * 1024 * 1024 ||
+			m_iImageBytes > static_cast<size_t>(-1) - reinterpret_cast<size_t>(m_pBase))
+		{
+			return fail("Invalid image extent");
+		}
+		DWORD const iSectionsOffset = iNtOffset + sizeof(DWORD) +
+			sizeof(IMAGE_FILE_HEADER) + kNt.FileHeader.SizeOfOptionalHeader;
+		DWORD const iSectionBytes =
+			kNt.FileHeader.NumberOfSections * sizeof(IMAGE_SECTION_HEADER);
+		if (!inImage(iNtOffset, sizeof(kNt)) ||
+			!inImage(iSectionsOffset, iSectionBytes))
+		{
+			return fail("Section table outside image");
+		}
+
+		CvString szLine;
+		szLine.Format("Discovery only; no memory writes. EXE base=%p timestamp=%08lX checksum=%08lX imageBytes=%lu",
+			static_cast<void const*>(m_pBase), static_cast<unsigned long>(kNt.FileHeader.TimeDateStamp),
+			static_cast<unsigned long>(kNt.OptionalHeader.CheckSum),
+			static_cast<unsigned long>(m_iImageBytes));
+		log(szLine.c_str());
+		for (unsigned int i = 0; i < kNt.FileHeader.NumberOfSections; ++i)
+		{
+			IMAGE_SECTION_HEADER kSection;
+			if (!readMemory(iSectionsOffset + i * sizeof(kSection),
+				&kSection, sizeof(kSection)))
+			{
+				return fail("Cannot read section header");
+			}
+			DWORD const iFlags = kSection.Characteristics;
+			if ((iFlags & IMAGE_SCN_CNT_INITIALIZED_DATA) == 0 ||
+				(iFlags & IMAGE_SCN_MEM_READ) == 0 ||
+				(iFlags & (IMAGE_SCN_MEM_WRITE | IMAGE_SCN_MEM_EXECUTE |
+					IMAGE_SCN_MEM_DISCARDABLE)) != 0)
+			{
+				continue;
+			}
+			DWORD const iBytes = kSection.Misc.VirtualSize;
+			if (!inImage(kSection.VirtualAddress, iBytes))
+				return fail("Data section outside image");
+			scanSection(kSection.VirtualAddress, iBytes);
+		}
+		szLine.Format("Discovery complete: candidates=%lu unreadableBlocks=%lu; no strings changed",
+			static_cast<unsigned long>(m_iCandidates), static_cast<unsigned long>(m_iUnreadableBlocks));
+		log(szLine.c_str());
+		return m_iCandidates > 0 && m_iUnreadableBlocks == 0;
 	}
 
 private:
-	bool patchNarrow(char const* szOld, char const* szNew, size_t iLen)
-	{
-		/*
-		XANA (note):
-		Need to write C++03 address-logging code in order to determine which locations in memory were changed by this [TODO].
-		Thereafter such logging functionality will help in following prior AdvCiv focused, narrowed 'needle' memory patching.
-		This is a first pass attempt to check compliation. 
-		*/
-		byte* const pLower = reinterpret_cast<byte*>(0x00400000);
-		byte* const pUpper = reinterpret_cast<byte*>(0x01000000);
-		bool bFound = false;
+	byte const* m_pBase;
+	DWORD m_iImageBytes;
+	DWORD m_iCandidates;
+	DWORD m_iUnreadableBlocks;
 
-		for (byte* pScan = pLower; pScan + iLen <= pUpper; ++pScan)
-		{
-			if (memcmp(pScan, szOld, iLen) == 0)
-			{
-				if (!unprotectPage(pScan, iLen))
-				{
-					FErrorMsg("Failed to unprotect page for narrow string patch");
-					return false;
-				}
-				memcpy(pScan, szNew, iLen);
-				bFound = true;
-				pScan += iLen - 1; // skip past this occurrence
-			}
-		}
-		return bFound;
+	static void log(char const* szMessage)
+	{
+		gDLL->logMsg("SidSaysCandidates.log", szMessage, false, false);
 	}
-
-	bool patchWide(wchar_t const* wszOld, wchar_t const* wszNew, size_t iCharCount)
+	static bool fail(char const* szMessage)
 	{
-		/*
-		XANA (note):
-		Need to write C++03 address-logging code in order to determine which locations in memory were changed by this [TODO].
-		Thereafter such logging functionality will help in following prior AdvCiv focused, narrowed 'needle' memory patching.
-		This is a first pass attempt to check compliation. 
-		*/
-		size_t const iBytes = iCharCount * sizeof(wchar_t);
-		byte* const pLower = reinterpret_cast<byte*>(0x00400000);
-		byte* const pUpper = reinterpret_cast<byte*>(0x01000000);
-		bool bFound = false;
-
-		for (byte* pScan = pLower; pScan + iBytes <= pUpper; ++pScan)
+		log(szMessage);
+		return false;
+	}
+	bool inImage(DWORD iOffset, size_t iBytes) const
+	{
+		return iOffset <= m_iImageBytes &&
+			iBytes <= m_iImageBytes - iOffset;
+	}
+	bool readMemory(DWORD iOffset, void* pOut, size_t iBytes) const
+	{
+		// Header reads precede SizeOfImage validation; keep them tightly bounded.
+		if (m_iImageBytes != 0 && !inImage(iOffset, iBytes))
+			return false;
+		if (iOffset > static_cast<size_t>(-1) - reinterpret_cast<size_t>(m_pBase) ||
+			iBytes > static_cast<size_t>(-1) - reinterpret_cast<size_t>(m_pBase) - iOffset)
 		{
-			if (memcmp(pScan, wszOld, iBytes) == 0)
+			return false;
+		}
+		SIZE_T iRead = 0;
+		return ReadProcessMemory(GetCurrentProcess(), m_pBase + iOffset,
+			pOut, iBytes, &iRead) != 0 && iRead == iBytes;
+	}
+	void scanSection(DWORD iStart, DWORD iBytes)
+	{
+		// A 21-byte lookahead covers the longest terminated UTF-16LE label.
+		// Only starts in the core block are reported, so overlap is not duplicated.
+		byte aBuffer[4096 + 21];
+		for (DWORD iDone = 0; iDone < iBytes; )
+		{
+			DWORD const iCore = std::min<DWORD>(4096, iBytes - iDone);
+			DWORD const iRead = std::min<DWORD>(sizeof(aBuffer), iBytes - iDone);
+			if (readMemory(iStart + iDone, aBuffer, iRead))
+				scanBuffer(aBuffer, iRead, iCore, iStart + iDone);
+			else ++m_iUnreadableBlocks;
+			iDone += iCore;
+		}
+	}
+	void scanBuffer(byte const* pBytes, size_t iBytes, size_t iStarts, DWORD iRva)
+	{
+		char const* const aszLabels[] = { "Sid Says:", "Sid's Tips" };
+		for (size_t iLabel = 0; iLabel < 2; ++iLabel)
+		{
+			char const* szLabel = aszLabels[iLabel];
+			size_t const iChars = strlen(szLabel) + 1; // Require the terminator.
+			byte aWide[22];
+			for (size_t iChar = 0; iChar < iChars; ++iChar)
 			{
-				if (!unprotectPage(pScan, iBytes))
+				aWide[2 * iChar] = static_cast<byte>(szLabel[iChar]);
+				aWide[2 * iChar + 1] = 0;
+			}
+			for (size_t iPos = 0; iPos < iStarts; ++iPos)
+			{
+				if (iChars <= iBytes - iPos &&
+					memcmp(pBytes + iPos, szLabel, iChars) == 0)
 				{
-					FErrorMsg("Failed to unprotect page for wide string patch");
-					return false;
+					record(iRva + static_cast<DWORD>(iPos), "ANSI", szLabel);
 				}
-				memcpy(pScan, wszNew, iBytes);
-				bFound = true;
-				pScan += iBytes - 1;
+				if ((iRva + iPos) % 2 == 0 && 2 * iChars <= iBytes - iPos &&
+					memcmp(pBytes + iPos, aWide, 2 * iChars) == 0)
+				{
+					record(iRva + static_cast<DWORD>(iPos), "UTF-16LE", szLabel);
+				}
 			}
 		}
-		return bFound;
+	}
+	void record(DWORD iRva, char const* szEncoding, char const* szLabel)
+	{
+		++m_iCandidates;
+		if (m_iCandidates > 128)
+			return; // Keep diagnostics bounded even for an unexpected image.
+		CvString szLine;
+		szLine.Format("Candidate RVA=%08lX address=%p encoding=%s label=%s (unverified)",
+			static_cast<unsigned long>(iRva), static_cast<void const*>(m_pBase + iRva), szEncoding, szLabel);
+		log(szLine.c_str());
 	}
 };
 // XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
@@ -575,47 +657,12 @@ void Civ4BeyondSwordPatches::setHelpTextAreaSize(float fWidth)
 // XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
 void Civ4BeyondSwordPatches::patchSidSays()
 {
-	m_bSidSaysPatched = true;
-	if (!SidSaysMod().applyIfEnabled())
-	{
-		showErrorMsgToPlayer(
-			"Failed to patch Sid attributions to Sol (Solais a Tuath) in-universe framing. "
-			"String may not exist in this EXE version.");
-	}
+	// Diagnostic draft: leave the success flag false until exact UI sites are verified.
+	if (GC.getDefineBOOL("DISABLE_EXE_RUNTIME_MODS"))
+		return;
+	SidSaysLocator().inspect();
+	showErrorMsgToPlayer(
+		"Sid attribution discovery only: no strings were changed. "
+		"See SidSaysCandidates.log for unverified EXE literal locations.");
 }
 // XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
-/* Kimi K2 LLM AI Development Notes:
-
--- Verification Steps --
-Before this becomes production code, user will need to confirm the exact string in the running EXE with x64dbg:
-Attach to Civ4BeyondSword.exe at the main menu, then search for ASCII Sid's Tips (case-sensitive).
-Also search for Sid's tips (lowercase 't')—just in case Firaxis used sentence case in the EXE.
-If the EXE actually contains Sid's Tips: (with a colon), that's 11 characters and you'd need Sol's Tips: (also 11).
-
-The code above is length-agnostic because you pass the length explicitly, so just adjust the call:
-// If your EXE has a colon on the Tips variant:
-bFoundAny |= patchNarrow("Sid's Tips:", "Sol's Tips:", 11);
-bFoundAny |= patchWide(L"Sid's Tips:", L"Sol's Tips:", 11);
-
--- Implementation Notes --
-DLL will need to call smc::BtS_EXE.patchSidSays() once, early, before the player opens any Civilopedia or production chooser.
-The safest place is Python in CvEventManager.py, inside onGameStart or onLoadGame, or in the DLL inside CvGame::init() after the EXE is fully resident.
-
-Python route (recommended, keeps it optional):
-# In CvEventManager.py, e.g. in onGameStart or onWindowActivation
-import CvGameCoreUtils
-CvGameCoreUtils.patchSidSays()  # if you expose it to Python
-
-DLL route (if you want it unconditional):
-// In CvGame::init() or CvGame::update() with a one-shot guard:
-if (!smc::BtS_EXE.isSidSaysPatched())
-    smc::BtS_EXE.patchSidSays();
-If you want to expose it to Python like AdvCiv does for patchPlotIndicatorSize, add the wrapper in CyGameCoreUtils.cpp (or your equivalent Python interface file).
-
--- Lore Integration --
-Since the patch rewrites the raw bytes in memory, you could add a tiny easter egg.
-In your mod's Python startup, check smc::BtS_EXE.isSidSaysPatched(); if true, write a one-time event log message:
-"The archives of Solais a Tuath have been bound to this timeline..."
-
-This would signal to players that the "Sol Says:" attribution is intentional and diegetic—Aurora Borealis's pen-name has literally become the default timeline's historiography.
-*/
