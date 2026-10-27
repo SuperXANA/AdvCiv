@@ -6,14 +6,15 @@ Workflow source: dll-build at 96497ed4c6efdb7a899dd05dde4e324273feb183.
 
 ## Scope
 
-Start from the complete base tree and overlay the three target CvGameCoreDLL files; keep base-only files. Add the optional schema field and an explicit zero loader default. Preserve the source formula, C++03 syntax, and original XANA tags. Copy the build workflow, changing only its rsync source to ./CvGameCoreDLL/ for the complete repository layout.
+Start from the complete base tree and overlay the three target CvGameCoreDLL files; keep base-only files. Then narrow CvPlayerAI.cpp to the tagged feature change on the pinned baseline to remove unrelated snapshot drift. Add the optional schema field and an explicit zero loader default. Preserve the source formula, C++03 syntax, and original XANA tags. Copy the build workflow, changing only its rsync source to ./CvGameCoreDLL/ for the complete repository layout.
 
 ## Findings
 
 1. The feature branch contains no XML schema declaration for iTeamSizeAttitudeChange. Adding the field to a leader document using the base schema cannot validate. Add the integer ElementType and an optional occurrence after iFavoriteCivicAttitudeChangeLimit.
 2. The new field uses the CvLeaderHeadInfo helper's MIN_INT mandatory fallback when its inherited value is zero. Omitting a zero-valued tag can take the missing-mandatory assertion path. Pass zero explicitly while retaining inherited nonzero values through the existing helper.
 3. The author's commit 1e8c13ca26d340c155e156eca63526e841be9edd explicitly defines positive values as tolerance and negative values as greater distrust. The current sign follows that intent. Negative values also produce penalties between equal-sized teams; retain pending a design decision.
-4. GET_TEAM(ePlayer) resolves a PlayerTypes argument as a team index; the same expression is present in pinned 1.14, so this is an inherited concern rather than a newly introduced feature defect. A later focused fix should use TEAMID(ePlayer), including cases where player and team slots differ.
+4. Checked GET_TEAM(ePlayer) against CoreAI.h: the PlayerTypes overload correctly resolves TEAMID(ePlayer). No player/team index defect is present here.
+5. The target CvPlayerAI.cpp is an older upstream snapshot: wholesale overlay reverses baseline changes unrelated to this feature, including specialist-commerce detection, unit upgrade ordering, event building-value scaling, and the strategy-hash rename. The refined version restores pinned 1.14 CvPlayerAI.cpp and reapplies only the XANA-marked team-size function; this preserves the author's feature and the current baseline fixes.
 
 ## Verification limits
 
