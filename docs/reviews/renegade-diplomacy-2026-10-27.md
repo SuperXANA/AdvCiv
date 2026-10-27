@@ -97,7 +97,26 @@ ASan/UBSan also passed with halt-on-error and
 The copied workflow retains the tested compiler probe, root-source manifest,
 shared workspace concurrency, stale-root-source protection and output cleanup
 adaptations used by CityBonusDiplomacyBuild-ChatGPT. No resource-diplomacy
-feature code is imported. Native results will be appended after CI completes.
+feature code is imported.
+
+Native code commit: `dc22ea9a64cb4c2ee45af31d4c20191e08e8247d`.
+[Run 40583685157](https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157)
+uses this exact commit and the complete pinned overlay. The run and both jobs
+completed successfully. Both configurations verified MSVC 7.1
+(`_MSC_VER == 1310`), rebuilt with **zero warnings and zero errors**, uploaded
+their exact requested DLL files and completed generated-output cleanup.
+
+| Configuration | Job | Artifact |
+|---|---|---|
+| Release | 122469460621 | [DLL 12770887082](https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157/artifacts/12770887082) |
+| Debug | 122469461006 | [DLL/PDB 12770842991](https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157/artifacts/12770842991) |
+
+GitHub artifact metadata names the exact code SHA and reports both archives
+unexpired. Validation covers native compiler/linker logs, source-manifest
+checks and exact-file uploads. No downloaded PE inspection was performed.
+All 872 baseline files remain; only the three selected DLL files and the two
+selected civilization XML files differ. This final results update changes
+documentation only and does not trigger another unchanged DLL build.
 
 These fixtures and a native build do not establish Civ4 XML acceptance,
 in-game negotiation behavior, game-load behavior, multiplayer synchronization
