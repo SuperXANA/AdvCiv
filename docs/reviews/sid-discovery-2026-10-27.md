@@ -24,7 +24,7 @@ This branch deliberately replaces the speculative writer with a diagnostic-only 
 
 [patchSidSays](https://github.com/SuperXANA/AdvCiv/blob/8c52c7e7b85cb574ee0494611a8931efb3b20d01/CvGameCoreDLL/SelfMod.cpp#L576) sets m_bSidSaysPatched before calling applyIfEnabled. A failed patch, or a disabled operation that the base class reports as a successful no-op, therefore appears patched to callers.
 
-The diagnostic draft never sets the success flag. It returns immediately when DISABLE_EXE_RUNTIME_MODS is enabled; otherwise the existing entry point runs discovery and explicitly reports that no strings changed. No startup caller or Python exposure is added. The source entry point remains available for controlled debugger/integration use; it is not a once-only completion guard in this diagnostic draft and should not be called every frame.
+The diagnostic draft never sets the success flag. It returns immediately when DISABLE_EXE_RUNTIME_MODS is enabled; otherwise the existing entry point runs discovery and explicitly reports that no strings changed. No startup caller or Python exposure is added. The source entry point can support a later explicitly invoked diagnostic hook; no Python binding or exported debug command is supplied, and optimized builds may discard unused entry points. It is not a once-only completion guard in this diagnostic draft and should not be called every frame.
 
 ## Mechanics and integration
 
@@ -42,4 +42,15 @@ Those fixtures are not a native DLL or actual Windows API/runtime test. Native R
 
 Windows API references: [ReadProcessMemory](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory) and [IMAGE_SECTION_HEADER](https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-image_section_header). These document accessible-range checks and section characteristic flags; they do not establish any Civ4 label location.
 
-Native validation: pending for the first published code commit. No historical run is claimed for this change.
+Native validation completed for [code commit e58809298b28163773301b58a9def25af3fe2bd7](https://github.com/SuperXANA/AdvCiv/commit/e58809298b28163773301b58a9def25af3fe2bd7) in [run 40604520179](https://github.com/SuperXANA/AdvCiv/actions/runs/40604520179): **success**.
+
+| Configuration | Job | Compiler | Warnings / errors | Uploaded artifact |
+| --- | --- | --- | --- | --- |
+| Release | [122540569306](https://github.com/SuperXANA/AdvCiv/actions/runs/40604520179/job/122540569306) | MSVC 7.1, _MSC_VER 1310 | 0 / 0 | [12780770867](https://github.com/SuperXANA/AdvCiv/actions/runs/40604520179/artifacts/12780770867), 2,343,096 bytes |
+| Debug | [122540569480](https://github.com/SuperXANA/AdvCiv/actions/runs/40604520179/job/122540569480) | MSVC 7.1, _MSC_VER 1310 | 0 / 0 | [12780811116](https://github.com/SuperXANA/AdvCiv/actions/runs/40604520179/artifacts/12780811116), 18,571,608 bytes |
+
+Both jobs passed the compiler probe, forced rebuild, DLL copy, artifact upload and cleanup. Debug collection includes the configured PDB files. These are recorded build/upload results; the binary archives were not independently downloaded or executed in this review. The original SidSaysPatch head was not built. No live Civ4 literal location, label replacement, startup behavior or Windows discovery execution is verified.
+
+Tree verification confirmed all **872 baseline blobs retained**, with only SelfMod.cpp and SelfMod.h modified among baseline files. Tests, workflow and review documentation are additive. The documentation/coverage follow-up does not change the tested DLL code and does not trigger another build.
+
+The coverage ledger records this changed-head review separately from the unchanged source. Eleven first-pass branches remain pending, alongside previously recorded partial/integration work. The stop gate remains false. FFHRaceTypes was inventoried and its XANA blocks read for triage, but evaluation/refinement was deferred when the changed SidSaysPatch head took priority; it remains pending.
