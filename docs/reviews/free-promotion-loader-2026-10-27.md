@@ -39,8 +39,11 @@ The original branch's XANA blocks only add storage and loading; its CvPlayer,
 CvPlayerAI and text-manager files contain no marked consumers of this map.
 There is no public trait query for this map and no matching schema/data addition
 in the selected branch. Consequently no new promotion distribution is enabled
-here. Gameplay consumers, XML schema, help text and load-order validation remain
-separate integration work. No save format or existing promotion rules change.
+here. Gameplay consumers, XML schema and help text remain separate integration
+work. Static inspection of baseline CvXMLLoadUtilitySet.cpp:632,669–670 confirms
+UnitCombat and Promotion load before Trait, making both counts available at
+this call. Actual game XML loading still needs validation. No save format or
+existing promotion rules change.
 The generic global enum resolver can detect unknown/out-of-range indices but
 cannot by itself reject a wrong enum family whose numeric index happens to fit.
 The eventual schema should constrain those key names.
@@ -60,6 +63,9 @@ missing roots, comments, empty entries, missing/bad values, unknown keys,
 out-of-range keys, zero dimensions, reload/reset and final parser position.
 The cursor and map are stubs; the map intentionally exposes pointer ValueType
 and a scalar-bool insert overload like the relevant baseline API.
+Cursor operations were checked against baseline CvXMLLoadUtility.cpp:258 and
+CvXMLLoadUtilityGet.cpp:107,177,335: SkipToNextVal skips comment siblings,
+GetXmlVal reads the current node, and GetNextXmlVal advances first.
 
 ASan/UBSan also passed with `ASAN_OPTIONS=detect_leaks=0`.
 LeakSanitizer itself is blocked by this host's ptrace environment.
@@ -70,7 +76,35 @@ Project configuration, checks the root-source manifest, removes stale root
 source files only, clears generated build outputs and probes MSVC 7.1 before
 sequential Release/Debug rebuilds. These safety refinements match the already
 validated LLMDiplomacyTextBuild-ChatGPT workflow; no LLM feature code is imported.
-Exact native results will be appended after the triggered run finishes.
+Native results:
+
+- Initial commit `a5cabdd77a7b547c3094d075dd17b8452e6281aa`,
+  [run 40556363676](https://github.com/SuperXANA/AdvCiv/actions/runs/40556363676):
+  Release and Debug completed successfully, each with zero warnings and errors,
+  verified MSVC 7.1, successful uploads and output cleanup.
+  Artifacts: Release 12757242896; Debug/PDB 12756024555.
+- An expanded fixture then covered comments before keys and between an outer
+  key and its list. The latter needs SkipToNextVal before descending. Corrected
+  code commit `f5c7d3e40717fa2ac19324c70ee38882473632e3` includes that change
+  and the expanded passing fixture.
+
+Final code commit `f5c7d3e40717fa2ac19324c70ee38882473632e3` passed
+[run 40556617050](https://github.com/SuperXANA/AdvCiv/actions/runs/40556617050).
+Both configurations verified `_MSC_VER == 1310`, rebuilt successfully with
+**zero warnings and zero errors**, uploaded their exact requested artifact files
+and completed output cleanup. GitHub reports the run and both jobs successful.
+
+| Configuration | Job | Artifact |
+|---|---|---|
+| Release | 122376438039 | [DLL 12757312692](https://github.com/SuperXANA/AdvCiv/actions/runs/40556617050/artifacts/12757312692) |
+| Debug | 122376438572 | [DLL/PDB 12757513382](https://github.com/SuperXANA/AdvCiv/actions/runs/40556617050/artifacts/12757513382) |
+
+Artifact metadata names this exact final code SHA and reports both archives
+unexpired. Validation here comprises native compiler/linker logs, source-manifest
+checks and successful exact-file upload; no downloaded PE inspection or game
+launch was performed. All 872 baseline files remain; only the three source
+files identified above differ from the pinned baseline. This results update
+changes documentation only, so its path-filtered workflow does not rebuild.
 
 ## Coverage checkpoint
 
