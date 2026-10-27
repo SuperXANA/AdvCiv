@@ -1,3 +1,4 @@
+#include "CvGameCoreDLL.h"
 #include "CvDatabaseQuery.h"
 #include "SQLiteStatement.h"
 #include <sstream>
