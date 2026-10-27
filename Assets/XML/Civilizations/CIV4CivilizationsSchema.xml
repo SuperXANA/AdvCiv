@@ -197,6 +197,9 @@
 	<ElementType name="DiplomacyIntroMusicWar" content="eltOnly">
 		<element type="DiploMusicWarEra" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
+	<!-- XANA: 05-25-2025 Leader-Specific Colony Split -->
+	<ElementType name="DerivativeLeader" content="textOnly"/>
+	<!-- XANA: 05-25-2025 Leader-Specific Colony Split -->
 	<!-- advc.xmldefault: Made many subelements optional (minOccurs 0).
 		 None were optional before except the ones added by advc.ctr. -->
 	<ElementType name="LeaderHeadInfo" content="eltOnly">
@@ -304,6 +307,9 @@
 		<element type="DiplomacyMusicPeace"/>
 		<element type="DiplomacyIntroMusicWar"/>
 		<element type="DiplomacyMusicWar"/>
+		<!-- XANA: 05-25-2025 Leader-Specific Colony Split -->
+		<element type="DerivativeLeader" minOccurs="0"/>
+		<!-- XANA: 05-25-2025 Leader-Specific Colony Split -->
 	</ElementType>
 	<ElementType name="LeaderHeadInfos" content="eltOnly">
 		<element type="LeaderHeadInfo" maxOccurs="*"/>
