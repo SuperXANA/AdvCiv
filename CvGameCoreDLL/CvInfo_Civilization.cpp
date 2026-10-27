@@ -1270,6 +1270,12 @@ bool CvTraitInfo::read(CvXMLLoadUtility* pXML)
 
 	pXML->SetVariableListTagPair(&m_pabFreePromotionUnitCombat, "FreePromotionUnitCombats", GC.getNumUnitCombatInfos());
 
+// XANA: 11-22-2025 Free Promotions per Unit Combats
+	pXML->SetVariableListTagPairFor2DEnumMaps(m_abFreePromotionsPerUnitCombats,
+			"FreePromotionsPerUnitCombats", GC.getNumPromotionInfos(),
+			GC.getNumUnitCombatInfos(), true);
+// XANA: 11-22-2025 Free Promotions per Unit Combats
+
 	return true;
 }
 
@@ -1561,3 +1567,4 @@ bool CvDiplomacyInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+

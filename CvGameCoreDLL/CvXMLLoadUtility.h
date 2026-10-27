@@ -187,6 +187,85 @@ public:
 			int iInfoBaseLength, CvString szDefaultListVal = "");
 	void SetVariableListTagPairForAudioScripts(int **ppiList, TCHAR const* szRootTagName,
 			int iInfoBaseLength, int iDefaultListVal = -1);
+// XANA: 11-22-2025 Free Promotions per Unit Combats
+// XANA: 10-27-2026 Boolean map loader refinement
+	// XML: root / entry / (outer key, list / entry / (inner key, bool)).
+	// Keep the definition visible to the CvTraitInfo translation unit.
+	template <typename TwoDimensionalMap>
+	void SetVariableListTagPairFor2DEnumMaps(TwoDimensionalMap& map,
+		const char* szRootTagName, int iInfoBaseLengthX,
+		int iInfoBaseLengthY, bool bReverseMapped = false)
+	{
+		map.reset();
+		if (iInfoBaseLengthX <= 0 || iInfoBaseLengthY <= 0)
+		{
+			errorMessage("Invalid dimensions for boolean XML map");
+			return;
+		}
+		int const iOuterLength = bReverseMapped ?
+				iInfoBaseLengthY : iInfoBaseLengthX;
+		int const iInnerLength = bReverseMapped ?
+				iInfoBaseLengthX : iInfoBaseLengthY;
+		if (!gDLL->getXMLIFace()->SetToChildByTagName(m_pFXml, szRootTagName))
+			return;
+		if (gDLL->getXMLIFace()->SetToChild(m_pFXml))
+		{
+			do
+			{
+				if (!SkipToNextVal())
+					break;
+				if (gDLL->getXMLIFace()->SetToChild(m_pFXml))
+				{
+					TCHAR szOuterKey[256];
+					int iOuterKey = -1;
+					if (GetXmlVal(szOuterKey))
+						iOuterKey = getGlobalEnumFromString(szOuterKey);
+					if (iOuterKey < 0 || iOuterKey >= iOuterLength)
+						errorMessage("Outer key out of bounds in boolean XML map");
+					if (gDLL->getXMLIFace()->NextSibling(m_pFXml) &&
+						gDLL->getXMLIFace()->SetToChild(m_pFXml))
+					{
+						do
+						{
+							if (!SkipToNextVal())
+								break;
+							if (gDLL->getXMLIFace()->SetToChild(m_pFXml))
+							{
+								TCHAR szInnerKey[256];
+								int iInnerKey = -1;
+								if (GetXmlVal(szInnerKey))
+									iInnerKey = getGlobalEnumFromString(szInnerKey);
+								bool bValue = false;
+								// NextSibling already positions the parser on the value.
+								bool const bHasValue =
+									gDLL->getXMLIFace()->NextSibling(m_pFXml) &&
+									GetXmlVal(bValue);
+								if (iInnerKey < 0 || iInnerKey >= iInnerLength)
+									errorMessage("Inner key out of bounds in boolean XML map");
+								else if (bHasValue && iOuterKey >= 0 &&
+									iOuterKey < iOuterLength)
+								{
+									// insert takes the scalar bool, not ValueType
+									// (which is an inner-map pointer in EnumMap2D).
+									if (bReverseMapped)
+										map.insert(iInnerKey, iOuterKey, bValue);
+									else map.insert(iOuterKey, iInnerKey, bValue);
+								}
+								gDLL->getXMLIFace()->SetToParent(m_pFXml);
+							}
+						} while (gDLL->getXMLIFace()->NextSibling(m_pFXml));
+						gDLL->getXMLIFace()->SetToParent(m_pFXml);
+					}
+					gDLL->getXMLIFace()->SetToParent(m_pFXml);
+				}
+			} while (gDLL->getXMLIFace()->NextSibling(m_pFXml));
+			gDLL->getXMLIFace()->SetToParent(m_pFXml);
+		}
+		gDLL->getXMLIFace()->SetToParent(m_pFXml);
+	}
+// XANA: 10-27-2026 Boolean map loader refinement
+// XANA: 11-22-2025 Free Promotions per Unit Combats
+
 	/*	advc (19 Feb 2021): Deleted four versions (a fifth - AudioScripts - deleted
 		much earlier) that took a param CvString* m_paszTagList.
 		Those functions were for global non-info types. Now the versions above
@@ -550,3 +629,4 @@ int CvXMLLoadUtility::SetCommerce(T** ppbCommerce)
 #endif // _USRDLL
 
 #endif
+
