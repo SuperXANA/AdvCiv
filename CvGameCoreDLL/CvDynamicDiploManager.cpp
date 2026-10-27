@@ -412,10 +412,10 @@ CvString CvDynamicDiploManager::getDynamicDiplomacyTextForPlayers(PlayerTypes eA
 	if (aCandidates.empty())
 		return CvString();
 	int const iChosen = GC.getASyncRand().get((int)aCandidates.size(), "Dynamic diplomacy UI");
-	int const iGroup = aCandidates[iChosen].first;
-	int const iVariant = aCandidates[iChosen].second;
-	CvString szText(pResponse->getDiplomacyText(iGroup, iVariant).c_str());
-	pResponse->updateDynamicResponseLifetime(iGroup, iVariant);
+	int const iSelectedGroup = aCandidates[iChosen].first;
+	int const iSelectedVariant = aCandidates[iChosen].second;
+	CvString szText(pResponse->getDiplomacyText(iSelectedGroup, iSelectedVariant).c_str());
+	pResponse->updateDynamicResponseLifetime(iSelectedGroup, iSelectedVariant);
 	return szText;
 }
 

@@ -76,3 +76,13 @@ complete source overlay, protected machine-local Project configuration, stale
 root-source removal and manifest check, clean outputs, MSVC 7.1 compiler probe,
 and fresh sequential Release/Debug builds. Exact results are recorded after CI
 completion; no historical run is substituted for this commit's validation.
+
+### Native validation history
+
+- Commit `ba775199e924dd06d21b48971da387276e70b13d`, run `40547868228`:
+  both Release and Debug reached the MSVC 7.1 compiler and stopped on C4288,
+  promoted to C2220 by `/WX`, at manager lines 417–418. MSVC's legacy for-loop
+  scope conflicted with a later `iGroup` declaration. Renamed selected-group and
+  selected-variant locals rather than disabling warnings or changing compiler
+  flags. The import helper is also private so all completion ownership flows
+  through the main-thread mailbox drain.

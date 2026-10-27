@@ -29,7 +29,6 @@ public:
 	bool registerPrompt(LLMPromptData const& kPrompt);
 	void cancelPrompt(unsigned long ulSession, PlayerTypes eAIPlayer, DiploCommentTypes eComment, int iGroupIndex);
 	void processPendingResponses();
-	void updateAIPlayerAvailableResponses(LLMResultData const& kResult); // Main thread only.
 
 	// Called by main game thread to assign response objects to LLM prompt structures
 	int getAvailableResponseGroupID(PlayerTypes eAIPlayer, DiploCommentTypes eComment) const;
@@ -57,6 +56,7 @@ private:
 	CvDynamicDiploManager(CvDynamicDiploManager const& kOther);
 	CvDynamicDiploManager& operator=(CvDynamicDiploManager const& kOther);
 
+	void updateAIPlayerAvailableResponses(LLMResultData const& kResult); // Main-thread mailbox import only.
 	void init();
 	void reset();
 	void uninit();
