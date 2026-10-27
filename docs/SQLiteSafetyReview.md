@@ -223,3 +223,38 @@ DLL inside Beyond the Sword, exercise the Windows filesystem at runtime, or
 validate savegame/multiplayer behavior. SQL_SCHEMA_VERSION remains zero; the
 actual gameplay schema, migrations, replay semantics, authority, and event/memory
 consumers remain implementation work.
+
+## SQLITE-20261027-09 — Checked integer value conversion
+
+This refinement starts from managed source 8cfe175cfb333a82961058398e020b6fcdb8f73e,
+preserving the existing transaction, foreign-key, scaled-value and build repairs.
+The original AISurvivorStatTracking branch and SQLite 3.7.5 engine are unchanged.
+
+SQLiteValue's FLOAT-to-int conversion still used an unchecked cast. A focused
+C++03 UBSan diagnostic reproduced an out-of-range cast with SQLiteValue(1e100).
+NaN and infinity were also unsafe for this conversion. TEXT-to-int used atoi,
+which offers no overflow check before narrowing to Civ4's 32-bit int.
+
+The FLOAT conversion now checks the open interval (INT_MIN-1, INT_MAX+1) before
+casting, retaining truncation toward zero for valid fractional endpoint values.
+NaN, infinity and values outside that interval return zero, consistent with
+existing null/invalid numeric-read fallbacks. TEXT conversion uses decimal strtol,
+rejects ERANGE and results outside INT_MIN..INT_MAX before narrowing, and retains
+the old leading-whitespace/sign/numeric-prefix behavior for ordinary text.
+
+This does not add a 64-bit integer API or change SQLiteStatement::getInt's native
+SQLite conversion semantics. Callers needing lossless 64-bit IDs still need an
+explicit representation/API. The zero fallback does not distinguish conversion
+failure from a stored zero.
+
+Run: python tests/test_sqlite_value_conversions.py
+Optional: SQLITE_TEST_SANITIZE=1 python tests/test_sqlite_value_conversions.py
+
+Both focused checks passed using the production SQLiteValue header and the
+existing Civ stubs. Coverage includes finite fractional values, integer endpoints
+and nearby fractions, out-of-range values, NaN/infinities, oversized decimal text,
+ordinary text prefixes, and bool's delegated conversion. These pure-value tests
+do not replace the bundled-engine regressions or the Windows DLL build.
+The updated complete-base build is published on AISurvivorSQLiteBuild-ChatGPT;
+its exact commit, per-configuration result and artifacts are reported with this
+refinement. Earlier DLL records above apply only to their named revisions.
