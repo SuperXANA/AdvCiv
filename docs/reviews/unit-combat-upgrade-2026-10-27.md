@@ -6,7 +6,7 @@ Build workflow: dll-build at 4249713909a3275c451f90986aeed94c4959a3bb.
 
 ## Scope
 
-Carry the source feature into the complete pinned baseline, retain all baseline-only files, and preserve original XANA markers. Restore unrelated upstream differences in the older source files. The copied workflow changes only its rsync source directory to ./CvGameCoreDLL/ for the complete repository layout.
+Carry the source feature into the complete pinned baseline, retain all baseline-only files, and preserve original XANA markers. Restore unrelated upstream differences in the older source files. The copied workflow changes its rsync source directory to ./CvGameCoreDLL/ for the complete repository layout. Its cleanup condition also uses always() with the existing build_started guard so failed builds do not skip cleanup.
 
 ## Repairs
 
@@ -18,6 +18,8 @@ Carry the source feature into the complete pinned baseline, retain all baseline-
 - The unused CvUnit::getUpgradeCostModifier declaration has no implementation or callers. Retain the baseline header without that redundant declaration.
 
 ## Validation
+
+Initial validation commit 55032b3440038ec247557a00de6637228ba4c81b failed in run 40456602311 during precompiled-header generation: C4622, C2220, C1854, followed by U1077/MSB3073. No DLL artifact was produced. Cleanup was skipped by its implicit success condition; the isolated workflow now permits guarded cleanup on failure as well.
 
 Focused C++03 regression checks exercise the extracted production getter and updater for positive and negative trait removal, effective caps, and addition-order independence. Static XML checks confirm a well-formed schema and an optional integer modifier list.
 
