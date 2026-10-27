@@ -97,7 +97,11 @@ public:
                observedByAI(NO_RELATIONSHIP) {}
     LeaderHeadTypes getPersonalityType() const { return m_ePersonalityType; }
     CvPlayer& AI() { return *this; }
-    void AI_updatePersonality() { observedByAI=m_eRelationship; }
+    void AI_updatePersonality() {
+        // Match the real baseline setter's precondition.
+        assert(getPersonalityType()!=NO_LEADER);
+        observedByAI=m_eRelationship;
+    }
     void initLeaderRelationship();
     void setPersonalityType(LeaderHeadTypes eNewValue);
 };
@@ -162,7 +166,10 @@ int main() {
     assert(player.m_eRelationship==X1 && player.observedByAI==X1);
     player.setPersonalityType(L2);
     assert(player.m_eRelationship==NO_RELATIONSHIP && player.observedByAI==NO_RELATIONSHIP);
-    player.setPersonalityType(L0); player.setPersonalityType(NO_LEADER);
+    player.setPersonalityType(L0);
+    // An absent personality is handled during reconstruction, not through the
+    // public setter, whose existing AI update requires a valid leader.
+    player.m_ePersonalityType=NO_LEADER; player.initLeaderRelationship();
     assert(player.m_eRelationship==NO_RELATIONSHIP);
     player.m_ePersonalityType=L0; player.initLeaderRelationship();
     assert(player.m_eRelationship==X0);

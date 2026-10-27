@@ -35,6 +35,11 @@ Initialization first clears the old relationship and then selects the first
 matching record. Existing reset, initialization and end-of-read reconstruction
 hooks remain. Nothing new is serialized; the mapping remains derived from XML
 and the restored personality. Duplicate owner records still select the first.
+The public personality setter retains the baseline's valid-leader precondition:
+AI_updatePersonality requires a non-NO_LEADER identity. The absent-identity test
+exercises reconstruction directly after reset/load-style assignment.
+The baseline's general attitude-cache refresh schedule is unchanged; this fix
+corrects which relationship the next first-impression computation reads.
 
 **FAMILY-20261027-03 — owning array and index validation.**
 The original read allocates a new raw array without releasing the previous
@@ -93,7 +98,28 @@ tables. ASan/UBSan passed with halt-on-error enabled and
 `ASAN_OPTIONS=detect_leaks=0`; LeakSanitizer is blocked by this host's ptrace
 environment. These fixtures are not Civ4's real XML parser or a DLL.
 
-Native build results will be appended after the exact triggered run completes.
+Native build commit: `5b41bb1d9598a514c99f8fe8e59333a884f56c0b`.
+[Run 40564726051](https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051)
+uses this exact commit, the complete pinned baseline overlay and a sequential
+Release/Debug matrix. The run and both jobs completed successfully. Both
+configurations verified MSVC 7.1 (`_MSC_VER == 1310`), rebuilt with **zero
+warnings and zero errors**, uploaded the requested exact DLL file and
+completed build-output cleanup.
+
+| Configuration | Job | Artifact |
+|---|---|---|
+| Release | 122402825430 | [DLL 12762701765](https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051/artifacts/12762701765) |
+| Debug | 122402825996 | [DLL/PDB 12763151213](https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051/artifacts/12763151213) |
+
+GitHub's artifact metadata names the exact code SHA above and reports both
+archives unexpired. Validation covers compiler/linker logs, manifest checks
+and exact-file artifact uploads. No downloaded PE inspection or game launch
+was performed. All 872 baseline files are present; seven source files differ.
+
+This final results update changes only this review and the test stub's
+valid-personality precondition check. No DLL source changes occurred after the
+successful native build; the workflow's path filter avoids another unchanged
+build. The updated normal and sanitizer fixture runs both passed.
 
 ## Coverage checkpoint
 
