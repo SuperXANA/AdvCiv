@@ -434,6 +434,97 @@ private:
 	}
 };
 
+// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
+class SidSaysMod : public SelfMod
+{
+	protected:
+	bool apply() // override
+	{
+		bool bFoundAny = false;
+
+		/* Both pairs are same-length, so in-place replacement is safe.
+		   "Sid Says:"  -> "Sol Says:"   (9 chars)
+		   "Sid's Tips" -> "Sol's Tips"  (10 chars) */
+
+		// Narrow / ANSI strings
+		bFoundAny |= patchNarrow("Sid Says:",  "Sol Says:",  9);
+		bFoundAny |= patchNarrow("Sid's Tips", "Sol's Tips", 10);
+
+		// Wide / UTF-16 strings (defensive; Civ4 usually uses ANSI,
+		// but some UI paths may load wide literals)
+		bFoundAny |= patchWide(L"Sid Says:",  L"Sol Says:",  9);
+		bFoundAny |= patchWide(L"Sid's Tips", L"Sol's Tips", 10);
+
+		if (!bFoundAny)
+		{
+			FErrorMsg("Could not locate 'Sid Says:' or 'Sid's Tips' in EXE memory");
+			return false;
+		}
+		return true;
+	}
+
+private:
+	bool patchNarrow(char const* szOld, char const* szNew, size_t iLen)
+	{
+		/*
+		XANA (note):
+		Need to write C++03 address-logging code in order to determine which locations in memory were changed by this [TODO].
+		Thereafter such logging functionality will help in following prior AdvCiv focused, narrowed 'needle' memory patching.
+		This is a first pass attempt to check compliation. 
+		*/
+		byte* const pLower = reinterpret_cast<byte*>(0x00400000);
+		byte* const pUpper = reinterpret_cast<byte*>(0x01000000);
+		bool bFound = false;
+
+		for (byte* pScan = pLower; pScan + iLen <= pUpper; ++pScan)
+		{
+			if (memcmp(pScan, szOld, iLen) == 0)
+			{
+				if (!unprotectPage(pScan, iLen))
+				{
+					FErrorMsg("Failed to unprotect page for narrow string patch");
+					return false;
+				}
+				memcpy(pScan, szNew, iLen);
+				bFound = true;
+				pScan += iLen - 1; // skip past this occurrence
+			}
+		}
+		return bFound;
+	}
+
+	bool patchWide(wchar_t const* wszOld, wchar_t const* wszNew, size_t iCharCount)
+	{
+		/*
+		XANA (note):
+		Need to write C++03 address-logging code in order to determine which locations in memory were changed by this [TODO].
+		Thereafter such logging functionality will help in following prior AdvCiv focused, narrowed 'needle' memory patching.
+		This is a first pass attempt to check compliation. 
+		*/
+		size_t const iBytes = iCharCount * sizeof(wchar_t);
+		byte* const pLower = reinterpret_cast<byte*>(0x00400000);
+		byte* const pUpper = reinterpret_cast<byte*>(0x01000000);
+		bool bFound = false;
+
+		for (byte* pScan = pLower; pScan + iBytes <= pUpper; ++pScan)
+		{
+			if (memcmp(pScan, wszOld, iBytes) == 0)
+			{
+				if (!unprotectPage(pScan, iBytes))
+				{
+					FErrorMsg("Failed to unprotect page for wide string patch");
+					return false;
+				}
+				memcpy(pScan, wszNew, iBytes);
+				bFound = true;
+				pScan += iBytes - 1;
+			}
+		}
+		return bFound;
+	}
+};
+// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
+
 } // (end of unnamed namespace)
 
 
@@ -480,3 +571,51 @@ void Civ4BeyondSwordPatches::setHelpTextAreaSize(float fWidth)
 	if (!HelpTextAreaWidthMod(fWidth).applyIfEnabled())
 		FErrorMsg("Failed to change help text area width");
 }
+
+// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
+void Civ4BeyondSwordPatches::patchSidSays()
+{
+	m_bSidSaysPatched = true;
+	if (!SidSaysMod().applyIfEnabled())
+	{
+		showErrorMsgToPlayer(
+			"Failed to patch Sid attributions to Sol (Solais a Tuath) in-universe framing. "
+			"String may not exist in this EXE version.");
+	}
+}
+// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
+/* Kimi K2 LLM AI Development Notes:
+
+-- Verification Steps --
+Before this becomes production code, user will need to confirm the exact string in the running EXE with x64dbg:
+Attach to Civ4BeyondSword.exe at the main menu, then search for ASCII Sid's Tips (case-sensitive).
+Also search for Sid's tips (lowercase 't')—just in case Firaxis used sentence case in the EXE.
+If the EXE actually contains Sid's Tips: (with a colon), that's 11 characters and you'd need Sol's Tips: (also 11).
+
+The code above is length-agnostic because you pass the length explicitly, so just adjust the call:
+// If your EXE has a colon on the Tips variant:
+bFoundAny |= patchNarrow("Sid's Tips:", "Sol's Tips:", 11);
+bFoundAny |= patchWide(L"Sid's Tips:", L"Sol's Tips:", 11);
+
+-- Implementation Notes --
+DLL will need to call smc::BtS_EXE.patchSidSays() once, early, before the player opens any Civilopedia or production chooser.
+The safest place is Python in CvEventManager.py, inside onGameStart or onLoadGame, or in the DLL inside CvGame::init() after the EXE is fully resident.
+
+Python route (recommended, keeps it optional):
+# In CvEventManager.py, e.g. in onGameStart or onWindowActivation
+import CvGameCoreUtils
+CvGameCoreUtils.patchSidSays()  # if you expose it to Python
+
+DLL route (if you want it unconditional):
+// In CvGame::init() or CvGame::update() with a one-shot guard:
+if (!smc::BtS_EXE.isSidSaysPatched())
+    smc::BtS_EXE.patchSidSays();
+If you want to expose it to Python like AdvCiv does for patchPlotIndicatorSize, add the wrapper in CyGameCoreUtils.cpp (or your equivalent Python interface file).
+
+-- Lore Integration --
+Since the patch rewrites the raw bytes in memory, you could add a tiny easter egg.
+In your mod's Python startup, check smc::BtS_EXE.isSidSaysPatched(); if true, write a one-time event log message:
+"The archives of Solais a Tuath have been bound to this timeline..."
+
+This would signal to players that the "Sol Says:" attribution is intentional and diegetic—Aurora Borealis's pen-name has literally become the default timeline's historiography.
+*/

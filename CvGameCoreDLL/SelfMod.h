@@ -14,13 +14,21 @@ public:
 	float getHelpTextAreaWidth() const { return m_fHelpTextAreaWidth; }
 	bool isHelpTextAreaWidthPatched() const { return (getHelpTextAreaWidth() != 0); }
 	// </advc.092c>
+	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
+	void patchSidSays();
+	bool isSidSaysPatched() const { return m_bSidSaysPatched; }
+	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
+	
 	Civ4BeyondSwordPatches()
-	:	m_bPlotIndicatorSizePatched(false), m_fHelpTextAreaWidth(0)
+	:	m_bPlotIndicatorSizePatched(false), m_fHelpTextAreaWidth(0), m_bSidSaysPatched(false) // XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
 	{}
 
 private:
 	bool m_bPlotIndicatorSizePatched;
 	float m_fHelpTextAreaWidth; // advc.092c
+	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
+	bool m_bSidSaysPatched;
+	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
 	void showErrorMsgToPlayer(CvWString szMsg);
 };
 
