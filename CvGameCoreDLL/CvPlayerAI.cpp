@@ -23939,122 +23939,75 @@ void CvPlayerAI::AI_doSplit(/* advc.104r: */ bool bForce)
 }
 
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
-void CvPlayerAI::AI_updateVoteCount(VoteTypes eVote, PlayerVoteTypes eVotingDecision, PlayerTypes eCityOwner) const
+void CvPlayerAI::AI_updateVoteCount(VoteTypes eVote,
+	PlayerVoteTypes eVotingDecision, PlayerTypes eCityOwner)
 {
-	if (eVote == NO_VOTE) return;
-	if (GC.getInfo(eVote).isAssignCity() && eCityOwner != NO_PLAYER && eCityOwner < MAX_CIV_PLAYERS)
-	{	
-		int iDelta = 0;
-		switch (eVotingDecision)
-		{
-			case PLAYER_VOTE_YES:
-			iDelta = 1;
-			break;
-			
-			case PLAYER_VOTE_NO:
-			iDelta = -1;
-			break;
-			
-			case PLAYER_VOTE_ABSTAIN || PLAYER_VOTE_NEVER:
-			if (m_aiVoteAlignment[eVote] > 0)
-			{
-				iDelta = -1;
-			}
-			else if (m_aiVoteAlignment[eVote] < 0)
-			{
-				iDelta = 1;
-			}
-			break;
-			
-			default:
-			break;
-		}
-		if (iDelta == 0) return;
-		m_aiVoteAlignment[eVote] = range((m_aiVoteAlignment[eVote] + iDelta), -100, 100);
-		
-		iDelta = 0;
-		switch (eVotingDecision)
-		{
-			case PLAYER_VOTE_YES:
-			iDelta = 1;
-			break;
-			
-			case PLAYER_VOTE_NO:
-			iDelta = -1;
-			break;
-			
-			case PLAYER_VOTE_ABSTAIN || PLAYER_VOTE_NEVER:
-			if (m_aiCityAssignmentPlayerPreference[(CivPlayerTypes)eCityOwner] > 0)
-			{
-				iDelta = -1;
-			}
-			else if (m_aiCityAssignmentPlayerPreference[(CivPlayerTypes)eCityOwner] < 0)
-			{
-				iDelta = 1;
-			}
-			break;
-			
-			default:
-			break;
-		}
-		if (iDelta == 0) return;
-		m_aiCityAssignmentPlayerPreference[(CivPlayerTypes)eCityOwner] = range((m_aiCityAssignmentPlayerPreference[(CivPlayerTypes)eCityOwner] + iDelta), -100, 100);
-	}
-	else if (GC.getGame().isTeamVote(eVote) && (eVotingDecision == PLAYER_VOTE_ABSTAIN || eVotingDecision == PLAYER_VOTE_NEVER || (eVotingDecision > NO_PLAYER_VOTE && eVotingDecision < MAX_CIV_TEAMS)))
+	if (eVote < 0 || eVote >= GC.getNumVoteInfos() || m_aiVoteAlignment == NULL)
+		return;
+	bool const bAssignCity = GC.getInfo(eVote).isAssignCity();
+	if (!bAssignCity && GC.getGame().isTeamVote(eVote))
 	{
-		int iDelta = 0;
-		switch (eVotingDecision)
+		if (m_aiElectionTeamPreference == NULL)
+			return;
+		if (eVotingDecision == PLAYER_VOTE_ABSTAIN ||
+			eVotingDecision == PLAYER_VOTE_NEVER)
 		{
-			case PLAYER_VOTE_ABSTAIN || PLAYER_VOTE_NEVER:
-			if (m_aiVoteAlignment[eVote] > 0)
-			{
-				iDelta = -1;
-			}
-			else if (m_aiVoteAlignment[eVote] < 0)
-			{
-				iDelta = 1;
-			}
-			break;
-			
-			default:
-			iDelta = 1;
-			break;
+			int const iAlignment = m_aiVoteAlignment[eVote];
+			m_aiVoteAlignment[eVote] = range(iAlignment + (iAlignment > 0 ? -1 :
+				(iAlignment < 0 ? 1 : 0)), -100, 100);
 		}
-		m_aiVoteAlignment[eVote] = range((m_aiVoteAlignment[eVote] + iDelta), -100, 100);
-		if (eVotingDecision > NO_PLAYER_VOTE)
+		else if (eVotingDecision >= 0 && static_cast<int>(eVotingDecision) < MAX_CIV_TEAMS)
 		{
-			m_aiElectionTeamPreference[(CivTeamTypes)eVotingDecision] = range((m_aiElectionTeamPreference[(CivTeamTypes)eVotingDecision] + iDelta), -100, 100);
+			m_aiVoteAlignment[eVote] = range(m_aiVoteAlignment[eVote] + 1, -100, 100);
+			CivTeamTypes const eTeam = static_cast<CivTeamTypes>(eVotingDecision);
+			m_aiElectionTeamPreference[eTeam] =
+				range(m_aiElectionTeamPreference[eTeam] + 1, -100, 100);
 		}
+		return;
 	}
-	else
+	if (bAssignCity && (eCityOwner < 0 || eCityOwner >= MAX_CIV_PLAYERS ||
+		m_aiCityAssignmentPlayerPreference == NULL))
 	{
-		int iDelta = 0;
+		return;
+	}
+	int iDelta = 0;
+	switch (eVotingDecision)
+	{
+	case PLAYER_VOTE_YES:
+		iDelta = 1;
+		break;
+	case PLAYER_VOTE_NO:
+		iDelta = -1;
+		break;
+	case PLAYER_VOTE_ABSTAIN:
+	case PLAYER_VOTE_NEVER:
+		iDelta = (m_aiVoteAlignment[eVote] > 0 ? -1 :
+			(m_aiVoteAlignment[eVote] < 0 ? 1 : 0));
+		break;
+	default:
+		return;
+	}
+	m_aiVoteAlignment[eVote] = range(m_aiVoteAlignment[eVote] + iDelta, -100, 100);
+	if (bAssignCity)
+	{
+		int& iPreference = m_aiCityAssignmentPlayerPreference[eCityOwner];
 		switch (eVotingDecision)
 		{
-			case PLAYER_VOTE_YES:
+		case PLAYER_VOTE_YES:
 			iDelta = 1;
 			break;
-			
-			case PLAYER_VOTE_NO:
+		case PLAYER_VOTE_NO:
 			iDelta = -1;
 			break;
-			
-			case PLAYER_VOTE_ABSTAIN || PLAYER_VOTE_NEVER:
-			if (m_aiVoteAlignment[eVote] > 0)
-			{
-				iDelta = -1;
-			}
-			else if (m_aiVoteAlignment[eVote] < 0)
-			{
-				iDelta = 1;
-			}
+		case PLAYER_VOTE_ABSTAIN:
+		case PLAYER_VOTE_NEVER:
+			iDelta = (iPreference > 0 ? -1 : (iPreference < 0 ? 1 : 0));
 			break;
-			
-			default:
+		default:
 			break;
 		}
-		if (iDelta == 0) return;
-		m_aiVoteAlignment[eVote] = range((m_aiVoteAlignment[eVote] + iDelta), -100, 100);
+		// A neutral overall alignment must not suppress this independent decay.
+		iPreference = range(iPreference + iDelta, -100, 100);
 	}
 }
 
@@ -24062,61 +24015,49 @@ void CvPlayerAI::AI_updateVoteCount(VoteTypes eVote, PlayerVoteTypes eVotingDeci
 
 PlayerVoteTypes CvPlayerAI::AI_getPreferredVoteChoice(VoteTypes eVote) const
 {
-    if (GC.getGame().isTeamVote(eVote))
-    {
-		CivTeamTypes eTheyMostVotedFor = NO_CIV_TEAM;
-		int iCount[NUM_CIV_TEAM_TYPES] = {0};
+	if (eVote < 0 || eVote >= GC.getNumVoteInfos() || m_aiVoteAlignment == NULL)
+		return NO_PLAYER_VOTE;
+	if (GC.getGame().isTeamVote(eVote))
+	{
+		if (m_aiElectionTeamPreference == NULL)
+			return NO_PLAYER_VOTE;
+		CivTeamTypes eMostVotedFor = NO_CIV_TEAM;
 		int iHighestCount = 0;
 		FOR_EACH_ENUM(CivTeam)
 		{
-			iCount = m_aiElectionTeamPreference[eLoopCivTeam];
-			if (iCount[eLoopCivTeam] > iHighestCount)
+			int const iCount = m_aiElectionTeamPreference[eLoopCivTeam];
+			if (iCount > iHighestCount)
 			{
-				iHighestCount = iCount[eLoopCivTeam];
-				eTheyMostVotedFor = eLoopCivTeam;
+				iHighestCount = iCount;
+				eMostVotedFor = eLoopCivTeam;
 			}
 		}
-		if (eTheyMostVotedFor != NO_CIV_TEAM)
-		{
-			return (PlayerVoteTypes)eTheyMostVotedFor;
-		}
-		else return NO_PLAYER_VOTE;
+		return eMostVotedFor == NO_CIV_TEAM ? NO_PLAYER_VOTE :
+			static_cast<PlayerVoteTypes>(eMostVotedFor);
 	}
-    else
-    {
-        int const iDecisionAlignment = m_aiVoteAlignment[eVote];
-        if (iDecisionAlignment > 0)
-		{
-			return PLAYER_VOTE_YES;
-		}
-        else if (iDecisionAlignment < 0)
-		{
-			return PLAYER_VOTE_NO;
-		}
-        else
-		{
-			return PLAYER_VOTE_ABSTAIN;
-		}
-    }
+	int const iAlignment = m_aiVoteAlignment[eVote];
+	return iAlignment > 0 ? PLAYER_VOTE_YES :
+		(iAlignment < 0 ? PLAYER_VOTE_NO : PLAYER_VOTE_ABSTAIN);
 }
 
 
 
 CivPlayerTypes CvPlayerAI::AI_getMostVotedCivPlayer() const
 {
-	int iCount[NUM_CIV_PLAYER_TYPES] = {0};
+	if (m_aiCityAssignmentPlayerPreference == NULL)
+		return NO_CIV_PLAYER;
 	int iHighestCount = 0;
-	CivPlayerTypes eTheyMostVotedFor = NO_CIV_PLAYER;
+	CivPlayerTypes eMostVotedFor = NO_CIV_PLAYER;
 	FOR_EACH_ENUM(CivPlayer)
 	{
-		iCount[eLoopCivPlayer] = m_aiCityAssignmentPlayerPreference[eLoopCivPlayer];
-		if (iCount[eLoopCivPlayer] > iHighestCount)
+		int const iCount = m_aiCityAssignmentPlayerPreference[eLoopCivPlayer];
+		if (iCount > iHighestCount)
 		{
-			iHighestCount = iCount[eLoopCivPlayer];
-			eTheyMostVotedFor = eLoopCivPlayer;
+			iHighestCount = iCount;
+			eMostVotedFor = eLoopCivPlayer;
 		}
 	}
-	return eTheyMostVotedFor;
+	return eMostVotedFor;
 }
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 

@@ -757,7 +757,7 @@ public:
 	// advc.104r: Made public and param added
 	void AI_doSplit(bool bForce = false);
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
-	void AI_updateVoteCount(VoteTypes eVote, PlayerVoteTypes eVotingDecision, PlayerTypes eCityOwner = NO_PLAYER)) const;
+	void AI_updateVoteCount(VoteTypes eVote, PlayerVoteTypes eVotingDecision, PlayerTypes eCityOwner = NO_PLAYER);
 	PlayerVoteTypes AI_getPreferredVoteChoice(VoteTypes eVote) const;
 	CivPlayerTypes AI_getMostVotedCivPlayer() const;
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
