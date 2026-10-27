@@ -1759,6 +1759,12 @@ protected:  // <advc.210>
 	void getCultureLayerColors(std::vector<NiColorA>& aColors,
 			std::vector<CvPlotIndicatorData>& aIndicators) const;
 
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+	RelationshipTypes m_eRelationship;
+	void initLeaderRelationship();
+	RelationshipTypes getLeaderRelationship() const { return m_eRelationship; }
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+
 private:
 	/*  advc.003u: The remaining virtual functions should not be called within
 		the DLL. (Call the respective CvPlayerAI functions instead.)

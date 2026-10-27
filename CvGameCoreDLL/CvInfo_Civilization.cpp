@@ -1561,3 +1561,89 @@ bool CvDiplomacyInfo::read(CvXMLLoadUtility* pXML)
 
 	return true;
 }
+
+
+// XANA: 03-28-2026 Leader-to-Leader Relationships
+// XANA: 10-27-2026 Relationship bounds and lifecycle refinement
+CvRelationInfo::CvRelationInfo()
+{
+	m_aiFirstImpressionBounds[MIN_NEG_FIRST_IMPRESSION] = MIN_INT;
+	m_aiFirstImpressionBounds[MAX_NEG_FIRST_IMPRESSION] = 0;
+	m_aiFirstImpressionBounds[MIN_POS_FIRST_IMPRESSION] = 0;
+	m_aiFirstImpressionBounds[MAX_POS_FIRST_IMPRESSION] = MAX_INT;
+}
+
+void CvRelationInfo::updateLeaderRelationshipAttitude(int& iFirstImpressionAttitude) const
+{
+	if (iFirstImpressionAttitude == 0)
+		return;
+	bool const bPositive = (iFirstImpressionAttitude > 0);
+	int const iLower = get(bPositive ? MIN_POS_FIRST_IMPRESSION : MIN_NEG_FIRST_IMPRESSION);
+	int const iUpper = get(bPositive ? MAX_POS_FIRST_IMPRESSION : MAX_NEG_FIRST_IMPRESSION);
+	// Preserve the source's explicit zero/zero opt-out for each sign.
+	if (iLower == 0 && iUpper == 0)
+		return;
+	iFirstImpressionAttitude = range(iFirstImpressionAttitude, iLower, iUpper);
+}
+
+bool CvRelationInfo::read(CvXMLLoadUtility* pXML)
+{
+	if (!base_t::read(pXML))
+		return false;
+	pXML->GetChildXmlValByName(&m_aiFirstImpressionBounds[MIN_NEG_FIRST_IMPRESSION],
+			"iMinimumNegativeFirstImpression", MIN_INT);
+	pXML->GetChildXmlValByName(&m_aiFirstImpressionBounds[MAX_NEG_FIRST_IMPRESSION],
+			"iMaximumNegativeFirstImpression", 0);
+	pXML->GetChildXmlValByName(&m_aiFirstImpressionBounds[MIN_POS_FIRST_IMPRESSION],
+			"iMinimumPositiveFirstImpression", 0);
+	pXML->GetChildXmlValByName(&m_aiFirstImpressionBounds[MAX_POS_FIRST_IMPRESSION],
+			"iMaximumPositiveFirstImpression", MAX_INT);
+	if (get(MIN_NEG_FIRST_IMPRESSION) > get(MAX_NEG_FIRST_IMPRESSION) ||
+		get(MIN_POS_FIRST_IMPRESSION) > get(MAX_POS_FIRST_IMPRESSION))
+	{
+		FErrorMsg("Reversed first-impression bounds in relation XML");
+		return false;
+	}
+	return true;
+}
+
+CvRelationshipInfo::CvRelationshipInfo() : m_eLeader(NO_LEADER)
+{}
+
+CvRelationshipInfo::~CvRelationshipInfo()
+{}
+
+RelationTypes CvRelationshipInfo::getRelation(LeaderHeadTypes eOtherLeader) const
+{
+	if (eOtherLeader < 0 || static_cast<size_t>(eOtherLeader) >= m_aeRelations.size())
+		return NO_RELATION;
+	return m_aeRelations[eOtherLeader];
+}
+
+bool CvRelationshipInfo::read(CvXMLLoadUtility* pXML)
+{
+	// Every read replaces the old mapping, including an empty mapping.
+	m_eLeader = NO_LEADER;
+	m_aeRelations.clear();
+	if (!base_t::read(pXML))
+		return false;
+	pXML->SetInfoIDFromChildXmlVal(m_eLeader, "Leader");
+	int const iLeaderCount = GC.getNumLeaderHeadInfos();
+	m_aeRelations.assign(iLeaderCount, NO_RELATION);
+	CvXMLLoadUtility::XMLTagPairIterator<RelationTypes> it(*pXML, "Relationships");
+	for (std::pair<int,RelationTypes> pair = it.next();
+		pair.first != -1; pair = it.next())
+	{
+		if (pair.first < 0 || pair.first >= iLeaderCount ||
+			pair.second < 0 || pair.second >= GC.getNumRelationInfos())
+		{
+			FErrorMsg("Invalid leader or relation index in relationship XML");
+			m_aeRelations.clear();
+			return false;
+		}
+		m_aeRelations[pair.first] = pair.second;
+	}
+	return true;
+}
+// XANA: 10-27-2026 Relationship bounds and lifecycle refinement
+// XANA: 03-28-2026 Leader-to-Leader Relationships

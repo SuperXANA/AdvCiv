@@ -1,0 +1,11 @@
+inline int range(int iNum, int iLow, int iHigh)
+{
+	FAssert(iHigh >= iLow);
+
+	if (iNum < iLow)
+		return iLow;
+	else if (iNum > iHigh)
+		return iHigh;
+	else return iNum;
+}
+

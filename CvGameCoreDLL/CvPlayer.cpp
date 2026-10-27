@@ -132,6 +132,9 @@ bool CvPlayer::initOtherData()
 	/*  advc.003q: Moved into a (sub-)subroutine - except for the setCivics code;
 		that's handled (only) by resetCivTypeEffects. */
 	processTraits(1);
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+	initLeaderRelationship();
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
 	return true;
 }
 
@@ -422,6 +425,9 @@ void CvPlayer::reset(PlayerTypes eID, bool bConstructorCall)
 	m_iButtonPopupsRelaunching = 0; // advc.004x
 	m_uiStartTime = 0;
 	m_eReminderPending = NO_CIVIC; // advc.004x
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+	m_eRelationship = NO_RELATIONSHIP;
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
 
 	m_bAlive = false;
 	m_bEverAlive = false;
@@ -6371,6 +6377,26 @@ int CvPlayer::groundbreakingPenalty(TechTypes eTech) const
 }
 
 
+// XANA: 03-28-2026 Leader-to-Leader Relationships
+// XANA: 10-27-2026 Relationship bounds and lifecycle refinement
+void CvPlayer::initLeaderRelationship()
+{
+	// Rebuild from identity; an unmapped or absent personality must clear history.
+	m_eRelationship = NO_RELATIONSHIP;
+	if (getPersonalityType() < 0 || getPersonalityType() >= GC.getNumLeaderHeadInfos())
+		return;
+	FOR_EACH_ENUM(Relationship)
+	{
+		if (GC.getInfo(eLoopRelationship).getLeaderType() == getPersonalityType())
+		{
+			m_eRelationship = eLoopRelationship;
+			return;
+		}
+	}
+}
+// XANA: 10-27-2026 Relationship bounds and lifecycle refinement
+// XANA: 03-28-2026 Leader-to-Leader Relationships
+
 int CvPlayer::calculateGoldRate() const
 {	/*int iRate = 0;
 	if(isCommerceFlexible(COMMERCE_RESEARCH))
@@ -9292,6 +9318,9 @@ void CvPlayer::setCivilization(CivilizationTypes eCivilization)
 void CvPlayer::setPersonalityType(LeaderHeadTypes eNewValue)
 {
 	m_ePersonalityType = eNewValue;
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+	initLeaderRelationship();
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
 	AI().AI_updatePersonality(); // advc.104
 }
 
@@ -14708,6 +14737,9 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		}
 		else GC.getGame().getRiseFall().setPlayerHandicap(getID(), isHuman(), true);
 	} // </advc.708>
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
+	initLeaderRelationship();
+	// XANA: 03-28-2026 Leader-to-Leader Relationships
 }
 
 // save object to a stream

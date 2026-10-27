@@ -506,4 +506,48 @@ protected:
 	std::vector<CvDiplomacyResponse*> m_pResponses;
 };
 
+// XANA: 03-28-2026 Leader-to-Leader Relationships
+// XANA: 10-27-2026 Relationship bounds and lifecycle refinement
+class CvRelationInfo : public CvInfoBase
+{
+	typedef CvInfoBase base_t;
+public:
+	enum IntElementTypes
+	{
+		MIN_NEG_FIRST_IMPRESSION,
+		MAX_NEG_FIRST_IMPRESSION,
+		MIN_POS_FIRST_IMPRESSION,
+		MAX_POS_FIRST_IMPRESSION,
+		NUM_INT_ELEMENT_TYPES
+	};
+	int get(IntElementTypes e) const
+	{
+		FAssertBounds(0, NUM_INT_ELEMENT_TYPES, e);
+		return m_aiFirstImpressionBounds[e];
+	}
+	CvRelationInfo();
+	void updateLeaderRelationshipAttitude(int& iFirstImpressionAttitude) const;
+	bool read(CvXMLLoadUtility* pXML);
+private:
+	// CvXMLInfo stores short values; these bounds intentionally need full ints.
+	int m_aiFirstImpressionBounds[NUM_INT_ELEMENT_TYPES];
+};
+
+class CvRelationshipInfo : public CvInfoBase
+{
+	typedef CvInfoBase base_t;
+public:
+	CvRelationshipInfo();
+	~CvRelationshipInfo();
+	LeaderHeadTypes getLeaderType() const { return m_eLeader; }
+	RelationTypes getRelation(LeaderHeadTypes eOtherLeader) const;
+	bool read(CvXMLLoadUtility* pXML);
+private:
+	LeaderHeadTypes m_eLeader;
+	std::vector<RelationTypes> m_aeRelations;
+};
+// XANA: 10-27-2026 Relationship bounds and lifecycle refinement
+// XANA: 03-28-2026 Leader-to-Leader Relationships
+
+
 #endif
