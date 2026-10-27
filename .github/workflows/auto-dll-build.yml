@@ -57,7 +57,7 @@ jobs:
           --exclude='/.git/*' \
           --exclude='/.github/*' \
           --include='*/' --include='*' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*/' --exclude='*' \
-          ./ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
+          ./CvGameCoreDLL/ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
           
           # Encode the command for PowerShell
           ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
