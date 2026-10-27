@@ -92,7 +92,7 @@ jobs:
         if-no-files-found: warn
 
     - name: Clean Up RAM Disk Build Files
-      if: ${{ steps.build.outputs.build_started == 'true' }}
+      if: ${{ always() && steps.build.outputs.build_started == 'true' }}
       
       shell: bash
       env:
