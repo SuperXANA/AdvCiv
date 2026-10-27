@@ -517,8 +517,8 @@ public:
 	int AI_getFavoriteGenderCounter(PlayerTypes eIndex) const;
 	void AI_changeFavoriteGenderCounter(PlayerTypes eIndex, int iChange);
 	
-	int AI_getFavoriteGenderCounter(PlayerTypes eIndex) const;
-	void AI_changeFavoriteGenderCounter(PlayerTypes eIndex, int iChange);
+	int AI_getHateGenderCounter(PlayerTypes eIndex) const;
+	void AI_changeHateGenderCounter(PlayerTypes eIndex, int iChange);
 	// XANA: 10-25-2025 Gender Specific Diplomacy
 	
 	int AI_getBonusTradeCounter(PlayerTypes eIndex) const;
@@ -821,8 +821,8 @@ protected:
 	int* m_aiDifferentReligionCounter;
 	int* m_aiFavoriteCivicCounter;
 // XANA: 10-25-2025 Gender Specific Diplomacy
-	int* m_aiHateCivicCounter;
-	int* m_aiHateReligionCounter;
+	int* m_aiFavoriteGenderCounter;
+	int* m_aiHateGenderCounter;
 // XANA: 10-25-2025 Gender Specific Diplomacy
 	int* m_aiBonusTradeCounter;
 	int* m_aiPeacetimeTradeValue;

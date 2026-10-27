@@ -18707,41 +18707,52 @@ void CvPlayerAI::AI_changeFavoriteCivicCounter(PlayerTypes eIndex, int iChange)
 
 
 // XANA: 10-25-2025 Gender Specific Diplomacy
+// XANA: 10-27-2026 Independent bounded gender histories
 int CvPlayerAI::AI_getFavoriteGenderCounter(PlayerTypes eIndex) const
 {
-	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
-	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+	FAssertMsg(eIndex >= 0 && eIndex < MAX_PLAYERS, "Invalid gender-counter player");
+	if (eIndex < 0 || eIndex >= MAX_PLAYERS)
+		return 0;
 	return m_aiFavoriteGenderCounter[eIndex];
 }
 
-
-
-oid CvPlayerAI::AI_changeFavoriteGenderCounter(PlayerTypes eIndex, int iChange)
+void CvPlayerAI::AI_changeFavoriteGenderCounter(PlayerTypes eIndex, int iChange)
 {
-	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
-	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
-	m_aiHateReligionCounter[eIndex] = (m_aiHateReligionCounter[eIndex] + iChange);
-	FAssert(AI_getFavoriteGenderCounter(eIndex) >= 0);
+	FAssertMsg(eIndex >= 0 && eIndex < MAX_PLAYERS, "Invalid gender-counter player");
+	if (eIndex < 0 || eIndex >= MAX_PLAYERS)
+		return;
+	int const iOld = std::max(0, m_aiFavoriteGenderCounter[eIndex]);
+	// Check before addition, including an INT_MIN change.
+	if (iChange < -iOld)
+		m_aiFavoriteGenderCounter[eIndex] = 0;
+	else if (iChange > MAX_INT - iOld)
+		m_aiFavoriteGenderCounter[eIndex] = MAX_INT;
+	else m_aiFavoriteGenderCounter[eIndex] = iOld + iChange;
 }
-
-
 
 int CvPlayerAI::AI_getHateGenderCounter(PlayerTypes eIndex) const
 {
-	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
-	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+	FAssertMsg(eIndex >= 0 && eIndex < MAX_PLAYERS, "Invalid gender-counter player");
+	if (eIndex < 0 || eIndex >= MAX_PLAYERS)
+		return 0;
 	return m_aiHateGenderCounter[eIndex];
 }
 
-
-
 void CvPlayerAI::AI_changeHateGenderCounter(PlayerTypes eIndex, int iChange)
 {
-	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
-	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
-	m_aiHateReligionCounter[eIndex] = (m_aiHateReligionCounter[eIndex] + iChange);
-	FAssert(AI_getHateGemderCounter(eIndex) >= 0);
+	FAssertMsg(eIndex >= 0 && eIndex < MAX_PLAYERS, "Invalid gender-counter player");
+	if (eIndex < 0 || eIndex >= MAX_PLAYERS)
+		return;
+	int const iOld = std::max(0, m_aiHateGenderCounter[eIndex]);
+	// Check before addition, including an INT_MIN change.
+	if (iChange < -iOld)
+		m_aiHateGenderCounter[eIndex] = 0;
+	else if (iChange > MAX_INT - iOld)
+		m_aiHateGenderCounter[eIndex] = MAX_INT;
+	else m_aiHateGenderCounter[eIndex] = iOld + iChange;
 }
+
+// XANA: 10-27-2026 Independent bounded gender histories
 // XANA: 10-25-2025 Gender Specific Diplomacy
 
 
@@ -18941,13 +18952,19 @@ void CvPlayerAI::AI_setFavoriteCivicCounter(PlayerTypes eIndex, int iValue)
 // XANA: 10-25-2025 Gender Specific Diplomacy
 void CvPlayerAI::AI_setFavoriteGenderCounter(PlayerTypes eIndex, int iValue)
 {
-	m_aiFavoriteGenderCounter[eIndex] = iValue;
+	FAssertMsg(eIndex >= 0 && eIndex < MAX_PLAYERS, "Invalid gender-counter player");
+	if (eIndex < 0 || eIndex >= MAX_PLAYERS)
+		return;
+	m_aiFavoriteGenderCounter[eIndex] = std::max(0, iValue);
 }
 
 
 void CvPlayerAI::AI_setHateGenderCounter(PlayerTypes eIndex, int iValue)
 {
-	m_aiHateGenderCounter[eIndex] = iValue;
+	FAssertMsg(eIndex >= 0 && eIndex < MAX_PLAYERS, "Invalid gender-counter player");
+	if (eIndex < 0 || eIndex >= MAX_PLAYERS)
+		return;
+	m_aiHateGenderCounter[eIndex] = std::max(0, iValue);
 }
 // XANA: 10-25-2025 Gender Specific Diplomacy
 
@@ -19534,7 +19551,7 @@ void CvPlayerAI::AI_doCounter()
 			else
 			{
 				AI_setFavoriteGenderCounter(ePlayer,
-						(AI_getHateCivicCounter(ePlayer) * rDecayFactor).floor());
+						(AI_getFavoriteGenderCounter(ePlayer) * rDecayFactor).floor());
 			}
 		}
 		if (getHateGender() != NO_GENDER)
