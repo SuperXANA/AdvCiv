@@ -67,6 +67,8 @@
 	<ElementType name="iFavoriteCivicAttitudeChange" content="textOnly" dt:type="int"/>
 	<ElementType name="iFavoriteCivicAttitudeDivisor" content="textOnly" dt:type="int"/>
 	<ElementType name="iFavoriteCivicAttitudeChangeLimit" content="textOnly" dt:type="int"/>
+	<!-- XANA: 10-27-2026 Leader Specific Team Size Attitude Change -->
+	<ElementType name="iTeamSizeAttitudeChange" content="textOnly" dt:type="int"/>
 	<ElementType name="DemandTributeAttitudeThreshold" content="textOnly"/>
 	<ElementType name="NoGiveHelpAttitudeThreshold" content="textOnly"/>
 	<ElementType name="TechRefuseAttitudeThreshold" content="textOnly"/>
@@ -264,6 +266,8 @@
 		<element type="iFavoriteCivicAttitudeChange" minOccurs="0"/>
 		<element type="iFavoriteCivicAttitudeDivisor" minOccurs="0"/>
 		<element type="iFavoriteCivicAttitudeChangeLimit"/>
+		<!-- XANA: 10-27-2026 Leader Specific Team Size Attitude Change -->
+		<element type="iTeamSizeAttitudeChange" minOccurs="0"/>
 		<element type="DemandTributeAttitudeThreshold" minOccurs="0"/>
 		<element type="NoGiveHelpAttitudeThreshold" minOccurs="0"/>
 		<element type="TechRefuseAttitudeThreshold"/>

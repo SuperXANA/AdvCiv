@@ -1,0 +1,118 @@
+name: Automated Civ4 DLL Build
+
+# Strictly limit GitHub Token privileges. 
+# This strips away all default write access except for what is explicitly defined here.
+permissions:
+  contents: read
+  actions: write
+
+on:
+  push:
+  workflow_dispatch:
+  
+concurrency:
+  group: civ4-dll-chatgpt-workspace
+  cancel-in-progress: false
+
+jobs:
+  build-dll:
+    runs-on: self-hosted # Use local virtual machine for building
+    
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+
+    - name: Build DLL via MSBuild
+      id: buold
+      shell: bash
+      env: 
+          # YAML automatically preserves this multi-line string exactly as written
+          PS_CODE: |
+            param(
+              [string]$cfg
+            )
+            # Set configuration based on current active branch
+            Write-Output "Targeting configuration: $cfg"
+            $vcvarsall = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
+            $projectDir = "R:\CvGameCoreDLL\Project"
+            # Run vcvarsall, change directory, and build all in ONE cmd session.
+            # No need to import env vars into PowerShell.
+            $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && msbuild AdvCiv.vcxproj /p:Configuration=$cfg"
+            cmd.exe /c $buildCmd
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "MSBuild compilation process encountered errors."
+              exit $LASTEXITCODE
+            }
+      run: |
+          # Set configuration based on current active branch (Using standard Bash syntax)
+          CONFIG="Release"
+          if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
+              CONFIG="Debug"
+          fi
+          
+          # Sync the repository's files into the RAM disk workspace
+          rsync -avz --blocking-io \
+          -e "ssh -o IPQoS=throughput" \
+          --exclude='/Project/*' \
+          --exclude='/.git/*' \
+          --exclude='/.github/*' \
+          --include='*/' --include='*' --include='*.cpp' --include='*.h' --include='*.c' --exclude='*/' --exclude='*' \
+          ./CvGameCoreDLL/ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
+          
+          # Encode the command for PowerShell
+          ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
+          # Cleanup is allowed only after we have entered the build invocation.
+          echo "build_started=true" >> "$GITHUB_OUTPUT"
+          
+          # Connect to local virtual machine and start the build remotely
+          ssh Administrator@192.168.2.252 "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG'\""
+    
+    - name: Copy DLL files Over To Linux
+      shell: bash
+      run: |
+        # Set configuration based on current active branch
+        CONFIG="Release"
+        if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
+            CONFIG="Debug"
+        fi
+        # Copy files so upload-artifact can upload them
+        scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$CONFIG/*.dll ./
+        if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
+          scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/temp_files/$CONFIG/*.pdb ./
+        fi
+        
+    - name: Upload Compiled DLL Artifact
+      uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+      
+      with:
+        name: CvGameCoreDLL-${{ github.ref_name }}-${{ github.sha }}
+        path: |
+          ./CvGameCoreDLL.dll
+          ./*.pdb
+        if-no-files-found: warn
+
+    - name: Clean Up RAM Disk Build Files
+      if: ${{ steps.build.outputs.build_started == 'true' }}
+      
+      shell: bash
+      env:
+          # YAML automatically preserves this multi-line string exactly as written
+          PS_CODE: |
+            Write-Output "Scrubbing workspace build artifacts..."
+            Set-Location "R:\CvGameCoreDLL"
+            $cleanupDirs = @("Project/Release", "Project/Debug", "Project/temp_files", "Project/obj")
+            foreach ($dir in $cleanupDirs) {
+              if (Test-Path $dir) {
+                Remove-Item -Path $dir -Recurse -Force
+                Write-Output "Successfully wiped: $dir"
+              }
+            }
+      run: |
+          # Encode the command for PowerShell
+          ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
+          
+          # Execute remotely over SSH
+          ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
+          
+          # Clean up the pulled local binaries on the Linux host so subsequent runs start completely fresh without old DLL state.
+          rm -f ./CvGameCoreDLL.dll ./*.pdb
