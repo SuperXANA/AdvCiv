@@ -473,12 +473,12 @@
     <NMakeBuildCommandLine>set TARGET=Debug
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
-nmake /f ..\BuildSQLite\Makefile.sqlite dll /NOLOGO</NMakeBuildCommandLine>
+nmake /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>set TARGET=Debug
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
-nmake /f ..\BuildSQLite\Makefile.sqlite dll /NOLOGO</NMakeReBuildCommandLine>
+nmake /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>set TARGET=Debug
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
     <AdditionalOptions>/DWIN32 /D_WINDOWS /D_USRDLL /D_DEBUG /DUSE_DATA_DIR /D_CODE_EDITOR</AdditionalOptions>
@@ -489,13 +489,13 @@ nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite precompile /NOLOGO
-bin\jom /f ..\BuildSQLite\Makefile.sqlite build /NOLOGO</NMakeBuildCommandLine>
+bin\jom /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>set TARGET=Debug-opt
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite precompile /NOLOGO
-bin\jom /f ..\BuildSQLite\Makefile.sqlite build /NOLOGO</NMakeReBuildCommandLine>
+bin\jom /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>set TARGET=Debug-opt
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
     <AdditionalOptions>/DWIN32 /D_WINDOWS /D_USRDLL /DNDEBUG /DFINAL_RELEASE /DUSE_DATA_DIR /DFASSERT_ENABLE /D_CODE_EDITOR</AdditionalOptions>
@@ -505,12 +505,12 @@ nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
     <NMakeBuildCommandLine>set TARGET=Release
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
-nmake /f ..\BuildSQLite\Makefile.sqlite dll /NOLOGO</NMakeBuildCommandLine>
+nmake /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>set TARGET=Release
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
-nmake /f ..\BuildSQLite\Makefile.sqlite dll /NOLOGO</NMakeReBuildCommandLine>
+nmake /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>set TARGET=Release
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
     <AdditionalOptions>/DWIN32 /D_WINDOWS /D_USRDLL /DNDEBUG /DFINAL_RELEASE /DUSE_DATA_DIR /D_CODE_EDITOR</AdditionalOptions>
@@ -521,13 +521,13 @@ nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite precompile /NOLOGO
-bin\jom /f ..\BuildSQLite\Makefile.sqlite build /NOLOGO</NMakeBuildCommandLine>
+bin\jom /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>set TARGET=Assert
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite precompile /NOLOGO
-bin\jom /f ..\BuildSQLite\Makefile.sqlite build /NOLOGO</NMakeReBuildCommandLine>
+bin\jom /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>set TARGET=Assert
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
     <AdditionalOptions>/DWIN32 /D_WINDOWS /D_USRDLL /DNDEBUG /DFINAL_RELEASE /DFASSERT_ENABLE /D_CODE_EDITOR /DUSE_DATA_DIR</AdditionalOptions>
@@ -538,13 +538,13 @@ nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite precompile /NOLOGO
-bin\jom /f ..\BuildSQLite\Makefile.sqlite build /NOLOGO</NMakeBuildCommandLine>
+bin\jom /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>set TARGET=Profile
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite precompile /NOLOGO
-bin\jom /f ..\BuildSQLite\Makefile.sqlite build /NOLOGO</NMakeReBuildCommandLine>
+bin\jom /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>set TARGET=Profile
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
     <AdditionalOptions>/DWIN32 /D_WINDOWS /D_USRDLL /DNDEBUG /DFINAL_RELEASE /DUSE_DATA_DIR /D_CODE_EDITOR /DUSE_TSC_PROFILER /DUSE_INTERNAL_PROFILER /DPROFILE_AI_AUTO_PLAY</AdditionalOptions>
@@ -555,13 +555,13 @@ nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite precompile /NOLOGO
-bin\jom /f ..\BuildSQLite\Makefile.sqlite build /NOLOGO</NMakeBuildCommandLine>
+bin\jom /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>set TARGET=Debug
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite precompile /NOLOGO
-bin\jom /f ..\BuildSQLite\Makefile.sqlite build /NOLOGO</NMakeReBuildCommandLine>
+bin\jom /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>set TARGET=Debug
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
     <AdditionalOptions>/DWIN32 /D_WINDOWS /D_USRDLL /D_DEBUG /DUSE_DATA_DIR /D_CODE_EDITOR</AdditionalOptions>
@@ -572,13 +572,13 @@ nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite precompile /NOLOGO
-bin\jom /f ..\BuildSQLite\Makefile.sqlite build /NOLOGO</NMakeBuildCommandLine>
+bin\jom /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>set TARGET=Release
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite precompile /NOLOGO
-bin\jom /f ..\BuildSQLite\Makefile.sqlite build /NOLOGO</NMakeReBuildCommandLine>
+bin\jom /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>set TARGET=Release
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
     <AdditionalOptions>/DWIN32 /D_WINDOWS /D_USRDLL /DNDEBUG /DFINAL_RELEASE /DUSE_DATA_DIR /D_CODE_EDITOR</AdditionalOptions>
@@ -589,13 +589,13 @@ nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite precompile /NOLOGO
-bin\jom /f ..\BuildSQLite\Makefile.sqlite build /NOLOGO</NMakeBuildCommandLine>
+bin\jom /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>set TARGET=Final_Release
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite source_list /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite fastdep /NOLOGO
 nmake /f ..\BuildSQLite\Makefile.sqlite precompile /NOLOGO
-bin\jom /f ..\BuildSQLite\Makefile.sqlite build /NOLOGO</NMakeReBuildCommandLine>
+bin\jom /f ..\BuildSQLite\Makefile.sqlite sqlite_dll /NOLOGO</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>set TARGET=Final_Release
 nmake /f ..\BuildSQLite\Makefile.sqlite clean /NOLOGO</NMakeCleanCommandLine>
     <AdditionalOptions>/DWIN32 /D_WINDOWS /D_USRDLL /DNDEBUG /DFINAL_RELEASE /DUSE_DATA_DIR /D_CODE_EDITOR</AdditionalOptions>

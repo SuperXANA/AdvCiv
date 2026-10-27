@@ -98,10 +98,22 @@ SQLITE_OBJS = \
     $(SQLITE_OBJ_DIR)\utf.obj \
     $(SQLITE_OBJ_DIR)\vtab.obj
 
-# The stock linker recipe expands LIBS when executed, after this addition.
-LIBS = $(LIBS) "$(SQLITE_LIB)"
-
-$(Target_BIN_TEMP): $(SQLITE_LIB)
+# XANA: 2026-10-27 Use an additive entry point whose link command explicitly
+# includes the archive. The preserved machine Makefile owns the other targets.
+sqlite_dll: precompile $(OBJS) $(SQLITE_LIB) $(Target_RESOURCE)
+	@ECHO Linking Civ4 DLL with static SQLite 3.7.5
+	$(LD) /out:$(Target_BIN_TEMP) $(LDFLAGS) $(LIBS) "$(SQLITE_LIB)" $(OBJS) $(Target_RESOURCE)
+	COPY "$(Target_BIN_TEMP)" "$(Target_BIN)"
+!IFDEF YOURMOD
+	-COPY "$(Target_BIN)" "$(YOURMOD)\Assets\."
+!ENDIF
+!IFDEF YOURMOD2
+	-COPY "$(Target_BIN)" "$(YOURMOD2)\Assets\."
+!ENDIF
+!IFDEF YOURLOGS
+	-FOR %i IN ("$(YOURLOGS)"\*.log) DO @IF EXIST "%i" DEL "%i"
+!ENDIF
+# XANA: END explicit SQLite static link entry point.
 
 # XANA: 2026-10-27 Toolkit 2003 supplies link.exe; its /lib mode creates
 # the static archive without requiring a separate lib.exe installation.
