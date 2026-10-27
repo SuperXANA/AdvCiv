@@ -161,6 +161,21 @@ int main() {
    assert(DB.uninit());DB.m_sqlite=new SQLiteConnection(CvWString(":memory:"));assert(DB.m_sqlite->open());assert(DB.configureConnection());
    DB.m_bActive=DB.m_bSqlLoaded=DB.m_bDoCache=true;SQLiteTransaction current;
    assert(!old.isActive());assert(!old.commit());assert(!old.rollback());assert(current.rollback());assert(DB.uninit()); }
+
+ // SQLITE_BUSY at COMMIT leaves ownership intact so callers can retry.
+ { DB.m_sqlite=new SQLiteConnection(CvWString("busy-commit.db"));assert(DB.m_sqlite->open());assert(DB.configureConnection());
+   DB.m_bActive=DB.m_bSqlLoaded=DB.m_bDoCache=true;
+   assert(DB.exec("CREATE TABLE locked(v); INSERT INTO locked VALUES(1)"));
+   sqlite3* reader=NULL;assert(sqlite3_open("busy-commit.db",&reader)==SQLITE_OK);
+   assert(sqlite3_exec(reader,"BEGIN; SELECT * FROM locked",NULL,NULL,NULL)==SQLITE_OK);
+   SQLiteTransaction writer;assert(writer.isActive());assert(DB.exec("UPDATE locked SET v=2"));
+   assert(!writer.commit());assert(sqlite3_errcode(DB.m_sqlite->m_database)==SQLITE_BUSY);
+   assert(writer.isActive());assert(!writer.wasCommitted());
+   assert(sqlite3_exec(reader,"ROLLBACK",NULL,NULL,NULL)==SQLITE_OK);assert(sqlite3_close(reader)==SQLITE_OK);
+   assert(writer.commit());assert(writer.wasCommitted());assert(!writer.isActive());
+   { SQLiteStatement saved("busy-commit-result", "SELECT v FROM locked");assert(saved.exec());assert(saved.getInt(0)==2); }
+   assert(DB.uninit()); }
+
  { SQLiteConnection c(CvWString("/nonexistent/sqlite-test/file.db"));assert(!c.open());assert(c.m_database==NULL);assert(c.close()); }
  { CvDatabaseQuery q;assert(q.select("'100%' AS text").getSQLString()=="SELECT '100%' AS text"); }
  std::cout<<"SQLite wrapper regressions passed; runtime "<<sqlite3_libversion()<<"\n";

@@ -103,8 +103,10 @@ LIBS = $(LIBS) "$(SQLITE_LIB)"
 
 $(Target_BIN_TEMP): $(SQLITE_LIB)
 
+# XANA: 2026-10-27 Toolkit 2003 supplies link.exe; its /lib mode creates
+# the static archive without requiring a separate lib.exe installation.
 $(SQLITE_LIB): $(SQLITE_OBJS)
-	@"$(TOOLKIT)\bin\lib.exe" /nologo /out:"$(SQLITE_LIB)" $(SQLITE_OBJS)
+	@$(LD) /lib /nologo /out:"$(SQLITE_LIB)" $(SQLITE_OBJS)
 
 $(SQLITE_OBJ_DIR)\alter.obj: $(SOURCE_DIR)\sqlite\alter.c
 	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
