@@ -95,7 +95,26 @@ ASan/UBSan also passed with halt-on-error and
 host's ptrace environment. These tests do not run Civ4's Microsoft XML validator
 or its real text translator.
 
-Native build results will be recorded after the exact triggered run finishes.
+Native build commit: `60d88bfa0edf155d542cd24cb4853b2651897b0f`.
+[Run 40575245169](https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169)
+uses this exact commit and completed successfully. Both Release and Debug
+verified MSVC 7.1 (`_MSC_VER == 1310`), rebuilt with **zero warnings and zero
+errors**, uploaded the requested exact DLL file, and completed generated-output
+cleanup. GitHub reports both jobs successful.
+
+| Configuration | Job | Artifact |
+|---|---|---|
+| Release | 122439805171 | [DLL 12767885725](https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169/artifacts/12767885725) |
+| Debug | 122439804572 | [DLL/PDB 12766979488](https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169/artifacts/12766979488) |
+
+Artifact metadata names the exact code SHA above and reports both archives
+unexpired. Validation covers compiler/linker logs, the source-manifest check,
+and exact-file artifact uploads; no downloaded PE inspection was performed.
+All 872 baseline files remain; the six selected DLL files and civilization
+schema are the only modified baseline files. This final results update changes
+documentation only, so the workflow's path filter avoids rebuilding unchanged
+DLL source.
+
 Game startup, localized rendering, resource acquisition/loss cache timing,
 real-save behavior and multiplayer remain untested. English entries are
 provided; no additional translations are claimed. The disabled legacy binary
