@@ -223,6 +223,7 @@ public:
 					if (iOuterKey < 0 || iOuterKey >= iOuterLength)
 						errorMessage("Outer key out of bounds in boolean XML map");
 					if (gDLL->getXMLIFace()->NextSibling(m_pFXml) &&
+						SkipToNextVal() &&
 						gDLL->getXMLIFace()->SetToChild(m_pFXml))
 					{
 						do

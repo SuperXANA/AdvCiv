@@ -91,10 +91,12 @@ struct CvXMLLoadUtility {
 __LOADER__
 };
 static Node* outer(Node* root,const char* key) {
-    Node* e=root->add("entry"); e->add("key",key); return e->add("list");
+    Node* e=root->add("entry"); e->add("#comment"); e->add("key",key);
+    e->add("#comment"); return e->add("list");
 }
 static void pair(Node* list,const char* key,const char* value) {
-    Node* e=list->add("entry"); e->add("key",key); e->add("value",value);
+    Node* e=list->add("entry"); e->add("#comment"); e->add("key",key);
+    e->add("#comment"); e->add("value",value);
 }
 int main() {
     Node trait("trait"); FXml xml={&trait}; CvXMLLoadUtility util(&xml); Map map;
