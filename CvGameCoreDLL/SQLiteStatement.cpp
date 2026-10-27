@@ -126,7 +126,7 @@ double SQLiteStatement::getDouble(const char* szColName) const
 
 scaled SQLiteStatement::getScaled(const char* szColName) const
 {
-	return scaled(getFloat(getColumnIndex(szColName)), 100);
+	return scaled::fromDouble(getDouble(getColumnIndex(szColName)));
 }
 
 bool SQLiteStatement::getBool(const char* szColName) const
@@ -357,7 +357,17 @@ bool SQLiteStatement::step(bool bLooping)
 	m_bHasRow = false;
 	if (!isPrepared() || m_bFinished)
 		return false;
+	bool const bFirstStep = (m_iLastResult == SQLITE_OK);
 	m_iLastResult = sqlite3_step(m_statement);
+	DB.refreshTransactionState();
+	// XANA: 10-27-2026 SQLite may recompile a cached statement after a schema
+	// change. Refresh result names after the first step, including empty results.
+	if (bFirstStep && (m_iLastResult == SQLITE_ROW || m_iLastResult == SQLITE_DONE))
+	{
+		m_bMappedColumns = false;
+		m_bMappedColumns = mapColumns();
+	}
+	// XANA: END schema-recompile column lookup refresh.
 	m_bHasRow = (m_iLastResult == SQLITE_ROW);
 	m_bFinished = !m_bHasRow;
 	return bLooping ? m_bHasRow :
@@ -426,7 +436,7 @@ bool SQLiteStatement::bind(int index, double dValue)
 
 bool SQLiteStatement::bind(int index, scaled rValue)
 {
-	return bind(index, static_cast<int>(rValue));
+	return bind(index, rValue.getDouble());
 }
 
 bool SQLiteStatement::bind(int index, const char* szValue, bool bCopy)

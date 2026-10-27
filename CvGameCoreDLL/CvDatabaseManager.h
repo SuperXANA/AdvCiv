@@ -12,6 +12,7 @@ class SQLiteConnection;
 class CvDatabaseManager : private boost::noncopyable
 {
 	friend class SQLiteStatement; // XANA (note): The Statement class is the only one needing access to the sqlite pointer cache. For safety we will hide the cache from the rest of the normal game code.
+	friend class SQLiteTransaction; // XANA: 10-27-2026 Validate transaction ownership.
 	friend class CvGame; // XANA (note): The CvGame class is the only one needing access to the initializing functions. For safety we will hide the loading methods from the rest of the normal game code.
 public:
 	CvDatabaseManager();
@@ -22,6 +23,14 @@ public:
 	bool isValid() const;
 	
 private:
+	// XANA: 10-27-2026 Track transaction boundaries, including raw SQL batches.
+	bool configureConnection();
+	void installTransactionTracking();
+	void refreshTransactionState();
+	unsigned long getTransactionGeneration();
+	bool isTransactionCurrent(unsigned long iGeneration);
+	static void traceTransactionState(void* pManager, const char* szSQL);
+	// XANA: END transaction tracking interface.
 	sqlite3_stmt* prepareStatementFromCache(const CvString& szKey, const CvString& szSQL);
 	void returnStatementToCache(const CvString& szKey, sqlite3_stmt*& kStatement);
 	void clearStatementPool();
@@ -52,5 +61,9 @@ private:
 	bool m_bDoCache;
 	bool m_bSqlLoaded;
 	bool m_bActive;
+	// XANA: 10-27-2026 Invalidate wrappers across transaction/connection changes.
+	unsigned long m_iTransactionGeneration;
+	bool m_bTransactionOpen;
+	// XANA: END transaction identity state.
 };
 #endif

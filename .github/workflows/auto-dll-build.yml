@@ -18,6 +18,11 @@ concurrency:
 jobs:
   build-dll:
     runs-on: self-hosted # Use local virtual machine for building
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        configuration: [Release, Debug]
     
     steps:
     - name: Checkout Code
@@ -32,7 +37,8 @@ jobs:
             param(
               [string]$cfg
             )
-            # Set configuration based on current active branch
+            $ErrorActionPreference = "Stop"
+            # Build each configuration with the existing MSVC 7.1 makefile.
             Write-Output "Targeting configuration: $cfg"
             $vcvarsall = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
             $projectDir = "R:\CvGameCoreDLL\Project"
@@ -46,10 +52,7 @@ jobs:
             }
       run: |
           # Set configuration based on current active branch (Using standard Bash syntax)
-          CONFIG="Release"
-          if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
-              CONFIG="Debug"
-          fi
+          CONFIG="${{ matrix.configuration }}"
           
           # Sync the repository's files into the RAM disk workspace
           rsync -avz --blocking-io \
@@ -79,15 +82,12 @@ jobs:
       shell: bash
       run: |
         # Set configuration based on current active branch
-        CONFIG="Release"
-        if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
-            CONFIG="Debug"
-        fi
+        CONFIG="${{ matrix.configuration }}"
         # Copy files so upload-artifact can upload them
         mkdir -p artifacts
         scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$CONFIG/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.dll
         test -s ./artifacts/CvGameCoreDLL.dll
-        if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
+        if [ "$CONFIG" = "Debug" ]; then
           scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/temp_files/$CONFIG/*.pdb ./
         fi
         
@@ -95,7 +95,7 @@ jobs:
       uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
       
       with:
-        name: CvGameCoreDLL-${{ github.ref_name }}-${{ github.sha }}
+        name: CvGameCoreDLL-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
         path: |
           ./artifacts/CvGameCoreDLL.dll
           ./*.pdb

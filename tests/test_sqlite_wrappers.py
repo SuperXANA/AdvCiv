@@ -20,6 +20,7 @@ STUB=r'''
 #include <cstring>
 #include <cstdarg>
 #include <climits>
+#include <cmath>
 namespace boost { class noncopyable { protected: noncopyable() {} ~noncopyable() {} private: noncopyable(const noncopyable&); noncopyable& operator=(const noncopyable&); }; }
 namespace stdext { template<class K,class V> class hash_map : public std::map<K,V> {}; }
 class CvString : public std::string { public:
@@ -31,7 +32,14 @@ class CvWString { std::basic_string<unsigned short> s; public:
  CvWString() {} CvWString(const char* x) { while(*x) s+=static_cast<unsigned short>(*x++); }
  bool empty()const{return s.empty();} const unsigned short* GetCString()const{return s.c_str();}
 };
-class scaled { double d; public: scaled(double x=0,int div=1):d(x/div){} operator int()const{return static_cast<int>(d);} };
+// Match the production scaled API: integral ratio constructors, explicit
+// floating conversion, and 1/2048 precision. A double ratio stub hid truncation.
+class scaled { int i; public:
+ scaled():i(0){} scaled(int n):i(n*2048){} scaled(unsigned n):i(n*2048){}
+ scaled(int n,int den):i(n*2048/den){} scaled(unsigned n,unsigned den):i(n*2048/den){}
+ static scaled fromDouble(double d) { scaled r;r.i=static_cast<int>(std::floor(d*2048+0.5));return r; }
+ double getDouble()const{return i/2048.0;}
+};
 class CvDatabaseManager; extern CvDatabaseManager g_database;
 #define DB g_database
 #define SAFE_DELETE(x) do { delete (x); (x)=NULL; } while(0)
@@ -69,6 +77,7 @@ int main() {
 #endif
  // Tests below explicitly provide a ready in-memory DB; no game schema is invented.
  DB.m_sqlite=new SQLiteConnection(CvWString(":memory:"));assert(DB.m_sqlite->open());
+ assert(DB.configureConnection());
  // Bootstrap runs while public gameplay access remains disabled.
  assert(!DB.isValid());
  { std::ofstream script("bad.sql");script<<"CREATE TABLE partial(v); THIS IS INVALID;"; }
@@ -82,6 +91,11 @@ int main() {
 #endif
  DB.m_bActive=DB.m_bSqlLoaded=DB.m_bDoCache=true;
  assert(DB.exec("CREATE TABLE t(v INTEGER UNIQUE, txt TEXT)"));
+ // Declared relationships must reject orphans and apply cascades.
+ assert(DB.exec("CREATE TABLE parent(id INTEGER PRIMARY KEY); CREATE TABLE child(pid INTEGER REFERENCES parent(id) ON DELETE CASCADE)"));
+ assert(!DB.exec("INSERT INTO child VALUES(999)"));
+ assert(DB.exec("INSERT INTO parent VALUES(1); INSERT INTO child VALUES(1); DELETE FROM parent WHERE id=1"));
+ { SQLiteStatement s("children", "SELECT count(*) FROM child");assert(s.exec());assert(s.getInt(0)==0); }
  { SQLiteStatement s("insert","INSERT INTO t VALUES(:v,:txt)");assert(s.bind(":v",1));assert(s.bind(":txt","one")); assert(s.exec());assert(s.getLastResult()==SQLITE_DONE);assert(!s.exec()); }
  assert(countRows()==1);
  { SQLiteStatement s("insert","INSERT INTO t VALUES(:v,:txt)");assert(s.bind(":v",1));assert(!s.exec());assert(s.getLastResult()==SQLITE_CONSTRAINT); }
@@ -97,9 +111,56 @@ int main() {
  { SQLiteTransaction t;assert(t.commit());assert(t.wasCommitted());assert(t.begin());assert(t.isActive());assert(!t.wasCommitted());assert(DB.exec("INSERT INTO t VALUES(2,'committed')"));assert(t.commit()); }
  assert(countRows()==2);
  { SQLiteTransaction outer;SQLiteTransaction nested;assert(!nested.isActive());assert(!nested.commit());assert(outer.rollback()); }
+
+
+ // Failed reuse must not report the success of an earlier transaction.
+ { SQLiteTransaction reused;assert(reused.commit());SQLiteTransaction outer;
+   assert(!reused.begin());assert(!reused.wasCommitted());assert(!reused.commit());assert(outer.rollback()); }
+ // OR ROLLBACK ends ownership; stale objects cannot act on a newer transaction.
+ { SQLiteTransaction old;
+   assert(!DB.exec("INSERT OR ROLLBACK INTO t VALUES(1,'duplicate')"));assert(!old.isActive());
+   SQLiteTransaction current;assert(current.isActive());
+   assert(DB.exec("INSERT INTO t VALUES(91,'current')"));
+   assert(!old.commit());assert(!old.rollback());assert(current.rollback()); }
+ assert(countRows()==2);
+ // The same ownership check is required after a prepared statement fails.
+ { SQLiteTransaction old;SQLiteStatement conflict("rollback-conflict", "INSERT OR ROLLBACK INTO t VALUES(1,'duplicate')");
+   assert(!conflict.exec());assert(!old.isActive());SQLiteTransaction current;
+   assert(!old.commit());assert(current.rollback()); }
+ // Transaction boundaries inside one exec string must also invalidate ownership.
+ { SQLiteTransaction old;assert(DB.exec("COMMIT; BEGIN;"));assert(!old.isActive());
+   assert(!old.commit());assert(!old.rollback());assert(DB.exec("ROLLBACK")); }
+ // Destruction of an old wrapper must leave a current transaction active.
+ { SQLiteTransaction* old=new SQLiteTransaction;
+   assert(DB.exec("ROLLBACK; BEGIN;"));delete old;assert(DB.exec("ROLLBACK")); }
+
+ // Fractional scaled data keeps its value across binding and both read APIs.
+ { SQLiteStatement s("scaled", "SELECT :positive AS pos, :negative AS neg");
+   assert(s.bind(":positive",scaled(5,4)));assert(s.bind(":negative",scaled(-5,2)));
+   assert(s.exec());assert(s.getDouble("pos")==1.25);assert(s.getDouble("neg")==-2.5);
+   assert(s.getScaled("pos").getDouble()==1.25);assert(s.getScaled("neg").getDouble()==-2.5);
+   scaled pos=s.getValue("pos");scaled neg=s.getValue("neg");
+   assert(pos.getDouble()==1.25);assert(neg.getDouble()==-2.5);
+ }
+ // SQLite v2 statements can recompile on step after a schema change.
+ assert(DB.exec("CREATE TABLE metadata(a); INSERT INTO metadata VALUES(3)"));
+ { SQLiteStatement s("metadata", "SELECT * FROM metadata");assert(s.exec());assert(s.getInt("a")==3); }
+ assert(DB.exec("ALTER TABLE metadata ADD COLUMN b DEFAULT 7"));
+ { SQLiteStatement s("metadata", "SELECT * FROM metadata");assert(s.exec());assert(s.hasColumn("b"));assert(s.getInt("b")==7); }
+ // An equal-size result can change names too; count-only invalidation is insufficient.
+ assert(DB.exec("CREATE VIEW metadata_view AS SELECT a AS before FROM metadata"));
+ { SQLiteStatement s("viewmetadata", "SELECT * FROM metadata_view");assert(s.exec());assert(s.getInt("before")==3); }
+ assert(DB.exec("DROP VIEW metadata_view; CREATE VIEW metadata_view AS SELECT a AS after FROM metadata"));
+ { SQLiteStatement s("viewmetadata", "SELECT * FROM metadata_view");assert(s.exec());assert(!s.hasColumn("before"));assert(s.getInt("after")==3); }
+
  // Outstanding statement remains usable until returned, close fails safely.
  { SQLiteStatement borrowed("borrowed","SELECT 1");assert(borrowed.isPrepared());assert(!DB.uninit());assert(DB.m_sqlite!=NULL);assert(borrowed.exec());assert(borrowed.getInt(0)==1);borrowed.finalize();assert(DB.uninit()); }
  assert(DB.m_sqlite==NULL);
+ { DB.m_sqlite=new SQLiteConnection(CvWString(":memory:"));assert(DB.m_sqlite->open());assert(DB.configureConnection());
+   DB.m_bActive=DB.m_bSqlLoaded=DB.m_bDoCache=true;SQLiteTransaction old;
+   assert(DB.uninit());DB.m_sqlite=new SQLiteConnection(CvWString(":memory:"));assert(DB.m_sqlite->open());assert(DB.configureConnection());
+   DB.m_bActive=DB.m_bSqlLoaded=DB.m_bDoCache=true;SQLiteTransaction current;
+   assert(!old.isActive());assert(!old.commit());assert(!old.rollback());assert(current.rollback());assert(DB.uninit()); }
  { SQLiteConnection c(CvWString("/nonexistent/sqlite-test/file.db"));assert(!c.open());assert(c.m_database==NULL);assert(c.close()); }
  { CvDatabaseQuery q;assert(q.select("'100%' AS text").getSQLString()=="SELECT '100%' AS text"); }
  std::cout<<"SQLite wrapper regressions passed; runtime "<<sqlite3_libversion()<<"\n";
@@ -115,7 +176,7 @@ with tempfile.TemporaryDirectory(prefix='advciv-sqlite-') as td:
   header=d/'CvDatabaseSchema.h';header.write_text(header.read_text().replace('SQL_SCHEMA_VERSION (0)','SQL_SCHEMA_VERSION (1)'))
  (d/'sqlite').mkdir();shutil.copy(ROOT/'CvGameCoreDLL/sqlite/sqlite3.h',d/'sqlite')
  manager=d/'CvDatabaseManager.cpp';s=manager.read_text();s=s[:s.index('CvWString CvDatabaseManager::getLocationForFile()')]+'''extern CvString testDatabasePath; CvWString CvDatabaseManager::getLocationForFile() { return CvWString(testDatabasePath.c_str()); }\n''';manager.write_text(s)
- (d/'CvGameCoreDLL.h').write_text(STUB);(d/'test.cpp').write_text(TEST)
+ (d/'CvGameCoreDLL.h').write_text(STUB);(d/'CvGame.h').write_text('');(d/'test.cpp').write_text(TEST)
  lib=os.environ.get('SQLITE_TEST_LIBRARY')
  if not lib:
   # Use exactly the same upstream core source manifest as the Windows build.

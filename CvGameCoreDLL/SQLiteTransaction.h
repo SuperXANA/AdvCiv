@@ -14,13 +14,14 @@ public:
 	bool begin();
 	bool commit();
 	bool rollback();
-	bool isActive() const { return m_bActive; }
+	bool isActive() const;
 	bool wasCommitted() const { return m_bCommitted; }
 	bool isValid() const { return (isActive() && !wasCommitted()); }
 	
 private:
 	bool m_bActive;
 	bool m_bCommitted;
+	unsigned long m_iTransactionGeneration;
 };
 #endif
 

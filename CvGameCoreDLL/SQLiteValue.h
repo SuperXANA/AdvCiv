@@ -88,7 +88,7 @@ public:
 	}
 	operator scaled() const
 	{ 
-		return scaled(operator float(), 100); 
+		return scaled::fromDouble(operator double());
 	}
 	bool isNull() const
 	{ 

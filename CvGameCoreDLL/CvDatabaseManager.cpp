@@ -1,10 +1,11 @@
 #include "CvGameCoreDLL.h"
 #include "CvDatabaseManager.h"
+#include "CvGame.h"
 #include "SQLiteConnection.h"
 #include "CvDatabaseFwd.h"
 #include <fstream>
 
-CvDatabaseManager::CvDatabaseManager() : m_sqlite(NULL), m_bDoCache(false), m_bSqlLoaded(false), m_bActive(false)
+CvDatabaseManager::CvDatabaseManager() : m_sqlite(NULL), m_bDoCache(false), m_bSqlLoaded(false), m_bActive(false), m_iTransactionGeneration(0), m_bTransactionOpen(false)
 {}
 
 CvDatabaseManager::~CvDatabaseManager()
@@ -18,8 +19,67 @@ bool CvDatabaseManager::exec(const CvString& szSQL)
 	{
 		return false;
 	}
-	return m_sqlite->exec(szSQL);
+	bool bOK = m_sqlite->exec(szSQL);
+	refreshTransactionState();
+	return bOK;
 }
+
+// XANA: 10-27-2026 Configure connection-wide integrity before schema transactions.
+bool CvDatabaseManager::configureConnection()
+{
+	if (m_sqlite == NULL || !m_sqlite->isValid())
+		return false;
+	installTransactionTracking();
+	if (!m_sqlite->exec("PRAGMA foreign_keys = ON;"))
+		return false;
+	sqlite3_stmt* pStatement = NULL;
+	if (!m_sqlite->prepare(pStatement, "PRAGMA foreign_keys;"))
+		return false;
+	bool bEnabled = sqlite3_step(pStatement) == SQLITE_ROW &&
+		sqlite3_column_int(pStatement, 0) == 1;
+	sqlite3_finalize(pStatement);
+	return bEnabled;
+}
+// XANA: END connection integrity configuration.
+
+// XANA: 10-27-2026 Observe boundaries before each statement and after execution.
+// The trace callback catches intermediate COMMIT; BEGIN; boundaries in a batch,
+// including read-only transactions that do not invoke SQLite's commit hook.
+void CvDatabaseManager::installTransactionTracking()
+{
+	m_bTransactionOpen = sqlite3_get_autocommit(m_sqlite->m_database) == 0;
+	sqlite3_trace(m_sqlite->m_database, traceTransactionState, this);
+}
+
+void CvDatabaseManager::traceTransactionState(void* pManager, const char*)
+{
+	static_cast<CvDatabaseManager*>(pManager)->refreshTransactionState();
+}
+
+void CvDatabaseManager::refreshTransactionState()
+{
+	bool bOpen = m_sqlite != NULL && m_sqlite->isValid() &&
+		sqlite3_get_autocommit(m_sqlite->m_database) == 0;
+	if (bOpen != m_bTransactionOpen)
+	{
+		++m_iTransactionGeneration;
+		m_bTransactionOpen = bOpen;
+	}
+}
+
+unsigned long CvDatabaseManager::getTransactionGeneration()
+{
+	refreshTransactionState();
+	return m_iTransactionGeneration;
+}
+
+bool CvDatabaseManager::isTransactionCurrent(unsigned long iGeneration)
+{
+	refreshTransactionState();
+	return isValid() && m_bTransactionOpen &&
+		iGeneration == m_iTransactionGeneration;
+}
+// XANA: END transaction generation tracking.
 
 bool CvDatabaseManager::isValid() const
 {
@@ -40,6 +100,11 @@ bool CvDatabaseManager::init()
 		return false;
 	m_sqlite = new SQLiteConnection(szDatabasePath);
 	if (!m_sqlite->open())
+	{
+		uninit();
+		return false;
+	}
+	if (!configureConnection())
 	{
 		uninit();
 		return false;
@@ -69,6 +134,8 @@ bool CvDatabaseManager::init()
 
 bool CvDatabaseManager::uninit()
 {
+	++m_iTransactionGeneration;
+	m_bTransactionOpen = false;
 	m_bDoCache = false;
 	clearStatementPool();
 	m_bActive = false;
@@ -291,7 +358,7 @@ CvWString CvDatabaseManager::getLocationForFile()
 		}
 		if (bValidLocation)
 		{
-			CvFilePath += "CvGameDatabase"; // XANA (note): If the file somehow gets removed, that's fine for Civ4, it won't affect actual gameplay much since the game doesn't depend on SQL to function
+			CvFilePath += L"CvGameDatabase"; // XANA (note): If the file somehow gets removed, that's fine for Civ4, it won't affect actual gameplay much since the game doesn't depend on SQL to function
 			if (GC.getGame().isGameMultiPlayer())
 			{
 				CvFilePath += (L"-MP_" + GC.getGame().getName());
