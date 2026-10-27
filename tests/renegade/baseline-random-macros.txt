@@ -1,0 +1,5 @@
+#define SyncRandSuccessRatio(iNumerator, iDenominator) \
+	((iNumerator) > 0 && ((iNumerator) >= (iDenominator) || (iNumerator) > SyncRandNum(iDenominator)))
+#define SyncRandSuccess100(iSuccessPercent) \
+	SyncRandSuccessRatio(iSuccessPercent, 100)
+

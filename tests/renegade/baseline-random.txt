@@ -1,0 +1,11 @@
+unsigned short CvRandom::getInt(unsigned short usNum, TCHAR const* szLog,
+	int iData1, int iData2) // advc.001n
+{	// <advc.003t>
+	if (GC.getLogger().isEnabledRand() && szLog != NULL)
+		printToLog(szLog, usNum, iData1, iData2); // </advc.003t>
+	m_uiRandomSeed = (RANDOM_A * m_uiRandomSeed) + RANDOM_C;
+	unsigned short r = (unsigned short)
+			((((m_uiRandomSeed >> RANDOM_SHIFT) & MAX_UNSIGNED_SHORT) *
+			((unsigned int)usNum)) / (MAX_UNSIGNED_SHORT + 1));
+	return r;
+}

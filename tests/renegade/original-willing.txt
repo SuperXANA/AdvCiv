@@ -1,0 +1,73 @@
+bool CvPlayerAI::AI_isWillingToTalk(PlayerTypes ePlayer, /* advc.104l: */ bool bAsync) const
+{
+	FAssert(getPersonalityType() != NO_LEADER);
+	FAssert(ePlayer != getID());
+	// <advc.104i>
+	if (GET_PLAYER(ePlayer).isActive())
+	{
+		/*  The EXE keeps calling this function when the diplo screen is already up,
+			and some of the new code (isPeaceDealPossible) is expensive. */
+		if (gDLL->getDiplomacyPlayer() == getID())
+			return true;
+		if (GET_TEAM(ePlayer).isAlwaysWar() || GET_TEAM(getTeam()).isAlwaysWar())
+			return false;
+	} // </advc.104i>
+
+	// <advc.003n> In particular, don't call AI_surrenderTrade on non-major civs.
+	if (!GET_PLAYER(ePlayer).isMajorCiv())
+		return false; // </advc.003n>
+
+	// K-Mod
+	CvTeamAI const& kOurTeam = GET_TEAM(getTeam());
+	CvTeam const & kTheirTeam = GET_TEAM(ePlayer);
+	if (kTheirTeam.getID() == getTeam() || kTheirTeam.isVassal(getTeam()) ||
+		kOurTeam.isVassal(kTheirTeam.getID()))
+	{
+		return true;
+	}
+	/*if (GET_TEAM(getTeam()).isHuman()) // BtS code
+		return false;*/
+	if (isHuman())
+		return true; // humans will speak to anyone, apparently.
+	// K-Mod end
+
+	// advc.104i: Moved the !atWar and isAVassal checks up
+	if (!kTheirTeam.isAtWar(getTeam()))
+		return (AI_getMemoryCount(ePlayer, MEMORY_STOPPED_TRADING_RECENT) <= 0);
+	if (isAVassal() ||
+		kTheirTeam.isAVassal()) // advc.104i: Get this out of the way too
+	{
+		return false;
+	}
+	// K-Mod
+	if (kOurTeam.isHuman()) // ie. we are an AI player, but our team is human
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
+		return SyncRandSuccess100(GC.getInfo(getPersonalityType()).getRenegadeFromTeamDiploProb()); // let the human speak for us.
+		// XANA (note): unless we are a renegade diplomatic opponent. if we are one, then we could do something crazy in definnce of the human player.  
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
+	// K-Mod end
+	// <advc.104i>
+	int iTurnsAtWar = kOurTeam.AI_getAtWarCounter(kTheirTeam.getID());
+	if (getUWAI().isEnabled())
+	{
+		// advc.104l: Synchronized code mustn't read from the war evaluator cache
+		int iWillTalk = uwai().willTalk(ePlayer, iTurnsAtWar, bAsync);
+		if (iWillTalk < 0)
+			return false;
+		if (iWillTalk > 0)
+			return true;
+		// iWillTalk==0: RTT as in BtS
+	}
+	else // </advc.104i>
+	{
+		// K-Mod
+		if (kOurTeam.AI_refusePeace(kTheirTeam.getID()))
+		{
+			if (!GET_PLAYER(ePlayer).canTradeItem(getID(), TradeData(TRADE_SURRENDER, true)))
+				return false; // if they can't (or won't) capitulate, don't talk to them.
+		} // K-Mod end
+	}
+	// advc.104i: Moved into a new function
+	int iRefuseDuration = AI_refuseToTalkTurns(ePlayer);
+	return (iTurnsAtWar >= iRefuseDuration);
+}

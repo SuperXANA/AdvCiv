@@ -145,6 +145,9 @@ public: // advc: All the const functions are exposed to Python except those adde
 	int getDeclareWarTradeRand() const { return m_iDeclareWarTradeRand; }
 	int getDemandRebukedSneakProb() const { return m_iDemandRebukedSneakProb; }
 	int getDemandRebukedWarProb() const { return m_iDemandRebukedWarProb; }
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
+	int getRenegadeFromTeamDiploProb() const { return m_iRenegadeFromTeamDiploProb; }
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
 	int getRazeCityProb() const { return m_iRazeCityProb; }
 	int getBuildUnitProb() const { return m_iBuildUnitProb; }
 	int getBaseAttackOddsChange() const { return m_iBaseAttackOddsChange; }
@@ -265,6 +268,9 @@ protected:
 	int m_iDeclareWarTradeRand;
 	int m_iDemandRebukedSneakProb;
 	int m_iDemandRebukedWarProb;
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
+	int m_iRenegadeFromTeamDiploProb;
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
 	int m_iRazeCityProb;
 	int m_iBuildUnitProb;
 	int m_iBaseAttackOddsChange;

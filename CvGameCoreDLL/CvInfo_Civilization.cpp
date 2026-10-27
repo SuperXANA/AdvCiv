@@ -429,6 +429,9 @@ m_iMakePeaceRand(0),
 m_iDeclareWarTradeRand(0),
 m_iDemandRebukedSneakProb(0),
 m_iDemandRebukedWarProb(0),
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
+m_iRenegadeFromTeamDiploProb(0),
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
 m_iRazeCityProb(0),
 m_iBuildUnitProb(0),
 m_iBaseAttackOddsChange(0),
@@ -693,6 +696,9 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	stream->Read(&m_iDeclareWarTradeRand);
 	stream->Read(&m_iDemandRebukedSneakProb);
 	stream->Read(&m_iDemandRebukedWarProb);
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
+	stream->Read(&m_iRenegadeFromTeamDiploProb);
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
 	stream->Read(&m_iRazeCityProb);
 	stream->Read(&m_iBuildUnitProb);
 	stream->Read(&m_iBaseAttackOddsChange);
@@ -829,6 +835,9 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(m_iDeclareWarTradeRand);
 	stream->Write(m_iDemandRebukedSneakProb);
 	stream->Write(m_iDemandRebukedWarProb);
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
+	stream->Write(m_iRenegadeFromTeamDiploProb);
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
 	stream->Write(m_iRazeCityProb);
 	stream->Write(m_iBuildUnitProb);
 	stream->Write(m_iBaseAttackOddsChange);
@@ -949,6 +958,10 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	GetChildXmlValByName(m_iDeclareWarTradeRand, "iDeclareWarTradeRand");
 	GetChildXmlValByName(m_iDemandRebukedSneakProb, "iDemandRebukedSneakProb");
 	GetChildXmlValByName(m_iDemandRebukedWarProb, "iDemandRebukedWarProb");
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
+	GetChildXmlValByName(m_iRenegadeFromTeamDiploProb, "iRenegadeFromTeamDiploProb", 0);
+	m_iRenegadeFromTeamDiploProb = range(m_iRenegadeFromTeamDiploProb, 0, 100);
+	// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
 	GetChildXmlValByName(m_iRazeCityProb, "iRazeCityProb");
 	GetChildXmlValByName(m_iBuildUnitProb, "iBuildUnitProb");
 	GetChildXmlValByName(m_iBaseAttackOddsChange, "iBaseAttackOddsChange");

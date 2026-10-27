@@ -1,0 +1,6 @@
+void CvLeaderHeadInfo::GetChildXmlValByName(int& r, TCHAR const* szName, int iDefault)
+{
+	if (r != 0) // If child not found, keep the data set by the copy-ctor.
+		iDefault = r;
+	m_pXML->GetChildXmlValByName(&r, szName, iDefault);
+}

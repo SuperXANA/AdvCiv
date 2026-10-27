@@ -37,6 +37,9 @@
 	<ElementType name="iDeclareWarTradeRand" content="textOnly" dt:type="int"/>
 	<ElementType name="iDemandRebukedSneakProb" content="textOnly" dt:type="int"/>
 	<ElementType name="iDemandRebukedWarProb" content="textOnly" dt:type="int"/>
+	<!-- XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy -->
+	<ElementType name="iRenegadeFromTeamDiploProb" content="textOnly" dt:type="int"/>
+	<!-- XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy -->
 	<ElementType name="iRazeCityProb" content="textOnly" dt:type="int"/>
 	<ElementType name="iBuildUnitProb" content="textOnly" dt:type="int"/>
 	<ElementType name="iBaseAttackOddsChange" content="textOnly" dt:type="int"/>
@@ -234,6 +237,9 @@
 		<element type="iDeclareWarTradeRand" minOccurs="0"/>
 		<element type="iDemandRebukedSneakProb"/>
 		<element type="iDemandRebukedWarProb"/>
+	<!-- XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy -->
+		<element type="iRenegadeFromTeamDiploProb" minOccurs="0"/>
+	<!-- XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy -->
 		<element type="iRazeCityProb"/>
 		<element type="iBuildUnitProb"/>
 		<element type="iBaseAttackOddsChange"/>

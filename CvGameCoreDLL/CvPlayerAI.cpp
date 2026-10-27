@@ -20,6 +20,9 @@
 #include "CvInfo_Civics.h"
 #include "BBAILog.h"
 #include "CvPopupInfo.h"
+// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
+#include "CvRandom.h"
+// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
 
 //#define GREATER_FOUND_RANGE			(5)
 #define CIVIC_CHANGE_DELAY				(20) // was 25
@@ -7501,7 +7504,29 @@ bool CvPlayerAI::AI_isWillingToTalk(PlayerTypes ePlayer, /* advc.104l: */ bool b
 	}
 	// K-Mod
 	if (kOurTeam.isHuman()) // ie. we are an AI player, but our team is human
-		return false; // let the human speak for us.
+// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
+	{
+		// XANA: 10-27-2026 A query must not advance either global RNG.
+		int const iChance = GC.getInfo(getPersonalityType()).getRenegadeFromTeamDiploProb();
+		if (iChance <= 0)
+			return false; // let the human speak for us.
+		if (iChance >= 100)
+			return true;
+		// Use the saved initial seed, not the mutable global RNG state.
+		// A stable roll for this game, turn, speaker, recipient and personality.
+		// Unsigned overflow is intentional and well-defined.
+		unsigned int uiSeed = 2166136261U;
+		uiSeed = (uiSeed ^ GC.getGame().getInitialRandSeed().second) * 16777619U;
+		uiSeed = (uiSeed ^ static_cast<unsigned int>(GC.getGame().getGameTurn())) * 16777619U;
+		uiSeed = (uiSeed ^ static_cast<unsigned int>(getID())) * 16777619U;
+		uiSeed = (uiSeed ^ static_cast<unsigned int>(ePlayer)) * 16777619U;
+		uiSeed = (uiSeed ^ static_cast<unsigned int>(getPersonalityType())) * 16777619U;
+		CvRandom localRand;
+		localRand.init(uiSeed);
+		return localRand.get(100) < iChance;
+		// XANA: 10-27-2026 A query must not advance either global RNG.
+	}
+// XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy
 	// K-Mod end
 	// <advc.104i>
 	int iTurnsAtWar = kOurTeam.AI_getAtWarCounter(kTheirTeam.getID());

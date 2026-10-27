@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Inactive fixture extracted only from marked source fields. -->
+<RenegadeLeaderValues source="4b24f235ef0056a6dcab56b0dada3dcd0909798d">
+<!-- XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy -->
+    <Leader type="LEADER_BARBARIAN" probability="0"/>
+    <Leader type="LEADER_DEFAULTS" probability="0"/>
+    <Leader type="LEADER_ADAGIO" probability="20"/>
+    <Leader type="LEADER_AEQUILIBRIUS" probability="60"/>
+    <Leader type="LEADER_ARIA" probability="5"/>
+    <Leader type="LEADER_AYZAT" probability="30"/>
+    <Leader type="LEADER_PUDDINGHEAD" probability="10"/>
+    <Leader type="LEADER_COCO" probability="40"/>
+    <Leader type="LEADER_CG" probability="40"/>
+    <Leader type="LEADER_CUTENOTE" probability="5"/>
+    <Leader type="LEADER_TARALICIOUS" probability="50"/>
+    <Leader type="LEADER_DAYBREAKER" probability="15"/>
+    <Leader type="LEADER_DISCORD" probability="55"/>
+    <Leader type="LEADER_EMADUSE" probability="25"/>
+    <Leader type="LEADER_EVENINGLOVE" probability="10"/>
+    <Leader type="LEADER_MFS" probability="30"/>
+    <Leader type="LEADER_YANDERESHY" probability="15"/>
+    <Leader type="LEADER_GARBLE" probability="60"/>
+    <Leader type="LEADER_IKVAALIS" probability="35"/>
+    <Leader type="LEADER_GROGAR" probability="25"/>
+    <Leader type="LEADER_LOPUTU" probability="50"/>
+    <Leader type="LEADER_LULLABY" probability="15"/>
+    <Leader type="LEADER_MTS" probability="60"/>
+    <Leader type="LEADER_THINGPONY" probability="10"/>
+    <Leader type="LEADER_NAEGISSA" probability="30"/>
+    <Leader type="LEADER_NMM" probability="25"/>
+    <Leader type="LEADER_PIMEDASUS" probability="55"/>
+    <Leader type="LEADER_PINKIE" probability="25"/>
+    <Leader type="LEADER_DARKMATTER" probability="50"/>
+    <Leader type="LEADER_CHRYSALIS" probability="5"/>
+    <Leader type="LEADER_ULTIMATEDARKMATTER" probability="60"/>
+    <Leader type="LEADER_RUSA" probability="20"/>
+    <Leader type="LEADER_FURY" probability="65"/>
+    <Leader type="LEADER_MQ9" probability="35"/>
+    <Leader type="LEADER_SONATA" probability="15"/>
+    <Leader type="LEADER_STORMY" probability="55"/>
+    <Leader type="LEADER_STRAWBERRY" probability="35"/>
+    <Leader type="LEADER_SUNNYSKIES" probability="25"/>
+    <Leader type="LEADER_RAINDROPS" probability="15"/>
+    <Leader type="LEADER_SWEETDREAMS" probability="80"/>
+    <Leader type="LEADER_TRIXIE" probability="70"/>
+    <Leader type="LEADER_TWIVINE" probability="70"/>
+    <Leader type="LEADER_UPPERCRUST" probability="75"/>
+    <Leader type="LEADER_VIRTUS" probability="5"/>
+    <Leader type="LEADER_WIRLY" probability="5"/>
+<!-- XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy -->
+</RenegadeLeaderValues>

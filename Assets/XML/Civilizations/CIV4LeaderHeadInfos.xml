@@ -40,6 +40,9 @@
 			<iDeclareWarTradeRand>0</iDeclareWarTradeRand>
 			<iDemandRebukedSneakProb>0</iDemandRebukedSneakProb>
 			<iDemandRebukedWarProb>0</iDemandRebukedWarProb>
+			<!-- XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy -->
+			<iRenegadeFromTeamDiploProb>0</iRenegadeFromTeamDiploProb>
+			<!-- XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy -->
 			<iRazeCityProb>10</iRazeCityProb>
 			<iBuildUnitProb>50</iBuildUnitProb>
 			<!-- advc.114d: was 0 -->
@@ -215,6 +218,9 @@
 			<iDeclareWarTradeRand>40</iDeclareWarTradeRand>
 			<iDemandRebukedSneakProb>0</iDemandRebukedSneakProb>
 			<iDemandRebukedWarProb>0</iDemandRebukedWarProb>
+			<!-- XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy -->
+			<iRenegadeFromTeamDiploProb>0</iRenegadeFromTeamDiploProb>
+			<!-- XANA: 11-08-2025 Leader Specific AI Renegade Team Diplomacy -->
 			<iRazeCityProb>0</iRazeCityProb>
 			<iBuildUnitProb>0</iBuildUnitProb>
 			<iBaseAttackOddsChange>0</iBaseAttackOddsChange>
