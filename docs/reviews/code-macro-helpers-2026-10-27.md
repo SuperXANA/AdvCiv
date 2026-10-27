@@ -26,8 +26,10 @@ remains assertion-based and integer fallback conversions retain their existing
 behavior. This is not a strong enum-type safety redesign. Lookup still occurs
 when converting the proxy; do not carry proxies across a reload of XML indices.
 
-The selected branch's other DLL files are overlaid unchanged onto the complete
-base. Base-only files remain present. No game mechanics or save format changes
+The selected branch's DLL files are overlaid onto the complete base. Base-only
+files remain present. After overlay, CvPlayer.h retains the pinned baseline's
+short storage for religion and corporation city counters; the selected branch's
+unmarked char widths are unrelated to this helper and would narrow those counts. No game mechanics or save format changes
 are intended. The workflow is copied from the pinned dll-build source with only
 the rsync source adapted from the sparse branch root to ./CvGameCoreDLL/.
 
