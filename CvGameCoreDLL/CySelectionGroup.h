@@ -100,7 +100,7 @@ class CyPartyGroup
 public:
 	CyPartyGroup();
 	CyPartyGroup(CvPartyGroup* pPartyGroup);		// Call from C++
-	CyPartyGroup(CvPartyGroup const& kPartynGroup); // advc.003y
+	CyPartyGroup(CvPartyGroup const& kPartyGroup); // advc.003y
 	CvPartyGroup* getPartyGroup() { return m_pPartyGroup;	}	// Call from C++
 
 	bool isNone() { return (m_pPartyGroup==NULL); }

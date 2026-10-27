@@ -331,9 +331,9 @@ int CySelectionGroup::getMissionData2(int iNode)
 // XANA: 09-26-2026 AI Strategy Party System
 CyPartyGroup::CyPartyGroup() : m_pPartyGroup(NULL) {}
 
-CyPartyGroup::CyPartyGroup(CyPartyGroup* pPartyGroup) : m_pPartyGroup(pPartyGroup) {}
+CyPartyGroup::CyPartyGroup(CvPartyGroup* pPartyGroup) : m_pPartyGroup(pPartyGroup) {}
 // advc.003y: (see CyCity.cpp)
-CyPartyGroup::CyPartyGroup(CyPartyGroup const& kPartyGroup) : m_pPartyGroup(const_cast<CyPartyGroup*>(&kPartyGroup)) {}
+CyPartyGroup::CyPartyGroup(CvPartyGroup const& kPartyGroup) : m_pPartyGroup(const_cast<CvPartyGroup*>(&kPartyGroup)) {}
 
 void CyPartyGroup::pushMission(MissionTypes eMission, int iData1, int iData2, int iFlags, bool bAppend, bool bManual, MissionAITypes eMissionAI, CyPlot* pMissionAIPlot, CyUnit* pMissionAIUnit)
 {
@@ -341,31 +341,32 @@ void CyPartyGroup::pushMission(MissionTypes eMission, int iData1, int iData2, in
 	{
 		return m_pPartyGroup->pushMission(eMission, iData1, iData2,
 				(MovementFlags)iFlags, bAppend, bManual, eMissionAI,
-				pMissionAIPlot->getPlot(), pMissionAIUnit->getUnit());
+				pMissionAIPlot ? pMissionAIPlot->getPlot() : NULL,
+				pMissionAIUnit ? pMissionAIUnit->getUnit() : NULL);
 	}
 }
 
 void CyPartyGroup::pushMoveToMission(int iX, int iY)
 {
 	if (m_pPartyGroup)
-		return m_pSelectionGroup->pushMission(MISSION_MOVE_TO, iX, iY);
+		return m_pPartyGroup->pushMission(MISSION_MOVE_TO, iX, iY);
 }
 
 void CyPartyGroup::popMission()
 {
 	if (m_pPartyGroup)
-		return m_pSelectionGroup->popMission();
+		return m_pPartyGroup->popMission();
 }
 
 CyPlot* CyPartyGroup::lastMissionPlot()
 {
-	return m_pPartyGroup ? new CyPlot(m_pSelectionGroup->lastMissionPlot()) : NULL;
+	return m_pPartyGroup ? new CyPlot(m_pPartyGroup->lastMissionPlot()) : NULL;
 }
 
 bool CyPartyGroup::canStartMission(int iMission, int iData1, int iData2, CyPlot* pPlot, bool bTestVisible)
 {
-	return m_pPartyGroup ? m_pSelectionGroup->canStartMission((MissionTypes)iMission,
-			iData1, iData2, pPlot->getPlot(), bTestVisible) : false;
+	return m_pPartyGroup ? m_pPartyGroup->canStartMission((MissionTypes)iMission,
+			iData1, iData2, pPlot ? pPlot->getPlot() : NULL, bTestVisible) : false;
 }
 
 bool CyPartyGroup::isHuman()
