@@ -7064,6 +7064,24 @@ void CvGameTextMgr::parsePromotionHelp(CvWStringBuffer &szBuffer,
 		}
 	}
 
+	// XANA: 03-25-2025 Promotion XP Changes
+	if (kPromo.getXPValueAttackChange() != 0)
+	{
+		szBuffer.append(pcNewline);
+		szBuffer.append(gDLL->getText("TXT_KEY_DEFEATED_UNIT_EXPERIENCE_MODIFIER",
+				kPromo.getXPValueAttackChange(),
+					gDLL->getText("TXT_KEY_FOR_ATTACKING_AGAINST_UNIT").GetCString()));
+	}
+	
+	if (kPromo.getXPValueDefenseChange() != 0)
+	{
+		szBuffer.append(pcNewline);
+		szBuffer.append(gDLL->getText("TXT_KEY_DEFEATED_UNIT_EXPERIENCE_MODIFIER",
+				kPromo.getXPValueDefenseChange(),
+					gDLL->getText("TXT_KEY_FOR_DEFENDING_AGAINST_UNIT").GetCString()));
+	}
+	// XANA: 03-25-2025 Promotion XP Changes
+
 	if (wcslen(kPromo.getHelp()) > 0)
 	{
 		szBuffer.append(pcNewline);

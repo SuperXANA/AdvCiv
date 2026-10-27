@@ -1812,7 +1812,11 @@ m_piUnitCombatModifierPercent(NULL),
 m_piDomainModifierPercent(NULL),
 m_pbTerrainDoubleMove(NULL),
 m_pbFeatureDoubleMove(NULL),
-m_pbUnitCombat(NULL)
+m_pbUnitCombat(NULL),
+// XANA: 03-25-2025 Promotion XP Changes
+m_iXPValueAttackChange(0),
+m_iXPValueDefenseChange(0)
+// XANA: 03-25-2025 Promotion XP Changes
 {}
 
 CvPromotionInfo::~CvPromotionInfo()
@@ -2112,6 +2116,17 @@ bool CvPromotionInfo::getUnitCombat(int i) const
 	FAssertBounds(0, GC.getNumUnitCombatInfos(), i);
 	return m_pbUnitCombat ? m_pbUnitCombat[i] : false;
 }
+// XANA: 03-25-2025 Promotion XP Changes
+int CvPromotionInfo::getXPValueAttackChange() const
+{
+	return m_iXPValueAttackChange;
+}
+
+int CvPromotionInfo::getXPValueDefenseChange() const
+{
+	return m_iXPValueDefenseChange;
+}
+// XANA: 03-25-2025 Promotion XP Changes
 #if ENABLE_XML_FILE_CACHE
 void CvPromotionInfo::read(FDataStreamBase* stream)
 {
@@ -2191,6 +2206,10 @@ void CvPromotionInfo::read(FDataStreamBase* stream)
 	SAFE_DELETE_ARRAY(m_pbUnitCombat);
 	m_pbUnitCombat = new bool[GC.getNumUnitCombatInfos()];
 	stream->Read(GC.getNumUnitCombatInfos(), m_pbUnitCombat);
+	// XANA: 03-25-2025 Promotion XP Changes
+	stream->Read(&m_iXPValueAttackChange);
+	stream->Read(&m_iXPValueDefenseChange);
+	// XANA: 03-25-2025 Promotion XP Changes
 }
 
 void CvPromotionInfo::write(FDataStreamBase* stream)
@@ -2253,6 +2272,10 @@ void CvPromotionInfo::write(FDataStreamBase* stream)
 	stream->Write(GC.getNumTerrainInfos(), m_pbTerrainDoubleMove);
 	stream->Write(GC.getNumFeatureInfos(), m_pbFeatureDoubleMove);
 	stream->Write(GC.getNumUnitCombatInfos(), m_pbUnitCombat);
+	// XANA: 03-25-2025 Promotion XP Changes
+	stream->Write(m_iXPValueAttackChange);
+	stream->Write(m_iXPValueDefenseChange);
+	// XANA: 03-25-2025 Promotion XP Changes
 }
 #endif
 bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
@@ -2313,6 +2336,10 @@ bool CvPromotionInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetVariableListTagPair(&m_pbTerrainDoubleMove, "TerrainDoubleMoves", GC.getNumTerrainInfos());
 	pXML->SetVariableListTagPair(&m_pbFeatureDoubleMove, "FeatureDoubleMoves", GC.getNumFeatureInfos());
 	pXML->SetVariableListTagPair(&m_pbUnitCombat, "UnitCombats", GC.getNumUnitCombatInfos());
+	// XANA: 03-25-2025 Promotion XP Changes
+	pXML->GetChildXmlValByName(&m_iXPValueAttackChange, "iXPValueAttackChange", 0);
+	pXML->GetChildXmlValByName(&m_iXPValueDefenseChange, "iXPValueDefenseChange", 0);
+// XANA: 03-25-2025 Promotion XP Changes
 
 	return true;
 }

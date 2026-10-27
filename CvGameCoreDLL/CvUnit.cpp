@@ -105,6 +105,10 @@ CvUnit::CvUnit() // advc.003u: Body cut from the deleted reset function
 	m_iBaseCombat = 0;
 	m_iCargoCapacity = 0;
 	m_iLastReconTurn = -1; // advc.029
+	// XANA: 03-25-2025 Promotion XP Changes
+	m_iXPValueAttackModifier = 0;
+	m_iXPValueDefenseModifier = 0;
+	// XANA: 03-25-2025 Promotion XP Changes
 }
 
 // advc.003u: Param eUnitAI moved to CvUnitAI::init
@@ -8179,13 +8183,18 @@ int CvUnit::experienceNeeded() const
 int CvUnit::attackXPValue() const
 {
 	return m_pUnitInfo->getXPValueAttack()
+			// XANA: 03-25-2025 Promotion XP Changes
+			+ getXPValueAttackModifier()
+			// XANA: 03-25-2025 Promotion XP Changes
 			- (isBarbarian() && !isAnimal() ? 1 : 0); // advc.312
 }
 
 
 int CvUnit::defenseXPValue() const
 {
-	return m_pUnitInfo->getXPValueDefense();
+	// XANA: 03-25-2025 Promotion XP Changes
+	return m_pUnitInfo->getXPValueDefense() + getXPValueDefenseModifier();
+	// XANA: 03-25-2025 Promotion XP Changes
 }
 
 
@@ -10419,6 +10428,10 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 	changeExperiencePercent(GC.getInfo(ePromotion).getExperiencePercent() * iChange);
 	changeKamikazePercent((GC.getInfo(ePromotion).getKamikazePercent()) * iChange);
 	changeCargoSpace(GC.getInfo(ePromotion).getCargoChange() * iChange);
+	// XANA: 03-25-2025 Promotion XP Changes
+	changeXPValueAttackModifier(GC.getInfo(ePromotion).getXPValueAttackChange() * iChange);
+	changeXPValueDefenseModifier(GC.getInfo(ePromotion).getXPValueDefenseChange() * iChange);
+	// XANA: 03-25-2025 Promotion XP Changes
 
 	FOR_EACH_ENUM(Terrain)
 	{
@@ -10483,6 +10496,48 @@ int CvUnit::getSubUnitsAlive(int iDamage) const
 			(maxHitPoints() / ((m_pUnitInfo->getGroupSize() * 2) + 1))) / maxHitPoints());
 }
 
+
+// XANA: 03-25-2025 Promotion XP Changes
+int CvUnit::getXPValueAttackModifier() const
+{
+	return m_iXPValueAttackModifier;
+}
+
+void CvUnit::changeXPValueAttackModifier(int iChange)
+{
+	if (iChange != 0)
+	{
+		m_iXPValueAttackModifier += iChange;
+	}
+}
+
+int CvUnit::getXPValueDefenseModifier() const
+{
+	return m_iXPValueDefenseModifier;
+}
+
+void CvUnit::changeXPValueDefenseModifier(int iChange)
+{
+	if (iChange != 0)
+	{
+		m_iXPValueDefenseModifier += iChange;
+	}
+}
+
+void CvUnit::updateXPValueModifiers()
+{
+	// These totals are derived from promotion flags, not independent save data.
+	m_iXPValueAttackModifier = 0;
+	m_iXPValueDefenseModifier = 0;
+	FOR_EACH_ENUM(Promotion)
+	{
+		if (!isHasPromotion(eLoopPromotion))
+			continue;
+		m_iXPValueAttackModifier += GC.getInfo(eLoopPromotion).getXPValueAttackChange();
+		m_iXPValueDefenseModifier += GC.getInfo(eLoopPromotion).getXPValueDefenseChange();
+	}
+}
+// XANA: 03-25-2025 Promotion XP Changes
 
 void CvUnit::read(FDataStreamBase* pStream)
 {
@@ -10652,6 +10707,9 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureDefensePercent.readArray<int>(pStream);
 		m_aiExtraUnitCombatModifier.readArray<int>(pStream);
 	}
+	// XANA: 03-25-2025 Promotion XP Changes
+	updateXPValueModifiers();
+	// XANA: 03-25-2025 Promotion XP Changes
 }
 
 

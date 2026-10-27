@@ -384,6 +384,10 @@
 	<ElementType name="iPillageChange" content="textOnly" dt:type="int"/>
 	<ElementType name="iUpgradeDiscount" content="textOnly" dt:type="int"/>
 	<ElementType name="iExperiencePercent" content="textOnly" dt:type="int"/>
+	<!-- XANA: 03-25-2025 Promotion XP Changes -->
+	<ElementType name="iXPValueAttackChange" content="textOnly" dt:type="int"/>
+	<ElementType name="iXPValueDefenseChange" content="textOnly" dt:type="int"/>
+	<!-- XANA: 03-25-2025 Promotion XP Changes -->
 	<ElementType name="bTerrainNative" content="textOnly" dt:type="boolean"/>
 	<ElementType name="TerrainNative" content="eltOnly">
 		<element type="TerrainType"/>
@@ -927,6 +931,10 @@
 		<element type="iHotKeyPriority"/>
 		<element type="Button" maxOccurs="*"/>
 		<element type="iOrderPriority" minOccurs="0"/>
+		<!-- XANA: 03-25-2025 Promotion XP Changes -->
+		<element type="iXPValueAttackChange" minOccurs="0"/>
+		<element type="iXPValueDefenseChange" minOccurs="0"/>
+		<!-- XANA: 03-25-2025 Promotion XP Changes -->
 	</ElementType>
 	<ElementType name="PromotionInfos" content="eltOnly">
 		<element type="PromotionInfo" maxOccurs="*"/>

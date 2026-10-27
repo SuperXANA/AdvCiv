@@ -648,6 +648,12 @@ public: // All the const functions are exposed to Python
 	bool getTerrainDoubleMove(int i) const;
 	bool getFeatureDoubleMove(int i) const;
 	bool getUnitCombat(int i) const;
+	
+	// XANA: 03-25-2025 Promotion XP Changes
+	int getXPValueAttackChange() const;
+	int getXPValueDefenseChange() const;
+	// XANA: 03-25-2025 Promotion XP Changes
+	
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
 	void write(FDataStreamBase* stream);
@@ -716,6 +722,10 @@ protected:
 	bool* m_pbTerrainDoubleMove;
 	bool* m_pbFeatureDoubleMove;
 	bool* m_pbUnitCombat;
+	// XANA: 03-25-2025 Promotion XP Changes
+	int m_iXPValueAttackChange;
+	int m_iXPValueDefenseChange;
+	// XANA: 03-25-2025 Promotion XP Changes
 };
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

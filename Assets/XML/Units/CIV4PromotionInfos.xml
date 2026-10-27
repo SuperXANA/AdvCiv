@@ -98,6 +98,10 @@
 			<bCtrlDown>0</bCtrlDown>
 			<iHotKeyPriority>0</iHotKeyPriority>
 			<Button>,Art/Interface/Buttons/Promotions/Combat1.dds,Art/Interface/Buttons/Promotions_Atlas.dds,8,2</Button>
+			<!-- XANA: 03-25-2025 Promotion XP Changes -->
+			<iXPValueAttackChange>3</iXPValueAttackChange>
+			<iXPValueDefenseChange>2</iXPValueDefenseChange>
+			<!-- XANA: 03-25-2025 Promotion XP Changes -->
 		</PromotionInfo>
 		<PromotionInfo>
 			<Type>PROMOTION_COMBAT2</Type>

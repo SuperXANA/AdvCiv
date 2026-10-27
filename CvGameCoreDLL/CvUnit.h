@@ -1092,6 +1092,13 @@ public:
 		the others - the EXE doesn't call them. */ // </advc.003u>
 	virtual UnitAITypes AI_getUnitAIType() const = 0;
 
+	// XANA: 03-25-2025 Promotion XP Changes
+	int getXPValueAttackModifier() const;
+	void changeXPValueAttackModifier(int iChange);
+	int getXPValueDefenseModifier() const;
+	void changeXPValueDefenseModifier(int iChange);
+	// XANA: 03-25-2025 Promotion XP Changes
+
 protected:
 	// <advc.003u>
 	CvUnit();
@@ -1242,6 +1249,11 @@ protected:
 	void resolveAirCombat(CvUnit* pInterceptor, CvPlot* pPlot, CvAirMissionDefinition& kBattle);
 	void checkRemoveSelectionAfterAttack();
 	void updateFlatMovement();
+	// XANA: 03-25-2025 Promotion XP Changes
+	void updateXPValueModifiers();
+	int m_iXPValueAttackModifier;
+	int m_iXPValueDefenseModifier;
+	// XANA: 03-25-2025 Promotion XP Changes
 // <advc.003u>
 private:
 	void uninitEntity(); // I don't think subclasses should ever call this
