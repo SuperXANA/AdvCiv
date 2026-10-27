@@ -2,7 +2,8 @@
 
 #ifndef CIV4_MUTEX_H
 #define CIV4_MUTEX_H
-	
+
+// XANA: 10-27-2026 LLM Text Diplomacy Generation
 #include <windows.h>
 
 // 1. The Critical Section wrapper manages the lock's system resources
@@ -58,4 +59,5 @@ public:
 	}
 };
 
+// XANA: 10-27-2026 LLM Text Diplomacy Generation
 #endif

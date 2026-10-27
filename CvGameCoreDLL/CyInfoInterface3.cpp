@@ -445,8 +445,8 @@ void CyInfoPythonInterface3()
 		.def("getNumDiplomacyText", &CvDiplomacyTextInfo::getNumDiplomacyText, "int (int i)")
 
 		.def("getDiplomacyText", &CvDiplomacyTextInfo::getDiplomacyText, "string (int i, int j)")
-		
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+		.def("getDynamicDiplomacyTextForPlayers", &CvDiplomacyTextInfo::getDynamicDiplomacyTextForPlayers, "string (int iPlayer, int iOtherPlayer)")
 		.def("getNumDynamicResponses", &CvDiplomacyTextInfo::getNumDynamicResponses, "int (int iPlayer)")
 
 		.def("isDynamicResponseForCivilization", &CvDiplomacyTextInfo::getCivilizationTypesForDynamicResponses, "bool (int iPlayer, int i)")
@@ -472,8 +472,8 @@ void CyInfoPythonInterface3()
 		.def("getNumDiplomacyText", &CvDiplomacyInfo::getNumDiplomacyText, "int (int i)")
 
 		.def("getDiplomacyText", &CvDiplomacyInfo::getDiplomacyText, "string (int i, int j)")
-		
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
+		.def("getDynamicDiplomacyTextForPlayers", &CvDiplomacyInfo::getDynamicDiplomacyTextForPlayers, "string (int iPlayer, int iOtherPlayer)")
 		.def("getNumDynamicResponses", &CvDiplomacyInfo::getNumDynamicResponses, "int (int iPlayer)")
 
 		.def("isDynamicResponseForCivilization", &CvDiplomacyInfo::getCivilizationTypesForDynamicResponses, "bool (int iPlayer, int i)")
@@ -610,7 +610,8 @@ void CyInfoPythonInterface3()
 		.def("getNumBonusesRequired", &CvEventTriggerInfo::getNumBonusesRequired, "int ()")
 		.def("getRouteRequired", &CvEventTriggerInfo::getRouteRequired, "int (int)")
 		.def("getNumRoutesRequired", &CvEventTriggerInfo::getNumRoutesRequired, "int ()")
-		.def("getReligionRequired", &CvEventTriggerInfo::getBonusRequired, "int (int)")
+		// advc.sas (bugfix): 2nd arg was getBonusRequired
+		.def("getReligionRequired", &CvEventTriggerInfo::getReligionRequired, "int (int)")
 		.def("getNumReligionsRequired", &CvEventTriggerInfo::getNumReligionsRequired, "int ()")
 		.def("getCorporationRequired", &CvEventTriggerInfo::getCorporationRequired, "int (int)")
 		.def("getNumCorporationsRequired", &CvEventTriggerInfo::getNumCorporationsRequired, "int ()")
@@ -624,7 +625,8 @@ void CyInfoPythonInterface3()
 		.def("isOtherPlayerHasOtherReligion", &CvEventTriggerInfo::isOtherPlayerHasOtherReligion, "bool ()")
 		.def("isOtherPlayerAI", &CvEventTriggerInfo::isOtherPlayerAI, "bool ()")
 		.def("isPickCity", &CvEventTriggerInfo::isPickCity, "bool ()")
-		.def("isPickOtherPlayerCity", &CvEventTriggerInfo::isPickCity, "bool ()")
+		// advc.sas (bugfix): 2nd arg was isPickCity
+		.def("isPickOtherPlayerCity", &CvEventTriggerInfo::isPickOtherPlayerCity, "bool ()")
 		.def("isUnitsOnPlot", &CvEventTriggerInfo::isUnitsOnPlot, "bool ()")
 		.def("isOwnPlot", &CvEventTriggerInfo::isOwnPlot, "bool ()")
 		.def("isPickReligion", &CvEventTriggerInfo::isPickReligion, "bool ()")
@@ -654,7 +656,8 @@ void CyInfoPythonInterface3()
 		.def("getTechMinTurnsLeft", &CvEventInfo::getTechMinTurnsLeft, "int ()")
 		.def("getPrereqTech", &CvEventInfo::getPrereqTech, "int ()")
 		.def("getUnitClass", &CvEventInfo::getUnitClass, "int ()")
-		.def("getNumUnits", &CvEventTriggerInfo::getNumUnits, "int ()")
+		// advc.sas (bugfix): was CvEventTriggerInfo
+		.def("getNumUnits", &CvEventInfo::getNumUnits, "int ()")
 		.def("getBuildingClass", &CvEventInfo::getBuildingClass, "int ()")
 		.def("getBuildingChange", &CvEventInfo::getBuildingChange, "int ()")
 		.def("getHappy", &CvEventInfo::getHappy, "int ()")

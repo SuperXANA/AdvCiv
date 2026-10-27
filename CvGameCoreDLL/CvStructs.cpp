@@ -605,291 +605,84 @@ FirstContactData::FirstContactData(CvPlot const* pAt1, CvPlot const* pAt2,
 }
 
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
+// Empty filter dimensions pass through. Enabling one dimension constrains only it.
 void DynamicResponseFilter::setDefaultValues()
 {
-	abActiveCivilizations.assign(GC.getNumCivilizationInfos(), static_cast<char>(false));
-	abActiveLeaders.assign(GC.getNumLeaderHeadInfos(), static_cast<char>(false));
-	abActiveAttitudes.assign(NUM_ATTITUDE_TYPES, static_cast<char>(false));
-	abActivePowers.assign(NUM_DIPLOMACYPOWER_TYPES, static_cast<char>(false));
-}
-
-void LLMPromptData::setText(CvString const& szText)
-{
-	szPromptText = szText;
-}
-
-LLMPromptData::~LLMPromptData()
-{
-	SAFE_DELETE(m_pFilter);
-}
-
-DynamicResponseFilter& LLMPromptData::createLimits()
-{
-	if (m_pFilter == NULL)
-	{
-		m_pFilter = new DynamicResponseFilter();
-		m_pFilter->setDefaultValues();
-	}
-	return *m_pFilter;
-}
-
-DynamicResponseFilter const* LLMPromptData::getLimits()
-{
-	DynamicResponseData const* pointer = m_pFilter;
-	SAFE_DELETE(m_pFilter);
-	return pointer;
-}
-
-DynamicResponseData const* LLMResultData::getData()
-{
-	DynamicResponseData* pointer = m_pResultText;
-	SAFE_DELETE(m_pResultText);
-	return pointer;
-}
-
-LLMResultData::~LLMResultData()
-{
-	SAFE_DELETE(m_pFilter);
-	SAFE_DELETE(m_pResultText);
-}
-
-DynamicResponseData* LLMResultData::getData()
-{
-	DynamicResponseData* pointer = m_pResultText;
-	SAFE_DELETE(m_pResultText);
-	return pointer;
-}
-
-void LLMResultData::setText(CvString const& szText)
-{
-	if (m_pResultText == NULL)
-	{
-		m_pResultText = new DynamicResponseData();
-	}
-	m_pResultText->setText(szText);
-}
-
-DynamicResponseGroup::~DynamicResponseGroup()
-{
-	for (int i = 0; i < (int)data.size(); i++)
-	{
-		SAFE_DELETE(data[i]);
-	}
-	data.clear();
-}
-
-std::string const& DynamicResponseData::getText() const
-{
-	return szResponseText;
-}
-
-void DynamicResponseData::setText(CvString const& szText)
-{
-	szResponseText = szText;
+    abActiveCivilizations.clear(); abActiveLeaders.clear();
+    abActiveAttitudes.clear(); abActivePowers.clear();
 }
 
 void DynamicResponseFilter::setCivilizationTypeEnabled(CivilizationTypes eCiv)
 {
-	if (abActiveCivilizations.empty() || eCiv == NO_CIVILIZATION || eCiv >= GC.getNumCivilizationInfos())
-	{
-		return;
-	}
-	abActiveCivilizations[eCiv] = static_cast<char>(true);
+    if (eCiv < 0 || eCiv >= GC.getNumCivilizationInfos()) return;
+    if (abActiveCivilizations.empty()) abActiveCivilizations.assign(GC.getNumCivilizationInfos(), 0);
+    abActiveCivilizations[eCiv] = 1;
 }
-
 void DynamicResponseFilter::setLeaderHeadTypeEnabled(LeaderHeadTypes eLeader)
 {
-	if (abActiveLeaders.empty() || eLeader == NO_LEADER || eLeader >= GC.getNumLeaderHeadInfos())
-	{
-		return;
-	}
-	abActiveLeaders[eLeader] = static_cast<char>(true);
+    if (eLeader < 0 || eLeader >= GC.getNumLeaderHeadInfos()) return;
+    if (abActiveLeaders.empty()) abActiveLeaders.assign(GC.getNumLeaderHeadInfos(), 0);
+    abActiveLeaders[eLeader] = 1;
 }
-
 void DynamicResponseFilter::setAttitudeTypeEnabled(AttitudeTypes eAttitude)
 {
-	if (abActiveAttitudes.empty() || eAttitude == NO_ATTITUDE || eAttitude >= NUM_ATTITUDE_TYPES)
-	{
-		return;
-	}
-	abActiveAttitudes[eAttitude] = static_cast<char>(true);
+    if (eAttitude < 0 || eAttitude >= NUM_ATTITUDE_TYPES) return;
+    if (abActiveAttitudes.empty()) abActiveAttitudes.assign(NUM_ATTITUDE_TYPES, 0);
+    abActiveAttitudes[eAttitude] = 1;
 }
-
 void DynamicResponseFilter::setDiplomacyPowerTypeEnabled(DiplomacyPowerTypes ePower)
 {
-	if (abActivePowers.empty() || ePower == NO_DIPLOMACYPOWER || ePower >= NUM_DIPLOMACYPOWER_TYPES)
-	{
-		return;
-	}
-	abActivePowers[ePower] = static_cast<char>(true);
+    if (ePower < 0 || ePower >= NUM_DIPLOMACYPOWER_TYPES) return;
+    if (abActivePowers.empty()) abActivePowers.assign(NUM_DIPLOMACYPOWER_TYPES, 0);
+    abActivePowers[ePower] = 1;
 }
 
-int DynamicResponse::getNumResponseGroups() const
+namespace
 {
-	return (int)m_aResponseGroups.size();
+    bool dynamicFilterAllows(std::vector<char> const& flags, int iType)
+    { return flags.empty() || (iType >= 0 && iType < (int)flags.size() && flags[iType] != 0); }
 }
-
-void DynamicResponse::initNewResponseGroup()
-{
-	m_aResponseGroups.resize(getNumResponseGroups() + 1);
-}
-
+int DynamicResponse::getNumResponseGroups() const { return (int)m_aResponseGroups.size(); }
+void DynamicResponse::initNewResponseGroup() { m_aResponseGroups.resize(getNumResponseGroups() + 1); }
 int DynamicResponse::getFirstFreeResponseGroup() const
 {
-	int i = -1;
-	for (int iGroupIndex = 0; iGroupIndex < getNumResponseGroups(); iGroupIndex++)
-	{
-		int iNumDiploTexts = getNumDiplomacyText(iGroupIndex);
-		if (iNumDiploTexts > 0)
-		{
-			int iGroupResponseUsedCount = 0;
-			for (int iResponseIndex = 0; iResponseIndex < iNumDiploTexts; iResponseIndex++)
-			{
-				if (m_aResponseGroups[iGroupIndex].data[iResponseIndex] != NULL)
-				{
-					if (m_aResponseGroups[iGroupIndex].data[iResponseIndex]->isAtUsageLimit())
-					{
-						iGroupResponseUsedCount++;
-					}
-					else continue;
-				}
-				else continue;
-			}
-			if (iGroupResponseUsedCount != iNumDiploTexts)
-			{
-				i = iGroupIndex;
-				break;
-			}
-			else continue;
-		}
-		else
-		{
-			i = iGroupIndex;
-			break;
-		}
-	}
-	return i;
+    for (int i = 0; i < getNumResponseGroups(); ++i)
+    {
+        bool bFree = true;
+        for (int j = 0; j < getNumDiplomacyText(i); ++j)
+            if (!m_aResponseGroups[i].data[j].isAtUsageLimit()) { bFree = false; break; }
+        if (bFree) return i;
+    }
+    return -1;
 }
-
-DiploCommentTypes DynamicResponse::getCommentType() const
+bool DynamicResponse::getCivilizationTypes(int i, CivilizationTypes e) const
+{ return i >= 0 && i < getNumResponseGroups() && dynamicFilterAllows(m_aResponseGroups[i].limits.abActiveCivilizations, e); }
+bool DynamicResponse::getLeaderHeadTypes(int i, LeaderHeadTypes e) const
+{ return i >= 0 && i < getNumResponseGroups() && dynamicFilterAllows(m_aResponseGroups[i].limits.abActiveLeaders, e); }
+bool DynamicResponse::getAttitudeTypes(int i, AttitudeTypes e) const
+{ return i >= 0 && i < getNumResponseGroups() && dynamicFilterAllows(m_aResponseGroups[i].limits.abActiveAttitudes, e); }
+bool DynamicResponse::getDiplomacyPowerTypes(int i, DiplomacyPowerTypes e) const
+{ return i >= 0 && i < getNumResponseGroups() && dynamicFilterAllows(m_aResponseGroups[i].limits.abActivePowers, e); }
+int DynamicResponse::getNumDiplomacyText(int i) const
+{ return i >= 0 && i < getNumResponseGroups() ? (int)m_aResponseGroups[i].data.size() : 0; }
+std::string DynamicResponse::getDiplomacyText(int i, int j) const
 {
-	return m_eType;
+    if (j < 0 || j >= getNumDiplomacyText(i)) return std::string();
+    DynamicResponseData const& text = m_aResponseGroups[i].data[j];
+    return text.isAtUsageLimit() ? std::string() : text.getText();
 }
-
-bool DynamicResponse::getCivilizationTypes(int iGroupIndex, CivilizationTypes eCiv) const
+void DynamicResponse::updateDynamicResponseLifetime(int i, int j)
 {
-	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
-	{
-		return false;
-	}
-	// If the filter vector is empty, treat it as unconstrained (pass-through)
-	if (!m_aResponseGroups[iGroupIndex].limits.abActiveCivilizations.empty() && !(static_cast<bool>(m_aResponseGroups[iGroupIndex].limits.abActiveCivilizations[eCiv])))
-	{
-		return false; 
-	}
-	return true; // All active filter flags matched successfully!
+    if (j >= 0 && j < getNumDiplomacyText(i)) m_aResponseGroups[i].data[j].increaseUseCount();
 }
-
-bool DynamicResponse::getLeaderHeadTypes(int iGroupIndex, LeaderHeadTypes eLeader) const
-{
-	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
-	{
-		return false;
-	}
-	// If the filter vector is empty, treat it as unconstrained (pass-through)
-	if (!m_aResponseGroups[iGroupIndex].limits.abActiveLeaders.empty() && !(static_cast<bool>(m_aResponseGroups[iGroupIndex].limits.abActiveLeaders[eLeader])))
-	{
-		return false;
-	}
-	return true; // All active filter flags matched successfully!
-}
-
-bool DynamicResponse::getAttitudeTypes(int iGroupIndex, AttitudeTypes eAttitude) const
-{
-	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
-	{
-		return false;
-	}
-	// If the filter vector is empty, treat it as unconstrained (pass-through)
-	if (!m_aResponseGroups[iGroupIndex].limits.abActiveAttitudes.empty() && !(static_cast<bool>(m_aResponseGroups[iGroupIndex].limits.abActiveAttitudes[eAttitude])))
-	{
-		return false;
-	}
-	return true; // All active filter flags matched successfully!
-}
-
-bool DynamicResponse::getDiplomacyPowerTypes(int iGroupIndex, DiplomacyPowerTypes ePower) const
-{
-	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
-	{
-		return false;
-	}
-	// If the filter vector is empty, treat it as unconstrained (pass-through)
-	if (!m_aResponseGroups[iGroupIndex].limits.abActivePowers.empty() && !(static_cast<bool>(m_aResponseGroups[iGroupIndex].limits.abActivePowers[ePower])))
-	{
-		return false;
-	}
-	return true; // All active filter flags matched successfully!
-}
-
-int DynamicResponse::getNumDiplomacyText(int iGroupIndex) const
-{
-	if (iGroupIndex < 0 || iGroupIndex >= getNumResponseGroups())
-	{
-		return 0;
-	}
-	return (int)m_aResponseGroups[iGroupIndex].data.size();
-}
-
-std::string const& DynamicResponse::getDiplomacyText(int iGroupIndex, int iVariant) const
-{
-	if ((iGroupIndex >= 0 && iGroupIndex < getNumResponseGroups())
-		&& (iVariant >= 0 && iVariant < getNumDiplomacyText(iVariant)))
-	{
-		return ((m_aResponseGroups[iGroupIndex].data[iVariant] != NULL) ? m_aResponseGroups[iGroupIndex].data[iVariant]->getText() : "");
-	}
-	return "";
-}
-
-void DynamicResponse::updateDynamicResponseLifetime(int iGroupIndex, int iVariant)
-{
-	if ((iGroupIndex >= 0 && iGroupIndex < getNumResponseGroups())
-		&& (iVariant >= 0 && iVariant < getNumDiplomacyText(iVariant)))
-	{
-		std::vector<DynamicResponseData*>& kVector = m_aResponseGroups[iGroupIndex].data;
-		if (kVector[iVariant] != NULL)
-		{
-			if (!kVector[iVariant]->isAtUsageLimit())
-			{
-				kVector[iVariant]->increaseUseCount();
-			}
-			else
-			{
-				SAFE_DELETE(kVector[iVariant]);
-				kVector.erase(kVector.begin() + iVariant);
-			}
-		}
-	}
-}
-
 void DynamicResponse::setDiplomacyText(LLMResultData const& kResult)
 {
-	/* XANA (warning):
-	DO NOT USE FIRAXIS GLOBAL FUNCTIONS OR ASSERTIONS HERE
-	THIS OPERATION WILL BE CALLED VIA A BACKGROUND THREAD
-	ATTEMPTING TO DO SO WILL CRASH THE GAME */
-	if (kResult.getIndex() < 0 || kResult.getIndex() >= getNumResponseGroups())
-	{
-		return;
-	}
-	int const iGroupIndex = kResult.getIndex();
-	std::vector<DynamicResponseData*>& kVector = m_aResponseGroups[iGroupIndex].data;
-	int const iTextIndex = getNumDiplomacyText(iGroupIndex);
-	if (kResult.getLimits() != NULL)
-	{
-		m_aResponseGroups[iGroupIndex].limits = *kResult.getLimits();
-	}
-	kVector.resize(iTextIndex + 1);
-	kVector[iTextIndex] = kResult.getData();
+    int const i = kResult.getIndex();
+    if (i < 0 || i >= getNumResponseGroups() || kResult.getData() == NULL ||
+        kResult.getData()->getText().empty()) return;
+    // A reservation has exactly one completion. Duplicate delivery cannot replace filters.
+    if (!m_aResponseGroups[i].data.empty()) return;
+    m_aResponseGroups[i].limits = kResult.getLimits() == NULL ? DynamicResponseFilter() : *kResult.getLimits();
+    m_aResponseGroups[i].data.push_back(*kResult.getData());
 }
 // XANA: 05-23-2026 LLM Text Diplomacy Generation

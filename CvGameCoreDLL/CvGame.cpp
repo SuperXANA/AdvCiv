@@ -47,7 +47,7 @@ CvGame::CvGame() :
 	m_pHallOfFame = NULL; // advc.106i
 	m_pLegacyOrgSeatData = NULL; // advc.enum
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
-	CvDynamicDiploManager& kRef = CvDynamicDiploManager::getInstance(); /* XANA (note): Create a safe reference to the global singleton so that the private class destructor can be called on game exit. */
+	CvDynamicDiploManager::getInstance(); // Construct on the main thread before any worker can start.
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
 	reset(NO_HANDICAP, true);
 }
@@ -354,9 +354,9 @@ void CvGame::regenerateMap(/* advc.tsl: */ bool bAutomated)
 	setStartTurnYear();
 	m_iElapsedGameTurns = 0;
 	// </advc.251>
-	/*	advc.001: Reset minutesPlayed to 0. Note: Would cause a (redundant)
-		autosave in CvGame::update if I hadn't added a re-gen check there. */
-	setTurnSlice(0);
+	/*	advc.001: Reset minutesPlayed to (almost) 0. All the way to 0 causes the EXE
+		to hang when regenerating via WIDGET_WB_REGENERATE_MAP (WorldBuilder). */
+	setTurnSlice(1);
 	CvEventReporter::getInstance().resetStatistics();
 	// <advc.tsl>
 	m_iMapRegens++;
@@ -400,7 +400,7 @@ void CvGame::regenerateMap(/* advc.tsl: */ bool bAutomated)
 	// <advc.004j>
 	if (bShowDawn)
 		showDawnOfMan(); // </advc.004j>
-	if (getActivePlayer()!= NO_PLAYER)
+	if (getActivePlayer() != NO_PLAYER)
 	{
 		CvPlot* pPlot = GET_PLAYER(getActivePlayer()).getStartingPlot();
 		if (pPlot != NULL)
@@ -437,7 +437,7 @@ void CvGame::showDawnOfMan()
 
 void CvGame::uninit()
 {
-	m_aszDestroyedCities.clear();
+	m_aszPastCities.clear();
 	m_aszGreatPeopleBorn.clear();
 
 	m_deals.uninit();
@@ -611,7 +611,7 @@ void CvGame::reset(HandicapTypes eHandicap, bool bConstructorCall)
 	m_voteSelections.removeAll();
 	m_votesTriggered.removeAll();
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
-	CvDynamicDiploManager::getInstance().reset();
+	CvDynamicDiploManager::getInstance().uninit();
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
 
 	m_mapRand.reset();
@@ -1551,7 +1551,7 @@ void CvGame::rearrangeTeamStarts(/* advc.027: */ bool bOnlyWithinArea, scaled rI
 
 	std::vector<PlayerTypes> aeStartingLocs(MAX_CIV_PLAYERS);
 	// each player starting in own location
-	std11::iota(aeStartingLocs.begin(), aeStartingLocs.end(), (PlayerTypes)0);
+	sequtil::iota(aeStartingLocs.begin(), aeStartingLocs.end(), (PlayerTypes)0);
 
 	int iBestScore = getTeamClosenessScore(aaiDistances, aeStartingLocs);
 	bool bFoundSwap = true;
@@ -2902,10 +2902,9 @@ void CvGame::updateUnprofiled()
 	if (getTurnSlice() == 0) // advc (note): Implies 0 elapsed game turns
 	{	// <advc.700> Delay initial auto-save until RiseFall is initialized
 		if (!isOption(GAMEOPTION_RISE_FALL) && // </advc.700>
-			m_iTurnLoadedFromSave != m_iElapsedGameTurns && // advc.044
-			// advc: Necessary now that re-gen resets turn slice
-			m_iMapRegens <= 0)
-		{
+			m_iTurnLoadedFromSave != m_iElapsedGameTurns) // advc.044
+		{	// Map regen should only reset TurnSlice to sth. greater than 0
+			FAssert(m_iMapRegens <= 0);
 			autoSave(true); // advc.106l
 		}
 	}
@@ -6059,10 +6058,10 @@ void CvGame::setName(TCHAR const* szName)
 }
 
 
-bool CvGame::isDestroyedCityName(CvWString& szName) const
+bool CvGame::isPastCityName(CvWString& szName) const
 {
 	std::vector<CvWString>::const_iterator it;
-	for (it = m_aszDestroyedCities.begin(); it != m_aszDestroyedCities.end(); ++it)
+	for (it = m_aszPastCities.begin(); it != m_aszPastCities.end(); ++it)
 	{
 		if (*it == szName)
 			return true;
@@ -6071,9 +6070,9 @@ bool CvGame::isDestroyedCityName(CvWString& szName) const
 }
 
 
-void CvGame::addDestroyedCityName(CvWString const& szName)
+void CvGame::addPastCityName(CvWString const& szName)
 {
-	m_aszDestroyedCities.push_back(szName);
+	m_aszPastCities.push_back(szName);
 }
 
 
@@ -8971,12 +8970,12 @@ void CvGame::read(FDataStreamBase* pStream)
 		CvWString szBuffer;
 		uint iSize;
 
-		m_aszDestroyedCities.clear();
+		m_aszPastCities.clear();
 		pStream->Read(&iSize);
 		for (uint i = 0; i < iSize; i++)
 		{
 			pStream->ReadString(szBuffer);
-			m_aszDestroyedCities.push_back(szBuffer);
+			m_aszPastCities.push_back(szBuffer);
 		}
 
 		m_aszGreatPeopleBorn.clear();
@@ -9197,7 +9196,8 @@ void CvGame::write(FDataStreamBase* pStream)
 	//uiFlag = 24;
 	//uiFlag = 25; // advc.130n (bugfix)
 	//uiFlag = 26; // advc.130w: Cache for expansionist hate
-	uiFlag = 27; // advc.130w: RivalVassalAttitude tweak
+	//uiFlag = 27; // advc.130w: RivalVassalAttitude tweak
+	uiFlag = 28; // advc: Overflow bugfix for religion, corp count.
 	pStream->Write(uiFlag);
 	REPRO_TEST_BEGIN_WRITE("Game pt1");
 	pStream->Write(m_iElapsedGameTurns);
@@ -9277,8 +9277,8 @@ void CvGame::write(FDataStreamBase* pStream)
 	m_aeHeadquarters.write(pStream);
 	{
 		std::vector<CvWString>::iterator it;
-		pStream->Write(m_aszDestroyedCities.size());
-		for (it = m_aszDestroyedCities.begin(); it != m_aszDestroyedCities.end(); ++it)
+		pStream->Write(m_aszPastCities.size());
+		for (it = m_aszPastCities.begin(); it != m_aszPastCities.end(); ++it)
 		{
 			pStream->WriteString(*it);
 		}
@@ -9358,6 +9358,10 @@ void CvGame::writeReplay(FDataStreamBase& stream, PlayerTypes ePlayer)
 	read functions have been called. */
 void CvGame::onAllGameDataRead()
 {
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+	CvDynamicDiploManager::getInstance().init();
+// XANA: 05-23-2026 LLM Text Diplomacy Generation
+
 	// <advc.opt> Savegame compatibility (uiFlag<4)
 	if (m_iCivPlayersEverAlive == 0)
 		m_iCivPlayersEverAlive = countCivPlayersEverAlive();
@@ -9466,27 +9470,50 @@ void CvGame::onAllGameDataRead()
 				pCity->updateReligionCommerce();
 		}
 	} // </advc.172>
+	if (m_uiSaveFlag < 28)
+	{	/*	Assertions may fail upon calling changeHas... because multiple
+			counts may have wrapped into negative numbers, and CvPlayer performs
+			a global update upon every change. */
+		for (PlayerIter<ALIVE> itPlayer; itPlayer.hasNext(); ++itPlayer)
+		{
+			FOR_EACH_ENUM(Religion)
+			{
+				int const iLegacyCount = itPlayer->getHasReligionCount(eLoopReligion);
+				if (iLegacyCount < 0)
+				{
+					int iFreshCount = 0;
+					FOR_EACH_CITY(pCity, *itPlayer)
+					{
+						if (pCity->isHasReligion(eLoopReligion))
+							iFreshCount++;
+					}
+					itPlayer->changeHasReligionCount(eLoopReligion,
+							iFreshCount - iLegacyCount);
+				}
+			}
+			FOR_EACH_ENUM(Corporation) // Copy-paste-based on the above
+			{
+				int const iLegacyCount = itPlayer->getHasCorporationCount(eLoopCorporation);
+				if (iLegacyCount < 0)
+				{
+					int iFreshCount = 0;
+					FOR_EACH_CITY(pCity, *itPlayer)
+					{
+						if (pCity->isHasCorporation(eLoopCorporation))
+							iFreshCount++;
+					}
+					itPlayer->changeHasCorporationCount(eLoopCorporation,
+							iFreshCount - iLegacyCount);
+				}
+			}
+		}
+	}
 	// <advc.134a>
 	for (PlayerIter<HUMAN> itActive; itActive.hasNext(); ++itActive)
 	{
 		if (itActive->isTurnActive())
 			itActive->validateDiplomacy();
 	} // </advc.134a>
-}
-
-/*	advc: Called once the EXE signals that graphics have been initialized
-	(w/e that means exactly) */
-void CvGame::onGraphicsInitialized()
-{
-	// advc.095:
-	setCityBarWidth(BUGOption::isEnabled("MainInterface__WideCityBars", false));
-	/*	<advc.001> After loading, the camera tries to center on some unit
-		(apparently; I don't know where that's implemented). If there is
-		none, it seems to center on some random(?) unrevealed tile. */
-	if (GET_PLAYER(getActivePlayer()).getNumUnits() == 0)
-		setUpdateTimer(UPDATE_LOOK_AT_STARTING_PLOT, 1);
-	// </advc.001>
-	GC.getPythonCaller()->callScreenFunction("updateCameraStartDistance"); // advc.004m
 }
 
 

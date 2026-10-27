@@ -3897,7 +3897,10 @@ bool CvPlayer::canTradeItem(PlayerTypes eWhoTo, TradeData item, bool bTestDenial
 	{
 		FAssertBounds(0, MAX_CIV_TEAMS, item.m_iData);
 		TeamTypes eTargetTeam = (TeamTypes)item.m_iData;
-		if (!GET_TEAM(eTargetTeam).isAVassal() &&
+		// <advc.104> (correction from SAS)
+		bool bVassalStatusValid = (!GET_TEAM(eTargetTeam).isAVassal() ||
+				(getUWAI().isEnabled() && !GET_TEAM(eTargetTeam).isCapitulated()));
+		if (bVassalStatusValid && // </advc.104>
 			kOurTeam.isHasMet(eTargetTeam) && kToTeam.isHasMet(eTargetTeam) &&
 			kOurTeam.canDeclareWar(eTargetTeam))
 		{
@@ -14313,8 +14316,30 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		m_aiSpecialBuildingNotRequiredCount.read(pStream);
 		m_aiHasCivicOptionCount.read(pStream);
 		m_aiNoCivicUpkeepCount.read(pStream);
-		m_aiHasReligionCount.read(pStream);
-		m_aiHasCorporationCount.read(pStream);
+		if (uiFlag < 23)
+		{
+			ArrayEnumMap<ReligionTypes,int,char> aiHasReligionCountLegacy;
+			ArrayEnumMap<CorporationTypes,int,char> aiHasCorpCountLegacy;
+			aiHasReligionCountLegacy.read(pStream);
+			aiHasCorpCountLegacy.read(pStream);
+			/*	These legacy counts may have wrapped around, but we can't sort that out
+				until CvGame::onAllGameDataRead. */
+			FOR_EACH_ENUM(Religion)
+			{
+				m_aiHasReligionCount.set(eLoopReligion,
+						aiHasReligionCountLegacy.get(eLoopReligion));
+			}
+			FOR_EACH_ENUM(Corporation)
+			{
+				m_aiHasCorporationCount.set(eLoopCorporation,
+						aiHasCorpCountLegacy.get(eLoopCorporation));
+			}
+		}
+		else
+		{
+			m_aiHasReligionCount.read(pStream);
+			m_aiHasCorporationCount.read(pStream);
+		}
 		m_aiUpkeepCount.read(pStream);
 		m_aiSpecialistValidCount.read(pStream);
 		if (uiFlag >= 21)
@@ -14710,7 +14735,8 @@ void CvPlayer::write(FDataStreamBase* pStream)
 	//uiFlag = 19; // advc.708
 	//uiFlag = 20; // advc.912g
 	//uiFlag = 21; // advc.enum: Bugfix in bool-valued ArrayEnumMap
-	uiFlag = 22; // advc: Bugs fixed with civ-wide special commerce rate cache
+	//uiFlag = 22; // advc: Bugs fixed with civ-wide special commerce rate cache
+	uiFlag = 23; // advc: Larger EnumMap for religion, corporation count
 	pStream->Write(uiFlag);
 
 	// <advc.027>

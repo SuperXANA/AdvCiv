@@ -468,87 +468,71 @@ class CvDiplomacy:
 		"pick the user's response from a CvDiplomacyTextInfo, based on response conditions"
 		if (self.diploScreen.getWhoTradingWith() == -1):
 			return ""
-			
+
 		theirPlayer = gc.getPlayer(self.diploScreen.getWhoTradingWith())
 		ourPlayer = gc.getActivePlayer()
 		responses = []
-		
+
 		# XANA: 05-23-2026 LLM Text Diplomacy Generation
-		bMixXMLandLLMResponses = false
-		for i in xrange(diploInfo.getNumDynamicResponses(theirPlayer)):
-		
+		# Read one complete local presentation result. The DLL owns filtering,
+		# selection and lifetime accounting; Python never writes the cache.
+		# User response buttons keep their authored XML text and action meanings.
+		if diploInfo.getType().startswith("AI_DIPLOCOMMENT_"):
+			szDynamic = diploInfo.getDynamicDiplomacyTextForPlayers(
+				self.diploScreen.getWhoTradingWith(), CyGame().getActivePlayer())
+			if szDynamic:
+				self.setLastResponseID(-1)
+				return szDynamic
+		# XANA: 05-23-2026 LLM Text Diplomacy Generation
+		# An unavailable, expired or filtered response falls back to XML.
+		for i in range(diploInfo.getNumResponses()):
+
 			# check attitude of other player towards me
-			if (not diploInfo.isDynamicResponseForAttitude(theirPlayer, ourPlayer, i)):
-				continue
-			
+			if (self.isUsed(diploInfo.getAttitudeTypes, i, AttitudeTypes.NUM_ATTITUDE_TYPES)):
+				att = theirPlayer.AI_getAttitude(CyGame().getActivePlayer())
+				if (not diploInfo.getAttitudeTypes(i, att)):
+					continue
+
 			# check civ type
-			if (not diploInfo.isDynamicResponseForCivilization(theirPlayer, i)):
+			if (self.isUsed(diploInfo.getCivilizationTypes, i, gc.getNumCivilizationInfos()) and
+				not diploInfo.getCivilizationTypes(i, theirPlayer.getCivilizationType())):
 				continue
 
 			# check leader type
-			if (not diploInfo.isDynamicResponseForLeaderHead(theirPlayer, i)):
+			if (self.isUsed(diploInfo.getLeaderHeadTypes, i, gc.getNumLeaderHeadInfos()) and
+				not diploInfo.getLeaderHeadTypes(i, theirPlayer.getLeaderType())):
 				continue
 
 			# check power type
-			if (not diploInfo.isDynamicResponseForDiplomacyPower(theirPlayer, ourPlayer, i)):
-				continue
-			
-			# passed all tests, so add to response list
-			# XANA (note): append backwards so that response lifetime updates can be processed during iteration
-			for j in xrange(diploInfo.getNumDiplomacyTextForDynamicResponse(theirPlayer, i) - 1, -1, -1):
-				if (diploInfo.getDiplomacyTextForDynamicResponse(theirPlayer, i, j) != ""):
-					responses.append(diploInfo.getDiplomacyTextForDynamicResponse(theirPlayer, i, j))
-				
-		# XANA: 05-23-2026 LLM Text Diplomacy Generation
-		if len(responses) == 0 || bMixXMLandLLMResponses:
-			for i in range(diploInfo.getNumResponses()):	
-			
-				# check attitude of other player towards me
-				if (self.isUsed(diploInfo.getAttitudeTypes, i, AttitudeTypes.NUM_ATTITUDE_TYPES)):
-					att = theirPlayer.AI_getAttitude(CyGame().getActivePlayer())
-					if (not diploInfo.getAttitudeTypes(i, att)):
-						continue
-			
-				# check civ type
-				if (self.isUsed(diploInfo.getCivilizationTypes, i, gc.getNumCivilizationInfos()) and
-					not diploInfo.getCivilizationTypes(i, theirPlayer.getCivilizationType())):
-					continue
-				
-				# check leader type
-				if (self.isUsed(diploInfo.getLeaderHeadTypes, i, gc.getNumLeaderHeadInfos()) and
-					not diploInfo.getLeaderHeadTypes(i, theirPlayer.getLeaderType())):
-					continue
+			if (self.isUsed(diploInfo.getDiplomacyPowerTypes, i, DiplomacyPowerTypes.NUM_DIPLOMACYPOWER_TYPES)):
+				theirPower = theirPlayer.getPower()
+				ourPower = ourPlayer.getPower()
 
-				# check power type
-				if (self.isUsed(diploInfo.getDiplomacyPowerTypes, i, DiplomacyPowerTypes.NUM_DIPLOMACYPOWER_TYPES)):
-					theirPower = theirPlayer.getPower()
-					ourPower = ourPlayer.getPower()
-				
-					if (ourPower < (theirPower / 2)):
-						if not diploInfo.getDiplomacyPowerTypes(i, DiplomacyPowerTypes.DIPLOMACYPOWER_STRONGER):
-							continue
-						
-					elif (ourPower > (theirPower * 2)):
-						if not diploInfo.getDiplomacyPowerTypes(i, DiplomacyPowerTypes.DIPLOMACYPOWER_WEAKER):
-							continue
-						
-					else:
-						if not diploInfo.getDiplomacyPowerTypes(i, DiplomacyPowerTypes.DIPLOMACYPOWER_EQUAL):
-							continue
-				
-				# passed all tests, so add to response list
-				for j in range(diploInfo.getNumDiplomacyText(i)):
-					responses.append(diploInfo.getDiplomacyText(i, j))
-					
+				if (ourPower < (theirPower / 2)):
+					if not diploInfo.getDiplomacyPowerTypes(i, DiplomacyPowerTypes.DIPLOMACYPOWER_STRONGER):
+						continue
+
+				elif (ourPower > (theirPower * 2)):
+					if not diploInfo.getDiplomacyPowerTypes(i, DiplomacyPowerTypes.DIPLOMACYPOWER_WEAKER):
+						continue
+
+				else:
+					if not diploInfo.getDiplomacyPowerTypes(i, DiplomacyPowerTypes.DIPLOMACYPOWER_EQUAL):
+						continue
+
+			# passed all tests, so add to response list
+			for j in range(diploInfo.getNumDiplomacyText(i)):
+				responses.append(diploInfo.getDiplomacyText(i, j))
+
 		# pick a random response
 		numResponses = len(responses)
 		if (numResponses>0):
 			iResponse = gc.getASyncRand().get(numResponses, "Python Diplomacy ASYNC")
 			self.setLastResponseID(iResponse)
 			return responses[iResponse]
-		
+
 		return ""	# no responses matched
-			
+
 	def handleUserResponse(self, eComment, iData1, iData2):
 		if DebugLogging:
 			print "CvDiplomacy.handleUserResponse: %s" %(eComment,)

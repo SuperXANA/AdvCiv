@@ -1357,12 +1357,19 @@ int CvDiplomacyTextInfo::getNumDiplomacyTextForDynamicResponses(int iPlayer, int
 	return DIPLOMGR.getNumDiplomacyText(static_cast<PlayerTypes>(iPlayer), (DiploCommentTypes)GC.getInfoTypeForString(getType()), i);
 }
 
-const TCHAR* CvDiplomacyTextInfo::getDiplomacyTextForDynamicResponses(int iPlayer, int i, int j) const
+std::string CvDiplomacyTextInfo::getDiplomacyTextForDynamicResponses(int iPlayer, int i, int j) const
 {
 	FAssertBounds(0, MAX_PLAYERS, iPlayer);
 	FAssertBounds(0, getNumDynamicResponses(iPlayer), i);
-	FAssertBounds(0, getNumDiplomacyTextForDynamicResponses(iPlayer), j);
+	FAssertBounds(0, getNumDiplomacyTextForDynamicResponses(iPlayer, i), j);
 	return DIPLOMGR.getDiplomacyText(static_cast<PlayerTypes>(iPlayer), (DiploCommentTypes)GC.getInfoTypeForString(getType()), i, j);
+}
+std::string CvDiplomacyTextInfo::getDynamicDiplomacyTextForPlayers(int iPlayer, int iOtherPlayer) const
+{
+	// Return an owned string across the Python boundary. The manager takes one
+	// local snapshot before filtering, selecting and counting the chosen line.
+	return DIPLOMGR.getDynamicDiplomacyTextForPlayers(static_cast<PlayerTypes>(iPlayer),
+		static_cast<PlayerTypes>(iOtherPlayer), (DiploCommentTypes)GC.getInfoTypeForString(getType()));
 }
 // XANA: 05-23-2026 LLM Text Diplomacy Generation
 #if ENABLE_XML_FILE_CACHE

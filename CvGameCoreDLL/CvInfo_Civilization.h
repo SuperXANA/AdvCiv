@@ -511,7 +511,8 @@ public: // advc: All the const functions are exposed to Python
 
 	int getNumDiplomacyTextForDynamicResponses(int iPlayer, int i) const;
 
-	const TCHAR* getDiplomacyTextForDynamicResponses(int iPlayer, int i, int j) const;
+	std::string getDiplomacyTextForDynamicResponses(int iPlayer, int i, int j) const;
+	std::string getDynamicDiplomacyTextForPlayers(int iPlayer, int iOtherPlayer) const;
 	// XANA: 05-23-2026 LLM Text Diplomacy Generation
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
