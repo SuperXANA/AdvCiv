@@ -43,3 +43,5 @@ The next coherent integration step is to define the party model and its lifetime
 ## Coverage continuation
 
 The companion coverage JSON carries the prior ledger forward, changes CvPartyGroup from pending to partial, and records this scoped draft separately from the unchanged source. Eleven first-pass source targets remain pending. The user's stop gate is not satisfied.
+
+Code revision: [a62534896395531bde41fca2ab1b880e5d203706](https://github.com/SuperXANA/AdvCiv/commit/a62534896395531bde41fca2ab1b880e5d203706). This ledger/documentation update does not change code.
