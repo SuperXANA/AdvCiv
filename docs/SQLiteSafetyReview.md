@@ -258,3 +258,22 @@ do not replace the bundled-engine regressions or the Windows DLL build.
 The updated complete-base build is published on AISurvivorSQLiteBuild-ChatGPT;
 its exact commit, per-configuration result and artifacts are reported with this
 refinement. Earlier DLL records above apply only to their named revisions.
+
+### Integer conversion DLL verification
+
+Managed code revision: b4bf8290dff51614c074f8f48d2394253176a916.
+Complete-base build revision: d31ca516d41e15ffd76a8a4a9807c58dc9d0c741.
+Run: https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885 .
+
+| Configuration | Rebuild result | Artifact |
+| --- | --- | --- |
+| Release | Passed, 0 warnings, 0 errors; upload and cleanup succeeded | 12748604504 |
+| Debug | Passed, 0 warnings, 0 errors; upload and cleanup succeeded | 12748814550 |
+
+The existing Toolkit 2003 compiler/linker and static SQLite 3.7.5 build were
+retained. The final build tree retains all 872 baseline files, with no vendor
+SQLite file changes relative to the preceding validated build. The Release log
+explicitly links the generated sqlite3.lib. This establishes full DLL compilation
+and static-link validation for the named revision; the value regression fixture
+supplies behavioral checks. No new Beyond the Sword runtime, real savegame,
+database migration or multiplayer execution is claimed.
