@@ -47,6 +47,10 @@ class CvWorldInfo;
 DO_FOR_EACH_INFO_TYPE(FORWARD_DECLARE_INFO_CLASS) // </advc.enum>
 #pragma endregion ForwardDeclarations
 
+// XANA: 03-21-2026 Easy Enum Lookup
+class CvEnumType;
+// XANA: 03-21-2026 Easy Enum Lookup
+
 class CvGlobals
 {
 	friend class CvXMLLoadUtility;
@@ -187,6 +191,9 @@ public:
 	{ return getInfoTypeForString(szType, bHideAssert, false); }
 	int getInfoTypeForString(const char* szType, bool bHideAssert, bool bFromPython) const;
 	// </advc.006>  // <advc>
+	// XANA: 03-21-2026 Easy Enum Lookup
+	CvEnumType getEnumForString(const char* szType, bool bHideAssert = false) const;
+	// XANA: 03-21-2026 Easy Enum Lookup
 	ColorTypes getColorType(const char* szType) const
 	{
 		static CvString szPrefix = "COLOR_";
@@ -971,6 +978,51 @@ private:
 	//void addToInfosVectors(void* infoVector); // advc.enum (no longer used)
 	void updateModName(); // advc.106i
 };
+
+// XANA: 03-21-2026 Easy Enum Lookup
+class CvEnumType
+{
+public:
+    CvEnumType(const char* szType, bool bHideAssert = false) : m_szType(szType), m_bHideAssert(bHideAssert) {}
+    template <typename EnumType>
+    operator EnumType() const
+    {
+#ifdef FASSERT_ENABLE
+    	VALIDATE_ENUM(static_cast<EnumType*>(NULL));
+    	// XANA (note): We must acquire a NULL pointer of this Enum Type, in order to ensure the proper overload of the function is called, therefore the call shall reference what Enum prefix we are validating for.
+#endif
+    	return static_cast<EnumType>(CvGlobals::getConstInstance().getInfoTypeForString(m_szType.c_str(), m_bHideAssert));
+    }
+private:
+#ifdef FASSERT_ENABLE
+    template <typename T>
+    void VALIDATE_ENUM(T*) const {} // XANA (note): Required, this by-default must do nothing, we'll let the compiler generate the functions which validate Enum typing.
+    #define VALIDATE_ENUM_TYPE(Name, Prefix) \
+        void VALIDATE_ENUM(Name##Types*) const \
+        { \
+            FAssertMsg(strncmp(m_szType.c_str(), #Prefix "_", sizeof(#Prefix)) == 0, \
+                "Type mismatch: Expected " #Prefix "_ prefix but m_szType didn't provide a matching Enum Type. Was the GET_ENUM function attempting to assign CIVIC_SOMETHING to a UnitTypes variable?"); \
+        }
+    // Info classes in DO_FOR_EACH_INT_INFO_TYPE have no corresponding enum.
+    DO_FOR_EACH_DYN_INFO_TYPE(VALIDATE_ENUM_TYPE)
+    DO_FOR_EACH_STATIC_INFO_TYPE(VALIDATE_ENUM_TYPE) 
+    #undef VALIDATE_ENUM_TYPE
+#endif
+    // Own the name so a stored proxy survives its caller's temporary string.
+    CvString m_szType;
+    bool const m_bHideAssert;
+};
+inline CvEnumType CvGlobals::getEnumForString(const char* szType, bool bHideAssert) const
+{
+    return CvEnumType(szType, bHideAssert);
+}
+#define GET_ENUM(String) (GC.getEnumForString(String))
+#define GET_ENUM_HIDE_ASSERT(String) (GC.getEnumForString(String,true))
+// ex. BuildingTypes ePalace = GC.getEnumForString("BUILDING_PALACE"); /* copy initialization */
+// ex. UnitTypes eWarrior = GET_ENUM("UNIT_WARRIOR"); /* copy initialization */
+// ex. LeaderHeadTypes eAugustus(GC.getEnumForString("LEADER_AUGUSTUS")); /* direct initialization */
+// ex. CivicTypes ePoliceState(GET_ENUM("CIVIC_POLICE_STATE")); /* direct initialization */
+// XANA: 03-21-2026 Easy Enum Lookup
 
 extern CvGlobals gGlobals;	// for debugging
 
