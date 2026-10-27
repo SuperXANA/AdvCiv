@@ -303,7 +303,7 @@ CvWString CvDatabaseManager::getLocationForFile()
 {
 	typedef HRESULT (__stdcall *FN_SHGetFolderPathW)(HWND, int, HANDLE, DWORD, wchar_t*);
 	HMODULE hShell = LoadLibraryA("shell32.dll");
-	if (!hShell) return ""; // If we can't load "shell32.lib" Windows library dynamically, fail early to avoid loading sqlite3 data from an invalid location.
+	if (!hShell) return CvWString(); // If we can't load "shell32.lib" Windows library dynamically, fail early to avoid loading sqlite3 data from an invalid location.
 	FN_SHGetFolderPathW pGetOSFilePath = reinterpret_cast<FN_SHGetFolderPathW>(GetProcAddress(hShell, "SHGetFolderPathW"));
 	CvWString CvFilePath;
 	if (pGetOSFilePath)
@@ -325,7 +325,7 @@ CvWString CvDatabaseManager::getLocationForFile()
 		{
 			typedef BOOL (WINAPI *PFN_CreateDirectoryW)(LPCWSTR, LPSECURITY_ATTRIBUTES);
 			HMODULE hKernel = LoadLibraryA("kernel32.dll");
-			if (!hKernel) return ""; // If we can't load "kernel32.lib" Windows library dynamically, fail early to avoid loading sqlite3 data from an invalid location.
+			if (!hKernel) return CvWString(); // If we can't load "kernel32.lib" Windows library dynamically, fail early to avoid loading sqlite3 data from an invalid location.
 			PFN_CreateDirectoryW pCreateOSDir = reinterpret_cast<PFN_CreateDirectoryW>(GetProcAddress(hKernel, "CreateDirectoryW"));
 			if (pCreateOSDir)
 			{
@@ -367,5 +367,5 @@ CvWString CvDatabaseManager::getLocationForFile()
 			return CvFilePath;
 		}
 	}
-	return ""; // If we reach this that means something has gone wrong with attempting sqlite database initialization, we shouldn't be trying to load any databases if we can't ensure the directory structure is okay to use
+	return CvWString(); // If we reach this that means something has gone wrong with attempting sqlite database initialization, we shouldn't be trying to load any databases if we can't ensure the directory structure is okay to use
 }
