@@ -9,6 +9,9 @@
 #include "FAStarFunc.h" // advc: only for getPlotGroupFinder
 #include "CvInfo_All.h"
 #include "CvXMLLoadUtility.h" // advc.003v
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+#include "CvDatabaseManager.h"
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 // <advc.003o>
 #ifdef USE_TSC_PROFILER
 #include "TSCProfiler.h"
@@ -93,7 +96,10 @@ m_iMaxCityPlotPriority(-1), // advc
 // <advc.opt>
 m_iEventMessageTime(-1),
 m_eRUINS_IMPROVEMENT(NO_IMPROVEMENT),
-m_eDEFAULT_SPECIALIST(NO_SPECIALIST)
+m_eDEFAULT_SPECIALIST(NO_SPECIALIST),
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+m_databaseManager(NULL)
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 {
 	m_aeWATER_TERRAIN[0] = m_aeWATER_TERRAIN[1] = NO_TERRAIN; // </advc.opt>
 	setCurrentXMLFile(NULL); // advc.006e
@@ -211,6 +217,10 @@ void CvGlobals::init() // allocate
 	m_iniInitCore = new CvInitCore();
 	gDLL->initGlobals(); // some globals need to be allocated outside the dll
 	m_pLogger = new CvDLLLogger(isLogging(), isRandLogging()); // advc
+	// XANA: 10-27-2026 SQLite lifecycle repair (ChatGPT)
+	// CvGame construction calls reset/uninit, which already accesses DB.
+	// Allocate the inert manager first; opening the database still waits for game init.
+	m_databaseManager = new CvDatabaseManager();
 	m_game = new CvGameAI();
 	m_map = new CvMap();
 
@@ -265,6 +275,9 @@ void CvGlobals::uninit() // free
 	SAFE_DELETE(m_iniInitCore);
 	gDLL->uninitGlobals();	// free globals allocated outside the dll
 	SAFE_DELETE(m_VarSystem);
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+	SAFE_DELETE(m_databaseManager);
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 	// already deleted outside of the dll, set to null for safety
 	m_messageQueue=NULL; m_hotJoinMsgQueue=NULL; m_messageControl=NULL;
@@ -471,6 +484,13 @@ int& CvGlobals::getNumAIPlayableCivilizationInfos()
 {
 	return m_iNumAIPlayableCivilizationInfos;
 }
+
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+CvDatabaseManager& CvGlobals::getDatabaseInstance()
+{
+	return *m_databaseManager;
+}
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 int& CvGlobals::getNumEntityEventTypes()
 {

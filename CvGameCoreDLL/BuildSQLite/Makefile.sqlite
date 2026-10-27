@@ -1,0 +1,439 @@
+# XANA: 2026-10-27 SQLite C build integration (ChatGPT)
+# Invoke from the existing Project directory. Keep Makefile.user machine-local.
+# Source manifest: SQLite version-3.7.5 Makefile.in LIBOBJS0.
+# https://github.com/sqlite/sqlite/blob/version-3.7.5/Makefile.in
+!include Makefile
+
+SQLITE_OBJ_DIR = $(TEMP_TARGET_FILES)\sqlite
+SQLITE_LIB = $(SQLITE_OBJ_DIR)\sqlite3.lib
+SQLITE_CFLAGS = /nologo /TC /Y- /MD /W3 /DWIN32 /D_WINDOWS /DSQLITE_CORE /DSQLITE_THREADSAFE=1 /DSQLITE_OMIT_LOAD_EXTENSION
+!IF "$(TARGET)" == "Debug"
+SQLITE_CFLAGS = $(SQLITE_CFLAGS) /Od /Z7 /D_DEBUG
+!ELSE
+SQLITE_CFLAGS = $(SQLITE_CFLAGS) /O2 /DNDEBUG
+!ENDIF
+
+SQLITE_OBJS = \
+    $(SQLITE_OBJ_DIR)\alter.obj \
+    $(SQLITE_OBJ_DIR)\analyze.obj \
+    $(SQLITE_OBJ_DIR)\attach.obj \
+    $(SQLITE_OBJ_DIR)\auth.obj \
+    $(SQLITE_OBJ_DIR)\backup.obj \
+    $(SQLITE_OBJ_DIR)\bitvec.obj \
+    $(SQLITE_OBJ_DIR)\btmutex.obj \
+    $(SQLITE_OBJ_DIR)\btree.obj \
+    $(SQLITE_OBJ_DIR)\build.obj \
+    $(SQLITE_OBJ_DIR)\callback.obj \
+    $(SQLITE_OBJ_DIR)\complete.obj \
+    $(SQLITE_OBJ_DIR)\ctime.obj \
+    $(SQLITE_OBJ_DIR)\date.obj \
+    $(SQLITE_OBJ_DIR)\delete.obj \
+    $(SQLITE_OBJ_DIR)\expr.obj \
+    $(SQLITE_OBJ_DIR)\fault.obj \
+    $(SQLITE_OBJ_DIR)\fkey.obj \
+    $(SQLITE_OBJ_DIR)\fts3.obj \
+    $(SQLITE_OBJ_DIR)\fts3_expr.obj \
+    $(SQLITE_OBJ_DIR)\fts3_hash.obj \
+    $(SQLITE_OBJ_DIR)\fts3_icu.obj \
+    $(SQLITE_OBJ_DIR)\fts3_porter.obj \
+    $(SQLITE_OBJ_DIR)\fts3_snippet.obj \
+    $(SQLITE_OBJ_DIR)\fts3_tokenizer.obj \
+    $(SQLITE_OBJ_DIR)\fts3_tokenizer1.obj \
+    $(SQLITE_OBJ_DIR)\fts3_write.obj \
+    $(SQLITE_OBJ_DIR)\func.obj \
+    $(SQLITE_OBJ_DIR)\global.obj \
+    $(SQLITE_OBJ_DIR)\hash.obj \
+    $(SQLITE_OBJ_DIR)\icu.obj \
+    $(SQLITE_OBJ_DIR)\insert.obj \
+    $(SQLITE_OBJ_DIR)\journal.obj \
+    $(SQLITE_OBJ_DIR)\legacy.obj \
+    $(SQLITE_OBJ_DIR)\loadext.obj \
+    $(SQLITE_OBJ_DIR)\main.obj \
+    $(SQLITE_OBJ_DIR)\malloc.obj \
+    $(SQLITE_OBJ_DIR)\mem0.obj \
+    $(SQLITE_OBJ_DIR)\mem1.obj \
+    $(SQLITE_OBJ_DIR)\mem2.obj \
+    $(SQLITE_OBJ_DIR)\mem3.obj \
+    $(SQLITE_OBJ_DIR)\mem5.obj \
+    $(SQLITE_OBJ_DIR)\memjournal.obj \
+    $(SQLITE_OBJ_DIR)\mutex.obj \
+    $(SQLITE_OBJ_DIR)\mutex_noop.obj \
+    $(SQLITE_OBJ_DIR)\mutex_os2.obj \
+    $(SQLITE_OBJ_DIR)\mutex_unix.obj \
+    $(SQLITE_OBJ_DIR)\mutex_w32.obj \
+    $(SQLITE_OBJ_DIR)\notify.obj \
+    $(SQLITE_OBJ_DIR)\opcodes.obj \
+    $(SQLITE_OBJ_DIR)\os.obj \
+    $(SQLITE_OBJ_DIR)\os_os2.obj \
+    $(SQLITE_OBJ_DIR)\os_unix.obj \
+    $(SQLITE_OBJ_DIR)\os_win.obj \
+    $(SQLITE_OBJ_DIR)\pager.obj \
+    $(SQLITE_OBJ_DIR)\parse.obj \
+    $(SQLITE_OBJ_DIR)\pcache.obj \
+    $(SQLITE_OBJ_DIR)\pcache1.obj \
+    $(SQLITE_OBJ_DIR)\pragma.obj \
+    $(SQLITE_OBJ_DIR)\prepare.obj \
+    $(SQLITE_OBJ_DIR)\printf.obj \
+    $(SQLITE_OBJ_DIR)\random.obj \
+    $(SQLITE_OBJ_DIR)\resolve.obj \
+    $(SQLITE_OBJ_DIR)\rowset.obj \
+    $(SQLITE_OBJ_DIR)\rtree.obj \
+    $(SQLITE_OBJ_DIR)\select.obj \
+    $(SQLITE_OBJ_DIR)\status.obj \
+    $(SQLITE_OBJ_DIR)\table.obj \
+    $(SQLITE_OBJ_DIR)\tokenize.obj \
+    $(SQLITE_OBJ_DIR)\trigger.obj \
+    $(SQLITE_OBJ_DIR)\update.obj \
+    $(SQLITE_OBJ_DIR)\util.obj \
+    $(SQLITE_OBJ_DIR)\vacuum.obj \
+    $(SQLITE_OBJ_DIR)\vdbe.obj \
+    $(SQLITE_OBJ_DIR)\vdbeapi.obj \
+    $(SQLITE_OBJ_DIR)\vdbeaux.obj \
+    $(SQLITE_OBJ_DIR)\vdbeblob.obj \
+    $(SQLITE_OBJ_DIR)\vdbemem.obj \
+    $(SQLITE_OBJ_DIR)\vdbetrace.obj \
+    $(SQLITE_OBJ_DIR)\wal.obj \
+    $(SQLITE_OBJ_DIR)\walker.obj \
+    $(SQLITE_OBJ_DIR)\where.obj \
+    $(SQLITE_OBJ_DIR)\utf.obj \
+    $(SQLITE_OBJ_DIR)\vtab.obj
+
+# The stock linker recipe expands LIBS when executed, after this addition.
+LIBS = $(LIBS) "$(SQLITE_LIB)"
+
+$(Target_BIN_TEMP): $(SQLITE_LIB)
+
+$(SQLITE_LIB): $(SQLITE_OBJS)
+	@"$(TOOLKIT)\bin\lib.exe" /nologo /out:"$(SQLITE_LIB)" $(SQLITE_OBJS)
+
+$(SQLITE_OBJ_DIR)\alter.obj: $(SOURCE_DIR)\sqlite\alter.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\analyze.obj: $(SOURCE_DIR)\sqlite\analyze.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\attach.obj: $(SOURCE_DIR)\sqlite\attach.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\auth.obj: $(SOURCE_DIR)\sqlite\auth.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\backup.obj: $(SOURCE_DIR)\sqlite\backup.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\bitvec.obj: $(SOURCE_DIR)\sqlite\bitvec.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\btmutex.obj: $(SOURCE_DIR)\sqlite\btmutex.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\btree.obj: $(SOURCE_DIR)\sqlite\btree.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\build.obj: $(SOURCE_DIR)\sqlite\build.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\callback.obj: $(SOURCE_DIR)\sqlite\callback.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\complete.obj: $(SOURCE_DIR)\sqlite\complete.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\ctime.obj: $(SOURCE_DIR)\sqlite\ctime.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\date.obj: $(SOURCE_DIR)\sqlite\date.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\delete.obj: $(SOURCE_DIR)\sqlite\delete.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\expr.obj: $(SOURCE_DIR)\sqlite\expr.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\fault.obj: $(SOURCE_DIR)\sqlite\fault.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\fkey.obj: $(SOURCE_DIR)\sqlite\fkey.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\fts3.obj: $(SOURCE_DIR)\sqlite\fts3.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\fts3_expr.obj: $(SOURCE_DIR)\sqlite\fts3_expr.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\fts3_hash.obj: $(SOURCE_DIR)\sqlite\fts3_hash.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\fts3_icu.obj: $(SOURCE_DIR)\sqlite\fts3_icu.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\fts3_porter.obj: $(SOURCE_DIR)\sqlite\fts3_porter.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\fts3_snippet.obj: $(SOURCE_DIR)\sqlite\fts3_snippet.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\fts3_tokenizer.obj: $(SOURCE_DIR)\sqlite\fts3_tokenizer.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\fts3_tokenizer1.obj: $(SOURCE_DIR)\sqlite\fts3_tokenizer1.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\fts3_write.obj: $(SOURCE_DIR)\sqlite\fts3_write.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\func.obj: $(SOURCE_DIR)\sqlite\func.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\global.obj: $(SOURCE_DIR)\sqlite\global.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\hash.obj: $(SOURCE_DIR)\sqlite\hash.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\icu.obj: $(SOURCE_DIR)\sqlite\icu.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\insert.obj: $(SOURCE_DIR)\sqlite\insert.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\journal.obj: $(SOURCE_DIR)\sqlite\journal.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\legacy.obj: $(SOURCE_DIR)\sqlite\legacy.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\loadext.obj: $(SOURCE_DIR)\sqlite\loadext.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\main.obj: $(SOURCE_DIR)\sqlite\main.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\malloc.obj: $(SOURCE_DIR)\sqlite\malloc.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\mem0.obj: $(SOURCE_DIR)\sqlite\mem0.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\mem1.obj: $(SOURCE_DIR)\sqlite\mem1.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\mem2.obj: $(SOURCE_DIR)\sqlite\mem2.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\mem3.obj: $(SOURCE_DIR)\sqlite\mem3.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\mem5.obj: $(SOURCE_DIR)\sqlite\mem5.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\memjournal.obj: $(SOURCE_DIR)\sqlite\memjournal.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\mutex.obj: $(SOURCE_DIR)\sqlite\mutex.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\mutex_noop.obj: $(SOURCE_DIR)\sqlite\mutex_noop.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\mutex_os2.obj: $(SOURCE_DIR)\sqlite\mutex_os2.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\mutex_unix.obj: $(SOURCE_DIR)\sqlite\mutex_unix.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\mutex_w32.obj: $(SOURCE_DIR)\sqlite\mutex_w32.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\notify.obj: $(SOURCE_DIR)\sqlite\notify.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\opcodes.obj: $(SOURCE_DIR)\sqlite\opcodes.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\os.obj: $(SOURCE_DIR)\sqlite\os.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\os_os2.obj: $(SOURCE_DIR)\sqlite\os_os2.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\os_unix.obj: $(SOURCE_DIR)\sqlite\os_unix.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\os_win.obj: $(SOURCE_DIR)\sqlite\os_win.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\pager.obj: $(SOURCE_DIR)\sqlite\pager.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\parse.obj: $(SOURCE_DIR)\sqlite\parse.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\pcache.obj: $(SOURCE_DIR)\sqlite\pcache.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\pcache1.obj: $(SOURCE_DIR)\sqlite\pcache1.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\pragma.obj: $(SOURCE_DIR)\sqlite\pragma.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\prepare.obj: $(SOURCE_DIR)\sqlite\prepare.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\printf.obj: $(SOURCE_DIR)\sqlite\printf.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\random.obj: $(SOURCE_DIR)\sqlite\random.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\resolve.obj: $(SOURCE_DIR)\sqlite\resolve.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\rowset.obj: $(SOURCE_DIR)\sqlite\rowset.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\rtree.obj: $(SOURCE_DIR)\sqlite\rtree.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\select.obj: $(SOURCE_DIR)\sqlite\select.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\status.obj: $(SOURCE_DIR)\sqlite\status.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\table.obj: $(SOURCE_DIR)\sqlite\table.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\tokenize.obj: $(SOURCE_DIR)\sqlite\tokenize.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\trigger.obj: $(SOURCE_DIR)\sqlite\trigger.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\update.obj: $(SOURCE_DIR)\sqlite\update.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\util.obj: $(SOURCE_DIR)\sqlite\util.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\vacuum.obj: $(SOURCE_DIR)\sqlite\vacuum.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\vdbe.obj: $(SOURCE_DIR)\sqlite\vdbe.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\vdbeapi.obj: $(SOURCE_DIR)\sqlite\vdbeapi.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\vdbeaux.obj: $(SOURCE_DIR)\sqlite\vdbeaux.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\vdbeblob.obj: $(SOURCE_DIR)\sqlite\vdbeblob.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\vdbemem.obj: $(SOURCE_DIR)\sqlite\vdbemem.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\vdbetrace.obj: $(SOURCE_DIR)\sqlite\vdbetrace.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\wal.obj: $(SOURCE_DIR)\sqlite\wal.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\walker.obj: $(SOURCE_DIR)\sqlite\walker.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\where.obj: $(SOURCE_DIR)\sqlite\where.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\utf.obj: $(SOURCE_DIR)\sqlite\utf.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"
+
+$(SQLITE_OBJ_DIR)\vtab.obj: $(SOURCE_DIR)\sqlite\vtab.c
+	@IF NOT EXIST "$(SQLITE_OBJ_DIR)\." MKDIR "$(SQLITE_OBJ_DIR)"
+	@$(CC) $(SQLITE_CFLAGS) $(GLOBAL_INCS) /I"$(SOURCE_DIR)\sqlite" /Fo"$@" /c "$**"

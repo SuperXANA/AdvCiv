@@ -28,6 +28,9 @@
 #include "CvHallOfFameInfo.h" // advc.106i
 #include "BBAILog.h" // BBAI
 #include "CvBugOptions.h" // K-Mod
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+#include "CvDatabaseManager.h"
+// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 /*	<advc.007c> Use this CvGame instance instead of GC.getGame() for RNG calls.
 	(Won't matter so long as CvGame is a singleton class.) */
@@ -169,6 +172,10 @@ void CvGame::init(HandicapTypes eHandicap)
 		if (GC.getInfo(eLoopSpecialBuilding).isValid())
 			makeSpecialBuildingValid(eLoopSpecialBuilding);
 	}
+
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+	DB.init();
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 	AI().AI_init();
 
@@ -451,6 +458,9 @@ void CvGame::uninit()
 	/*	advc.700: Need to call this explicitly due to the unusual way that
 		RiseFall is initialized (from updateBlockadedPlots) */
 	m_pRiseFall->reset();
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+	DB.uninit();
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 }
 
 // advc: Cut from CvGame::init
@@ -630,6 +640,12 @@ void CvGame::reset(HandicapTypes eHandicap, bool bConstructorCall)
 		is responsible for the game options and is loaded before CvGame. */
 	if (!bConstructorCall)
 		CvGlobals::getInstance().loadOptionalXMLInfo(); // </advc.003v>
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
+	if (!bConstructorCall)
+	{
+		DB.reset();
+	}
+	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 }
 
 /*	The EXE calls this after generating the map but before initFreeState
