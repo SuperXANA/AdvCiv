@@ -6,6 +6,10 @@ Baseline reference: read-only 1.14 at
 This is a scoped source proposal on an isolated branch, not a complete feature
 overlay or install-ready DLL.
 
+Published draft code: `96f7f865a9319903e317dfe596870d622f2d85fc` on
+GenderCounterDraft-ChatGPT. The subsequent coverage update changes documentation
+only. No workflow or native build was added.
+
 ## Findings implemented in this draft
 
 **GENDER-20261027-01 — cross-wired history storage.**

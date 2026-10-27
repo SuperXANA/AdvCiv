@@ -510,6 +510,34 @@
       "coverage": "workflow_source_inspected",
       "native_verification": "derivative_runs_recorded_separately",
       "next_action": "Preserve branch; copy current workflow when preparing an isolated full build."
+    },
+    {
+      "branch": "GenderCounterDraft-ChatGPT",
+      "head_at_inventory": "96f7f865a9319903e317dfe596870d622f2d85fc",
+      "source_branch": "GenderSpecificDiplomacy",
+      "coverage": "counter_scope_only",
+      "native_verification": "not_attempted_incomplete_feature",
+      "focused_verification": "C++03 and ASan/UBSan methods/update fixture; XML scalar structure checks",
+      "next_action": "Complete remaining feature compilation, XML/help and versioned save integration before a pinned-overlay native build."
     }
-  ]
+  ],
+  "current_pass": {
+    "source_head": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+    "draft_code_sha": "96f7f865a9319903e317dfe596870d622f2d85fc",
+    "dll_build_triggered": false,
+    "first_pass_pending": [
+      "AdvancedDiplomacy",
+      "CvPartyGroup",
+      "FFHEquipmentTypes",
+      "FFHRaceTypes",
+      "LeaderCivilizationSummoningRandomEvents",
+      "LeaderCivilizationVariantMechanics",
+      "LeaderSpecificMultilayeredAIDecisionEval",
+      "PartnerLeaderCivSpecificDiplomacyText",
+      "RealisticAIDecisions",
+      "UniqueCivicsReligions",
+      "UnitStatusEffects",
+      "alert-autofix-1"
+    ]
+  }
 }
