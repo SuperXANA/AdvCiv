@@ -86,3 +86,31 @@ completion; no historical run is substituted for this commit's validation.
   selected-variant locals rather than disabling warnings or changing compiler
   flags. The import helper is also private so all completion ownership flows
   through the main-thread mailbox drain.
+
+- Corrected code commit `6d106160bfc778b47274ef2025f02e68d183f3af`:
+  [run 40548144176](https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176)
+  completed successfully in **Release and Debug**. Both jobs verified
+  `_MSC_VER == 1310`, rebuilt all sources, uploaded artifacts and cleaned their
+  build outputs. The repeated local source regression suite also passed.
+
+| Configuration | Job | Artifact | DLL bytes | DLL SHA-256 |
+|---|---|---|---:|---|
+| Release | 122344251851 | [12753094174](https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176/artifacts/12753094174) | 6,606,848 | `97ab20f965e03cad785aabf05862c652f1a60088de8330d4a9b65e126dec3b55` |
+| Debug | 122344252109 | [12753299260](https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176/artifacts/12753299260) | 25,366,528 | `144112132229e30feb671e9ecc39455e151a9edab58d6882757f151bdc543f1b` |
+
+Both downloaded ZIPs matched GitHub's artifact SHA-256 digests. Each contains an
+x86 PE DLL (`Machine=0x14c`), the expected source manifest and provenance naming
+this exact code commit and the pinned baseline/feature/workflow. Debug also
+contains its PDB. No game launch or multiplayer session was performed.
+
+The main-thread display reads were additionally traced through actual baseline
+`CvPlayer::getPower`, `CvPlayerAI::AI_getAttitudeVal`, team attitude fallback and
+threshold mapping. They read stored/deterministic values and perform no gameplay
+writes, cache refresh or synchronized RNG calls. This static audit supports the
+presentation boundary; multiplayer lockstep still requires in-game validation.
+
+This final results update changes documentation only. The workflow's source/path
+filter avoids launching another unchanged DLL build for it. Future reviews
+should retain findings LLM-001–007 and this exact successful code SHA, and revisit
+when the source branch, transport producer, contextual expiration or request-ID
+reuse design changes.
