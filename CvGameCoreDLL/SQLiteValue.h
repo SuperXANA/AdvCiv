@@ -1,6 +1,11 @@
 #pragma once
 
 #include "CvGameCoreDLL.h"
+// XANA: 10-27-2026 Check integer conversion bounds before narrowing.
+#include <cerrno>
+#include <climits>
+#include <cstdlib>
+// XANA: END integer conversion includes.
 
 #ifndef CV_SQLITEVALUE_H
 #define CV_SQLITEVALUE_H
@@ -24,11 +29,23 @@ public:
 			}
 			case FLOAT:
 			{
-				return (int)m_data.d;
+				// XANA: 10-27-2026 Compare before casting; NaN also fails these bounds.
+				// Truncation toward zero permits fractions just outside the endpoints.
+				double const dLower = static_cast<double>(INT_MIN) - 1.0;
+				double const dUpper = static_cast<double>(INT_MAX) + 1.0;
+				return (m_data.d > dLower && m_data.d < dUpper) ?
+					static_cast<int>(m_data.d) : 0;
+				// XANA: END floating-to-integer range guard.
 			}
 			case TEXT:
 			{
-				return atoi(m_szValue.GetCString());
+				// XANA: 10-27-2026 strtol reports overflow before narrowing to int.
+				// Keep atoi's decimal-prefix behavior for ordinary text.
+				errno = 0;
+				long const iValue = std::strtol(m_szValue.GetCString(), NULL, 10);
+				return (errno != ERANGE && iValue >= INT_MIN && iValue <= INT_MAX) ?
+					static_cast<int>(iValue) : 0;
+				// XANA: END text-to-integer range guard.
 			}
 			default:
 			{

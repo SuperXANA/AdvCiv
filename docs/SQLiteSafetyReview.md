@@ -106,9 +106,10 @@ SQLite 3.7.5 vendor files remain unchanged. New findings and refinements:
   previous successful commit result. Regressions cover implicit rollback through
   both execution paths, stale destruction, read-only `COMMIT; BEGIN;` batches,
   connection replacement, and failed reuse.
-- **SQLITE-20261027-02 — Fractional scaled values were changed in storage.**
-  Binding a `scaled` value through an integer discarded its fractional part;
-  constructing a read value with a divisor of 100 applied an extra scale change.
+- **SQLITE-20261027-02 — Scaled bindings failed compilation and reads lost precision.**
+  Binding used an integer cast unsupported by AdvCiv's actual `scaled` class;
+  constructing a read value with a divisor of 100 truncated the floating value
+  and applied an extra scale change. The earlier portable stub hid both issues.
   Bind/read conversions now use the existing `getDouble()`/`fromDouble()` API,
   with positive and negative fractional round-trip checks.
 - **SQLITE-20261027-03 — Declared foreign keys were unenforced.**
@@ -134,8 +135,24 @@ SQLite 3.7.5 vendor files remain unchanged. New findings and refinements:
   empty result. Regressions add a table column and recreate a view with the same
   column count but different names.
 
-The focused portable regression suite passes with the bundled SQLite 3.7.5.
-Full DLL build results are recorded separately below when available. Windows
+- **SQLITE-20261027-07 — Static archive creation assumed a separate lib.exe.**
+  MSVC 7.1 compiled all game and SQLite sources, then archive creation could
+  not launch the assumed Toolkit `lib.exe`. The wrapper now uses its existing
+  `link.exe /lib` library-manager mode, retaining the same toolchain and static
+  archive. Both configurations are rebuilt from clean sources for validation.
+
+- **SQLITE-20261027-08 — Final DLL link omitted the static archive.**
+  Archive creation succeeded, but the preserved stock link command still
+  reported unresolved SQLite APIs. Appending a library macro after including
+  the machine Makefile did not connect the archive in this build environment.
+  A dedicated additive `sqlite_dll` target now explicitly supplies the archive,
+  retains resolved linker flags and postbuild hooks, and displays the command.
+  Ordinary and fast project configurations both invoke this target.
+
+The focused portable regression suite passes with the bundled SQLite 3.7.5,
+including a reader/writer lock test where COMMIT returns BUSY and the same
+owner successfully retries after the reader releases its lock.
+Full DLL build results are recorded below. Windows
 path discovery, in-game save loading and multiplayer synchronization still
 require integration verification.
 
@@ -149,3 +166,95 @@ a defined common snapshot/authority. Current filenames based on game names do
 not establish globally unique game identity or synchronization. Persistent
 schema migration, backup/recovery policy, complete error reporting, and actual
 event/diplomacy consumers remain future work.
+
+## Additional range and Windows-body checks
+
+Scaled reads now reject values outside scaled::MIN..MAX, including NaN/infinity,
+returning zero rather than invoking an overflowing fixed-point conversion. This
+conservative bound may reject the fractional interval beyond integer MAX. Existing
+fractional binding behavior, transaction-generation safeguards, foreign-key setup,
+and schema-recompile metadata refresh are preserved. Added regressions cover
+non-finite/out-of-range doubles and both accepted endpoints.
+
+`python tests/test_sqlite_windows_path.py` syntax-checks the actual Windows path
+function with narrow/wide string and API declarations. This catches type mistakes
+hidden by the portable database harness's substituted path function; it does not
+validate the Windows filesystem, calling convention, runtime, or ABI.
+
+
+## DLL verification record, 2026-10-27
+
+Source revision: `09f5b449a440e31bb349f6cd887b1c8d26f578cc` on
+`AISurvivorSQLiteFixes-ChatGPT`. Full validation tree:
+`4ec20de346a3c1118e8ab189b09854cae2e9a332` on
+`AISurvivorSQLiteBuild-ChatGPT`, retaining AdvCiv 1.14 baseline
+`5970334b64a875b5cdb370c94fc9a98db4eacda6` and its save-version 28 repairs.
+SQLite remains 3.7.5; no vendor engine sources were changed during this pass.
+
+[Exact workflow run](https://github.com/SuperXANA/AdvCiv/actions/runs/40536272889)
+uses the configured Toolkit 2003 C/C++ compiler and linker, builds 83 selected
+SQLite C translation units without the game PCH, creates sqlite3.lib, and passes
+it explicitly into the DLL link. MSBuild 2010 is the project orchestrator.
+
+| Configuration | Full rebuild | Artifact |
+| --- | --- | --- |
+| Release | Passed, including upload and cleanup | 12748562410 |
+| Debug | Passed, including upload and cleanup | 12747604433 |
+
+Release binary inspection: PE32 i386, 6,909,952 bytes, imports MSVCR71.dll,
+msvcp71.dll, Python 2.4 and Boost VC71, and has no SQLite DLL import.
+DLL SHA-256: `4a19d1a2ae26539390016af37b3aa2576b4e22f691f1ee43c701de943887d692`.
+
+Portable C++03 default/schema-fixture suites and ASan/UBSan schema-fixture checks
+passed against bundled 3.7.5. The final suite includes non-finite/range guards,
+positive/negative fractional values, BUSY COMMIT retry, automatic rollback
+ownership, foreign keys, and schema-recompiled column maps. The Windows path
+syntax/type regression also passed. Fast configurations were inspected and their
+project XML parsed; they were not separately built in this validation run.
+
+Earlier run 40535483093 at da3bd25 passed both full configurations before the
+additional range guards. Earlier failure runs 40532545391 (SSH quoting),
+40532859809 (PCH directive), 40533396511 (CvGame include/wide literal),
+40533695428 (archive tool launch), and 40534437815 (archive omitted from final
+DLL link) were addressed by subsequent commits and should not be retried unchanged.
+
+This establishes compiler/static-link compatibility. It does not execute the
+DLL inside Beyond the Sword, exercise the Windows filesystem at runtime, or
+validate savegame/multiplayer behavior. SQL_SCHEMA_VERSION remains zero; the
+actual gameplay schema, migrations, replay semantics, authority, and event/memory
+consumers remain implementation work.
+
+## SQLITE-20261027-09 — Checked integer value conversion
+
+This refinement starts from managed source 8cfe175cfb333a82961058398e020b6fcdb8f73e,
+preserving the existing transaction, foreign-key, scaled-value and build repairs.
+The original AISurvivorStatTracking branch and SQLite 3.7.5 engine are unchanged.
+
+SQLiteValue's FLOAT-to-int conversion still used an unchecked cast. A focused
+C++03 UBSan diagnostic reproduced an out-of-range cast with SQLiteValue(1e100).
+NaN and infinity were also unsafe for this conversion. TEXT-to-int used atoi,
+which offers no overflow check before narrowing to Civ4's 32-bit int.
+
+The FLOAT conversion now checks the open interval (INT_MIN-1, INT_MAX+1) before
+casting, retaining truncation toward zero for valid fractional endpoint values.
+NaN, infinity and values outside that interval return zero, consistent with
+existing null/invalid numeric-read fallbacks. TEXT conversion uses decimal strtol,
+rejects ERANGE and results outside INT_MIN..INT_MAX before narrowing, and retains
+the old leading-whitespace/sign/numeric-prefix behavior for ordinary text.
+
+This does not add a 64-bit integer API or change SQLiteStatement::getInt's native
+SQLite conversion semantics. Callers needing lossless 64-bit IDs still need an
+explicit representation/API. The zero fallback does not distinguish conversion
+failure from a stored zero.
+
+Run: python tests/test_sqlite_value_conversions.py
+Optional: SQLITE_TEST_SANITIZE=1 python tests/test_sqlite_value_conversions.py
+
+Both focused checks passed using the production SQLiteValue header and the
+existing Civ stubs. Coverage includes finite fractional values, integer endpoints
+and nearby fractions, out-of-range values, NaN/infinities, oversized decimal text,
+ordinary text prefixes, and bool's delegated conversion. These pure-value tests
+do not replace the bundled-engine regressions or the Windows DLL build.
+The updated complete-base build is published on AISurvivorSQLiteBuild-ChatGPT;
+its exact commit, per-configuration result and artifacts are reported with this
+refinement. Earlier DLL records above apply only to their named revisions.
