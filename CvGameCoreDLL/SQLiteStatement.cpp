@@ -126,7 +126,8 @@ double SQLiteStatement::getDouble(const char* szColName) const
 
 scaled SQLiteStatement::getScaled(const char* szColName) const
 {
-	return scaled::fromDouble(getDouble(getColumnIndex(szColName)));
+	double const d = getDouble(getColumnIndex(szColName));
+	return (d >= scaled::MIN && d <= scaled::MAX) ? scaled::fromDouble(d) : scaled();
 }
 
 bool SQLiteStatement::getBool(const char* szColName) const

@@ -21,6 +21,7 @@ STUB=r'''
 #include <cstdarg>
 #include <climits>
 #include <cmath>
+#include <limits>
 namespace boost { class noncopyable { protected: noncopyable() {} ~noncopyable() {} private: noncopyable(const noncopyable&); noncopyable& operator=(const noncopyable&); }; }
 namespace stdext { template<class K,class V> class hash_map : public std::map<K,V> {}; }
 class CvString : public std::string { public:
@@ -35,6 +36,7 @@ class CvWString { std::basic_string<unsigned short> s; public:
 // Match the production scaled API: integral ratio constructors, explicit
 // floating conversion, and 1/2048 precision. A double ratio stub hid truncation.
 class scaled { int i; public:
+ enum { MIN=INT_MIN/2048, MAX=INT_MAX/2048 };
  scaled():i(0){} scaled(int n):i(n*2048){} scaled(unsigned n):i(n*2048){}
  scaled(int n,int den):i(n*2048/den){} scaled(unsigned n,unsigned den):i(n*2048/den){}
  static scaled fromDouble(double d) { scaled r;r.i=static_cast<int>(std::floor(d*2048+0.5));return r; }
@@ -102,6 +104,12 @@ int main() {
  { SQLiteStatement s("select","SELECT v,txt FROM t");assert(s.next());assert(s.getInt("v")==1);assert(s.getText("txt")=="one");assert(!s.hasRow(2));assert(!s.hasRow(-1));assert(!s.next());assert(!s.next()); }
  // Parameter maps are initialized, names expose stable c_str() data.
  { SQLiteStatement s("params","SELECT :p AS result");assert(s.hasBinding(":p"));assert(s.bind(":p",7));assert(s.exec());assert(s.getInt("result")==7);assert(std::string(s.getParameterName(1))==":p");assert(std::string(s.getColumnName(0))=="result");SQLiteValue v=s.getValue(0);assert(int(v)==7); }
+ // Invalid database doubles must not overflow the fixed-point conversion.
+ { SQLiteStatement s("scaled-range","SELECT 1e100 AS n");assert(s.exec());assert(s.getScaled("n").getDouble()==0); }
+ { SQLiteValue v(std::numeric_limits<double>::quiet_NaN());assert(v.operator scaled().getDouble()==0); }
+ { SQLiteValue v(std::numeric_limits<double>::infinity());assert(v.operator scaled().getDouble()==0); }
+ { SQLiteValue v(double(scaled::MIN));assert(v.operator scaled().getDouble()==scaled::MIN); }
+ { SQLiteValue v(double(scaled::MAX));assert(v.operator scaled().getDouble()==scaled::MAX); }
  // Reusing a cache key with new SQL must not execute the old SQL.
  { SQLiteStatement s("collision","SELECT 11 AS n");assert(s.exec());assert(s.getInt(0)==11); }
  { SQLiteStatement s("collision","SELECT 22 AS n");assert(s.exec());assert(s.getInt(0)==22);assert(s.prepare("SELECT 33 AS n"));assert(s.exec());assert(s.getInt(0)==33);s.reset(false);assert(s.prepare("SELECT :newparam AS newcolumn"));assert(s.bind(":newparam",44));assert(s.exec());assert(s.getInt("newcolumn")==44); }

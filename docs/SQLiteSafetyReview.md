@@ -149,3 +149,17 @@ a defined common snapshot/authority. Current filenames based on game names do
 not establish globally unique game identity or synchronization. Persistent
 schema migration, backup/recovery policy, complete error reporting, and actual
 event/diplomacy consumers remain future work.
+
+## Additional range and Windows-body checks
+
+Scaled reads now reject values outside scaled::MIN..MAX, including NaN/infinity,
+returning zero rather than invoking an overflowing fixed-point conversion. This
+conservative bound may reject the fractional interval beyond integer MAX. Existing
+fractional binding behavior, transaction-generation safeguards, foreign-key setup,
+and schema-recompile metadata refresh are preserved. Added regressions cover
+non-finite/out-of-range doubles and both accepted endpoints.
+
+`python tests/test_sqlite_windows_path.py` syntax-checks the actual Windows path
+function with narrow/wide string and API declarations. This catches type mistakes
+hidden by the portable database harness's substituted path function; it does not
+validate the Windows filesystem, calling convention, runtime, or ABI.

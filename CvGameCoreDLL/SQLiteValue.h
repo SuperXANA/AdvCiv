@@ -88,7 +88,8 @@ public:
 	}
 	operator scaled() const
 	{ 
-		return scaled::fromDouble(operator double());
+		double const d = operator double();
+		return (d >= scaled::MIN && d <= scaled::MAX) ? scaled::fromDouble(d) : scaled();
 	}
 	bool isNull() const
 	{ 
