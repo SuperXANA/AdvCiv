@@ -90,6 +90,55 @@ not claimed. Initial tests also passed against system SQLite 3.46.1.
 These are focused tests, not a full DLL build, Windows filesystem verification,
 SQLite engine audit, multiplayer synchronization test, or in-game save validation.
 
+## Follow-up review, 2026-10-27
+
+This pass starts from the existing manager fixes at
+`b37d61abd737fc6d93abda3cbc1693af5f4919fb`. The original feature branch and
+SQLite 3.7.5 vendor files remain unchanged. New findings and refinements:
+
+- **SQLITE-20261027-01 — Transaction ownership after automatic rollback.**
+  `INSERT OR ROLLBACK` can end a transaction without notifying its C++ owner.
+  The stale owner's later commit or destructor could then affect another
+  caller's transaction. The manager now tracks a transaction generation using
+  SQLite 3.7.5's trace callback and autocommit state, including boundaries inside
+  raw SQL batches; wrappers verify ownership before commit/rollback. Connection
+  shutdown also invalidates ownership. A failed reused `begin()` now clears a
+  previous successful commit result. Regressions cover implicit rollback through
+  both execution paths, stale destruction, read-only `COMMIT; BEGIN;` batches,
+  connection replacement, and failed reuse.
+- **SQLITE-20261027-02 — Fractional scaled values were changed in storage.**
+  Binding a `scaled` value through an integer discarded its fractional part;
+  constructing a read value with a divisor of 100 applied an extra scale change.
+  Bind/read conversions now use the existing `getDouble()`/`fromDouble()` API,
+  with positive and negative fractional round-trip checks.
+- **SQLITE-20261027-03 — Declared foreign keys were unenforced.**
+  SQLite 3.7.5 defaults enforcement off in this build. A schema script's
+  `PRAGMA foreign_keys=ON` would also be ineffective inside the manager's schema
+  transaction. Initialization now enables and verifies enforcement immediately
+  after opening the connection, before schema work. Regressions reject orphan
+  inserts and check `ON DELETE CASCADE`.
+- **SQLITE-20261027-04 — Fast project configurations skipped the SQLite wrapper.**
+  Their final `jom build` selected the original makefile, omitting the static
+  SQLite build/link setup. Both build and rebuild commands now select
+  `BuildSQLite/Makefile.sqlite` for each fast configuration.
+- **SQLITE-20261027-05 — Windows DLL compilation needed explicit includes.**
+  MSVC 7.1 precompiled-header builds require the direct `CvGameCoreDLL.h` include
+  before each affected source's implementation. The manager also needs the full
+  `CvGame` declaration for its multiplayer path calls, and its wide path must
+  append a wide filename literal. Portable stubs cannot establish these Windows
+  compiler requirements; the DLL workflow supplies the actual validation.
+- **SQLITE-20261027-06 — Cached column names survived SQLite recompilation.**
+  Schema changes can make SQLite automatically recompile a cached `SELECT`,
+  changing its result columns after the wrapper has built its name map. The
+  wrapper now refreshes names after the first successful step, including an
+  empty result. Regressions add a table column and recreate a view with the same
+  column count but different names.
+
+The focused portable regression suite passes with the bundled SQLite 3.7.5.
+Full DLL build results are recorded separately below when available. Windows
+path discovery, in-game save loading and multiplayer synchronization still
+require integration verification.
+
 ## Remaining integration design
 
 Cross-save writes need explicit game/branch/event identity and replay semantics:
