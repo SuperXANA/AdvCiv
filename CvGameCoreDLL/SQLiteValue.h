@@ -5,12 +5,13 @@
 #ifndef CV_SQLITEVALUE_H
 #define CV_SQLITEVALUE_H
 
-class SQLiteValue : private boost::noncopyable
+// XANA: 10-27-2026 Values own their data and must be copyable in C++03.
+class SQLiteValue
 {
 public:
 	SQLiteValue() : m_eType(NULL_TYPE) { m_data.i = 0; }
 	explicit SQLiteValue(int val) : m_eType(INTEGER) { m_data.i = val; }
-	explicit SQLiteValue(bool val) : m_eType(INTEGER) { m_data.i = (val ? (static_cast<int>true) : (static_cast<int>false)); }
+	explicit SQLiteValue(bool val) : m_eType(INTEGER) { m_data.i = (val ? static_cast<int>(true) : static_cast<int>(false)); }
 	explicit SQLiteValue(double val) : m_eType(FLOAT) { m_data.d = val; }
 	explicit SQLiteValue(const CvString& val) : m_eType(TEXT) { m_data.i = 0; m_szValue = val; }
 	operator int() const
@@ -25,7 +26,7 @@ public:
 			{
 				return (int)m_data.d;
 			}
-			case TEXT;
+			case TEXT:
 			{
 				return atoi(m_szValue.GetCString());
 			}
@@ -47,7 +48,7 @@ public:
 			{
 				return (double)m_data.i;
 			}
-			case TEXT;
+			case TEXT:
 			{
 				return atof(m_szValue.GetCString());
 			}
@@ -58,12 +59,12 @@ public:
 		}
 	}
 	operator float() const { return (float)operator double(); }
-	operator bool() const { return operator int() != (static_cast<int>false); }
+	operator bool() const { return operator int() != static_cast<int>(false); }
 	operator CvString() const
 	{
 		switch (m_eType)
 		{
-			case TEXT;
+			case TEXT:
 			{
 				return m_szValue;
 			}
@@ -81,7 +82,7 @@ public:
 			}
 			default:
 			{
-				return CvString(NULL);
+				return CvString();
 			}
 		}
 	}

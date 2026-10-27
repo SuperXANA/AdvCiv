@@ -5,7 +5,9 @@ SQLiteConnection::SQLiteConnection(const CvWString& szFilename) : m_database(NUL
 {}
 
 SQLiteConnection::~SQLiteConnection()
-{}
+{
+	close();
+}
 
 bool SQLiteConnection::open()
 {
@@ -19,6 +21,9 @@ bool SQLiteConnection::open()
 	}
 	else
 	{
+		// sqlite3_open16 can return a handle even on failure.
+		if (m_database != NULL)
+			sqlite3_close(m_database);
 		m_database = NULL;
 	}
 	return false;
@@ -26,14 +31,14 @@ bool SQLiteConnection::open()
 
 bool SQLiteConnection::close()
 {
-	if (finalizeAllStatements())
-	{
-		if (sqlite3_close(m_database) == SQLITE_OK)
-		{
-			m_database = NULL;
-		}
-	}
-	return (m_database == NULL);
+	if (m_database == NULL)
+		return true;
+	// XANA: 10-27-2026 Do not finalize statements still owned by callers.
+	// SQLITE_BUSY preserves the handle so shutdown can be retried safely.
+	if (sqlite3_close(m_database) != SQLITE_OK)
+		return false;
+	m_database = NULL;
+	return true;
 }
 
 bool SQLiteConnection::isValid() const
@@ -49,19 +54,4 @@ bool SQLiteConnection::exec(const CvString& szSQL)
 bool SQLiteConnection::prepare(sqlite3_stmt*& kStatement, const CvString& szSQL)
 {
 	return (sqlite3_prepare_v2(m_database, szSQL.GetCString(), ((int)szSQL.GetLength() + 1) /* XANA (note): automatically calculates extra length to include the NULL terminator, since we know how long the string is */, &kStatement, NULL) == SQLITE_OK);
-}
-
-bool SQLiteConnection::finalizeAllStatements()
-{
-	if (!isValid())
-	{
-		return false;
-	}
-	sqlite3_stmt* pStatement = NULL;
-	while ((pStatement = sqlite3_next_stmt(m_database, NULL)) != NULL)
-	{
-		sqlite3_finalize(pStatement);
-		pStatement = NULL;
-	}
-	return true;
 }

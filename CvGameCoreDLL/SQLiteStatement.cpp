@@ -4,16 +4,16 @@
 #include "SQLiteValue.h"
 
 SQLiteStatement::SQLiteStatement()
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bPrepared(false), m_szKey(NULL), m_szSQL(NULL)
+	: m_szKey(), m_szSQL(), m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bMappedParameters(false), m_bPrepared(false), m_bFinished(false), m_iLastResult(SQLITE_OK)
 	{}
 
 
 SQLiteStatement::SQLiteStatement(const CvString& szKey)
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bPrepared(false), m_szKey(szKey), m_szSQL(NULL)
+	: m_szKey(szKey), m_szSQL(), m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bMappedParameters(false), m_bPrepared(false), m_bFinished(false), m_iLastResult(SQLITE_OK)
 	{}
 	
 SQLiteStatement::SQLiteStatement(const CvString& szKey, const CvString& szSQL)
-	: m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bPrepared(false), m_szKey(szKey), m_szSQL(szSQL)
+	: m_szKey(szKey), m_szSQL(szSQL), m_statement(NULL), m_bHasRow(false), m_bMappedColumns(false), m_bMappedParameters(false), m_bPrepared(false), m_bFinished(false), m_iLastResult(SQLITE_OK)
 	{
 		prepare(m_szSQL);
 	}
@@ -30,24 +30,31 @@ bool SQLiteStatement::isValid() const
 
 bool SQLiteStatement::prepare(const CvString& szSQL)
 {
-	if (!m_szKey.GetCString() || !szSQL.GetCString())
+	if (m_szKey.empty() || szSQL.empty())
 	{
 		return false;
 	}
 	if (isPrepared())
 	{
-		return true;
+		if (m_szSQL == szSQL)
+			return true;
+		finalize();
 	}
 	if (m_szSQL != szSQL)
 	{
+		// reset(false) may preserve lookup maps for the previous SQL.
+		reset();
 		m_szSQL = szSQL;
 	}
 	m_statement = DB.prepareStatementFromCache(m_szKey, m_szSQL);
 	if (m_statement == NULL)
 	{
+		m_iLastResult = SQLITE_ERROR;
 		return false;
 	}
 	setPrepared(true);
+	m_bFinished = false;
+	m_iLastResult = SQLITE_OK;
 	if (!m_bMappedColumns)
 	{
 		m_bMappedColumns = mapColumns();
@@ -88,7 +95,6 @@ SQLiteValue SQLiteStatement::getValue(int iColumn) const
 			{
 				return SQLiteValue(getDouble(iColumn));
 			}
-			case SQLITE3_TEXT:
 			case SQLITE_TEXT:
 			{
 				return SQLiteValue(getText(iColumn));
@@ -232,7 +238,7 @@ int SQLiteStatement::getColumnIndex(const char* szName) const
 	{
 		return -1;
 	}
-	ColumnNameMap::const_interator it = m_columnNameMap.find(szName);
+	ColumnNameMap::const_iterator it = m_columnNameMap.find(szName);
     if (it == m_columnNameMap.end())
 	{
 		return -1;
@@ -246,12 +252,12 @@ const char* SQLiteStatement::getColumnName(int iColumn) const
 	{
 		return NULL;
 	}
-	ColumnIDMap::const_interator it = m_columnIDMap.find(iColumn);
+	ColumnIDMap::const_iterator it = m_columnIDMap.find(iColumn);
     if (it == m_columnIDMap.end())
 	{
 		return NULL;
     }
-	return it->second;
+	return it->second.c_str();
 }
 
 int SQLiteStatement::getParameterIndex(const char* szName) const
@@ -260,7 +266,7 @@ int SQLiteStatement::getParameterIndex(const char* szName) const
 	{
 		return 0;
 	}
-	ParameterNameMap::const_interator it = m_paramNameMap.find(szName);
+	ParameterNameMap::const_iterator it = m_paramNameMap.find(szName);
     if (it == m_paramNameMap.end())
 	{
 		return 0;
@@ -274,12 +280,12 @@ const char* SQLiteStatement::getParameterName(int index) const
 	{
 		return NULL;
 	}
-	ParameterIDMap::const_interator it = m_paramIDMap.find(index);
+	ParameterIDMap::const_iterator it = m_paramIDMap.find(index);
     if (it == m_paramIDMap.end())
 	{
 		return NULL;
     }
-	return it->second;
+	return it->second.c_str();
 }
 
 bool SQLiteStatement::bind(const char* szParam, int iValue)
@@ -344,20 +350,17 @@ bool SQLiteStatement::hasBinding(const char* szParam) const
     return getParameterIndex(szParam) != 0;
 }
 
+// XANA: 10-27-2026 SQLite safety: DONE is success for exec, never a row for next.
 bool SQLiteStatement::step(bool bLooping)
 {
-	if (!isPrepared())
-	{
-		m_bHasRow = false;
+	m_bHasRow = false;
+	if (!isPrepared() || m_bFinished)
 		return false;
-	}
-	int const rc = sqlite3_step(m_statement);
-	m_bHasRow = (rc == SQLITE_ROW);
-	if (bLooping && rc != SQLITE_ROW && rc != SQLITE_DONE)
-	{
-		sqlite3_reset(m_statement);
-	}
-	return m_bHasRow;
+	m_iLastResult = sqlite3_step(m_statement);
+	m_bHasRow = (m_iLastResult == SQLITE_ROW);
+	m_bFinished = !m_bHasRow;
+	return bLooping ? m_bHasRow :
+		(m_bHasRow || m_iLastResult == SQLITE_DONE);
 }
 
 int SQLiteStatement::getColumnType(int iColumn) const
@@ -387,7 +390,7 @@ bool SQLiteStatement::getBool(int iColumn) const
 
 CvString SQLiteStatement::getText(int iColumn) const
 {
-	return CvString(hasRow(iColumn) ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement, iColumn)) : NULL);
+	return CvString(hasRow(iColumn) && sqlite3_column_text(m_statement, iColumn) ? reinterpret_cast<const char*>(sqlite3_column_text(m_statement, iColumn)) : "");
 }
 
 bool SQLiteStatement::isNull(int iColumn) const
@@ -425,9 +428,9 @@ bool SQLiteStatement::bind(int index, scaled rValue)
 	return bind(index, static_cast<int>(rValue));
 }
 
-bool SQLiteStatement::bind(int index, const char* szValue, bool bCopy = true)
+bool SQLiteStatement::bind(int index, const char* szValue, bool bCopy)
 {
-	if (!value) return bindNull(index);
+	if (!szValue) return bindNull(index);
 	sqlite3_destructor_type destructor = bCopy ? SQLITE_TRANSIENT : SQLITE_STATIC;
 	return isValid() ? sqlite3_bind_text(m_statement, index, szValue, -1, destructor) == SQLITE_OK : false;
 }

@@ -14,18 +14,20 @@ SQLiteTransaction::~SQLiteTransaction()
 
 bool SQLiteTransaction::begin()
 {
-    if (isValid() || DB.exec("BEGIN;"))
-    {
-        return true;
-    }
-    return false;
+	if (isValid())
+		return true;
+	if (!DB.exec("BEGIN;"))
+		return false;
+	m_bActive = true;
+	m_bCommitted = false;
+	return true;
 }
 
 bool SQLiteTransaction::commit()
 {
     if (!isValid())
 	{
-		return true;
+		return wasCommitted();
 	}
     if (DB.exec("COMMIT;"))
     {

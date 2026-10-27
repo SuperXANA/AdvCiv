@@ -1,5 +1,6 @@
 #include "CvDatabaseQuery.h"
 #include "SQLiteStatement.h"
+#include <sstream>
 
 CvDatabaseQuery::CvDatabaseQuery() 
 	: m_hasWhere(false), m_hasSet(false), m_hasColumns(false), m_hasCreateColumns(false)
@@ -9,13 +10,13 @@ CvDatabaseQuery::CvDatabaseQuery(const char* tableName)
 	: m_hasWhere(false), m_hasSet(false), m_hasColumns(false), m_hasCreateColumns(false) 
 {
 	m_sql = CvString::format("SELECT * FROM ");
-	m_sql += CvString::format(tableName);
+	m_sql += CvString(tableName);
 }
 
 CvDatabaseQuery& CvDatabaseQuery::createTable(const char* tableName)
 {
 	m_sql = CvString::format("CREATE TABLE ");
-	m_sql += CvString::format(tableName);
+	m_sql += CvString(tableName);
 	m_sql += CvString::format(" (");
 	m_hasWhere = false;
 	m_hasSet = false;
@@ -27,7 +28,7 @@ CvDatabaseQuery& CvDatabaseQuery::createTable(const char* tableName)
 CvDatabaseQuery& CvDatabaseQuery::createTableIfNotExists(const char* tableName)
 {
 	m_sql = CvString::format("CREATE TABLE IF NOT EXISTS ");
-	m_sql += CvString::format(tableName);
+	m_sql += CvString(tableName);
 	m_sql += CvString::format(" (");
 	m_hasWhere = false;
 	m_hasSet = false;
@@ -42,9 +43,9 @@ CvDatabaseQuery& CvDatabaseQuery::column(const char* name, const char* type)
 	{
 		m_sql += CvString::format(", ");
 	}
-	m_sql += CvString::format(name);
+	m_sql += CvString(name);
 	m_sql += CvString::format(" ");
-	m_sql += CvString::format(type);
+	m_sql += CvString(type);
 	m_hasCreateColumns = true;
 	return *this;
 }
@@ -76,16 +77,16 @@ CvDatabaseQuery& CvDatabaseQuery::autoIncrement()
 CvDatabaseQuery& CvDatabaseQuery::defaultValue(const char* value)
 {
 	m_sql += CvString::format(" DEFAULT ");
-	m_sql += CvString::format(value);
+	m_sql += CvString(value);
 	return *this;
 }
 
 CvDatabaseQuery& CvDatabaseQuery::references(const char* table, const char* column)
 {
 	m_sql += CvString::format(" REFERENCES ");
-	m_sql += CvString::format(table);
+	m_sql += CvString(table);
 	m_sql += CvString::format("(");
-	m_sql += CvString::format(column);
+	m_sql += CvString(column);
 	m_sql += CvString::format(")");
 	return *this;
 }
@@ -97,11 +98,11 @@ CvDatabaseQuery& CvDatabaseQuery::foreignKey(const char* columns, const char* re
 		m_sql += CvString::format(", ");
 	}
 	m_sql += CvString::format("FOREIGN KEY (");
-	m_sql += CvString::format(columns);
+	m_sql += CvString(columns);
 	m_sql += CvString::format(") REFERENCES ");
-	m_sql += CvString::format(refTable);
+	m_sql += CvString(refTable);
 	m_sql += CvString::format("(");
-	m_sql += CvString::format(refColumns);
+	m_sql += CvString(refColumns);
 	m_sql += CvString::format(")");
 	m_hasCreateColumns = true;
 	return *this;
@@ -110,14 +111,14 @@ CvDatabaseQuery& CvDatabaseQuery::foreignKey(const char* columns, const char* re
 CvDatabaseQuery& CvDatabaseQuery::onDelete(const char* action)
 {
 	m_sql += CvString::format(" ON DELETE ");
-	m_sql += CvString::format(action);
+	m_sql += CvString(action);
 	return *this;
 }
 
 CvDatabaseQuery& CvDatabaseQuery::onUpdate(const char* action)
 {
 	m_sql += CvString::format(" ON UPDATE ");
-	m_sql += CvString::format(action);
+	m_sql += CvString(action);
 	return *this;
 }
 
@@ -130,7 +131,7 @@ CvDatabaseQuery& CvDatabaseQuery::endTable()
 CvDatabaseQuery& CvDatabaseQuery::dropTable(const char* tableName)
 {
 	m_sql = CvString::format("DROP TABLE ");
-	m_sql += CvString::format(tableName);
+	m_sql += CvString(tableName);
 	m_hasWhere = false;
 	m_hasSet = false;
 	m_hasColumns = false;
@@ -141,7 +142,7 @@ CvDatabaseQuery& CvDatabaseQuery::dropTable(const char* tableName)
 CvDatabaseQuery& CvDatabaseQuery::dropTableIfExists(const char* tableName)
 {
 	m_sql = CvString::format("DROP TABLE IF EXISTS ");
-	m_sql += CvString::format(tableName);
+	m_sql += CvString(tableName);
 	m_hasWhere = false;
 	m_hasSet = false;
 	m_hasColumns = false;
@@ -152,7 +153,7 @@ CvDatabaseQuery& CvDatabaseQuery::dropTableIfExists(const char* tableName)
 CvDatabaseQuery& CvDatabaseQuery::alterTable(const char* tableName)
 {
 	m_sql = CvString::format("ALTER TABLE ");
-	m_sql += CvString::format(tableName);
+	m_sql += CvString(tableName);
 	m_hasWhere = false;
 	m_hasSet = false;
 	m_hasColumns = false;
@@ -163,16 +164,16 @@ CvDatabaseQuery& CvDatabaseQuery::alterTable(const char* tableName)
 CvDatabaseQuery& CvDatabaseQuery::addColumn(const char* name, const char* type)
 {
 	m_sql += CvString::format(" ADD COLUMN ");
-	m_sql += CvString::format(name);
+	m_sql += CvString(name);
 	m_sql += CvString::format(" ");
-	m_sql += CvString::format(type);
+	m_sql += CvString(type);
 	return *this;
 }
 
 CvDatabaseQuery& CvDatabaseQuery::select(const char* columns)
 {
 	m_sql = CvString::format("SELECT ");
-	m_sql += CvString::format(columns);
+	m_sql += CvString(columns);
 	m_hasWhere = false;
 	m_hasSet = false;
 	m_hasColumns = false;
@@ -182,7 +183,7 @@ CvDatabaseQuery& CvDatabaseQuery::select(const char* columns)
 CvDatabaseQuery& CvDatabaseQuery::selectDistinct(const char* columns)
 {
 	m_sql = CvString::format("SELECT DISTINCT ");
-	m_sql += CvString::format(columns);
+	m_sql += CvString(columns);
 	m_hasWhere = false;
 	m_hasSet = false;
 	m_hasColumns = false;
@@ -192,45 +193,45 @@ CvDatabaseQuery& CvDatabaseQuery::selectDistinct(const char* columns)
 CvDatabaseQuery& CvDatabaseQuery::from(const char* table)
 {
 	m_sql += CvString::format(" FROM ");
-	m_sql += CvString::format(table);
+	m_sql += CvString(table);
 	return *this;
 }
 
 CvDatabaseQuery& CvDatabaseQuery::join(const char* table, const char* onCondition)
 {
 	m_sql += CvString::format(" JOIN ");
-	m_sql += CvString::format(table);
+	m_sql += CvString(table);
 	m_sql += CvString::format(" ON ");
-	m_sql += CvString::format(onCondition);
+	m_sql += CvString(onCondition);
 	return *this;
 }
 
 CvDatabaseQuery& CvDatabaseQuery::leftJoin(const char* table, const char* onCondition)
 {
 	m_sql += CvString::format(" LEFT JOIN ");
-	m_sql += CvString::format(table);
+	m_sql += CvString(table);
 	m_sql += CvString::format(" ON ");
-	m_sql += CvString::format(onCondition);
+	m_sql += CvString(onCondition);
 	return *this;
 }
 
 CvDatabaseQuery& CvDatabaseQuery::innerJoin(const char* table, const char* onCondition)
 {
 	m_sql += CvString::format(" INNER JOIN ");
-	m_sql += CvString::format(table);
+	m_sql += CvString(table);
 	m_sql += CvString::format(" ON ");
-	m_sql += CvString::format(onCondition);
+	m_sql += CvString(onCondition);
 	return *this;
 }
 
 CvDatabaseQuery& CvDatabaseQuery::where(const char* column, const char* op, const char* paramName)
 {
 	m_sql += CvString::format(" WHERE ");
-	m_sql += CvString::format(column);
+	m_sql += CvString(column);
 	m_sql += CvString::format(" ");
-	m_sql += CvString::format(op);
+	m_sql += CvString(op);
 	m_sql += CvString::format(" ");
-	m_sql += CvString::format(paramName);
+	m_sql += CvString(paramName);
 	m_hasWhere = true;
 	return *this;
 }
@@ -242,11 +243,11 @@ CvDatabaseQuery& CvDatabaseQuery::andWhere(const char* column, const char* op, c
 		return where(column, op, paramName);
 	}
 	m_sql += CvString::format(" AND ");
-	m_sql += CvString::format(column);
+	m_sql += CvString(column);
 	m_sql += CvString::format(" ");
-	m_sql += CvString::format(op);
+	m_sql += CvString(op);
 	m_sql += CvString::format(" ");
-	m_sql += CvString::format(paramName);
+	m_sql += CvString(paramName);
 	return *this;
 }
 
@@ -257,11 +258,11 @@ CvDatabaseQuery& CvDatabaseQuery::orWhere(const char* column, const char* op, co
 		return where(column, op, paramName);
 	}
 	m_sql += CvString::format(" OR ");
-	m_sql += CvString::format(column);
+	m_sql += CvString(column);
 	m_sql += CvString::format(" ");
-	m_sql += CvString::format(op);
+	m_sql += CvString(op);
 	m_sql += CvString::format(" ");
-	m_sql += CvString::format(paramName);
+	m_sql += CvString(paramName);
 	return *this;
 }
 
@@ -303,7 +304,7 @@ CvDatabaseQuery& CvDatabaseQuery::whereLike(const char* column, const char* para
 CvDatabaseQuery& CvDatabaseQuery::whereNull(const char* column)
 {
 	m_sql += CvString::format(" WHERE ");
-	m_sql += CvString::format(column);
+	m_sql += CvString(column);
 	m_sql += CvString::format(" IS NULL");
 	m_hasWhere = true;
 	return *this;
@@ -312,7 +313,7 @@ CvDatabaseQuery& CvDatabaseQuery::whereNull(const char* column)
 CvDatabaseQuery& CvDatabaseQuery::whereNotNull(const char* column)
 {
 	m_sql += CvString::format(" WHERE ");
-	m_sql += CvString::format(column);
+	m_sql += CvString(column);
 	m_sql += CvString::format(" IS NOT NULL");
 	m_hasWhere = true;
 	return *this;
@@ -321,7 +322,7 @@ CvDatabaseQuery& CvDatabaseQuery::whereNotNull(const char* column)
 CvDatabaseQuery& CvDatabaseQuery::whereRaw(const char* condition)
 {
 	m_sql += CvString::format(" WHERE ");
-	m_sql += CvString::format(condition);
+	m_sql += CvString(condition);
 	m_hasWhere = true;
 	return *this;
 }
@@ -331,7 +332,7 @@ CvDatabaseQuery& CvDatabaseQuery::andWhereRaw(const char* condition)
 	if (!m_hasWhere)
 		return whereRaw(condition);
 	m_sql += CvString::format(" AND ");
-	m_sql += CvString::format(condition);
+	m_sql += CvString(condition);
 	return *this;
 }
 
@@ -340,28 +341,28 @@ CvDatabaseQuery& CvDatabaseQuery::orWhereRaw(const char* condition)
 	if (!m_hasWhere)
 		return whereRaw(condition);
 	m_sql += CvString::format(" OR ");
-	m_sql += CvString::format(condition);
+	m_sql += CvString(condition);
 	return *this;
 }
 
 CvDatabaseQuery& CvDatabaseQuery::groupBy(const char* columns)
 {
 	m_sql += CvString::format(" GROUP BY ");
-	m_sql += CvString::format(columns);
+	m_sql += CvString(columns);
 	return *this;
 }
 
 CvDatabaseQuery& CvDatabaseQuery::having(const char* condition)
 {
 	m_sql += CvString::format(" HAVING ");
-	m_sql += CvString::format(condition);
+	m_sql += CvString(condition);
 	return *this;
 }
 
 CvDatabaseQuery& CvDatabaseQuery::orderBy(const char* column, bool ascending)
 {
 	m_sql += CvString::format(" ORDER BY ");
-	m_sql += CvString::format(column);
+	m_sql += CvString(column);
 	if (ascending)
 		m_sql += CvString::format(" ASC");
 	else
@@ -386,7 +387,7 @@ CvDatabaseQuery& CvDatabaseQuery::offset(int count)
 CvDatabaseQuery& CvDatabaseQuery::update(const char* table)
 {
 	m_sql = CvString::format("UPDATE ");
-	m_sql += CvString::format(table);
+	m_sql += CvString(table);
 	m_hasWhere = false;
 	m_hasSet = false;
 	return *this;
@@ -395,9 +396,9 @@ CvDatabaseQuery& CvDatabaseQuery::update(const char* table)
 CvDatabaseQuery& CvDatabaseQuery::set(const char* column, const char* paramName)
 {
 	m_sql += CvString::format(" SET ");
-	m_sql += CvString::format(column);
+	m_sql += CvString(column);
 	m_sql += CvString::format(" = ");
-	m_sql += CvString::format(paramName);
+	m_sql += CvString(paramName);
 	m_hasSet = true;
 	return *this;
 }
@@ -407,16 +408,16 @@ CvDatabaseQuery& CvDatabaseQuery::addSet(const char* column, const char* paramNa
 	if (!m_hasSet)
 		return set(column, paramName);
 	m_sql += CvString::format(", ");
-	m_sql += CvString::format(column);
+	m_sql += CvString(column);
 	m_sql += CvString::format(" = ");
-	m_sql += CvString::format(paramName);
+	m_sql += CvString(paramName);
 	return *this;
 }
 
 CvDatabaseQuery& CvDatabaseQuery::insertInto(const char* table)
 {
 	m_sql = CvString::format("INSERT INTO ");
-	m_sql += CvString::format(table);
+	m_sql += CvString(table);
 	m_hasWhere = false;
 	m_hasSet = false;
 	m_hasColumns = false;
@@ -426,7 +427,7 @@ CvDatabaseQuery& CvDatabaseQuery::insertInto(const char* table)
 CvDatabaseQuery& CvDatabaseQuery::columns(const char* columnList)
 {
 	m_sql += CvString::format(" (");
-	m_sql += CvString::format(columnList);
+	m_sql += CvString(columnList);
 	m_sql += CvString::format(")");
 	m_hasColumns = true;
 	return *this;
@@ -435,7 +436,7 @@ CvDatabaseQuery& CvDatabaseQuery::columns(const char* columnList)
 CvDatabaseQuery& CvDatabaseQuery::values(const char* paramList)
 {
 	m_sql += CvString::format(" VALUES (");
-	m_sql += CvString::format(paramList);
+	m_sql += CvString(paramList);
 	m_sql += CvString::format(")");
 	return *this;
 }
@@ -443,7 +444,7 @@ CvDatabaseQuery& CvDatabaseQuery::values(const char* paramList)
 CvDatabaseQuery& CvDatabaseQuery::deleteFrom(const char* table)
 {
 	m_sql = CvString::format("DELETE FROM ");
-	m_sql += CvString::format(table);
+	m_sql += CvString(table);
 	m_hasWhere = false;
 	m_hasSet = false;
 	return *this;
@@ -463,7 +464,7 @@ const CvString& CvDatabaseQuery::getSQLString() const
     return m_sql;
 }
 
-static std::string CvDatabaseQuery::intToString(int value)
+std::string CvDatabaseQuery::intToString(int value)
 {
 	std::ostringstream kStream;
 	kStream << value;

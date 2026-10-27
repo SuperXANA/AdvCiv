@@ -19,11 +19,12 @@ public:
 	
 	bool isValid() const;
 	bool isPrepared() const { return isValid() && m_bPrepared; }
-	bool hasRow(int iColumn) const { return isPrepared() && m_bHasRow && (iColumn >= 0); }
+	bool hasRow(int iColumn) const { return isPrepared() && m_bHasRow && (iColumn >= 0) && iColumn < getColumnCount(); }
 	
 	bool prepare(const CvString& szSQL);
 	
 	bool exec(); // XANA (note): Use for single queries, when loops aren't needed.
+	int getLastResult() const { return m_iLastResult; }
 	bool next(); // XANA (note): Use for looping queries, when a while loop is needed.
 	
 	SQLiteValue getValue(const char* szColName) const; // XANA (note): Use when you don't know the type of data stored in the database column, it converts stored column information into a supported type automatically.
@@ -37,6 +38,7 @@ public:
 	bool isNull(const char* szColName) const;
 	
 	bool mapColumns();
+	bool mapParams();
 	void reset(bool bClearStatementMap = true);
 	void finalize();
 
@@ -88,9 +90,12 @@ private:
 	bool m_bMappedColumns;
 	bool m_bMappedParameters;
 	bool m_bPrepared;
+	bool m_bFinished;
+	int m_iLastResult;
 	
 	bool step(bool bLooping = true);
 	int getColumnCount() const;
+	int getParameterCount() const;
 	bool bind(int index, int iValue);
 	bool bind(int index, float fValue);
 	bool bind(int index, double dValue);

@@ -3,11 +3,13 @@
 #include "CvDatabaseFwd.h"
 #include <fstream>
 
-CvDatabaseManager::CvDatabaseManager() : m_sqlite(NULL), m_bDoCache(false), m_bActive(false), m_bSqlLoaded(false)
+CvDatabaseManager::CvDatabaseManager() : m_sqlite(NULL), m_bDoCache(false), m_bSqlLoaded(false), m_bActive(false)
 {}
 
 CvDatabaseManager::~CvDatabaseManager()
-{}
+{
+	uninit();
+}
 
 bool CvDatabaseManager::exec(const CvString& szSQL)
 {
@@ -25,72 +27,55 @@ bool CvDatabaseManager::isValid() const
 
 bool CvDatabaseManager::init()
 {
-	if (m_sqlite == NULL)
+	if (isValid())
+		return true;
+	if (!uninit())
+		return false;
+	// No schema has been supplied for this feature branch yet.
+	if (SQL_SCHEMA_VERSION <= 0)
+		return false;
+	CvWString szDatabasePath(getLocationForFile());
+	if (szDatabasePath.empty())
+		return false;
+	m_sqlite = new SQLiteConnection(szDatabasePath);
+	if (!m_sqlite->open())
 	{
-		/* XANA (note): For network games, we must ensure that the sqlite3 database will be kept in sync between the players or there will be out-of-sync errors. */
-		CvWString szDatabasePath(getLocationForFile());
-		if (!szDatabasePath.empty()) // XANA (note): If we successfully found the user's valid, writable My Documents folder (path not empty)
-		{
-			m_sqlite = new SQLiteConnection(szDatabasePath);
-		}
-		else return false; // XANA (note): We can't save a database file in an invalid, empty location, so don't initialize at all in that case
-		if (m_sqlite != NULL && m_sqlite->open())
-		{
-			if (!m_bActive)
-			{
-				m_bActive = true;
-			}
-			if (!m_bDoCache)
-			{
-				m_bDoCache = true;
-			}
-			if (!m_bSqlLoaded)
-			{
-				int iVersion = SQL_SCHEMA_VERSION;
-				if (testSchemaVersion(iVersion))
-				{
-					m_bSqlLoaded = true;
-					return m_bSqlLoaded; // XANA (note): Database schema matches the schema required in the DLL header, everything is ready!
-				}
-				else if (iVersion > 0 && iVersion < SQL_SCHEMA_VERSION) /* XANA (note): If the above test returned false and it found a lower sehema version than expected, then that means we need to migrate the data */
-				{
-					m_bSqlLoaded = migrateDatabaseSchema();
-					return m_bSqlLoaded;
-				}
-				else if (iVersion == 0) /* XANA (note): If the above test returned false and we found a database with a version set at 0, this means it is a fresh database file that we need to set up */
-				{
-					// XANA (note): We have a fresh & never-used database, so we'll set it up now!
-					m_bSqlLoaded = writeSchemaToDatabase();
-					return m_bSqlLoaded;
-				}
-				else
-				{
-					// XANA (note): We have a strange situation where sqlite is out of sync with the DLL schema requirement and migration scripts couldn't update it, need to clean up and start fresh to make sure sqlite is working fine
-					m_bSqlLoaded = exec("PRAGMA writable_schema = 1;" "DELETE FROM sqlite_master;" "PRAGMA writable_schema = 0;" "VACUUM;") && writeSchemaToDatabase();
-					return m_bSqlLoaded;
-				}
-			}
-			else return true;
-		}
-		else return false;
+		uninit();
+		return false;
 	}
-	return isValid();
+
+	// XANA: 10-27-2026 Bootstrap through the private connection. Public queries
+	// stay unavailable until the schema has been successfully verified.
+	int iVersion = -1;
+	bool bReady = testSchemaVersion(iVersion);
+	if (!bReady && iVersion == 0)
+		bReady = writeSchemaToDatabase();
+	else if (!bReady && iVersion > 0 && iVersion < SQL_SCHEMA_VERSION)
+		bReady = migrateDatabaseSchema();
+	if (bReady)
+		bReady = testSchemaVersion(iVersion);
+	if (!bReady)
+	{
+		// Unknown/newer versions and failed reads must never erase user data.
+		uninit();
+		return false;
+	}
+	m_bActive = true;
+	m_bSqlLoaded = true;
+	m_bDoCache = true;
+	return true;
 }
 
 bool CvDatabaseManager::uninit()
 {
 	m_bDoCache = false;
 	clearStatementPool();
-	if (isValid())
-	{
-		if (m_sqlite->close())
-		{
-			SAFE_DELETE(m_sqlite);
-		}
-	}
 	m_bActive = false;
 	m_bSqlLoaded = false;
-	return (m_sqlite == NULL);
+	if (m_sqlite != NULL && m_sqlite->close())
+		SAFE_DELETE(m_sqlite);
+	// Outstanding borrowed statements can return safely, then close can retry.
+	return m_sqlite == NULL;
 }
 
 sqlite3_stmt* CvDatabaseManager::prepareStatementFromCache(const CvString& szKey, const CvString& szSQL)
@@ -108,7 +93,10 @@ sqlite3_stmt* CvDatabaseManager::prepareStatementFromCache(const CvString& szKey
 		{
 			sqlite3_stmt* pStatement = vPool.back();
 			vPool.pop_back();
-			return pStatement;
+			const char* szCachedSQL = sqlite3_sql(pStatement);
+			if (szCachedSQL != NULL && szSQL == szCachedSQL)
+				return pStatement;
+			sqlite3_finalize(pStatement);
 		}
 	}
 	/* XANA (note): If we fell through when checking against szKey's vector storage, there's clearly nothing to use here from our memory.
@@ -131,7 +119,7 @@ void CvDatabaseManager::returnStatementToCache(const CvString& szKey, sqlite3_st
 	{
 		return;
 	}
-	if (isValid() && m_doCache && szKey.GetCString())
+	if (isValid() && m_bDoCache && szKey.GetCString())
 	{
 		sqlite3_reset(kStatement);
 		sqlite3_clear_bindings(kStatement);
@@ -174,9 +162,17 @@ bool CvDatabaseManager::prepare(sqlite3_stmt*& kStatement, const CvString& szSQL
 
 bool CvDatabaseManager::testSchemaVersion(int& iVersion)
 {
-	SQLSchemaData kStruct;
-	iVersion = kStruct.query();
-	return ((iVersion > 0) ? (iVersion >= SQL_SCHEMA_VERSION) : false);
+	iVersion = -1;
+	if (m_sqlite == NULL || !m_sqlite->isValid())
+		return false;
+	sqlite3_stmt* pStatement = NULL;
+	if (!m_sqlite->prepare(pStatement, "PRAGMA user_version;"))
+		return false;
+	if (sqlite3_step(pStatement) == SQLITE_ROW)
+		iVersion = sqlite3_column_int(pStatement, 0);
+	sqlite3_finalize(pStatement);
+	// Version zero denotes an uninitialized schema, not a supported version.
+	return SQL_SCHEMA_VERSION > 0 && iVersion == SQL_SCHEMA_VERSION;
 }
 
 bool CvDatabaseManager::writeSchemaToDatabase()
@@ -184,7 +180,7 @@ bool CvDatabaseManager::writeSchemaToDatabase()
 	CvString szFile(GC.getModName().getFullPath()); // XANA (note): This should resolve to "Mods\MLP Civilization is Magic" according to code comments surrounding the getFullPath function.
 	if (!szFile.empty())
 	{
-		szFile += "\\SQL\\CvGameDatabaseSchema.sql" // XANA (note): The full path for a correct resolution is "Mods\MLP Civilization is Magic\Assets\SQL\CvGameDatabaseSchema.sql"
+		szFile += "\\Assets\\SQL\\CvGameDatabaseSchema.sql"; // XANA (note): The full path for a correct resolution is "Mods\MLP Civilization is Magic\Assets\SQL\CvGameDatabaseSchema.sql"
 		return runSchemaScript(szFile);
 	}
 	return false;
@@ -192,26 +188,9 @@ bool CvDatabaseManager::writeSchemaToDatabase()
 
 bool CvDatabaseManager::migrateDatabaseSchema()
 {
-	typedef std::vector<CvString> CvStringVector;
-	CvStringVector::size_type iCount = 0;
-	
-	CvStringVector aszFiles;
-	gDLL->enumerateFiles(aszFiles, "SQL\\CvGameDatabaseMigrationScript_*.sql");
-	if (aszFiles.size() > 0)
-	{
-		// Sort files alphabetically to ensure scripts run in chronological order!
-		std::sort(aszFiles.begin(), aszFiles.end());
-		
-		for (CvStringVector::iterator it = aszFiles.begin(); it != aszFiles.end(); ++it)
-		{
-			if (runSchemaScript(*it))
-			{
-				iCount++;
-			}
-			else break; /* XANA (note): Uh-oh, the migration failed! We have to break now to avoid damaging the database further... */
-		}
-		return (iCount == aszFiles.size());
-	}
+	// XANA: 10-27-2026 No version-indexed migration manifest is supplied yet.
+	// Replaying every script can corrupt an already-partially-upgraded database.
+	// Keep the existing file intact until explicit migration steps are defined.
 	return false;
 }
 
@@ -239,8 +218,14 @@ bool CvDatabaseManager::runSchemaScript(const CvString& szPath)
 		}
 		if (!szFileData.empty())
 		{
-			SQLSchemaData kStruct;
-			return kStruct.update(szFileData);
+			if (m_sqlite == NULL || !m_sqlite->exec("BEGIN IMMEDIATE;"))
+				return false;
+			int iVersion = -1;
+			bool bOK = m_sqlite->exec(szFileData) && testSchemaVersion(iVersion);
+			if (bOK && m_sqlite->exec("COMMIT;"))
+				return true;
+			m_sqlite->exec("ROLLBACK;");
+			return false;
 		}
 	}
 	return false;
@@ -248,10 +233,10 @@ bool CvDatabaseManager::runSchemaScript(const CvString& szPath)
 
 CvWString CvDatabaseManager::getLocationForFile()
 {
-	typedef HRESULT (__stdcall *FN_SHGetFolderPathA)(HWND, int, HANDLE, DWORD, char*);
+	typedef HRESULT (__stdcall *FN_SHGetFolderPathW)(HWND, int, HANDLE, DWORD, wchar_t*);
 	HMODULE hShell = LoadLibraryA("shell32.dll");
 	if (!hShell) return ""; // If we can't load "shell32.lib" Windows library dynamically, fail early to avoid loading sqlite3 data from an invalid location.
-	FN_SHGetFolderPathA pGetOSFilePath = reinterpret_cast<FN_SHGetFolderPathA>(GetProcAddress(hShell, "SHGetFolderPathA"));
+	FN_SHGetFolderPathW pGetOSFilePath = reinterpret_cast<FN_SHGetFolderPathW>(GetProcAddress(hShell, "SHGetFolderPathW"));
 	CvWString CvFilePath;
 	if (pGetOSFilePath)
 	{
@@ -301,8 +286,8 @@ CvWString CvDatabaseManager::getLocationForFile()
 				while (position != std::wstring::npos);
 			}
 			else bValidLocation = false;
+			FreeLibrary(hKernel);
 		}
-		FreeLibrary(hKernel);
 		if (bValidLocation)
 		{
 			CvFilePath += "CvGameDatabase"; // XANA (note): If the file somehow gets removed, that's fine for Civ4, it won't affect actual gameplay much since the game doesn't depend on SQL to function
@@ -310,7 +295,7 @@ CvWString CvDatabaseManager::getLocationForFile()
 			{
 				CvFilePath += (L"-MP_" + GC.getGame().getName());
 			}
-			CvFilePath += ".sqlite"
+			CvFilePath += L".sqlite";
 			return CvFilePath;
 		}
 	}

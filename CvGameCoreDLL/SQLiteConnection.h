@@ -21,6 +21,5 @@ private:
 	bool isValid() const;
 	bool exec(const CvString& szSQL);
 	bool prepare(sqlite3_stmt*& kStatement, const CvString& szSQL);
-	bool finalizeAllStatements();
 };
 #endif

@@ -11,7 +11,7 @@
 
 extern "C"
 {
-	#include "sqlite3.h"
+	#include "sqlite/sqlite3.h"
 }
 
 #pragma warning(pop) // Restore original Civ4 mod warning levels

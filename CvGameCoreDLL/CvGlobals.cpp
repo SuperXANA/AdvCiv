@@ -217,15 +217,16 @@ void CvGlobals::init() // allocate
 	m_iniInitCore = new CvInitCore();
 	gDLL->initGlobals(); // some globals need to be allocated outside the dll
 	m_pLogger = new CvDLLLogger(isLogging(), isRandLogging()); // advc
+	// XANA: 10-27-2026 SQLite lifecycle repair (ChatGPT)
+	// CvGame construction calls reset/uninit, which already accesses DB.
+	// Allocate the inert manager first; opening the database still waits for game init.
+	m_databaseManager = new CvDatabaseManager();
 	m_game = new CvGameAI();
 	m_map = new CvMap();
 
 	CvPlayer::initStatics();
 	CvTeam::initStatics();
 	m_agents = new CvAgents(MAX_PLAYERS, MAX_TEAMS); // advc.agent
-	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
-	m_databaseManager = new CvDatabaseManager();
-	// XANA: 10-04-2025 Data Storage Interface for Advanced Civ
 
 	//m_pt3Origin = NiPoint3(0.0f, 0.0f, 0.0f); // advc.003j: unused
 
@@ -1429,4 +1430,3 @@ void CvGlobals::setBorderFinder(FAStar* pVal) { m_borderFinder = pVal; }
 void CvGlobals::setAreaFinder(FAStar* pVal) { m_areaFinder = pVal; }
 void CvGlobals::setPlotGroupFinder(FAStar* pVal) { m_plotGroupFinder = pVal; }
 CvDLLUtilityIFaceBase* CvGlobals::getDLLIFaceNonInl() { return m_pDLL; }
-CvDLLUtilityIFaceBase* CvGlobals::getSQLIFace() { return m_pSQL; }
