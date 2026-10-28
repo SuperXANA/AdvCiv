@@ -294,9 +294,10 @@ public:
 		pStream->Read(&iSize);
 		if (iSize > 0)
 		{
-			reset(iSize);
+			reset(iSize, 1); // XANA: 10-28-2026 Preserve flat allocation (ChatGPT)
 			pStream->Read(iSize, m_pArray);
 		}
+		else clear(); // XANA: 10-28-2026 Empty stream replaces old data (ChatGPT)
 	}
 	void Write(FDataStreamBase* pStream)
 	{
@@ -342,7 +343,7 @@ public:
 	{
 		if (kOther.m_pArray != NULL)
 		{
-			this->reset(kOther.size());
+			this->reset(kOther.size(), 1); // XANA: 10-28-2026 Preserve flat allocation (ChatGPT)
 			for (int i = 0; i < kOther.size(); ++i)
 			{
 				this->m_pArray[i] = kOther.m_pArray[i];
@@ -353,7 +354,7 @@ public:
 	{
 		if (this != &kOther)
 		{
-			this->reset(kOther.size());
+			this->reset(kOther.size(), 1); // XANA: 10-28-2026 Preserve flat allocation (ChatGPT)
 			if (kOther.m_pArray != NULL)
 			{
 				for (int i = 0; i < kOther.size(); ++i)
