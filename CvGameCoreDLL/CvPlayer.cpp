@@ -14536,7 +14536,7 @@ void CvPlayer::read(FDataStreamBase* pStream)
 	uint iSize;
 	pStream->Read(&iSize);
 	if (iSize > 0)
-		m_reputationScores.resize(iSize);
+		m_reputationScores.reserve(iSize);
 	for (uint i = 0; i < iSize; i++)
 	{
 		ReputationScore kRepScore;

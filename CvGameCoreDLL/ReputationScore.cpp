@@ -93,7 +93,7 @@ void ReputationScore::read(FDataStreamBase* pStream, bool bLegacy)
 }
 
 
-void ReputationScore::write(FDataStreamBase* pStream)
+void ReputationScore::write(FDataStreamBase* pStream) const
 {
 	int const iSize = size();
 	pStream->Write(iSize);

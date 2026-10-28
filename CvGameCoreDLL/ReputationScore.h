@@ -19,7 +19,7 @@ public:
 	void set(int iTurn, int iValue);
 	void decay();
 	void read(FDataStreamBase* pStream, bool bLegacy = false);
-	void write(FDataStreamBase* pStream);
+	void write(FDataStreamBase* pStream) const;
 	void changeSampleSize(char iChange) { setSampleSize(m_iMovingAvgSamples + iChange); }
 	// XANA (note): A getSampleSize method isn't needed because it has no effect outside the class, however the set/changeSampleSize functions can be used to modify how strongly AI players remember reputation opinions.
 
