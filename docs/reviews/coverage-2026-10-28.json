@@ -11,7 +11,7 @@
     "A standalone C++03 test is not a DLL build; an isolated overlay result is not a result for the unchanged original head.",
     "Runtime game/save/multiplayer validation is distinct from native compiler validation."
   ],
-  "initial_coverage_complete": false,
+  "initial_coverage_complete": true,
   "stop_gate_satisfied": false,
   "qualification": "Conservative snapshot: partial and unverified rows require work or evidence consolidation. Historical failures resolved by later recorded builds are not queued for repeated rebuilding.",
   "branches": [
@@ -65,9 +65,12 @@
     {
       "branch": "alert-autofix-1",
       "head_at_inventory": "f52ced74c31bdbd9696c37b00b73ce12b99f5d1b",
-      "coverage": "pending",
-      "native_verification": "not_recorded",
-      "next_action": "Read marked source before evaluation; inspect existing work before creating a branch."
+      "coverage": "source_review_no_fix_warranted",
+      "native_verification": "arithmetic_fixture_only_no_dll_build",
+      "next_action": "No production change required for this alert; revisit relevant code changes or concrete downstream range failure.",
+      "review_branch": "CivicScrollDraft-ChatGPT",
+      "source_review_scope": "Compared complete ScaledNum headers and actual floor/ceil types; Copilot modulo rewrite equivalent within positive-scale, int-representable ceiling domain.",
+      "qualification": "Copilot-generated upstream work. 1,986,550 extracted-method C++03/ASan/UBSan comparisons passed; no MSVC/DLL/game result."
     },
     {
       "branch": "CityBonusDiplomacyBuild-ChatGPT",
@@ -575,14 +578,17 @@
       "head_at_inventory": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
       "coverage": "source_review_partial",
       "native_verification": "draft_only_no_dll_build",
-      "next_action": "Reuse draft for remaining decay, persistence, alignment, metadata and AI integration coverage.",
+      "next_action": "Reuse existing draft for remaining alignment/reputation metadata, decay, versioned persistence and AI integration before full pinned-base DLL validation.",
       "review_branch": "ReputationWindowDraft-ChatGPT",
-      "draft_code_sha": "3e1cadff15d0d8741a40bb83b5760c389b087a22",
+      "draft_code_sha": "ab9846a637dfc2847349cb63d398017f7d8d4c3a",
       "finding_ids": [
         "REPUTATION-20261028-01",
-        "REPUTATION-20261028-02"
+        "REPUTATION-20261028-02",
+        "REPUTATION-20261028-03",
+        "REPUTATION-20261028-04"
       ],
-      "source_review_scope": "ReputationScore completed-turn window, initialization and setter syntax; marked player/AI callers read for context."
+      "source_review_scope": "Completed-turn score window/defaults plus player score-vector load cardinality and const serialization; remaining feature scopes unverified.",
+      "qualification": "Actual score methods and player score read/write blocks passed C++03/ASan/UBSan with a byte-buffer stream stub; no full DLL/game save/Windows ABI validation."
     },
     {
       "branch": "RenegadeDiplomacyBuild-ChatGPT",
@@ -673,9 +679,15 @@
     {
       "branch": "UniqueCivicsReligions",
       "head_at_inventory": "d0fc7c0f93320e112903416c17bb2a2030819d60",
-      "coverage": "pending",
-      "native_verification": "not_recorded",
-      "next_action": "Read marked source before evaluation; inspect existing work before creating a branch."
+      "coverage": "source_review_partial",
+      "native_verification": "python_only_draft_no_dll_build",
+      "next_action": "Reuse CivicScrollDraft-ChatGPT for remaining native eligibility, metadata, XML, binding and religion UI review.",
+      "review_branch": "CivicScrollDraft-ChatGPT",
+      "draft_code_sha": "fa34c89ad3d8507235a3d4c082b6710e305f5265",
+      "finding_ids": [
+        "CIVICUI-20261028-01"
+      ],
+      "source_review_scope": "Civic-screen XANA draw/visibility blocks; marked player/metadata/religion-screen consumers read for context. Other integration scopes unverified."
     },
     {
       "branch": "UnitCombatUpgradeBuild-ChatGPT",
@@ -690,9 +702,10 @@
     {
       "branch": "UnitStatusEffects",
       "head_at_inventory": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed",
-      "coverage": "pending",
-      "native_verification": "not_recorded",
-      "next_action": "Read marked source before evaluation; inspect existing work before creating a branch."
+      "coverage": "deferred_readme_only",
+      "native_verification": "not_applicable_no_implementation",
+      "next_action": "Skip until implementation is added or review is requested.",
+      "qualification": "Complete recursive tree verified README-only."
     },
     {
       "branch": "VoteCounterDraft-ChatGPT",
@@ -704,26 +717,41 @@
     },
     {
       "branch": "ReputationWindowDraft-ChatGPT",
-      "head_at_inventory": "3e1cadff15d0d8741a40bb83b5760c389b087a22",
+      "head_at_inventory": "ab9846a637dfc2847349cb63d398017f7d8d4c3a",
       "coverage": "published_review_artifact",
       "native_verification": "draft_only_no_dll_build",
       "source_branch": "RealisticAIDecisions",
       "source_head": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
-      "draft_code_sha": "3e1cadff15d0d8741a40bb83b5760c389b087a22",
-      "next_action": "Reuse for further integration; code SHA followed by documentation-only commit."
+      "draft_code_sha": "ab9846a637dfc2847349cb63d398017f7d8d4c3a",
+      "next_action": "Reuse existing draft for remaining alignment/reputation metadata, decay, versioned persistence and AI integration before full pinned-base DLL validation.",
+      "finding_ids": [
+        "REPUTATION-20261028-01",
+        "REPUTATION-20261028-02",
+        "REPUTATION-20261028-03",
+        "REPUTATION-20261028-04"
+      ],
+      "qualification": "Actual score methods and player score read/write blocks passed C++03/ASan/UBSan with a byte-buffer stream stub; no full DLL/game save/Windows ABI validation."
+    },
+    {
+      "branch": "CivicScrollDraft-ChatGPT",
+      "head_at_inventory": "8e39f14d0469e4cad7e1a5c255b35c26c04eb97f",
+      "coverage": "published_review_artifact",
+      "native_verification": "python_only_draft_no_dll_build",
+      "source_branch": "UniqueCivicsReligions",
+      "source_head": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+      "draft_code_sha": "fa34c89ad3d8507235a3d4c082b6710e305f5265",
+      "next_action": "Reuse for further feature review; code SHA followed by documentation-only commit."
     }
   ],
   "current_pass": {
-    "source_branches": [
-      "RealisticAIDecisions",
-      "LeaderSpecificMultilayeredAIDecisionEval"
+    "source_branch": "RealisticAIDecisions",
+    "refinement_branch": "ReputationWindowDraft-ChatGPT",
+    "draft_code_sha": "ab9846a637dfc2847349cb63d398017f7d8d4c3a",
+    "finding_ids": [
+      "REPUTATION-20261028-03",
+      "REPUTATION-20261028-04"
     ],
-    "draft_code_sha": "3e1cadff15d0d8741a40bb83b5760c389b087a22",
     "dll_build_triggered": false,
-    "first_pass_pending": [
-      "alert-autofix-1",
-      "UniqueCivicsReligions",
-      "UnitStatusEffects"
-    ]
+    "first_pass_pending": []
   }
 }
