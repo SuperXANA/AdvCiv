@@ -114,3 +114,20 @@ inspected: its two DLL files have no XANA blocks, so no upstream-only finding wa
 attributed to the mod. Newly present LLM and spell-creation assistant branches
 were checked for concurrent review scope and left untouched. Prior vote-counter,
 SQLite, colony and promotion-XP findings were not reopened in this pass.
+
+## MSVC 7.1 build confirmation — 2026-10-28
+
+The successful [DLL build run 40556617050](https://github.com/SuperXANA/AdvCiv/actions/runs/40556617050)
+for `FreePromotionLoaderBuild-ChatGPT` at commit
+`f5c7d3e40717fa2ac19324c70ee38882473632e3` completed Release and Debug compilation,
+linking and DLL artifact upload. This proves that the assistant-refactored code
+at that revision builds under MSVC 7.1 (the Visual Studio 2003 C/C++ compiler).
+
+The remote environment initializes Visual Studio 2010's `vcvarsall.bat` and
+uses MSBuild to invoke the NMake project. The machine-local
+`R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
+compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
+the DLL's C/C++ compilation uses MSVC 7.1.
+
+Both configuration logs additionally confirm the compiler probe:
+`Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1).`
