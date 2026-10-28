@@ -64,7 +64,7 @@ jobs:
             $projectDir = "R:\CvGameCoreDLL\Project"
             # Run vcvarsall, change directory, and build all in ONE cmd session.
             # No need to import env vars into PowerShell.
-            $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && nmake /f codex-toolset-check.mk TARGET=$cfg codex_compiler_check /NOLOGO && && msbuild AdvCiv.vcxproj /p:Configuration=$cfg -t:go -fl1 -fl2 -fl3 -flp2:logfile=JustErrors.log;errorsonly -flp3:logfile=JustWarnings.log"
+            $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && nmake /f codex-toolset-check.mk TARGET=$cfg codex_compiler_check /NOLOGO && msbuild AdvCiv.vcxproj /p:Configuration=$cfg -t:go -fl1 -fl2 -fl3 -flp2:logfile=JustErrors.log;errorsonly -flp3:logfile=JustWarnings.log"
             cmd.exe /c $buildCmd
             try {
               cmd.exe /c $buildCmd
