@@ -513,7 +513,13 @@ public:
 			m_pbLeaderHeadTypes(NULL),
 			m_pbAttitudeTypes(NULL),
 			m_pbDiplomacyPowerTypes(NULL),
-			m_paszDiplomacyText(NULL)
+// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
+			m_paszDiplomacyText(NULL),
+			m_pbOtherCivilizationTypes(NULL),
+			m_pbOtherNotCivilizationTypes(NULL),
+			m_pbOtherLeaderHeadTypes(NULL),
+			m_pbOtherNotLeaderHeadTypes(NULL)
+// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 		{}
 
 		~Response ()
@@ -523,9 +529,17 @@ public:
 			SAFE_DELETE_ARRAY(m_pbAttitudeTypes);
 			SAFE_DELETE_ARRAY(m_pbDiplomacyPowerTypes);
 			SAFE_DELETE_ARRAY(m_paszDiplomacyText);
+// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
+			SAFE_DELETE_ARRAY(m_pbOtherCivilizationTypes);
+			SAFE_DELETE_ARRAY(m_pbOtherNotCivilizationTypes);
+			SAFE_DELETE_ARRAY(m_pbOtherLeaderHeadTypes);
+			SAFE_DELETE_ARRAY(m_pbOtherNotLeaderHeadTypes);
+// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 		}
 		#if ENABLE_XML_FILE_CACHE
-		void read(FDataStreamBase* stream);
+// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
+		void read(FDataStreamBase* stream, bool bPartnerFilters = false);
+// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 		void write(FDataStreamBase* stream);
 		#endif
 		int m_iNumDiplomacyText;
@@ -534,6 +548,12 @@ public:
 		bool* m_pbAttitudeTypes;
 		bool* m_pbDiplomacyPowerTypes;
 		CvString* m_paszDiplomacyText; // needs to be public for xml load assignment
+// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
+		bool* m_pbOtherCivilizationTypes;
+		bool* m_pbOtherNotCivilizationTypes;
+		bool* m_pbOtherLeaderHeadTypes;
+		bool* m_pbOtherNotLeaderHeadTypes;
+// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 	};
 
 	CvDiplomacyTextInfo();

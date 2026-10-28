@@ -438,14 +438,12 @@ void CyInfoPythonInterface3()
 		.def("getNumResponses", &CvDiplomacyTextInfo::getNumResponses, "int ()")
 
 		.def("getCivilizationTypes", &CvDiplomacyTextInfo::getCivilizationTypes, "bool (int i, int j)")
+		.def("getLeaderHeadTypes", &CvDiplomacyTextInfo::getLeaderHeadTypes, "bool (int i, int j)")
 		// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 		.def("getOtherCivilizationTypes", &CvDiplomacyTextInfo::getOtherCivilizationTypes, "bool (int i, int j)")
 		.def("getOtherNotCivilizationTypes", &CvDiplomacyTextInfo::getOtherNotCivilizationTypes, "bool (int i, int j)")
-		// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
-		.def("getLeaderHeadTypes", &CvDiplomacyTextInfo::getLeaderHeadTypes, "bool (int i, int j)")
-		// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
-		.def("getOtherLeaderHeadTypes", &CvDiplomacyTextInfo::getLeaderHeadTypes, "bool (int i, int j)")
-		.def("getOtherNotLeaderHeadTypes", &CvDiplomacyTextInfo::getLeaderHeadTypes, "bool (int i, int j)")
+		.def("getOtherLeaderHeadTypes", &CvDiplomacyTextInfo::getOtherLeaderHeadTypes, "bool (int i, int j)")
+		.def("getOtherNotLeaderHeadTypes", &CvDiplomacyTextInfo::getOtherNotLeaderHeadTypes, "bool (int i, int j)")
 		// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 		.def("getAttitudeTypes", &CvDiplomacyTextInfo::getAttitudeTypes, "bool (int i, int j)")
 		.def("getDiplomacyPowerTypes", &CvDiplomacyTextInfo::getDiplomacyPowerTypes, "bool (int i, int j)")
@@ -460,12 +458,10 @@ void CyInfoPythonInterface3()
 		.def("getNumResponses", &CvDiplomacyInfo::getNumResponses, "int ()")
 
 		.def("getCivilizationTypes", &CvDiplomacyInfo::getCivilizationTypes, "bool (int i, int j)")
+		.def("getLeaderHeadTypes", &CvDiplomacyInfo::getLeaderHeadTypes, "bool (int i, int j)")
 		// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 		.def("getOtherCivilizationTypes", &CvDiplomacyInfo::getOtherCivilizationTypes, "bool (int i, int j)")
 		.def("getOtherNotCivilizationTypes", &CvDiplomacyInfo::getOtherNotCivilizationTypes, "bool (int i, int j)")
-		// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
-		.def("getLeaderHeadTypes", &CvDiplomacyInfo::getLeaderHeadTypes, "bool (int i, int j)")
-		// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 		.def("getOtherLeaderHeadTypes", &CvDiplomacyInfo::getOtherLeaderHeadTypes, "bool (int i, int j)")
 		.def("getOtherNotLeaderHeadTypes", &CvDiplomacyInfo::getOtherNotLeaderHeadTypes, "bool (int i, int j)")
 		// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
@@ -600,7 +596,8 @@ void CyInfoPythonInterface3()
 		.def("getNumBonusesRequired", &CvEventTriggerInfo::getNumBonusesRequired, "int ()")
 		.def("getRouteRequired", &CvEventTriggerInfo::getRouteRequired, "int (int)")
 		.def("getNumRoutesRequired", &CvEventTriggerInfo::getNumRoutesRequired, "int ()")
-		.def("getReligionRequired", &CvEventTriggerInfo::getBonusRequired, "int (int)")
+		// advc.sas (bugfix): 2nd arg was getBonusRequired
+		.def("getReligionRequired", &CvEventTriggerInfo::getReligionRequired, "int (int)")
 		.def("getNumReligionsRequired", &CvEventTriggerInfo::getNumReligionsRequired, "int ()")
 		.def("getCorporationRequired", &CvEventTriggerInfo::getCorporationRequired, "int (int)")
 		.def("getNumCorporationsRequired", &CvEventTriggerInfo::getNumCorporationsRequired, "int ()")
@@ -614,7 +611,8 @@ void CyInfoPythonInterface3()
 		.def("isOtherPlayerHasOtherReligion", &CvEventTriggerInfo::isOtherPlayerHasOtherReligion, "bool ()")
 		.def("isOtherPlayerAI", &CvEventTriggerInfo::isOtherPlayerAI, "bool ()")
 		.def("isPickCity", &CvEventTriggerInfo::isPickCity, "bool ()")
-		.def("isPickOtherPlayerCity", &CvEventTriggerInfo::isPickCity, "bool ()")
+		// advc.sas (bugfix): 2nd arg was isPickCity
+		.def("isPickOtherPlayerCity", &CvEventTriggerInfo::isPickOtherPlayerCity, "bool ()")
 		.def("isUnitsOnPlot", &CvEventTriggerInfo::isUnitsOnPlot, "bool ()")
 		.def("isOwnPlot", &CvEventTriggerInfo::isOwnPlot, "bool ()")
 		.def("isPickReligion", &CvEventTriggerInfo::isPickReligion, "bool ()")
@@ -644,7 +642,8 @@ void CyInfoPythonInterface3()
 		.def("getTechMinTurnsLeft", &CvEventInfo::getTechMinTurnsLeft, "int ()")
 		.def("getPrereqTech", &CvEventInfo::getPrereqTech, "int ()")
 		.def("getUnitClass", &CvEventInfo::getUnitClass, "int ()")
-		.def("getNumUnits", &CvEventTriggerInfo::getNumUnits, "int ()")
+		// advc.sas (bugfix): was CvEventTriggerInfo
+		.def("getNumUnits", &CvEventInfo::getNumUnits, "int ()")
 		.def("getBuildingClass", &CvEventInfo::getBuildingClass, "int ()")
 		.def("getBuildingChange", &CvEventInfo::getBuildingChange, "int ()")
 		.def("getHappy", &CvEventInfo::getHappy, "int ()")

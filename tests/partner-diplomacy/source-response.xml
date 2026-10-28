@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv -->
+<Response>
+					<Civilizations/>
+					<Leaders>
+						<Leader>
+							<LeaderType>LEADER_CELESTIA</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</Leaders>
+					<Attitudes/>
+					<DiplomacyPowers/>
+					<DiplomacyText>
+						<Text>AI_DIPLO_DECLARE_WAR_LEADER_CELESTIA</Text>
+					</DiplomacyText>
+					<OtherLeaders>
+						<Leader>
+							<LeaderType>LEADER_SOMBRA</LeaderType>
+							<bLeaderType>1</bLeaderType>
+						</Leader>
+					</OtherLeaders>
+				</Response>

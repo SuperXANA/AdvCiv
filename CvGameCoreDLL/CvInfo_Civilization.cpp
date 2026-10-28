@@ -2,6 +2,9 @@
 
 #include "CvGameCoreDLL.h"
 #include "CvXMLLoadUtility.h"
+// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
+#include "PartnerDiplomacyCache.h"
+// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 
 
 CvCivilizationInfo::CvCivilizationInfo() :
@@ -1277,15 +1280,15 @@ CvDiplomacyResponse::CvDiplomacyResponse() :
 m_iNumDiplomacyText(0),
 m_pbCivilizationTypes(NULL),
 m_pbLeaderHeadTypes(NULL),
+m_pbAttitudeTypes(NULL),
+m_pbDiplomacyPowerTypes(NULL),
 // XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
+m_paszDiplomacyText(NULL),
 m_pbOtherCivilizationTypes(NULL),
 m_pbOtherNotCivilizationTypes(NULL),
 m_pbOtherLeaderHeadTypes(NULL),
-m_pbOtherNotLeaderHeadTypes(NULL),
+m_pbOtherNotLeaderHeadTypes(NULL)
 // XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
-m_pbAttitudeTypes(NULL),
-m_pbDiplomacyPowerTypes(NULL),
-m_paszDiplomacyText(NULL)
 {}
 
 CvDiplomacyResponse::~CvDiplomacyResponse()
@@ -1322,14 +1325,16 @@ bool CvDiplomacyResponse::getCivilizationTypes(int i) const
 // XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 bool CvDiplomacyResponse::getOtherCivilizationTypes(int i) const
 {
-	FAssertBounds(0, GC.getNumCivilizationInfos(), i);
-	return (m_pbOtherCivilizationTypes != NULL ? m_pbOtherCivilizationTypes[i] : false); // advc.003t
+	if (i < 0 || i >= GC.getNumCivilizationInfos())
+		return false;
+	return m_pbOtherCivilizationTypes != NULL && m_pbOtherCivilizationTypes[i];
 }
 
 bool CvDiplomacyResponse::getOtherNotCivilizationTypes(int i) const
 {
-	FAssertBounds(0, GC.getNumCivilizationInfos(), i);
-	return (m_pbOtherNotCivilizationTypes != NULL ? m_pbOtherNotCivilizationTypes[i] : false); // advc.003t
+	if (i < 0 || i >= GC.getNumCivilizationInfos())
+		return false;
+	return m_pbOtherNotCivilizationTypes != NULL && m_pbOtherNotCivilizationTypes[i];
 }
 // XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 
@@ -1354,14 +1359,16 @@ bool CvDiplomacyResponse::getLeaderHeadTypes(int i) const
 // XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 bool CvDiplomacyResponse::getOtherLeaderHeadTypes(int i) const
 {
-	FAssertBounds(0, GC.getNumLeaderHeadInfos(), i);
-	return (m_pbOtherLeaderHeadTypes != NULL ? m_pbOtherLeaderHeadTypes[i] : false); // advc.003t
+	if (i < 0 || i >= GC.getNumLeaderHeadInfos())
+		return false;
+	return m_pbOtherLeaderHeadTypes != NULL && m_pbOtherLeaderHeadTypes[i];
 }
 
 bool CvDiplomacyResponse::getOtherNotLeaderHeadTypes(int i) const
 {
-	FAssertBounds(0, GC.getNumLeaderHeadInfos(), i);
-	return (m_pbOtherNotLeaderHeadTypes != NULL ? m_pbOtherNotLeaderHeadTypes[i] : false); // advc.003t
+	if (i < 0 || i >= GC.getNumLeaderHeadInfos())
+		return false;
+	return m_pbOtherNotLeaderHeadTypes != NULL && m_pbOtherNotLeaderHeadTypes[i];
 }
 // XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 
@@ -1441,22 +1448,34 @@ void CvDiplomacyResponse::read(FDataStreamBase* stream)
 	stream->Read(GC.getNumCivilizationInfos(), m_pbCivilizationTypes);
 	// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 	SAFE_DELETE_ARRAY(m_pbOtherCivilizationTypes);
-	m_pbOtherCivilizationTypes = new bool[GC.getNumCivilizationInfos()];
-	stream->Read(GC.getNumCivilizationInfos(), m_pbOtherCivilizationTypes);
+	if (uiFlag >= 1)
+	{
+		m_pbOtherCivilizationTypes = new bool[GC.getNumCivilizationInfos()];
+		stream->Read(GC.getNumCivilizationInfos(), m_pbOtherCivilizationTypes);
+	}
 	SAFE_DELETE_ARRAY(m_pbOtherNotCivilizationTypes);
-	m_pbOtherNotCivilizationTypes = new bool[GC.getNumCivilizationInfos()];
-	stream->Read(GC.getNumCivilizationInfos(), m_pbOtherNotCivilizationTypes);
+	if (uiFlag >= 1)
+	{
+		m_pbOtherNotCivilizationTypes = new bool[GC.getNumCivilizationInfos()];
+		stream->Read(GC.getNumCivilizationInfos(), m_pbOtherNotCivilizationTypes);
+	}
 	// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 	SAFE_DELETE_ARRAY(m_pbLeaderHeadTypes);
 	m_pbLeaderHeadTypes = new bool[GC.getNumLeaderHeadInfos()];
 	stream->Read(GC.getNumLeaderHeadInfos(), m_pbLeaderHeadTypes);
 	// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 	SAFE_DELETE_ARRAY(m_pbOtherLeaderHeadTypes);
-	m_pbOtherLeaderHeadTypes = new bool[GC.getNumLeaderHeadInfos()];
-	stream->Read(GC.getNumLeaderHeadInfos(), m_pbOtherLeaderHeadTypes);
+	if (uiFlag >= 1)
+	{
+		m_pbOtherLeaderHeadTypes = new bool[GC.getNumLeaderHeadInfos()];
+		stream->Read(GC.getNumLeaderHeadInfos(), m_pbOtherLeaderHeadTypes);
+	}
 	SAFE_DELETE_ARRAY(m_pbOtherNotLeaderHeadTypes);
-	m_pbOtherNotLeaderHeadTypes = new bool[GC.getNumLeaderHeadInfos()];
-	stream->Read(GC.getNumLeaderHeadInfos(), m_pbOtherNotLeaderHeadTypes);
+	if (uiFlag >= 1)
+	{
+		m_pbOtherNotLeaderHeadTypes = new bool[GC.getNumLeaderHeadInfos()];
+		stream->Read(GC.getNumLeaderHeadInfos(), m_pbOtherNotLeaderHeadTypes);
+	}
 	// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 	SAFE_DELETE_ARRAY(m_pbAttitudeTypes);
 	m_pbAttitudeTypes = new bool[NUM_ATTITUDE_TYPES];
@@ -1471,19 +1490,21 @@ void CvDiplomacyResponse::read(FDataStreamBase* stream)
 
 void CvDiplomacyResponse::write(FDataStreamBase* stream)
 {
-	uint uiFlag=0;
+// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
+	uint uiFlag=1; // Partner-filter cache format
+// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 	stream->Write(uiFlag);
 
 	stream->Write(m_iNumDiplomacyText);
 	stream->Write(GC.getNumCivilizationInfos(), m_pbCivilizationTypes);
 	// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
-	stream->Write(GC.getNumCivilizationInfos(), m_pbOtherCivilizationTypes);
-	stream->Write(GC.getNumCivilizationInfos(), m_pbOtherNotCivilizationTypes);
+	xanaPartnerDiplomacy::writeFilter(stream, m_pbOtherCivilizationTypes, GC.getNumCivilizationInfos());
+	xanaPartnerDiplomacy::writeFilter(stream, m_pbOtherNotCivilizationTypes, GC.getNumCivilizationInfos());
 	// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 	stream->Write(GC.getNumLeaderHeadInfos(), m_pbLeaderHeadTypes);
 	// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
-	stream->Write(GC.getNumLeaderHeadInfos(), m_pbOtherLeaderHeadTypes);
-	stream->Write(GC.getNumLeaderHeadInfos(), m_pbOtherNotLeaderHeadTypes);
+	xanaPartnerDiplomacy::writeFilter(stream, m_pbOtherLeaderHeadTypes, GC.getNumLeaderHeadInfos());
+	xanaPartnerDiplomacy::writeFilter(stream, m_pbOtherNotLeaderHeadTypes, GC.getNumLeaderHeadInfos());
 	// XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 	stream->Write(NUM_ATTITUDE_TYPES, m_pbAttitudeTypes);
 	stream->Write(NUM_DIPLOMACYPOWER_TYPES, m_pbDiplomacyPowerTypes);
@@ -1546,15 +1567,15 @@ bool CvDiplomacyInfo::getCivilizationTypes(int i, int j) const
 // XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 bool CvDiplomacyInfo::getOtherCivilizationTypes(int i, int j) const
 {
-	FAssertBounds(0, getNumResponses(), i);
-	FAssertBounds(0, GC.getNumCivilizationInfos(), j);
+	if (i < 0 || i >= getNumResponses() || j < 0 || j >= GC.getNumCivilizationInfos())
+		return false;
 	return m_pResponses[i]->getOtherCivilizationTypes(j);
 }
 
 bool CvDiplomacyInfo::getOtherNotCivilizationTypes(int i, int j) const
 {
-	FAssertBounds(0, getNumResponses(), i);
-	FAssertBounds(0, GC.getNumCivilizationInfos(), j);
+	if (i < 0 || i >= getNumResponses() || j < 0 || j >= GC.getNumCivilizationInfos())
+		return false;
 	return m_pResponses[i]->getOtherNotCivilizationTypes(j);
 }
 // XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
@@ -1569,15 +1590,15 @@ bool CvDiplomacyInfo::getLeaderHeadTypes(int i, int j) const
 // XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
 bool CvDiplomacyInfo::getOtherLeaderHeadTypes(int i, int j) const
 {
-	FAssertBounds(0, getNumResponses(), i);
-	FAssertBounds(0, GC.getNumLeaderHeadInfos(), j);
+	if (i < 0 || i >= getNumResponses() || j < 0 || j >= GC.getNumLeaderHeadInfos())
+		return false;
 	return m_pResponses[i]->getOtherLeaderHeadTypes(j);
 }
 
 bool CvDiplomacyInfo::getOtherNotLeaderHeadTypes(int i, int j) const
 {
-	FAssertBounds(0, getNumResponses(), i);
-	FAssertBounds(0, GC.getNumLeaderHeadInfos(), j);
+	if (i < 0 || i >= getNumResponses() || j < 0 || j >= GC.getNumLeaderHeadInfos())
+		return false;
 	return m_pResponses[i]->getOtherNotLeaderHeadTypes(j);
 }
 // XANA: 03-29-2025 Leader_Amd_Civilization-Specific Diplomacy Texts for AdvancedCiv
