@@ -1,6 +1,29 @@
 #include "CvGameCoreDLL.h"
 #include "AlignmentScore.h"
 
+// XANA: 10-28-2026 Overflow-safe alignment arithmetic (ChatGPT)
+namespace
+{
+int alignmentBoundedChange(int current, int change, bool subtract, int upper)
+{
+    int value;
+    if (!subtract)
+    {
+        if (change > 0 && current > MAX_INT - change) value = MAX_INT;
+        else if (change < 0 && current < MIN_INT - change) value = MIN_INT;
+        else value = current + change;
+    }
+    else
+    {
+        if (change > 0 && current < MIN_INT + change) value = MIN_INT;
+        else if (change < 0 && current > MAX_INT + change) value = MAX_INT;
+        else value = current - change;
+    }
+    return std::min(upper, value);
+}
+}
+// XANA: 10-28-2026 Overflow-safe alignment arithmetic (ChatGPT)
+
 void AlignmentScore::nextTurn()
 {
     m_iHead++;
@@ -21,13 +44,11 @@ void AlignmentScore::changeAlignmentTowardsPositive(int iChange)
 	if (iChange == 0)
 		return;
     AlignmentValue& kAlignmentValue = m_buffer[m_iHead];
-    kAlignmentValue.iHigh = std::max(MIN_INT,
-                std::min(m_iMaxDelta, kAlignmentValue.iHigh + iChange));
+    kAlignmentValue.iHigh = alignmentBoundedChange(kAlignmentValue.iHigh, iChange, false, m_iMaxDelta);
                 
     if (m_bAlignmentGoodEvilIsIndependent)
 		return;
-    kAlignmentValue.iLow = std::max(MIN_INT,
-                std::min(m_iMaxDelta, kAlignmentValue.iLow - iChange));
+    kAlignmentValue.iLow = alignmentBoundedChange(kAlignmentValue.iLow, iChange, true, m_iMaxDelta);
 }
 
 void AlignmentScore::changeAlignmentTowardsNegative(int iChange)
@@ -35,27 +56,25 @@ void AlignmentScore::changeAlignmentTowardsNegative(int iChange)
 	if (iChange == 0)
 		return;
     AlignmentValue& kAlignmentValue = m_buffer[m_iHead];
-    kAlignmentValue.iLow = std::max(MIN_INT,
-               std::min(m_iMaxDelta, kAlignmentValue.iLow + iChange));
+    kAlignmentValue.iLow = alignmentBoundedChange(kAlignmentValue.iLow, iChange, false, m_iMaxDelta);
     
     if (m_bAlignmentGoodEvilIsIndependent)
     	return;
-    kAlignmentValue.iHigh = std::max(MIN_INT,
-               std::min(m_iMaxDelta, kAlignmentValue.iHigh - iChange));
+    kAlignmentValue.iHigh = alignmentBoundedChange(kAlignmentValue.iHigh, iChange, true, m_iMaxDelta);
 }
 
 void AlignmentScore::changePermanentAlignmentTowardsPositive(int iChange)
 {
 	if (iChange == 0)
 		return;
-	m_iPermHigh += iChange;
+	m_iPermHigh = alignmentBoundedChange(m_iPermHigh, iChange, false, MAX_INT);
 }
 
 void AlignmentScore::changePermanentAlignmentTowardsNegative(int iChange)
 {
 	if (iChange == 0)
 		return;
-	m_iPermLow += iChange;
+	m_iPermLow = alignmentBoundedChange(m_iPermLow, iChange, false, MAX_INT);
 }
 
 void AlignmentScore::decay()
