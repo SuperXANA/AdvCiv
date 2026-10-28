@@ -258,3 +258,17 @@ do not replace the bundled-engine regressions or the Windows DLL build.
 The updated complete-base build is published on AISurvivorSQLiteBuild-ChatGPT;
 its exact commit, per-configuration result and artifacts are reported with this
 refinement. Earlier DLL records above apply only to their named revisions.
+
+## MSVC 7.1 build confirmation — 2026-10-28
+
+The successful [DLL build run 40538272885](https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885)
+for `AISurvivorSQLiteBuild-ChatGPT` at commit
+`d31ca516d41e15ffd76a8a4a9807c58dc9d0c741` completed Release and Debug compilation,
+linking and DLL artifact upload. This proves that the assistant-refactored code
+at that revision builds under MSVC 7.1 (the Visual Studio 2003 C/C++ compiler).
+
+The remote environment initializes Visual Studio 2010's `vcvarsall.bat` and
+uses MSBuild to invoke the NMake project. The machine-local
+`R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
+compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
+the DLL's C/C++ compilation uses MSVC 7.1.
