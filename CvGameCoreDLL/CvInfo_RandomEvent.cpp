@@ -2105,7 +2105,7 @@ CvEventPreferenceInfo::CvEventPreferenceInfo() :
 	m_aiVectorIndexMap(NULL)
 {}
 
-CvEventPreferenceInfo::~CvEventPreferenceInfo() :
+CvEventPreferenceInfo::~CvEventPreferenceInfo()
 {
 	SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
 }

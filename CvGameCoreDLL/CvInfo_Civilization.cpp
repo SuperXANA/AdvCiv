@@ -1570,7 +1570,7 @@ CvTechPreferenceInfo::CvTechPreferenceInfo() :
 	m_aiVectorIndexMap(NULL)
 {}
 
-CvTechPreferenceInfo::~CvTechPreferenceInfo() :
+CvTechPreferenceInfo::~CvTechPreferenceInfo()
 {
 	SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
 }

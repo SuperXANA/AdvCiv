@@ -2563,7 +2563,7 @@ CvUnitPreferenceInfo::CvUnitPreferenceInfo() :
 	m_aiVectorIndexMapForUnits(NULL)
 {}
 
-CvUnitPreferenceInfo::~CvUnitPreferenceInfo() :
+CvUnitPreferenceInfo::~CvUnitPreferenceInfo()
 {
 	SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitCombats);
 	SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitClasses);
