@@ -15818,112 +15818,84 @@ namespace
 	
 	void doWorldTechDiffusionForSummonedPlayer(CvPlayer& kNewPlayer, PlayerTypes const eSummoner)
 	{
-		int const iEnumLength = GC.getNumTechInfos();
-		std::vector<bool> vbGranted(iEnumLength, false);
-		std::vector<bool> vbBase(iEnumLength, false);
-		CvTeam& kTeam = GET_TEAM(kNewPlayer.getID());
-		for (int i = 0; i < iEnumLength; ++i)
+		int const iTechCount = GC.getNumTechInfos();
+		std::vector<bool> abBase(iTechCount, false);
+		std::vector<bool> abGranted(iTechCount, false);
+		std::vector<bool> abAttempted(iTechCount, false);
+		std::vector<TechTypes> aeGrantOrder;
+		CvTeam& kTeam = GET_TEAM(kNewPlayer.getTeam());
+		for (int iBaseTech = 0; iBaseTech < iTechCount; ++iBaseTech)
+			abBase[iBaseTech] = kTeam.isHasTech((TechTypes)iBaseTech);
+
+		// Newly granted prerequisites may unlock another pass. A failed roll is
+		// never retried during this catch-up operation.
+		bool bProgress = true;
+		while (bProgress)
 		{
-			if (kTeam.isHasTech((TechTypes)i))
-				vbBase[i] = true;
-		}
-		
-		bool bContinueLoopProgress = true;
-		int const iBaseChance = 5;      // 5% if exactly one player knows it
-		int const iPerOwner = 8;        // +8% for each additional owner
-		int const iMaxChance = 75;      // hard cap to preserve randomness
-		bool const bSummonerTechsMoreLikely = (eSummoner != NO_PLAYER);
-		while (bContinueLoopProgress)
-		{
-			bContinueLoopProgress = false;
-			for (int i = 0; i < iEnumLength; ++i)
+			bProgress = false;
+			for (int iTech = 0; iTech < iTechCount; ++iTech)
 			{
-				TechTypes eTech = (TechTypes)i;
-				if (vbBase[i] || vbGranted[i]) continue;
-				
-				CvTechInfo& kTech = GC.getInfo(eTech);
-				
-				// Prereq check: ANDs must all be met (base or newly granted)
+				if (abBase[iTech] || abGranted[iTech] || abAttempted[iTech])
+					continue;
+				TechTypes const eTech = (TechTypes)iTech;
+				CvTechInfo const& kTech = GC.getInfo(eTech);
+				bool bAndMet = true;
+				for (int iAnd = 0; iAnd < kTech.getNumAndTechPrereqs(); ++iAnd)
 				{
-					bool bAndMet = (kTech.getNumPrereqAndTechs() > 0);
-					if (bAndMet)
+					int const iPrereq = kTech.getPrereqAndTechs(iAnd);
+					if (iPrereq < 0 || iPrereq >= iTechCount ||
+						(!abBase[iPrereq] && !abGranted[iPrereq]))
 					{
-						for (int j = 0; j < kTech.getNumPrereqAndTechs(); ++j)
-						{
-							int iPrereq = kTech.getPrereqAndTechs(j);
-							if (!vbBase[iPrereq] && !vbGranted[iPrereq])
-								bAndMet = false;
-						}
-						if (!bAndMet) continue;
+						bAndMet = false;
+						break;
 					}
 				}
-				
-				// Prereq check: ORs need at least one met, if any exist
+				if (!bAndMet)
+					continue;
+				bool bOrMet = (kTech.getNumOrTechPrereqs() == 0);
+				for (int iOr = 0; iOr < kTech.getNumOrTechPrereqs(); ++iOr)
 				{
-					bool bOrMet = (kTech.getNumPrereqOrTechs() > 0);
-					if (bOrMet)
+					int const iPrereq = kTech.getPrereqOrTechs(iOr);
+					if (iPrereq >= 0 && iPrereq < iTechCount &&
+						(abBase[iPrereq] || abGranted[iPrereq]))
 					{
-						for (int j = 0; j < kTech.getNumPrereqOrTechs(); ++j)
-						{
-							int iPrereq = kTech.getPrereqOrTechs(j);
-							if (vbBase[iPrereq] || vbGranted[iPrereq])
-								bOrMet = true;
-						}
-						if (!bOrMet) continue;
+						bOrMet = true;
+						break;
 					}
 				}
-				
-				// Count living owners
+				if (!bOrMet)
+					continue;
+				abAttempted[iTech] = true;
+
+				int iOwners = 0;
+				int iSummonerBonus = 0;
+				for (PlayerIter<ALIVE> itOwner; itOwner.hasNext(); ++itOwner)
 				{
-					int iOwners = 0;
-					if (bSummonerTechsMoreLikely)
-					{
-						int iAdditionalChance = 0;
-					}
-					for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
-					{
-						if (GET_TEAM(it->getTeam()).isHasTech(eTech))
-						{
-							++iOwners;
-							if (bSummonerTechsMoreLikely &&
-								it->getID() == eSummoner)
-							{
-								iAdditionalChance = 5; // Summoning civ grants additional 5% chance because new leader/civ springs from their city / local population
-							}
-						}
-					}
-					if (iOwners == 0) continue;
-					int iChance = 0;
-					if (bSummonerTechsMoreLikely)
-					{
-						iChance = ((iBaseChance + iAdditionalChance) + (iOwners - 1)) * iPerOwner;
-					}
-					else
-					{
-						iChance = (iBaseChance + (iOwners - 1)) * iPerOwner;
-					}
-					if (iChance > iMaxChance)
-					{
-						iChance = iMaxChance;
-					}
-					if (SyncRandNum(100) < iChance)
-					{
-						vbGranted[i] = true;
-						bContinueLoopProgress = true;
-					}
+					if (!GET_TEAM(itOwner->getTeam()).isHasTech(eTech))
+						continue;
+					++iOwners;
+					if (itOwner->getID() == eSummoner)
+						iSummonerBonus = 5;
+				}
+				if (iOwners == 0)
+					continue;
+				// Source policy: 5% for one living owner, +8 percentage points
+				// per additional owner, +5 for the summoner, capped at 75%.
+				int const iChance = std::min(75, 5 + (iOwners - 1) * 8 + iSummonerBonus);
+				if (SyncRandNum(100) < iChance)
+				{
+					abGranted[iTech] = true;
+					aeGrantOrder.push_back(eTech);
+					bProgress = true;
 				}
 			}
 		}
-		for (int i = 0; i < iEnumLength; ++i)
-		{
-			if (vbGranted[i])
-			{
-				kTeam.setHasTech((TechTypes)i, true, eNewPlayer, false, false);
-			}
-		}
+		// Commit in acceptance order so newly granted prerequisites precede dependants.
+		for (size_t iGrant = 0; iGrant < aeGrantOrder.size(); ++iGrant)
+			kTeam.setHasTech(aeGrantOrder[iGrant], true, kNewPlayer.getID(), false, false);
 	}
 	
-	EraTypes calculateMedianEraOfMajorCivs() const
+	EraTypes calculateMedianEraOfMajorCivs()
 	{
 		std::vector<EraTypes> aeEras;
 		for (PlayerIter<MAJOR_CIV> it; it.hasNext(); ++it)
@@ -15941,7 +15913,7 @@ namespace
 		std::sort(aeEras.begin(), aeEras.end());
 		// Conservative floor: use the lower median for even counts
 		// e.g. 6 civs -> index 2 (the 3rd era in sorted order)
-		return aeEras[static_cast<int>((aeEras.size()) / 2)];
+		return aeEras[(aeEras.size() - 1) / 2];
 	}
 	
 	void grantTechAndMissingPrereqs(TeamTypes eTeam, TechTypes const eTech, CvPlayer& kNewPlayer)
