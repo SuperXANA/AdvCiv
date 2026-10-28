@@ -3,6 +3,9 @@
 #include "CvPlotGroup.h"
 #include "PlotRange.h"
 #include "CoreAI.h"
+// XANA: 06-21-2025 Racial Marks
+#include "RaceWeightedRandom.h"
+// XANA: 06-21-2025 Racial Marks
 #include "CvCityAI.h"
 #include "CitySiteEvaluator.h"
 #include "CvArea.h"
@@ -8437,7 +8440,7 @@ RaceTypes CvPlot::getDemographicRace(PlayerTypes eSkipPlayer) const
 	if (countTotalCulture() > 0)
 	{
 		int iCultureCount = 0;
-		int const iDiceRoll = GC.getGame().getSorenRandNum(countTotalCulture(), "Unit Race Demographics Roll");
+		int const iDiceRoll = xanaRace::drawWeightedIndex(GC.getGame(), countTotalCulture());
 		for (PlayerIter<CIV_ALIVE> itPlayer; itPlayer.hasNext(); itPlayer++)
 		{
 			CvPlayer& kLoopPlayer = *itPlayer;

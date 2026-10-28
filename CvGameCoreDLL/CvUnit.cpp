@@ -344,15 +344,16 @@ void CvUnit::finalizeInit() // advc.003u: Body cut from init
 						GC.getColorType("UNIT_TEXT"));
 			}
 		}
-	// XANA: 06-21-2025 Racial Marks
-		initRaceType();
-	// XANA: 06-21-2025 Racial Marks
 
 		CvWString szBuffer(gDLL->getText("TXT_KEY_MISC_SOMEONE_CREATED_UNIT",
 				kOwner.getNameKey(), getNameKey()));
 		GC.getGame().addReplayMessage(getPlot(), REPLAY_MESSAGE_MAJOR_EVENT,
 				kOwner.getID(), szBuffer, GC.getColorType("UNIT_TEXT"));
 	}
+
+	// XANA: 06-21-2025 Racial Marks
+	initRaceType();
+	// XANA: 06-21-2025 Racial Marks
 
 	CvEventReporter::getInstance().unitCreated(this);
 }
@@ -10506,7 +10507,7 @@ RaceTypes CvUnit::getRace() const
 }
 
 /* XANA (note):
-This is only to be used in CvUnit::init
+Called from CvUnit::finalizeInit after the unit has a plot,
 to setup the demographically-randomized unit race value.
 This value be used in determining access to promotion variants.
 */

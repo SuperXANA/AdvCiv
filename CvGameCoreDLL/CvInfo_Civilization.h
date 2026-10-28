@@ -556,7 +556,7 @@ public:
 		LOCK_TO_CIV = CvXMLInfo::NUM_BOOL_ELEMENT_TYPES,
 		NUM_BOOL_ELEMENT_TYPES
 	};
-	bool get(IntElementTypes e) const
+	bool get(BoolElementTypes e) const
 	{
 		return base_t::get(static_cast<base_t::BoolElementTypes>(e));
 	}

@@ -2,6 +2,9 @@
 #include "CvPlayer.h"
 #include "CvAgents.h"
 #include "CoreAI.h"
+// XANA: 06-21-2025 Racial Marks
+#include "RaceWeightedRandom.h"
+// XANA: 06-21-2025 Racial Marks
 #include "CvCityAI.h"
 #include "CvUnitAI.h"
 #include "CvSelectionGroupAI.h"
@@ -19759,33 +19762,34 @@ bool CvPlayer::showGoodyOnResourceLayer() const
 // XANA: 06-21-2025 Racial Marks
 RaceTypes CvPlayer::buildRaceInformationCache(bool bCultureRoll) const
 {
-	int iDiceRoll = 0;
 	CvCivilization const& kCiv = getCivilization();
 	std::vector<RaceTypes> aeWeightedValidRaces;
+	int iTotalPoolWeight = 0;
+	FOR_EACH_ENUM(Race)
 	{
-		int iTotalPoolWeight = 0;
-		FOR_EACH_ENUM(Race)
+		int const iWeight = kCiv.getRacePriority(eLoopRace);
+		if (iWeight <= 0 ||
+			(bCultureRoll && GC.getInfo(eLoopRace).get(CvRaceInfo::LOCK_TO_CIV)))
 		{
-			if (kCiv.getRacePriority(eLoopRace) <= 0 || (bCultureRoll && GC.getInfo(eLoopRace).get(CvRaceInfo::LOCK_TO_CIV)))
-			{
-				continue;
-			}
-			iTotalPoolWeight += kCiv.getRacePriority(eLoopRace);
-			aeWeightedValidRaces.push_back(eLoopRace);
+			continue;
 		}
-		iDiceRoll = GC.getGame().getSorenRandNum(iTotalPoolWeight, "Unit Race Demographics Roll");
+		if (iWeight > MAX_INT - iTotalPoolWeight)
+		{
+			FErrorMsg("Race priority total exceeds supported int range");
+			return NO_RACE;
+		}
+		iTotalPoolWeight += iWeight;
+		aeWeightedValidRaces.push_back(eLoopRace);
 	}
-	if (aeWeightedValidRaces.size() > 0)
+	if (iTotalPoolWeight == 0)
+		return NO_RACE;
+	int iRoll = xanaRace::drawWeightedIndex(GC.getGame(), iTotalPoolWeight);
+	for (size_t i = 0; i < aeWeightedValidRaces.size(); ++i)
 	{
-		int iRunningWeightSum = 0;
-		for (int i = 0; i < (int)aeWeightedValidRaces.size(); i++)
-		{
-			iRunningWeightSum += kCiv.getRacePriority(aeWeightedValidRaces[i]);
-			if (iDiceRoll < iRunningWeightSum)
-			{
-				return aeWeightedValidRaces[i];
-			}
-		}
+		int const iWeight = kCiv.getRacePriority(aeWeightedValidRaces[i]);
+		if (iRoll < iWeight)
+			return aeWeightedValidRaces[i];
+		iRoll -= iWeight;
 	}
 	return NO_RACE;
 }
