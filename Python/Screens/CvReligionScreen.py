@@ -361,14 +361,16 @@ class CvReligionScreen:
 
 			# XANA: 06-27-2026 Unique Civics and Religions
 			# Minor Religions do not have Temples, Monastaries, or Missionaries
-			if not gc.getReligionInfo(iRel).isMinorOrganization():
+			majorReligions = [iReligion for iReligion in self.RELIGIONS
+					if not gc.getReligionInfo(iReligion).isMinorOrganization()]
+			if majorReligions:
 				# number of temples...
 				iY = self.Y_INFLUENCE + 40
 				screen.setLabelAt("", szArea, self.szTemples, CvUtil.FONT_LEFT_JUSTIFY, self.LEFT_EDGE_TEXT, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
 
 				xLoop = self.X_RELIGION_START
 				for iRel in self.RELIGIONS:
-					if (gc.getGame().getReligionGameTurnFounded(iRel) >= 0):
+					if iRel in majorReligions and gc.getGame().getReligionGameTurnFounded(iRel) >= 0:
 						szFounded = "%i" % (iTemple[iRel])
 						screen.setLabelAt("", szArea, szFounded, CvUtil.FONT_CENTER_JUSTIFY, xLoop, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
 					xLoop += self.DX_RELIGION
@@ -379,7 +381,7 @@ class CvReligionScreen:
 
 				xLoop = self.X_RELIGION_START
 				for iRel in self.RELIGIONS:
-					if (gc.getGame().getReligionGameTurnFounded(iRel) >= 0):
+					if iRel in majorReligions and gc.getGame().getReligionGameTurnFounded(iRel) >= 0:
 						szFounded = "%i" % (iMonastery[iRel])
 						screen.setLabelAt("", szArea, szFounded, CvUtil.FONT_CENTER_JUSTIFY, xLoop, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
 					xLoop += self.DX_RELIGION
@@ -390,7 +392,7 @@ class CvReligionScreen:
 
 				xLoop = self.X_RELIGION_START
 				for iRel in self.RELIGIONS:
-					if (gc.getGame().getReligionGameTurnFounded(iRel) >= 0):
+					if iRel in majorReligions and gc.getGame().getReligionGameTurnFounded(iRel) >= 0:
 						szFounded = "%i [%i]" % (iMissionaries_Active[iRel], iMissionaries_Construct[iRel])
 						screen.setLabelAt("", szArea, szFounded, CvUtil.FONT_CENTER_JUSTIFY, xLoop, iY, self.DZ, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
 					xLoop += self.DX_RELIGION
