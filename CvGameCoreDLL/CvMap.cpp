@@ -78,7 +78,7 @@ void CvMap::init(CvMapInitData* pInitInfo)
 		getPlotByIndex(eLoopPlotNum).initAdjList(); // </advc.003s>
 	calculateAreas();
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-	m_pTempChangesMap = new PlotTempChangeMap;
+	// reset() has already created the temporary-change map.
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	gDLL->logMemState("CvMap after init plots");
 }
@@ -215,7 +215,7 @@ void CvMap::reset(CvMapInitData const* pInitInfo,
 		resetPlotExtraData(); // </advc.enum>
 	m_areas.removeAll();
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-	m_pTempChangesMap->reset();
+	m_pTempChangesMap = new PlotTempChangeMap;
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 }
 
@@ -349,14 +349,10 @@ void CvMap::doTurn()
 	//PROFILE("CvMap::doTurn()"); // advc.003o
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	PlotTempChangeMap& kTempChangesMap = getPlotTempChangeMap();
-	bool const bGraphicsReady = GC.IsGraphicsInitialized();
 	for (int i = 0; i < numPlots(); i++)
 	{
 		getPlotByIndex(i).doTurn();
-		if (bGraphicsReady)
-		{
-			kTempChangesMap.update(getPlotByIndex(i));
-		}
+		kTempChangesMap.update(getPlotByIndex(i));
 	}
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 }
