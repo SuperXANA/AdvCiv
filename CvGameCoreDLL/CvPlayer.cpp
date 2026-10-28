@@ -15525,21 +15525,23 @@ namespace
 	// Given a civilization, finds all leaders available to it AND not already in the game.
 	// If pEventFilter is non-NULL, only leaders with a positive weight in the event's
 	// leader chance array are considered (and also must not be in-game).
-	LeaderHeadTypes selectCompatibleLeaderForSummonCiv(CivilizationTypes eCiv, const CvEventInfo* pEventFilter)
+	LeaderHeadTypes selectCompatibleLeaderForSummonCiv(CivilizationTypes eCiv, const CvEventInfo* pEventFilter, const std::vector<LeaderHeadTypes>& aeEligibleLeaders)
 	{
-		if (eCiv == NO_CIVILIZATION)
+		if (eCiv < 0 || eCiv >= GC.getNumCivilizationInfos())
 			return NO_LEADER;
 
-		CvCivilizationInfo& kCiv = GC.getInfo(eCiv);
+		CvCivilizationInfo const& kCiv = GC.getInfo(eCiv);
 		std::vector<LeaderHeadTypes> aeLeaders;
 		std::vector<int> aiWeights;
 		int iTotalWeight = 0;
-		int const iEnumLength = kCiv.getNumLeaders();
+		int const iEnumLength = (int)aeEligibleLeaders.size();
 
 		for (int i = 0; i < iEnumLength; ++i)
 		{
-			LeaderHeadTypes eLeader = (LeaderHeadTypes)kCiv.getLeader(i);
-			if (eLeader == NO_LEADER)
+			LeaderHeadTypes const eLeader = aeEligibleLeaders[i];
+			if (eLeader < 0 || eLeader >= GC.getNumLeaderHeadInfos())
+				continue;
+			if (!GC.getGame().isOption(GAMEOPTION_LEAD_ANY_CIV) && !kCiv.isLeaders(eLeader))
 				continue;
 
 			if (pEventFilter != NULL && pEventFilter->getSummonLeaderWeightArray() != NULL)
@@ -15647,14 +15649,14 @@ namespace
 			 */
 			if (bHasLeaderArray)
 			{
-				eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, &kEvent);
+				eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, &kEvent, aeEligibleLeaders);
 			}
 			/*
 			 * Fall back to any compatible leader.
 			 */
 			if (eOutLeader == NO_LEADER)
 			{
-				eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, NULL);
+				eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, NULL, aeEligibleLeaders);
 			}
 			return (eOutLeader != NO_LEADER);
 		}
@@ -15716,14 +15718,14 @@ namespace
 				 */
 				if (bHasLeaderArray)
 				{
-					eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, &kEvent);
+					eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, &kEvent, aeEligibleLeaders);
 				}
 				/*
 				 * Fall back to any compatible leader.
 				 */
 				if (eOutLeader == NO_LEADER)
 				{
-					eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, NULL);
+					eOutLeader = selectCompatibleLeaderForSummonCiv(eOutCiv, NULL, aeEligibleLeaders);
 				}
 				if (eOutLeader != NO_LEADER)
 				{
