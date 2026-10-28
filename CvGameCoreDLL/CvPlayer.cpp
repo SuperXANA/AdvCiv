@@ -15458,9 +15458,9 @@ namespace
 	// If pEventFilter is non-NULL, only civs with a positive weight in the event's
 	// civilization chance array are considered (and also must not be in-game).
 	// When no filter is used, compatible civs are chosen with equal probability.
-	CivilizationTypes selectCompatibleCivForSummonLeader(LeaderHeadTypes eLeader, const CvEventInfo* pEventFilter, std::vector<CivilizationTypes>& aeEligibleCivs)
+	CivilizationTypes selectCompatibleCivForSummonLeader(LeaderHeadTypes eLeader, const CvEventInfo* pEventFilter, const std::vector<CivilizationTypes>& aeEligibleCivs)
 	{
-		if (eLeader == NO_LEADER)
+		if (eLeader < 0 || eLeader >= GC.getNumLeaderHeadInfos())
 			return NO_CIVILIZATION;
 
 		std::vector<CivilizationTypes> aeCivs;
@@ -15470,24 +15470,12 @@ namespace
 
 		for (int i = 0; i < iEnumLength; ++i)
 		{
-			CivilizationTypes eCiv = aeEligibleCivs[i];
-			bool bValid = GC.getGame().isOption(GAMEOPTION_LEAD_ANY_CIV);
-			if (!bValid)
-			{
-				CvCivilizationInfo& kCiv = GC.getInfo(eCiv);
-				int iEnumLengthL = kCiv.getNumLeaders();
-				
-				for (int j = 0; j < iEnumLengthL; ++j)
-				{
-					if (kCiv.getLeader(j) == eLeader)
-					{
-						bValid = true;
-						break;
-					}
-				}
-				if (!bValid)
-					continue;
-			}
+			CivilizationTypes const eCiv = aeEligibleCivs[i];
+			if (eCiv < 0 || eCiv >= GC.getNumCivilizationInfos())
+				continue;
+			CvCivilizationInfo const& kCiv = GC.getInfo(eCiv);
+			if (!GC.getGame().isOption(GAMEOPTION_LEAD_ANY_CIV) && !kCiv.isLeaders(eLeader))
+				continue;
 
 			if (pEventFilter != NULL && pEventFilter->getSummonCivilizationWeightArray() != NULL)
 			{
