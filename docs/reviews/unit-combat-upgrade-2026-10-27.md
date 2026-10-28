@@ -32,3 +32,17 @@ Version 24 is scoped to this standalone feature branch. Other self-contained fea
 ## Coverage
 
 This pass covers upgradePrice, trait accumulation/reset, trait XML loading, trait help, and the player's read/write format. Prior completed review areas tracked separately: leader team-size attitude and timed-promotion source review.
+
+## MSVC 7.1 build confirmation — 2026-10-28
+
+The successful [DLL build run 40456936509](https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509)
+for `UnitCombatUpgradeBuild-ChatGPT` at commit
+`e1f41d9bed34d4035fa09b506c9e14d377268fbb` completed Release compilation,
+linking and DLL artifact upload. This proves that the assistant-refactored code
+at that revision builds under MSVC 7.1 (the Visual Studio 2003 C/C++ compiler).
+
+The remote environment initializes Visual Studio 2010's `vcvarsall.bat` and
+uses MSBuild to invoke the NMake project. The machine-local
+`R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
+compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
+the DLL's C/C++ compilation uses MSVC 7.1.
