@@ -9,7 +9,8 @@
     "After source coverage is complete, investigate unresolved failures and unverified build states.",
     "Stop only when there are no changed heads, no remaining evaluation coverage, and no outstanding failed or unverified validation work.",
     "A standalone C++03 test is not a DLL build; an isolated overlay result is not a result for the unchanged original head.",
-    "Runtime game/save/multiplayer validation is distinct from native compiler validation."
+    "Runtime game/save/multiplayer validation is distinct from native compiler validation.",
+    "Skip unchanged non-assistant source heads with documented missing implementation; never invent feature behavior or metadata solely to obtain a DLL build. Preserve prior findings and resume after the pinned original source SHA changes."
   ],
   "initial_coverage_complete": true,
   "stop_gate_satisfied": false,
@@ -143,7 +144,7 @@
       "head_at_inventory": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
       "coverage": "source_review_partial",
       "native_verification": "draft_only_no_dll_build",
-      "next_action": "Party wrapper reviewed and repaired; finish missing engine classes, unit membership, ownership and versioned persistence before a complete-base DLL build.",
+      "next_action": "Skip unchanged source head and associated assistant integration/build work. Preserve previous findings; do not supply missing feature behavior.",
       "source_review_scope": "All XANA blocks read across 13 DLL files; scoped constructor/dispatch/null-boundary fixes only.",
       "review_document": "docs/reviews/party-wrapper-2026-10-27.md",
       "review_branch": "PartyWrapperDraft-ChatGPT",
@@ -151,7 +152,11 @@
       "finding_ids": [
         "PARTY-20261027-01",
         "PARTY-20261027-02"
-      ]
+      ],
+      "review_disposition": "skip_until_source_head_changes",
+      "skip_source_sha": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "skip_reason": "Wrappers reference CvPartyGroup/CvPartyGroupAI but engine implementations are absent; membership, ownership and persistence remain unspecified.",
+      "resume_condition": "The original non-assistant source branch head changes, indicating new source work; assess that delta before resuming."
     },
     {
       "branch": "dll-build",
@@ -175,7 +180,10 @@
       "source_branch": "FFHEquipmentTypes",
       "source_head": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
       "draft_code_sha": "8678e1efc07837a6f773652271b56d9b39eccad6",
-      "next_action": "Reuse this draft for coherent equipment integration; no workflow or DLL build present."
+      "next_action": "Retain draft/test evidence; pause feature completion and DLL attempts until original source head changes.",
+      "review_disposition": "paused_with_missing_source_implementation",
+      "skip_source_branch": "FFHEquipmentTypes",
+      "skip_source_sha": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5"
     },
     {
       "branch": "FamilyRelationsBuild-ChatGPT",
@@ -192,7 +200,7 @@
       "head_at_inventory": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
       "coverage": "source_review_partial",
       "native_verification": "draft_only_no_dll_build",
-      "next_action": "Finish metadata/feasibility, slots/effects, XP/level lifecycle and versioned persistence before useful complete-base DLL validation; reuse EquipmentGatesDraft-ChatGPT.",
+      "next_action": "Skip unchanged source head and associated assistant integration/build work. Preserve previous findings; do not supply missing feature behavior.",
       "review_branch": "EquipmentGatesDraft-ChatGPT",
       "draft_code_sha": "8678e1efc07837a6f773652271b56d9b39eccad6",
       "source_review_scope": "XANA blocks in eight DLL files plus supplied XML/schema read; runtime unit acquisition/validity gates refined.",
@@ -201,23 +209,28 @@
         "EQUIPMENT-20261027-02",
         "EQUIPMENT-20261027-03"
       ],
-      "qualification": "Actual gate methods compiled in strict C++03 with simulated metadata/unit/team interfaces; no whole-feature or native DLL result."
+      "qualification": "Actual gate methods compiled in strict C++03 with simulated metadata/unit/team interfaces; no whole-feature or native DLL result.",
+      "review_disposition": "skip_until_source_head_changes",
+      "skip_source_sha": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+      "skip_reason": "CvEquipmentInfo lacks prerequisite/technology interfaces consumed by gates; static feasibility and slot/effect integration remain unfinished. Do not invent those interfaces or mechanics for a build.",
+      "resume_condition": "The original non-assistant source branch head changes, indicating new source work; assess that delta before resuming."
     },
     {
       "branch": "FFHRaceTypes",
       "head_at_inventory": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
       "coverage": "source_review_partial",
       "native_verification": "draft_only_no_dll_build",
-      "next_action": "Finish info declaration/reader consistency, cache readiness, unit lifecycle and versioned persistence before a complete-base DLL build; reuse the existing scoped draft.",
+      "next_action": "Reuse existing draft for info/XML/cache consistency, metadata readiness, lifecycle and versioned persistence before coherent native validation.",
       "review_branch": "RaceDemographicsDraft-ChatGPT",
       "source_review_scope": "All XANA blocks across 21 DLL files and race/class XML/schema read; weighted selection, Boolean lock accessor and unit creation scope refined.",
-      "draft_code_sha": "df98a66934ff1ecc810e19357c686834c6cfac24",
+      "draft_code_sha": "73dc2faf9e7efb807d20bcd7dc23c97f4f68b0c1",
       "finding_ids": [
         "RACE-20261027-01",
         "RACE-20261027-02",
-        "RACE-20261027-03"
+        "RACE-20261027-03",
+        "RACE-20261028-04"
       ],
-      "qualification": "Actual methods/accessor checked in C++03 engine stubs; finalizeInit call scope checked structurally. No whole-feature/native/gameplay validation."
+      "qualification": "Previous scoped race fixtures retained; actual civilization declaration/constructor/destructor/accessor checked under C++03/ASan/UBSan with dependencies stubbed. Loader/cache/DLL/game remain unverified."
     },
     {
       "branch": "FFHSpellCreationBuild-ChatGPT",
@@ -398,8 +411,12 @@
       "head_at_inventory": "484412d0de7e42e2d310bb39e75340fc5307f597",
       "coverage": "source_inventory_no_implementation",
       "native_verification": "not_applicable_readme_only",
-      "next_action": "Revisit if implementation files are added.",
-      "review_branch": "ReputationWindowDraft-ChatGPT"
+      "next_action": "Skip unchanged source head and associated assistant integration/build work. Preserve previous findings; do not supply missing feature behavior.",
+      "review_branch": "ReputationWindowDraft-ChatGPT",
+      "review_disposition": "skip_until_source_head_changes",
+      "skip_source_sha": "484412d0de7e42e2d310bb39e75340fc5307f597",
+      "skip_reason": "README-only; no decision-evaluation implementation.",
+      "resume_condition": "The original non-assistant source branch head changes, indicating new source work; assess that delta before resuming."
     },
     {
       "branch": "LeaderSpecificRebelliousTeamDiplomaticDecisions",
@@ -523,7 +540,10 @@
       "source_branch": "CvPartyGroup",
       "source_head": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
       "draft_code_sha": "a62534896395531bde41fca2ab1b880e5d203706",
-      "next_action": "Reuse this isolated branch for party integration; wrapper stubs passing does not establish a DLL or gameplay result."
+      "next_action": "Retain draft/test evidence; pause feature completion and DLL attempts until original source head changes.",
+      "review_disposition": "paused_with_missing_source_implementation",
+      "skip_source_branch": "CvPartyGroup",
+      "skip_source_sha": "c6b1b14d0263196c497d8dcf85da41982d5ec7af"
     },
     {
       "branch": "PerUnitCombatFreePromotionTraits",
@@ -603,13 +623,20 @@
     },
     {
       "branch": "RaceDemographicsDraft-ChatGPT",
-      "head_at_inventory": "c51f157812cfe248f07fcccf1eed7a5fa0a760a9",
+      "head_at_inventory": "2151dc14537e057b35d218be161c6ef0ffec9ff7",
       "coverage": "published_review_artifact",
       "native_verification": "draft_only_no_dll_build",
       "source_branch": "FFHRaceTypes",
       "source_head": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
-      "draft_code_sha": "df98a66934ff1ecc810e19357c686834c6cfac24",
-      "next_action": "Reuse this isolated draft for remaining race integration; no workflow or DLL build is present."
+      "draft_code_sha": "73dc2faf9e7efb807d20bcd7dc23c97f4f68b0c1",
+      "next_action": "Reuse existing draft for info/XML/cache consistency, metadata readiness, lifecycle and versioned persistence before coherent native validation.",
+      "finding_ids": [
+        "RACE-20261027-01",
+        "RACE-20261027-02",
+        "RACE-20261027-03",
+        "RACE-20261028-04"
+      ],
+      "qualification": "Previous scoped race fixtures retained; actual civilization declaration/constructor/destructor/accessor checked under C++03/ASan/UBSan with dependencies stubbed. Loader/cache/DLL/game remain unverified."
     },
     {
       "branch": "RealisticAIDecisions",
@@ -751,8 +778,12 @@
       "head_at_inventory": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed",
       "coverage": "deferred_readme_only",
       "native_verification": "not_applicable_no_implementation",
-      "next_action": "Skip until implementation is added or review is requested.",
-      "qualification": "Complete recursive tree verified README-only."
+      "next_action": "Skip unchanged source head and associated assistant integration/build work. Preserve previous findings; do not supply missing feature behavior.",
+      "qualification": "Complete recursive tree verified README-only.",
+      "review_disposition": "skip_until_source_head_changes",
+      "skip_source_sha": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed",
+      "skip_reason": "README-only; no status-effect implementation or mechanics data.",
+      "resume_condition": "The original non-assistant source branch head changes, indicating new source work; assess that delta before resuming."
     },
     {
       "branch": "VoteCounterDraft-ChatGPT",
@@ -781,7 +812,7 @@
     },
     {
       "branch": "CivicScrollDraft-ChatGPT",
-      "head_at_inventory": "2d0c29857f820acc558a4d5f3549ff31be150819",
+      "head_at_inventory": "1068cc724fada89fb9facb79b831acebb5e27433",
       "coverage": "published_review_artifact",
       "native_verification": "python_only_draft_no_dll_build",
       "source_branch": "UniqueCivicsReligions",
@@ -796,13 +827,15 @@
     }
   ],
   "current_pass": {
-    "source_branch": "UniqueCivicsReligions",
-    "refinement_branch": "CivicScrollDraft-ChatGPT",
-    "draft_code_sha": "2d0c29857f820acc558a4d5f3549ff31be150819",
-    "finding_ids": [
-      "RELIGIONUI-20261028-01"
-    ],
+    "production_changes": false,
     "dll_build_triggered": false,
-    "first_pass_pending": []
+    "first_pass_pending": [],
+    "skip_dispositions_updated": [
+      "UnitStatusEffects",
+      "LeaderSpecificMultilayeredAIDecisionEval",
+      "CvPartyGroup",
+      "FFHEquipmentTypes"
+    ],
+    "qualification": "Readiness gating only. Missing implementation is distinct from repairable implementation bugs and from absent/failed build evidence. Stop gate remains false for other unfinished work."
   }
 }
