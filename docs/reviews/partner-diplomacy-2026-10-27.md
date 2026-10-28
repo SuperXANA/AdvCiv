@@ -34,7 +34,7 @@ The source adds four serialized arrays to [CvDiplomacyResponse's cache stream](h
 
 Write format 1 for the affected response stream and for the legacy text-info container. Format-0 readers skip the added arrays and reset their new pointers to NULL; format-1 readers read them. New absent filters are serialized as explicit false arrays through a small RAII helper, without passing NULL to the external array writer. The legacy stream appends its new arrays after the existing per-response fields; its outer format flag selects that layout.
 
-These are XML-info cache formats, not game-save format changes. The fixture checks versions 0 and 1 with a simulated stream, including reread from new to old and absent-list writes. Real Windows cache-file interoperability and cache invalidation were not exercised; 1.14's normal configuration disables XML file caching. Existing baseline cache behavior for unrelated fields is not certified by these tests.
+These are XML-info cache formats, not game-save format changes. The fixture checks versions 0 and 1 with a simulated stream, including reread from new to old and absent-list writes. Real Windows cache-file interoperability and cache invalidation were not exercised. The local fixture explicitly enables the cache methods; native build results alone do not establish that the cache-enabled preprocessor path was compiled. Existing baseline cache behavior for unrelated fields is not certified by these tests.
 
 ## Baseline and data decisions
 
@@ -57,4 +57,17 @@ The Python fixture executes the actual unchanged selection methods with fake gam
 
 The workflow comes from the named dll-build source with the previously validated complete-overlay harness: DLL sync root, protected machine-local Project configuration, stale top-level source cleanup only, root-source manifest, clean outputs, MSVC 7.1 probe, forced rebuild, sequential Release/Debug, exact artifact collection and guarded cleanup.
 
-Native validation is pending for the first published code commit. No historical or fixture result substitutes for the triggered DLL build. Game startup, real XDR loading, embedded Python/Boost conversions, displayed dialogue, cross-version DLL ABI and multiplayer remain untested.
+Native validation completed for [code commit 0b80d617ec269caff3241245ea7af1eb285d4c38](https://github.com/SuperXANA/AdvCiv/commit/0b80d617ec269caff3241245ea7af1eb285d4c38) in [run 40619734522](https://github.com/SuperXANA/AdvCiv/actions/runs/40619734522): **success**.
+
+| Configuration | Job | Compiler | Warnings / errors | Uploaded artifact |
+| --- | --- | --- | --- | --- |
+| Release | [122590580557](https://github.com/SuperXANA/AdvCiv/actions/runs/40619734522/job/122590580557) | MSVC 7.1, _MSC_VER 1310 | 0 / 0 | [12786902132](https://github.com/SuperXANA/AdvCiv/actions/runs/40619734522/artifacts/12786902132), 2,343,783 bytes |
+| Debug | [122590580024](https://github.com/SuperXANA/AdvCiv/actions/runs/40619734522/job/122590580024) | MSVC 7.1, _MSC_VER 1310 | 0 / 0 | [12786932516](https://github.com/SuperXANA/AdvCiv/actions/runs/40619734522/artifacts/12786932516), 18,570,978 bytes |
+
+Both jobs passed compiler probe, rebuild, DLL copy, artifact upload and cleanup. The configured Debug collection includes PDB files. These are verified build/upload records; archives were not independently downloaded or executed. The original source branch head was not built.
+
+Tree comparison confirms all **872 baseline blobs retained**. Seven existing baseline files differ: the five DLL implementation/header/binding files, CvDiplomacy.py and CIV4GameInfoSchema.xml. The cache helper, tests, inactive source example, workflow and review documentation are additive. Baseline CIV4DiplomacyInfos.xml remains unchanged.
+
+Game startup, real XDR loading, embedded Python/Boost conversions, displayed dialogue, cross-version DLL ABI and multiplayer remain untested. Local cache-enabled fixtures are not proof of actual engine cache-file interoperability.
+
+The companion coverage ledger records this scoped native result separately from the unchanged original head. **Eight first-pass branches remain pending**, in addition to prior partial/integration work; the stopping condition remains false. This documentation/coverage follow-up does not modify the tested DLL code and does not trigger another build.
