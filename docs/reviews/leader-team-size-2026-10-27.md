@@ -19,3 +19,17 @@ Start from the complete base tree and overlay the three target CvGameCoreDLL fil
 ## Verification limits
 
 DLL compilation does not validate Civ4 XML loading or gameplay. The XDR schema must be exercised in Civ4; static XML checks only establish structure and the optional integer declaration. The original source and 1.14 refs remain unchanged. Build status is recorded separately through the workflow run associated with this branch's exact commit.
+
+## MSVC 7.1 build confirmation — 2026-10-28
+
+The successful [DLL build run 40448128843](https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843)
+for `LeaderTeamSizeBuild-ChatGPT` at commit
+`23b8e74ea630209d67deaa53475d31113bd614b1` completed Release compilation,
+linking and DLL artifact upload. This proves that the assistant-refactored code
+at that revision builds under MSVC 7.1 (the Visual Studio 2003 C/C++ compiler).
+
+The remote environment initializes Visual Studio 2010's `vcvarsall.bat` and
+uses MSBuild to invoke the NMake project. The machine-local
+`R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
+compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
+the DLL's C/C++ compilation uses MSVC 7.1.
