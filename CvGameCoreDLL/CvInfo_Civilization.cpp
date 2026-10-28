@@ -204,6 +204,8 @@ std::string CvCivilizationInfo::getCityNames(int i) const
 // XANA: 06-21-2025 Racial Marks
 int CvCivilizationInfo::getRacePriority(int i) const
 {
+	if (i < 0 || i >= GC.getNumRaceInfos())
+		return 0;
 	return m_piRacePriorities ? m_piRacePriorities[i] : 0;
 }
 // XANA: 06-21-2025 Racial Marks

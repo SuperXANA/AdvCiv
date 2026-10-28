@@ -107,6 +107,9 @@ protected:
 	bool* m_pbCivilizationDisableTechs;
 
 	CvString* m_paszCityNames;
+// XANA: 06-21-2025 Racial Marks
+	int* m_piRacePriorities;
+// XANA: 06-21-2025 Racial Marks
 
 	mutable std::vector<CvWString> m_aszShortDescription;
 	mutable std::vector<CvWString> m_aszAdjective;
