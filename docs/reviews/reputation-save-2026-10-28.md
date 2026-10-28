@@ -17,7 +17,7 @@ The repair changes resize to reserve at line 14539. Capacity is prepared without
 
 ## REPUTATION-20261028-04 — const writer call cannot compile
 
-[ReputationScore::write implementation](https://github.com/SuperXANA/AdvCiv/blob/ab9846a637dfc2847349cb63d398017f7d8d4c3a/CvGameCoreDLL/ReputationScore.cpp#L108) and [declaration, line 22](https://github.com/SuperXANA/AdvCiv/blob/ab9846a637dfc2847349cb63d398017f7d8d4c3a/CvGameCoreDLL/ReputationScore.h#L22).
+[ReputationScore::write implementation](https://github.com/SuperXANA/AdvCiv/blob/ab9846a637dfc2847349cb63d398017f7d8d4c3a/CvGameCoreDLL/ReputationScore.cpp#L96) and [declaration, line 22](https://github.com/SuperXANA/AdvCiv/blob/ab9846a637dfc2847349cb63d398017f7d8d4c3a/CvGameCoreDLL/ReputationScore.h#L22).
 
 CvPlayer::write uses std::vector<ReputationScore>::const_iterator at lines 15069–15072 and calls (*it).write(pStream). A const_iterator yields a const score, but the source declares write as non-const. The repair adds const to both declaration and definition. The writer only reads size, sample count and score elements; it mutates the stream, not the score. Serialized field order, types and count encoding do not change. The pinned FDataStreamBase header was read to confirm scalar/const-array write support.
 
