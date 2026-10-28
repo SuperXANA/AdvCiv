@@ -10593,157 +10593,98 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 // XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 bool CvUnit::canAcquireEquipment(EquipmentTypes eEquipment) const
 {
+	if (eEquipment < 0 || eEquipment >= GC.getNumEquipmentInfos())
+		return false;
 	FAssertEnumBounds(eEquipment);
-
-	if (isHasEquipment(eEquipment))
-		return false;
-	
-	if (GC.getInfo(eEquipment).getEquipmentLowestLevelRequired() > 0)
-	{
-		if (getEquipmentLevel() < GC.getInfo(eEquipment).getEquipmentLowestLevelRequired())
-			return false;
-	}
-	
-	if (GC.getInfo(eEquipment).getEquipmentHighestLevelRequired() > 0)
-	{
-		if (getEquipmentLevel() > GC.getInfo(eEquipment).getEquipmentLowestLevelRequired())
-			return false;
-	}
-	
-	if (GC.getInfo(eEquipment).isLegendaryWeapon())
-	{
-		/*
-		XANA (Note):
-		Heroic, i.e. Civilization-defining or Legendary Units
-		for example Pimedasus Helendav or Rusa Imperio
-		can take this piece regardless of enchantment.
-		Normal units need to pass the enchantment check below.
-		*/
-		if !(m_pUnitInfo->isHero())
-		{
-			if (GC.getInfo(eEquipment).getRequiredEnchantment() != NO_PROMOTION)
-			{
-				/*
-				XANA (TODO):
-				Could use a custom Status Type from the UnitStatusEffects branch to represent an enchantment.
-				*/
-				if !(isHasPromotion(GC.getInfo(eEquipment).getRequiredEnchantment()))
-					return false;
-			}
-		}
-	}
-	
-	if (GC.getInfo(eEquipment).isPersonalWeapon() && GC.getInfo(eEquipment).getPrereqUnitType() != NO_UNIT)
-	{
-		/*
-		XANA (TODO):
-		Could fold this into isHasEquipment check at the top.
-		*/
-		if (getUnitType() != GC.getInfo(eEquipment).getPrereqUnitType())
-			return false;
-	}
-
-	if (GC.getInfo(eEquipment).getPrereqPromotion() != NO_PROMOTION)
-	{
-		if (!isHasPromotion((PromotionTypes)(GC.getInfo(eEquipment).getPrereqPromotion())))
-			return false;
-	}
-	
-	{
-		PromotionTypes ePrereq1 = (PromotionTypes)GC.getInfo(ePromotion).getPrereqOrPromotion1();
-		PromotionTypes ePrereq2 = (PromotionTypes)GC.getInfo(ePromotion).getPrereqOrPromotion2();
-		PromotionTypes ePrereq3 = (PromotionTypes)GC.getInfo(ePromotion).getPrereqOrPromotion3();
-		if (ePrereq1 != NO_PROMOTION || ePrereq2 != NO_PROMOTION || ePrereq3 != NO_PROMOTION)
-		{
-			bool bValid = false;
-
-			if (ePrereq1 != NO_PROMOTION && isHasPromotion(ePrereq1))
-				bValid = true;
-			if (ePrereq2 != NO_PROMOTION && isHasPromotion(ePrereq2))
-				bValid = true;
-			if (ePrereq3 != NO_PROMOTION && isHasPromotion(ePrereq3))
-				bValid = true;
-
-			if (!bValid)
-			{
-				return false;
-			}
-		}
-	}
-	
-	if (GC.getInfo(eEquipment).getPrereqEquipment() != NO_EQUIPMENT)
-	{
-		if (!isHasEquipment((EquipmentTypes)(GC.getInfo(eEquipment).getPrereqEquipment())))
-			return false;
-	}
-	
-	{
-		EquipmentTypes ePrereq1 = (EquipmentTypes)GC.getInfo(eEquipment).getPrereqOrEquipment1();
-		EquipmentTypes ePrereq2 = (EquipmentTypes)GC.getInfo(eEquipment).getPrereqOrEquipment2();
-		EquipmentTypes ePrereq3 = (EquipmentTypes)GC.getInfo(eEquipment).getPrereqOrEquipment3();
-		if (ePrereq1 != NO_EQUIPMENT || ePrereq2 != NO_EQUIPMENT || ePrereq3 != NO_EQUIPMENT)
-		{
-			bool bValid = false;
-
-			if (ePrereq1 != NO_EQUIPMENT && isHasEquipment(ePrereq1))
-				bValid = true;
-			if (ePrereq2 != NO_EQUIPMENT && isHasEquipment(ePrereq2))
-				bValid = true;
-			if (ePrereq3 != NO_EQUIPMENT && isHasEquipment(ePrereq3))
-				bValid = true;
-
-			if (!bValid)
-			{
-				return false;
-			}
-		}
-	}
-
-	if (GC.getInfo(eEquipment).getTechPrereq() != NO_TECH)
-	{
-		if (!GET_TEAM(getTeam()).isHasTech((TechTypes)GC.getInfo(eEquipment).getTechPrereq()))
-			return false;
-	}
-
-	if (GC.getInfo(eEquipment).getMagicTechClassPrereq() != NO_MAGIC_TECH_CLASS)
-	{
-		if (!GET_TEAM(getTeam()).isHasMagicTechClass((MagicTechClassTypes)GC.getInfo(eEquipment).getMagicTechClassPrereq()))
-			return false;
-	}
-
-	if (GC.getInfo(eEquipment).getMagicTechPrereq() != NO_MAGIC_TECH)
-	{
-		if (!GET_TEAM(getTeam()).isHasMagicTech((MagicTechTypes)GC.getInfo(eEquipment).getMagicTechPrereq()))
-			return false;
-	}
-
-	if (!isEquipmentValid(eEquipment))
+	if (isHasEquipment(eEquipment) || !isEquipmentValid(eEquipment))
 		return false;
 
+	CvEquipmentInfo const& kEquipment = GC.getInfo(eEquipment);
+	int const iMinLevel = kEquipment.getEquipmentLowestLevelRequired();
+	int const iMaxLevel = kEquipment.getEquipmentHighestLevelRequired();
+	if (iMinLevel > 0 || iMaxLevel > 0)
+	{
+		// Class-indexed level storage must not be queried for the sentinel.
+		if (getEquipmentClass() == NO_EQUIPMENT_CLASS)
+			return false;
+		int const iLevel = getEquipmentLevel();
+		if ((iMinLevel > 0 && iLevel < iMinLevel) ||
+			(iMaxLevel > 0 && iLevel > iMaxLevel))
+		{
+			return false;
+		}
+	}
+
+	// Heroes bypass only a legendary item's enchantment requirement.
+	if (kEquipment.isLegendaryWeapon() && !m_pUnitInfo->isHero() &&
+		kEquipment.getRequiredEnchantment() != NO_PROMOTION &&
+		!isHasPromotion(kEquipment.getRequiredEnchantment()))
+	{
+		return false;
+	}
+	if (kEquipment.isPersonalWeapon() && kEquipment.getPrereqUnitType() != NO_UNIT &&
+		getUnitType() != kEquipment.getPrereqUnitType())
+	{
+		return false;
+	}
+	if (kEquipment.getPrereqPromotion() != NO_PROMOTION &&
+		!isHasPromotion((PromotionTypes)kEquipment.getPrereqPromotion()))
+	{
+		return false;
+	}
+	{
+		PromotionTypes const ePrereq1 = (PromotionTypes)kEquipment.getPrereqOrPromotion1();
+		PromotionTypes const ePrereq2 = (PromotionTypes)kEquipment.getPrereqOrPromotion2();
+		PromotionTypes const ePrereq3 = (PromotionTypes)kEquipment.getPrereqOrPromotion3();
+		if ((ePrereq1 != NO_PROMOTION || ePrereq2 != NO_PROMOTION || ePrereq3 != NO_PROMOTION) &&
+			!(ePrereq1 != NO_PROMOTION && isHasPromotion(ePrereq1)) &&
+			!(ePrereq2 != NO_PROMOTION && isHasPromotion(ePrereq2)) &&
+			!(ePrereq3 != NO_PROMOTION && isHasPromotion(ePrereq3)))
+		{
+			return false;
+		}
+	}
+	if (kEquipment.getPrereqEquipment() != NO_EQUIPMENT &&
+		!isHasEquipment((EquipmentTypes)kEquipment.getPrereqEquipment()))
+	{
+		return false;
+	}
+	{
+		EquipmentTypes const ePrereq1 = (EquipmentTypes)kEquipment.getPrereqOrEquipment1();
+		EquipmentTypes const ePrereq2 = (EquipmentTypes)kEquipment.getPrereqOrEquipment2();
+		EquipmentTypes const ePrereq3 = (EquipmentTypes)kEquipment.getPrereqOrEquipment3();
+		if ((ePrereq1 != NO_EQUIPMENT || ePrereq2 != NO_EQUIPMENT || ePrereq3 != NO_EQUIPMENT) &&
+			!(ePrereq1 != NO_EQUIPMENT && isHasEquipment(ePrereq1)) &&
+			!(ePrereq2 != NO_EQUIPMENT && isHasEquipment(ePrereq2)) &&
+			!(ePrereq3 != NO_EQUIPMENT && isHasEquipment(ePrereq3)))
+		{
+			return false;
+		}
+	}
+	if (kEquipment.getTechPrereq() != NO_TECH &&
+		!GET_TEAM(getTeam()).isHasTech((TechTypes)kEquipment.getTechPrereq()))
+	{
+		return false;
+	}
+	if (kEquipment.getMagicTechClassPrereq() != NO_MAGIC_TECH_CLASS &&
+		!GET_TEAM(getTeam()).isHasMagicTechClass((MagicTechClassTypes)kEquipment.getMagicTechClassPrereq()))
+	{
+		return false;
+	}
+	if (kEquipment.getMagicTechPrereq() != NO_MAGIC_TECH &&
+		!GET_TEAM(getTeam()).isHasMagicTech((MagicTechTypes)kEquipment.getMagicTechPrereq()))
+	{
+		return false;
+	}
 	return true;
 }
 
 bool CvUnit::isEquipmentValid(EquipmentTypes eEquipment) const
 {
-	if (!m_pUnitInfo->isEquipmentValid(eEquipment, true))
+	if (eEquipment < 0 || eEquipment >= GC.getNumEquipmentInfos())
 		return false;
-	
-	CvEquipmentInfo const& kEquipment = GC.getInfo(eEquipment);
-	{
-		PromotionTypes const ePrereq = (PromotionTypes)kEquipment.getPrereqPromotion();
-		if (ePrereq == NO_PROMOTION)
-		{
-			return false;
-		}
-	}
-	{
-		EquipmentTypes const ePrereq = (EquipmentTypes)kEquipment.getPrereqEquipment();
-		if (ePrereq == NO_EQUIPMENT)
-		{
-			return false;
-		}
-	}
-	return true;
+	// Unit-type feasibility is separate from currently owned prerequisites.
+	return m_pUnitInfo->isEquipmentValid(eEquipment, true);
 }
 
 
