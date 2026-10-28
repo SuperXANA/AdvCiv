@@ -1098,15 +1098,7 @@ bool CvLeaderHeadInfo::readPass2(CvXMLLoadUtility* pXML)
 {
 	pXML->SetVariableListTagPair(&m_piFirstImpressionModifier, "FirstImpressionChanges", GC.getNumLeaderHeadInfos());
 
-	#ifdef FASSERT_ENABLE
-	if (!isDefaultsType())
-	{
-		if (m_piFirstImpressionModifier != NULL)
-		{
-			FOR_EACH_ENUM(LeaderHead)
-				FAssert(m_piFirstImpressionModifier[eLoopLeaderHead] >= 0 || m_piFirstImpressionModifier[eLoopLeaderHead] <= 0);
-		}
-	#endif
+
 	
 	return true;
 }
