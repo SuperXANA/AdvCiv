@@ -129,3 +129,20 @@ All XANA blocks in this source branch's three DLL files, schema and leader data
 were read. Branch heads were unchanged since the previous pass. Completed
 family/resource diplomacy, SQLite, LLM and other assistant branches were not
 edited or rebuilt.
+
+## MSVC 7.1 build confirmation — 2026-10-28
+
+The successful [DLL build run 40583685157](https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157)
+for `RenegadeDiplomacyBuild-ChatGPT` at commit
+`dc22ea9a64cb4c2ee45af31d4c20191e08e8247d` completed Release and Debug compilation,
+linking and DLL artifact upload. This proves that the assistant-refactored code
+at that revision builds under MSVC 7.1 (the Visual Studio 2003 C/C++ compiler).
+
+The remote environment initializes Visual Studio 2010's `vcvarsall.bat` and
+uses MSBuild to invoke the NMake project. The machine-local
+`R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
+compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
+the DLL's C/C++ compilation uses MSVC 7.1.
+
+Both configuration logs additionally confirm the compiler probe:
+`Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1).`
