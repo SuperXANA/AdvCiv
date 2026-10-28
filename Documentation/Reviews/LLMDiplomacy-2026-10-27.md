@@ -114,3 +114,20 @@ filter avoids launching another unchanged DLL build for it. Future reviews
 should retain findings LLM-001–007 and this exact successful code SHA, and revisit
 when the source branch, transport producer, contextual expiration or request-ID
 reuse design changes.
+
+## MSVC 7.1 build confirmation — 2026-10-28
+
+The successful [DLL build run 40548144176](https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176)
+for `LLMDiplomacyTextBuild-ChatGPT` at commit
+`6d106160bfc778b47274ef2025f02e68d183f3af` completed Release and Debug compilation,
+linking and DLL artifact upload. This proves that the assistant-refactored code
+at that revision builds under MSVC 7.1 (the Visual Studio 2003 C/C++ compiler).
+
+The remote environment initializes Visual Studio 2010's `vcvarsall.bat` and
+uses MSBuild to invoke the NMake project. The machine-local
+`R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
+compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
+the DLL's C/C++ compilation uses MSVC 7.1.
+
+Both configuration logs additionally confirm the compiler probe:
+`Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1).`
