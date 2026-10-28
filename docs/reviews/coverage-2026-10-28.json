@@ -290,9 +290,14 @@
     {
       "branch": "FirstImpressionDiplomacyModifiers",
       "head_at_inventory": "cc764ad80e89f751f809998a61a23225254109f2",
-      "coverage": "earlier_source_review_partial",
-      "native_verification": "not_recorded",
-      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+      "coverage": "source_review_partial",
+      "native_verification": "readPass2_fixture_only_no_dll_build",
+      "next_action": "Review remaining source/schema/cache integration before complete-base DLL validation; preserve implemented signed modifier behavior.",
+      "refinement_branch": "FirstImpressionDraft-ChatGPT",
+      "draft_code_sha": "971d63a53deb940f7af13ce6bbe408c8559fb1b2",
+      "finding_ids": [
+        "FIRST-20261028-01"
+      ]
     },
     {
       "branch": "FreePromotionLoaderBuild-ChatGPT",
@@ -314,14 +319,17 @@
       "head_at_inventory": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
       "coverage": "source_review_partial",
       "native_verification": "scoped_template_fixture_only_no_dll_build",
-      "next_action": "Reuse existing draft for dimension/copy/reset, reference/const, stream and lifetime review without inventing game mechanics.",
+      "next_action": "Reuse draft for remaining const accessor, dimensions/overflow and element lifetime review; full DLL/game use remains unverified.",
       "review_branch": "SimpleStorageChangeDraft-ChatGPT",
-      "draft_code_sha": "4c08ef06e1a95f2b5b093fcc2e6142fc5e419a45",
+      "draft_code_sha": "80aba592df6f12d4a3e85a615b615bb4a41763ee",
       "finding_ids": [
-        "STORAGE-20261028-01"
+        "STORAGE-20261028-01",
+        "STORAGE-20261028-02",
+        "STORAGE-20261028-03"
       ],
       "source_review_scope": "Actual full header and deletion macro read; bool/int change dispatch and parse repair refined. Prior other storage observations remain unimplemented.",
-      "qualification": "Full repaired header parsed; six bool/int template instantiations tested under C++03/ASan/UBSan with dependencies stubbed. No DLL result."
+      "qualification": "Prior change-dispatch fixture retained; actual header int 2D copy/assignment/read/write checked C++03/ASan/UBSan with stream/allocation macros stubbed.",
+      "refinement_branch": "SimpleStorageChangeDraft-ChatGPT"
     },
     {
       "branch": "GenderCounterDraft-ChatGPT",
@@ -361,9 +369,16 @@
     {
       "branch": "HatedCivicReligionDiplomacy",
       "head_at_inventory": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
-      "coverage": "earlier_source_review_partial",
-      "native_verification": "not_recorded",
-      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+      "coverage": "source_review_partial",
+      "native_verification": "counter_and_cache_fragment_fixture_only_no_dll_build",
+      "next_action": "Retain committed counter/cache repairs; review existing arithmetic, lifecycle/save versioning and integration before full DLL validation; do not invent scoring mechanics.",
+      "refinement_branch": "HatedDiplomacyDraft-ChatGPT",
+      "draft_code_sha": "bd9fe6e0816ed0f6c5311b5fb2aefa6505df4e5e",
+      "finding_ids": [
+        "HATED-20261028-01",
+        "HATED-20261028-02"
+      ],
+      "qualification": "Earlier observations now implemented: actual counter method and six-field marked cache blocks pass C++03/ASan/UBSan with dependencies stubbed. No full DLL/game/cache-ABI verification."
     },
     {
       "branch": "LeaderCivilizationDecisionPreferences",
@@ -487,10 +502,21 @@
     {
       "branch": "LeaderSpecificVoteActionDiplomacy",
       "head_at_inventory": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
-      "coverage": "counter_scope_only",
-      "native_verification": "not_attempted_incomplete_feature",
-      "next_action": "Review remaining XML, lifecycle and save integration before native validation.",
-      "refinement_branch": "VoteCounterDraft-ChatGPT"
+      "coverage": "source_review_partial",
+      "native_verification": "counter_and_loader_fixtures_only_no_dll_build",
+      "next_action": "Review existing lifecycle/persistence, real schema and loader integration before native validation; preserve positional source format and do not invent missing mechanics.",
+      "refinement_branch": "VoteCounterDraft-ChatGPT",
+      "draft_code_sha": "45de0c4d322d916e2bafe8a250457d263d3808d2",
+      "finding_ids": [
+        "VOTE-20261027-01",
+        "VOTE-20261027-02",
+        "VOTE-20261027-03",
+        "VOTE-20261028-04",
+        "VOTE-20261028-05"
+      ],
+      "source_head": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
+      "source_branch": "LeaderSpecificVoteActionDiplomacy",
+      "qualification": "Actual counter methods and readPass3 pass scoped C++03 fixtures; loader uses minimal tree/cursor stub with ASan/UBSan. No engine XML, MSVC/DLL, schema, persistence or game verification."
     },
     {
       "branch": "LeaderTeamSizeBuild-ChatGPT",
@@ -824,16 +850,17 @@
       "branch": "UniqueCivicsReligions",
       "head_at_inventory": "d0fc7c0f93320e112903416c17bb2a2030819d60",
       "coverage": "source_review_partial",
-      "native_verification": "python_only_draft_no_dll_build",
-      "next_action": "Reuse existing draft for native eligibility, metadata, XML/bindings and full UI integration review; summary-row fixture does not certify the complete feature.",
+      "native_verification": "scoped_native_gate_fixture_only_no_dll_build",
+      "next_action": "Reuse draft for existing metadata/loading, binding, actual caller execution and whole-feature native validation; do not invent missing rules.",
       "review_branch": "CivicScrollDraft-ChatGPT",
-      "draft_code_sha": "2d0c29857f820acc558a4d5f3549ff31be150819",
+      "draft_code_sha": "30fb84064c9c791868d70582875e7a8e01814df4",
       "finding_ids": [
         "CIVICUI-20261028-01",
-        "RELIGIONUI-20261028-01"
+        "RELIGIONUI-20261028-01",
+        "RELIGION-20261028-01"
       ],
       "source_review_scope": "Civic-screen XANA draw/visibility blocks; marked player/metadata/religion-screen consumers read for context. Other integration scopes unverified.",
-      "qualification": "Actual civic draw methods and religion summary block checked under Python 3 with UI stubs. No Python 2/game/native DLL result."
+      "qualification": "UI fixtures retained; actual canDoReligion/isAllowedReligion passed 72 C++03/ASan/UBSan prerequisite/presence combinations with engine stubs. No full DLL/game result."
     },
     {
       "branch": "UnitCombatUpgradeBuild-ChatGPT",
@@ -864,11 +891,22 @@
     },
     {
       "branch": "VoteCounterDraft-ChatGPT",
-      "head_at_inventory": "b3df449e475b9603566ceebc5a49ede9c42e8ca6",
-      "coverage": "counter_scope_only",
-      "native_verification": "not_attempted_incomplete_feature",
-      "next_action": "Review remaining XML, lifecycle and save integration before native validation.",
-      "refinement_branch": "VoteCounterDraft-ChatGPT"
+      "head_at_inventory": "5b177667e39f6b878d42af0afb3be89979d3c513",
+      "coverage": "published_review_artifact",
+      "native_verification": "counter_and_loader_fixtures_only_no_dll_build",
+      "next_action": "Review existing lifecycle/persistence, real schema and loader integration before native validation; preserve positional source format and do not invent missing mechanics.",
+      "refinement_branch": "VoteCounterDraft-ChatGPT",
+      "draft_code_sha": "45de0c4d322d916e2bafe8a250457d263d3808d2",
+      "finding_ids": [
+        "VOTE-20261027-01",
+        "VOTE-20261027-02",
+        "VOTE-20261027-03",
+        "VOTE-20261028-04",
+        "VOTE-20261028-05"
+      ],
+      "source_head": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
+      "source_branch": "LeaderSpecificVoteActionDiplomacy",
+      "qualification": "Actual counter methods and readPass3 pass scoped C++03 fixtures; loader uses minimal tree/cursor stub with ASan/UBSan. No engine XML, MSVC/DLL, schema, persistence or game verification."
     },
     {
       "branch": "ReputationWindowDraft-ChatGPT",
@@ -889,36 +927,73 @@
     },
     {
       "branch": "CivicScrollDraft-ChatGPT",
-      "head_at_inventory": "20ddb4c784af340adde3cec2dc615967067fe5a5",
+      "head_at_inventory": "f85393be51e32f7440fedc3e4f7946d8b56f25cb",
       "coverage": "published_review_artifact",
-      "native_verification": "python_only_draft_no_dll_build",
+      "native_verification": "scoped_native_gate_fixture_only_no_dll_build",
       "source_branch": "UniqueCivicsReligions",
       "source_head": "d0fc7c0f93320e112903416c17bb2a2030819d60",
-      "draft_code_sha": "2d0c29857f820acc558a4d5f3549ff31be150819",
-      "next_action": "Reuse existing draft for native eligibility, metadata, XML/bindings and full UI integration review; summary-row fixture does not certify the complete feature.",
+      "draft_code_sha": "30fb84064c9c791868d70582875e7a8e01814df4",
+      "next_action": "Reuse draft for existing metadata/loading, binding, actual caller execution and whole-feature native validation; do not invent missing rules.",
       "finding_ids": [
         "CIVICUI-20261028-01",
-        "RELIGIONUI-20261028-01"
+        "RELIGIONUI-20261028-01",
+        "RELIGION-20261028-01"
       ],
-      "qualification": "Actual civic draw methods and religion summary block checked under Python 3 with UI stubs. No Python 2/game/native DLL result."
+      "qualification": "UI fixtures retained; actual canDoReligion/isAllowedReligion passed 72 C++03/ASan/UBSan prerequisite/presence combinations with engine stubs. No full DLL/game result."
     },
     {
       "branch": "SimpleStorageChangeDraft-ChatGPT",
-      "head_at_inventory": "4c08ef06e1a95f2b5b093fcc2e6142fc5e419a45",
+      "head_at_inventory": "80aba592df6f12d4a3e85a615b615bb4a41763ee",
       "coverage": "published_review_artifact",
       "native_verification": "scoped_template_fixture_only_no_dll_build",
       "source_branch": "FSimpleDataStorage",
       "source_head": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
-      "draft_code_sha": "4c08ef06e1a95f2b5b093fcc2e6142fc5e419a45",
-      "next_action": "Reuse for remaining storage review; code SHA followed by documentation-only commit."
+      "draft_code_sha": "80aba592df6f12d4a3e85a615b615bb4a41763ee",
+      "next_action": "Reuse draft for remaining const accessor, dimensions/overflow and element lifetime review; full DLL/game use remains unverified.",
+      "refinement_branch": "SimpleStorageChangeDraft-ChatGPT",
+      "finding_ids": [
+        "STORAGE-20261028-01",
+        "STORAGE-20261028-02",
+        "STORAGE-20261028-03"
+      ],
+      "qualification": "Prior change-dispatch fixture retained; actual header int 2D copy/assignment/read/write checked C++03/ASan/UBSan with stream/allocation macros stubbed."
+    },
+    {
+      "branch": "HatedDiplomacyDraft-ChatGPT",
+      "head_at_inventory": "c45a473baa07adc9cfbe898f17e074025902016a",
+      "coverage": "published_review_artifact",
+      "native_verification": "counter_and_cache_fragment_fixture_only_no_dll_build",
+      "source_branch": "HatedCivicReligionDiplomacy",
+      "source_head": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+      "draft_code_sha": "bd9fe6e0816ed0f6c5311b5fb2aefa6505df4e5e",
+      "finding_ids": [
+        "HATED-20261028-01",
+        "HATED-20261028-02"
+      ],
+      "next_action": "Review remaining implemented arithmetic and save/lifecycle integration; no full DLL result.",
+      "qualification": "Code SHA followed by documentation-only publication; original source unchanged."
+    },
+    {
+      "branch": "FirstImpressionDraft-ChatGPT",
+      "head_at_inventory": "b3441eda5865a7a7b7035f416eceafe4937297c4",
+      "coverage": "published_review_artifact",
+      "source_branch": "FirstImpressionDiplomacyModifiers",
+      "source_head": "cc764ad80e89f751f809998a61a23225254109f2",
+      "draft_code_sha": "971d63a53deb940f7af13ce6bbe408c8559fb1b2",
+      "native_verification": "readPass2_fixture_only_no_dll_build",
+      "finding_ids": [
+        "FIRST-20261028-01"
+      ],
+      "next_action": "Continue remaining integration review; code SHA followed by documentation-only commit."
     }
   ],
   "current_pass": {
     "source_branch": "FSimpleDataStorage",
     "refinement_branch": "SimpleStorageChangeDraft-ChatGPT",
-    "draft_code_sha": "4c08ef06e1a95f2b5b093fcc2e6142fc5e419a45",
+    "draft_code_sha": "80aba592df6f12d4a3e85a615b615bb4a41763ee",
     "finding_ids": [
-      "STORAGE-20261028-01"
+      "STORAGE-20261028-02",
+      "STORAGE-20261028-03"
     ],
     "dll_build_triggered": false,
     "first_pass_pending": []
