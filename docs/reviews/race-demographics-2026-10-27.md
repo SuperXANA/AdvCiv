@@ -58,3 +58,5 @@ A later coherent native build must follow the complete pinned 1.14 overlay proce
 ## Coverage continuation
 
 The companion ledger carries all prior evidence forward, changes FFHRaceTypes from pending to partial scoped review, and records this draft separately from the unchanged source head. Ten first-pass branches remain pending, so the stopping condition is not met.
+
+Code revision: [df98a66934ff1ecc810e19357c686834c6cfac24](https://github.com/SuperXANA/AdvCiv/commit/df98a66934ff1ecc810e19357c686834c6cfac24). The documentation/coverage follow-up does not modify code.

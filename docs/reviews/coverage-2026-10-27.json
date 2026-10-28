@@ -1,0 +1,617 @@
+{
+  "schema_version": 1,
+  "snapshot_date": "2026-10-27",
+  "repository": "SuperXANA/AdvCiv",
+  "baseline_sha": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "policy": [
+    "Changed heads take priority, then pending or partial source coverage.",
+    "Do not retry unchanged failed build targets during the first-pass rotation.",
+    "After source coverage is complete, investigate unresolved failures and unverified build states.",
+    "Stop only when there are no changed heads, no remaining evaluation coverage, and no outstanding failed or unverified validation work.",
+    "A standalone C++03 test is not a DLL build; an isolated overlay result is not a result for the unchanged original head.",
+    "Runtime game/save/multiplayer validation is distinct from native compiler validation."
+  ],
+  "initial_coverage_complete": false,
+  "stop_gate_satisfied": false,
+  "qualification": "Conservative snapshot: partial and unverified rows require work or evidence consolidation. Historical failures resolved by later recorded builds are not queued for repeated rebuilding.",
+  "branches": [
+    {
+      "branch": "1.14",
+      "head_at_inventory": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "coverage": "read_only_baseline_reference",
+      "native_verification": "not_a_development_target",
+      "next_action": "Read and pin only; never revise or publish work on this branch."
+    },
+    {
+      "branch": "AISurvivorSQLiteBuild-ChatGPT",
+      "head_at_inventory": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "source_branch": "AISurvivorStatTracking",
+      "tested_code_sha": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885"
+    },
+    {
+      "branch": "AISurvivorSQLiteFixes-ChatGPT",
+      "head_at_inventory": "b38cc2a2cfb4cafa2460ab5b96bd677504105663",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "source_branch": "AISurvivorStatTracking",
+      "tested_code_sha": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885"
+    },
+    {
+      "branch": "AISurvivorStatTracking",
+      "head_at_inventory": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+      "coverage": "published_scoped_review",
+      "native_verification": "linked_refinement_passed",
+      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "refinement_branch": "AISurvivorSQLiteBuild-ChatGPT",
+      "tested_code_sha": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885",
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+    },
+    {
+      "branch": "AdvancedDiplomacy",
+      "head_at_inventory": "e83ce4c7977daf4193b07d0b94a533bb0338fb11",
+      "coverage": "pending",
+      "native_verification": "not_recorded",
+      "next_action": "Read marked source before evaluation; inspect existing work before creating a branch."
+    },
+    {
+      "branch": "CityBonusDiplomacyBuild-ChatGPT",
+      "head_at_inventory": "a931d32d3254caee207027353be0f513a761f37f",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "source_branch": "CityBonusLeaderDiplomacyModifiers",
+      "tested_code_sha": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169"
+    },
+    {
+      "branch": "CityBonusLeaderDiplomacyModifiers",
+      "head_at_inventory": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+      "coverage": "published_scoped_review",
+      "native_verification": "linked_refinement_passed",
+      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "refinement_branch": "CityBonusDiplomacyBuild-ChatGPT",
+      "tested_code_sha": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169",
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+    },
+    {
+      "branch": "CityPopulationTrait",
+      "head_at_inventory": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
+      "coverage": "earlier_source_review_partial",
+      "native_verification": "not_recorded",
+      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+    },
+    {
+      "branch": "CodeMacroHelpers",
+      "head_at_inventory": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+      "coverage": "published_scoped_review",
+      "native_verification": "linked_refinement_passed",
+      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "refinement_branch": "CodeMacroHelpersBuild-ChatGPT",
+      "tested_code_sha": "d857894158de6fa8aab25106a8518bb902a902c0",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40510535680",
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+    },
+    {
+      "branch": "CodeMacroHelpersBuild-ChatGPT",
+      "head_at_inventory": "d857894158de6fa8aab25106a8518bb902a902c0",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "source_branch": "CodeMacroHelpers",
+      "tested_code_sha": "d857894158de6fa8aab25106a8518bb902a902c0",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40510535680"
+    },
+    {
+      "branch": "ColonyLeaderBuild-ChatGPT",
+      "head_at_inventory": "26b6ff5428b9bff6d7f79ea2892e424a7444cf4a",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "source_branch": "LeaderSpecificColonySplitVassal",
+      "tested_code_sha": "26b6ff5428b9bff6d7f79ea2892e424a7444cf4a",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40527777945"
+    },
+    {
+      "branch": "CustomAIDiplomacyComments",
+      "head_at_inventory": "ca3531fac64b2e70ea66b98745e45733da1f0c37",
+      "coverage": "separate_contact_scope_observed",
+      "native_verification": "not_recorded",
+      "next_action": "Continue independent contact/gameplay review; LLM text-cache validation does not validate this branch."
+    },
+    {
+      "branch": "CvPartyGroup",
+      "head_at_inventory": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "coverage": "source_review_partial",
+      "native_verification": "draft_only_no_dll_build",
+      "next_action": "Party wrapper reviewed and repaired; finish missing engine classes, unit membership, ownership and versioned persistence before a complete-base DLL build.",
+      "source_review_scope": "All XANA blocks read across 13 DLL files; scoped constructor/dispatch/null-boundary fixes only.",
+      "review_document": "docs/reviews/party-wrapper-2026-10-27.md",
+      "review_branch": "PartyWrapperDraft-ChatGPT",
+      "draft_code_sha": "a62534896395531bde41fca2ab1b880e5d203706",
+      "finding_ids": [
+        "PARTY-20261027-01",
+        "PARTY-20261027-02"
+      ]
+    },
+    {
+      "branch": "FFHEquipmentTypes",
+      "head_at_inventory": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+      "coverage": "pending",
+      "native_verification": "not_recorded",
+      "next_action": "Read marked source before evaluation; inspect existing work before creating a branch."
+    },
+    {
+      "branch": "FFHRaceTypes",
+      "head_at_inventory": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+      "coverage": "source_review_partial",
+      "native_verification": "draft_only_no_dll_build",
+      "next_action": "Finish info declaration/reader consistency, cache readiness, unit lifecycle and versioned persistence before a complete-base DLL build; reuse the existing scoped draft.",
+      "review_branch": "RaceDemographicsDraft-ChatGPT",
+      "source_review_scope": "All XANA blocks across 21 DLL files and race/class XML/schema read; weighted selection, Boolean lock accessor and unit creation scope refined.",
+      "draft_code_sha": "df98a66934ff1ecc810e19357c686834c6cfac24",
+      "finding_ids": [
+        "RACE-20261027-01",
+        "RACE-20261027-02",
+        "RACE-20261027-03"
+      ],
+      "qualification": "Actual methods/accessor checked in C++03 engine stubs; finalizeInit call scope checked structurally. No whole-feature/native/gameplay validation."
+    },
+    {
+      "branch": "FFHSpellCreationBuild-ChatGPT",
+      "head_at_inventory": "581063899df1123d0a4e45f43ef1e5b346457701",
+      "coverage": "spell_creation_scope_observed",
+      "native_verification": "unverified_in_this_ledger",
+      "next_action": "Read existing spell-creation work and CI results before extending review; remaining spell scope is pending."
+    },
+    {
+      "branch": "FFHSpellCreationFixes-ChatGPT",
+      "head_at_inventory": "aba892958cd98a04fac5aba63a828ef717cd7c10",
+      "coverage": "spell_creation_scope_observed",
+      "native_verification": "unverified_in_this_ledger",
+      "next_action": "Read existing spell-creation work and CI results before extending review; remaining spell scope is pending."
+    },
+    {
+      "branch": "FFHSpellTypes",
+      "head_at_inventory": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
+      "coverage": "spell_creation_scope_observed",
+      "native_verification": "unverified_in_this_ledger",
+      "next_action": "Read existing spell-creation work and CI results before extending review; remaining spell scope is pending."
+    },
+    {
+      "branch": "FSimpleDataStorage",
+      "head_at_inventory": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+      "coverage": "earlier_source_review_partial",
+      "native_verification": "not_recorded",
+      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+    },
+    {
+      "branch": "FamilyRelationsBuild-ChatGPT",
+      "head_at_inventory": "611a663f34e5c4943cfbdc99fd2af2c4cbd25a9d",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "source_branch": "LeaderFamilyRelations",
+      "tested_code_sha": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051"
+    },
+    {
+      "branch": "FirstImpressionDiplomacyModifiers",
+      "head_at_inventory": "cc764ad80e89f751f809998a61a23225254109f2",
+      "coverage": "earlier_source_review_partial",
+      "native_verification": "not_recorded",
+      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+    },
+    {
+      "branch": "FreePromotionLoaderBuild-ChatGPT",
+      "head_at_inventory": "de661fec50860c3409630e1162bc5da63e8dcc5b",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "source_branch": "PerUnitCombatFreePromotionTraits",
+      "tested_code_sha": "f5c7d3e40717fa2ac19324c70ee38882473632e3",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40556617050"
+    },
+    {
+      "branch": "GenderSpecificDiplomacy",
+      "head_at_inventory": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+      "coverage": "first_source_pass_counter_refinement",
+      "native_verification": "not_attempted_incomplete_feature",
+      "next_action": "Complete integration and versioned save handling before a pinned-overlay DLL build.",
+      "refinement_branch": "GenderCounterDraft-ChatGPT"
+    },
+    {
+      "branch": "HatedCivicReligionDiplomacy",
+      "head_at_inventory": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+      "coverage": "earlier_source_review_partial",
+      "native_verification": "not_recorded",
+      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+    },
+    {
+      "branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "head_at_inventory": "e78042e11f89529500fec500a4dea71f27f0d215",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "source_branch": "LLMDiplomacyTextGeneration",
+      "tested_code_sha": "6d106160bfc778b47274ef2025f02e68d183f3af",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176"
+    },
+    {
+      "branch": "LLMDiplomacyTextGeneration",
+      "head_at_inventory": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+      "coverage": "published_scoped_review",
+      "native_verification": "linked_refinement_passed",
+      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "refinement_branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "tested_code_sha": "6d106160bfc778b47274ef2025f02e68d183f3af",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176",
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+    },
+    {
+      "branch": "LeaderCivilizationDecisionPreferences",
+      "head_at_inventory": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+      "coverage": "earlier_review_evidence_to_consolidate",
+      "native_verification": "not_recorded",
+      "next_action": "Retrieve existing review evidence before evaluating or repeating preference findings."
+    },
+    {
+      "branch": "LeaderCivilizationSummoningRandomEvents",
+      "head_at_inventory": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+      "coverage": "pending",
+      "native_verification": "not_recorded",
+      "next_action": "Read marked source before evaluation; inspect existing work before creating a branch."
+    },
+    {
+      "branch": "LeaderCivilizationVariantMechanics",
+      "head_at_inventory": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "coverage": "pending",
+      "native_verification": "not_recorded",
+      "next_action": "Read marked source before evaluation; inspect existing work before creating a branch."
+    },
+    {
+      "branch": "LeaderFamilyRelations",
+      "head_at_inventory": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+      "coverage": "published_scoped_review",
+      "native_verification": "linked_refinement_passed",
+      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "refinement_branch": "FamilyRelationsBuild-ChatGPT",
+      "tested_code_sha": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051",
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+    },
+    {
+      "branch": "LeaderSpecificColonySplitVassal",
+      "head_at_inventory": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+      "coverage": "published_scoped_review",
+      "native_verification": "linked_refinement_passed",
+      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "refinement_branch": "ColonyLeaderBuild-ChatGPT",
+      "tested_code_sha": "26b6ff5428b9bff6d7f79ea2892e424a7444cf4a",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40527777945",
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+    },
+    {
+      "branch": "LeaderSpecificDynamicRankBonusDiplomacy",
+      "head_at_inventory": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+      "coverage": "earlier_source_review_partial",
+      "native_verification": "not_recorded",
+      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+    },
+    {
+      "branch": "LeaderSpecificFavoriteUnitCombats",
+      "head_at_inventory": "799082c323ea44335c66b9714e1a9bb365c12095",
+      "coverage": "earlier_source_review_partial",
+      "native_verification": "not_recorded",
+      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+    },
+    {
+      "branch": "LeaderSpecificMultilayeredAIDecisionEval",
+      "head_at_inventory": "484412d0de7e42e2d310bb39e75340fc5307f597",
+      "coverage": "pending",
+      "native_verification": "not_recorded",
+      "next_action": "Read marked source before evaluation; inspect existing work before creating a branch."
+    },
+    {
+      "branch": "LeaderSpecificRebelliousTeamDiplomaticDecisions",
+      "head_at_inventory": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+      "coverage": "published_scoped_review",
+      "native_verification": "linked_refinement_passed",
+      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "refinement_branch": "RenegadeDiplomacyBuild-ChatGPT",
+      "tested_code_sha": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157",
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+    },
+    {
+      "branch": "LeaderSpecificTeamSizeAttitude",
+      "head_at_inventory": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+      "coverage": "published_scoped_review",
+      "native_verification": "linked_refinement_passed",
+      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "refinement_branch": "LeaderTeamSizeBuild-ChatGPT",
+      "tested_code_sha": "23b8e74ea630209d67deaa53475d31113bd614b1",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843",
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+    },
+    {
+      "branch": "LeaderSpecificUWAIAspectWeights",
+      "head_at_inventory": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+      "coverage": "earlier_source_review_partial",
+      "native_verification": "not_recorded",
+      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+    },
+    {
+      "branch": "LeaderSpecificVoteActionDiplomacy",
+      "head_at_inventory": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
+      "coverage": "counter_scope_only",
+      "native_verification": "not_attempted_incomplete_feature",
+      "next_action": "Review remaining XML, lifecycle and save integration before native validation.",
+      "refinement_branch": "VoteCounterDraft-ChatGPT"
+    },
+    {
+      "branch": "LeaderTeamSizeBuild-ChatGPT",
+      "head_at_inventory": "23b8e74ea630209d67deaa53475d31113bd614b1",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "source_branch": "LeaderSpecificTeamSizeAttitude",
+      "tested_code_sha": "23b8e74ea630209d67deaa53475d31113bd614b1",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843"
+    },
+    {
+      "branch": "PartnerLeaderCivSpecificDiplomacyText",
+      "head_at_inventory": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+      "coverage": "pending",
+      "native_verification": "not_recorded",
+      "next_action": "Read marked source before evaluation; inspect existing work before creating a branch."
+    },
+    {
+      "branch": "PerUnitCombatFreePromotionTraits",
+      "head_at_inventory": "c122a8c130b6e47760aade7d2d438c798dca8951",
+      "coverage": "published_scoped_review",
+      "native_verification": "linked_refinement_passed",
+      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "refinement_branch": "FreePromotionLoaderBuild-ChatGPT",
+      "tested_code_sha": "f5c7d3e40717fa2ac19324c70ee38882473632e3",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40556617050",
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+    },
+    {
+      "branch": "PerUnitCombatUpgradeCostModifers",
+      "head_at_inventory": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+      "coverage": "published_scoped_review",
+      "native_verification": "linked_refinement_passed",
+      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "refinement_branch": "UnitCombatUpgradeBuild-ChatGPT",
+      "tested_code_sha": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509",
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+    },
+    {
+      "branch": "PromotionAltersUnitHPValues",
+      "head_at_inventory": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+      "coverage": "earlier_source_review_partial",
+      "native_verification": "not_recorded",
+      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+    },
+    {
+      "branch": "PromotionAltersUnitXPValues",
+      "head_at_inventory": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+      "coverage": "published_scoped_review",
+      "native_verification": "linked_refinement_passed",
+      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "refinement_branch": "PromotionXPBuild-ChatGPT",
+      "tested_code_sha": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40518367294",
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+    },
+    {
+      "branch": "PromotionTimedExpireTurns",
+      "head_at_inventory": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+      "coverage": "earlier_source_review_partial",
+      "native_verification": "not_recorded",
+      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+    },
+    {
+      "branch": "PromotionXPBuild-ChatGPT",
+      "head_at_inventory": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "source_branch": "PromotionAltersUnitXPValues",
+      "tested_code_sha": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40518367294"
+    },
+    {
+      "branch": "RealisticAIDecisions",
+      "head_at_inventory": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
+      "coverage": "pending",
+      "native_verification": "not_recorded",
+      "next_action": "Read marked source before evaluation; inspect existing work before creating a branch."
+    },
+    {
+      "branch": "RenegadeDiplomacyBuild-ChatGPT",
+      "head_at_inventory": "a73a9abf5f74442825b5661499c01ca2fee4ac73",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "source_branch": "LeaderSpecificRebelliousTeamDiplomaticDecisions",
+      "tested_code_sha": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157"
+    },
+    {
+      "branch": "SerializationHelpers",
+      "head_at_inventory": "2be6010dc6787a717c851cd125e005010cf71450",
+      "coverage": "published_scoped_review",
+      "native_verification": "linked_refinement_passed",
+      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "refinement_branch": "SerializationHelpersBuild-ChatGPT",
+      "tested_code_sha": "3535810625f27e8207e4731e2dcf848c924cd0fd",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40459830260",
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+    },
+    {
+      "branch": "SerializationHelpersBuild-ChatGPT",
+      "head_at_inventory": "3535810625f27e8207e4731e2dcf848c924cd0fd",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "source_branch": "SerializationHelpers",
+      "tested_code_sha": "3535810625f27e8207e4731e2dcf848c924cd0fd",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40459830260"
+    },
+    {
+      "branch": "SidSaysPatch",
+      "head_at_inventory": "8c52c7e7b85cb574ee0494611a8931efb3b20d01",
+      "coverage": "published_scoped_review",
+      "native_verification": "linked_refinement_passed",
+      "next_action": "Revisit changed source or gather actual EXE/UI evidence; original source head was not built and no attribution change is activated.",
+      "refinement_branch": "SidSaysDiscoveryBuild-ChatGPT",
+      "tested_code_sha": "e58809298b28163773301b58a9def25af3fe2bd7",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40604520179",
+      "finding_ids": [
+        "SID-20261027-01",
+        "SID-20261027-02",
+        "SID-20261027-03"
+      ],
+      "qualification": "Diagnostic-only complete-base refinement; no automatic invocation or UI renaming. Source branch remains unchanged.",
+      "artifacts": {
+        "Release": 12780770867,
+        "Debug": 12780811116
+      },
+      "native_configurations": [
+        "Release",
+        "Debug"
+      ],
+      "compiler": "_MSC_VER == 1310 (MSVC 7.1)"
+    },
+    {
+      "branch": "UniqueCivicsReligions",
+      "head_at_inventory": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+      "coverage": "pending",
+      "native_verification": "not_recorded",
+      "next_action": "Read marked source before evaluation; inspect existing work before creating a branch."
+    },
+    {
+      "branch": "UnitCombatUpgradeBuild-ChatGPT",
+      "head_at_inventory": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "source_branch": "PerUnitCombatUpgradeCostModifers",
+      "tested_code_sha": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509"
+    },
+    {
+      "branch": "UnitStatusEffects",
+      "head_at_inventory": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed",
+      "coverage": "pending",
+      "native_verification": "not_recorded",
+      "next_action": "Read marked source before evaluation; inspect existing work before creating a branch."
+    },
+    {
+      "branch": "VoteCounterDraft-ChatGPT",
+      "head_at_inventory": "b3df449e475b9603566ceebc5a49ede9c42e8ca6",
+      "coverage": "counter_scope_only",
+      "native_verification": "not_attempted_incomplete_feature",
+      "next_action": "Review remaining XML, lifecycle and save integration before native validation.",
+      "refinement_branch": "VoteCounterDraft-ChatGPT"
+    },
+    {
+      "branch": "alert-autofix-1",
+      "head_at_inventory": "f52ced74c31bdbd9696c37b00b73ce12b99f5d1b",
+      "coverage": "pending",
+      "native_verification": "not_recorded",
+      "next_action": "Read marked source before evaluation; inspect existing work before creating a branch."
+    },
+    {
+      "branch": "dll-build",
+      "head_at_inventory": "058e4d0e1760f76195071823d3e2dc85c81b7285",
+      "coverage": "workflow_source_inspected",
+      "native_verification": "derivative_runs_recorded_separately",
+      "next_action": "Preserve branch; copy current workflow when preparing an isolated full build."
+    },
+    {
+      "branch": "dll-build-debug",
+      "head_at_inventory": "c71d569fce95e847de5a4d8ed6299f881bbba1ce",
+      "coverage": "workflow_source_inspected",
+      "native_verification": "derivative_runs_recorded_separately",
+      "next_action": "Preserve branch; copy current workflow when preparing an isolated full build."
+    },
+    {
+      "branch": "GenderCounterDraft-ChatGPT",
+      "head_at_inventory": "dd611543024315f513c2f58b6b7e601936b7df40",
+      "source_branch": "GenderSpecificDiplomacy",
+      "coverage": "counter_scope_only",
+      "native_verification": "not_attempted_incomplete_feature",
+      "focused_verification": "C++03 and ASan/UBSan methods/update fixture; XML scalar structure checks",
+      "next_action": "Complete remaining feature compilation, XML/help and versioned save integration before a pinned-overlay native build."
+    },
+    {
+      "branch": "PartyWrapperDraft-ChatGPT",
+      "head_at_inventory": "85e2d6f28e1c2e92d0cf3715c58d7979f1edf533",
+      "coverage": "published_review_artifact",
+      "native_verification": "draft_only_no_dll_build",
+      "source_branch": "CvPartyGroup",
+      "source_head": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "draft_code_sha": "a62534896395531bde41fca2ab1b880e5d203706",
+      "next_action": "Reuse this isolated branch for party integration; wrapper stubs passing does not establish a DLL or gameplay result."
+    },
+    {
+      "branch": "SidSaysDiscoveryBuild-ChatGPT",
+      "head_at_inventory": "fb78b2c3a9750f4fbe5920a9aa6d9f8575fa6061",
+      "coverage": "published_review_artifact",
+      "native_verification": "linked_build_commit_passed",
+      "source_branch": "SidSaysPatch",
+      "source_head": "8c52c7e7b85cb574ee0494611a8931efb3b20d01",
+      "tested_code_sha": "e58809298b28163773301b58a9def25af3fe2bd7",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40604520179",
+      "next_action": "Reuse this isolated branch for a later explicitly invoked diagnostic hook and evidence-based patch; Release/Debug diagnostic DLL compilation passed.",
+      "artifacts": {
+        "Release": 12780770867,
+        "Debug": 12780811116
+      },
+      "native_configurations": [
+        "Release",
+        "Debug"
+      ],
+      "compiler": "_MSC_VER == 1310 (MSVC 7.1)"
+    },
+    {
+      "branch": "RaceDemographicsDraft-ChatGPT",
+      "head_at_inventory": "df98a66934ff1ecc810e19357c686834c6cfac24",
+      "coverage": "published_review_artifact",
+      "native_verification": "draft_only_no_dll_build",
+      "source_branch": "FFHRaceTypes",
+      "source_head": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+      "draft_code_sha": "df98a66934ff1ecc810e19357c686834c6cfac24",
+      "next_action": "Reuse this isolated draft for remaining race integration; no workflow or DLL build is present."
+    }
+  ],
+  "current_pass": {
+    "source_branch": "FFHRaceTypes",
+    "source_head": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+    "draft_code_sha": "df98a66934ff1ecc810e19357c686834c6cfac24",
+    "dll_build_triggered": false,
+    "first_pass_pending": [
+      "AdvancedDiplomacy",
+      "FFHEquipmentTypes",
+      "LeaderCivilizationSummoningRandomEvents",
+      "LeaderCivilizationVariantMechanics",
+      "LeaderSpecificMultilayeredAIDecisionEval",
+      "PartnerLeaderCivSpecificDiplomacyText",
+      "RealisticAIDecisions",
+      "UniqueCivicsReligions",
+      "UnitStatusEffects",
+      "alert-autofix-1"
+    ]
+  }
+}
