@@ -25,3 +25,17 @@ No existing save format is deliberately migrated: any caller that already wrote 
 ## Coverage
 
 This pass covers SerializationHelpers and its primitive/string/enum forwarding against the pinned FDataStreamBase interface. Prior reviewed areas: team-size attitude, timed promotions, per-combat upgrade costs, and leader-specific UWAI aspect weights.
+
+## MSVC 7.1 build confirmation — 2026-10-28
+
+The successful [DLL build run 40459830260](https://github.com/SuperXANA/AdvCiv/actions/runs/40459830260)
+for `SerializationHelpersBuild-ChatGPT` at commit
+`3535810625f27e8207e4731e2dcf848c924cd0fd` completed Release compilation,
+linking and DLL artifact upload. This proves that the assistant-refactored code
+at that revision builds under MSVC 7.1 (the Visual Studio 2003 C/C++ compiler).
+
+The remote environment initializes Visual Studio 2010's `vcvarsall.bat` and
+uses MSBuild to invoke the NMake project. The machine-local
+`R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
+compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
+the DLL's C/C++ compilation uses MSVC 7.1.
