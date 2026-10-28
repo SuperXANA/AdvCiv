@@ -8,6 +8,9 @@ permissions:
 
 on:
   push:
+    branches-ignore:
+      - dll-build
+    paths: ["CvGameCoreDLL/**", ".github/workflows/auto-dll-build.yml"]
   workflow_dispatch:
   
 concurrency:
@@ -17,6 +20,11 @@ concurrency:
 jobs:
   build-dll:
     runs-on: self-hosted # Use local virtual machine for building
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        configuration: [Release, Debug]
     
     steps:
     - name: Checkout Code
@@ -31,24 +39,72 @@ jobs:
             param(
               [string]$cfg
             )
+            $ErrorActionPreference = "Stop"
+            # Preserve the VM's Project configuration and force fresh build outputs.
+            $projectDir = "R:\CvGameCoreDLL\Project"
+            foreach ($dir in @("Release", "Debug", "temp_files", "obj")) {
+              $outputDir = Join-Path $projectDir $dir
+              if (Test-Path $outputDir) { Remove-Item $outputDir -Recurse -Force }
+            }
+            # Check the compiler selected by the machine-local Makefile.user.
+            # The VS2010 shell only hosts MSBuild; game code must use VC7.1.
+            $probeSource = Join-Path $projectDir "codex-toolset-check.cpp"
+            $probeMake = Join-Path $projectDir "codex-toolset-check.mk"
+            Set-Content -Encoding ASCII $probeSource @(
+              "#if _MSC_VER != 1310",
+              "#error Civ4 DLL validation requires MSVC 7.1 (_MSC_VER 1310)",
+              "#endif",
+              "int codex_toolset_check;"
+            )
+            $probeLines = "!include Makefile`r`ncodex_compiler_check:`r`n`t" + '@$(CPP) /nologo /c /TP /Focodex-toolset-check.obj codex-toolset-check.cpp' + "`r`n"
+            Set-Content -Encoding ASCII $probeMake $probeLines
             # Set configuration based on current active branch
             Write-Output "Targeting configuration: $cfg"
             $vcvarsall = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
             $projectDir = "R:\CvGameCoreDLL\Project"
             # Run vcvarsall, change directory, and build all in ONE cmd session.
             # No need to import env vars into PowerShell.
-            $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && msbuild AdvCiv.vcxproj /p:Configuration=$cfg"
+            $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && nmake /f codex-toolset-check.mk TARGET=$cfg codex_compiler_check /NOLOGO && && msbuild AdvCiv.vcxproj /p:Configuration=$cfg -t:go -fl1 -fl2 -fl3 -flp2:logfile=JustErrors.log;errorsonly -flp3:logfile=JustWarnings.log"
             cmd.exe /c $buildCmd
-            if ($LASTEXITCODE -ne 0) {
-              Write-Error "MSBuild compilation process encountered errors."
-              exit $LASTEXITCODE
+            try {
+              cmd.exe /c $buildCmd
+              $buildExit = $LASTEXITCODE
+            } finally {
+              Remove-Item $probeSource, $probeMake, (Join-Path $projectDir "codex-toolset-check.obj") -Force -ErrorAction SilentlyContinue
             }
+            if ($buildExit -ne 0) {
+              Write-Error "MSBuild compilation process encountered errors."
+              exit $buildExit
+            }
+            Write-Output "Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
       run: |
+          set -euo pipefail
           # Set configuration based on current active branch (Using standard Bash syntax)
-          CONFIG="Release"
-          if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
-              CONFIG="Debug"
-          fi
+          CONFIG="${{ matrix.configuration }}"
+          
+          # Delete stale top-level source files only. Excluded directories and
+          # machine-local Project files are protected from this delete pass.
+          rsync -avz --delete --blocking-io \
+          -e "ssh -o IPQoS=throughput" \
+          --include='/*.cpp' --include='/*.h' --include='/*.inl' --include='/*.c' \
+          --exclude='/*' \
+          ./CvGameCoreDLL/ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
+
+          # Sync the complete pinned-base-plus-feature source overlay into the Windows Server's RAM Disk workspace.
+          rsync -avz --blocking-io \
+          -e "ssh -o IPQoS=throughput" \
+          --exclude='/Project/*' \
+          --exclude='/.git/*' \
+          --exclude='/.github/*' \
+          --include='*/' --include='*' --include='*.cpp' --include='*.h' --include='*.inl' --include='*.c' --exclude='*/' --exclude='*' \
+          ./CvGameCoreDLL/ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
+
+          # Fail if the remote compiler could see an unexpected root source.
+          find CvGameCoreDLL -maxdepth 1 -type f \( -name '*.cpp' -o -name '*.h' -o -name '*.inl' -o -name '*.c' \) -printf '%f\n' | LC_ALL=C sort > expected-sources.txt
+          ssh Administrator@192.168.2.252 "powershell.exe -NoProfile -Command \"Get-ChildItem -File -Path 'R:\CvGameCoreDLL\*.cpp','R:\CvGameCoreDLL\*.h','R:\CvGameCoreDLL\*.inl','R:\CvGameCoreDLL\*.c' | Select-Object -ExpandProperty Name\"" | tr -d '\r' | LC_ALL=C sort > actual-sources.txt
+          diff -u expected-sources.txt actual-sources.txt
+          # Add commit hashes to build provenence log file
+          printf '%s\n' "commit=${{ github.sha }}" "configuration=$CONFIG" "compiler=_MSC_VER_1310" "base=<add pinned-1.14 commit SHA here>" "feature_source=<add feature commit SHA here>" "workflow_source=<add workflow commit SHA here>" > build-provenance.txt
           
           # Sync the repository's files into the RAM disk workspace
           rsync -avz --blocking-io \
@@ -70,16 +126,23 @@ jobs:
     - name: Copy DLL files Over To Linux
       shell: bash
       run: |
+        set -euo pipefail
         # Set configuration based on current active branch
-        CONFIG="Release"
-        if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
-            CONFIG="Debug"
-        fi
+        CONFIG="${{ matrix.configuration }}"
+        
         # Copy files so upload-artifact can upload them
-        scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$CONFIG/*.dll ./
-        if [ "${{ github.ref_name }}" = "dll-build-debug" ]; then
-          scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/temp_files/$CONFIG/*.pdb ./
+        mkdir -p artifacts
+        
+        # Get the game DLL file
+        scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$CONFIG/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.dll
+        # Get the build log that MSBUild created
+        scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$CONFIG/*.log ./artifacts/
+        # Get the PDB file if this is a Debug build
+        if [ "$CONFIG" = "Debug" ]; then
+          scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/temp_files/$CONFIG/*.pdb ./artifacts/
         fi
+        
+        test -s ./artifacts/CvGameCoreDLL.dll
         
     - name: Upload Compiled DLL Artifact
       uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
@@ -87,9 +150,12 @@ jobs:
       with:
         name: CvGameCoreDLL-${{ github.ref_name }}-${{ github.sha }}
         path: |
-          ./CvGameCoreDLL.dll
-          ./*.pdb
-        if-no-files-found: warn
+          ./artifacts/CvGameCoreDLL.dll
+          ./build-provenance.txt
+          ./expected-sources.txt
+          ./artifacts/*.pdb
+          ./artifacts/*.log
+        if-no-files-found: error
 
     - name: Clean Up RAM Disk Build Files
       if: ${{ always() && steps.build.outputs.build_started == 'true' }}
@@ -114,5 +180,6 @@ jobs:
           # Execute remotely over SSH
           ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
           
-          # Clean up the pulled local binaries on the Linux host so subsequent runs start completely fresh without old DLL state.
-          rm -f ./CvGameCoreDLL.dll ./*.pdb
+          # Clean up the pulled local data on the Linux host so subsequent runs start completely fresh without old DLL state.
+          rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/*.pdb  ./artifacts/*.log
+          rm -f ./build-provenance.txt ./expected-sources.txt
