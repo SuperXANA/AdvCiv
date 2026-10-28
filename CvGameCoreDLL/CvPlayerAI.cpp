@@ -23511,8 +23511,8 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 	int iValue = SyncRandNum(kEvent.getAIValue());
 	
 	// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
-	EventPreferenceData* pLeaderPref = NULL;
-	EventPreferenceData* pCivilizationPref = NULL;
+	EventPreferenceData const* pLeaderPref = NULL;
+	EventPreferenceData const* pCivilizationPref = NULL;
 	
 	if (AI_getLeaderEventPreferences() != NO_EVENTPREFERENCE)
 	{
@@ -24069,9 +24069,9 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
 	if (bHasLeaderPreference)
 	{
 		EventPreferenceData const& kPrefData = *pLeaderPref;
-		if (kPrefData.getAIWeightModifierPercent() != 0)
+		if (kPrefData.getEventValueModifierPercent() != 0)
 		{
-			iValue *= kPrefData.getAIWeightModifierPercent();
+			iValue *= kPrefData.getEventValueModifierPercent();
 			iValue /= 100;
 		}
 	}
