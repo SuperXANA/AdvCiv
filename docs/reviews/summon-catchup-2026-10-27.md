@@ -44,7 +44,7 @@ After the existing empty-list guard, use (n - 1) / 2. Keep the existing living-m
 
 The helper now implements prerequisite-aware, one-opportunity world-tech diffusion and prerequisite-first grant ordering. The later era-floor path can separately add technology, so these probabilities do not describe the overall final research state of a summoned civilization.
 
-Selection must eventually distinguish a pure availability check from random selection, and city/player transfer needs a coherent lifecycle before runtime validation. Those parts are not certified or activated by this draft. No leader/civilization lore preferences, event data, player limit or save format are changed.
+Selection and city/player transfer remain outside this catch-up refinement and need separate integration review before runtime validation. Those parts are not certified or activated by this draft. No leader/civilization lore preferences, event data, player limit or save format are changed.
 
 ## Verification
 
@@ -73,3 +73,5 @@ No build workflow is added and no DLL build is triggered. The surrounding summon
 Game startup, actual summoning, engine technology callbacks, event eligibility/UI queries, cache/save loading and multiplayer remain untested. The original branch and 1.14 snapshot remain unchanged.
 
 The companion ledger records a partial scoped review, preserving prior findings and native results. Seven first-pass branches remain pending, so the stopping condition is not met.
+
+Code revision: [81ce891bc0d9bc6e2b51e7be89a417ac58c2b4fe](https://github.com/SuperXANA/AdvCiv/commit/81ce891bc0d9bc6e2b51e7be89a417ac58c2b4fe). The review/coverage follow-up changes documentation only.
