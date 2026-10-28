@@ -66,3 +66,17 @@ stream, XML/XDR loader, text formatter, combat engine or EXE integration.
 Real saves and gameplay remain untested, including saves using the source's
 larger promotion roster. The Windows GitHub Actions run is the full DLL build
 check; its exact commit, result and artifact are reported with the review.
+
+## MSVC 7.1 build confirmation — 2026-10-28
+
+The successful [DLL build run 40518367294](https://github.com/SuperXANA/AdvCiv/actions/runs/40518367294)
+for `PromotionXPBuild-ChatGPT` at commit
+`7394c4d68628bbfac61ec1366c2c2f52284c35a2` completed Release compilation,
+linking and DLL artifact upload. This proves that the assistant-refactored code
+at that revision builds under MSVC 7.1 (the Visual Studio 2003 C/C++ compiler).
+
+The remote environment initializes Visual Studio 2010's `vcvarsall.bat` and
+uses MSBuild to invoke the NMake project. The machine-local
+`R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
+compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
+the DLL's C/C++ compilation uses MSVC 7.1.
