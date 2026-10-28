@@ -25727,11 +25727,11 @@ void CvPlayerAI::AI_updateStrategyHash()
 	GenderTypes const eWeAre = kPersonality.getGender();
 	if (eFavGender != NO_GENDER)
 	{
-		bool bPreferOwn = (eWeAre == eFavGender);
+		bool const bPreferOwn = (eWeAre == eFavGender);
 		for (PlayerAIIter<FREE_MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getTeam());
 			itRival.hasNext(); ++itRival)
 		{
-			GenderTypes eTheyAre = GET_PLAYER(itRival).getGender();
+			GenderTypes eTheyAre = itRival->getGender();
 			if (bPreferOwn ? eTheyAre == eWeAre : eTheyAre != eWeAre)
 			{	
 				iParanoia -= 10;
@@ -25740,11 +25740,11 @@ void CvPlayerAI::AI_updateStrategyHash()
 	}
 	if (eHateGender != NO_GENDER)
 	{
-		bPreferOwn = (eWeAre != eHateGender);
+		bool const bPreferOwn = (eWeAre != eHateGender);
 		for (PlayerAIIter<FREE_MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getTeam());
 			itRival.hasNext(); ++itRival)
 		{
-			GenderTypes eTheyAre = GET_PLAYER(itRival).getGender();
+			GenderTypes eTheyAre = itRival->getGender();
 			if (bPreferOwn ? eTheyAre != eWeAre : eTheyAre == eWeAre)
 			{	
 				iParanoia += 10;
