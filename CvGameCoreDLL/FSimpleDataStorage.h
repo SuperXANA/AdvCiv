@@ -9,6 +9,19 @@ static const int iHEADERSIZE = 8; /* 8 bytes for likely-safe alignment of 32-bit
 class FDataStreamBase;
 class CvXMLLoadUtility;
 
+// XANA: 10-28-2026 Array change dispatch (ChatGPT)
+template<class T, class U>
+struct FStorageChange
+{
+	static void apply(T& target, U value) { target += static_cast<T>(value); }
+};
+template<class T>
+struct FStorageChange<T, bool>
+{
+	static void apply(T& target, bool value) { target = static_cast<T>(value); }
+};
+// XANA: 10-28-2026 Array change dispatch (ChatGPT)
+
 template <typename T>
 class FDynamicArray
 {
@@ -29,7 +42,7 @@ public:
 		// Store the size at the very beginning
 		*(int*)pBuffer = iSize;
 		// Set our member pointer to the start of the DATA (skipping the header)
-		m_pArray = (reinterpret_cast<T*>(pBuffer + iHEADERSIZE);
+		m_pArray = reinterpret_cast<T*>(pBuffer + iHEADERSIZE);
 		for (int i = 0; i < iSize; ++i)
 		{
 			m_pArray[i] = defaultValue;
@@ -70,16 +83,11 @@ public:
 			m_pArray[i] = value;
 		}
 	}
-	void change(int i, T delta)
+	template<class U>
+	void change(int i, U value)
 	{
 		if (i >= 0 && i < size())
-		{
-			m_pArray[i] += delta;
-		}
-	}
-	void change(int i, bool b)
-	{
-		set(i, (T)b); 
+			FStorageChange<T, U>::apply(m_pArray[i], value);
 	}
 	/**
 	 * Converts a raw array (from XML load) into our header-managed format.
@@ -208,7 +216,7 @@ public:
 		// Store the size at the very beginning
 		*(int*)pBuffer = iSize;
 		// Set our member pointer to the start of the DATA (skipping the header)
-		m_pArray = (reinterpret_cast<T*>(pBuffer + iHEADERSIZE);
+		m_pArray = reinterpret_cast<T*>(pBuffer + iHEADERSIZE);
 		for (int i = 0; i < iSize; ++i)
 		{
 			m_pArray[i] = defaultValue;
@@ -245,16 +253,11 @@ public:
 			m_pArray[i] = value;
 		}
 	}
-	void change(int i, T delta)
+	template<class U>
+	void change(int i, U value)
 	{
 		if (i >= 0 && i < size())
-		{
-			m_pArray[i] += delta;
-		}
-	}
-	void change(int i, bool b)
-	{
-		set(i, (T)b); 
+			FStorageChange<T, U>::apply(m_pArray[i], value);
 	}
 	/**
 	 * Converts a raw array (from XML load) into our header-managed format.
@@ -416,14 +419,11 @@ public:
 		FAssert(i >= 0 && i < iSIZE);
 		m_pArray[i] = value;
 	}
-	void change(int i, T value)
+	template<class U>
+	void change(int i, U value)
 	{
 		FAssert(i >= 0 && i < iSIZE);
-		m_pArray[i] += value;
-	}
-	void change(int i, bool b)
-	{
-		set(i, (T)b); 
+		FStorageChange<T, U>::apply(m_pArray[i], value);
 	}
 	/**
 	 * Converts a raw array (from XML load) into our static format.
