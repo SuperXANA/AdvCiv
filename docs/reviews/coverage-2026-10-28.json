@@ -34,13 +34,18 @@
     },
     {
       "branch": "AISurvivorSQLiteBuild-ChatGPT",
-      "head_at_inventory": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
+      "head_at_inventory": "c14b70d183f00d8a1d0cdcf811102e3f7460c766",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "AISurvivorStatTracking",
       "tested_code_sha": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "AISurvivorSQLiteFixes-ChatGPT",
@@ -75,13 +80,18 @@
     },
     {
       "branch": "CityBonusDiplomacyBuild-ChatGPT",
-      "head_at_inventory": "a931d32d3254caee207027353be0f513a761f37f",
+      "head_at_inventory": "b7cdc0447e3bba3da04fae6828ce64762e8370d6",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "CityBonusLeaderDiplomacyModifiers",
       "tested_code_sha": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "CityBonusLeaderDiplomacyModifiers",
@@ -114,23 +124,33 @@
     },
     {
       "branch": "CodeMacroHelpersBuild-ChatGPT",
-      "head_at_inventory": "d857894158de6fa8aab25106a8518bb902a902c0",
+      "head_at_inventory": "7880264054c6066e60bf862df848102e3105a680",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "CodeMacroHelpers",
       "tested_code_sha": "d857894158de6fa8aab25106a8518bb902a902c0",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40510535680"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40510535680",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "ColonyLeaderBuild-ChatGPT",
-      "head_at_inventory": "26b6ff5428b9bff6d7f79ea2892e424a7444cf4a",
+      "head_at_inventory": "d3c5e6aeb2c29606d10cfbb931205c709e01250b",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "LeaderSpecificColonySplitVassal",
       "tested_code_sha": "26b6ff5428b9bff6d7f79ea2892e424a7444cf4a",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40527777945"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40527777945",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "CustomAIDiplomacyComments",
@@ -187,13 +207,18 @@
     },
     {
       "branch": "FamilyRelationsBuild-ChatGPT",
-      "head_at_inventory": "611a663f34e5c4943cfbdc99fd2af2c4cbd25a9d",
+      "head_at_inventory": "f07cf78b4afea17cef1514a1960890ab709c6e3d",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "LeaderFamilyRelations",
       "tested_code_sha": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "FFHEquipmentTypes",
@@ -271,13 +296,18 @@
     },
     {
       "branch": "FreePromotionLoaderBuild-ChatGPT",
-      "head_at_inventory": "de661fec50860c3409630e1162bc5da63e8dcc5b",
+      "head_at_inventory": "cd3316f9b460d1962359833b3dc4fdb52b1d9f72",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "PerUnitCombatFreePromotionTraits",
       "tested_code_sha": "f5c7d3e40717fa2ac19324c70ee38882473632e3",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40556617050"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40556617050",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "FSimpleDataStorage",
@@ -457,23 +487,33 @@
     },
     {
       "branch": "LeaderTeamSizeBuild-ChatGPT",
-      "head_at_inventory": "23b8e74ea630209d67deaa53475d31113bd614b1",
+      "head_at_inventory": "a2f01100680d037b72d4cc08e3661950cff5984e",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "LeaderSpecificTeamSizeAttitude",
       "tested_code_sha": "23b8e74ea630209d67deaa53475d31113bd614b1",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "LLMDiplomacyTextBuild-ChatGPT",
-      "head_at_inventory": "e78042e11f89529500fec500a4dea71f27f0d215",
+      "head_at_inventory": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "LLMDiplomacyTextGeneration",
       "tested_code_sha": "6d106160bfc778b47274ef2025f02e68d183f3af",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "LLMDiplomacyTextGeneration",
@@ -488,7 +528,7 @@
     },
     {
       "branch": "PartnerDiplomacyBuild-ChatGPT",
-      "head_at_inventory": "8b0b7827c7147aca4a0a903b551832f0622405ba",
+      "head_at_inventory": "95d8dc3c13a31425d8691c2ea7c02ddd686e2738",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "source_branch": "PartnerLeaderCivSpecificDiplomacyText",
@@ -504,6 +544,11 @@
       "artifacts": {
         "Release": 12786902132,
         "Debug": 12786932516
+      },
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
       }
     },
     {
@@ -613,13 +658,18 @@
     },
     {
       "branch": "PromotionXPBuild-ChatGPT",
-      "head_at_inventory": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
+      "head_at_inventory": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "PromotionAltersUnitXPValues",
       "tested_code_sha": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40518367294"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40518367294",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "RaceDemographicsDraft-ChatGPT",
@@ -657,13 +707,18 @@
     },
     {
       "branch": "RenegadeDiplomacyBuild-ChatGPT",
-      "head_at_inventory": "a73a9abf5f74442825b5661499c01ca2fee4ac73",
+      "head_at_inventory": "6660adfd2883b8286c9fbd759f310b6da7dd4c86",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "LeaderSpecificRebelliousTeamDiplomaticDecisions",
       "tested_code_sha": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "SerializationHelpers",
@@ -678,17 +733,22 @@
     },
     {
       "branch": "SerializationHelpersBuild-ChatGPT",
-      "head_at_inventory": "3535810625f27e8207e4731e2dcf848c924cd0fd",
+      "head_at_inventory": "6b74935fd718db11c108ae2feeb4c6c961a22bd4",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "SerializationHelpers",
       "tested_code_sha": "3535810625f27e8207e4731e2dcf848c924cd0fd",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40459830260"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40459830260",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "SidSaysDiscoveryBuild-ChatGPT",
-      "head_at_inventory": "fb78b2c3a9750f4fbe5920a9aa6d9f8575fa6061",
+      "head_at_inventory": "507912e1f5bc2002b876789bc02d62eff6c0ac05",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "source_branch": "SidSaysPatch",
@@ -704,7 +764,12 @@
         "Release",
         "Debug"
       ],
-      "compiler": "_MSC_VER == 1310 (MSVC 7.1)"
+      "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "SidSaysPatch",
@@ -765,13 +830,18 @@
     },
     {
       "branch": "UnitCombatUpgradeBuild-ChatGPT",
-      "head_at_inventory": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+      "head_at_inventory": "cb5e560613ea2bbc9c04c84f1888d2440028a6d5",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "PerUnitCombatUpgradeCostModifers",
       "tested_code_sha": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "UnitStatusEffects",
@@ -812,7 +882,7 @@
     },
     {
       "branch": "CivicScrollDraft-ChatGPT",
-      "head_at_inventory": "1068cc724fada89fb9facb79b831acebb5e27433",
+      "head_at_inventory": "1776d85f2558e5d73ed002252d5009dc5475cae1",
       "coverage": "published_review_artifact",
       "native_verification": "python_only_draft_no_dll_build",
       "source_branch": "UniqueCivicsReligions",
@@ -830,12 +900,134 @@
     "production_changes": false,
     "dll_build_triggered": false,
     "first_pass_pending": [],
-    "skip_dispositions_updated": [
-      "UnitStatusEffects",
-      "LeaderSpecificMultilayeredAIDecisionEval",
-      "CvPartyGroup",
-      "FFHEquipmentTypes"
+    "documentation_head_updates": [
+      {
+        "branch": "AISurvivorSQLiteBuild-ChatGPT",
+        "previous_head": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
+        "head": "c14b70d183f00d8a1d0cdcf811102e3f7460c766",
+        "files": [
+          "docs/SQLiteSafetyReview.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      },
+      {
+        "branch": "CityBonusDiplomacyBuild-ChatGPT",
+        "previous_head": "a931d32d3254caee207027353be0f513a761f37f",
+        "head": "b7cdc0447e3bba3da04fae6828ce64762e8370d6",
+        "files": [
+          "docs/reviews/city-bonus-diplomacy-2026-10-27.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      },
+      {
+        "branch": "CodeMacroHelpersBuild-ChatGPT",
+        "previous_head": "d857894158de6fa8aab25106a8518bb902a902c0",
+        "head": "7880264054c6066e60bf862df848102e3105a680",
+        "files": [
+          "docs/reviews/code-macro-helpers-2026-10-27.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      },
+      {
+        "branch": "ColonyLeaderBuild-ChatGPT",
+        "previous_head": "26b6ff5428b9bff6d7f79ea2892e424a7444cf4a",
+        "head": "d3c5e6aeb2c29606d10cfbb931205c709e01250b",
+        "files": [
+          "docs/reviews/colony-leader-2026-10-27.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      },
+      {
+        "branch": "FamilyRelationsBuild-ChatGPT",
+        "previous_head": "611a663f34e5c4943cfbdc99fd2af2c4cbd25a9d",
+        "head": "f07cf78b4afea17cef1514a1960890ab709c6e3d",
+        "files": [
+          "docs/reviews/family-relations-2026-10-27.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      },
+      {
+        "branch": "FreePromotionLoaderBuild-ChatGPT",
+        "previous_head": "de661fec50860c3409630e1162bc5da63e8dcc5b",
+        "head": "cd3316f9b460d1962359833b3dc4fdb52b1d9f72",
+        "files": [
+          "docs/reviews/free-promotion-loader-2026-10-27.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      },
+      {
+        "branch": "LLMDiplomacyTextBuild-ChatGPT",
+        "previous_head": "e78042e11f89529500fec500a4dea71f27f0d215",
+        "head": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
+        "files": [
+          "Documentation/Reviews/LLMDiplomacy-2026-10-27.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      },
+      {
+        "branch": "LeaderTeamSizeBuild-ChatGPT",
+        "previous_head": "23b8e74ea630209d67deaa53475d31113bd614b1",
+        "head": "a2f01100680d037b72d4cc08e3661950cff5984e",
+        "files": [
+          "docs/reviews/leader-team-size-2026-10-27.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      },
+      {
+        "branch": "PartnerDiplomacyBuild-ChatGPT",
+        "previous_head": "8b0b7827c7147aca4a0a903b551832f0622405ba",
+        "head": "95d8dc3c13a31425d8691c2ea7c02ddd686e2738",
+        "files": [
+          "docs/reviews/partner-diplomacy-2026-10-27.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      },
+      {
+        "branch": "PromotionXPBuild-ChatGPT",
+        "previous_head": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
+        "head": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+        "files": [
+          "docs/reviews/promotion-xp-2026-10-27.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      },
+      {
+        "branch": "RenegadeDiplomacyBuild-ChatGPT",
+        "previous_head": "a73a9abf5f74442825b5661499c01ca2fee4ac73",
+        "head": "6660adfd2883b8286c9fbd759f310b6da7dd4c86",
+        "files": [
+          "docs/reviews/renegade-diplomacy-2026-10-27.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      },
+      {
+        "branch": "SerializationHelpersBuild-ChatGPT",
+        "previous_head": "3535810625f27e8207e4731e2dcf848c924cd0fd",
+        "head": "6b74935fd718db11c108ae2feeb4c6c961a22bd4",
+        "files": [
+          "docs/reviews/serialization-helpers-2026-10-27.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      },
+      {
+        "branch": "SidSaysDiscoveryBuild-ChatGPT",
+        "previous_head": "fb78b2c3a9750f4fbe5920a9aa6d9f8575fa6061",
+        "head": "507912e1f5bc2002b876789bc02d62eff6c0ac05",
+        "files": [
+          "docs/reviews/sid-discovery-2026-10-27.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      },
+      {
+        "branch": "UnitCombatUpgradeBuild-ChatGPT",
+        "previous_head": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+        "head": "cb5e560613ea2bbc9c04c84f1888d2440028a6d5",
+        "files": [
+          "docs/reviews/unit-combat-upgrade-2026-10-27.md"
+        ],
+        "classification": "documentation_only_existing_build_confirmation"
+      }
     ],
-    "qualification": "Readiness gating only. Missing implementation is distinct from repairable implementation bugs and from absent/failed build evidence. Stop gate remains false for other unfinished work."
+    "qualification": "All 14 changed external assistant heads were direct documentation-only children of recorded heads. Exact existing tested code SHAs and native results remain unchanged; no historical run revalidation or new DLL result claimed. Original source heads unchanged. FSimpleDataStorage tree inventoried only; no renewed source evaluation claimed."
   }
 }
