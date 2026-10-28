@@ -223,22 +223,31 @@
       "branch": "FFHSpellCreationBuild-ChatGPT",
       "head_at_inventory": "581063899df1123d0a4e45f43ef1e5b346457701",
       "coverage": "spell_creation_scope_observed",
-      "native_verification": "unverified_in_this_ledger",
-      "next_action": "Read existing spell-creation work and CI results before extending review; remaining spell scope is pending."
+      "native_verification": "recorded_historical_build_failure",
+      "next_action": "Inspect existing assistant work and address scoped plot-storage/integration work before a new build; do not rerun unchanged failing head.",
+      "related_build_sha": "581063899df1123d0a4e45f43ef1e5b346457701",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40402742595",
+      "qualification": "Exact historical build head failed CvPlot.h:988 static assertion; no DLL artifact. Not a result for different source/fixes heads; authorized overlay provenance not re-certified."
     },
     {
       "branch": "FFHSpellCreationFixes-ChatGPT",
       "head_at_inventory": "aba892958cd98a04fac5aba63a828ef717cd7c10",
       "coverage": "spell_creation_scope_observed",
-      "native_verification": "unverified_in_this_ledger",
-      "next_action": "Read existing spell-creation work and CI results before extending review; remaining spell scope is pending."
+      "native_verification": "related_overlay_failed_no_standalone_result",
+      "next_action": "Inspect existing assistant work and address scoped plot-storage/integration work before a new build; do not rerun unchanged failing head.",
+      "related_build_sha": "581063899df1123d0a4e45f43ef1e5b346457701",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40402742595",
+      "qualification": "Exact historical build head failed CvPlot.h:988 static assertion; no DLL artifact. Not a result for different source/fixes heads; authorized overlay provenance not re-certified."
     },
     {
       "branch": "FFHSpellTypes",
       "head_at_inventory": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
       "coverage": "spell_creation_scope_observed",
-      "native_verification": "unverified_in_this_ledger",
-      "next_action": "Read existing spell-creation work and CI results before extending review; remaining spell scope is pending."
+      "native_verification": "related_overlay_failed_no_standalone_result",
+      "next_action": "Inspect existing assistant work and address scoped plot-storage/integration work before a new build; do not rerun unchanged failing head.",
+      "related_build_sha": "581063899df1123d0a4e45f43ef1e5b346457701",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40402742595",
+      "qualification": "Exact historical build head failed CvPlot.h:988 static assertion; no DLL artifact. Not a result for different source/fixes heads; authorized overlay provenance not re-certified."
     },
     {
       "branch": "FirstImpressionDiplomacyModifiers",
@@ -578,14 +587,17 @@
       "head_at_inventory": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
       "coverage": "source_review_partial",
       "native_verification": "draft_only_no_dll_build",
-      "next_action": "Reuse draft for remaining decay, persistence, alignment, metadata and AI integration coverage.",
+      "next_action": "Reuse existing draft for remaining alignment/reputation metadata, decay, versioned persistence and AI integration before full pinned-base DLL validation.",
       "review_branch": "ReputationWindowDraft-ChatGPT",
-      "draft_code_sha": "3e1cadff15d0d8741a40bb83b5760c389b087a22",
+      "draft_code_sha": "ab9846a637dfc2847349cb63d398017f7d8d4c3a",
       "finding_ids": [
         "REPUTATION-20261028-01",
-        "REPUTATION-20261028-02"
+        "REPUTATION-20261028-02",
+        "REPUTATION-20261028-03",
+        "REPUTATION-20261028-04"
       ],
-      "source_review_scope": "ReputationScore completed-turn window, initialization and setter syntax; marked player/AI callers read for context."
+      "source_review_scope": "Completed-turn score window/defaults plus player score-vector load cardinality and const serialization; remaining feature scopes unverified.",
+      "qualification": "Actual score methods and player score read/write blocks passed C++03/ASan/UBSan with a byte-buffer stream stub; no full DLL/game save/Windows ABI validation."
     },
     {
       "branch": "RenegadeDiplomacyBuild-ChatGPT",
@@ -714,17 +726,24 @@
     },
     {
       "branch": "ReputationWindowDraft-ChatGPT",
-      "head_at_inventory": "3beb7b9b413e321fb93f93c92ded6b66af352dd9",
+      "head_at_inventory": "d41298227617e49f5bc43c41bc32edeeb870e9c6",
       "coverage": "published_review_artifact",
       "native_verification": "draft_only_no_dll_build",
       "source_branch": "RealisticAIDecisions",
       "source_head": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
-      "draft_code_sha": "3e1cadff15d0d8741a40bb83b5760c389b087a22",
-      "next_action": "Reuse for further integration; code SHA followed by documentation-only commit."
+      "draft_code_sha": "ab9846a637dfc2847349cb63d398017f7d8d4c3a",
+      "next_action": "Reuse existing draft for remaining alignment/reputation metadata, decay, versioned persistence and AI integration before full pinned-base DLL validation.",
+      "finding_ids": [
+        "REPUTATION-20261028-01",
+        "REPUTATION-20261028-02",
+        "REPUTATION-20261028-03",
+        "REPUTATION-20261028-04"
+      ],
+      "qualification": "Actual score methods and player score read/write blocks passed C++03/ASan/UBSan with a byte-buffer stream stub; no full DLL/game save/Windows ABI validation."
     },
     {
       "branch": "CivicScrollDraft-ChatGPT",
-      "head_at_inventory": "318cdffbd6b1e27a320f53fa002ab62793a67969",
+      "head_at_inventory": "8e39f14d0469e4cad7e1a5c255b35c26c04eb97f",
       "coverage": "published_review_artifact",
       "native_verification": "python_only_draft_no_dll_build",
       "source_branch": "UniqueCivicsReligions",
@@ -734,13 +753,12 @@
     }
   ],
   "current_pass": {
-    "source_branches": [
-      "alert-autofix-1",
-      "UnitStatusEffects"
-    ],
+    "source_branch": "FFHSpellCreationBuild-ChatGPT",
+    "source_head": "581063899df1123d0a4e45f43ef1e5b346457701",
     "production_changes": false,
     "dll_build_triggered": false,
+    "historical_run_recorded": 40402742595,
     "first_pass_pending": [],
-    "qualification": "Initial scoped rotation complete; README-only status branch deferred, Copilot ceiling alert assessed without a production fix. Partial scopes and unverified builds remain."
+    "qualification": "Consolidated existing failed CI evidence; no new code finding or unchanged build retry."
   }
 }
