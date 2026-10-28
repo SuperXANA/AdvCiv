@@ -18780,7 +18780,7 @@ void CvPlayerAI::AI_changeHateCivicCounter(PlayerTypes eIndex, int iChange)
 {
 	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
 	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
-	m_aiFavoriteCivicCounter[eIndex] = (m_aiFavoriteCivicCounter[eIndex] + iChange);
+	m_aiHateCivicCounter[eIndex] = (m_aiHateCivicCounter[eIndex] + iChange);
 	FAssert(AI_getHateCivicCounter(eIndex) >= 0);
 }
 // XANA: 05-24-2025 Hate Civic and Religion Diplomacy

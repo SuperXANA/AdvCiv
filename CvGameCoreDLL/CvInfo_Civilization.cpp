@@ -874,7 +874,7 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	stream->Write(m_iHateReligionAttitudeChange);
 	stream->Write(m_iHateReligionAttitudeDivisor);
-	stream->Write(m_iHateeligionAttitudeChangeLimit);
+	stream->Write(m_iHateReligionAttitudeChangeLimit);
 // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	stream->Write(m_iBonusTradeAttitudeDivisor);
 	stream->Write(m_iBonusTradeAttitudeChangeLimit);
