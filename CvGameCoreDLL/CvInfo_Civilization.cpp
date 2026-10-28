@@ -1111,6 +1111,12 @@ bool CvLeaderHeadInfo::readPass3(CvXMLLoadUtility* pXML)
 		if (pXML->SkipToNextVal())
 		{
 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+			// Reject excess positional entries before indexing vote-sized arrays.
+			if (iNumSibs > GC.getNumVoteInfos())
+			{
+				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+				return false;
+			}
 			pXML->InitList(&m_paeFavoriteVoteDecision, GC.getNumVoteInfos(), NO_PLAYER_VOTE);
 			pXML->InitList(&m_piFavoriteVoteDecisionAttitude, GC.getNumVoteInfos());
 			pXML->InitList(&m_piHateVoteDecisionAttitude, GC.getNumVoteInfos());
@@ -1121,7 +1127,7 @@ bool CvLeaderHeadInfo::readPass3(CvXMLLoadUtility* pXML)
 					if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 					{
 						CvString szTextVal;
-						if pXML->GetChildXmlVal(szTextVal)
+						if (pXML->GetXmlVal(szTextVal))
 						{
 							PlayerVoteTypes eDecision;
 							if (szTextVal == "PLAYER_VOTE_YES")
