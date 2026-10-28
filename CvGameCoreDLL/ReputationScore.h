@@ -6,7 +6,9 @@
 class ReputationScore
 {
 public:
-	ReputationScore() : m_iMovingAvgSamples(0) {}
+	// XANA: 11-15-2025 Reputation System for Advanced Civ
+	ReputationScore() : m_iMovingAvgSamples(4) {}
+	// XANA: 11-15-2025 Reputation System for Advanced Civ
 	void reset()
 	{
 		resetSampleSize();
@@ -26,7 +28,13 @@ private:
 	void resetSampleSize() { m_iMovingAvgSamples = 4; }
 	void grow(int iSize);
 	int size() const { return (int)m_aiValues.size(); }
-	void setSampleSize(char iNewValue) { (iNewValue <= 0 || iNewValue > 100) ? resetSampleSize() : m_iMovingAvgSamples = iNewValue; }
+	void setSampleSize(char iNewValue)
+	{
+		if (iNewValue <= 0 || iNewValue > 100)
+			resetSampleSize();
+		else
+			m_iMovingAvgSamples = iNewValue;
+	}
 	std::vector<int> m_aiValues; // serialized
 	char m_iMovingAvgSamples;
 };

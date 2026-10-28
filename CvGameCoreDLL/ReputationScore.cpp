@@ -1,5 +1,6 @@
 #include "CvGameCoreDLL.h"
 #include "ReputationScore.h"
+#include <cmath>
 
 void ReputationScore::grow(int iSize)
 {
@@ -11,27 +12,24 @@ void ReputationScore::grow(int iSize)
 }
 
 
+// XANA: 11-15-2025 Reputation System for Advanced Civ
+// Average the preceding completed turns; the queried turn is excluded.
 int ReputationScore::get(int iTurn) const
 {
-	FAssertBounds(0, size(), iTurn);
-	if (iTurn >= size())
-	{
+	if (iTurn <= 0 || iTurn > size())
 		return 0;
-	}
-	int const iLastValidIndex = iTurn - 1;
-	int const iSampleSize = std::min(m_iMovingAvgSamples - 1, iLastValidIndex);
-	int const iHistoryTurnsConsidered = iTurn - iSampleSize;
-	if (iSampleSize <= 0 || iHistoryTurnsConsidered <= 0)
-	{
+	int const iSamples = std::min(static_cast<int>(m_iMovingAvgSamples), iTurn);
+	if (iSamples <= 0)
 		return 0;
-	}
-    int iSum = 0;
-    for (int i = iLastValidIndex; i >= iHistoryTurnsConsidered; --i)
-	{
-		iSum += m_aiValues[i];
-	}
-	return (iSum != 0) ? intdiv::round(iSum, std::max(1, iSampleSize)) : 0;
+	// At most 100 int samples: their sum is exact in the target's double.
+	double fSum = 0;
+	for (int i = iTurn - iSamples; i < iTurn; ++i)
+		fSum += m_aiValues[i];
+	double const fMean = fSum / iSamples;
+	// Round half away from zero, with the result inside the int sample range.
+	return static_cast<int>(fMean < 0 ? std::ceil(fMean - 0.5) : std::floor(fMean + 0.5));
 }
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 
 
 void ReputationScore::set(int iTurn, int iValue)
