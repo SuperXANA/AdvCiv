@@ -50,7 +50,7 @@ The actual revised two methods and unchanged canAcquireEquipmentAny method are e
 Passed checks include:
 
 - The supplied Alicorn Amulet XML values 1 and 9, levels 0 through 10, and a small independent inclusive-bound truth table with unset bounds.
-- Absent prerequisites, separate AND requirements, all three OR slots, and combinations of promotion/equipment requirements.
+- Absent prerequisites, separate AND requirements, three-way OR groups (first and third alternatives exercised), and combinations of promotion/equipment requirements.
 - Legendary enchanted/non-enchanted/hero cases; hero rejection for excessive level, wrong personal identity, or unmet ordinary technology.
 - Ordinary technology and both magic requirement categories.
 - Already-owned items, rejected static feasibility, invalid candidate IDs without metadata queries, and missing class without sentinel level lookup.
@@ -65,3 +65,5 @@ No DLL build is triggered and no workflow is added. The source is not yet a cohe
 No native DLL artifact, in-game equipment acquisition, XDR schema loading, promotion mutation/removal, save/load or multiplayer result is claimed. When the feature is coherent enough for useful native validation, reuse this isolated branch for a pinned complete 1.14 overlay retaining base-only files and the named dll-build workflow; a standalone fixture must not substitute for that build.
 
 The original branch and 1.14 snapshot remain unchanged. The companion ledger records a partial scoped review and the exact draft code commit; nine first-pass targets remain pending. The stopping condition is not met.
+
+Code revision: [8678e1efc07837a6f773652271b56d9b39eccad6](https://github.com/SuperXANA/AdvCiv/commit/8678e1efc07837a6f773652271b56d9b39eccad6). The review/coverage follow-up changes documentation only.
