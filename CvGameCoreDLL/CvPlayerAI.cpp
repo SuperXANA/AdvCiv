@@ -8064,19 +8064,13 @@ int CvPlayerAI::AI_getFavoriteGenderAttitude(PlayerTypes ePlayer) const
 	eWeLike == getHateGender() ||
 	eWeLike != eTheyAre)
 		return 0;
-	GenderTypes const eWeAre = getGender();
-	bool const bPreferOwn = (eWeAre == eWeLike);
 	CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
 	int iAttitude = kPersonality.getFavoriteGenderAttitudeChange();
-	if (eWeLike == kPlayer.getHateGender() &&
-		(bPreferOwn ? eWeAre != eTheyAre : eWeAre == eTheyAre))
-		-iAttitude;
-	if (eWeLike == kPlayer.getFavoriteGender() &&
-		(bPreferOwn ? eWeAre == eTheyAre : eWeAre != eTheyAre))
+	if (eWeLike == kPlayer.getFavoriteGender())
 		iAttitude++;
 	bool const bEnemyAgainstType = (iAttitude < 0);
 	int const iAttitudeDivisor = (bEnemyAgainstType ? -kPersonality.getFavoriteGenderAttitudeDivisor() : kPersonality.getFavoriteGenderAttitudeDivisor());
-	int const iAttitudeLimit = (bEnemyAgainstType ? -kPersonality.getFavoriteGenderAttitudeChangeLimit() : kPersonality.getFavoriteGenderAttitudeChangeLimit();
+	int const iAttitudeLimit = (bEnemyAgainstType ? -kPersonality.getFavoriteGenderAttitudeChangeLimit() : kPersonality.getFavoriteGenderAttitudeChangeLimit());
 	// advc.130n: Moved into new function
 	iAttitude += AI_ideologyAttitudeChange(ePlayer, ALLY_GENDER,
 			AI_getFavoriteGenderCounter(ePlayer),
@@ -8095,19 +8089,13 @@ int CvPlayerAI::AI_getHateGenderAttitude(PlayerTypes ePlayer) const
 	eWeHate == getFavoriteGender() ||
 	eWeHate != eTheyAre)
 		return 0;
-	GenderTypes const eWeAre = getGender();
-	bool const bPreferOwn = (eWeAre != eWeHate);
 	CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
 	int iAttitude = kPersonality.getHateGenderAttitudeChange();
-	if (eWeHate == kPlayer.getHateGender() && 
-		(bPreferOwn ? eWeAre == eTheyAre : eWeAre != eTheyAre))
-		-iAttitude;
-	if (eWeHate == kPlayer.getFavoriteGender() && 
-		(bPreferOwn ? eWeAre != eTheyAre : eWeAre == eTheyAre))
+	if (eWeHate == kPlayer.getFavoriteGender())
 		iAttitude--;
 	bool const bAllyAgainstType = (iAttitude > 0);
 	int const iAttitudeDivisor = (bAllyAgainstType ? -kPersonality.getHateGenderAttitudeDivisor() : kPersonality.getHateGenderAttitudeDivisor());
-	int const iAttitudeLimit = (bAllyAgainstType ? -kPersonality.getHateGenderAttitudeChangeLimit() : kPersonality.getHateGenderAttitudeChangeLimit();
+	int const iAttitudeLimit = (bAllyAgainstType ? -kPersonality.getHateGenderAttitudeChangeLimit() : kPersonality.getHateGenderAttitudeChangeLimit());
 	// advc.130n: Moved into new function
 	iAttitude += AI_ideologyAttitudeChange(ePlayer, ENEMY_GENDER,
 			AI_getHateGenderCounter(ePlayer),
