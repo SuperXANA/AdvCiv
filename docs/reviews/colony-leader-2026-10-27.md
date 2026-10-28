@@ -64,3 +64,17 @@ This is structural inspection, not execution of Civ4's XDR validator.
 The triggered Windows workflow is the full DLL compilation check. Its exact
 commit, run result and artifact are reported with the review. XML loading,
 XML-cache-enabled builds, actual colony creation and gameplay remain untested.
+
+## MSVC 7.1 build confirmation — 2026-10-28
+
+The successful [DLL build run 40527777945](https://github.com/SuperXANA/AdvCiv/actions/runs/40527777945)
+for `ColonyLeaderBuild-ChatGPT` at commit
+`26b6ff5428b9bff6d7f79ea2892e424a7444cf4a` completed Release compilation,
+linking and DLL artifact upload. This proves that the assistant-refactored code
+at that revision builds under MSVC 7.1 (the Visual Studio 2003 C/C++ compiler).
+
+The remote environment initializes Visual Studio 2010's `vcvarsall.bat` and
+uses MSBuild to invoke the NMake project. The machine-local
+`R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
+compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
+the DLL's C/C++ compilation uses MSVC 7.1.
