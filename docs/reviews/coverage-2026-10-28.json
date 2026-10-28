@@ -275,20 +275,38 @@
     },
     {
       "branch": "GenderCounterDraft-ChatGPT",
-      "head_at_inventory": "dd611543024315f513c2f58b6b7e601936b7df40",
+      "head_at_inventory": "732c70303b723f4061f75dd183ebefe543dd0dde",
       "source_branch": "GenderSpecificDiplomacy",
       "coverage": "counter_scope_only",
       "native_verification": "not_attempted_incomplete_feature",
       "focused_verification": "C++03 and ASan/UBSan methods/update fixture; XML scalar structure checks",
-      "next_action": "Complete remaining feature compilation, XML/help and versioned save integration before a pinned-overlay native build."
+      "next_action": "Reuse existing draft for actual ideology helper, paranoia, metadata and versioned persistence integration before native overlay validation.",
+      "draft_code_sha": "eefccff731f8cf35cbcd2ed9bae249974d0f9c61",
+      "finding_ids": [
+        "GENDER-20261027-01",
+        "GENDER-20261027-02",
+        "GENDER-20261027-03",
+        "GENDER-20261028-04"
+      ],
+      "review_branch": "GenderCounterDraft-ChatGPT",
+      "qualification": "Counter fixtures previously passed; two attitude helper bodies now pass 28,672 C++03/ASan/UBSan stubbed combinations. No full DLL/game/save result."
     },
     {
       "branch": "GenderSpecificDiplomacy",
       "head_at_inventory": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
       "coverage": "first_source_pass_counter_refinement",
       "native_verification": "not_attempted_incomplete_feature",
-      "next_action": "Complete integration and versioned save handling before a pinned-overlay DLL build.",
-      "refinement_branch": "GenderCounterDraft-ChatGPT"
+      "next_action": "Reuse existing draft for actual ideology helper, paranoia, metadata and versioned persistence integration before native overlay validation.",
+      "refinement_branch": "GenderCounterDraft-ChatGPT",
+      "draft_code_sha": "eefccff731f8cf35cbcd2ed9bae249974d0f9c61",
+      "finding_ids": [
+        "GENDER-20261027-01",
+        "GENDER-20261027-02",
+        "GENDER-20261027-03",
+        "GENDER-20261028-04"
+      ],
+      "review_branch": "GenderCounterDraft-ChatGPT",
+      "qualification": "Counter fixtures previously passed; two attitude helper bodies now pass 28,672 C++03/ASan/UBSan stubbed combinations. No full DLL/game/save result."
     },
     {
       "branch": "HatedCivicReligionDiplomacy",
@@ -309,32 +327,35 @@
       "head_at_inventory": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
       "coverage": "source_review_partial",
       "native_verification": "draft_only_no_dll_build",
-      "next_action": "Reuse SummonCatchupDraft-ChatGPT for selection, slot creation, transfers and event metadata integration before full pinned-base DLL validation.",
+      "next_action": "Reuse existing draft for remaining selection/availability, RNG weight limits, slot creation, transfers and metadata integration before native validation.",
       "review_branch": "SummonCatchupDraft-ChatGPT",
-      "draft_code_sha": "81ce891bc0d9bc6e2b51e7be89a417ac58c2b4fe",
+      "draft_code_sha": "c04de7e1dcaf8509fa0f0c844189c17afbf98345",
       "source_review_scope": "World tech diffusion and lower-median era helper evaluated; adjacent event call paths read. Remaining selection/transfer/metadata scope not certified.",
       "finding_ids": [
         "SUMMON-20261027-01",
         "SUMMON-20261027-02",
-        "SUMMON-20261027-03"
+        "SUMMON-20261027-03",
+        "SUMMON-20261028-04"
       ],
-      "qualification": "Actual helper bodies checked under C++03/ASan/UBSan with engine/RNG stubs. One-attempt probability policy is a proposed mechanics refinement; no whole-feature/native/gameplay result."
+      "qualification": "Actual catchup helpers previously checked; civilization-first leader selector checked under C++03/ASan/UBSan with engine/metadata/RNG stubs. Four call sites structural only; no full DLL or gameplay result."
     },
     {
       "branch": "LeaderCivilizationVariantMechanics",
       "head_at_inventory": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
       "coverage": "source_review_partial",
       "native_verification": "draft_only_no_dll_build",
-      "next_action": "Reuse PlotTimerDraft-ChatGPT for further feature integration review before full pinned-base DLL validation.",
+      "next_action": "Reuse existing draft for map stream version/lifecycle integration, restoration edge policies and broader gameplay-mechanic metadata before full pinned-base DLL validation.",
       "review_branch": "PlotTimerDraft-ChatGPT",
-      "draft_code_sha": "d3989b6ff7feeabad3681795edeeee4420af7895",
+      "draft_code_sha": "6cce496f0f0de61f236b1be2ad7a3d6299b0e2e3",
       "source_review_scope": "Temporary plot timer wrappers and complete supporting PlotTempChangeMap component; map and UI consumers read for context. Other gameplay-mechanic loading/player/yield scopes not certified.",
       "finding_ids": [
         "PLOTTIMER-20261027-01",
         "PLOTTIMER-20261027-02",
-        "PLOTTIMER-20261027-03"
+        "PLOTTIMER-20261027-03",
+        "PLOTTIMER-20261028-04",
+        "PLOTTIMER-20261028-05"
       ],
-      "qualification": "Actual component and timer wrappers passed strict C++03/ASan/UBSan with engine/enum-map stubs; not native MSVC, full DLL, save or gameplay validation."
+      "qualification": "Actual timer methods previously checked; marked ownership snippets with modeled lifecycle and actual doTurn pass C++03/ASan/UBSan. No full map/MSVC/DLL/game verification."
     },
     {
       "branch": "LeaderFamilyRelations",
@@ -528,14 +549,22 @@
     },
     {
       "branch": "PlotTimerDraft-ChatGPT",
-      "head_at_inventory": "16e8e116231e952d4829229c8b1124a289f59227",
+      "head_at_inventory": "811dc16daa7766051f540422f63830f2196e4038",
       "coverage": "published_review_artifact",
       "native_verification": "draft_only_no_dll_build",
       "source_branch": "LeaderCivilizationVariantMechanics",
       "source_head": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
-      "draft_code_sha": "d3989b6ff7feeabad3681795edeeee4420af7895",
-      "next_action": "Reuse this isolated branch for remaining integration; no workflow or DLL build present.",
-      "inventory_note": "Code SHA recorded here; this commit is followed by the associated documentation-only publication."
+      "draft_code_sha": "6cce496f0f0de61f236b1be2ad7a3d6299b0e2e3",
+      "next_action": "Reuse existing draft for map stream version/lifecycle integration, restoration edge policies and broader gameplay-mechanic metadata before full pinned-base DLL validation.",
+      "inventory_note": "Code SHA recorded here; this commit is followed by the associated documentation-only publication.",
+      "finding_ids": [
+        "PLOTTIMER-20261027-01",
+        "PLOTTIMER-20261027-02",
+        "PLOTTIMER-20261027-03",
+        "PLOTTIMER-20261028-04",
+        "PLOTTIMER-20261028-05"
+      ],
+      "qualification": "Actual timer methods previously checked; marked ownership snippets with modeled lifecycle and actual doTurn pass C++03/ASan/UBSan. No full map/MSVC/DLL/game verification."
     },
     {
       "branch": "PromotionAltersUnitHPValues",
@@ -677,26 +706,35 @@
     },
     {
       "branch": "SummonCatchupDraft-ChatGPT",
-      "head_at_inventory": "59393f566d83bb2004dec0a061b420bc95584fa7",
+      "head_at_inventory": "e95511664e4360e643ad732bcafb99cd95bf4341",
       "coverage": "published_review_artifact",
       "native_verification": "draft_only_no_dll_build",
       "source_branch": "LeaderCivilizationSummoningRandomEvents",
       "source_head": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
-      "draft_code_sha": "81ce891bc0d9bc6e2b51e7be89a417ac58c2b4fe",
-      "next_action": "Reuse this isolated branch for remaining summoning integration; no workflow or DLL build present."
+      "draft_code_sha": "c04de7e1dcaf8509fa0f0c844189c17afbf98345",
+      "next_action": "Reuse existing draft for remaining selection/availability, RNG weight limits, slot creation, transfers and metadata integration before native validation.",
+      "finding_ids": [
+        "SUMMON-20261027-01",
+        "SUMMON-20261027-02",
+        "SUMMON-20261027-03",
+        "SUMMON-20261028-04"
+      ],
+      "qualification": "Actual catchup helpers previously checked; civilization-first leader selector checked under C++03/ASan/UBSan with engine/metadata/RNG stubs. Four call sites structural only; no full DLL or gameplay result."
     },
     {
       "branch": "UniqueCivicsReligions",
       "head_at_inventory": "d0fc7c0f93320e112903416c17bb2a2030819d60",
       "coverage": "source_review_partial",
       "native_verification": "python_only_draft_no_dll_build",
-      "next_action": "Reuse CivicScrollDraft-ChatGPT for remaining native eligibility, metadata, XML, binding and religion UI review.",
+      "next_action": "Reuse existing draft for native eligibility, metadata, XML/bindings and full UI integration review; summary-row fixture does not certify the complete feature.",
       "review_branch": "CivicScrollDraft-ChatGPT",
-      "draft_code_sha": "fa34c89ad3d8507235a3d4c082b6710e305f5265",
+      "draft_code_sha": "2d0c29857f820acc558a4d5f3549ff31be150819",
       "finding_ids": [
-        "CIVICUI-20261028-01"
+        "CIVICUI-20261028-01",
+        "RELIGIONUI-20261028-01"
       ],
-      "source_review_scope": "Civic-screen XANA draw/visibility blocks; marked player/metadata/religion-screen consumers read for context. Other integration scopes unverified."
+      "source_review_scope": "Civic-screen XANA draw/visibility blocks; marked player/metadata/religion-screen consumers read for context. Other integration scopes unverified.",
+      "qualification": "Actual civic draw methods and religion summary block checked under Python 3 with UI stubs. No Python 2/game/native DLL result."
     },
     {
       "branch": "UnitCombatUpgradeBuild-ChatGPT",
@@ -743,22 +781,28 @@
     },
     {
       "branch": "CivicScrollDraft-ChatGPT",
-      "head_at_inventory": "8e39f14d0469e4cad7e1a5c255b35c26c04eb97f",
+      "head_at_inventory": "2d0c29857f820acc558a4d5f3549ff31be150819",
       "coverage": "published_review_artifact",
       "native_verification": "python_only_draft_no_dll_build",
       "source_branch": "UniqueCivicsReligions",
       "source_head": "d0fc7c0f93320e112903416c17bb2a2030819d60",
-      "draft_code_sha": "fa34c89ad3d8507235a3d4c082b6710e305f5265",
-      "next_action": "Reuse for further feature review; code SHA followed by documentation-only commit."
+      "draft_code_sha": "2d0c29857f820acc558a4d5f3549ff31be150819",
+      "next_action": "Reuse existing draft for native eligibility, metadata, XML/bindings and full UI integration review; summary-row fixture does not certify the complete feature.",
+      "finding_ids": [
+        "CIVICUI-20261028-01",
+        "RELIGIONUI-20261028-01"
+      ],
+      "qualification": "Actual civic draw methods and religion summary block checked under Python 3 with UI stubs. No Python 2/game/native DLL result."
     }
   ],
   "current_pass": {
-    "source_branch": "FFHSpellCreationBuild-ChatGPT",
-    "source_head": "581063899df1123d0a4e45f43ef1e5b346457701",
-    "production_changes": false,
+    "source_branch": "UniqueCivicsReligions",
+    "refinement_branch": "CivicScrollDraft-ChatGPT",
+    "draft_code_sha": "2d0c29857f820acc558a4d5f3549ff31be150819",
+    "finding_ids": [
+      "RELIGIONUI-20261028-01"
+    ],
     "dll_build_triggered": false,
-    "historical_run_recorded": 40402742595,
-    "first_pass_pending": [],
-    "qualification": "Consolidated existing failed CI evidence; no new code finding or unchanged build retry."
+    "first_pass_pending": []
   }
 }
