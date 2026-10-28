@@ -127,3 +127,20 @@ Its heads and the previously reviewed feature/assistant heads were unchanged.
 The separate rebellious-team branch was inventoried for a future rotation;
 no findings are claimed for code not yet read. Existing assistant work was
 left untouched, including FamilyRelationsBuild-ChatGPT.
+
+## MSVC 7.1 build confirmation — 2026-10-28
+
+The successful [DLL build run 40575245169](https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169)
+for `CityBonusDiplomacyBuild-ChatGPT` at commit
+`60d88bfa0edf155d542cd24cb4853b2651897b0f` completed Release and Debug compilation,
+linking and DLL artifact upload. This proves that the assistant-refactored code
+at that revision builds under MSVC 7.1 (the Visual Studio 2003 C/C++ compiler).
+
+The remote environment initializes Visual Studio 2010's `vcvarsall.bat` and
+uses MSBuild to invoke the NMake project. The machine-local
+`R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
+compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
+the DLL's C/C++ compilation uses MSVC 7.1.
+
+Both configuration logs additionally confirm the compiler probe:
+`Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1).`
