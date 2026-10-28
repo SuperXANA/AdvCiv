@@ -229,9 +229,9 @@ class CvCivicsScreen:
 					if not self.isCivicVisible(j): continue
 					iRelY += 2 * self.TEXT_MARGIN
 
-					screen.addCheckBoxGFCAt(szScrollID, self.getCivicsButtonName(j), gc.getCivicInfo(j).getButton(), ArtFileMgr.getInterfaceArtInfo("BUTTON_HILITE_SQUARE").getPath(), self.BUTTON_SIZE/2, iButtonY, self.BUTTON_SIZE, self.BUTTON_SIZE, WidgetTypes.WIDGET_GENERAL, -1, -1, ButtonStyles.BUTTON_STYLE_LABEL)
+					screen.addCheckBoxGFCAt(szScrollID, self.getCivicsButtonName(j), gc.getCivicInfo(j).getButton(), ArtFileMgr.getInterfaceArtInfo("BUTTON_HILITE_SQUARE").getPath(), self.BUTTON_SIZE/2, iRelY, self.BUTTON_SIZE, self.BUTTON_SIZE, WidgetTypes.WIDGET_GENERAL, -1, -1, ButtonStyles.BUTTON_STYLE_LABEL)
 
-					screen.setLabelAt(self.getCivicsTextName(j), szScrollID, gc.getCivicInfo(j).getDescription(), CvUtil.FONT_LEFT_JUSTIFY, self.BUTTON_SIZE + self.TEXT_MARGIN, iButtonY, 0, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
+					screen.setLabelAt(self.getCivicsTextName(j), szScrollID, gc.getCivicInfo(j).getDescription(), CvUtil.FONT_LEFT_JUSTIFY, self.BUTTON_SIZE + self.TEXT_MARGIN, iRelY, 0, FontTypes.SMALL_FONT, WidgetTypes.WIDGET_GENERAL, -1, -1)
 					# XANA: 06-27-2026 Unique Civics and Religions
 
 			self.drawCivicOptionButtons(i)
