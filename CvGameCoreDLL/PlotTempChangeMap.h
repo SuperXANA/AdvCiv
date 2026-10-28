@@ -3,7 +3,9 @@
 #ifndef CVPLOTCHANGEMAP_H
 #define CVPLOTCHANGEMAP_H
 
-#include "CvMap.h"
+#include "CvPlot.h"
+
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 class FDataStreamBase;
 
@@ -102,7 +104,7 @@ public:
 	}
 	int getTempFeatureTimer(CvPlot const& kPlot) const
 	{
-		return getTempTerrainTimer(kPlot.plotNum());
+		return getTempFeatureTimer(kPlot.plotNum());
 	}
 	int getTempBonusTimer(CvPlot const& kPlot) const
 	{
@@ -198,7 +200,7 @@ private:
 	{
 		return m_RealBonusTypeMap.get(ePlotNum);
 	}
-	ImprovementTypes getRealImprovementType(PlotNumTypes ePlotNum const
+	ImprovementTypes getRealImprovementType(PlotNumTypes ePlotNum) const
 	{
 		return m_RealImprovementTypeMap.get(ePlotNum);
 	}
@@ -231,5 +233,7 @@ private:
 	void changeTempImprovementTimer(PlotNumTypes ePlotNum, int iChange);
 	void changeTempRouteTimer(PlotNumTypes ePlotNum, int iChange);
 };
+
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 
 #endif	// CVPLOTCHANGEMAP_H

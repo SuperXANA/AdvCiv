@@ -2153,35 +2153,35 @@ void CvPlot::setTempRouteType(RouteTypes eRoute, int iTimer)
 
 void CvPlot::changeTempTerrainTimer(int iChange, bool bIgnoreNoPlotTempChange) const
 {
-	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempTerrainType(*this) == NO_TERRAIN)
+	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempTerrainTimer(*this) <= 0)
 		return;
-	GC.getMap().getPlotTempChangeMap().changeTempRouteTimer(*this, iChange);
+	GC.getMap().getPlotTempChangeMap().changeTempTerrainTimer(*this, iChange);
 }
 
 void CvPlot::changeTempFeatureTimer(int iChange, bool bIgnoreNoPlotTempChange) const
 {
-	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempFeatureType(*this).first == NO_FEATURE)
+	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempFeatureTimer(*this) <= 0)
 		return;
 	GC.getMap().getPlotTempChangeMap().changeTempFeatureTimer(*this, iChange);
 }
 
 void CvPlot::changeTempBonusTimer(int iChange, bool bIgnoreNoPlotTempChange) const
 {
-	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempBonusType(*this) == NO_BONUS)
+	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempBonusTimer(*this) <= 0)
 		return;
 	GC.getMap().getPlotTempChangeMap().changeTempBonusTimer(*this, iChange);
 }
 
 void CvPlot::changeTempImprovementTimer(int iChange, bool bIgnoreNoPlotTempChange) const
 {
-	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempImprovementType(*this) == NO_IMPROVEMENT)
+	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempImprovementTimer(*this) <= 0)
 		return;
 	GC.getMap().getPlotTempChangeMap().changeTempImprovementTimer(*this, iChange);
 }
 
 void CvPlot::changeTempRouteTimer(int iChange, bool bIgnoreNoPlotTempChange) const
 {
-	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempRouteType(*this) == NO_ROUTE)
+	if (bIgnoreNoPlotTempChange && GC.getMap().getPlotTempChangeMap().getTempRouteTimer(*this) <= 0)
 		return;
 	GC.getMap().getPlotTempChangeMap().changeTempRouteTimer(*this, iChange);
 }

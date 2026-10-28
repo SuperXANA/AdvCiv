@@ -1,5 +1,27 @@
 #include "CvGameCoreDLL.h"
 #include "PlotTempChangeMap.h"
+#include <algorithm>
+#include <climits>
+
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+// ChatGPT refinement: retain the existing signed-short timer storage.
+namespace
+{
+	int clampTempTimer(int iValue)
+	{
+		return std::max(0, std::min(iValue, static_cast<int>(SHRT_MAX)));
+	}
+
+	int addTempTimer(int iCurrent, int iChange)
+	{
+		iCurrent = clampTempTimer(iCurrent);
+		if (iChange > 0)
+			return iCurrent + std::min(iChange, static_cast<int>(SHRT_MAX) - iCurrent);
+		if (iChange < -iCurrent)
+			return 0;
+		return iCurrent + iChange;
+	}
+}
 
 
 void PlotTempChangeMap::setRealTerrainType(CvPlot const& kPlot, TerrainTypes eNewValue)
@@ -10,7 +32,7 @@ void PlotTempChangeMap::setRealTerrainType(CvPlot const& kPlot, TerrainTypes eNe
 
 void PlotTempChangeMap::setRealFeatureType(CvPlot const& kPlot, FeatureTypes eFeature, int iVariety)
 {
-	setRealFeatureType(kPlot.plotNum(), eFeature, iVariety));
+	setRealFeatureType(kPlot.plotNum(), eFeature, iVariety);
 }
 
 
@@ -40,7 +62,7 @@ void PlotTempChangeMap::setTempTerrainType(CvPlot const& kPlot, TerrainTypes eNe
 
 void PlotTempChangeMap::setTempFeatureType(CvPlot const& kPlot, FeatureTypes eFeature, int iVariety)
 {
-	setTempFeatureType(kPlot.plotNum(), eFeature, iVariety));
+	setTempFeatureType(kPlot.plotNum(), eFeature, iVariety);
 }
 
 
@@ -95,35 +117,35 @@ void PlotTempChangeMap::setTempRouteTimer(CvPlot const& kPlot, int iNewValue)
 void PlotTempChangeMap::changeTempTerrainTimer(CvPlot const& kPlot, int iChange)
 {
 	PlotNumTypes const ePlotNum = kPlot.plotNum();
-	changeTempTerrainTimer(ePlotNum, (getTempTerrainTimer(ePlotNum) + iChange));
+	changeTempTerrainTimer(ePlotNum, iChange);
 }
 
 
 void PlotTempChangeMap::changeTempFeatureTimer(CvPlot const& kPlot, int iChange)
 {
 	PlotNumTypes const ePlotNum = kPlot.plotNum();
-	changeTempFeatureTimer(ePlotNum, (getTempFeatureTimer(ePlotNum) + iChange));
+	changeTempFeatureTimer(ePlotNum, iChange);
 }
 
 
 void PlotTempChangeMap::changeTempBonusTimer(CvPlot const& kPlot, int iChange)
 {
 	PlotNumTypes const ePlotNum = kPlot.plotNum();
-	changeTempBonusTimer(ePlotNum, (getTempBonusTimer(ePlotNum) + iChange));
+	changeTempBonusTimer(ePlotNum, iChange);
 }
 
 
 void PlotTempChangeMap::changeTempImprovementTimer(CvPlot const& kPlot, int iChange)
 {
 	PlotNumTypes const ePlotNum = kPlot.plotNum();
-	changeTempImprovementTimer(ePlotNum, (getTempImprovementTimer(ePlotNum) + iChange));
+	changeTempImprovementTimer(ePlotNum, iChange);
 }
 
 
 void PlotTempChangeMap::changeTempRouteTimer(CvPlot const& kPlot, int iChange)
 {
 	PlotNumTypes const ePlotNum = kPlot.plotNum();
-	changeTempRouteTimer(ePlotNum, (getTempRouteTimer(ePlotNum) + iChange));
+	changeTempRouteTimer(ePlotNum, iChange);
 }
 
 
@@ -135,8 +157,8 @@ void PlotTempChangeMap::setRealTerrainType(PlotNumTypes ePlotNum, TerrainTypes e
 
 void PlotTempChangeMap::setRealFeatureType(PlotNumTypes ePlotNum, FeatureTypes eFeature, int iVariety)
 {
-	m_RealFeatureTypeMap.set(ePlotNum, eFeature));
-	m_RealFeatureVarietyMap.set(ePlotNum, iVariety));
+	m_RealFeatureTypeMap.set(ePlotNum, eFeature);
+	m_RealFeatureVarietyMap.set(ePlotNum, iVariety);
 }
 
 
@@ -166,8 +188,8 @@ void PlotTempChangeMap::setTempTerrainType(PlotNumTypes ePlotNum, TerrainTypes e
 
 void PlotTempChangeMap::setTempFeatureType(PlotNumTypes ePlotNum, FeatureTypes eFeature, int iVariety)
 {
-	m_TempFeatureTypeMap.set(ePlotNum, eFeature));
-	m_TempFeatureVarietyMap.set(ePlotNum, iVariety));
+	m_TempFeatureTypeMap.set(ePlotNum, eFeature);
+	m_TempFeatureVarietyMap.set(ePlotNum, iVariety);
 }
 
 
@@ -191,61 +213,61 @@ void PlotTempChangeMap::setTempRouteType(PlotNumTypes ePlotNum, RouteTypes eRout
 
 void PlotTempChangeMap::setTempTerrainTimer(PlotNumTypes ePlotNum, int iNewValue)
 {
-	m_TempTerrainTimerMap.set(ePlotNum, std::max(0, iNewValue);
+	m_TempTerrainTimerMap.set(ePlotNum, clampTempTimer(iNewValue));
 }
 
 
 void PlotTempChangeMap::setTempFeatureTimer(PlotNumTypes ePlotNum, int iNewValue)
 {
-	m_TempFeatureTimerMap.set(kPlot.plotNum(), std::max(0, iNewValue));
+	m_TempFeatureTimerMap.set(ePlotNum, clampTempTimer(iNewValue));
 }
 
 
 void PlotTempChangeMap::setTempBonusTimer(PlotNumTypes ePlotNum, int iNewValue)
 {
-	m_TempBonusTimerMap.set(ePlotNum, std::max(0, iNewValue));
+	m_TempBonusTimerMap.set(ePlotNum, clampTempTimer(iNewValue));
 }
 
 
 void PlotTempChangeMap::setTempImprovementTimer(PlotNumTypes ePlotNum, int iNewValue)
 {
-	m_TempImprovementTimerMap.set(ePlotNum, std::max(0, iNewValue));
+	m_TempImprovementTimerMap.set(ePlotNum, clampTempTimer(iNewValue));
 }
 
 
 void PlotTempChangeMap::setTempRouteTimer(PlotNumTypes ePlotNum, int iNewValue)
 {
-	m_TempRouteTimerMap.set(ePlotNum, std::max(0, iNewValue));
+	m_TempRouteTimerMap.set(ePlotNum, clampTempTimer(iNewValue));
 }
 
 
 void PlotTempChangeMap::changeTempTerrainTimer(PlotNumTypes ePlotNum, int iChange)
 {
-	m_TempTerrainTimerMap.set(ePlotNum, (getTempTerrainTimer(ePlotNum) + iChange));
+	m_TempTerrainTimerMap.set(ePlotNum, addTempTimer(getTempTerrainTimer(ePlotNum), iChange));
 }
 
 
 void PlotTempChangeMap::changeTempFeatureTimer(PlotNumTypes ePlotNum, int iChange)
 {
-	m_TempFeatureTimerMap.set(ePlotNum, (getTempFeatureTimer(ePlotNum) + iChange));
+	m_TempFeatureTimerMap.set(ePlotNum, addTempTimer(getTempFeatureTimer(ePlotNum), iChange));
 }
 
 
 void PlotTempChangeMap::changeTempBonusTimer(PlotNumTypes ePlotNum, int iChange)
 {
-	m_TempBonusTimerMap.set(ePlotNum, (getTempBonusTimer(ePlotNum) + iChange));
+	m_TempBonusTimerMap.set(ePlotNum, addTempTimer(getTempBonusTimer(ePlotNum), iChange));
 }
 
 
 void PlotTempChangeMap::changeTempImprovementTimer(PlotNumTypes ePlotNum, int iChange)
 {
-	m_TempImprovementTimerMap.set(ePlotNum, (getTempImprovementTimer(ePlotNum) + iChange));
+	m_TempImprovementTimerMap.set(ePlotNum, addTempTimer(getTempImprovementTimer(ePlotNum), iChange));
 }
 
 
 void PlotTempChangeMap::changeTempRouteTimer(PlotNumTypes ePlotNum, int iChange)
 {
-	m_TempRouteTimerMap.set(ePlotNum, (getTempRouteTimer(ePlotNum) + iChange));
+	m_TempRouteTimerMap.set(ePlotNum, addTempTimer(getTempRouteTimer(ePlotNum), iChange));
 }
 
 
@@ -308,3 +330,4 @@ void PlotTempChangeMap::update(CvPlot& kPlot)
 		}
 	}
 }
+// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
