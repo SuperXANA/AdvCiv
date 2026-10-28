@@ -2,7 +2,7 @@
   "schema_version": 1,
   "snapshot_date": "2026-10-28",
   "repository": "SuperXANA/AdvCiv",
-  "baseline_sha": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "baseline_sha": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
   "policy": [
     "Changed heads take priority, then pending or partial source coverage.",
     "Do not retry unchanged failed build targets during the first-pass rotation.",
@@ -18,10 +18,15 @@
   "branches": [
     {
       "branch": "1.14",
-      "head_at_inventory": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "head_at_inventory": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
       "coverage": "read_only_baseline_reference",
       "native_verification": "not_a_development_target",
-      "next_action": "Read and pin only; never revise or publish work on this branch."
+      "next_action": "Read and pin only; never revise or publish work on this branch.",
+      "last_head_review": {
+        "classification": "comment_whitespace_only",
+        "previous_head": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "read_only": true
+      }
     },
     {
       "branch": "AdvancedDiplomacy",
@@ -180,10 +185,10 @@
     },
     {
       "branch": "dll-build",
-      "head_at_inventory": "4c135e68711a43f0e96c726a56610ea08094ba24",
+      "head_at_inventory": "e4e33b487d5f5805361f8938cf1491829f5ed923",
       "coverage": "changed_workflow_source_reviewed_and_derivative_validated",
-      "native_verification": "current_workflow_pinned_partner_derivative_passed",
-      "next_action": "Copy latest named workflow into future complete overlays and populate provenance; this derivative Release/Debug passed, no game load tested.",
+      "native_verification": "current_action_pins_partner_derivative_passed",
+      "next_action": "Retain current V7-pinned source workflow for future complete overlays; this exact existing Partner overlay passed, no game-load validation.",
       "refinement_branch": "PartnerDiplomacyBuild-ChatGPT",
       "workflow_draft_sha": "cb8335e59cba9ed5e3b767e6f301ae4b2664f631",
       "finding_ids": [
@@ -192,8 +197,15 @@
         "WORKFLOW-20261028-03",
         "WORKFLOW-20261028-04"
       ],
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40783621740",
-      "qualification": "Source adopted earlier fixes plus Rebuild and local log-path verification; derivative at exact SHA passed both configurations. Original dll-build branch was not run."
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40788471435",
+      "qualification": "Source adopted earlier fixes plus Rebuild and local log-path verification; derivative at exact SHA passed both configurations. Original dll-build branch was not run.",
+      "latest_source_review": {
+        "classification": "pinned_actions_only",
+        "node_runtime": "node24",
+        "native_verified": true,
+        "tested_code_sha": "e9b15e6b550d44cea48ec4f652fb3c8131879474",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40788471435"
+      }
     },
     {
       "branch": "dll-build-debug",
@@ -394,14 +406,15 @@
       "branch": "LeaderCivilizationDecisionPreferences",
       "head_at_inventory": "aac03388283a5ac316f6a19f6e3754a7435b6511",
       "coverage": "source_review_partial",
-      "native_verification": "metadata_cleanup_fixture_only_no_dll_build",
-      "next_action": "Keep implemented framework eligible; review remaining const/type consistency, XML readers/schema and consumer integration before full DLL validation.",
+      "native_verification": "cleanup_and_event_blocks_fixture_only_no_dll_build",
+      "next_action": "Review remaining tech/unit consumer type consistency, metadata loaders and whole-feature integration before DLL validation.",
       "refinement_branch": "PreferenceFrameworkDraft-ChatGPT",
-      "draft_code_sha": "77e78b5538774f765ff6a0b9f6ad31527a4f63e3",
+      "draft_code_sha": "a290ad622d68cb48c9b5c5562a6dcc60a1fc6d89",
       "finding_ids": [
-        "PREFERENCE-20261028-01"
+        "PREFERENCE-20261028-01",
+        "PREFERENCE-20261028-02"
       ],
-      "qualification": "Actual three metadata declarations/constructors/destructors tested C++03/ASan/UBSan with surrounding types/macros stubbed. Three destructor colons removed; no full DLL/game result."
+      "qualification": "Actual event blocks and EventPreferenceData accessors passed 1024 small-value configurations with metadata stubs; no full event method, large arithmetic or DLL result."
     },
     {
       "branch": "LeaderCivilizationSummoningRandomEvents",
@@ -578,13 +591,13 @@
     },
     {
       "branch": "PartnerDiplomacyBuild-ChatGPT",
-      "head_at_inventory": "cb8335e59cba9ed5e3b767e6f301ae4b2664f631",
+      "head_at_inventory": "e9b15e6b550d44cea48ec4f652fb3c8131879474",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "source_branch": "PartnerLeaderCivSpecificDiplomacyText",
       "source_head": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
-      "tested_code_sha": "cb8335e59cba9ed5e3b767e6f301ae4b2664f631",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40783621740",
+      "tested_code_sha": "e9b15e6b550d44cea48ec4f652fb3c8131879474",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40788471435",
       "next_action": "Retain current verified workflow and source provenance; revisit changed source or integration scope.",
       "native_configurations": [
         "Release",
@@ -592,18 +605,17 @@
       ],
       "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
       "artifacts": {
-        "Release": 12858660962,
-        "Debug": 12858277899
+        "Release": 12859863886,
+        "Debug": 12860128585
       },
       "last_head_review": {
-        "classification": "current_workflow_native_validation",
+        "classification": "user_action_pin_update_native_validation",
         "production_cpp_changes": false,
-        "ci_intentionally_skipped": false,
         "current_workflow_native_verified": true
       },
       "workflow_draft_sha": "cb8335e59cba9ed5e3b767e6f301ae4b2664f631",
-      "workflow_source_sha": "4c135e68711a43f0e96c726a56610ea08094ba24",
-      "qualification": "Exact DLL source tree unchanged from prior validated overlay; current 1.14 base files retained. Updated workflow derivative passed Release/Debug with zero compiler warnings/errors. No game load test.",
+      "workflow_source_sha": "e4e33b487d5f5805361f8938cf1491829f5ed923",
+      "qualification": "User-authored action-pin update tested existing complete overlay, DLL subtree unchanged. Release/Debug succeeded with MSVC 7.1, 0 compiler warnings/errors; Node20 warning absent from retrieved logs. No game load.",
       "previous_native_validation": {
         "tested_code_sha": "0b80d617ec269caff3241245ea7af1eb285d4c38",
         "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40619734522",
@@ -611,7 +623,9 @@
           "Release": 12786902132,
           "Debug": 12786932516
         }
-      }
+      },
+      "previous_native_validation_attempt_note": "40783621740 attempt 1 succeeded; later attempt 2 cancelled. Historical successful evidence refers specifically to attempt 1.",
+      "run_attempt": 1
     },
     {
       "branch": "PartnerLeaderCivSpecificDiplomacyText",
@@ -1020,27 +1034,32 @@
     },
     {
       "branch": "PreferenceFrameworkDraft-ChatGPT",
-      "head_at_inventory": "d26006b9f1fcc5c70e3edffdc49838d3206f18d6",
+      "head_at_inventory": "04f8986c3bca0c58aa43c82443a615d6052a3d67",
       "coverage": "published_review_artifact",
-      "native_verification": "metadata_cleanup_fixture_only_no_dll_build",
+      "native_verification": "cleanup_and_event_blocks_fixture_only_no_dll_build",
       "source_branch": "LeaderCivilizationDecisionPreferences",
       "source_head": "aac03388283a5ac316f6a19f6e3754a7435b6511",
-      "draft_code_sha": "77e78b5538774f765ff6a0b9f6ad31527a4f63e3",
+      "draft_code_sha": "a290ad622d68cb48c9b5c5562a6dcc60a1fc6d89",
       "finding_ids": [
-        "PREFERENCE-20261028-01"
+        "PREFERENCE-20261028-01",
+        "PREFERENCE-20261028-02"
       ],
-      "next_action": "Reuse this draft for remaining implemented preference framework review; code SHA followed by documentation-only publication."
+      "next_action": "Review remaining tech/unit consumer type consistency, metadata loaders and whole-feature integration before DLL validation.",
+      "qualification": "Actual event blocks and EventPreferenceData accessors passed 1024 small-value configurations with metadata stubs; no full event method, large arithmetic or DLL result."
     }
   ],
   "current_pass": {
-    "source_branch": "dll-build",
-    "source_head": "4c135e68711a43f0e96c726a56610ea08094ba24",
-    "refinement_branch": "PartnerDiplomacyBuild-ChatGPT",
-    "tested_code_sha": "cb8335e59cba9ed5e3b767e6f301ae4b2664f631",
-    "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40783621740",
-    "dll_build_triggered": true,
+    "source_branch": "PartnerDiplomacyBuild-ChatGPT",
+    "source_head": "e9b15e6b550d44cea48ec4f652fb3c8131879474",
+    "tested_code_sha": "e9b15e6b550d44cea48ec4f652fb3c8131879474",
+    "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40788471435",
+    "run_attempt": 1,
+    "dll_build_triggered_by_assistant": false,
+    "followed_existing_user_run": true,
     "conclusion": "success",
     "first_pass_pending": []
   },
-  "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch."
+  "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",
+  "previous_baseline_sha": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "baseline_head_note": "User changed only trailing whitespace in _precompile.cpp comment; existing build overlays remain pinned to 5970334b64a875b5cdb370c94fc9a98db4eacda6. Use current read-only head for future overlays."
 }
