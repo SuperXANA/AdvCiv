@@ -71,3 +71,20 @@ Tree comparison confirms all **872 baseline blobs retained**. Seven existing bas
 Game startup, real XDR loading, embedded Python/Boost conversions, displayed dialogue, cross-version DLL ABI and multiplayer remain untested. Local cache-enabled fixtures are not proof of actual engine cache-file interoperability.
 
 The companion coverage ledger records this scoped native result separately from the unchanged original head. **Eight first-pass branches remain pending**, in addition to prior partial/integration work; the stopping condition remains false. This documentation/coverage follow-up does not modify the tested DLL code and does not trigger another build.
+
+## MSVC 7.1 build confirmation — 2026-10-28
+
+The successful [DLL build run 40619734522](https://github.com/SuperXANA/AdvCiv/actions/runs/40619734522)
+for `PartnerDiplomacyBuild-ChatGPT` at commit
+`0b80d617ec269caff3241245ea7af1eb285d4c38` completed Release and Debug compilation,
+linking and DLL artifact upload. This proves that the assistant-refactored code
+at that revision builds under MSVC 7.1 (the Visual Studio 2003 C/C++ compiler).
+
+The remote environment initializes Visual Studio 2010's `vcvarsall.bat` and
+uses MSBuild to invoke the NMake project. The machine-local
+`R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
+compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
+the DLL's C/C++ compilation uses MSVC 7.1.
+
+Both configuration logs additionally confirm the compiler probe:
+`Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1).`
