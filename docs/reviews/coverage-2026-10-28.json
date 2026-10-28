@@ -180,18 +180,20 @@
     },
     {
       "branch": "dll-build",
-      "head_at_inventory": "33b1f40e1ba564ab88950b3688425efb334126d1",
-      "coverage": "changed_workflow_source_reviewed",
-      "native_verification": "current_workflow_not_run",
-      "next_action": "Use reviewed current workflow source for later native validation after reconciling proposal; no credit from older runs for new workflow.",
+      "head_at_inventory": "4c135e68711a43f0e96c726a56610ea08094ba24",
+      "coverage": "changed_workflow_source_reviewed_and_derivative_validated",
+      "native_verification": "current_workflow_pinned_partner_derivative_passed",
+      "next_action": "Copy latest named workflow into future complete overlays and populate provenance; this derivative Release/Debug passed, no game load tested.",
       "refinement_branch": "PartnerDiplomacyBuild-ChatGPT",
-      "workflow_draft_sha": "ac7fa3cd3d1457ee3944616a11d526692a6bc076",
+      "workflow_draft_sha": "cb8335e59cba9ed5e3b767e6f301ae4b2664f631",
       "finding_ids": [
         "WORKFLOW-20261028-01",
         "WORKFLOW-20261028-02",
         "WORKFLOW-20261028-03",
         "WORKFLOW-20261028-04"
-      ]
+      ],
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40783621740",
+      "qualification": "Source adopted earlier fixes plus Rebuild and local log-path verification; derivative at exact SHA passed both configurations. Original dll-build branch was not run."
     },
     {
       "branch": "dll-build-debug",
@@ -408,15 +410,16 @@
       "native_verification": "draft_only_no_dll_build",
       "next_action": "Reuse existing draft for remaining selection/availability, RNG weight limits, slot creation, transfers and metadata integration before native validation.",
       "review_branch": "SummonCatchupDraft-ChatGPT",
-      "draft_code_sha": "c04de7e1dcaf8509fa0f0c844189c17afbf98345",
+      "draft_code_sha": "cb83bcd5425b49185855653b0470633ad66dcbbe",
       "source_review_scope": "World tech diffusion and lower-median era helper evaluated; adjacent event call paths read. Remaining selection/transfer/metadata scope not certified.",
       "finding_ids": [
         "SUMMON-20261027-01",
         "SUMMON-20261027-02",
         "SUMMON-20261027-03",
-        "SUMMON-20261028-04"
+        "SUMMON-20261028-04",
+        "SUMMON-20261028-05"
       ],
-      "qualification": "Actual catchup helpers previously checked; civilization-first leader selector checked under C++03/ASan/UBSan with engine/metadata/RNG stubs. Four call sites structural only; no full DLL or gameplay result."
+      "qualification": "Both compatibility selector directions have scoped C++03 fixtures with metadata/RNG stubs. No full resolver, large-weight, DLL or gameplay validation."
     },
     {
       "branch": "LeaderCivilizationVariantMechanics",
@@ -575,32 +578,40 @@
     },
     {
       "branch": "PartnerDiplomacyBuild-ChatGPT",
-      "head_at_inventory": "ac7fa3cd3d1457ee3944616a11d526692a6bc076",
+      "head_at_inventory": "cb8335e59cba9ed5e3b767e6f301ae4b2664f631",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "source_branch": "PartnerLeaderCivSpecificDiplomacyText",
       "source_head": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
-      "tested_code_sha": "0b80d617ec269caff3241245ea7af1eb285d4c38",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40619734522",
-      "next_action": "Preserve historical tested DLL SHA; new workflow proposal needs native execution when suitable, existing C++ remains unchanged.",
+      "tested_code_sha": "cb8335e59cba9ed5e3b767e6f301ae4b2664f631",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40783621740",
+      "next_action": "Retain current verified workflow and source provenance; revisit changed source or integration scope.",
       "native_configurations": [
         "Release",
         "Debug"
       ],
       "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
       "artifacts": {
-        "Release": 12786902132,
-        "Debug": 12786932516
+        "Release": 12858660962,
+        "Debug": 12858277899
       },
       "last_head_review": {
-        "classification": "workflow_refinement_proposal",
+        "classification": "current_workflow_native_validation",
         "production_cpp_changes": false,
-        "ci_intentionally_skipped": true,
-        "current_workflow_native_verified": false
+        "ci_intentionally_skipped": false,
+        "current_workflow_native_verified": true
       },
-      "workflow_draft_sha": "ac7fa3cd3d1457ee3944616a11d526692a6bc076",
-      "workflow_source_sha": "33b1f40e1ba564ab88950b3688425efb334126d1",
-      "qualification": "Previously recorded MSVC results apply only to tested_code_sha. New workflow proposed with [skip ci], YAML/static/Bash syntax checked only."
+      "workflow_draft_sha": "cb8335e59cba9ed5e3b767e6f301ae4b2664f631",
+      "workflow_source_sha": "4c135e68711a43f0e96c726a56610ea08094ba24",
+      "qualification": "Exact DLL source tree unchanged from prior validated overlay; current 1.14 base files retained. Updated workflow derivative passed Release/Debug with zero compiler warnings/errors. No game load test.",
+      "previous_native_validation": {
+        "tested_code_sha": "0b80d617ec269caff3241245ea7af1eb285d4c38",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40619734522",
+        "artifacts": {
+          "Release": 12786902132,
+          "Debug": 12786932516
+        }
+      }
     },
     {
       "branch": "PartnerLeaderCivSpecificDiplomacyText",
@@ -850,20 +861,21 @@
     },
     {
       "branch": "SummonCatchupDraft-ChatGPT",
-      "head_at_inventory": "e95511664e4360e643ad732bcafb99cd95bf4341",
+      "head_at_inventory": "a2a1e4df6084fed111755db80148f9aff37701f0",
       "coverage": "published_review_artifact",
       "native_verification": "draft_only_no_dll_build",
       "source_branch": "LeaderCivilizationSummoningRandomEvents",
       "source_head": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
-      "draft_code_sha": "c04de7e1dcaf8509fa0f0c844189c17afbf98345",
+      "draft_code_sha": "cb83bcd5425b49185855653b0470633ad66dcbbe",
       "next_action": "Reuse existing draft for remaining selection/availability, RNG weight limits, slot creation, transfers and metadata integration before native validation.",
       "finding_ids": [
         "SUMMON-20261027-01",
         "SUMMON-20261027-02",
         "SUMMON-20261027-03",
-        "SUMMON-20261028-04"
+        "SUMMON-20261028-04",
+        "SUMMON-20261028-05"
       ],
-      "qualification": "Actual catchup helpers previously checked; civilization-first leader selector checked under C++03/ASan/UBSan with engine/metadata/RNG stubs. Four call sites structural only; no full DLL or gameplay result."
+      "qualification": "Both compatibility selector directions have scoped C++03 fixtures with metadata/RNG stubs. No full resolver, large-weight, DLL or gameplay validation."
     },
     {
       "branch": "UniqueCivicsReligions",
@@ -1022,16 +1034,13 @@
   ],
   "current_pass": {
     "source_branch": "dll-build",
-    "source_head": "33b1f40e1ba564ab88950b3688425efb334126d1",
+    "source_head": "4c135e68711a43f0e96c726a56610ea08094ba24",
     "refinement_branch": "PartnerDiplomacyBuild-ChatGPT",
-    "workflow_draft_sha": "ac7fa3cd3d1457ee3944616a11d526692a6bc076",
-    "finding_ids": [
-      "WORKFLOW-20261028-01",
-      "WORKFLOW-20261028-02",
-      "WORKFLOW-20261028-03",
-      "WORKFLOW-20261028-04"
-    ],
-    "dll_build_triggered": false,
+    "tested_code_sha": "cb8335e59cba9ed5e3b767e6f301ae4b2664f631",
+    "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40783621740",
+    "dll_build_triggered": true,
+    "conclusion": "success",
     "first_pass_pending": []
-  }
+  },
+  "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch."
 }
