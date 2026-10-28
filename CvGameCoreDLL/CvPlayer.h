@@ -416,6 +416,10 @@ public:
 	// </advc.130n>
 	bool canDoReligion(ReligionTypes eReligion) const																// Exposed to Python
 	{	//return (GET_TEAM(getTeam()).getHasReligionCount(eReligion) != 0);
+		// XANA: 06-27-2026 Unique Civics and Religions
+		if (eReligion != NO_RELIGION && !isAllowedReligion(eReligion))
+			return false;
+		// XANA: 06-27-2026 Unique Civics and Religions
 		return (getHasReligionCount(eReligion) > 0); // advc.132c
 	}
 	bool canChangeReligion() const;																					// Exposed to Python
