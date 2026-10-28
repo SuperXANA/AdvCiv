@@ -9,7 +9,8 @@
     "After source coverage is complete, investigate unresolved failures and unverified build states.",
     "Stop only when there are no changed heads, no remaining evaluation coverage, and no outstanding failed or unverified validation work.",
     "A standalone C++03 test is not a DLL build; an isolated overlay result is not a result for the unchanged original head.",
-    "Runtime game/save/multiplayer validation is distinct from native compiler validation."
+    "Runtime game/save/multiplayer validation is distinct from native compiler validation.",
+    "Skip unchanged non-assistant source heads with documented missing implementation; never invent feature behavior or metadata solely to obtain a DLL build. Preserve prior findings and resume after the pinned original source SHA changes."
   ],
   "initial_coverage_complete": true,
   "stop_gate_satisfied": false,
@@ -33,13 +34,18 @@
     },
     {
       "branch": "AISurvivorSQLiteBuild-ChatGPT",
-      "head_at_inventory": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
+      "head_at_inventory": "c14b70d183f00d8a1d0cdcf811102e3f7460c766",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "AISurvivorStatTracking",
       "tested_code_sha": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "AISurvivorSQLiteFixes-ChatGPT",
@@ -74,13 +80,18 @@
     },
     {
       "branch": "CityBonusDiplomacyBuild-ChatGPT",
-      "head_at_inventory": "a931d32d3254caee207027353be0f513a761f37f",
+      "head_at_inventory": "b7cdc0447e3bba3da04fae6828ce64762e8370d6",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "CityBonusLeaderDiplomacyModifiers",
       "tested_code_sha": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "CityBonusLeaderDiplomacyModifiers",
@@ -113,23 +124,33 @@
     },
     {
       "branch": "CodeMacroHelpersBuild-ChatGPT",
-      "head_at_inventory": "d857894158de6fa8aab25106a8518bb902a902c0",
+      "head_at_inventory": "7880264054c6066e60bf862df848102e3105a680",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "CodeMacroHelpers",
       "tested_code_sha": "d857894158de6fa8aab25106a8518bb902a902c0",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40510535680"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40510535680",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "ColonyLeaderBuild-ChatGPT",
-      "head_at_inventory": "26b6ff5428b9bff6d7f79ea2892e424a7444cf4a",
+      "head_at_inventory": "d3c5e6aeb2c29606d10cfbb931205c709e01250b",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "LeaderSpecificColonySplitVassal",
       "tested_code_sha": "26b6ff5428b9bff6d7f79ea2892e424a7444cf4a",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40527777945"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40527777945",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "CustomAIDiplomacyComments",
@@ -143,7 +164,7 @@
       "head_at_inventory": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
       "coverage": "source_review_partial",
       "native_verification": "draft_only_no_dll_build",
-      "next_action": "Party wrapper reviewed and repaired; finish missing engine classes, unit membership, ownership and versioned persistence before a complete-base DLL build.",
+      "next_action": "Skip unchanged source head and associated assistant integration/build work. Preserve previous findings; do not supply missing feature behavior.",
       "source_review_scope": "All XANA blocks read across 13 DLL files; scoped constructor/dispatch/null-boundary fixes only.",
       "review_document": "docs/reviews/party-wrapper-2026-10-27.md",
       "review_branch": "PartyWrapperDraft-ChatGPT",
@@ -151,7 +172,11 @@
       "finding_ids": [
         "PARTY-20261027-01",
         "PARTY-20261027-02"
-      ]
+      ],
+      "review_disposition": "skip_until_source_head_changes",
+      "skip_source_sha": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "skip_reason": "Wrappers reference CvPartyGroup/CvPartyGroupAI but engine implementations are absent; membership, ownership and persistence remain unspecified.",
+      "resume_condition": "The original non-assistant source branch head changes, indicating new source work; assess that delta before resuming."
     },
     {
       "branch": "dll-build",
@@ -175,24 +200,32 @@
       "source_branch": "FFHEquipmentTypes",
       "source_head": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
       "draft_code_sha": "8678e1efc07837a6f773652271b56d9b39eccad6",
-      "next_action": "Reuse this draft for coherent equipment integration; no workflow or DLL build present."
+      "next_action": "Retain draft/test evidence; pause feature completion and DLL attempts until original source head changes.",
+      "review_disposition": "paused_with_missing_source_implementation",
+      "skip_source_branch": "FFHEquipmentTypes",
+      "skip_source_sha": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5"
     },
     {
       "branch": "FamilyRelationsBuild-ChatGPT",
-      "head_at_inventory": "611a663f34e5c4943cfbdc99fd2af2c4cbd25a9d",
+      "head_at_inventory": "f07cf78b4afea17cef1514a1960890ab709c6e3d",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "LeaderFamilyRelations",
       "tested_code_sha": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "FFHEquipmentTypes",
       "head_at_inventory": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
       "coverage": "source_review_partial",
       "native_verification": "draft_only_no_dll_build",
-      "next_action": "Finish metadata/feasibility, slots/effects, XP/level lifecycle and versioned persistence before useful complete-base DLL validation; reuse EquipmentGatesDraft-ChatGPT.",
+      "next_action": "Skip unchanged source head and associated assistant integration/build work. Preserve previous findings; do not supply missing feature behavior.",
       "review_branch": "EquipmentGatesDraft-ChatGPT",
       "draft_code_sha": "8678e1efc07837a6f773652271b56d9b39eccad6",
       "source_review_scope": "XANA blocks in eight DLL files plus supplied XML/schema read; runtime unit acquisition/validity gates refined.",
@@ -201,92 +234,151 @@
         "EQUIPMENT-20261027-02",
         "EQUIPMENT-20261027-03"
       ],
-      "qualification": "Actual gate methods compiled in strict C++03 with simulated metadata/unit/team interfaces; no whole-feature or native DLL result."
+      "qualification": "Actual gate methods compiled in strict C++03 with simulated metadata/unit/team interfaces; no whole-feature or native DLL result.",
+      "review_disposition": "skip_until_source_head_changes",
+      "skip_source_sha": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+      "skip_reason": "CvEquipmentInfo lacks prerequisite/technology interfaces consumed by gates; static feasibility and slot/effect integration remain unfinished. Do not invent those interfaces or mechanics for a build.",
+      "resume_condition": "The original non-assistant source branch head changes, indicating new source work; assess that delta before resuming."
     },
     {
       "branch": "FFHRaceTypes",
       "head_at_inventory": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
       "coverage": "source_review_partial",
       "native_verification": "draft_only_no_dll_build",
-      "next_action": "Finish info declaration/reader consistency, cache readiness, unit lifecycle and versioned persistence before a complete-base DLL build; reuse the existing scoped draft.",
+      "next_action": "Reuse existing draft for info/XML/cache consistency, metadata readiness, lifecycle and versioned persistence before coherent native validation.",
       "review_branch": "RaceDemographicsDraft-ChatGPT",
       "source_review_scope": "All XANA blocks across 21 DLL files and race/class XML/schema read; weighted selection, Boolean lock accessor and unit creation scope refined.",
-      "draft_code_sha": "df98a66934ff1ecc810e19357c686834c6cfac24",
+      "draft_code_sha": "73dc2faf9e7efb807d20bcd7dc23c97f4f68b0c1",
       "finding_ids": [
         "RACE-20261027-01",
         "RACE-20261027-02",
-        "RACE-20261027-03"
+        "RACE-20261027-03",
+        "RACE-20261028-04"
       ],
-      "qualification": "Actual methods/accessor checked in C++03 engine stubs; finalizeInit call scope checked structurally. No whole-feature/native/gameplay validation."
+      "qualification": "Previous scoped race fixtures retained; actual civilization declaration/constructor/destructor/accessor checked under C++03/ASan/UBSan with dependencies stubbed. Loader/cache/DLL/game remain unverified."
     },
     {
       "branch": "FFHSpellCreationBuild-ChatGPT",
       "head_at_inventory": "581063899df1123d0a4e45f43ef1e5b346457701",
       "coverage": "spell_creation_scope_observed",
-      "native_verification": "unverified_in_this_ledger",
-      "next_action": "Read existing spell-creation work and CI results before extending review; remaining spell scope is pending."
+      "native_verification": "recorded_historical_build_failure",
+      "next_action": "Inspect existing assistant work and address scoped plot-storage/integration work before a new build; do not rerun unchanged failing head.",
+      "related_build_sha": "581063899df1123d0a4e45f43ef1e5b346457701",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40402742595",
+      "qualification": "Exact historical build head failed CvPlot.h:988 static assertion; no DLL artifact. Not a result for different source/fixes heads; authorized overlay provenance not re-certified."
     },
     {
       "branch": "FFHSpellCreationFixes-ChatGPT",
       "head_at_inventory": "aba892958cd98a04fac5aba63a828ef717cd7c10",
       "coverage": "spell_creation_scope_observed",
-      "native_verification": "unverified_in_this_ledger",
-      "next_action": "Read existing spell-creation work and CI results before extending review; remaining spell scope is pending."
+      "native_verification": "related_overlay_failed_no_standalone_result",
+      "next_action": "Inspect existing assistant work and address scoped plot-storage/integration work before a new build; do not rerun unchanged failing head.",
+      "related_build_sha": "581063899df1123d0a4e45f43ef1e5b346457701",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40402742595",
+      "qualification": "Exact historical build head failed CvPlot.h:988 static assertion; no DLL artifact. Not a result for different source/fixes heads; authorized overlay provenance not re-certified."
     },
     {
       "branch": "FFHSpellTypes",
       "head_at_inventory": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
       "coverage": "spell_creation_scope_observed",
-      "native_verification": "unverified_in_this_ledger",
-      "next_action": "Read existing spell-creation work and CI results before extending review; remaining spell scope is pending."
+      "native_verification": "related_overlay_failed_no_standalone_result",
+      "next_action": "Inspect existing assistant work and address scoped plot-storage/integration work before a new build; do not rerun unchanged failing head.",
+      "related_build_sha": "581063899df1123d0a4e45f43ef1e5b346457701",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40402742595",
+      "qualification": "Exact historical build head failed CvPlot.h:988 static assertion; no DLL artifact. Not a result for different source/fixes heads; authorized overlay provenance not re-certified."
     },
     {
       "branch": "FirstImpressionDiplomacyModifiers",
       "head_at_inventory": "cc764ad80e89f751f809998a61a23225254109f2",
-      "coverage": "earlier_source_review_partial",
-      "native_verification": "not_recorded",
-      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+      "coverage": "source_review_partial",
+      "native_verification": "readPass2_fixture_only_no_dll_build",
+      "next_action": "Review remaining source/schema/cache integration before complete-base DLL validation; preserve implemented signed modifier behavior.",
+      "refinement_branch": "FirstImpressionDraft-ChatGPT",
+      "draft_code_sha": "971d63a53deb940f7af13ce6bbe408c8559fb1b2",
+      "finding_ids": [
+        "FIRST-20261028-01"
+      ]
     },
     {
       "branch": "FreePromotionLoaderBuild-ChatGPT",
-      "head_at_inventory": "de661fec50860c3409630e1162bc5da63e8dcc5b",
+      "head_at_inventory": "cd3316f9b460d1962359833b3dc4fdb52b1d9f72",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "PerUnitCombatFreePromotionTraits",
       "tested_code_sha": "f5c7d3e40717fa2ac19324c70ee38882473632e3",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40556617050"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40556617050",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "FSimpleDataStorage",
       "head_at_inventory": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
-      "coverage": "earlier_source_review_partial",
-      "native_verification": "not_recorded",
-      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+      "coverage": "source_review_partial",
+      "native_verification": "scoped_template_fixture_only_no_dll_build",
+      "next_action": "Reuse draft for remaining const accessor, dimensions/overflow and element lifetime review; full DLL/game use remains unverified.",
+      "review_branch": "SimpleStorageChangeDraft-ChatGPT",
+      "draft_code_sha": "80aba592df6f12d4a3e85a615b615bb4a41763ee",
+      "finding_ids": [
+        "STORAGE-20261028-01",
+        "STORAGE-20261028-02",
+        "STORAGE-20261028-03"
+      ],
+      "source_review_scope": "Actual full header and deletion macro read; bool/int change dispatch and parse repair refined. Prior other storage observations remain unimplemented.",
+      "qualification": "Prior change-dispatch fixture retained; actual header int 2D copy/assignment/read/write checked C++03/ASan/UBSan with stream/allocation macros stubbed.",
+      "refinement_branch": "SimpleStorageChangeDraft-ChatGPT"
     },
     {
       "branch": "GenderCounterDraft-ChatGPT",
-      "head_at_inventory": "dd611543024315f513c2f58b6b7e601936b7df40",
+      "head_at_inventory": "732c70303b723f4061f75dd183ebefe543dd0dde",
       "source_branch": "GenderSpecificDiplomacy",
       "coverage": "counter_scope_only",
       "native_verification": "not_attempted_incomplete_feature",
       "focused_verification": "C++03 and ASan/UBSan methods/update fixture; XML scalar structure checks",
-      "next_action": "Complete remaining feature compilation, XML/help and versioned save integration before a pinned-overlay native build."
+      "next_action": "Reuse existing draft for actual ideology helper, paranoia, metadata and versioned persistence integration before native overlay validation.",
+      "draft_code_sha": "eefccff731f8cf35cbcd2ed9bae249974d0f9c61",
+      "finding_ids": [
+        "GENDER-20261027-01",
+        "GENDER-20261027-02",
+        "GENDER-20261027-03",
+        "GENDER-20261028-04"
+      ],
+      "review_branch": "GenderCounterDraft-ChatGPT",
+      "qualification": "Counter fixtures previously passed; two attitude helper bodies now pass 28,672 C++03/ASan/UBSan stubbed combinations. No full DLL/game/save result."
     },
     {
       "branch": "GenderSpecificDiplomacy",
       "head_at_inventory": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
       "coverage": "first_source_pass_counter_refinement",
       "native_verification": "not_attempted_incomplete_feature",
-      "next_action": "Complete integration and versioned save handling before a pinned-overlay DLL build.",
-      "refinement_branch": "GenderCounterDraft-ChatGPT"
+      "next_action": "Reuse existing draft for actual ideology helper, paranoia, metadata and versioned persistence integration before native overlay validation.",
+      "refinement_branch": "GenderCounterDraft-ChatGPT",
+      "draft_code_sha": "eefccff731f8cf35cbcd2ed9bae249974d0f9c61",
+      "finding_ids": [
+        "GENDER-20261027-01",
+        "GENDER-20261027-02",
+        "GENDER-20261027-03",
+        "GENDER-20261028-04"
+      ],
+      "review_branch": "GenderCounterDraft-ChatGPT",
+      "qualification": "Counter fixtures previously passed; two attitude helper bodies now pass 28,672 C++03/ASan/UBSan stubbed combinations. No full DLL/game/save result."
     },
     {
       "branch": "HatedCivicReligionDiplomacy",
       "head_at_inventory": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
-      "coverage": "earlier_source_review_partial",
-      "native_verification": "not_recorded",
-      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+      "coverage": "source_review_partial",
+      "native_verification": "counter_and_cache_fragment_fixture_only_no_dll_build",
+      "next_action": "Retain committed counter/cache repairs; review existing arithmetic, lifecycle/save versioning and integration before full DLL validation; do not invent scoring mechanics.",
+      "refinement_branch": "HatedDiplomacyDraft-ChatGPT",
+      "draft_code_sha": "bd9fe6e0816ed0f6c5311b5fb2aefa6505df4e5e",
+      "finding_ids": [
+        "HATED-20261028-01",
+        "HATED-20261028-02"
+      ],
+      "qualification": "Earlier observations now implemented: actual counter method and six-field marked cache blocks pass C++03/ASan/UBSan with dependencies stubbed. No full DLL/game/cache-ABI verification."
     },
     {
       "branch": "LeaderCivilizationDecisionPreferences",
@@ -300,32 +392,35 @@
       "head_at_inventory": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
       "coverage": "source_review_partial",
       "native_verification": "draft_only_no_dll_build",
-      "next_action": "Reuse SummonCatchupDraft-ChatGPT for selection, slot creation, transfers and event metadata integration before full pinned-base DLL validation.",
+      "next_action": "Reuse existing draft for remaining selection/availability, RNG weight limits, slot creation, transfers and metadata integration before native validation.",
       "review_branch": "SummonCatchupDraft-ChatGPT",
-      "draft_code_sha": "81ce891bc0d9bc6e2b51e7be89a417ac58c2b4fe",
+      "draft_code_sha": "c04de7e1dcaf8509fa0f0c844189c17afbf98345",
       "source_review_scope": "World tech diffusion and lower-median era helper evaluated; adjacent event call paths read. Remaining selection/transfer/metadata scope not certified.",
       "finding_ids": [
         "SUMMON-20261027-01",
         "SUMMON-20261027-02",
-        "SUMMON-20261027-03"
+        "SUMMON-20261027-03",
+        "SUMMON-20261028-04"
       ],
-      "qualification": "Actual helper bodies checked under C++03/ASan/UBSan with engine/RNG stubs. One-attempt probability policy is a proposed mechanics refinement; no whole-feature/native/gameplay result."
+      "qualification": "Actual catchup helpers previously checked; civilization-first leader selector checked under C++03/ASan/UBSan with engine/metadata/RNG stubs. Four call sites structural only; no full DLL or gameplay result."
     },
     {
       "branch": "LeaderCivilizationVariantMechanics",
       "head_at_inventory": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
       "coverage": "source_review_partial",
       "native_verification": "draft_only_no_dll_build",
-      "next_action": "Reuse PlotTimerDraft-ChatGPT for further feature integration review before full pinned-base DLL validation.",
+      "next_action": "Reuse existing draft for map stream version/lifecycle integration, restoration edge policies and broader gameplay-mechanic metadata before full pinned-base DLL validation.",
       "review_branch": "PlotTimerDraft-ChatGPT",
-      "draft_code_sha": "d3989b6ff7feeabad3681795edeeee4420af7895",
+      "draft_code_sha": "6cce496f0f0de61f236b1be2ad7a3d6299b0e2e3",
       "source_review_scope": "Temporary plot timer wrappers and complete supporting PlotTempChangeMap component; map and UI consumers read for context. Other gameplay-mechanic loading/player/yield scopes not certified.",
       "finding_ids": [
         "PLOTTIMER-20261027-01",
         "PLOTTIMER-20261027-02",
-        "PLOTTIMER-20261027-03"
+        "PLOTTIMER-20261027-03",
+        "PLOTTIMER-20261028-04",
+        "PLOTTIMER-20261028-05"
       ],
-      "qualification": "Actual component and timer wrappers passed strict C++03/ASan/UBSan with engine/enum-map stubs; not native MSVC, full DLL, save or gameplay validation."
+      "qualification": "Actual timer methods previously checked; marked ownership snippets with modeled lifecycle and actual doTurn pass C++03/ASan/UBSan. No full map/MSVC/DLL/game verification."
     },
     {
       "branch": "LeaderFamilyRelations",
@@ -368,8 +463,12 @@
       "head_at_inventory": "484412d0de7e42e2d310bb39e75340fc5307f597",
       "coverage": "source_inventory_no_implementation",
       "native_verification": "not_applicable_readme_only",
-      "next_action": "Revisit if implementation files are added.",
-      "review_branch": "ReputationWindowDraft-ChatGPT"
+      "next_action": "Skip unchanged source head and associated assistant integration/build work. Preserve previous findings; do not supply missing feature behavior.",
+      "review_branch": "ReputationWindowDraft-ChatGPT",
+      "review_disposition": "skip_until_source_head_changes",
+      "skip_source_sha": "484412d0de7e42e2d310bb39e75340fc5307f597",
+      "skip_reason": "README-only; no decision-evaluation implementation.",
+      "resume_condition": "The original non-assistant source branch head changes, indicating new source work; assess that delta before resuming."
     },
     {
       "branch": "LeaderSpecificRebelliousTeamDiplomaticDecisions",
@@ -403,30 +502,51 @@
     {
       "branch": "LeaderSpecificVoteActionDiplomacy",
       "head_at_inventory": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
-      "coverage": "counter_scope_only",
-      "native_verification": "not_attempted_incomplete_feature",
-      "next_action": "Review remaining XML, lifecycle and save integration before native validation.",
-      "refinement_branch": "VoteCounterDraft-ChatGPT"
+      "coverage": "source_review_partial",
+      "native_verification": "counter_and_loader_fixtures_only_no_dll_build",
+      "next_action": "Review existing lifecycle/persistence, real schema and loader integration before native validation; preserve positional source format and do not invent missing mechanics.",
+      "refinement_branch": "VoteCounterDraft-ChatGPT",
+      "draft_code_sha": "45de0c4d322d916e2bafe8a250457d263d3808d2",
+      "finding_ids": [
+        "VOTE-20261027-01",
+        "VOTE-20261027-02",
+        "VOTE-20261027-03",
+        "VOTE-20261028-04",
+        "VOTE-20261028-05"
+      ],
+      "source_head": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
+      "source_branch": "LeaderSpecificVoteActionDiplomacy",
+      "qualification": "Actual counter methods and readPass3 pass scoped C++03 fixtures; loader uses minimal tree/cursor stub with ASan/UBSan. No engine XML, MSVC/DLL, schema, persistence or game verification."
     },
     {
       "branch": "LeaderTeamSizeBuild-ChatGPT",
-      "head_at_inventory": "23b8e74ea630209d67deaa53475d31113bd614b1",
+      "head_at_inventory": "a2f01100680d037b72d4cc08e3661950cff5984e",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "LeaderSpecificTeamSizeAttitude",
       "tested_code_sha": "23b8e74ea630209d67deaa53475d31113bd614b1",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "LLMDiplomacyTextBuild-ChatGPT",
-      "head_at_inventory": "e78042e11f89529500fec500a4dea71f27f0d215",
+      "head_at_inventory": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "LLMDiplomacyTextGeneration",
       "tested_code_sha": "6d106160bfc778b47274ef2025f02e68d183f3af",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "LLMDiplomacyTextGeneration",
@@ -441,7 +561,7 @@
     },
     {
       "branch": "PartnerDiplomacyBuild-ChatGPT",
-      "head_at_inventory": "8b0b7827c7147aca4a0a903b551832f0622405ba",
+      "head_at_inventory": "95d8dc3c13a31425d8691c2ea7c02ddd686e2738",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "source_branch": "PartnerLeaderCivSpecificDiplomacyText",
@@ -457,6 +577,11 @@
       "artifacts": {
         "Release": 12786902132,
         "Debug": 12786932516
+      },
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
       }
     },
     {
@@ -493,7 +618,10 @@
       "source_branch": "CvPartyGroup",
       "source_head": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
       "draft_code_sha": "a62534896395531bde41fca2ab1b880e5d203706",
-      "next_action": "Reuse this isolated branch for party integration; wrapper stubs passing does not establish a DLL or gameplay result."
+      "next_action": "Retain draft/test evidence; pause feature completion and DLL attempts until original source head changes.",
+      "review_disposition": "paused_with_missing_source_implementation",
+      "skip_source_branch": "CvPartyGroup",
+      "skip_source_sha": "c6b1b14d0263196c497d8dcf85da41982d5ec7af"
     },
     {
       "branch": "PerUnitCombatFreePromotionTraits",
@@ -519,14 +647,22 @@
     },
     {
       "branch": "PlotTimerDraft-ChatGPT",
-      "head_at_inventory": "16e8e116231e952d4829229c8b1124a289f59227",
+      "head_at_inventory": "811dc16daa7766051f540422f63830f2196e4038",
       "coverage": "published_review_artifact",
       "native_verification": "draft_only_no_dll_build",
       "source_branch": "LeaderCivilizationVariantMechanics",
       "source_head": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
-      "draft_code_sha": "d3989b6ff7feeabad3681795edeeee4420af7895",
-      "next_action": "Reuse this isolated branch for remaining integration; no workflow or DLL build present.",
-      "inventory_note": "Code SHA recorded here; this commit is followed by the associated documentation-only publication."
+      "draft_code_sha": "6cce496f0f0de61f236b1be2ad7a3d6299b0e2e3",
+      "next_action": "Reuse existing draft for map stream version/lifecycle integration, restoration edge policies and broader gameplay-mechanic metadata before full pinned-base DLL validation.",
+      "inventory_note": "Code SHA recorded here; this commit is followed by the associated documentation-only publication.",
+      "finding_ids": [
+        "PLOTTIMER-20261027-01",
+        "PLOTTIMER-20261027-02",
+        "PLOTTIMER-20261027-03",
+        "PLOTTIMER-20261028-04",
+        "PLOTTIMER-20261028-05"
+      ],
+      "qualification": "Actual timer methods previously checked; marked ownership snippets with modeled lifecycle and actual doTurn pass C++03/ASan/UBSan. No full map/MSVC/DLL/game verification."
     },
     {
       "branch": "PromotionAltersUnitHPValues",
@@ -555,50 +691,68 @@
     },
     {
       "branch": "PromotionXPBuild-ChatGPT",
-      "head_at_inventory": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
+      "head_at_inventory": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "PromotionAltersUnitXPValues",
       "tested_code_sha": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40518367294"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40518367294",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "RaceDemographicsDraft-ChatGPT",
-      "head_at_inventory": "c51f157812cfe248f07fcccf1eed7a5fa0a760a9",
+      "head_at_inventory": "2151dc14537e057b35d218be161c6ef0ffec9ff7",
       "coverage": "published_review_artifact",
       "native_verification": "draft_only_no_dll_build",
       "source_branch": "FFHRaceTypes",
       "source_head": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
-      "draft_code_sha": "df98a66934ff1ecc810e19357c686834c6cfac24",
-      "next_action": "Reuse this isolated draft for remaining race integration; no workflow or DLL build is present."
+      "draft_code_sha": "73dc2faf9e7efb807d20bcd7dc23c97f4f68b0c1",
+      "next_action": "Reuse existing draft for info/XML/cache consistency, metadata readiness, lifecycle and versioned persistence before coherent native validation.",
+      "finding_ids": [
+        "RACE-20261027-01",
+        "RACE-20261027-02",
+        "RACE-20261027-03",
+        "RACE-20261028-04"
+      ],
+      "qualification": "Previous scoped race fixtures retained; actual civilization declaration/constructor/destructor/accessor checked under C++03/ASan/UBSan with dependencies stubbed. Loader/cache/DLL/game remain unverified."
     },
     {
       "branch": "RealisticAIDecisions",
       "head_at_inventory": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
       "coverage": "source_review_partial",
       "native_verification": "draft_only_no_dll_build",
-      "next_action": "Reuse existing draft for remaining alignment/reputation metadata, decay, versioned persistence and AI integration before full pinned-base DLL validation.",
+      "next_action": "Review remaining alignment aggregation, turn-window policy and versioned persistence before coherent full DLL validation.",
       "review_branch": "ReputationWindowDraft-ChatGPT",
-      "draft_code_sha": "ab9846a637dfc2847349cb63d398017f7d8d4c3a",
+      "draft_code_sha": "da3311fbba55d767538e424d4818e1ba9f5b6d7b",
       "finding_ids": [
         "REPUTATION-20261028-01",
         "REPUTATION-20261028-02",
         "REPUTATION-20261028-03",
-        "REPUTATION-20261028-04"
+        "REPUTATION-20261028-04",
+        "ALIGNMENT-20261028-01"
       ],
       "source_review_scope": "Completed-turn score window/defaults plus player score-vector load cardinality and const serialization; remaining feature scopes unverified.",
-      "qualification": "Actual score methods and player score read/write blocks passed C++03/ASan/UBSan with a byte-buffer stream stub; no full DLL/game save/Windows ABI validation."
+      "qualification": "Prior reputation fixtures retained; actual four alignment change methods/helper and class header pass 810 C++03/ASan/UBSan edge combinations with surrounding types stubbed. No full DLL/game verification."
     },
     {
       "branch": "RenegadeDiplomacyBuild-ChatGPT",
-      "head_at_inventory": "a73a9abf5f74442825b5661499c01ca2fee4ac73",
+      "head_at_inventory": "6660adfd2883b8286c9fbd759f310b6da7dd4c86",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "LeaderSpecificRebelliousTeamDiplomaticDecisions",
       "tested_code_sha": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "SerializationHelpers",
@@ -613,17 +767,22 @@
     },
     {
       "branch": "SerializationHelpersBuild-ChatGPT",
-      "head_at_inventory": "3535810625f27e8207e4731e2dcf848c924cd0fd",
+      "head_at_inventory": "6b74935fd718db11c108ae2feeb4c6c961a22bd4",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "SerializationHelpers",
       "tested_code_sha": "3535810625f27e8207e4731e2dcf848c924cd0fd",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40459830260"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40459830260",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "SidSaysDiscoveryBuild-ChatGPT",
-      "head_at_inventory": "fb78b2c3a9750f4fbe5920a9aa6d9f8575fa6061",
+      "head_at_inventory": "507912e1f5bc2002b876789bc02d62eff6c0ac05",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "source_branch": "SidSaysPatch",
@@ -639,7 +798,12 @@
         "Release",
         "Debug"
       ],
-      "compiler": "_MSC_VER == 1310 (MSVC 7.1)"
+      "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "SidSaysPatch",
@@ -668,88 +832,169 @@
     },
     {
       "branch": "SummonCatchupDraft-ChatGPT",
-      "head_at_inventory": "59393f566d83bb2004dec0a061b420bc95584fa7",
+      "head_at_inventory": "e95511664e4360e643ad732bcafb99cd95bf4341",
       "coverage": "published_review_artifact",
       "native_verification": "draft_only_no_dll_build",
       "source_branch": "LeaderCivilizationSummoningRandomEvents",
       "source_head": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
-      "draft_code_sha": "81ce891bc0d9bc6e2b51e7be89a417ac58c2b4fe",
-      "next_action": "Reuse this isolated branch for remaining summoning integration; no workflow or DLL build present."
+      "draft_code_sha": "c04de7e1dcaf8509fa0f0c844189c17afbf98345",
+      "next_action": "Reuse existing draft for remaining selection/availability, RNG weight limits, slot creation, transfers and metadata integration before native validation.",
+      "finding_ids": [
+        "SUMMON-20261027-01",
+        "SUMMON-20261027-02",
+        "SUMMON-20261027-03",
+        "SUMMON-20261028-04"
+      ],
+      "qualification": "Actual catchup helpers previously checked; civilization-first leader selector checked under C++03/ASan/UBSan with engine/metadata/RNG stubs. Four call sites structural only; no full DLL or gameplay result."
     },
     {
       "branch": "UniqueCivicsReligions",
       "head_at_inventory": "d0fc7c0f93320e112903416c17bb2a2030819d60",
       "coverage": "source_review_partial",
-      "native_verification": "python_only_draft_no_dll_build",
-      "next_action": "Reuse CivicScrollDraft-ChatGPT for remaining native eligibility, metadata, XML, binding and religion UI review.",
+      "native_verification": "scoped_native_gate_fixture_only_no_dll_build",
+      "next_action": "Reuse draft for existing metadata/loading, binding, actual caller execution and whole-feature native validation; do not invent missing rules.",
       "review_branch": "CivicScrollDraft-ChatGPT",
-      "draft_code_sha": "fa34c89ad3d8507235a3d4c082b6710e305f5265",
+      "draft_code_sha": "30fb84064c9c791868d70582875e7a8e01814df4",
       "finding_ids": [
-        "CIVICUI-20261028-01"
+        "CIVICUI-20261028-01",
+        "RELIGIONUI-20261028-01",
+        "RELIGION-20261028-01"
       ],
-      "source_review_scope": "Civic-screen XANA draw/visibility blocks; marked player/metadata/religion-screen consumers read for context. Other integration scopes unverified."
+      "source_review_scope": "Civic-screen XANA draw/visibility blocks; marked player/metadata/religion-screen consumers read for context. Other integration scopes unverified.",
+      "qualification": "UI fixtures retained; actual canDoReligion/isAllowedReligion passed 72 C++03/ASan/UBSan prerequisite/presence combinations with engine stubs. No full DLL/game result."
     },
     {
       "branch": "UnitCombatUpgradeBuild-ChatGPT",
-      "head_at_inventory": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+      "head_at_inventory": "cb5e560613ea2bbc9c04c84f1888d2440028a6d5",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "PerUnitCombatUpgradeCostModifers",
       "tested_code_sha": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509"
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509",
+      "last_head_review": {
+        "classification": "documentation_only",
+        "production_changes": false,
+        "tested_code_sha_unchanged": true
+      }
     },
     {
       "branch": "UnitStatusEffects",
       "head_at_inventory": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed",
       "coverage": "deferred_readme_only",
       "native_verification": "not_applicable_no_implementation",
-      "next_action": "Skip until implementation is added or review is requested.",
-      "qualification": "Complete recursive tree verified README-only."
+      "next_action": "Skip unchanged source head and associated assistant integration/build work. Preserve previous findings; do not supply missing feature behavior.",
+      "qualification": "Complete recursive tree verified README-only.",
+      "review_disposition": "skip_until_source_head_changes",
+      "skip_source_sha": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed",
+      "skip_reason": "README-only; no status-effect implementation or mechanics data.",
+      "resume_condition": "The original non-assistant source branch head changes, indicating new source work; assess that delta before resuming."
     },
     {
       "branch": "VoteCounterDraft-ChatGPT",
-      "head_at_inventory": "b3df449e475b9603566ceebc5a49ede9c42e8ca6",
-      "coverage": "counter_scope_only",
-      "native_verification": "not_attempted_incomplete_feature",
-      "next_action": "Review remaining XML, lifecycle and save integration before native validation.",
-      "refinement_branch": "VoteCounterDraft-ChatGPT"
+      "head_at_inventory": "5b177667e39f6b878d42af0afb3be89979d3c513",
+      "coverage": "published_review_artifact",
+      "native_verification": "counter_and_loader_fixtures_only_no_dll_build",
+      "next_action": "Review existing lifecycle/persistence, real schema and loader integration before native validation; preserve positional source format and do not invent missing mechanics.",
+      "refinement_branch": "VoteCounterDraft-ChatGPT",
+      "draft_code_sha": "45de0c4d322d916e2bafe8a250457d263d3808d2",
+      "finding_ids": [
+        "VOTE-20261027-01",
+        "VOTE-20261027-02",
+        "VOTE-20261027-03",
+        "VOTE-20261028-04",
+        "VOTE-20261028-05"
+      ],
+      "source_head": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
+      "source_branch": "LeaderSpecificVoteActionDiplomacy",
+      "qualification": "Actual counter methods and readPass3 pass scoped C++03 fixtures; loader uses minimal tree/cursor stub with ASan/UBSan. No engine XML, MSVC/DLL, schema, persistence or game verification."
     },
     {
       "branch": "ReputationWindowDraft-ChatGPT",
-      "head_at_inventory": "ab9846a637dfc2847349cb63d398017f7d8d4c3a",
+      "head_at_inventory": "da3311fbba55d767538e424d4818e1ba9f5b6d7b",
       "coverage": "published_review_artifact",
       "native_verification": "draft_only_no_dll_build",
       "source_branch": "RealisticAIDecisions",
       "source_head": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
-      "draft_code_sha": "ab9846a637dfc2847349cb63d398017f7d8d4c3a",
-      "next_action": "Reuse existing draft for remaining alignment/reputation metadata, decay, versioned persistence and AI integration before full pinned-base DLL validation.",
+      "draft_code_sha": "da3311fbba55d767538e424d4818e1ba9f5b6d7b",
+      "next_action": "Review remaining alignment aggregation, turn-window policy and versioned persistence before coherent full DLL validation.",
       "finding_ids": [
         "REPUTATION-20261028-01",
         "REPUTATION-20261028-02",
         "REPUTATION-20261028-03",
-        "REPUTATION-20261028-04"
+        "REPUTATION-20261028-04",
+        "ALIGNMENT-20261028-01"
       ],
-      "qualification": "Actual score methods and player score read/write blocks passed C++03/ASan/UBSan with a byte-buffer stream stub; no full DLL/game save/Windows ABI validation."
+      "qualification": "Prior reputation fixtures retained; actual four alignment change methods/helper and class header pass 810 C++03/ASan/UBSan edge combinations with surrounding types stubbed. No full DLL/game verification."
     },
     {
       "branch": "CivicScrollDraft-ChatGPT",
-      "head_at_inventory": "8e39f14d0469e4cad7e1a5c255b35c26c04eb97f",
+      "head_at_inventory": "f85393be51e32f7440fedc3e4f7946d8b56f25cb",
       "coverage": "published_review_artifact",
-      "native_verification": "python_only_draft_no_dll_build",
+      "native_verification": "scoped_native_gate_fixture_only_no_dll_build",
       "source_branch": "UniqueCivicsReligions",
       "source_head": "d0fc7c0f93320e112903416c17bb2a2030819d60",
-      "draft_code_sha": "fa34c89ad3d8507235a3d4c082b6710e305f5265",
-      "next_action": "Reuse for further feature review; code SHA followed by documentation-only commit."
+      "draft_code_sha": "30fb84064c9c791868d70582875e7a8e01814df4",
+      "next_action": "Reuse draft for existing metadata/loading, binding, actual caller execution and whole-feature native validation; do not invent missing rules.",
+      "finding_ids": [
+        "CIVICUI-20261028-01",
+        "RELIGIONUI-20261028-01",
+        "RELIGION-20261028-01"
+      ],
+      "qualification": "UI fixtures retained; actual canDoReligion/isAllowedReligion passed 72 C++03/ASan/UBSan prerequisite/presence combinations with engine stubs. No full DLL/game result."
+    },
+    {
+      "branch": "SimpleStorageChangeDraft-ChatGPT",
+      "head_at_inventory": "540b0f094b81ef8b41f425ca50630e516dc0f76b",
+      "coverage": "published_review_artifact",
+      "native_verification": "scoped_template_fixture_only_no_dll_build",
+      "source_branch": "FSimpleDataStorage",
+      "source_head": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+      "draft_code_sha": "80aba592df6f12d4a3e85a615b615bb4a41763ee",
+      "next_action": "Reuse draft for remaining const accessor, dimensions/overflow and element lifetime review; full DLL/game use remains unverified.",
+      "refinement_branch": "SimpleStorageChangeDraft-ChatGPT",
+      "finding_ids": [
+        "STORAGE-20261028-01",
+        "STORAGE-20261028-02",
+        "STORAGE-20261028-03"
+      ],
+      "qualification": "Prior change-dispatch fixture retained; actual header int 2D copy/assignment/read/write checked C++03/ASan/UBSan with stream/allocation macros stubbed."
+    },
+    {
+      "branch": "HatedDiplomacyDraft-ChatGPT",
+      "head_at_inventory": "c45a473baa07adc9cfbe898f17e074025902016a",
+      "coverage": "published_review_artifact",
+      "native_verification": "counter_and_cache_fragment_fixture_only_no_dll_build",
+      "source_branch": "HatedCivicReligionDiplomacy",
+      "source_head": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+      "draft_code_sha": "bd9fe6e0816ed0f6c5311b5fb2aefa6505df4e5e",
+      "finding_ids": [
+        "HATED-20261028-01",
+        "HATED-20261028-02"
+      ],
+      "next_action": "Review remaining implemented arithmetic and save/lifecycle integration; no full DLL result.",
+      "qualification": "Code SHA followed by documentation-only publication; original source unchanged."
+    },
+    {
+      "branch": "FirstImpressionDraft-ChatGPT",
+      "head_at_inventory": "b3441eda5865a7a7b7035f416eceafe4937297c4",
+      "coverage": "published_review_artifact",
+      "source_branch": "FirstImpressionDiplomacyModifiers",
+      "source_head": "cc764ad80e89f751f809998a61a23225254109f2",
+      "draft_code_sha": "971d63a53deb940f7af13ce6bbe408c8559fb1b2",
+      "native_verification": "readPass2_fixture_only_no_dll_build",
+      "finding_ids": [
+        "FIRST-20261028-01"
+      ],
+      "next_action": "Continue remaining integration review; code SHA followed by documentation-only commit."
     }
   ],
   "current_pass": {
     "source_branch": "RealisticAIDecisions",
     "refinement_branch": "ReputationWindowDraft-ChatGPT",
-    "draft_code_sha": "ab9846a637dfc2847349cb63d398017f7d8d4c3a",
+    "draft_code_sha": "da3311fbba55d767538e424d4818e1ba9f5b6d7b",
     "finding_ids": [
-      "REPUTATION-20261028-03",
-      "REPUTATION-20261028-04"
+      "ALIGNMENT-20261028-01"
     ],
     "dll_build_triggered": false,
     "first_pass_pending": []
