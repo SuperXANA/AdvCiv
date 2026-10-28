@@ -127,3 +127,20 @@ All XANA blocks in LeaderFamilyRelations' nine DLL files were inspected at the
 reviewed SHA; the unmarked text-manager files were not attributed to the mod.
 Repository heads were unchanged since the prior pass. Existing SQLite, LLM,
 spell-creation, vote-counter and free-promotion assistant work was left intact.
+
+## MSVC 7.1 build confirmation — 2026-10-28
+
+The successful [DLL build run 40564726051](https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051)
+for `FamilyRelationsBuild-ChatGPT` at commit
+`5b41bb1d9598a514c99f8fe8e59333a884f56c0b` completed Release and Debug compilation,
+linking and DLL artifact upload. This proves that the assistant-refactored code
+at that revision builds under MSVC 7.1 (the Visual Studio 2003 C/C++ compiler).
+
+The remote environment initializes Visual Studio 2010's `vcvarsall.bat` and
+uses MSBuild to invoke the NMake project. The machine-local
+`R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
+compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
+the DLL's C/C++ compilation uses MSVC 7.1.
+
+Both configuration logs additionally confirm the compiler probe:
+`Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1).`
