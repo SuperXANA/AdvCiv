@@ -54,3 +54,20 @@ Both jobs passed the compiler probe, forced rebuild, DLL copy, artifact upload a
 Tree verification confirmed all **872 baseline blobs retained**, with only SelfMod.cpp and SelfMod.h modified among baseline files. Tests, workflow and review documentation are additive. The documentation/coverage follow-up does not change the tested DLL code and does not trigger another build.
 
 The coverage ledger records this changed-head review separately from the unchanged source. Eleven first-pass branches remain pending, alongside previously recorded partial/integration work. The stop gate remains false. FFHRaceTypes was inventoried and its XANA blocks read for triage, but evaluation/refinement was deferred when the changed SidSaysPatch head took priority; it remains pending.
+
+## MSVC 7.1 build confirmation — 2026-10-28
+
+The successful [DLL build run 40604520179](https://github.com/SuperXANA/AdvCiv/actions/runs/40604520179)
+for `SidSaysDiscoveryBuild-ChatGPT` at commit
+`e58809298b28163773301b58a9def25af3fe2bd7` completed Release and Debug compilation,
+linking and DLL artifact upload. This proves that the assistant-refactored code
+at that revision builds under MSVC 7.1 (the Visual Studio 2003 C/C++ compiler).
+
+The remote environment initializes Visual Studio 2010's `vcvarsall.bat` and
+uses MSBuild to invoke the NMake project. The machine-local
+`R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
+compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
+the DLL's C/C++ compilation uses MSVC 7.1.
+
+Both configuration logs additionally confirm the compiler probe:
+`Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1).`
