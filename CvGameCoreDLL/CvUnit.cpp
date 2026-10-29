@@ -10484,7 +10484,7 @@ int CvUnit::getSubUnitsAlive(int iDamage) const
 }
 
 // XANA: 11-15-2025 Promotion HP Changes
-int CvUnit::getMaxHPValueModifier()
+int CvUnit::getMaxHPValueModifier() const
 {
 	return m_iMaxHPValueModifier;
 }

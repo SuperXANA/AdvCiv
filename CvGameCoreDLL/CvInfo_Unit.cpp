@@ -1814,7 +1814,7 @@ m_pbTerrainDoubleMove(NULL),
 m_pbFeatureDoubleMove(NULL),
 m_pbUnitCombat(NULL),
 // XANA: 11-15-2025 Promotion HP Changes
-getMaxHPValueChange(0)
+m_iMaxHPValueChange(0)
 // XANA: 11-15-2025 Promotion HP Changes
 {}
 

@@ -1094,6 +1094,7 @@ public:
 	
 	// XANA: 11-15-2025 Promotion HP Changes
 	int getMaxHPValueModifier() const;
+	void changeMaxHPValueModifier(int iChange);
 	// XANA: 11-15-2025 Promotion HP Changes
 	
 protected:
