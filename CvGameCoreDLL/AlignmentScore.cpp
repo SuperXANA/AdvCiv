@@ -89,24 +89,29 @@ void AlignmentScore::decay()
 	}
 }
 
+// XANA: 10-29-2026 Wide alignment aggregation (ChatGPT)
 std::pair<int,int> AlignmentScore::get() const
 {
-    if (m_iCount == 0)
-    {
-        return std::pair<int,int>((m_iBaseHigh + m_iPermHigh),
-        	(m_iBaseLow + m_iPermLow));
-    }
-    int iSumHigh = 0;
-    int iSumLow = 0;
+    typedef product_int_type<int,int>::type WideInt;
+    WideInt sumHigh = 0, sumLow = 0;
     for (int i = 0; i < m_iCount; ++i)
     {
-        const AlignmentValue& kAlignmentValue = m_buffer[index(i)];
-        iSumHigh += kAlignmentValue.iHigh;
-        iSumLow += kAlignmentValue.iLow;
+        const AlignmentValue& value = m_buffer[index(i)];
+        sumHigh += value.iHigh;
+        sumLow += value.iLow;
     }
-    return std::pair<int,int>(((m_iBaseHigh + m_iPermHigh) + (iSumHigh / m_iCount)),
-		((m_iBaseLow + m_iPermLow) + (iSumLow / m_iCount)));
+    WideInt high = WideInt(m_iBaseHigh) + m_iPermHigh;
+    WideInt low = WideInt(m_iBaseLow) + m_iPermLow;
+    if (m_iCount > 0)
+    {
+        high += sumHigh / m_iCount;
+        low += sumLow / m_iCount;
+    }
+    high = std::max(WideInt(MIN_INT), std::min(WideInt(MAX_INT), high));
+    low = std::max(WideInt(MIN_INT), std::min(WideInt(MAX_INT), low));
+    return std::pair<int,int>(static_cast<int>(high), static_cast<int>(low));
 }
+// XANA: 10-29-2026 Wide alignment aggregation (ChatGPT)
 
 void AlignmentScore::read(FDataStreamBase* pStream)
 {
