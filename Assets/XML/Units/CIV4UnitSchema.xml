@@ -528,6 +528,25 @@
 	</ElementType>
 	<ElementType name="LeaderPromotion" content="textOnly"/>
 	<ElementType name="iLeaderExperience" content="textOnly" dt:type="int"/>
+	<!-- XANA: 04-19-2025 FfH Damage Types for AdvancedCiv -->
+	<ElementType name="DamageType" content="textOnly"/>
+	<ElementType name="iExtraStrength" content="textOnly" dt:type="int"/>
+	<ElementType name="iExtraDefense" content="textOnly" dt:type="int"/>
+	<ElementType name="DamageTypeCombat" content="eltOnly">
+		<element type="DamageType"/>
+		<element type="iExtraStrength"/>
+	</ElementType>
+	<ElementType name="DamageTypeResist" content="eltOnly">
+		<element type="DamageType"/>
+		<element type="iExtraDefense"/>
+	</ElementType>
+	<ElementType name="DamageTypeCombats" content="eltOnly">
+		<element type="DamageTypeCombat" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<ElementType name="DamageTypeResists" content="eltOnly">
+		<element type="DamageTypeResist" minOccurs="0" maxOccurs="*"/>
+	</ElementType>
+	<!-- XANA: 04-19-2025 FfH Damage Types for AdvancedCiv -->
 	<ElementType name="UnitInfo" content="eltOnly">
 		<element type="Class"/>
 		<element type="Type"/>
@@ -695,6 +714,10 @@
 		<element type="LeaderPromotion"/>
 		<element type="iLeaderExperience"/>
 		<element type="iOrderPriority" minOccurs="0"/>
+	<!-- XANA: 04-19-2025 FfH Damage Types for AdvancedCiv -->
+		<element type="DamageTypeCombats" minOccurs="0"/>
+		<element type="DamageTypeResists" minOccurs="0"/>
+	<!-- XANA: 04-19-2025 FfH Damage Types for AdvancedCiv -->
 	</ElementType>
 	<ElementType name="UnitInfos" content="eltOnly">
 		<element type="UnitInfo" maxOccurs="*"/>
@@ -927,6 +950,10 @@
 		<element type="iHotKeyPriority"/>
 		<element type="Button" maxOccurs="*"/>
 		<element type="iOrderPriority" minOccurs="0"/>
+	<!-- XANA: 04-19-2025 FfH Damage Types for AdvancedCiv -->
+		<element type="DamageTypeCombats" minOccurs="0"/>
+		<element type="DamageTypeResists" minOccurs="0"/>
+	<!-- XANA: 04-19-2025 FfH Damage Types for AdvancedCiv -->
 	</ElementType>
 	<ElementType name="PromotionInfos" content="eltOnly">
 		<element type="PromotionInfo" maxOccurs="*"/>
