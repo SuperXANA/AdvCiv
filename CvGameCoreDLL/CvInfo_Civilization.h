@@ -306,7 +306,7 @@ protected:
 // XANA: 11-29-2025 Leader Specific Dynamic Rank Diplomacy
 	int m_iShareRelativeProgressAttitudeChange;
 	int m_iShareRelativeProgressAttitudeChangeDivisor;
-	int m_iShareRelativeProgressAttitudeChangLimit;
+	int m_iShareRelativeProgressAttitudeChangeLimit;
 // XANA: 11-29-2025 Leader Specific Dynamic Rank Diplomacy
 	int m_iDemandTributeAttitudeThreshold;
 	int m_iNoGiveHelpAttitudeThreshold;

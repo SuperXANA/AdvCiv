@@ -19513,7 +19513,7 @@ void CvPlayerAI::AI_doCounter()
 			kGame.getPlayerRank(ePlayer) * eCooperationAttitudeThreshold >= iTotalPlayers &&
 			// Don't cooperate immediately if just met
 			kOurTeam.AI_getHasMetCounter(kPlayer.getTeam()) >
-			2 * abs(kPersonality.getShareRelativeProgressAttitudeDivisor()))
+			2 * abs(kPersonality.getShareRelativeProgressAttitudeChangeDivisor()))
 		{
 			AI_changeShareRelativeProgressCounter(ePlayer,
 					kOurTeam.AI_randomCounterChange());

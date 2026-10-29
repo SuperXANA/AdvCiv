@@ -461,7 +461,7 @@ m_iFavoriteCivicAttitudeDivisor(0),
 m_iFavoriteCivicAttitudeChangeLimit(0),
 // XANA: 11-29-2025 Leader Specific Dynamic Rank Diplomacy
 m_iShareRelativeProgressAttitudeChange(0),
-m_iShareRelativeProgressAttitudeDivisor(0),
+m_iShareRelativeProgressAttitudeChangeDivisor(0),
 m_iShareRelativeProgressAttitudeChangeLimit(0),
 // XANA: 11-29-2025 Leader Specific Dynamic Rank Diplomacy
 m_iDemandTributeAttitudeThreshold(NO_ATTITUDE),
@@ -733,7 +733,7 @@ void CvLeaderHeadInfo::read(FDataStreamBase* stream)
 	stream->Read(&m_iFavoriteCivicAttitudeChangeLimit);
 // XANA: 11-29-2025 Leader Specific Dynamic Rank Diplomacy
 	stream->Read(&m_iShareRelativeProgressAttitudeChange);
-	stream->Read(&m_iShareRelativeProgressAttitudeDivisor);
+	stream->Read(&m_iShareRelativeProgressAttitudeChangeDivisor);
 	stream->Read(&m_iShareRelativeProgressAttitudeChangeLimit);
 // XANA: 11-29-2025 Leader Specific Dynamic Rank Diplomacy
 	stream->Read(&m_iDemandTributeAttitudeThreshold);
@@ -877,7 +877,7 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
 	stream->Write(m_iFavoriteCivicAttitudeChangeLimit);
 // XANA: 11-29-2025 Leader Specific Dynamic Rank Diplomacy
 	stream->Write(m_iShareRelativeProgressAttitudeChange);
-	stream->Write(m_iShareRelativeProgressAttitudeDivisor);
+	stream->Write(m_iShareRelativeProgressAttitudeChangeDivisor);
 	stream->Write(m_iShareRelativeProgressAttitudeChangeLimit);
 // XANA: 11-29-2025 Leader Specific Dynamic Rank Diplomacy
 	stream->Write(m_iDemandTributeAttitudeThreshold);
@@ -1005,7 +1005,7 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	GetChildXmlValByName(m_iFavoriteCivicAttitudeChangeLimit, "iFavoriteCivicAttitudeChangeLimit");
 // XANA: 11-29-2025 Leader Specific Dynamic Rank Diplomacy
 	GetChildXmlValByName(m_iShareRelativeProgressAttitudeChange, "iShareRelativeProgressAttitudeChange");
-	GetChildXmlValByName(m_iShareRelativeProgressAttitudeDivisor, "iShareRelativeProgressAttitudeDivisor");
+	GetChildXmlValByName(m_iShareRelativeProgressAttitudeChangeDivisor, "iShareRelativeProgressAttitudeDivisor");
 	GetChildXmlValByName(m_iShareRelativeProgressAttitudeChangeLimit, "iShareRelativeProgressAttitudeChangeLimit");
 // XANA: 11-29-2025 Leader Specific Dynamic Rank Diplomacy
 	GetChildXmlValByName(m_iVassalPowerModifier, "iVassalPowerModifier");
