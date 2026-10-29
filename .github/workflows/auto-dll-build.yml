@@ -1,0 +1,180 @@
+name: Automated Civ4 DLL Build
+
+# Strictly limit GitHub Token privileges. 
+# This strips away all default write access except for what is explicitly defined here.
+permissions:
+  contents: read
+  actions: write
+
+on:
+  push:
+    branches-ignore:
+      - dll-build
+    paths: ["CvGameCoreDLL/**", ".github/workflows/auto-dll-build.yml"]
+  workflow_dispatch:
+  
+concurrency:
+  group: civ4-dll-chatgpt-workspace
+  cancel-in-progress: false
+
+jobs:
+  build-dll:
+    runs-on: self-hosted # Use local virtual machine for building
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        configuration: [Release, Debug]
+    
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+    - name: Build DLL via MSBuild
+      id: build
+      shell: bash
+      env: 
+          # YAML automatically preserves this multi-line string exactly as written
+          PS_CODE: |
+            param(
+              [string]$cfg
+            )
+            $ErrorActionPreference = "Stop"
+            # Preserve the VM's Project configuration and force fresh build outputs.
+            $projectDir = "R:\CvGameCoreDLL\Project"
+            foreach ($dir in @("Release", "Debug", "temp_files", "obj")) {
+              $outputDir = Join-Path $projectDir $dir
+              if (Test-Path $outputDir) { Remove-Item $outputDir -Recurse -Force }
+            }
+            Remove-Item (Join-Path $projectDir "Build.log"), (Join-Path $projectDir "JustErrors.log"), (Join-Path $projectDir "JustWarnings.log") -Force -ErrorAction SilentlyContinue
+            # Check the compiler selected by the machine-local Makefile.user.
+            # The VS2010 shell only hosts MSBuild; game code must use VC7.1.
+            $probeSource = Join-Path $projectDir "codex-toolset-check.cpp"
+            $probeMake = Join-Path $projectDir "codex-toolset-check.mk"
+            Set-Content -Encoding ASCII $probeSource @(
+              "#if _MSC_VER != 1310",
+              "#error Civ4 DLL validation requires MSVC 7.1 (_MSC_VER 1310)",
+              "#endif",
+              "int codex_toolset_check;"
+            )
+            $probeLines = "!include Makefile`r`ncodex_compiler_check:`r`n`t" + '@$(CPP) /nologo /c /TP /Focodex-toolset-check.obj codex-toolset-check.cpp' + "`r`n"
+            Set-Content -Encoding ASCII $probeMake $probeLines
+            # Set configuration based on current active branch
+            Write-Output "Targeting configuration: $cfg"
+            $vcvarsall = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
+            $projectDir = "R:\CvGameCoreDLL\Project"
+            # Run vcvarsall, change directory, and build all in ONE cmd session.
+            # No need to import env vars into PowerShell.
+            $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && nmake /f codex-toolset-check.mk TARGET=$cfg codex_compiler_check /NOLOGO && msbuild AdvCiv.vcxproj /p:Configuration=$cfg -t:Rebuild -fl1 -flp1:logfile=Build.log -fl2 -fl3 -flp2:logfile=JustErrors.log;errorsonly -flp3:logfile=JustWarnings.log"
+            try {
+              cmd.exe /c $buildCmd
+              $buildExit = $LASTEXITCODE
+            } finally {
+              Remove-Item $probeSource, $probeMake, (Join-Path $projectDir "codex-toolset-check.obj") -Force -ErrorAction SilentlyContinue
+            }
+            if ($buildExit -ne 0) {
+              Write-Error "MSBuild compilation process encountered errors."
+              exit $buildExit
+            }
+            Write-Output "Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+      run: |
+          set -euo pipefail
+          # Set configuration based on matrix (Using standard Bash syntax)
+          CONFIG="${{ matrix.configuration }}"
+          
+          # Delete stale top-level source files only. Excluded directories and
+          # machine-local Project files are protected from this delete pass.
+          rsync -avz --delete --blocking-io \
+          -e "ssh -o IPQoS=throughput" \
+          --include='/*.cpp' --include='/*.h' --include='/*.inl' --include='/*.c' \
+          --exclude='/*' \
+          ./CvGameCoreDLL/ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
+
+          # Sync the complete pinned-base-plus-feature source overlay into the Windows Server's RAM Disk workspace.
+          rsync -avz --blocking-io \
+          -e "ssh -o IPQoS=throughput" \
+          --exclude='/Project/*' \
+          --exclude='/.git/*' \
+          --exclude='/.github/*' \
+          --include='*/' --include='*' --include='*.cpp' --include='*.h' --include='*.inl' --include='*.c' --exclude='*/' --exclude='*' \
+          ./CvGameCoreDLL/ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
+
+          # Fail if the remote compiler could see an unexpected root source.
+          find CvGameCoreDLL -maxdepth 1 -type f \( -name '*.cpp' -o -name '*.h' -o -name '*.inl' -o -name '*.c' \) -printf '%f\n' | LC_ALL=C sort > expected-sources.txt
+          ssh Administrator@192.168.2.252 "powershell.exe -NoProfile -Command \"Get-ChildItem -File -Path 'R:\CvGameCoreDLL\*.cpp','R:\CvGameCoreDLL\*.h','R:\CvGameCoreDLL\*.inl','R:\CvGameCoreDLL\*.c' | Select-Object -ExpandProperty Name\"" | tr -d '\r' | LC_ALL=C sort > actual-sources.txt
+          diff -u expected-sources.txt actual-sources.txt
+          # Add commit hashes to build provenence log file
+          printf '%s\n' "commit=${{ github.sha }}" "configuration=$CONFIG" "compiler=_MSC_VER_1310" "base=5970334b64a875b5cdb370c94fc9a98db4eacda6" "feature_source=4d58784d5b85fc924566b9b02657b9dbfd2a172d" "workflow_source=6343afabdc57996ea875b6e8541b69ad333d0686" > build-provenance.txt
+          
+          # Encode the command for PowerShell
+          ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
+          # Cleanup is allowed only after we have entered the build invocation.
+          echo "build_started=true" >> "$GITHUB_OUTPUT"
+          
+          # Connect to local Windows Server builder virtual machine and start the build remotely
+          ssh Administrator@192.168.2.252 "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG'\""
+    
+    - name: Copy DLL files Over To Linux
+      shell: bash
+      run: |
+        set -euo pipefail
+        # Set configuration based on matrix
+        CONFIG="${{ matrix.configuration }}"
+        
+        # Copy files so upload-artifact can upload them
+        mkdir -p artifacts
+        
+        # Get the game DLL file - known-working source location
+        scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$CONFIG/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.dll
+        # Get the build log that MSBUild created - local build with updated msbuild cmd verified that these were created in source R:/CvGameCoreDLL/Project
+        for LOG in Build.log JustErrors.log JustWarnings.log; do
+          scp "Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$LOG" ./artifacts/
+        done
+        # Get the PDB file if this is a Debug build - known-working source location
+        if [ "$CONFIG" = "Debug" ]; then
+          scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/temp_files/$CONFIG/*.pdb ./artifacts/
+        fi
+        
+        test -s ./artifacts/CvGameCoreDLL.dll
+        
+    - name: Upload Compiled DLL Artifact
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+      
+      with:
+        name: CvGameCoreDLL-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
+        path: |
+          ./artifacts/CvGameCoreDLL.dll
+          ./build-provenance.txt
+          ./actual-sources.txt
+          ./expected-sources.txt
+          ./artifacts/*.pdb
+          ./artifacts/*.log
+        if-no-files-found: error
+
+    - name: Clean Up RAM Disk Build Files
+      if: ${{ always() && steps.build.outputs.build_started == 'true' }}
+      
+      shell: bash
+      env:
+          # YAML automatically preserves this multi-line string exactly as written
+          PS_CODE: |
+            $ErrorActionPreference = "Stop"
+            Write-Output "Scrubbing workspace build artifacts..."
+            Set-Location "R:\CvGameCoreDLL\Project"
+            $cleanupDirs = @("Release", "Debug", "temp_files", "obj")
+            foreach ($dir in $cleanupDirs) {
+              if (Test-Path $dir) {
+                Remove-Item -Path $dir -Recurse -Force
+                Write-Output "Successfully wiped: $dir"
+              }
+            }
+      run: |
+          # Encode the command for PowerShell
+          ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
+          
+          # Execute remotely over SSH
+          ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
+          
+          # Clean up the pulled local data on the Linux orchestrator VM so subsequent runs start completely fresh without old DLL state.
+          rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/*.pdb  ./artifacts/*.log
+          rm -f ./build-provenance.txt ./expected-sources.txt
