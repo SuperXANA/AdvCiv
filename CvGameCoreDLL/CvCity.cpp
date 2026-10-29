@@ -233,7 +233,7 @@ void CvCity::init(int iID, PlayerTypes eOwner, int iX, int iY, bool bBumpUnits,
 	setGameTurnFounded(kGame.getGameTurn());
 	setGameTurnAcquired(kGame.getGameTurn());
 
-	changePopulation(/* advc.004b: */ initialPopulation()); // (Moved into subroutine)
+	changePopulation(/* advc.004b: */ initialPopulation(getOwner())); // (Moved into subroutine)
 
 	changeAirUnitCapacity(GC.getDefineINT(CvGlobals::CITY_AIR_UNIT_CAPACITY));
 
@@ -13142,13 +13142,18 @@ void CvCity::getBuildQueue(std::vector<std::string>& astrQueue) const
 }
 
 // <advc.004b> See CvCity.h
-int CvCity::initialPopulation()
+int CvCity::initialPopulation(PlayerTypes eOwner)
 {
-	return GC.getDefineINT("INITIAL_CITY_POPULATION") +
-			GC.getInfo(GC.getGame().getStartEra()).getFreePopulation() +
+	int iPopulation = GC.getDefineINT("INITIAL_CITY_POPULATION") +
+			GC.getInfo(GC.getGame().getStartEra()).getFreePopulation();
 // XANA: 07-12-2025 City Population Trait
-			GC.getInfo(getCivilization()).getExtraPopulation() +
-			GET_PLAYER(getOwner()).getExtraPopulation();
+	if (eOwner != NO_PLAYER)
+	{
+		CvPlayer const& kOwner = GET_PLAYER(eOwner);
+		iPopulation += GC.getInfo(kOwner.getCivilizationType()).getExtraPopulation() +
+				kOwner.getExtraPopulation();
+	}
+	return iPopulation;
 // XANA: 07-12-2025 City Population Trait
 }
 
@@ -13157,7 +13162,7 @@ int CvCity::calculateDistanceMaintenanceTimes100(CvPlot const& kCityPlot,
 	PlayerTypes eOwner, int iPopulation, bool bNoPlayerModifiers)
 {
 	if(iPopulation < 0)
-		iPopulation = initialPopulation();
+		iPopulation = initialPopulation(eOwner);
 	/*CvCity* pLoopCity;
 	int iWorstCityMaintenance;
 	int iBestCapitalMaintenance;
@@ -13229,7 +13234,7 @@ int CvCity::calculateNumCitiesMaintenanceTimes100(
 	PlayerTypes eOwner, int iPopulation, int iExtraCities)
 {
 	if(iPopulation < 0)
-		iPopulation = initialPopulation();
+		iPopulation = initialPopulation(eOwner);
 
 	scaled rNumCitiesFactor = 1;
 
@@ -13274,7 +13279,7 @@ int CvCity::calculateColonyMaintenanceTimes100(CvPlot const& kCityPlot,
 	PlayerTypes eOwner, int iPopulation, int iExtraCities)
 {
 	if(iPopulation < 0)
-		iPopulation = initialPopulation();
+		iPopulation = initialPopulation(eOwner);
 	HandicapTypes const eOwnerHandicap = GET_PLAYER(eOwner).getHandicapType();
 	CvArea const& kCityArea = kCityPlot.getArea();
 

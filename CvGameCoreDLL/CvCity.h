@@ -435,7 +435,9 @@ public:
 			PlayerTypes eOwner, int iPopulation = -1, int iExtraCities = 0);
 	static int calculateColonyMaintenanceTimes100(CvPlot const& kCityPlot,
 			PlayerTypes eOwner, int iPopulation = -1, int iExtraCities = 0);
-	static int initialPopulation();
+	// XANA: 07-12-2025 City Population Trait
+	static int initialPopulation(PlayerTypes eOwner = NO_PLAYER);
+	// XANA: 07-12-2025 City Population Trait
 	// </advc.004b>
 	int calculateCorporationMaintenanceTimes100(CorporationTypes eCorporation) const;							// Exposed to Python
 	int calculateCorporationMaintenanceTimes100() const;														// Exposed to Python

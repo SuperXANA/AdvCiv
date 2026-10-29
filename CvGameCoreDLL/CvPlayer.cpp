@@ -10430,7 +10430,7 @@ int CvPlayer::getSingleCivicUpkeep(CivicTypes eCivic, bool bIgnoreAnarchy,
 
 	int iUpkeep = 0;
 	iUpkeep += (std::max(0, getTotalPopulation() +
-			(iExtraCities * CvCity::initialPopulation()) + // advc.004b
+			(iExtraCities * CvCity::initialPopulation(getID())) + // advc.004b
 			iUPKEEP_POPULATION_OFFSET - GC.getInfo(eCivic).getCivicOptionType()) *
 			GC.getInfo((UpkeepTypes)GC.getInfo(eCivic).getUpkeep()).
 			getPopulationPercent()) / 100;
