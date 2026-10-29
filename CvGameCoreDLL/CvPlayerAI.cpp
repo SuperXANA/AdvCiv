@@ -23147,7 +23147,7 @@ void CvPlayerAI::read(FDataStreamBase* pStream)
 	pStream->Read(MAX_PLAYERS, m_aiFavoriteCivicCounter);
 // XANA: 10-25-2025 Gender Specific Diplomacy
 	pStream->Read(MAX_PLAYERS, m_aiFavoriteGenderCounter);
-	pStream->Read(MAX_PLAYERS, m_aiHateHateCounter);
+	pStream->Read(MAX_PLAYERS, m_aiHateGenderCounter);
 // XANA: 10-25-2025 Gender Specific Diplomacy
 	pStream->Read(MAX_PLAYERS, m_aiBonusTradeCounter);
 	pStream->Read(MAX_PLAYERS, m_aiPeacetimeTradeValue);
