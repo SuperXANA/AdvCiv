@@ -212,10 +212,10 @@ void UWAI::applyPersonalityWeight()
 			paiPersonalityVector->push_back(&aiImprovementWeightModifier[eLoopImprovement]);
 		personalityMatrix.push_back(paiPersonalityVector);
 // XANA: 05-31-2025 First Impression Modified By Other Leader
-		FOR_EACH_ENUM(LeaderHead)
-			paiPersonalityVector->push_back(&aiFirstImpressionModifier[eLoopLeaderHead]);
 		int* aiFirstImpressionModifier = (kLeader.m_piFirstImpressionModifier == NULL ? aiDevNull :
 				kLeader.m_piFirstImpressionModifier);
+		FOR_EACH_ENUM(LeaderHead)
+			paiPersonalityVector->push_back(&aiFirstImpressionModifier[eLoopLeaderHead]);
 // XANA: 05-31-2025 First Impression Modified By Other Leader
 		FAssert(iMembers == -1 || iMembers == paiPersonalityVector->size());
 		iMembers = (int)paiPersonalityVector->size();
