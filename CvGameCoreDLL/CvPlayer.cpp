@@ -16863,7 +16863,7 @@ bool CvPlayer::canDoEvent(EventTypes eEvent, const EventTriggeredData& kTriggere
 			CivilizationTypes eSummonCiv = NO_CIVILIZATION;
 			std::vector<LeaderHeadTypes> aeLeadersNotInGame;
 			std::vector<CivilizationTypes> aeCivsNotInGame;
-			buildEligibleSummonCandidates(aeLeadersNotInGame. aeCivsNotInGame);
+			buildEligibleSummonCandidates(aeLeadersNotInGame, aeCivsNotInGame);
 			bCanDoSummon = resolveSummonLeaderAndCiv(kEvent, aeLeadersNotInGame, aeCivsNotInGame, eSummonLeader, eSummonCiv);
 		}
 		if (!bCanDoSummon)
@@ -17371,7 +17371,7 @@ void CvPlayer::applyEvent(EventTypes eEvent, int iEventTriggeredId, bool bUpdate
 			{
 				std::vector<LeaderHeadTypes> aeLeadersNotInGame;
 				std::vector<CivilizationTypes> aeCivsNotInGame;
-				buildEligibleSummonCandidates(aeLeadersNotInGame. aeCivsNotInGame);
+				buildEligibleSummonCandidates(aeLeadersNotInGame, aeCivsNotInGame);
 				bCanDoSummon = resolveSummonLeaderAndCiv(kEvent, aeLeadersNotInGame, aeCivsNotInGame, eSummonLeader, eSummonCiv);
 			}
 			
