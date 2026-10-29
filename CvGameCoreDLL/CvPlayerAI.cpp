@@ -8688,10 +8688,10 @@ int CvPlayerAI::AI_getShareRelativeProgressAttitude(PlayerTypes ePlayer, int iPa
                    (AI_getShareRelativeProgressCounter(ePlayer) / kOurPersonality.getShareRelativeProgressAttitudeChangeDivisor()));
 	if (kOurPersonality.getShareRelativeProgressAttitudeChangeLimit() == 0)
 	{
-		return rAttitude;
+		return rAttitude.round();
 	}
 	int const iAbsChangeLimit = abs(kOurPersonality.getShareRelativeProgressAttitudeChangeLimit());
-	return range(rAttitude, -iAbsChangeLimit, iAbsChangeLimit);
+	return range(rAttitude.round(), -iAbsChangeLimit, iAbsChangeLimit);
 }
 // XANA: 11-29-2025 Leader Specific Dynamic Rank Diplomacy
 
