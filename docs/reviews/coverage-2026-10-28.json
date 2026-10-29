@@ -529,12 +529,13 @@
       "head_at_inventory": "799082c323ea44335c66b9714e1a9bb365c12095",
       "coverage": "source_review_partial",
       "native_verification": "actual_getter_and_adjustment_fixture_only",
-      "next_action": "Review building-value combat-key typing and metadata copy/cache/XML registration before full native validation.",
+      "next_action": "Building combat-key typing corrected; metadata ownership/copy/cache/schema and remaining integration still need review.",
       "review_branch": "FavoriteUnitCombatDraft-ChatGPT",
       "finding_ids": [
         "FAVORITE-COMBAT-20261029-01",
         "FAVORITE-COMBAT-20261029-02",
-        "FAVORITE-COMBAT-20261029-03"
+        "FAVORITE-COMBAT-20261029-03",
+        "FAVORITE-COMBAT-20261029-04"
       ]
     },
     {

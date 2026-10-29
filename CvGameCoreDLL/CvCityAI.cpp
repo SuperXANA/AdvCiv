@@ -4068,7 +4068,7 @@ int CvCityAI::AI_buildingValue(BuildingTypes eBuilding, int iFocusFlags,
 				getUnitCombatFreeExperience(), UnitCombat, int)
 			{
 				// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
-				int iFavoriteUnitCombatWeight = kPersonality.getFavoriteUnitCombatWeight(GC.getInfo(perUnitCombatVal.first).getUnitCombatType());
+				int iFavoriteUnitCombatWeight = kPersonality.getFavoriteUnitCombatWeight(perUnitCombatVal.first);
 				// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 				if (canTrain(perUnitCombatVal.first))
 	// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
