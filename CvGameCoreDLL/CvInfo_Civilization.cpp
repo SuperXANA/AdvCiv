@@ -666,6 +666,8 @@ const TCHAR* CvLeaderHeadInfo::getLeaderHead() const
 // XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 int CvLeaderHeadInfo::getFavoriteUnitCombatWeight(UnitCombatTypes eUnitCombat) const
 {
+	if (eUnitCombat < 0 || eUnitCombat >= GC.getNumUnitCombatInfos())
+		return 0;
 	FAssertBounds(0, GC.getNumUnitCombatInfos(), eUnitCombat);
 	return m_piUnitCombatWeights ? (m_piUnitCombatWeights[eUnitCombat] / 100) : 0;
 }

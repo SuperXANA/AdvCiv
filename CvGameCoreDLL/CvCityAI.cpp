@@ -4127,7 +4127,7 @@ int CvCityAI::AI_buildingValue(BuildingTypes eBuilding, int iFocusFlags,
 	// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 					int iFavoriteUnitCombatWeight = kPersonality.getFavoriteUnitCombatWeight(eCombatType);
 					if (iFavoriteUnitCombatWeight > 0)
-						iValue += (5 * iFavoriteUnitCombatWeight)
+						iValue += (5 * iFavoriteUnitCombatWeight);
 	// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 				}
 			}

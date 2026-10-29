@@ -14465,8 +14465,10 @@ int CvPlayerAI::AI_unitValue(UnitTypes eUnit, UnitAITypes eUnitAI,
 // XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 	int const iFavoriteUnitCombatWeight = kPersonality.getFavoriteUnitCombatWeight(u.getUnitCombatType());
 	if (iFavoriteUnitCombatWeight > 0)
+	{
 		iValue *= 100 + (10 * iFavoriteUnitCombatWeight);
 		iValue /= 100;
+	}
 // XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
 
 	return std::max(0, iValue);
