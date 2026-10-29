@@ -212,7 +212,9 @@
       "head_at_inventory": "c71d569fce95e847de5a4d8ed6299f881bbba1ce",
       "coverage": "workflow_source_inspected",
       "native_verification": "derivative_runs_recorded_separately",
-      "next_action": "Preserve branch; copy current workflow when preparing an isolated full build."
+      "next_action": "Do not use or recreate. dll-build is the sole workflow source; its matrix builds Release and Debug.",
+      "review_disposition": "retired_branch_removed",
+      "qualification": "Branch removal verified against current branch inventory; historical head retained for evidence only."
     },
     {
       "branch": "EquipmentGatesDraft-ChatGPT",
@@ -355,7 +357,7 @@
     },
     {
       "branch": "GenderCounterDraft-ChatGPT",
-      "head_at_inventory": "8bc30cafdc876fec090a1e4da60d28ab85d480d2",
+      "head_at_inventory": "f08a7cda56ae41c97e6ab1311a6699486dda2240",
       "source_branch": "GenderSpecificDiplomacy",
       "coverage": "counter_scope_only",
       "native_verification": "counter_attitude_paranoia_fixtures_only_no_dll_build",
@@ -1060,5 +1062,15 @@
   },
   "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",
   "previous_baseline_sha": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
-  "baseline_head_note": "Current 1.14 ref independently verified at original 5970334b64a875b5cdb370c94fc9a98db4eacda6. The intervening 272c7cc commit changed only trailing whitespace in a PCH comment. No executable delta or rebuild warranted."
+  "baseline_head_note": "Current 1.14 ref independently verified at original 5970334b64a875b5cdb370c94fc9a98db4eacda6. The intervening 272c7cc commit changed only trailing whitespace in a PCH comment. No executable delta or rebuild warranted.",
+  "build_workflow_policy": {
+    "source_branch": "dll-build",
+    "path": ".github/workflows/auto-dll-build.yml",
+    "configurations": [
+      "Release",
+      "Debug"
+    ],
+    "retired_branch": "dll-build-debug",
+    "qualification": "Use the current named workflow and populate pinned overlay provenance; do not recreate a separate Debug branch."
+  }
 }
