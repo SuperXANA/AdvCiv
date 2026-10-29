@@ -357,13 +357,15 @@
       "branch": "FirstImpressionDiplomacyModifiers",
       "head_at_inventory": "cc764ad80e89f751f809998a61a23225254109f2",
       "coverage": "source_review_partial",
-      "native_verification": "readPass2_fixture_only_no_dll_build",
-      "next_action": "Review remaining source/schema/cache integration before complete-base DLL validation; preserve implemented signed modifier behavior.",
+      "native_verification": "queued_no_compiler_result",
+      "next_action": "Follow existing run 40894673380 to terminal result before another build; Release and Debug queued, neither started.",
       "refinement_branch": "FirstImpressionDraft-ChatGPT",
       "draft_code_sha": "971d63a53deb940f7af13ce6bbe408c8559fb1b2",
       "finding_ids": [
         "FIRST-20261028-01"
-      ]
+      ],
+      "tested_code_sha": "c4a2140493fb083bbde5af52bfb80caaf01af2ca",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40894673380"
     },
     {
       "branch": "FreePromotionLoaderBuild-ChatGPT",
@@ -455,13 +457,14 @@
       "head_at_inventory": "aac03388283a5ac316f6a19f6e3754a7435b6511",
       "coverage": "source_review_partial",
       "native_verification": "cleanup_and_event_blocks_fixture_only_no_dll_build",
-      "next_action": "Technology const/helper mismatches repaired; continue unit preference consumption, XML/cache loading and complete integration.",
+      "next_action": "Typed unit/class/combat choice snapshots repaired; review full consumer integration and preference initialization/XML/cache.",
       "refinement_branch": "PreferenceFrameworkDraft-ChatGPT",
       "draft_code_sha": "a290ad622d68cb48c9b5c5562a6dcc60a1fc6d89",
       "finding_ids": [
         "PREFERENCE-20261028-01",
         "PREFERENCE-20261028-02",
-        "PREFERENCE-20261029-03"
+        "PREFERENCE-20261029-03",
+        "PREFERENCE-20261029-04"
       ],
       "qualification": "Actual event blocks and EventPreferenceData accessors passed 1024 small-value configurations with metadata stubs; no full event method, large arithmetic or DLL result."
     },
@@ -851,7 +854,8 @@
         "REPUTATION-20261028-02",
         "REPUTATION-20261028-03",
         "REPUTATION-20261028-04",
-        "ALIGNMENT-20261028-01"
+        "ALIGNMENT-20261028-01",
+        "ALIGNMENT-20261029-02"
       ],
       "source_review_scope": "Completed-turn score window/defaults plus player score-vector load cardinality and const serialization; remaining feature scopes unverified.",
       "qualification": "Prior reputation fixtures retained; actual four alignment change methods/helper and class header pass 810 C++03/ASan/UBSan edge combinations with surrounding types stubbed. No full DLL/game verification."
@@ -1100,11 +1104,13 @@
       "source_branch": "FirstImpressionDiplomacyModifiers",
       "source_head": "cc764ad80e89f751f809998a61a23225254109f2",
       "draft_code_sha": "971d63a53deb940f7af13ce6bbe408c8559fb1b2",
-      "native_verification": "readPass2_fixture_only_no_dll_build",
+      "native_verification": "queued_no_compiler_result",
       "finding_ids": [
         "FIRST-20261028-01"
       ],
-      "next_action": "Continue remaining integration review; code SHA followed by documentation-only commit."
+      "next_action": "Follow existing run 40894673380 to terminal result before another build; Release and Debug queued, neither started.",
+      "tested_code_sha": "c4a2140493fb083bbde5af52bfb80caaf01af2ca",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40894673380"
     },
     {
       "branch": "PreferenceFrameworkDraft-ChatGPT",
