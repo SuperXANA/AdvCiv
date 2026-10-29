@@ -39,7 +39,7 @@
     },
     {
       "branch": "AISurvivorSQLiteBuild-ChatGPT",
-      "head_at_inventory": "e3785a1eba9b630f9be9bb067e82e4b477bad55c",
+      "head_at_inventory": "66031af4d8eb3528a0674ce0e3dc950d53f3d555",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
@@ -127,9 +127,13 @@
     {
       "branch": "CityPopulationTrait",
       "head_at_inventory": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
-      "coverage": "earlier_source_review_partial",
-      "native_verification": "not_recorded",
-      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+      "coverage": "source_review_partial",
+      "native_verification": "draft_only_no_dll_build",
+      "next_action": "Review metadata XML/cache and player save reconstruction before DLL validation; owner-aware initialization and projections now demonstrated.",
+      "review_branch": "CityPopulationDraft-ChatGPT",
+      "finding_ids": [
+        "POPULATION-20261028-01"
+      ]
     },
     {
       "branch": "CodeMacroHelpers",
@@ -175,9 +179,18 @@
     {
       "branch": "CustomAIDiplomacyComments",
       "head_at_inventory": "ca3531fac64b2e70ea66b98745e45733da1f0c37",
-      "coverage": "separate_contact_scope_observed",
-      "native_verification": "not_recorded",
-      "next_action": "Continue independent contact/gameplay review; LLM text-cache validation does not validate this branch."
+      "coverage": "marked_contact_scope_reviewed_incomplete_integration",
+      "native_verification": "not_built_missing_feature_implementation",
+      "next_action": "Skip unchanged original source head; resume after new user implementation, preserving independent contact feature boundaries.",
+      "review_disposition": "skip_until_source_head_changes",
+      "skip_source_sha": "ca3531fac64b2e70ea66b98745e45733da1f0c37",
+      "skip_reason": "Friend-brag repetition state has no initialization/writes/expiry and requested dialogue comment has no supplied XML/Python handling. Do not invent cooldown policy or dialogue to force a build.",
+      "finding_ids": [
+        "CONTACT-20261029-01",
+        "CONTACT-20261029-02"
+      ],
+      "review_branch": "AISurvivorSQLiteBuild-ChatGPT",
+      "review_document": "docs/reviews/custom-contact-incomplete-2026-10-29.md"
     },
     {
       "branch": "CvPartyGroup",
@@ -372,13 +385,15 @@
       "head_at_inventory": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
       "coverage": "source_review_partial",
       "native_verification": "scoped_template_fixture_only_no_dll_build",
-      "next_action": "Reuse draft for remaining const accessor, dimensions/overflow and element lifetime review; full DLL/game use remains unverified.",
+      "next_action": "Continue const-get return contract, allocation/lifetime and dimensional bounds review; 1D empty read/assignment fixed in reused draft.",
       "review_branch": "SimpleStorageChangeDraft-ChatGPT",
       "draft_code_sha": "80aba592df6f12d4a3e85a615b615bb4a41763ee",
       "finding_ids": [
         "STORAGE-20261028-01",
         "STORAGE-20261028-02",
-        "STORAGE-20261028-03"
+        "STORAGE-20261028-03",
+        "STORAGE-20261029-04",
+        "STORAGE-20261029-05"
       ],
       "source_review_scope": "Actual full header and deletion macro read; bool/int change dispatch and parse repair refined. Prior other storage observations remain unimplemented.",
       "qualification": "Prior change-dispatch fixture retained; actual header int 2D copy/assignment/read/write checked C++03/ASan/UBSan with stream/allocation macros stubbed.",
@@ -510,16 +525,27 @@
     {
       "branch": "LeaderSpecificDynamicRankBonusDiplomacy",
       "head_at_inventory": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
-      "coverage": "earlier_source_review_partial",
-      "native_verification": "not_recorded",
-      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+      "coverage": "source_review_partial",
+      "native_verification": "draft_only_no_dll_build",
+      "next_action": "Review fixed-point rank formula, threshold policy and broader metadata/save integration before meaningful DLL validation.",
+      "review_branch": "DynamicRankDraft-ChatGPT",
+      "finding_ids": [
+        "RANK-20261028-01"
+      ]
     },
     {
       "branch": "LeaderSpecificFavoriteUnitCombats",
       "head_at_inventory": "799082c323ea44335c66b9714e1a9bb365c12095",
-      "coverage": "earlier_source_review_partial",
-      "native_verification": "not_recorded",
-      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+      "coverage": "source_review_partial",
+      "native_verification": "actual_getter_and_adjustment_fixture_only",
+      "next_action": "Building combat-key typing corrected; metadata ownership/copy/cache/schema and remaining integration still need review.",
+      "review_branch": "FavoriteUnitCombatDraft-ChatGPT",
+      "finding_ids": [
+        "FAVORITE-COMBAT-20261029-01",
+        "FAVORITE-COMBAT-20261029-02",
+        "FAVORITE-COMBAT-20261029-03",
+        "FAVORITE-COMBAT-20261029-04"
+      ]
     },
     {
       "branch": "LeaderSpecificMultilayeredAIDecisionEval",
@@ -558,9 +584,13 @@
     {
       "branch": "LeaderSpecificUWAIAspectWeights",
       "head_at_inventory": "d38c565a981984a7c34417a9d9529fec2bcd7165",
-      "coverage": "earlier_source_review_partial",
-      "native_verification": "not_recorded",
-      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+      "coverage": "source_review_partial",
+      "native_verification": "extracted_metadata_fixture_only",
+      "next_action": "Review enum/global registration, XML schema/cache loading and aspect identity/zero-weight policy; no native DLL validation yet.",
+      "review_branch": "UWAIWeightsDraft-ChatGPT",
+      "finding_ids": [
+        "UWAI-20261028-01"
+      ]
     },
     {
       "branch": "LeaderSpecificVoteActionDiplomacy",
@@ -743,9 +773,13 @@
     {
       "branch": "PromotionAltersUnitHPValues",
       "head_at_inventory": "d64fade8bb53d8c4bd92521c6a606b323af91025",
-      "coverage": "earlier_source_review_partial",
-      "native_verification": "not_recorded",
-      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+      "coverage": "source_review_partial",
+      "native_verification": "extracted_method_fixture_only",
+      "next_action": "Review HP bounds, damage/healing/combat assumptions and persistent modifier reconstruction before DLL validation.",
+      "review_branch": "PromotionHPDraft-ChatGPT",
+      "finding_ids": [
+        "HP-20261029-01"
+      ]
     },
     {
       "branch": "PromotionAltersUnitXPValues",
@@ -761,9 +795,14 @@
     {
       "branch": "PromotionTimedExpireTurns",
       "head_at_inventory": "5f0e1235780e19a81a09aba91234bb0487489fcf",
-      "coverage": "earlier_source_review_partial",
-      "native_verification": "not_recorded",
-      "next_action": "Consolidate earlier source evaluation, extend coverage and prepare a scoped refinement; do not repeat old findings."
+      "coverage": "source_review_partial",
+      "native_verification": "extracted_event_block_only_no_dll",
+      "next_action": "Review zero/infinite duration semantics, deadline arithmetic, reset and versioned persistence before full DLL validation.",
+      "review_branch": "PromotionExpiryDraft-ChatGPT",
+      "finding_ids": [
+        "EXPIRY-20261029-01",
+        "EXPIRY-20261029-02"
+      ]
     },
     {
       "branch": "PromotionXPBuild-ChatGPT",
@@ -1022,7 +1061,7 @@
     },
     {
       "branch": "SimpleStorageChangeDraft-ChatGPT",
-      "head_at_inventory": "540b0f094b81ef8b41f425ca50630e516dc0f76b",
+      "head_at_inventory": "7634ca04cbd7c32302c3d1556a0adbdfae0dff1b",
       "coverage": "published_review_artifact",
       "native_verification": "scoped_template_fixture_only_no_dll_build",
       "source_branch": "FSimpleDataStorage",
@@ -1079,6 +1118,49 @@
       ],
       "next_action": "Review remaining tech/unit consumer type consistency, metadata loaders and whole-feature integration before DLL validation.",
       "qualification": "Actual event blocks and EventPreferenceData accessors passed 1024 small-value configurations with metadata stubs; no full event method, large arithmetic or DLL result."
+    },
+    {
+      "branch": "CityPopulationDraft-ChatGPT",
+      "source_branch": "CityPopulationTrait",
+      "source_head": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
+      "coverage": "published_scoped_refinement",
+      "native_verification": "extracted_Cpp03_fixture_only",
+      "finding_ids": [
+        "POPULATION-20261028-01"
+      ],
+      "head_at_inventory": "54c845200c207cea5cab663df399ece52cc385ab"
+    },
+    {
+      "branch": "UWAIWeightsDraft-ChatGPT",
+      "source_branch": "LeaderSpecificUWAIAspectWeights",
+      "source_head": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+      "coverage": "published_metadata_syntax_refinement",
+      "native_verification": "draft_only_no_dll_build",
+      "head_at_inventory": "0bbb2bbb7456d38e57ac79b736667816cd8244f8"
+    },
+    {
+      "branch": "PromotionExpiryDraft-ChatGPT",
+      "source_branch": "PromotionTimedExpireTurns",
+      "source_head": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+      "coverage": "published_scoped_refinement",
+      "native_verification": "draft_only_no_dll_build",
+      "head_at_inventory": "ac7b831ea5305cb6c279546e5b29ba2d78251fd2"
+    },
+    {
+      "branch": "PromotionHPDraft-ChatGPT",
+      "source_branch": "PromotionAltersUnitHPValues",
+      "source_head": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+      "coverage": "published_scoped_refinement",
+      "native_verification": "draft_only_no_dll_build",
+      "head_at_inventory": "f48011d732458189a54aa1d810fb7549fcd3378a"
+    },
+    {
+      "branch": "FavoriteUnitCombatDraft-ChatGPT",
+      "source_branch": "LeaderSpecificFavoriteUnitCombats",
+      "source_head": "799082c323ea44335c66b9714e1a9bb365c12095",
+      "coverage": "published_scoped_refinement",
+      "native_verification": "draft_only_no_dll_build",
+      "head_at_inventory": "def638cf5c927651ef0b692fc1fac74a27bc4915"
     }
   ],
   "current_pass": {
