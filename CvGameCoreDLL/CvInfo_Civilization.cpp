@@ -556,6 +556,9 @@ CvLeaderHeadInfo::~CvLeaderHeadInfo()
 	SAFE_DELETE_ARRAY(m_piDiploPeaceMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarIntroMusicScriptIds);
 	SAFE_DELETE_ARRAY(m_piDiploWarMusicScriptIds);
+	// XANA: 10-29-2026 Favorite combat storage ownership (ChatGPT)
+	SAFE_DELETE_ARRAY(m_piUnitCombatWeights);
+	// XANA: 10-29-2026 Favorite combat storage ownership (ChatGPT)
 }
 
 const TCHAR* CvLeaderHeadInfo::getButton() const

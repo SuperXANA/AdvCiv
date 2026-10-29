@@ -179,9 +179,18 @@
     {
       "branch": "CustomAIDiplomacyComments",
       "head_at_inventory": "ca3531fac64b2e70ea66b98745e45733da1f0c37",
-      "coverage": "separate_contact_scope_observed",
-      "native_verification": "not_recorded",
-      "next_action": "Continue independent contact/gameplay review; LLM text-cache validation does not validate this branch."
+      "coverage": "marked_contact_scope_reviewed_incomplete_integration",
+      "native_verification": "not_built_missing_feature_implementation",
+      "next_action": "Skip unchanged original source head; resume after new user implementation, preserving independent contact feature boundaries.",
+      "review_disposition": "skip_until_source_head_changes",
+      "skip_source_sha": "ca3531fac64b2e70ea66b98745e45733da1f0c37",
+      "skip_reason": "Friend-brag repetition state has no initialization/writes/expiry and requested dialogue comment has no supplied XML/Python handling. Do not invent cooldown policy or dialogue to force a build.",
+      "finding_ids": [
+        "CONTACT-20261029-01",
+        "CONTACT-20261029-02"
+      ],
+      "review_branch": "AISurvivorSQLiteBuild-ChatGPT",
+      "review_document": "docs/reviews/custom-contact-incomplete-2026-10-29.md"
     },
     {
       "branch": "CvPartyGroup",
@@ -529,13 +538,14 @@
       "head_at_inventory": "799082c323ea44335c66b9714e1a9bb365c12095",
       "coverage": "source_review_partial",
       "native_verification": "actual_getter_and_adjustment_fixture_only",
-      "next_action": "Building combat-key typing corrected; metadata ownership/copy/cache/schema and remaining integration still need review.",
+      "next_action": "Owned combat weights now released; continue cache/XML registration and full integration review.",
       "review_branch": "FavoriteUnitCombatDraft-ChatGPT",
       "finding_ids": [
         "FAVORITE-COMBAT-20261029-01",
         "FAVORITE-COMBAT-20261029-02",
         "FAVORITE-COMBAT-20261029-03",
-        "FAVORITE-COMBAT-20261029-04"
+        "FAVORITE-COMBAT-20261029-04",
+        "FAVORITE-COMBAT-20261029-05"
       ]
     },
     {
@@ -1052,7 +1062,7 @@
     },
     {
       "branch": "SimpleStorageChangeDraft-ChatGPT",
-      "head_at_inventory": "540b0f094b81ef8b41f425ca50630e516dc0f76b",
+      "head_at_inventory": "7634ca04cbd7c32302c3d1556a0adbdfae0dff1b",
       "coverage": "published_review_artifact",
       "native_verification": "scoped_template_fixture_only_no_dll_build",
       "source_branch": "FSimpleDataStorage",
@@ -1142,14 +1152,16 @@
       "source_branch": "PromotionAltersUnitHPValues",
       "source_head": "d64fade8bb53d8c4bd92521c6a606b323af91025",
       "coverage": "published_scoped_refinement",
-      "native_verification": "draft_only_no_dll_build"
+      "native_verification": "draft_only_no_dll_build",
+      "head_at_inventory": "f48011d732458189a54aa1d810fb7549fcd3378a"
     },
     {
       "branch": "FavoriteUnitCombatDraft-ChatGPT",
       "source_branch": "LeaderSpecificFavoriteUnitCombats",
       "source_head": "799082c323ea44335c66b9714e1a9bb365c12095",
       "coverage": "published_scoped_refinement",
-      "native_verification": "draft_only_no_dll_build"
+      "native_verification": "draft_only_no_dll_build",
+      "head_at_inventory": "def638cf5c927651ef0b692fc1fac74a27bc4915"
     }
   ],
   "current_pass": {
