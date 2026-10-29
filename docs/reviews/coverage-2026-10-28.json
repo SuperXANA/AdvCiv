@@ -2,7 +2,7 @@
   "schema_version": 1,
   "snapshot_date": "2026-10-28",
   "repository": "SuperXANA/AdvCiv",
-  "baseline_sha": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
+  "baseline_sha": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
   "policy": [
     "Changed heads take priority, then pending or partial source coverage.",
     "Do not retry unchanged failed build targets during the first-pass rotation.",
@@ -18,7 +18,7 @@
   "branches": [
     {
       "branch": "1.14",
-      "head_at_inventory": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
+      "head_at_inventory": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
       "coverage": "read_only_baseline_reference",
       "native_verification": "not_a_development_target",
       "next_action": "Read and pin only; never revise or publish work on this branch.",
@@ -355,7 +355,7 @@
     },
     {
       "branch": "GenderCounterDraft-ChatGPT",
-      "head_at_inventory": "0d69e69e0d491dd6ec49249351d48455f05764bf",
+      "head_at_inventory": "8bc30cafdc876fec090a1e4da60d28ab85d480d2",
       "source_branch": "GenderSpecificDiplomacy",
       "coverage": "counter_scope_only",
       "native_verification": "counter_attitude_paranoia_fixtures_only_no_dll_build",
@@ -1051,16 +1051,14 @@
     }
   ],
   "current_pass": {
-    "source_branch": "GenderSpecificDiplomacy",
-    "refinement_branch": "GenderCounterDraft-ChatGPT",
-    "draft_code_sha": "0d69e69e0d491dd6ec49249351d48455f05764bf",
-    "finding_ids": [
-      "GENDER-20261028-05"
-    ],
+    "classification": "baseline_ref_reconciliation",
+    "baseline_sha": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+    "production_changes": false,
     "dll_build_triggered": false,
-    "first_pass_pending": []
+    "first_pass_pending": [],
+    "qualification": "No changed feature heads. Existing partial scopes and build/skip evidence retained. No delivered code finding repeated."
   },
   "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",
-  "previous_baseline_sha": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
-  "baseline_head_note": "User changed only trailing whitespace in _precompile.cpp comment; existing build overlays remain pinned to 5970334b64a875b5cdb370c94fc9a98db4eacda6. Use current read-only head for future overlays."
+  "previous_baseline_sha": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
+  "baseline_head_note": "Current 1.14 ref independently verified at original 5970334b64a875b5cdb370c94fc9a98db4eacda6. The intervening 272c7cc commit changed only trailing whitespace in a PCH comment. No executable delta or rebuild warranted."
 }
