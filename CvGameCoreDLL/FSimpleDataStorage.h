@@ -117,6 +117,7 @@ public:
 			reset(iSize);
 			pStream->Read(iSize, m_pArray);
 		}
+		else clear(); // XANA: 10-29-2026 Empty 1D stream replaces old data (ChatGPT)
 	}
 	void Write(FDataStreamBase* pStream)
 	{
@@ -180,7 +181,9 @@ public:
 	{
 		if (this != &kOther)
 		{
-			this->reset(kOther.size());
+			// XANA: 10-29-2026 Empty 1D assignment replaces old data (ChatGPT)
+			if (kOther.size() == 0) clear();
+			else this->reset(kOther.size());
 			if (kOther.m_pArray != NULL)
 			{
 				for (int i = 0; i < kOther.size(); ++i)
