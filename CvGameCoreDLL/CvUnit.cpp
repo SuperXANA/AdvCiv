@@ -725,7 +725,7 @@ void CvUnit::doExpireTempPromotions()
 		if (!isHasPromotion(eLoopPromotion))
 			continue;
 		
-		int iExpireTurn = getPromotionExpireTurns(eLoopPromotion);
+		int iExpireTurn = getPromotionExpireTurn(eLoopPromotion);
 		
 		if (iExpireTurn == -1) // XANA (note): Infinite Duration Promotion
 			continue;
@@ -11716,6 +11716,7 @@ void CvUnit::applyEvent(EventTypes eEvent)
 	}
 
 	if (kEvent.getUnitPromotion() != NO_PROMOTION)
+	{
 		setHasPromotion((PromotionTypes)kEvent.getUnitPromotion(), true);
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
 		if (kEvent.getPromotionExpireTurns() != 0)
@@ -11724,9 +11725,10 @@ void CvUnit::applyEvent(EventTypes eEvent)
 			iExpireTurn *= GC.getInfo(GC.getGame().getGameSpeedType()).getTrainPercent();
 			iExpireTurn /= 100;
 			iExpireTurn += GC.getGame().getGameTurn();
+			setPromotionExpireTurn((PromotionTypes)kEvent.getUnitPromotion(), iExpireTurn);
 		}
-		setPromotionExpireTurn((PromotionTypes)kEvent.getUnitPromotion(), iExpireTurn);
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
+	}
 
 	if (kEvent.getUnitImmobileTurns() > 0)
 	{

@@ -1079,6 +1079,7 @@ public:
 		return m_aiPromotionExpireTurns.get(ePromo);
 	}
 	void setPromotionExpireTurn(PromotionTypes ePromo, int iNewValue);
+	void doExpireTempPromotions();
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
 
 	// <advc.003u>
