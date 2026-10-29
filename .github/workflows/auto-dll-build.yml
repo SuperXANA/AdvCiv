@@ -145,6 +145,7 @@ jobs:
         path: |
           ./artifacts/CvGameCoreDLL.dll
           ./build-provenance.txt
+          ./actual-sources.txt
           ./expected-sources.txt
           ./artifacts/*.pdb
           ./artifacts/*.log
