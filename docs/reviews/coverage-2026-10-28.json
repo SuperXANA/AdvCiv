@@ -39,7 +39,7 @@
     },
     {
       "branch": "AISurvivorSQLiteBuild-ChatGPT",
-      "head_at_inventory": "c02eea47ded87b403ad9e2d36ba1824a59c14e8c",
+      "head_at_inventory": "66031af4d8eb3528a0674ce0e3dc950d53f3d555",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
@@ -357,14 +357,15 @@
       "branch": "FirstImpressionDiplomacyModifiers",
       "head_at_inventory": "cc764ad80e89f751f809998a61a23225254109f2",
       "coverage": "source_review_partial",
-      "native_verification": "readPass2_fixture_only_no_dll_build",
-      "next_action": "Full baseline overlay DLL validation and actual XML/cache execution remain; supplied leader XML contains no first-impression entries.",
+      "native_verification": "queued_no_compiler_result",
+      "next_action": "Follow existing run 40894673380 to terminal result before another build; Release and Debug queued, neither started.",
       "refinement_branch": "FirstImpressionDraft-ChatGPT",
       "draft_code_sha": "971d63a53deb940f7af13ce6bbe408c8559fb1b2",
       "finding_ids": [
         "FIRST-20261028-01"
       ],
-      "source_review_scope": "Read marked pointer constructor/copy/destructor, accessor, cache read/write, two-pass loader registration, schema and signed attitude consumer; no additional correction demonstrated in ownership/registration scope."
+      "tested_code_sha": "c4a2140493fb083bbde5af52bfb80caaf01af2ca",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40894673380"
     },
     {
       "branch": "FreePromotionLoaderBuild-ChatGPT",
@@ -1031,7 +1032,7 @@
     },
     {
       "branch": "ReputationWindowDraft-ChatGPT",
-      "head_at_inventory": "343689debf230b2e49ddbf927f62d83db0b22ac5",
+      "head_at_inventory": "3975b09ca3ffd4393dece6ae11bf12134b2a54fa",
       "coverage": "published_review_artifact",
       "native_verification": "draft_only_no_dll_build",
       "source_branch": "RealisticAIDecisions",
@@ -1102,15 +1103,17 @@
       "source_branch": "FirstImpressionDiplomacyModifiers",
       "source_head": "cc764ad80e89f751f809998a61a23225254109f2",
       "draft_code_sha": "971d63a53deb940f7af13ce6bbe408c8559fb1b2",
-      "native_verification": "readPass2_fixture_only_no_dll_build",
+      "native_verification": "queued_no_compiler_result",
       "finding_ids": [
         "FIRST-20261028-01"
       ],
-      "next_action": "Continue remaining integration review; code SHA followed by documentation-only commit."
+      "next_action": "Follow existing run 40894673380 to terminal result before another build; Release and Debug queued, neither started.",
+      "tested_code_sha": "c4a2140493fb083bbde5af52bfb80caaf01af2ca",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40894673380"
     },
     {
       "branch": "PreferenceFrameworkDraft-ChatGPT",
-      "head_at_inventory": "6346e4173974a1c0a5854f6d941f3c0cfe29fd46",
+      "head_at_inventory": "04f8986c3bca0c58aa43c82443a615d6052a3d67",
       "coverage": "published_review_artifact",
       "native_verification": "cleanup_and_event_blocks_fixture_only_no_dll_build",
       "source_branch": "LeaderCivilizationDecisionPreferences",
@@ -1164,7 +1167,7 @@
       "source_head": "799082c323ea44335c66b9714e1a9bb365c12095",
       "coverage": "published_scoped_refinement",
       "native_verification": "draft_only_no_dll_build",
-      "head_at_inventory": "b031f2f2fb23fd7de7aed3901692f52753e4cd00"
+      "head_at_inventory": "def638cf5c927651ef0b692fc1fac74a27bc4915"
     }
   ],
   "current_pass": {
