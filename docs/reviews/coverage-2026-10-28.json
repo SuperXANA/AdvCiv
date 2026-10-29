@@ -357,15 +357,19 @@
       "branch": "FirstImpressionDiplomacyModifiers",
       "head_at_inventory": "cc764ad80e89f751f809998a61a23225254109f2",
       "coverage": "source_review_partial",
-      "native_verification": "queued_no_compiler_result",
-      "next_action": "Follow existing run 40894673380 to terminal result before another build; Release and Debug queued, neither started.",
+      "native_verification": "exact_overlay_release_debug_passed",
+      "next_action": "Inspect changed source only; native overlay passed, actual XML/cache/game execution unverified.",
       "refinement_branch": "FirstImpressionDraft-ChatGPT",
       "draft_code_sha": "971d63a53deb940f7af13ce6bbe408c8559fb1b2",
       "finding_ids": [
         "FIRST-20261028-01"
       ],
-      "tested_code_sha": "c4a2140493fb083bbde5af52bfb80caaf01af2ca",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40894673380"
+      "tested_code_sha": "de9caca8cd6afc6e85309b51496a29da2e258e44",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40908991199",
+      "artifacts": {
+        "Release": 12912668298,
+        "Debug": 12913101878
+      }
     },
     {
       "branch": "FreePromotionLoaderBuild-ChatGPT",
@@ -1103,13 +1107,17 @@
       "source_branch": "FirstImpressionDiplomacyModifiers",
       "source_head": "cc764ad80e89f751f809998a61a23225254109f2",
       "draft_code_sha": "971d63a53deb940f7af13ce6bbe408c8559fb1b2",
-      "native_verification": "queued_no_compiler_result",
+      "native_verification": "exact_overlay_release_debug_passed",
       "finding_ids": [
         "FIRST-20261028-01"
       ],
-      "next_action": "Follow existing run 40894673380 to terminal result before another build; Release and Debug queued, neither started.",
-      "tested_code_sha": "c4a2140493fb083bbde5af52bfb80caaf01af2ca",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40894673380"
+      "next_action": "Inspect changed source only; native overlay passed, actual XML/cache/game execution unverified.",
+      "tested_code_sha": "de9caca8cd6afc6e85309b51496a29da2e258e44",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40908991199",
+      "artifacts": {
+        "Release": 12912668298,
+        "Debug": 12913101878
+      }
     },
     {
       "branch": "PreferenceFrameworkDraft-ChatGPT",
