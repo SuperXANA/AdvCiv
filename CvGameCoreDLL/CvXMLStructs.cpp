@@ -19,7 +19,7 @@ bool TechPreferenceData::isPreferredChoice() const
 	return bPreferredChoice;
 }
 
-bool TechPreferenceData::isbNotPreferredChoice() const
+bool TechPreferenceData::isNotPreferredChoice() const
 {
 	return bNotPreferredChoice;
 }

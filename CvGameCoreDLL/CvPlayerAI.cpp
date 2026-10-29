@@ -4656,8 +4656,8 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
 	int iValue = 1;
 	
 	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
-	TechPreferenceData* pLeaderPref = NULL;
-	TechPreferenceData* pCivilizationPref = NULL;
+	TechPreferenceData const* pLeaderPref = NULL;
+	TechPreferenceData const* pCivilizationPref = NULL;
 	
 	if (AI_getLeaderTechPreferences() != NO_TECHPREFERENCE)
 	{
