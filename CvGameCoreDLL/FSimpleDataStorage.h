@@ -68,7 +68,7 @@ public:
 			init(iSize);
 		}
 	}
-	T& get(int i) const
+	T get(int i) const // XANA: 10-29-2026 Value-returning read access (ChatGPT)
 	{
 		if (i >= 0 && i < size())
 		{
@@ -241,7 +241,7 @@ public:
 		clear();
 		init(iToSizeX, iToSizeY);
 	}
-	T& get(int i) const
+	T get(int i) const // XANA: 10-29-2026 Value-returning read access (ChatGPT)
 	{
 		if (i >= 0 && i < size())
 		{
