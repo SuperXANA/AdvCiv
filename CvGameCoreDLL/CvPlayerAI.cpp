@@ -19000,6 +19000,7 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
 		{
 // XANA: 10-25-2025 Gender Specific Diplomacy
 		case ALLY_GENDER:
+		{
 			GenderTypes eFavGender = getFavoriteGender();
 			if (eFavGender != NO_GENDER &&
 				eFavGender == itPlayer->getFavoriteGender())
@@ -19007,7 +19008,9 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
 				iMatching += iCities;
 			}
 			break;
+		}
 		case ENEMY_GENDER:
+		{
 			GenderTypes eHateGender = getHateGender();
 			if (eHateGender != NO_GENDER &&
 				eHateGender == itPlayer->getHateGender())
@@ -19015,6 +19018,7 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
 				iMatching += iCities;
 			}
 			break;
+		}
 // XANA: 10-25-2025 Gender Specific Diplomacy
 		case SAME_RELIGION:
 			if (getStateReligion() != NO_RELIGION &&
