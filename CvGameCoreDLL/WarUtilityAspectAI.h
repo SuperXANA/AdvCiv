@@ -10,7 +10,7 @@
 class CvWarUtilityAspectAIInfo : public CvInfoBase
 {
 	typedef CvInfoBase base_t;
-public
+public:
 
 	CvWarUtilityAspectAIInfo();
 	~CvWarUtilityAspectAIInfo();
