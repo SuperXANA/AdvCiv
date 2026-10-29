@@ -39,7 +39,7 @@
     },
     {
       "branch": "AISurvivorSQLiteBuild-ChatGPT",
-      "head_at_inventory": "66031af4d8eb3528a0674ce0e3dc950d53f3d555",
+      "head_at_inventory": "c02eea47ded87b403ad9e2d36ba1824a59c14e8c",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
@@ -357,15 +357,19 @@
       "branch": "FirstImpressionDiplomacyModifiers",
       "head_at_inventory": "cc764ad80e89f751f809998a61a23225254109f2",
       "coverage": "source_review_partial",
-      "native_verification": "queued_no_compiler_result",
-      "next_action": "Follow existing run 40894673380 to terminal result before another build; Release and Debug queued, neither started.",
+      "native_verification": "exact_overlay_release_debug_passed",
+      "next_action": "Inspect changed source only; native overlay passed, actual XML/cache/game execution unverified.",
       "refinement_branch": "FirstImpressionDraft-ChatGPT",
       "draft_code_sha": "971d63a53deb940f7af13ce6bbe408c8559fb1b2",
       "finding_ids": [
         "FIRST-20261028-01"
       ],
-      "tested_code_sha": "c4a2140493fb083bbde5af52bfb80caaf01af2ca",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40894673380"
+      "tested_code_sha": "de9caca8cd6afc6e85309b51496a29da2e258e44",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40908991199",
+      "artifacts": {
+        "Release": 12912668298,
+        "Debug": 12913101878
+      }
     },
     {
       "branch": "FreePromotionLoaderBuild-ChatGPT",
@@ -1033,7 +1037,7 @@
     },
     {
       "branch": "ReputationWindowDraft-ChatGPT",
-      "head_at_inventory": "3975b09ca3ffd4393dece6ae11bf12134b2a54fa",
+      "head_at_inventory": "343689debf230b2e49ddbf927f62d83db0b22ac5",
       "coverage": "published_review_artifact",
       "native_verification": "draft_only_no_dll_build",
       "source_branch": "RealisticAIDecisions",
@@ -1099,22 +1103,26 @@
     },
     {
       "branch": "FirstImpressionDraft-ChatGPT",
-      "head_at_inventory": "b3441eda5865a7a7b7035f416eceafe4937297c4",
+      "head_at_inventory": "3589d41a23b722a2b4bac89d0f32c759a4599d85",
       "coverage": "published_review_artifact",
       "source_branch": "FirstImpressionDiplomacyModifiers",
       "source_head": "cc764ad80e89f751f809998a61a23225254109f2",
       "draft_code_sha": "971d63a53deb940f7af13ce6bbe408c8559fb1b2",
-      "native_verification": "queued_no_compiler_result",
+      "native_verification": "exact_overlay_release_debug_passed",
       "finding_ids": [
         "FIRST-20261028-01"
       ],
-      "next_action": "Follow existing run 40894673380 to terminal result before another build; Release and Debug queued, neither started.",
-      "tested_code_sha": "c4a2140493fb083bbde5af52bfb80caaf01af2ca",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40894673380"
+      "next_action": "Inspect changed source only; native overlay passed, actual XML/cache/game execution unverified.",
+      "tested_code_sha": "de9caca8cd6afc6e85309b51496a29da2e258e44",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40908991199",
+      "artifacts": {
+        "Release": 12912668298,
+        "Debug": 12913101878
+      }
     },
     {
       "branch": "PreferenceFrameworkDraft-ChatGPT",
-      "head_at_inventory": "04f8986c3bca0c58aa43c82443a615d6052a3d67",
+      "head_at_inventory": "4ae2aca39f3d9400d2fa56713bfc2291ed6da1a7",
       "coverage": "published_review_artifact",
       "native_verification": "cleanup_and_event_blocks_fixture_only_no_dll_build",
       "source_branch": "LeaderCivilizationDecisionPreferences",
@@ -1168,7 +1176,7 @@
       "source_head": "799082c323ea44335c66b9714e1a9bb365c12095",
       "coverage": "published_scoped_refinement",
       "native_verification": "draft_only_no_dll_build",
-      "head_at_inventory": "def638cf5c927651ef0b692fc1fac74a27bc4915"
+      "head_at_inventory": "b031f2f2fb23fd7de7aed3901692f52753e4cd00"
     }
   ],
   "current_pass": {
@@ -1201,5 +1209,7 @@
     "retired_branch": "dll-build-debug",
     "qualification": "Use the current named workflow and populate pinned overlay provenance; do not recreate a separate Debug branch."
   },
-  "assistant_branch_cleanup_policy": "Reuse suitable assistant branches. For clearly duplicate older/newer assistant branches, inspect histories and contents, merge older into newer preserving newer edits, then mark older safe for user manual removal. Never delete the older branch automatically. This explicit user authorization is limited to assistant branch consolidation."
+  "assistant_branch_cleanup_policy": "Reuse suitable assistant branches. For clearly duplicate older/newer assistant branches, inspect histories and contents, merge older into newer preserving newer edits, then mark older safe for user manual removal. Never delete the older branch automatically. This explicit user authorization is limited to assistant branch consolidation.",
+  "inventory_date": "2026-10-29",
+  "inventory_branch_count": 75
 }
