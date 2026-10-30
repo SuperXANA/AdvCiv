@@ -150,7 +150,7 @@ jobs:
           rm -f expected-sources.txt actual-sources.txt source-hashes.diff \
             source-verification.txt build-provenance.txt
           printf '%s\n' 'scope=root:.c,.cpp,.h,.inl' 'algorithm=SHA256' \
-          'status=collecting' > source-verification.txt
+            'status=collecting' > source-verification.txt
           echo 'source_verification_started=true' >> "$GITHUB_OUTPUT"
 
           (
