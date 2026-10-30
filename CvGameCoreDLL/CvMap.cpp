@@ -1337,7 +1337,8 @@ void CvMap::read(FDataStreamBase* pStream)
 		}
 	} // </advc.106n>
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
-	m_pTempChangesMap->read(pStream);
+	if (uiFlag >= 8)
+		m_pTempChangesMap->read(pStream);
 	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 }
 
@@ -1352,7 +1353,10 @@ void CvMap::write(FDataStreamBase* pStream)
 	//uiFlag = 4; // advc.enum: new enum map save behavior
 	//uiFlag = 5; // advc.304: Barbarian weight map
 	//uiFlag = 6; // advc.108c
-	uiFlag = 7; // advc.enum: Extra plot yields, costs moved from CvGame
+	//uiFlag = 7; // advc.enum: Extra plot yields, costs moved from CvGame
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
+	uiFlag = 8; // Temporary plot-change maps appended to the map stream.
+	// XANA: 04-26-2025 FfH Terrain Type Changes for Advanced Civ
 	pStream->Write(uiFlag);
 
 	pStream->Write(m_iGridWidth);
