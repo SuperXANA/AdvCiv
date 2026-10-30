@@ -29,3 +29,22 @@ Overlay checks before publication: no baseline DLL blobs missing and no feature 
 The same run was explicitly retried after builder connectivity was reported restored. MSVC was reached. Both Release (job 123963298099) and Debug (job 123963298483) failed at CvUnitAI.cpp:519 with C2660: CvUnit::upgradeXPChange does not take 0 arguments. No artifacts were produced by this attempt; compiler diagnostics therefore came from targeted runner-log lines.
 
 HP-20261030-03 — CvUnit.h:279: restore the pinned 1.14 declaration's default argument UnitTypes eUnit = NO_UNIT and its advc.131e annotation. The supplied feature header had omitted this default while the retained baseline CvUnitAI::AI_upgradePriority calls upgradeXPChange() without arguments. The actual feature and baseline implementations of upgradeXPChange have the same body, and eUnit is unused; restoring the interface default preserves baseline semantics and leaves HP behavior unchanged. This is overlay compatibility, not a change to XP mechanics. Follow-up native result pending.
+
+## Verified follow-up result
+
+Exact compiled commit: f809096d101f8ddf4f155c5d89999237010f12d5.
+Run: https://github.com/SuperXANA/AdvCiv/actions/runs/41026141850 — completed, success.
+Release job 123964598759 and Debug job 123964598464 both passed the _MSC_VER == 1310 compiler probe and full Rebuild. Both actual extracted MSBuild Build.log files report Build succeeded, 0 Warning(s), 0 Error(s).
+
+Downloaded both GitHub artifact ZIPs through the artifact endpoint, unzipped them and inspected their Build.log, provenance, source manifests and binaries. Provenance matches the exact commit, configuration, pinned base, feature snapshot and workflow source. actual-sources.txt equals expected-sources.txt in each package. Both DLLs have valid MZ/PE signatures, x86 machine 0x14c, PE32 optional header 0x10b and IMAGE_FILE_DLL flag.
+
+| Configuration | Artifact ID | DLL bytes | DLL SHA-256 |
+| --- | ---: | ---: | --- |
+| Release | 12964370350 | 6569984 | 9928066274b66546d488377b76787639ac44c23d292c9f47355383f65655c325 |
+| Debug | 12963343212 | 25194496 | 9620e164cdde81dfe1b48ae40050f75ea255a836f12e6b228671d6e51001515f |
+
+Release artifact: https://github.com/SuperXANA/AdvCiv/actions/runs/41026141850/artifacts/12964370350
+Debug artifact: https://github.com/SuperXANA/AdvCiv/actions/runs/41026141850/artifacts/12963343212
+Debug package also contains CvGameCoreDLL.pdb (70634496 bytes). Archive metadata sizes are 2355286 and 18575650 bytes respectively.
+
+The previously blocked native attempt and compiler failure are retained as history, superseded by this exact tested commit's success. No further code change was required beyond the baseline default-argument restoration. This verifies full DLL compilation/linking and artifact contents for the prepared overlay; no Civilization IV game session, actual-save loading, XML/cache loading or gameplay HP bounds/overflow/combat behavior is certified. Documentation-only result commit uses [skip ci].

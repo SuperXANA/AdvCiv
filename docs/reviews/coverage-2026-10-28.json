@@ -832,34 +832,53 @@
       "branch": "PromotionAltersUnitHPValues",
       "head_at_inventory": "d64fade8bb53d8c4bd92521c6a606b323af91025",
       "coverage": "source_review_partial",
-      "native_verification": "blocked_before_compilation_builder_ssh_timeout",
-      "next_action": "Retain existing prepared overlay; revisit native validation after builder SSH reachability returns. Continue other eligible reviews rather than immediately repeat this unchanged infrastructure-blocked attempt.",
+      "native_verification": "exact_overlay_release_debug_passed_artifact_logs_inspected",
+      "next_action": "Native overlay passed; review changed source or remaining HP bounds/overflow and actual XML/cache/save/game integration. Do not repeat unchanged successful builds.",
       "review_branch": "PromotionHPDraft-ChatGPT",
       "finding_ids": [
         "HP-20261029-01",
-        "HP-20261029-02"
+        "HP-20261029-02",
+        "HP-20261030-03"
       ],
       "source_head": "d64fade8bb53d8c4bd92521c6a606b323af91025",
       "refinement_branch": "PromotionHPDraft-ChatGPT",
       "latest_review": "docs/reviews/promotion-hp-native-2026-10-30.md",
-      "qualification": "Both matrix jobs terminal before compiler: SSH port 22 timeout during rsync. Zero artifacts, so no Build.log or DLL could be downloaded. No full MSVC/DLL result.",
+      "qualification": "Both artifact ZIPs downloaded/extracted; actual Build.log files show zero warnings/errors. Exact provenance, matching manifests and x86 PE32 DLL headers verified; gameplay and actual saves unverified.",
       "attempted_overlay_sha": "ddd250d584219a24aeb6ccbe455f681f5843a6db",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41022387851",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41026141850",
       "build_result": {
         "Release": {
-          "job_id": 123952472385,
-          "conclusion": "failure",
-          "phase": "source_sync",
-          "rsync_exit_code": 255
+          "job_id": 123964598759,
+          "conclusion": "success",
+          "warnings": 0,
+          "errors": 0
         },
         "Debug": {
-          "job_id": 123952472554,
-          "conclusion": "failure",
-          "phase": "source_sync",
-          "rsync_exit_code": 12
+          "job_id": 123964598464,
+          "conclusion": "success",
+          "warnings": 0,
+          "errors": 0
         },
-        "artifacts": 0,
-        "compiler_invoked": false
+        "compiler": "_MSC_VER == 1310",
+        "artifact_zips_downloaded_and_extracted": true,
+        "msbuild_build_logs_inspected": true
+      },
+      "tested_code_sha": "f809096d101f8ddf4f155c5d89999237010f12d5",
+      "build_history": [
+        {
+          "run_id": 41022387851,
+          "attempt": 1,
+          "result": "builder_ssh_timeout_before_compilation"
+        },
+        {
+          "run_id": 41022387851,
+          "attempt": 2,
+          "result": "MSVC_C2660_upgradeXPChange_missing_default_argument"
+        }
+      ],
+      "artifacts": {
+        "Release": 12964370350,
+        "Debug": 12963343212
       }
     },
     {
@@ -1277,33 +1296,52 @@
       "source_branch": "PromotionAltersUnitHPValues",
       "source_head": "d64fade8bb53d8c4bd92521c6a606b323af91025",
       "coverage": "source_review_partial",
-      "native_verification": "blocked_before_compilation_builder_ssh_timeout",
-      "head_at_inventory": "ddd250d584219a24aeb6ccbe455f681f5843a6db",
+      "native_verification": "exact_overlay_release_debug_passed_artifact_logs_inspected",
+      "head_at_inventory": "f809096d101f8ddf4f155c5d89999237010f12d5",
       "finding_ids": [
         "HP-20261029-01",
-        "HP-20261029-02"
+        "HP-20261029-02",
+        "HP-20261030-03"
       ],
       "refinement_branch": "PromotionHPDraft-ChatGPT",
       "latest_review": "docs/reviews/promotion-hp-native-2026-10-30.md",
-      "next_action": "Retain existing prepared overlay; revisit native validation after builder SSH reachability returns. Continue other eligible reviews rather than immediately repeat this unchanged infrastructure-blocked attempt.",
-      "qualification": "Both matrix jobs terminal before compiler: SSH port 22 timeout during rsync. Zero artifacts, so no Build.log or DLL could be downloaded. No full MSVC/DLL result.",
+      "next_action": "Native overlay passed; review changed source or remaining HP bounds/overflow and actual XML/cache/save/game integration. Do not repeat unchanged successful builds.",
+      "qualification": "Both artifact ZIPs downloaded/extracted; actual Build.log files show zero warnings/errors. Exact provenance, matching manifests and x86 PE32 DLL headers verified; gameplay and actual saves unverified.",
       "attempted_overlay_sha": "ddd250d584219a24aeb6ccbe455f681f5843a6db",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41022387851",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41026141850",
       "build_result": {
         "Release": {
-          "job_id": 123952472385,
-          "conclusion": "failure",
-          "phase": "source_sync",
-          "rsync_exit_code": 255
+          "job_id": 123964598759,
+          "conclusion": "success",
+          "warnings": 0,
+          "errors": 0
         },
         "Debug": {
-          "job_id": 123952472554,
-          "conclusion": "failure",
-          "phase": "source_sync",
-          "rsync_exit_code": 12
+          "job_id": 123964598464,
+          "conclusion": "success",
+          "warnings": 0,
+          "errors": 0
         },
-        "artifacts": 0,
-        "compiler_invoked": false
+        "compiler": "_MSC_VER == 1310",
+        "artifact_zips_downloaded_and_extracted": true,
+        "msbuild_build_logs_inspected": true
+      },
+      "tested_code_sha": "f809096d101f8ddf4f155c5d89999237010f12d5",
+      "build_history": [
+        {
+          "run_id": 41022387851,
+          "attempt": 1,
+          "result": "builder_ssh_timeout_before_compilation"
+        },
+        {
+          "run_id": 41022387851,
+          "attempt": 2,
+          "result": "MSVC_C2660_upgradeXPChange_missing_default_argument"
+        }
+      ],
+      "artifacts": {
+        "Release": 12964370350,
+        "Debug": 12963343212
       }
     },
     {
@@ -1334,11 +1372,11 @@
     }
   ],
   "current_pass": {
-    "classification": "promotion_hp_native_blocked_infrastructure",
-    "attempted_overlay_sha": "ddd250d584219a24aeb6ccbe455f681f5843a6db",
-    "run_id": 41022387851,
-    "result": "failure_before_compilation",
-    "artifacts": 0
+    "classification": "promotion_hp_native_passed_after_connectivity_recovery",
+    "tested_code_sha": "f809096d101f8ddf4f155c5d89999237010f12d5",
+    "run_id": 41026141850,
+    "result": "Release_and_Debug_success",
+    "artifact_logs_inspected": true
   },
   "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",
   "previous_baseline_sha": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
