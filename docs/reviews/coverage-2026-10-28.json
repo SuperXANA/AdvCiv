@@ -832,8 +832,8 @@
       "branch": "PromotionAltersUnitHPValues",
       "head_at_inventory": "d64fade8bb53d8c4bd92521c6a606b323af91025",
       "coverage": "source_review_partial",
-      "native_verification": "extracted_declaration_and_reconstruction_fixtures_only_no_dll",
-      "next_action": "Review HP bounds/overflow, combat assumptions and actual metadata/engine save-load integration before DLL validation.",
+      "native_verification": "blocked_before_compilation_builder_ssh_timeout",
+      "next_action": "Retain existing prepared overlay; revisit native validation after builder SSH reachability returns. Continue other eligible reviews rather than immediately repeat this unchanged infrastructure-blocked attempt.",
       "review_branch": "PromotionHPDraft-ChatGPT",
       "finding_ids": [
         "HP-20261029-01",
@@ -841,8 +841,26 @@
       ],
       "source_head": "d64fade8bb53d8c4bd92521c6a606b323af91025",
       "refinement_branch": "PromotionHPDraft-ChatGPT",
-      "latest_review": "docs/reviews/promotion-hp-reload-2026-10-29.md",
-      "qualification": "Prior declaration checks retained; 160 extracted reload cases passed C++03/ASan/UBSan. Reconstructs current-metadata modifier without stream changes; full saves and game unverified."
+      "latest_review": "docs/reviews/promotion-hp-native-2026-10-30.md",
+      "qualification": "Both matrix jobs terminal before compiler: SSH port 22 timeout during rsync. Zero artifacts, so no Build.log or DLL could be downloaded. No full MSVC/DLL result.",
+      "attempted_overlay_sha": "ddd250d584219a24aeb6ccbe455f681f5843a6db",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41022387851",
+      "build_result": {
+        "Release": {
+          "job_id": 123952472385,
+          "conclusion": "failure",
+          "phase": "source_sync",
+          "rsync_exit_code": 255
+        },
+        "Debug": {
+          "job_id": 123952472554,
+          "conclusion": "failure",
+          "phase": "source_sync",
+          "rsync_exit_code": 12
+        },
+        "artifacts": 0,
+        "compiler_invoked": false
+      }
     },
     {
       "branch": "PromotionAltersUnitXPValues",
@@ -1259,16 +1277,34 @@
       "source_branch": "PromotionAltersUnitHPValues",
       "source_head": "d64fade8bb53d8c4bd92521c6a606b323af91025",
       "coverage": "source_review_partial",
-      "native_verification": "extracted_declaration_and_reconstruction_fixtures_only_no_dll",
-      "head_at_inventory": "f48011d732458189a54aa1d810fb7549fcd3378a",
+      "native_verification": "blocked_before_compilation_builder_ssh_timeout",
+      "head_at_inventory": "ddd250d584219a24aeb6ccbe455f681f5843a6db",
       "finding_ids": [
         "HP-20261029-01",
         "HP-20261029-02"
       ],
       "refinement_branch": "PromotionHPDraft-ChatGPT",
-      "latest_review": "docs/reviews/promotion-hp-reload-2026-10-29.md",
-      "next_action": "Review HP bounds/overflow, combat assumptions and actual metadata/engine save-load integration before DLL validation.",
-      "qualification": "Prior declaration checks retained; 160 extracted reload cases passed C++03/ASan/UBSan. Reconstructs current-metadata modifier without stream changes; full saves and game unverified."
+      "latest_review": "docs/reviews/promotion-hp-native-2026-10-30.md",
+      "next_action": "Retain existing prepared overlay; revisit native validation after builder SSH reachability returns. Continue other eligible reviews rather than immediately repeat this unchanged infrastructure-blocked attempt.",
+      "qualification": "Both matrix jobs terminal before compiler: SSH port 22 timeout during rsync. Zero artifacts, so no Build.log or DLL could be downloaded. No full MSVC/DLL result.",
+      "attempted_overlay_sha": "ddd250d584219a24aeb6ccbe455f681f5843a6db",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41022387851",
+      "build_result": {
+        "Release": {
+          "job_id": 123952472385,
+          "conclusion": "failure",
+          "phase": "source_sync",
+          "rsync_exit_code": 255
+        },
+        "Debug": {
+          "job_id": 123952472554,
+          "conclusion": "failure",
+          "phase": "source_sync",
+          "rsync_exit_code": 12
+        },
+        "artifacts": 0,
+        "compiler_invoked": false
+      }
     },
     {
       "branch": "FavoriteUnitCombatDraft-ChatGPT",
@@ -1298,11 +1334,11 @@
     }
   ],
   "current_pass": {
-    "classification": "promotion_hp_native_preparation",
-    "base_sha": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
-    "feature_sha": "f67d2df605582d9946f8466ff8ca60d82c2b80a2",
-    "workflow_sha": "af5c2f130e195c23a011a5aed35fcff212389f2e",
-    "result": "pending"
+    "classification": "promotion_hp_native_blocked_infrastructure",
+    "attempted_overlay_sha": "ddd250d584219a24aeb6ccbe455f681f5843a6db",
+    "run_id": 41022387851,
+    "result": "failure_before_compilation",
+    "artifacts": 0
   },
   "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",
   "previous_baseline_sha": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
