@@ -84,8 +84,10 @@ void AlignmentScore::decay()
 	for (int i = 0; i < m_iCount; ++i)
 	{
 		AlignmentValue& kAlignmentValue = m_buffer[index(i)];
-		kAlignmentValue.iHigh *= iHighFactor;
-		kAlignmentValue.iLow *= iLowFactor;
+		// XANA: 10-30-2026 Explicit fixed-point decay rounding (ChatGPT)
+		kAlignmentValue.iHigh = (kAlignmentValue.iHigh * iHighFactor).round();
+		kAlignmentValue.iLow = (kAlignmentValue.iLow * iLowFactor).round();
+		// XANA: 10-30-2026 Explicit fixed-point decay rounding (ChatGPT)
 	}
 }
 

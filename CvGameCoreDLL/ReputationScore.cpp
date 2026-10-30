@@ -58,7 +58,10 @@ void ReputationScore::decay()
 	{
 		if (iLastValidIndex - iTurn != 0)
 		{
-			m_aiValues[iTurn] *= rSmoothFactor.pow(iLastValidIndex - iTurn);
+			// XANA: 10-30-2026 Explicit fixed-point decay rounding (ChatGPT)
+			m_aiValues[iTurn] = (m_aiValues[iTurn] *
+					rSmoothFactor.pow(iLastValidIndex - iTurn)).round();
+			// XANA: 10-30-2026 Explicit fixed-point decay rounding (ChatGPT)
 		}
 	}
 }
