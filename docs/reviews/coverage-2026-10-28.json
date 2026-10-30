@@ -434,7 +434,7 @@
       "head_at_inventory": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
       "coverage": "first_source_pass_counter_refinement",
       "native_verification": "counter_attitude_paranoia_fixtures_only_no_dll_build",
-      "next_action": "Ideology case scopes repaired; continue persistence/UI/basic-info integration before native validation.",
+      "next_action": "Gender read destination typo repaired; save-version compatibility, complete persistence/UI/basic-info integration remain unverified.",
       "refinement_branch": "GenderCounterDraft-ChatGPT",
       "draft_code_sha": "0d69e69e0d491dd6ec49249351d48455f05764bf",
       "finding_ids": [
@@ -443,7 +443,8 @@
         "GENDER-20261027-03",
         "GENDER-20261028-04",
         "GENDER-20261028-05",
-        "GENDER-20261029-06"
+        "GENDER-20261029-06",
+        "GENDER-20261029-07"
       ],
       "review_branch": "GenderCounterDraft-ChatGPT",
       "qualification": "Prior fixtures retained; actual marked paranoia block passes 1280 configurations at two starting scores with metadata/iterator stubs. No full strategy, DLL or game result."
@@ -541,20 +542,26 @@
       "branch": "LeaderSpecificDynamicRankBonusDiplomacy",
       "head_at_inventory": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
       "coverage": "source_review_partial",
-      "native_verification": "draft_only_no_dll_build",
-      "next_action": "Review fixed-point rank formula, threshold policy and broader metadata/save integration before meaningful DLL validation.",
+      "native_verification": "exact_overlay_release_debug_passed",
+      "next_action": "Native compile verified; rank normalization/threshold mechanics and versioned persistence remain unverified.",
       "review_branch": "DynamicRankDraft-ChatGPT",
       "finding_ids": [
         "RANK-20261028-01",
         "RANK-20261029-02"
-      ]
+      ],
+      "tested_code_sha": "197a968d1b24135a9c42f5f1a951bbe16903fc0e",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40982393659",
+      "artifacts": {
+        "Release": 12945297909,
+        "Debug": 12945433081
+      }
     },
     {
       "branch": "LeaderSpecificFavoriteUnitCombats",
       "head_at_inventory": "799082c323ea44335c66b9714e1a9bb365c12095",
       "coverage": "source_review_partial",
-      "native_verification": "actual_getter_and_adjustment_fixture_only",
-      "next_action": "Owned combat weights now released; continue cache/XML registration and full integration review.",
+      "native_verification": "exact_overlay_release_debug_passed",
+      "next_action": "Native overlay passed; inspect changed source or actual XML/cache/game integration without repeating unchanged builds.",
       "review_branch": "FavoriteUnitCombatDraft-ChatGPT",
       "finding_ids": [
         "FAVORITE-COMBAT-20261029-01",
@@ -562,7 +569,13 @@
         "FAVORITE-COMBAT-20261029-03",
         "FAVORITE-COMBAT-20261029-04",
         "FAVORITE-COMBAT-20261029-05"
-      ]
+      ],
+      "tested_code_sha": "53e3fb35bddc9c2bf67acc7a8d3b3254df5e0003",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40968286063",
+      "artifacts": {
+        "Release": 12939700982,
+        "Debug": 12939093068
+      }
     },
     {
       "branch": "LeaderSpecificMultilayeredAIDecisionEval",
@@ -1184,8 +1197,26 @@
       "source_branch": "LeaderSpecificFavoriteUnitCombats",
       "source_head": "799082c323ea44335c66b9714e1a9bb365c12095",
       "coverage": "published_scoped_refinement",
-      "native_verification": "draft_only_no_dll_build",
-      "head_at_inventory": "b031f2f2fb23fd7de7aed3901692f52753e4cd00"
+      "native_verification": "exact_overlay_release_debug_passed",
+      "head_at_inventory": "b031f2f2fb23fd7de7aed3901692f52753e4cd00",
+      "tested_code_sha": "53e3fb35bddc9c2bf67acc7a8d3b3254df5e0003",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40968286063",
+      "artifacts": {
+        "Release": 12939700982,
+        "Debug": 12939093068
+      },
+      "next_action": "Native overlay passed; inspect changed source or actual XML/cache/game integration without repeating unchanged builds."
+    },
+    {
+      "branch": "DynamicRankDraft-ChatGPT",
+      "native_verification": "exact_overlay_release_debug_passed",
+      "tested_code_sha": "197a968d1b24135a9c42f5f1a951bbe16903fc0e",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40982393659",
+      "artifacts": {
+        "Release": 12945297909,
+        "Debug": 12945433081
+      },
+      "next_action": "Native compile verified; rank normalization/threshold mechanics and versioned persistence remain unverified."
     }
   ],
   "current_pass": {
