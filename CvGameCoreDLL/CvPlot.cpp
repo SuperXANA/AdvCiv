@@ -2060,7 +2060,7 @@ void CvPlot::setTempTerrainType(TerrainTypes eNewValue, int iTimer)
 		PlotTempChangeMap& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
 		CvPlot const& kPlot = *this;
 		
-		if (kTempChangesMap.getRealTerrainType(kPlot) == NO_TERRAIN)
+		if (kTempChangesMap.getTempTerrainTimer(kPlot) <= 0)
 		{
 			kTempChangesMap.setRealTerrainType(kPlot, getTerrainType());
 		}
@@ -2079,7 +2079,7 @@ void CvPlot::setTempFeatureType(FeatureTypes eFeature, int iVariety, int iTimer)
 		PlotTempChangeMap& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
 		CvPlot const& kPlot = *this;
 		
-		if (kTempChangesMap.getRealFeatureType(kPlot).first == NO_FEATURE)
+		if (kTempChangesMap.getTempFeatureTimer(kPlot) <= 0)
 		{
 			kTempChangesMap.setRealFeatureType(kPlot, getFeatureType(), getFeatureVariety());
 		}
@@ -2098,7 +2098,7 @@ void CvPlot::setTempBonusType(BonusTypes eBonus, int iTimer)
 		PlotTempChangeMap& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
 		CvPlot const& kPlot = *this;
 		
-		if (kTempChangesMap.getRealBonusType(kPlot) == NO_BONUS)
+		if (kTempChangesMap.getTempBonusTimer(kPlot) <= 0)
 		{
 			kTempChangesMap.setRealBonusType(kPlot, getBonusType());
 		}
@@ -2118,7 +2118,7 @@ void CvPlot::setTempImprovementType(ImprovementTypes eImprovement, int iTimer)
 		PlotTempChangeMap& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
 		CvPlot const& kPlot = *this;
 		
-		if (kTempChangesMap.getRealImprovementType(kPlot) == NO_IMPROVEMENT)
+		if (kTempChangesMap.getTempImprovementTimer(kPlot) <= 0)
 		{
 			kTempChangesMap.setRealImprovementType(kPlot, getImprovementType());
 		}
@@ -2138,7 +2138,7 @@ void CvPlot::setTempRouteType(RouteTypes eRoute, int iTimer)
 		PlotTempChangeMap& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
 		CvPlot const& kPlot = *this;
 		
-		if (kTempChangesMap.getRealRouteType(kPlot) == NO_ROUTE)
+		if (kTempChangesMap.getTempRouteTimer(kPlot) <= 0)
 		{
 			kTempChangesMap.setRealRouteType(kPlot, getRouteType());
 		}
