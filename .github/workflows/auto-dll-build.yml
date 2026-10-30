@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   build-dll:
-    runs-on: self-hosted # Use local virtual machine for building
+    runs-on: civ4-dll-build # Use local virtual machine for building
     strategy:
       fail-fast: false
       max-parallel: 1
