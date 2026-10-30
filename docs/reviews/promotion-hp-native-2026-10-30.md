@@ -23,3 +23,9 @@ Artifact API checked after completion: total_count 0. There is no produced ZIP o
 Retain this complete pinned overlay on the existing branch. No automatic retry in this pass, no source fix inferred from a network timeout, and no machine or repository settings changed. Resume native validation after builder SSH reachability is restored; no need to prepare another branch. Other eligible repository review work remains.
 
 Overlay checks before publication: no baseline DLL blobs missing and no feature DLL blob SHA mismatches. Native build preparation did not alter the four feature DLL blobs. Earlier extracted declaration/reconstruction checks remain their own scoped evidence and do not substitute for this missing full build.
+
+## Retry after SSH recovery: attempt 2
+
+The same run was explicitly retried after builder connectivity was reported restored. MSVC was reached. Both Release (job 123963298099) and Debug (job 123963298483) failed at CvUnitAI.cpp:519 with C2660: CvUnit::upgradeXPChange does not take 0 arguments. No artifacts were produced by this attempt; compiler diagnostics therefore came from targeted runner-log lines.
+
+HP-20261030-03 — CvUnit.h:279: restore the pinned 1.14 declaration's default argument UnitTypes eUnit = NO_UNIT and its advc.131e annotation. The supplied feature header had omitted this default while the retained baseline CvUnitAI::AI_upgradePriority calls upgradeXPChange() without arguments. The actual feature and baseline implementations of upgradeXPChange have the same body, and eUnit is unused; restoring the interface default preserves baseline semantics and leaves HP behavior unchanged. This is overlay compatibility, not a change to XP mechanics. Follow-up native result pending.
