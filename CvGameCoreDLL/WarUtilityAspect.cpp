@@ -164,11 +164,13 @@ bool WarUtilityAspect::concernsOnlyWarParties() const { return true; }
 
 char const* WarUtilityAspect::aspectName() const
 {
-	if (m_kReport.isMute()) // Don't waste time processing the string then
-		return getUWAI().aspectName(xmlID());
-	// Convert from upper case to mixed case and replace underscores with spaces
+	// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 	static CvString szBuffer;
-	szBuffer = getUWAI().aspectName(xmlID());
+	szBuffer.Copy(getUWAI().aspectName(xmlID()));
+	if (m_kReport.isMute()) // Skip report-name formatting when muted
+		return szBuffer.GetCString();
+	// XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
+	// Convert from upper case to mixed case and replace underscores with spaces
 	for (uint i = 0; i < szBuffer.length(); i++)
 	{
 		if (szBuffer[i] == '_')

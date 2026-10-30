@@ -64,7 +64,7 @@ public:
 		FAssertBounds(0, GC.getNumWarUtilityAspectAIInfos(), eAspect);
 		return per100(GC.getInfo(eAspect).getAIWeight());
 	}
-	char const* aspectName(WarUtilityAspectAITypes eAspect) const
+	wchar const* aspectName(WarUtilityAspectAITypes eAspect) const
 	{
 		FAssertBounds(0, GC.getNumWarUtilityAspectAIInfos(), eAspect);
 		return GC.getInfo(eAspect).getDescription();
