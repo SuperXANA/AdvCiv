@@ -207,7 +207,21 @@ jobs:
           
           # Connect to local Windows Server builder virtual machine and start the build remotely
           ssh Administrator@192.168.2.252 "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG'\""
-    
+          
+    # this always-run upload contains diagnostics, not binaries
+    - name: Upload Source Verification Diagnostics
+      if: ${{ always() }}
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+      with:
+        name: source-verification-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
+        path: |
+          ./expected-sources.txt
+          ./actual-sources.txt
+          ./source-hashes.diff
+          ./source-verification.txt
+          ./build-provenance.txt
+        if-no-files-found: warn
+        
     - name: Copy DLL files Over To Linux
       shell: bash
       run: |
@@ -230,20 +244,6 @@ jobs:
         fi
         
         test -s ./artifacts/CvGameCoreDLL.dll
-
-    # this always-run upload contains diagnostics, not binaries
-    - name: Upload Source Verification Diagnostics
-      if: ${{ always() }}
-      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
-      with:
-        name: source-verification-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
-        path: |
-          ./expected-sources.txt
-          ./actual-sources.txt
-          ./source-hashes.diff
-          ./source-verification.txt
-          ./build-provenance.txt
-        if-no-files-found: warn
         
     - name: Upload Compiled DLL Artifact
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
