@@ -132,7 +132,7 @@ jobs:
         done
         # Get the PDB file if this is a Debug build - known-working source location
         if [ "$CONFIG" = "Debug" ]; then
-          scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/temp_files/$CONFIG/*.pdb ./artifacts/
+          scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/temp_files/$CONFIG/CvGameCoreDLL.pdb ./artifacts/CvGameCoreDLL.pdb
         fi
         
         test -s ./artifacts/CvGameCoreDLL.dll
@@ -147,7 +147,7 @@ jobs:
           ./build-provenance.txt
           ./actual-sources.txt
           ./expected-sources.txt
-          ./artifacts/*.pdb
+          ./artifacts/CvGameCoreDLL.pdb
           ./artifacts/*.log
         if-no-files-found: error
 
