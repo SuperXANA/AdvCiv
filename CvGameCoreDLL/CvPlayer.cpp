@@ -159,6 +159,8 @@ bool CvPlayer::initOtherData()
 			m_aAlignmentAxisScores.push_back(AlignmentScore(
 				iiAlignmentValues.first,
 				iiAlignmentValues.second,
+				100, // Retain both alignment channels: this axis does not decay.
+				100,
 				kAlignmentAxis.get(CvAlignmentAxisInfo::MAX_ALIGNMENT_POINTS),
 				kAlignmentAxis.get(CvAlignmentAxisInfo::ALIGNMENTS_LIGHT_DARK_INDEPENDENT)));
 		}
