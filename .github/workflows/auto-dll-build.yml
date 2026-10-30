@@ -33,7 +33,19 @@ jobs:
     - name: Build DLL via MSBuild
       id: build
       shell: bash
-      env: 
+      env:  
+          # YAML automatically preserves this string exactly as written
+          # add pinned-1.14 commit SHA here
+          BASE_COMMIT_SHA: "5970334b64a875b5cdb370c94fc9a98db4eacda6"
+          
+          # YAML automatically preserves this string exactly as written
+          # add feature commit SHA here
+          FEATURE_COMMIT_SHA: "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd"
+          
+          # YAML automatically preserves this string exactly as written
+          # add workflow commit SHA here
+          WORKFLOW_COMMIT_SHA: "9f62e13990b39a8c16e8c6dd404c6aca995e53f3"
+          
           # YAML automatically preserves this multi-line string exactly as written
           PS_CODE: |
             param(
@@ -76,7 +88,39 @@ jobs:
               Write-Error "MSBuild compilation process encountered errors."
               exit $buildExit
             }
-            Write-Output "Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+            Write-Output "Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)." 
+          
+          # YAML automatically preserves this multi-line string exactly as written
+          HASH_SCRIPT: |
+            $ErrorActionPreference = 'Stop'
+            Set-StrictMode -Version 2.0
+            try {
+              [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding
+              if ($PSVersionTable.PSVersion.Major -lt 4) {
+                throw 'Source verification requires Windows PowerShell 4.0 or newer.'
+              }
+              $root = 'R:\CvGameCoreDLL'
+              $extensions = @('.cpp', '.h', '.inl', '.c')
+              $files = @(Get-ChildItem -LiteralPath $root -Force | Where-Object { -not $_.PSIsContainer -and $extensions -contains $_.Extension.ToLowerInvariant() })
+              if ($files.Count -eq 0) {
+                throw 'No root source files found on the Windows builder.'
+              }
+              foreach ($file in $files) {
+                if (($file.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+                  throw ('Source reparse point is not permitted: ' + $file.FullName)
+                }
+                if ($file.Name -match '[\r\n\\]') {
+                  throw ('Unsupported source path: ' + $file.FullName)
+                }
+                $hash = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash
+                # Match GNU sha256sum's text record, not its formatted PowerShell table.
+                [Console]::WriteLine(('{0}  ./{1}' -f $hash.ToLowerInvariant(), $file.Name))
+              }
+              exit 0
+            } catch {
+              [Console]::Error.WriteLine($_.Exception.Message)
+              exit 1
+            }
       run: |
           set -euo pipefail
           # Set configuration based on matrix (Using standard Bash syntax)
@@ -84,14 +128,14 @@ jobs:
           
           # Delete stale top-level source files only. Excluded directories and
           # machine-local Project files are protected from this delete pass.
-          rsync -avz --delete --blocking-io \
+          rsync -avz --checksum --delete --blocking-io \
           -e "ssh -o IPQoS=throughput" \
           --include='/*.cpp' --include='/*.h' --include='/*.inl' --include='/*.c' \
           --exclude='/*' \
           ./CvGameCoreDLL/ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
           # Sync the complete pinned-base-plus-feature source overlay into the Windows Server's RAM Disk workspace.
-          rsync -avz --blocking-io \
+          rsync -avz --checksum --blocking-io \
           -e "ssh -o IPQoS=throughput" \
           --exclude='/Project/*' \
           --exclude='/.git/*' \
@@ -99,12 +143,62 @@ jobs:
           --include='*/' --include='*' --include='*.cpp' --include='*.h' --include='*.inl' --include='*.c' --exclude='*/' --exclude='*' \
           ./CvGameCoreDLL/ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
 
-          # Fail if the remote compiler could see an unexpected root source.
-          find CvGameCoreDLL -maxdepth 1 -type f \( -name '*.cpp' -o -name '*.h' -o -name '*.inl' -o -name '*.c' \) -printf '%f\n' | LC_ALL=C sort > expected-sources.txt
-          ssh Administrator@192.168.2.252 "powershell.exe -NoProfile -Command \"Get-ChildItem -File -Path 'R:\CvGameCoreDLL\*.cpp','R:\CvGameCoreDLL\*.h','R:\CvGameCoreDLL\*.inl','R:\CvGameCoreDLL\*.c' | Select-Object -ExpandProperty Name\"" | tr -d '\r' | LC_ALL=C sort > actual-sources.txt
-          diff -u expected-sources.txt actual-sources.txt
+          # Enable sha256sum hashing of DLL sources
+          # Hash the same root source scope as the existing filename-only check.
+          # Run after rsync, but before invoking the compiler.
+          # Prerequisite: the enclosing workflow already uses set -euo pipefail.
+          rm -f expected-sources.txt actual-sources.txt source-hashes.diff \
+            source-verification.txt build-provenance.txt
+          printf '%s\n' 'scope=root:.c,.cpp,.h,.inl' 'algorithm=SHA256' \
+            'status=collecting' > source-verification.txt
+          echo 'source_verification_started=true' >> "$GITHUB_OUTPUT"
+
+          (
+            cd CvGameCoreDLL
+            # Include symlinks in discovery so they cannot silently evade verification.
+            find . -maxdepth 1 \( -type f -o -type l \) \
+            \( -iname '*.cpp' -o -iname '*.h' -o -iname '*.inl' -o -iname '*.c' \) \
+            -print0 |
+            while IFS= read -r -d '' file; do
+              if [[ -L "$file" || "$file" == *$'\n'* || "$file" == *$'\r'* || "$file" == *\\* ]]; then
+                printf 'Unsupported source path: %q\n' "$file" >&2
+                exit 1
+              fi
+              sha256sum -- "$file"
+              done
+          ) | LC_ALL=C sort -k2 > expected-sources.txt
+
+          test -s expected-sources.txt
+          
+          # Encode the command for PowerShell
+          ENCODED_SCRIPT_FOR_HASH_CALCULATION=$(echo -n "$HASH_SCRIPT" | iconv -t UTF-16LE | base64 -w 0)
+
+          # Enumerate and hash the Windows files independently. Only the MANIFEST's CR characters are removed; source bytes are never altered.
+          ssh -o IPQoS=throughput Administrator@192.168.2.252 \
+          "powershell.exe -EncodedCommand $ENCODED_SCRIPT_FOR_HASH_CALCULATION" \
+          | tr -d '\r' | LC_ALL=C sort -k2 > actual-sources.txt
+
+          test -s actual-sources.txt
+          if ! diff -u expected-sources.txt actual-sources.txt > source-hashes.diff; then
+            printf '%s\n' 'status=failed' >> source-verification.txt
+            cat source-hashes.diff
+            echo '::error::Windows source names or SHA-256 hashes differ; build refused.'
+            exit 1
+          fi
+          printf '%s\n' 'status=passed' >> source-verification.txt
           # Add commit hashes to build provenence log file
-          printf '%s\n' "commit=${{ github.sha }}" "configuration=$CONFIG" "compiler=_MSC_VER_1310" "base=5970334b64a875b5cdb370c94fc9a98db4eacda6" "feature_source=e3887b18825dc14d026a0d8fb5f7a6b58a5c7484" "workflow_source=af5c2f130e195c23a011a5aed35fcff212389f2e" > build-provenance.txt
+          printf '%s\n' "commit=${{ github.sha }}" "configuration=$CONFIG" "compiler=_MSC_VER_1310" "base=$BASE_COMMIT_SHA" "feature_source=$FEATURE_COMMIT_SHA" "workflow_source=$WORKFLOW_COMMIT_SHA" > build-provenance.txt
+
+          # Add hash verification to build provenance
+          {
+            printf '%s\n' 'source_hash_algorithm=SHA256' \
+            'source_scope=root:.c,.cpp,.h,.inl' \
+            'source_manifest_format=sha256sum-v1' 'source_hash_verification=passed'
+            printf 'expected_sources_manifest_sha256=%s\n' \
+            "$(sha256sum expected-sources.txt | cut -d ' ' -f 1)"
+            printf 'actual_sources_manifest_sha256=%s\n' \
+            "$(sha256sum actual-sources.txt | cut -d ' ' -f 1)"
+          } >> build-provenance.txt
           
           # Encode the command for PowerShell
           ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
@@ -113,7 +207,21 @@ jobs:
           
           # Connect to local Windows Server builder virtual machine and start the build remotely
           ssh Administrator@192.168.2.252 "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG'\""
-    
+          
+    # this always-run upload contains diagnostics, not binaries
+    - name: Upload Source Verification Diagnostics
+      if: ${{ always() }}
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+      with:
+        name: source-verification-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
+        path: |
+          ./expected-sources.txt
+          ./actual-sources.txt
+          ./source-hashes.diff
+          ./source-verification.txt
+          ./build-provenance.txt
+        if-no-files-found: warn
+        
     - name: Copy DLL files Over To Linux
       shell: bash
       run: |
@@ -144,9 +252,6 @@ jobs:
         name: CvGameCoreDLL-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
         path: |
           ./artifacts/CvGameCoreDLL.dll
-          ./build-provenance.txt
-          ./actual-sources.txt
-          ./expected-sources.txt
           ./artifacts/CvGameCoreDLL.pdb
           ./artifacts/*.log
         if-no-files-found: error
@@ -176,5 +281,6 @@ jobs:
           ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
           
           # Clean up the pulled local data on the Linux orchestrator VM so subsequent runs start completely fresh without old DLL state.
-          rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/*.pdb  ./artifacts/*.log
-          rm -f ./build-provenance.txt ./expected-sources.txt
+          rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/*.pdb  ./artifacts/*.log \
+            ./build-provenance.txt ./expected-sources.txt ./actual-sources.txt \
+           ./source-hashes.diff ./source-verification.txt

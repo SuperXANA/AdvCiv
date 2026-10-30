@@ -1,0 +1,7 @@
+# Source hashing workflow validation — 2026-10-30
+
+Requested validation of dll-build 9f62e13990b39a8c16e8c6dd404c6aca995e53f3 using the previously passing hated-diplomacy snapshot 2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd (Release/Debug run https://github.com/SuperXANA/AdvCiv/actions/runs/41126096699). Existing HatedDiplomacyDraft-ChatGPT at 533a1b6ad1ff00e1f7637e49849647df827e84a0 reused; no branch created. That head differs from the passing commit only in reports/ledger. No DLL source changes requested or made.
+
+Baseline remains 5970334b64a875b5cdb370c94fc9a98db4eacda6. The complete passing overlay retains all baseline-only files. Actual new workflow copied with only BASE_COMMIT_SHA, FEATURE_COMMIT_SHA and WORKFLOW_COMMIT_SHA populated. dll-build and 1.14 remain read-only. The hashing implementation itself is initially unchanged so this exercise tests the submitted workflow.
+
+Expected validation: both matrix configurations compare independently collected 349-file root source SHA-256 manifests before compilation; successful builds must pass the MSVC7.1 probe and publish new DLL artifacts. Download and inspect separate source-verification diagnostic ZIPs and actual Build.log files from DLL artifact ZIPs. Check manifest contents, manifest digests in provenance, source_scope, source_hash_verification and tested commit. Result pending; historical success is input selection, not a result for this workflow.

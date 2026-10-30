@@ -221,7 +221,7 @@
     },
     {
       "branch": "dll-build",
-      "head_at_inventory": "af5c2f130e195c23a011a5aed35fcff212389f2e",
+      "head_at_inventory": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
       "coverage": "changed_workflow_source_reviewed_and_derivative_validated",
       "native_verification": "current_action_pins_partner_derivative_passed",
       "next_action": "Use current dll-build workflow for future authorized overlays; no duplicate native build needed solely for adding an existing manifest to artifact paths.",
@@ -246,6 +246,12 @@
         "classification": "exact_debug_pdb_path_only",
         "production_changes": false,
         "qualification": "Inspected two-line workflow delta; no new build or artifact-path execution."
+      },
+      "workflow_hash_validation": {
+        "workflow_source": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
+        "known_passing_code": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
+        "status": "prepared_pending_result",
+        "review": "docs/reviews/workflow-source-hash-2026-10-30.md"
       }
     },
     {
@@ -1327,7 +1333,13 @@
           "compiler": "MSVC7.1_1310_probe_verified",
           "actual_artifact_Build_log_inspected": true
         }
-      ]
+      ],
+      "workflow_hash_validation": {
+        "workflow_source": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
+        "known_passing_code": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
+        "status": "prepared_pending_result",
+        "review": "docs/reviews/workflow-source-hash-2026-10-30.md"
+      }
     },
     {
       "branch": "FirstImpressionDraft-ChatGPT",
