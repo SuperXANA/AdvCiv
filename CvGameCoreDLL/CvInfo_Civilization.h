@@ -343,7 +343,7 @@ protected:
 	int* m_piDiploWarIntroMusicScriptIds;
 	int* m_piDiploWarMusicScriptIds;
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	scaled* m_prWarUtilityAspects;
+	int* m_prWarUtilityAspects;
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 	
 	// <advc.xmldefault>
