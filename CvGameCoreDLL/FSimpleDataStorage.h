@@ -3,6 +3,8 @@
 #ifndef F_SIMPLE_DATA_STORAGE_H
 #define F_SIMPLE_DATA_STORAGE_H
 
+#include <limits>
+
 static const int iHEADERSIZE = 8; /* 8 bytes for likely-safe alignment of 32-bit double and long-long data */
 // XANA (note): if we ever get 64-bit compatibility in the DLL/EXE, I believe we would only need to double the size of the header in order to support doubles/long-long data types once more
 
@@ -198,6 +200,16 @@ private:
 	T* m_pArray; // Size: 4 bytes
 };
 
+// XANA: 10-30-2026 Checked 2D dimensions (ChatGPT)
+inline int FStorage2DSize(int iSizeX, int iSizeY)
+{
+	if (iSizeX <= 0 || iSizeY <= 0 ||
+		iSizeX > (std::numeric_limits<int>::max)() / iSizeY)
+		return 0;
+	return iSizeX * iSizeY;
+}
+// XANA: 10-30-2026 Checked 2D dimensions (ChatGPT)
+
 template <typename T>
 class FDynamic2DArray
 {
@@ -211,7 +223,7 @@ public:
 	}
 	void init(int iSizeX, int iSizeY, T defaultValue = T())
 	{
-		int const iSize = (iSizeX * iSizeY);
+		int const iSize = FStorage2DSize(iSizeX, iSizeY);
 		if ((iSize <= 0 || m_pArray != NULL)) return;
 		// Allocate: (Size of Header) + (Size of Data)
 		// We use 8 safe bytes at the start for the 'int' size to support double/long-long values
@@ -269,7 +281,7 @@ public:
 	 */
 	void load(T**& pRawArray, int iSizeX, int iSizeY)
 	{
-		if (pRawArray == NULL || (iSizeX * iSizeY) <= 0) return;
+		if (pRawArray == NULL || FStorage2DSize(iSizeX, iSizeY) == 0) return;
 		// 1. Initialize our internal storage (allocates header + data)
 		reset(iSizeX, iSizeY);
 		// 2. Copy data from the XML-allocated pointer to our managed pointer
