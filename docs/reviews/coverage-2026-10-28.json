@@ -243,14 +243,30 @@
         "review_document": "docs/reviews/workflow-manifest-2026-10-28.md"
       },
       "last_head_review": {
-        "classification": "exact_debug_pdb_path_only",
-        "production_changes": false,
-        "qualification": "Inspected two-line workflow delta; no new build or artifact-path execution."
+        "classification": "SHA256_sync_verification_workflow",
+        "previous_head": "af5c2f130e195c23a011a5aed35fcff212389f2e",
+        "read_only": true
       },
       "workflow_hash_validation": {
         "workflow_source": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
         "known_passing_code": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
-        "status": "prepared_pending_result",
+        "tested_commit": "52875b0b3b93ee49408d94cf983d59cf13956014",
+        "run": 41128696560,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "manifests_match": true,
+        "root_source_count": 349,
+        "manifest_sha256": "b1ea9061f07bf130e6965cda3e0df31f2c48ad559bf5e8fd8ce5b73317edf995",
+        "diagnostic_artifacts": {
+          "release": 13011264262,
+          "debug": 13013200055
+        },
+        "dll_artifacts": {
+          "release": 13012616456,
+          "debug": 13013085398
+        },
+        "artifact_Build_logs_inspected": true,
+        "local_guard_cases": 6,
+        "hash_implementation_changed": false,
         "review": "docs/reviews/workflow-source-hash-2026-10-30.md"
       }
     },
@@ -522,7 +538,29 @@
           "compiler": "MSVC7.1_1310_probe_verified",
           "actual_artifact_Build_log_inspected": true
         }
-      ]
+      ],
+      "workflow_hash_validation": {
+        "workflow_source": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
+        "known_passing_code": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
+        "tested_commit": "52875b0b3b93ee49408d94cf983d59cf13956014",
+        "run": 41128696560,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "manifests_match": true,
+        "root_source_count": 349,
+        "manifest_sha256": "b1ea9061f07bf130e6965cda3e0df31f2c48ad559bf5e8fd8ce5b73317edf995",
+        "diagnostic_artifacts": {
+          "release": 13011264262,
+          "debug": 13013200055
+        },
+        "dll_artifacts": {
+          "release": 13012616456,
+          "debug": 13013085398
+        },
+        "artifact_Build_logs_inspected": true,
+        "local_guard_cases": 6,
+        "hash_implementation_changed": false,
+        "review": "docs/reviews/workflow-source-hash-2026-10-30.md"
+      }
     },
     {
       "branch": "LeaderCivilizationDecisionPreferences",
@@ -1293,7 +1331,7 @@
     },
     {
       "branch": "HatedDiplomacyDraft-ChatGPT",
-      "head_at_inventory": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
+      "head_at_inventory": "52875b0b3b93ee49408d94cf983d59cf13956014",
       "coverage": "published_review_artifact",
       "native_verification": "release_debug_corrected_overlay_passed",
       "source_branch": "HatedCivicReligionDiplomacy",
@@ -1309,14 +1347,14 @@
       ],
       "next_action": "Do not repeat unchanged passing builds. Review save/cache versioning and runtime/metadata/strategy integration as new coverage; inspect source changes first.",
       "qualification": "Complete pinned-base plus corrected feature overlay passed Release/Debug MSVC7.1 probes and Rebuild. Both artifact ZIPs extracted; actual Build.log zero warnings/errors, exact provenance/source manifests and PE32 x86 DLLs verified. Original head/save/cache/gameplay not certified.",
-      "latest_review": "docs/reviews/hated-native-2026-10-30.md",
+      "latest_review": "docs/reviews/workflow-source-hash-2026-10-30.md",
       "last_review_parent": "c45a473baa07adc9cfbe898f17e074025902016a",
-      "tested_code_sha": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
+      "tested_code_sha": "52875b0b3b93ee49408d94cf983d59cf13956014",
       "feature_snapshot": "e3887b18825dc14d026a0d8fb5f7a6b58a5c7484",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41126096699",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41128696560",
       "native_artifacts": {
-        "release": 13011635160,
-        "debug": 13009659769
+        "release": 13012616456,
+        "debug": 13013085398
       },
       "build_history": [
         {
@@ -1337,7 +1375,23 @@
       "workflow_hash_validation": {
         "workflow_source": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
         "known_passing_code": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
-        "status": "prepared_pending_result",
+        "tested_commit": "52875b0b3b93ee49408d94cf983d59cf13956014",
+        "run": 41128696560,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "manifests_match": true,
+        "root_source_count": 349,
+        "manifest_sha256": "b1ea9061f07bf130e6965cda3e0df31f2c48ad559bf5e8fd8ce5b73317edf995",
+        "diagnostic_artifacts": {
+          "release": 13011264262,
+          "debug": 13013200055
+        },
+        "dll_artifacts": {
+          "release": 13012616456,
+          "debug": 13013085398
+        },
+        "artifact_Build_logs_inspected": true,
+        "local_guard_cases": 6,
+        "hash_implementation_changed": false,
         "review": "docs/reviews/workflow-source-hash-2026-10-30.md"
       }
     },
@@ -1546,8 +1600,8 @@
   "last_inventory": {
     "date": "2026-10-30",
     "branch_count": 75,
-    "original_head_changes": [],
-    "scope": "Hated diplomacy full native overlay and compiler repairs; both matrix artifacts verified",
-    "assistant_parent": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd"
+    "changed_workflow_head": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
+    "scope": "User-requested SHA256 workflow validation on known passing DLL",
+    "assistant_parent": "52875b0b3b93ee49408d94cf983d59cf13956014"
   }
 }
