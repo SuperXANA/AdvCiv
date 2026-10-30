@@ -415,7 +415,7 @@ public:
 		clear();
 		init();
 	}
-	T& operator[](int i) const
+	T const& operator[](int i) const // XANA: 10-30-2026 Const static-array access (ChatGPT)
 	{
 		FAssert(i >= 0 && i < iSIZE);
 		return m_pArray[i];
