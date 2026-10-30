@@ -236,7 +236,7 @@ public: // advc: All the const functions are exposed to Python except those adde
 	#endif
 	bool read(CvXMLLoadUtility* pXML);
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
-	bool readPass3(CvXMLLoadUtility* pXML);
+	bool readPass3();
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 
 protected:
@@ -351,6 +351,8 @@ protected:
 	PlayerVoteTypes* m_paeFavoriteVoteDecision;
 	int* m_piFavoriteVoteDecisionAttitude;
 	int* m_piHateVoteDecisionAttitude;
+	std::vector<int> m_aiFirstExtraXMLforPass3;
+	std::vector<int> m_aiSecondExtraXMLforPass3;
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 	// <advc.xmldefault>
 	static CvXMLLoadUtility* m_pXML;

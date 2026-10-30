@@ -1098,22 +1098,13 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	#endif // </advc.xmldefault>
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploWarIntroMusicScriptIds, "DiplomacyIntroMusicWar", GC.getNumEraInfos());
 	pXML->SetVariableListTagPairForAudioScripts(&m_piDiploWarMusicScriptIds, "DiplomacyMusicWar", GC.getNumEraInfos());
-
-	m_pXML = NULL; // advc.xmldefault
-	return true;
-}
-
-// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
-bool CvLeaderHeadInfo::readPass3(CvXMLLoadUtility* pXML)
-{
+	
+	// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "VoteDecisionAttitudes"))
 	{
 		if (pXML->SkipToNextVal())
 		{
 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
-			pXML->InitList(&m_paeFavoriteVoteDecision, GC.getNumVoteInfos(), NO_PLAYER_VOTE);
-			pXML->InitList(&m_piFavoriteVoteDecisionAttitude, GC.getNumVoteInfos());
-			pXML->InitList(&m_piHateVoteDecisionAttitude, GC.getNumVoteInfos());
 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 			{
 				for (int i = 0; i < iNumSibs; i++)
@@ -1123,40 +1114,14 @@ bool CvLeaderHeadInfo::readPass3(CvXMLLoadUtility* pXML)
 						CvString szTextVal;
 						if pXML->GetChildXmlVal(szTextVal)
 						{
-							PlayerVoteTypes eDecision;
-							if (szTextVal == "PLAYER_VOTE_YES")
-							{
-								eDecision = PLAYER_VOTE_YES;
-							}
-							else if (szTextVal == "PLAYER_VOTE_NO")
-							{
-								eDecision = PLAYER_VOTE_NO;
-							}
-							else if (szTextVal == "PLAYER_VOTE_ABSTAIN")
-							{
-								eDecision = PLAYER_VOTE_ABSTAIN;
-							}
-							else if (szTextVal == "PLAYER_VOTE_NEVER")
-							{
-								eDecision = PLAYER_VOTE_NEVER;
-							}
-							else
-							{
-								eDecision = NO_PLAYER_VOTE;
-							}
-							if (eDecision != NO_PLAYER_VOTE)
-							{
-								m_paeFavoriteVoteDecision[i] = eDecision;
-								
-								int iXMLVal;
-								
-								pXML->GetNextXmlVal(iXMLVal);
-								m_piFavoriteVoteDecisionAttitude[i] = iXMLVal;
-								
-								pXML->GetNextXmlVal(iXMLVal);
-								m_piHateVoteDecisionAttitude[i] = iXMLVal;
-							}
-							else FAssert(eDecision != NO_PLAYER_VOTE);
+							m_aszExtraXMLforPass3.push_back(szTextVal); // XANA (note): Stores PLAYER_VOTE_TYPE as text - issue is that XML data could supply other valid enum data such as UNIT_WARRIOR and fail XML loading process
+			
+							int iXMLVal = 0;
+							pXML->GetNextXmlVal(iXMLVal); // XANA (note): Should m_piFavoriteVoteDecisionAttitude value
+							m_aiFirstExtraXMLforPass3.push_back(iXMLVal);
+							
+							pXML->GetNextXmlVal(iXMLVal); // XANA (note): Should m_piHateVoteDecisionAttitude value
+							m_aiSecondExtraXMLforPass3.push_back(iXMLVal);
 						}
 						gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 					}
@@ -1168,6 +1133,45 @@ bool CvLeaderHeadInfo::readPass3(CvXMLLoadUtility* pXML)
 			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
 		}
 	}
+	// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+
+	m_pXML = NULL; // advc.xmldefault
+	return true;
+}
+
+// XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
+bool CvLeaderHeadInfo::readPass3()
+{
+	int const iNumPlayerVoteTypes = m_aszExtraXMLforPass3.size(); // XML implementation expects that this is used for PLAYER_VOTE_YES/PLAYER_VOTE_NO/other negative PlayerVoteTypes enum values, not other game enums, need to detemine how to make this requirement work
+	/* XANA (note):
+	This won't work because CvXMLLoadUtility and the pXML pointer aren't available in the third pass
+	need to see if creating a function that takes an int parameter and calling that instead where this readPass3's call location lies during LoadPostMenuGlobals
+	then having the function which took GC.getNumVoteInfos() call this readPass3 function would be effecive or if there's a better methodology for this
+	
+	pXML->InitList(&m_paeFavoriteVoteDecision, GC.getNumVoteInfos(), NO_PLAYER_VOTE);
+	pXML->InitList(&m_piFavoriteVoteDecisionAttitude, GC.getNumVoteInfos());
+	pXML->InitList(&m_piHateVoteDecisionAttitude, GC.getNumVoteInfos());
+	
+	*/
+	if (iNumPlayerVotes < 1)
+	{
+		FAssert(false);
+		return false;
+	}
+	for (int i = 0; i < iNumPlayerVotes; i++)
+	{
+		PlayerVoteTypes eDecision(GC.getInfoTypeForString(m_aszExtraXMLforPass3[i])); // XANA (note): Get PLAYER_VOTE_YES, or specific vote decision type, as favored by this leader
+		if (eDecision != NO_PLAYER_VOTE)
+		{
+			m_paeFavoriteVoteDecision[i] = eDecision;
+			m_piFavoriteVoteDecisionAttitude[i] = m_aiFirstExtraXMLforPass3[i];
+			m_piHateVoteDecisionAttitude[i] = m_aiSecondExtraXMLforPass3[i];
+		}
+		else FAssert(eDecision != NO_PLAYER_VOTE);
+	}
+	m_aszExtraXMLforPass3.clear();
+	m_aiFirstExtraXMLforPass3.clear();
+	m_aiSecondExtraXMLforPass3.clear();
 	return true;
 }
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
