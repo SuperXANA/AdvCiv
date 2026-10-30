@@ -10468,27 +10468,25 @@ void CvUnit::setHasPromotion(PromotionTypes ePromotion, bool bNewValue)
 				GC.getInfo(ePromotion).getDomainModifierPercent(eLoopDomain) * iChange);
 	}
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
-	if (GC.getInfo(ePromotion).getExpireTurns() != 0)
+	if (iChange < 0)
 	{
-		if (iChange < 0)
-		{
-			setPromotionExpireTurn(ePromotion, 0);
-		}
-		if (iChange > 0)
-		{
-			int iExpireTurn = GC.getInfo(ePromotion).getExpireTurns();
+		// Event deadlines also belong to promotions with no metadata duration.
+		setPromotionExpireTurn(ePromotion, 0);
+	}
+	else if (GC.getInfo(ePromotion).getExpireTurns() != 0)
+	{
+		int iExpireTurn = GC.getInfo(ePromotion).getExpireTurns();
+		
+		if (iExpireTurn <= -1)
+			iExpireTurn = -1; // XNAA (note): Infinite Duration Promotion
 			
-			if (iExpireTurn <= -1)
-				iExpireTurn = -1; // XNAA (note): Infinite Duration Promotion
-				
-			if (iExpireTurn >= 0)
-			{
-				iExpireTurn *= GC.getInfo(GC.getGame().getGameSpeedType()).getTrainPercent();
-				iExpireTurn /= 100;
-				iExpireTurn += GC.getGame().getGameTurn();
-			}	
-			setPromotionExpireTurn(ePromotion, iExpireTurn);
+		if (iExpireTurn >= 0)
+		{
+			iExpireTurn *= GC.getInfo(GC.getGame().getGameSpeedType()).getTrainPercent();
+			iExpireTurn /= 100;
+			iExpireTurn += GC.getGame().getGameTurn();
 		}
+		setPromotionExpireTurn(ePromotion, iExpireTurn);
 	}
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
 
