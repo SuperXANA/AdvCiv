@@ -1,7 +1,14 @@
-# Hated diplomacy native overlay — 2026-10-30
+# Hated diplomacy native validation — 2026-10-30
 
-Prepared on existing HatedDiplomacyDraft-ChatGPT, parent/feature snapshot 7154a34bc88bbcd5cdde4201c35ee15f1b1c5a83; original HatedCivicReligionDiplomacy a9c1a754b5e9b64e10ceaa22fd02fa78f3718785 remains read-only.
+Read-only original a9c1a754b5e9b64e10ceaa22fd02fa78f3718785; baseline 5970334b64a875b5cdb370c94fc9a98db4eacda6; workflow dll-build af5c2f130e195c23a011a5aed35fcff212389f2e. Existing HatedDiplomacyDraft-ChatGPT reused. Complete baseline plus all 11 source DLL files and existing reports/tests retained; 349 root source files. No original branches modified or merged.
 
-Complete baseline 1.14 pinned at 5970334b64a875b5cdb370c94fc9a98db4eacda6. All 11 feature CvGameCoreDLL files overlay that complete baseline; baseline-only files retained. All existing assistant reports/tests and source README retained. Actual workflow copied from dll-build af5c2f130e195c23a011a5aed35fcff212389f2e with only its three provenance placeholders filled. Machine-local Project configuration remains protected by the actual workflow. No original branch modified or merged.
+First tested overlay bf6a52508ea56ead4393276271abba5d1aa48cbd; run https://github.com/SuperXANA/AdvCiv/actions/runs/41125771533. Both Release job 124303777200 and Debug job 124303776712 failed compiling CvPlayerAI.cpp. Zero artifacts, so no artifact Build.log existed to download; targeted decoded runner compiler diagnostics were inspected instead.
 
-Release and Debug full rebuild matrix requested; result pending observation. No successful native result claimed yet. Existing scoped fixture results are separate from this validation. Save/cache layout compatibility and gameplay remain outside native compile/link validation.
+Repairs committed in e3887b18825dc14d026a0d8fb5f7a6b58a5c7484:
+- HATED-20261030-04: AI_religionTrade:13491 and AI_updateStrategyHash:25647 replace nonexistent player isHasReligion with getHasReligionCount(religion)>0. Actual CvPlayer.h:415–417 uses precisely this presence predicate in canDoReligion. City isHasReligion calls are valid and untouched. Initial errors C2039/C3861.
+- HATED-20261030-05: AI_ideologyAttitudeChange:19041–19061 scopes ENEMY_RELIGION/ENEMY_CIVIC declarations inside braces so later case labels cannot skip initialization. Initial error C2360.
+- HATED-20261030-06: AI_updateStrategyHash:25777–25800 uses eCivic for the hated-civic membership check instead of out-of-scope eReligion, and itRival->isCivic / itRival->getStateReligion. Initial C2065/C2039. Existing +10 paranoia values/iteration remain unchanged.
+
+First-run exact compiler error locations: 13491 C2039; 19050/19059/19066/19074 C2360; 25643 C3861; 25775 C2065; 25780/25793 C2039; consequent NMAKE U1077. No CvPlot size-limit failure observed.
+
+Corrected matrix prepared using feature snapshot e3887b18825dc14d026a0d8fb5f7a6b58a5c7484; provenance placeholders filled with exact baseline/feature/workflow. Result pending. No success/artifact claimed yet. Compile/link validation does not certify save/cache layout, game strategy behavior or actual XML/UI.

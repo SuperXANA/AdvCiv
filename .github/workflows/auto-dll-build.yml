@@ -104,7 +104,7 @@ jobs:
           ssh Administrator@192.168.2.252 "powershell.exe -NoProfile -Command \"Get-ChildItem -File -Path 'R:\CvGameCoreDLL\*.cpp','R:\CvGameCoreDLL\*.h','R:\CvGameCoreDLL\*.inl','R:\CvGameCoreDLL\*.c' | Select-Object -ExpandProperty Name\"" | tr -d '\r' | LC_ALL=C sort > actual-sources.txt
           diff -u expected-sources.txt actual-sources.txt
           # Add commit hashes to build provenence log file
-          printf '%s\n' "commit=${{ github.sha }}" "configuration=$CONFIG" "compiler=_MSC_VER_1310" "base=5970334b64a875b5cdb370c94fc9a98db4eacda6" "feature_source=7154a34bc88bbcd5cdde4201c35ee15f1b1c5a83" "workflow_source=af5c2f130e195c23a011a5aed35fcff212389f2e" > build-provenance.txt
+          printf '%s\n' "commit=${{ github.sha }}" "configuration=$CONFIG" "compiler=_MSC_VER_1310" "base=5970334b64a875b5cdb370c94fc9a98db4eacda6" "feature_source=e3887b18825dc14d026a0d8fb5f7a6b58a5c7484" "workflow_source=af5c2f130e195c23a011a5aed35fcff212389f2e" > build-provenance.txt
           
           # Encode the command for PowerShell
           ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
