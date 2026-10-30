@@ -59,7 +59,10 @@
         "cpp_unchanged": true,
         "workflow_unchanged": true,
         "ci_skipped": true
-      }
+      },
+      "subsequent_scoped_reviews": [
+        "docs/reviews/sqlite-persistence-coverage-2026-10-30.json"
+      ]
     },
     {
       "branch": "AISurvivorSQLiteFixes-ChatGPT",

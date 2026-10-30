@@ -1,0 +1,129 @@
+{
+  "record_type": "scoped_persistence_prototype_review",
+  "review_date": "2026-10-30",
+  "repository": "SuperXANA/AdvCiv",
+  "branch": "AISurvivorSQLiteBuild-ChatGPT",
+  "reviewed_head": "c02eea47ded87b403ad9e2d36ba1824a59c14e8c",
+  "source_branch": "AISurvivorStatTracking",
+  "source_head": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+  "read_only_baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "scope": "Inactive schema fixture, test-only writer protocol, source-grounded identity/replay/authority analysis.",
+  "report": "docs/SQLitePersistencePrototype.md",
+  "artifacts": [
+    "tests/fixtures/sqlite/persistence_v1.sql",
+    "tests/test_sqlite_persistence.py"
+  ],
+  "production": {
+    "schema_version": 0,
+    "initialization": "disabled",
+    "cpp_changed": false,
+    "sqlite_vendor_changed": false,
+    "workflow_changed": false,
+    "assets_changed": false,
+    "save_serialization_changed": false,
+    "event_or_memory_consumer_added": false
+  },
+  "coverage": [
+    {
+      "id": "SQLP-20261030-01",
+      "area": "Game/timeline/occurrence and participant identity",
+      "status": "fixture_tested_production_generation_unresolved",
+      "sources": [
+        "CvGame.cpp read/write/reset/regenerateMap",
+        "CvInitCore.cpp game name",
+        "FFreeListTrashArray.cpp local ID allocation and save serialization"
+      ]
+    },
+    {
+      "id": "SQLP-20261030-02",
+      "area": "Civ event and directional AI-memory interfaces",
+      "status": "source_reviewed_no_consumers_or_consequences_added",
+      "sources": [
+        "CvPlayer.cpp initTriggeredData/applyEvent/setEventOccured/doEvents",
+        "CvPlayerAI.cpp memory count/change/set/remember/save/decay"
+      ]
+    },
+    {
+      "id": "SQLP-20261030-03",
+      "area": "Immutable records, exact payload+memory-set retries, divergent sequence detection",
+      "status": "bundled_375_regressions_passed"
+    },
+    {
+      "id": "SQLP-20261030-04",
+      "area": "Reopen, simulated old-checkpoint replay, uncertain acknowledgement",
+      "status": "database_protocol_tested_not_actual_save_loading"
+    },
+    {
+      "id": "SQLP-20261030-05",
+      "area": "Failure rollback/retry, FK constraints, replacement protection, schema/version rejection",
+      "status": "bundled_375_regressions_passed"
+    },
+    {
+      "id": "SQLP-20261030-06",
+      "area": "Multiplayer authority and migration boundary",
+      "status": "documented_activation_gate_unimplemented"
+    }
+  ],
+  "verification": {
+    "schema": {
+      "command": "python tests/test_sqlite_persistence.py",
+      "result": "passed",
+      "test_count": 14,
+      "engine": "3.7.5",
+      "source_id": "2011-01-28 17:03:50 ed759d5a9edb3bba5f48f243df47be29e3fe8cd7",
+      "engine_build": "Bundled 83-source native manifest; temporary host shared library, C89/core macros; ctypes C API, no system sqlite3.",
+      "qualification": "Test-supplied identities and simulated checkpoints, not gameplay persistence."
+    },
+    "wrappers": [
+      {
+        "command": "python tests/test_sqlite_wrappers.py",
+        "result": "passed",
+        "engine": "3.7.5"
+      },
+      {
+        "command": "SQLITE_TEST_SCHEMA_FIXTURE=1 python tests/test_sqlite_wrappers.py",
+        "result": "passed",
+        "engine": "3.7.5",
+        "qualification": "Existing generated manager fixture, production header unchanged."
+      },
+      {
+        "command": "python tests/test_sqlite_value_conversions.py",
+        "result": "passed"
+      },
+      {
+        "command": "SQLITE_TEST_SANITIZE=1 python tests/test_sqlite_value_conversions.py",
+        "result": "passed"
+      },
+      {
+        "command": "python tests/test_sqlite_windows_path.py",
+        "result": "passed",
+        "qualification": "C++03 stub API syntax/type check; no Windows execution."
+      }
+    ],
+    "native_dll": {
+      "new_build": "not_run_no_DLL_source_changes",
+      "historical_tested_commit": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
+      "historical_run": "https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885",
+      "historical_result": {
+        "Release": "success",
+        "Debug": "success"
+      },
+      "production_tree_comparison": "CvGameCoreDLL and .github unchanged from historical tested commit.",
+      "qualification": "Historical MSVC 7.1 compilation/static linkage, not execution of this prototype in BtS."
+    },
+    "beyond_the_sword": "not_executed",
+    "multiplayer": "not_executed_no_authority_or_shared_snapshot_implemented"
+  },
+  "test_harness_repair": "Removed an excess closing parenthesis from the existing oversized negative-text assertion in test_sqlite_value_conversions.py; XANA annotated; no production conversion change.",
+  "activation_gates": [
+    "Owned serialized game/timeline/checkpoint identity and new-game/regenerate/scenario/copied/legacy-save policy.",
+    "Occurrence allocation, successful event logging boundary, exact-retry recognition, divergence and fork policy.",
+    "Ordering and recovery across independent SQL commits and BtS save writes; visibility of later external history to older saves.",
+    "Versioned ruleset/XML meanings and explicit cross-game participant/persona mapping.",
+    "Complete-batch writer boundary and authorization; SQL append-only constraints alone do not seal child membership.",
+    "Multiplayer writer authority, synchronized snapshots, failover/reconnect/PBEM/hotseat handling.",
+    "Explicit schema/identity migrations, backups, invariant checks, rejection/recovery policy.",
+    "Actual event/memory consumers and native plus BtS save/runtime verification without invented consequences."
+  ],
+  "next_action": "Keep production disabled. Do not rebuild unchanged DLL sources for this fixture; revisit actual integration only after identity/replay/authority/migration contracts are specified."
+}

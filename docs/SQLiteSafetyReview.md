@@ -272,3 +272,16 @@ uses MSBuild to invoke the NMake project. The machine-local
 `R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
 compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
 the DLL's C/C++ compilation uses MSVC 7.1.
+
+## Inactive persistence prototype — 2026-10-30
+
+[SQLitePersistencePrototype.md](SQLitePersistencePrototype.md) records the new
+test-only version-one schema, 14 passing bundled SQLite 3.7.5 regressions, and
+source-grounded identity, replay, multiplayer authority, and migration boundaries.
+The fixture is under `tests/fixtures/sqlite/`, not `Assets/SQL`. Production keeps
+schema version zero; DLL sources, vendor SQLite, save serialization, and native
+workflow are unchanged. Historical native success above remains evidence for
+its named commit. No Beyond the Sword gameplay persistence is claimed.
+
+Scoped coverage is retained in
+[`sqlite-persistence-coverage-2026-10-30.json`](reviews/sqlite-persistence-coverage-2026-10-30.json).

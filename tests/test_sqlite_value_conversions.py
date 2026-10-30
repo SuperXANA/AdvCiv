@@ -39,7 +39,9 @@ int main() {
     assert(int(SQLiteValue(CvString("2147483648")))==0);
     assert(int(SQLiteValue(CvString("-2147483649")))==0);
     assert(int(SQLiteValue(CvString(std::string(128,'9'))))==0);
-    assert(int(SQLiteValue(CvString(std::string("-")+std::string(128,'9')))))==0);
+    // XANA: 10-30-2026 Keep the comparison inside assert in this test case.
+    assert(int(SQLiteValue(CvString(std::string("-")+std::string(128,'9'))))==0);
+    // XANA: END integer conversion regression syntax repair.
     assert(int(SQLiteValue(CvString("  -12suffix")))==-12);
     assert(int(SQLiteValue(CvString("+12.75")))==12);
     assert(int(SQLiteValue(CvString("not a number")))==0);
