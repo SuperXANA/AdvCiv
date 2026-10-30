@@ -173,7 +173,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_GREED_FOR_ASSETS")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_GREED_FOR_ASSETS")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 private:
 	scaled overextensionMult() const;
@@ -192,7 +192,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_GREED_FOR_VASSALS")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_GREED_FOR_VASSALS")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -203,7 +203,7 @@ public:
 	GreedForSpace(WarEvalParameters const& kParams)
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_GREED_FOR_SPACE")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_GREED_FOR_SPACE")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 };
 
 
@@ -214,7 +214,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_GREED_FOR_CASH")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_GREED_FOR_CASH")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -226,7 +226,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_LOATHING")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_LOATHING")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 private:
 	scaled lossRating() const;
@@ -241,7 +241,7 @@ public:
 	int preEvaluate();
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_MILITARY_VICTORY")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_MILITARY_VICTORY")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 private:
 	int m_iVotesToGo;
@@ -261,7 +261,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_PRESERVATION_OF_PARTNERS")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_PRESERVATION_OF_PARTNERS")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 private:
 	scaled assistanceRatio() const;
@@ -275,7 +275,7 @@ public:
 		:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_RECONQUISTA")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_RECONQUISTA")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -287,7 +287,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_REBUKE")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_REBUKE")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -299,7 +299,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_FIDELITY")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_FIDELITY")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -311,7 +311,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_HIRED_HAND")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_HIRED_HAND")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 private:
 	scaled eval(PlayerTypes eAlly, int iOriginalUtility, int iObligationThresh) const;
@@ -325,7 +325,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_BORDER_DISPUTES")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_BORDER_DISPUTES")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -337,7 +337,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_SUCKING_UP")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_SUCKING_UP")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -349,7 +349,7 @@ public:
 	:	WarUtilityBroaderAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_PREEMPTIVE_WAR")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_PREEMPTIVE_WAR")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -362,7 +362,7 @@ public:
 	int preEvaluate();
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_KING_MAKING")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_KING_MAKING")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 private:
 	static scaled const m_rScoreMargin;
@@ -385,7 +385,7 @@ public:
 	int preEvaluate();
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_EFFORT")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_EFFORT")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -398,7 +398,7 @@ public:
 	int preEvaluate();
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_RISK")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_RISK")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -411,7 +411,7 @@ public:
 	int preEvaluate();
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_ILL_WIL")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_ILL_WIL")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 private:
 	scaled m_rCost; // For use by subroutines (instead of m_iU)
@@ -430,7 +430,7 @@ public:
 	Affection(WarEvalParameters const& kParams);
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_AFFECTION")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_AFFECTION")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 private:
 	scaled m_rGameProgressFactor;
@@ -444,7 +444,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_DISTRACTION")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_DISTRACTION")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -456,7 +456,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_PUBLIC_OPPOSITION")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_PUBLIC_OPPOSITION")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -468,7 +468,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_REVOLTS")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_REVOLTS")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 private:
 	std::set<PlotNumTypes> m_countedCities;
@@ -482,7 +482,7 @@ public:
 	:	WarUtilityBroaderAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_ULTERIOR_MOTIVES")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_ULTERIOR_MOTIVES")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -494,7 +494,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_FAIR_PLAY")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_FAIR_PLAY")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 private:
 	int initialMilitaryUnits(PlayerTypes ePlayer) const;
@@ -508,7 +508,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_BELLICOSITY")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_BELLICOSITY")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -520,7 +520,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_TACTICAL_SITUATION")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_TACTICAL_SITUATION")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 private:
 	void evalEngagement();
@@ -536,7 +536,7 @@ public:
 	:	WarUtilityAspect(kParams) {}
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_LOVE_OF_PEACE")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_LOVE_OF_PEACE")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 };
 
@@ -548,7 +548,7 @@ public:
 	int preEvaluate();
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_THIRD_PARTY_INTERVENTION")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_THIRD_PARTY_INTERVENTION")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 private:
 	scaled m_rDefPow;
@@ -563,7 +563,7 @@ public:
 	int preEvaluate();
 	void evaluate();
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
-	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = GC.getInfoTypeForString("WARUTILITYASPECTAI_DRAMATIC_ARC")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
+	WarUtilityAspectAITypes xmlID() const { return (m_eXMLID == NO_WARUTILITYASPECTAI) ? (m_eXMLID = (WarUtilityAspectAITypes)GC.getInfoTypeForString("WARUTILITYASPECTAI_DRAMATIC_ARC")) : m_eXMLID; } /* XANA (note): m_eXMLID is mutuable, so can be changed here */
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
 private:
 	scaled m_rTensionIncrease;
