@@ -472,25 +472,51 @@
       "review_branch": "GenderCounterDraft-ChatGPT",
       "qualification": "Prior fixtures retained; actual UI helper and guarded callers pass 750 C++03/ASan/UBSan cases with wide text/localization/metadata stand-ins. No actual rendering/MSVC/DLL/game result.",
       "source_head": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
-      "latest_review": "docs/reviews/gender-ui-2026-10-30.md"
+      "latest_review": "docs/reviews/gender-ui-2026-10-30.md",
+      "additional_read_scope": "2026-10-30: LoadBasicInfos gender registration, supplied GenderInfos XML, leader gender scalar/enum reads and actual leader scalar helper context inspected; metadata/schema integration remains open, no code finding proposed in this pass."
     },
     {
       "branch": "HatedCivicReligionDiplomacy",
       "head_at_inventory": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
       "coverage": "source_review_partial",
-      "native_verification": "native_overlay_prepared_result_pending",
-      "next_action": "Follow requested Release/Debug build to terminal results; inspect artifacts Build.log when available; original head unmodified.",
+      "native_verification": "linked_assistant_overlay_passed_original_not_built",
+      "next_action": "Do not repeat unchanged passing builds. Review save/cache versioning and runtime/metadata/strategy integration as new coverage; inspect source changes first.",
       "refinement_branch": "HatedDiplomacyDraft-ChatGPT",
       "draft_code_sha": "bd9fe6e0816ed0f6c5311b5fb2aefa6505df4e5e",
       "finding_ids": [
         "HATED-20261028-01",
         "HATED-20261028-02",
-        "HATED-20261030-03"
+        "HATED-20261030-03",
+        "HATED-20261030-04",
+        "HATED-20261030-05",
+        "HATED-20261030-06"
       ],
-      "qualification": "Complete AI_religionValue with engine stubs: 83970 configurations; 65556 positive-hated cases match original feature, 18414 zero-hated cases match pinned baseline, plus absent-religion early return. Original triggers UBSan division by zero. No engine/MSVC/DLL/game result.",
+      "qualification": "Complete pinned-base plus corrected feature overlay passed Release/Debug MSVC7.1 probes and Rebuild. Both artifact ZIPs extracted; actual Build.log zero warnings/errors, exact provenance/source manifests and PE32 x86 DLLs verified. Original head/save/cache/gameplay not certified.",
       "latest_review": "docs/reviews/hated-native-2026-10-30.md",
       "last_review_parent": "c45a473baa07adc9cfbe898f17e074025902016a",
-      "feature_snapshot": "7154a34bc88bbcd5cdde4201c35ee15f1b1c5a83"
+      "tested_code_sha": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
+      "feature_snapshot": "e3887b18825dc14d026a0d8fb5f7a6b58a5c7484",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41126096699",
+      "native_artifacts": {
+        "release": 13011635160,
+        "debug": 13009659769
+      },
+      "build_history": [
+        {
+          "commit": "bf6a52508ea56ead4393276271abba5d1aa48cbd",
+          "run": 41125771533,
+          "result": "both_compiler_failure",
+          "artifacts": 0,
+          "errors": "CvPlayerAI C2039/C3861 nonexistent player isHasReligion, C2360 case initialization, C2065 scope, C2039 iterator access"
+        },
+        {
+          "commit": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
+          "run": 41126096699,
+          "result": "Release_and_Debug_success_0_warnings_0_errors",
+          "compiler": "MSVC7.1_1310_probe_verified",
+          "actual_artifact_Build_log_inspected": true
+        }
+      ]
     },
     {
       "branch": "LeaderCivilizationDecisionPreferences",
@@ -1261,22 +1287,47 @@
     },
     {
       "branch": "HatedDiplomacyDraft-ChatGPT",
-      "head_at_inventory": "c45a473baa07adc9cfbe898f17e074025902016a",
+      "head_at_inventory": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
       "coverage": "published_review_artifact",
-      "native_verification": "native_overlay_prepared_result_pending",
+      "native_verification": "release_debug_corrected_overlay_passed",
       "source_branch": "HatedCivicReligionDiplomacy",
       "source_head": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
       "draft_code_sha": "bd9fe6e0816ed0f6c5311b5fb2aefa6505df4e5e",
       "finding_ids": [
         "HATED-20261028-01",
         "HATED-20261028-02",
-        "HATED-20261030-03"
+        "HATED-20261030-03",
+        "HATED-20261030-04",
+        "HATED-20261030-05",
+        "HATED-20261030-06"
       ],
-      "next_action": "Follow requested Release/Debug build to terminal results; inspect artifacts Build.log when available; original head unmodified.",
-      "qualification": "Complete AI_religionValue with engine stubs: 83970 configurations; 65556 positive-hated cases match original feature, 18414 zero-hated cases match pinned baseline, plus absent-religion early return. Original triggers UBSan division by zero. No engine/MSVC/DLL/game result.",
+      "next_action": "Do not repeat unchanged passing builds. Review save/cache versioning and runtime/metadata/strategy integration as new coverage; inspect source changes first.",
+      "qualification": "Complete pinned-base plus corrected feature overlay passed Release/Debug MSVC7.1 probes and Rebuild. Both artifact ZIPs extracted; actual Build.log zero warnings/errors, exact provenance/source manifests and PE32 x86 DLLs verified. Original head/save/cache/gameplay not certified.",
       "latest_review": "docs/reviews/hated-native-2026-10-30.md",
       "last_review_parent": "c45a473baa07adc9cfbe898f17e074025902016a",
-      "feature_snapshot": "7154a34bc88bbcd5cdde4201c35ee15f1b1c5a83"
+      "tested_code_sha": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
+      "feature_snapshot": "e3887b18825dc14d026a0d8fb5f7a6b58a5c7484",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41126096699",
+      "native_artifacts": {
+        "release": 13011635160,
+        "debug": 13009659769
+      },
+      "build_history": [
+        {
+          "commit": "bf6a52508ea56ead4393276271abba5d1aa48cbd",
+          "run": 41125771533,
+          "result": "both_compiler_failure",
+          "artifacts": 0,
+          "errors": "CvPlayerAI C2039/C3861 nonexistent player isHasReligion, C2360 case initialization, C2065 scope, C2039 iterator access"
+        },
+        {
+          "commit": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
+          "run": 41126096699,
+          "result": "Release_and_Debug_success_0_warnings_0_errors",
+          "compiler": "MSVC7.1_1310_probe_verified",
+          "actual_artifact_Build_log_inspected": true
+        }
+      ]
     },
     {
       "branch": "FirstImpressionDraft-ChatGPT",
@@ -1484,7 +1535,7 @@
     "date": "2026-10-30",
     "branch_count": 75,
     "original_head_changes": [],
-    "scope": "FStaticArray const indexing",
-    "assistant_parent": "7f71ac09a6eb9250f65500f137ee0a3e7f2ee64f"
+    "scope": "Hated diplomacy full native overlay and compiler repairs; both matrix artifacts verified",
+    "assistant_parent": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd"
   }
 }
