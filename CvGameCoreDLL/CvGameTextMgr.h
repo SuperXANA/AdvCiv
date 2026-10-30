@@ -274,7 +274,7 @@ public:
 	void appendToAttitudeBreakdownWithExtraDescription(CvWStringBuffer& szBreakdown, int iPass,
 			int iAttitudeChange, int& iTotal,
 			char const* szTextKey, char const* szTextKeyAlt = NULL, 
-			char const* szExtraDescription = NULL);
+			wchar const* szExtraDescription = NULL);
 	// XANA: 10-25-2025 Gender Specific Diplomacy
 	void getVassalInfoString(CvWStringBuffer& szBuffer, PlayerTypes ePlayer); // K-Mod
 	void getWarWearinessString(CvWStringBuffer& szBuffer, PlayerTypes ePlayer, PlayerTypes eTargetPlayer) const; // K-Mod

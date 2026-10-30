@@ -16159,7 +16159,7 @@ void CvGameTextMgr::appendToAttitudeBreakdown(CvWStringBuffer& szBreakdown, int 
 // XANA: 10-25-2025 Gender Specific Diplomacy
 void CvGameTextMgr::appendToAttitudeBreakdownWithExtraDescription(CvWStringBuffer& szBreakdown, int iPass,
 	int iAttitudeChange, int& iTotal, char const* szTextKey, char const* szTextKeyAlt,
-	char const* szExtraDescription)
+	wchar const* szExtraDescription)
 {
 	if ((iPass == 0) ? (iAttitudeChange > 0) : (iAttitudeChange < 0))
 	{
@@ -16257,16 +16257,20 @@ void CvGameTextMgr::getAttitudeString(CvWStringBuffer& szBuffer, PlayerTypes ePl
 				"TXT_KEY_MISC_ATTITUDE_EXTRA_GOOD",
 				"TXT_KEY_MISC_ATTITUDE_EXTRA_BAD");
 		// XANA: 10-25-2025 Gender Specific Diplomacy
-		appendToAttitudeBreakdownWithExtraDescription(szBreakdown, iPass,
-				kPlayer.AI_getFavoriteGenderAttitude(eTargetPlayer), iTotal,
-				"TXT_KEY_MISC_ATTITUDE_FAVORED_GENDER",
-				"TXT_KEY_MISC_ATTITUDE_DISFAVORED_GENDER",
-				GC.getInfo(GET_PLAYER(eTargetPlayer).getGender()).getDescription());
-		appendToAttitudeBreakdownWithExtraDescription(szBreakdown, iPass,
-				kPlayer.AI_getHateGenderAttitude(eTargetPlayer), iTotal,
-				"TXT_KEY_MISC_ATTITUDE_GENDER_ALLY",
-				"TXT_KEY_MISC_ATTITUDE_GENDER_ENEMY",
-				GC.getInfo(GET_PLAYER(eTargetPlayer).getGender()).getDescription());
+		GenderTypes const eTargetGender = GET_PLAYER(eTargetPlayer).getGender();
+		if (eTargetGender >= 0 && eTargetGender < GC.getNumGenderInfos())
+		{
+			appendToAttitudeBreakdownWithExtraDescription(szBreakdown, iPass,
+					kPlayer.AI_getFavoriteGenderAttitude(eTargetPlayer), iTotal,
+					"TXT_KEY_MISC_ATTITUDE_FAVORED_GENDER",
+					"TXT_KEY_MISC_ATTITUDE_DISFAVORED_GENDER",
+					GC.getInfo(eTargetGender).getDescription());
+			appendToAttitudeBreakdownWithExtraDescription(szBreakdown, iPass,
+					kPlayer.AI_getHateGenderAttitude(eTargetPlayer), iTotal,
+					"TXT_KEY_MISC_ATTITUDE_GENDER_ALLY",
+					"TXT_KEY_MISC_ATTITUDE_GENDER_ENEMY",
+					GC.getInfo(eTargetGender).getDescription());
+		}
 		// XANA: 10-25-2025 Gender Specific Diplomacy
 		// <advc.sha> (based on: Show Hidden Attitude Mod 01/22/2010)
 		if (bSHowHiddenAttitude)
