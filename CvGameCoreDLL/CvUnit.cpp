@@ -10666,6 +10666,15 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureDefensePercent.readArray<int>(pStream);
 		m_aiExtraUnitCombatModifier.readArray<int>(pStream);
 	}
+	// XANA: 11-15-2025 Promotion HP Changes
+	// Rebuild the derived modifier: promotion flags are loaded without setHasPromotion.
+	m_iMaxHPValueModifier = 0;
+	FOR_EACH_ENUM(Promotion)
+	{
+		if (isHasPromotion(eLoopPromotion))
+			changeMaxHPValueModifier(GC.getInfo(eLoopPromotion).getMaxHPValueChange());
+	}
+	// XANA: 11-15-2025 Promotion HP Changes
 }
 
 
