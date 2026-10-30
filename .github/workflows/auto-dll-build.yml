@@ -97,7 +97,7 @@ jobs:
             try {
               [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding
               if ($PSVersionTable.PSVersion.Major -lt 4) {
-              throw 'Source verification requires Windows PowerShell 4.0 or newer.'
+                throw 'Source verification requires Windows PowerShell 4.0 or newer.'
               }
               $root = 'R:\CvGameCoreDLL'
               $extensions = @('.cpp', '.h', '.inl', '.c')
@@ -110,7 +110,7 @@ jobs:
                   throw ('Source reparse point is not permitted: ' + $file.FullName)
                 }
                 if ($file.Name -match '[\r\n\\]') {
-                throw ('Unsupported source path: ' + $file.FullName)
+                  throw ('Unsupported source path: ' + $file.FullName)
                 }
                 $hash = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash
                 # Match GNU sha256sum's text record, not its formatted PowerShell table.
