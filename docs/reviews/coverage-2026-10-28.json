@@ -723,8 +723,8 @@
       "branch": "LeaderSpecificUWAIAspectWeights",
       "head_at_inventory": "d38c565a981984a7c34417a9d9529fec2bcd7165",
       "coverage": "source_review_partial",
-      "native_verification": "full_native_overlay_pending",
-      "next_action": "Review enum/global/XML/cache integration, fixed-point consumers, invalid IDs, zero override policy and non-ASCII reporting before native validation.",
+      "native_verification": "linked_assistant_overlay_passed_original_not_built",
+      "next_action": "Do not repeat unchanged passing builds; review actual XML installation/defaults, cache compatibility, zero override policy and missing-ID/localization runtime paths as new coverage.",
       "review_branch": "UWAIWeightsDraft-ChatGPT",
       "finding_ids": [
         "UWAI-20261028-01",
@@ -736,9 +736,31 @@
       "source_head": "d38c565a981984a7c34417a9d9529fec2bcd7165",
       "refinement_branch": "UWAIWeightsDraft-ChatGPT",
       "latest_review": "docs/reviews/uwai-native-2026-10-30.md",
-      "qualification": "98 strict C++03/ASan/UBSan sequences for extracted report-name methods; ASCII conversion and engine interfaces stubbed. No full classes/MSVC/DLL/localization/game result.",
+      "qualification": "Complete pinned 1.14 plus corrected feature overlay passed Release/Debug MSVC7.1 probes and Rebuild; all four ZIPs extracted, actual Build.log zero warnings/errors, 351-file hash manifests/provenance and PE32 x86 DLLs verified. Original head, runtime XML/cache/reporting/game behavior not certified.",
       "last_review_parent": "1664ab256e5ef0620a85dcec899b77d02df6b012",
-      "feature_snapshot": "5b31c0e22761d051eb9cdbf9dbe65d6e43ee5ff0"
+      "feature_snapshot": "5b31c0e22761d051eb9cdbf9dbe65d6e43ee5ff0",
+      "tested_code_sha": "9c77b56688d500212386e272c563d43441232551",
+      "workflow_source": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41133624805",
+      "native_artifacts": {
+        "release": 13013624606,
+        "debug": 13013794777
+      },
+      "hash_diagnostics": {
+        "release": 13014576550,
+        "debug": 13014881177
+      },
+      "build_history": [
+        {
+          "commit": "9c77b56688d500212386e272c563d43441232551",
+          "run": 41133624805,
+          "result": "Release_Debug_success_0_warnings_0_errors",
+          "compiler": "MSVC7.1_1310_probe_verified",
+          "artifact_Build_logs_inspected": true,
+          "source_files_hashed": 351,
+          "manifest_sha256": "4a01e5f4e39e66b296b33e6ce305002c4f4073543f095395a3a8cbc5ad32cf65"
+        }
+      ]
     },
     {
       "branch": "LeaderSpecificVoteActionDiplomacy",
@@ -1461,8 +1483,8 @@
       "source_branch": "LeaderSpecificUWAIAspectWeights",
       "source_head": "d38c565a981984a7c34417a9d9529fec2bcd7165",
       "coverage": "source_review_partial",
-      "native_verification": "full_native_overlay_pending",
-      "head_at_inventory": "1664ab256e5ef0620a85dcec899b77d02df6b012",
+      "native_verification": "release_debug_corrected_overlay_passed",
+      "head_at_inventory": "9c77b56688d500212386e272c563d43441232551",
       "finding_ids": [
         "UWAI-20261028-01",
         "UWAI-20261029-02",
@@ -1472,10 +1494,32 @@
       ],
       "refinement_branch": "UWAIWeightsDraft-ChatGPT",
       "latest_review": "docs/reviews/uwai-native-2026-10-30.md",
-      "next_action": "Review enum/global/XML/cache integration, fixed-point consumers, invalid IDs, zero override policy and non-ASCII reporting before native validation.",
-      "qualification": "98 strict C++03/ASan/UBSan sequences for extracted report-name methods; ASCII conversion and engine interfaces stubbed. No full classes/MSVC/DLL/localization/game result.",
+      "next_action": "Do not repeat unchanged passing builds; review actual XML installation/defaults, cache compatibility, zero override policy and missing-ID/localization runtime paths as new coverage.",
+      "qualification": "Complete pinned 1.14 plus corrected feature overlay passed Release/Debug MSVC7.1 probes and Rebuild; all four ZIPs extracted, actual Build.log zero warnings/errors, 351-file hash manifests/provenance and PE32 x86 DLLs verified. Original head, runtime XML/cache/reporting/game behavior not certified.",
       "last_review_parent": "1664ab256e5ef0620a85dcec899b77d02df6b012",
-      "feature_snapshot": "5b31c0e22761d051eb9cdbf9dbe65d6e43ee5ff0"
+      "feature_snapshot": "5b31c0e22761d051eb9cdbf9dbe65d6e43ee5ff0",
+      "tested_code_sha": "9c77b56688d500212386e272c563d43441232551",
+      "workflow_source": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41133624805",
+      "native_artifacts": {
+        "release": 13013624606,
+        "debug": 13013794777
+      },
+      "hash_diagnostics": {
+        "release": 13014576550,
+        "debug": 13014881177
+      },
+      "build_history": [
+        {
+          "commit": "9c77b56688d500212386e272c563d43441232551",
+          "run": 41133624805,
+          "result": "Release_Debug_success_0_warnings_0_errors",
+          "compiler": "MSVC7.1_1310_probe_verified",
+          "artifact_Build_logs_inspected": true,
+          "source_files_hashed": 351,
+          "manifest_sha256": "4a01e5f4e39e66b296b33e6ce305002c4f4073543f095395a3a8cbc5ad32cf65"
+        }
+      ]
     },
     {
       "branch": "PromotionExpiryDraft-ChatGPT",
@@ -1606,8 +1650,8 @@
   "last_inventory": {
     "date": "2026-10-30",
     "branch_count": 75,
-    "changed_workflow_head": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
-    "scope": "User-requested SHA256 workflow validation on known passing DLL",
-    "assistant_parent": "52875b0b3b93ee49408d94cf983d59cf13956014"
+    "original_head_changes": [],
+    "scope": "UWAI integer percentage metadata/API repairs and full Release/Debug native validation",
+    "assistant_parent": "9c77b56688d500212386e272c563d43441232551"
   }
 }
