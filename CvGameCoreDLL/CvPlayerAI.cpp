@@ -8683,7 +8683,7 @@ int CvPlayerAI::AI_getShareRelativeProgressAttitude(PlayerTypes ePlayer, int iPa
 	}
 	// XANA (note): rAttitude states how worried/annoyed we are that both we and ePlayer are doing poorly in the overall rankings.
 	scaled const rAttitude = kOurPersonality.getShareRelativeProgressAttitudeChange() + 
-                    ((fixp(((iOurRank + iTheirRank) / (iTotalPlayers - 1)) / 2) - 
+                    ((scaled(((iOurRank + iTheirRank) / (iTotalPlayers - 1)) / 2) - 
                     fixp(0.5)) * 
                    (AI_getShareRelativeProgressCounter(ePlayer) / kOurPersonality.getShareRelativeProgressAttitudeChangeDivisor()));
 	if (kOurPersonality.getShareRelativeProgressAttitudeChangeLimit() == 0)
