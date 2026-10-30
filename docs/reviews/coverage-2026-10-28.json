@@ -639,8 +639,8 @@
       "branch": "LeaderSpecificVoteActionDiplomacy",
       "head_at_inventory": "8fcfdd97329279393120aaab34c00dde84e729df",
       "coverage": "source_review_partial",
-      "native_verification": "copy_ownership_and_prior_counter_fixtures_only_no_dll",
-      "next_action": "Complete/review supplied two-stage finalizer allocation, exact ballot parser, staging dimensions and capacity; revalidate moved loader with baseline InitList semantics before native overlay.",
+      "native_verification": "finalizer_caller_copy_and_prior_counter_fixtures_only_no_dll",
+      "next_action": "Review actual early-read XML staging/default behavior, schema/info cache and player counter save-load integration before native overlay. Previous finalizer allocation/parser/bounds issues now fixed.",
       "refinement_branch": "VoteCounterDraft-ChatGPT",
       "draft_code_sha": "45de0c4d322d916e2bafe8a250457d263d3808d2",
       "finding_ids": [
@@ -650,13 +650,15 @@
         "VOTE-20261028-04",
         "VOTE-20261028-05",
         "VOTE-20261030-06",
-        "VOTE-20261030-07"
+        "VOTE-20261030-07",
+        "VOTE-20261030-08",
+        "VOTE-20261030-09"
       ],
       "source_head": "8fcfdd97329279393120aaab34c00dde84e729df",
       "source_branch": "LeaderSpecificVoteActionDiplomacy",
-      "qualification": "Changed source staging adopted; old XML-argument loader fixture is historical, old guard awaits finalizer relocation. 33 C++03/ASan/UBSan reduced-layout copy cases passed. No complete class/MSVC/DLL result.",
+      "qualification": "Complete actual no-argument finalizer passes 1933 C++03/ASan/UBSan cases with class/global stand-ins; caller block passes 21 cleanup/failure cases. No full engine/MSVC/DLL/real XML/game result.",
       "review_disposition": "active_partial_review_after_source_change",
-      "latest_review": "docs/reviews/vote-staging-copy-2026-10-30.md",
+      "latest_review": "docs/reviews/vote-finalizer-2026-10-30.md",
       "skip_history": [
         {
           "source_sha": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
@@ -1077,10 +1079,10 @@
     },
     {
       "branch": "VoteCounterDraft-ChatGPT",
-      "head_at_inventory": "d9cce3faba0641b5ff84b01eb9bfcbb3c4377a5a",
+      "head_at_inventory": "6c0caf2d993dfacab2778258f47241fd74dd1f03",
       "coverage": "published_review_artifact",
-      "native_verification": "copy_ownership_and_prior_counter_fixtures_only_no_dll",
-      "next_action": "Complete/review supplied two-stage finalizer allocation, exact ballot parser, staging dimensions and capacity; revalidate moved loader with baseline InitList semantics before native overlay.",
+      "native_verification": "finalizer_caller_copy_and_prior_counter_fixtures_only_no_dll",
+      "next_action": "Review actual early-read XML staging/default behavior, schema/info cache and player counter save-load integration before native overlay. Previous finalizer allocation/parser/bounds issues now fixed.",
       "refinement_branch": "VoteCounterDraft-ChatGPT",
       "draft_code_sha": "45de0c4d322d916e2bafe8a250457d263d3808d2",
       "finding_ids": [
@@ -1090,13 +1092,15 @@
         "VOTE-20261028-04",
         "VOTE-20261028-05",
         "VOTE-20261030-06",
-        "VOTE-20261030-07"
+        "VOTE-20261030-07",
+        "VOTE-20261030-08",
+        "VOTE-20261030-09"
       ],
       "source_head": "8fcfdd97329279393120aaab34c00dde84e729df",
       "source_branch": "LeaderSpecificVoteActionDiplomacy",
-      "qualification": "Changed source staging adopted; old XML-argument loader fixture is historical, old guard awaits finalizer relocation. 33 C++03/ASan/UBSan reduced-layout copy cases passed. No complete class/MSVC/DLL result.",
+      "qualification": "Complete actual no-argument finalizer passes 1933 C++03/ASan/UBSan cases with class/global stand-ins; caller block passes 21 cleanup/failure cases. No full engine/MSVC/DLL/real XML/game result.",
       "review_disposition": "active_partial_review_after_source_change",
-      "latest_review": "docs/reviews/vote-staging-copy-2026-10-30.md",
+      "latest_review": "docs/reviews/vote-finalizer-2026-10-30.md",
       "skip_history": [
         {
           "source_sha": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
@@ -1294,11 +1298,12 @@
     }
   ],
   "current_pass": {
-    "classification": "changed_vote_staging_copy_ownership",
+    "classification": "vote_staging_finalizer_and_failure_propagation",
     "source_sha": "8fcfdd97329279393120aaab34c00dde84e729df",
-    "assistant_parent": "d9cce3faba0641b5ff84b01eb9bfcbb3c4377a5a",
+    "assistant_parent": "6c0caf2d993dfacab2778258f47241fd74dd1f03",
     "dll_build_triggered": false,
-    "fixture_cases": 33,
+    "finalizer_cases": 1933,
+    "caller_cases": 21,
     "inventory_branch_count": 75
   },
   "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",

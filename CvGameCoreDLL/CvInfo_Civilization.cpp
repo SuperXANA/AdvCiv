@@ -1149,32 +1149,61 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 // XANA: 01-24-2026 Leader Specific Player Vote Diplomacy
 bool CvLeaderHeadInfo::readPass3()
 {
-	int const iNumPlayerVoteTypes = m_aszExtraXMLforPass3.size(); // XML implementation expects that this is used for PLAYER_VOTE_YES/PLAYER_VOTE_NO/other negative PlayerVoteTypes enum values, not other game enums, need to detemine how to make this requirement work
-	/* XANA (note):
-	This won't work because CvXMLLoadUtility and the pXML pointer aren't available in the third pass
-	need to see if creating a function that takes an int parameter and calling that instead where this readPass3's call location lies during LoadPostMenuGlobals
-	then having the function which took GC.getNumVoteInfos() call this readPass3 function would be effecive or if there's a better methodology for this
-	
-	pXML->InitList(&m_paeFavoriteVoteDecision, GC.getNumVoteInfos(), NO_PLAYER_VOTE);
-	pXML->InitList(&m_piFavoriteVoteDecisionAttitude, GC.getNumVoteInfos());
-	pXML->InitList(&m_piHateVoteDecisionAttitude, GC.getNumVoteInfos());
-	
-	*/
-	if (iNumPlayerVotes < 1)
+	int const iNumVotes = GC.getNumVoteInfos();
+	size_t const iRows = m_aszExtraXMLforPass3.size();
+	if (iNumVotes < 0 || iRows > static_cast<size_t>(iNumVotes) ||
+		m_aiFirstExtraXMLforPass3.size() != iRows ||
+		m_aiSecondExtraXMLforPass3.size() != iRows)
 	{
 		FAssert(false);
 		return false;
 	}
-	for (int i = 0; i < iNumPlayerVotes; i++)
+	// Fixed negative ballot values are not XML info-table identifiers.
+	std::vector<PlayerVoteTypes> aeDecisions;
+	for (size_t i = 0; i < iRows; i++)
 	{
-		PlayerVoteTypes eDecision(GC.getInfoTypeForString(m_aszExtraXMLforPass3[i])); // XANA (note): Get PLAYER_VOTE_YES, or specific vote decision type, as favored by this leader
-		if (eDecision != NO_PLAYER_VOTE)
+		CvString const& szDecision = m_aszExtraXMLforPass3[i];
+		PlayerVoteTypes eDecision = NO_PLAYER_VOTE;
+		if (szDecision == "PLAYER_VOTE_YES")
+			eDecision = PLAYER_VOTE_YES;
+		else if (szDecision == "PLAYER_VOTE_NO")
+			eDecision = PLAYER_VOTE_NO;
+		else if (szDecision == "PLAYER_VOTE_ABSTAIN")
+			eDecision = PLAYER_VOTE_ABSTAIN;
+		else if (szDecision == "PLAYER_VOTE_NEVER")
+			eDecision = PLAYER_VOTE_NEVER;
+		else
 		{
-			m_paeFavoriteVoteDecision[i] = eDecision;
-			m_piFavoriteVoteDecisionAttitude[i] = m_aiFirstExtraXMLforPass3[i];
-			m_piHateVoteDecisionAttitude[i] = m_aiSecondExtraXMLforPass3[i];
+			FAssert(false);
+			return false;
 		}
-		else FAssert(eDecision != NO_PLAYER_VOTE);
+		aeDecisions.push_back(eDecision);
+	}
+	if (iRows == 0)
+		return true; // No override: retain inherited arrays or null defaults.
+	if (m_paeFavoriteVoteDecision == NULL)
+	{
+		m_paeFavoriteVoteDecision = new PlayerVoteTypes[iNumVotes];
+		for (int i = 0; i < iNumVotes; i++)
+			m_paeFavoriteVoteDecision[i] = NO_PLAYER_VOTE;
+	}
+	if (m_piFavoriteVoteDecisionAttitude == NULL)
+	{
+		m_piFavoriteVoteDecisionAttitude = new int[iNumVotes];
+		for (int i = 0; i < iNumVotes; i++)
+			m_piFavoriteVoteDecisionAttitude[i] = 0;
+	}
+	if (m_piHateVoteDecisionAttitude == NULL)
+	{
+		m_piHateVoteDecisionAttitude = new int[iNumVotes];
+		for (int i = 0; i < iNumVotes; i++)
+			m_piHateVoteDecisionAttitude[i] = 0;
+	}
+	for (size_t i = 0; i < iRows; i++)
+	{
+		m_paeFavoriteVoteDecision[i] = aeDecisions[i];
+		m_piFavoriteVoteDecisionAttitude[i] = m_aiFirstExtraXMLforPass3[i];
+		m_piHateVoteDecisionAttitude[i] = m_aiSecondExtraXMLforPass3[i];
 	}
 	m_aszExtraXMLforPass3.clear();
 	m_aiFirstExtraXMLforPass3.clear();
