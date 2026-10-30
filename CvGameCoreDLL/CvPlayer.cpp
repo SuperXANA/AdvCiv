@@ -15613,6 +15613,16 @@ namespace
 		 * STEP 1: Resolve explicitly specified values.
 		 * ============================================================
 		 */
+		// XANA: 10-30-2026 Validate explicit summon IDs against unused pools (ChatGPT)
+		if (bHasSpecificLeader &&
+			std::find(aeEligibleLeaders.begin(), aeEligibleLeaders.end(),
+				(LeaderHeadTypes)kEvent.getSummonLeader()) == aeEligibleLeaders.end())
+			return false;
+		if (bHasSpecificCiv &&
+			std::find(aeEligibleCivs.begin(), aeEligibleCivs.end(),
+				(CivilizationTypes)kEvent.getSummonCivilization()) == aeEligibleCivs.end())
+			return false;
+		// XANA: 10-30-2026 Validate explicit summon IDs against unused pools (ChatGPT)
 		if (bHasSpecificLeader)
 		{
 			eOutLeader = (LeaderHeadTypes)kEvent.getSummonLeader();
@@ -15621,6 +15631,9 @@ namespace
 		{
 			eOutCiv = (CivilizationTypes)kEvent.getSummonCivilization();
 		}
+		// Explicit pairs take precedence over weighted arrays and need no draw.
+		if (bHasSpecificLeader && bHasSpecificCiv)
+			return true;
 		/*
 		 * ============================================================
 		 * STEP 2: If we have a specific value on one side, resolve
@@ -15743,8 +15756,8 @@ namespace
 		/*
 		 * No valid leader/civ pair could be constructed.
 		 */
-		LeaderHeadTypes eSummonLeader = NO_LEADER;
-		CivilizationTypes eSummonCiv = NO_CIVILIZATION;
+		eOutLeader = NO_LEADER;
+		eOutCiv = NO_CIVILIZATION;
 		return false;
 	}
 	
