@@ -15386,6 +15386,19 @@ namespace
 		}
 	}
 
+	// XANA: 10-30-2026 Bounded summon weight accumulation (ChatGPT)
+	bool addSummonWeight(int& iTotalWeight, int iWeight)
+	{
+		if (iWeight <= 0)
+			return true;
+		// CvRandom::get accepts int but its random bound is unsigned-short sized.
+		if (iWeight > 65535 - iTotalWeight)
+			return false;
+		iTotalWeight += iWeight;
+		return true;
+	}
+	// XANA: 10-30-2026 Bounded summon weight accumulation (ChatGPT)
+
 	// Picks a leader from the event's SummonLeaderToGameRandomChances array.
 	// Skips leaders already present in the game.
 	// Returns NO_LEADER if the array is missing or has zero valid weight.
@@ -15400,7 +15413,8 @@ namespace
 		
 		for (int i = 0; i < iEnumLength; ++i)
 		{
-			iTotalWeight += piChances[aeEligibleLeaders[i]];
+			if (!addSummonWeight(iTotalWeight, piChances[aeEligibleLeaders[i]]))
+				return NO_LEADER;
 		}
 
 		if (iTotalWeight <= 0)
@@ -15434,7 +15448,8 @@ namespace
 		
 		for (int i = 0; i < iEnumLength; ++i)
 		{
-			iTotalWeight += piChances[aeEligibleCivs[i]];
+			if (!addSummonWeight(iTotalWeight, piChances[aeEligibleCivs[i]]))
+				return NO_CIVILIZATION;
 		}
 
 		if (iTotalWeight <= 0)
@@ -15484,13 +15499,15 @@ namespace
 					continue;
 				aeCivs.push_back(eCiv);
 				aiWeights.push_back(iWeight);
-				iTotalWeight += iWeight;
+				if (!addSummonWeight(iTotalWeight, iWeight))
+					return NO_CIVILIZATION;
 			}
 			else
 			{
 				aeCivs.push_back(eCiv);
 				aiWeights.push_back(1);
-				iTotalWeight += 1;
+				if (!addSummonWeight(iTotalWeight, 1))
+					return NO_CIVILIZATION;
 			}
 		}
 		if (aeCivs.empty())
@@ -15539,13 +15556,15 @@ namespace
 					continue;
 				aeLeaders.push_back(eLeader);
 				aiWeights.push_back(iWeight);
-				iTotalWeight += iWeight;
+				if (!addSummonWeight(iTotalWeight, iWeight))
+					return NO_LEADER;
 			}
 			else
 			{
 				aeLeaders.push_back(eLeader);
 				aiWeights.push_back(1);
-				iTotalWeight += 1;
+				if (!addSummonWeight(iTotalWeight, 1))
+					return NO_LEADER;
 			}
 		}
 		if (aeLeaders.empty())

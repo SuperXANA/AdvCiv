@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import subprocess,tempfile,os
-root=Path(__file__).resolve().parents[2]; s=(root/'CvGameCoreDLL/CvPlayer.cpp').read_text()
+root=Path(__file__).resolve().parents[2]; s=Path(os.environ.get('SUMMON_SOURCE',str(root/'CvGameCoreDLL/CvPlayer.cpp'))).read_text()
 a=s.index('\tLeaderHeadTypes selectCompatibleLeaderForSummonCiv('); b=s.index('\n\t// Master resolver.',a)
 function=s[a:b]
+helper=''
+if '\tbool addSummonWeight(' in s:
+ h=s.index('\tbool addSummonWeight('); helper=s[h:s.index('\n\t}',h)+3]
+
 assert s.count('selectCompatibleLeaderForSummonCiv(eOutCiv, &kEvent, aeEligibleLeaders)')==2
 assert s.count('selectCompatibleLeaderForSummonCiv(eOutCiv, NULL, aeEligibleLeaders)')==2
 stub=r'''
@@ -43,7 +47,7 @@ int main(){
 }
 '''
 with tempfile.TemporaryDirectory() as d:
- p=Path(d);(p/'test.cpp').write_text(stub+function+checks)
+ p=Path(d);(p/'test.cpp').write_text(stub+helper+function+checks)
  subprocess.run(['g++','-std=c++03','-Wall','-Wextra','-Werror','-pedantic','-fsanitize=address,undefined',str(p/'test.cpp'),'-o',str(p/'test')],check=True)
  subprocess.run([str(p/'test')],check=True,env=dict(os.environ,ASAN_OPTIONS='detect_leaks=0',UBSAN_OPTIONS='halt_on_error=1'))
 print('PASS: actual compatible-leader helper, available pool, compatibility/lead-any gates, filter weights, RNG bounds and invalid IDs. Engine/RNG stubbed; resolver call sites structural only.')
