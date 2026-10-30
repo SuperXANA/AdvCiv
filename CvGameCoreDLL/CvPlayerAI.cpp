@@ -13488,7 +13488,7 @@ DenialTypes CvPlayerAI::AI_religionTrade(ReligionTypes eReligion,
 	if (eHateReligion != NO_RELIGION)
 	{
 		if (eReligion == eHateReligion &&
-		GET_PLAYER(ePlayer).isHasReligion(eReligion))
+		GET_PLAYER(ePlayer).getHasReligionCount(eReligion) > 0)
 		{
 			return DENIAL_FAVORITE_CIVIC;
 		}
@@ -19039,6 +19039,7 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
 		{
 // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		case ENEMY_RELIGION:
+		{
 			ReligionTypes eHateReligion = getHateReligion();
 			if (eHateReligion != NO_RELIGION &&
 				getStateReligion() != eHateReligion &&
@@ -19047,7 +19048,9 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
 				iMatching += iCities;
 			}
 			break;
+		}
 		case ENEMY_CIVIC:
+		{
 			CivicTypes eHateCivic = getHateCivic();
 			if (eHateCivic != NO_CIVIC && !isCivic(eHateCivic) &&
 				itPlayer->isCivic(eHateCivic))
@@ -19055,6 +19058,7 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
 				iMatching += iCities;
 			}
 			break;
+		}
 // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 		case SAME_RELIGION:
 			if (getStateReligion() != NO_RELIGION &&
@@ -25640,7 +25644,7 @@ void CvPlayerAI::AI_updateStrategyHash()
 // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 				ReligionTypes eReligion = GC.getInfo(getPersonalityType()).getHateReligion();
 				if (eReligion != NO_RELIGION &&
-					isHasReligion(eReligion))
+					getHasReligionCount(eReligion) > 0)
 				{
 					iMissionary /= 20;
 				}
@@ -25772,12 +25776,12 @@ void CvPlayerAI::AI_updateStrategyHash()
 // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	CivicTypes eCivic = GC.getInfo(getPersonalityType()).getHateCivic();
 	if (eCivic != NO_CIVIC &&
-		!isCivic(eReligion))
+		!isCivic(eCivic))
 	{
 		for (PlayerAIIter<FREE_MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getTeam());
 			itRival.hasNext(); ++itRival)
 		{
-			if (itRival.isCivic(eCivic))
+			if (itRival->isCivic(eCivic))
 			{	
 				iParanoia += 10;
 			}
@@ -25790,7 +25794,7 @@ void CvPlayerAI::AI_updateStrategyHash()
 		for (PlayerAIIter<FREE_MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getTeam());
 			itRival.hasNext(); ++itRival)
 		{
-			if (itRival.getStateReligion() == eReligion)
+			if (itRival->getStateReligion() == eReligion)
 			{
 				iParanoia += 10;
 			}
