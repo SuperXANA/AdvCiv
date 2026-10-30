@@ -407,8 +407,8 @@
       "branch": "FSimpleDataStorage",
       "head_at_inventory": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
       "coverage": "source_review_partial",
-      "native_verification": "scoped_header_fixtures_only_no_dll",
-      "next_action": "Review remaining byte allocation overflow on 32-bit, arbitrary element lifetime/alignment and const static access; current checked dimension products verified with stubs.",
+      "native_verification": "scoped_complete_header_fixtures_only_no_dll",
+      "next_action": "Review 32-bit byte-allocation overflow, arbitrary element lifetime/alignment and consuming-engine integration; const static indexing scope completed.",
       "review_branch": "SimpleStorageChangeDraft-ChatGPT",
       "draft_code_sha": "80aba592df6f12d4a3e85a615b615bb4a41763ee",
       "finding_ids": [
@@ -418,12 +418,14 @@
         "STORAGE-20261029-04",
         "STORAGE-20261029-05",
         "STORAGE-20261029-06",
-        "STORAGE-20261030-07"
+        "STORAGE-20261030-07",
+        "STORAGE-20261030-08"
       ],
       "source_review_scope": "Actual full header and deletion macro read; bool/int change dispatch and parse repair refined. Prior other storage observations remain unimplemented.",
-      "qualification": "Prior fixtures retained; actual complete header passes 120 C++03/ASan/UBSan dimension/allocation/load cases with stream/XML/deletion stubs. Not byte-size/native DLL/game validation.",
+      "qualification": "Complete actual header: nine primitive type/size cases pass C++03/ASan/UBSan with engine stubs; original permits const mutation and corrected API rejects it at compile time. Prior fixtures retained; no MSVC/DLL/game verification.",
       "refinement_branch": "SimpleStorageChangeDraft-ChatGPT",
-      "latest_review": "docs/reviews/storage-dimensions-2026-10-30.md"
+      "latest_review": "docs/reviews/storage-const-2026-10-30.md",
+      "last_review_parent": "7f71ac09a6eb9250f65500f137ee0a3e7f2ee64f"
     },
     {
       "branch": "GenderCounterDraft-ChatGPT",
@@ -476,8 +478,8 @@
       "branch": "HatedCivicReligionDiplomacy",
       "head_at_inventory": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
       "coverage": "source_review_partial",
-      "native_verification": "scoped_counter_cache_and_religion_function_fixtures_only_no_dll",
-      "next_action": "Review save/lifecycle/cache integration and remaining arithmetic ranges; retain integer-ratio scoring policy until an explicit mechanics design exists.",
+      "native_verification": "native_overlay_prepared_result_pending",
+      "next_action": "Follow requested Release/Debug build to terminal results; inspect artifacts Build.log when available; original head unmodified.",
       "refinement_branch": "HatedDiplomacyDraft-ChatGPT",
       "draft_code_sha": "bd9fe6e0816ed0f6c5311b5fb2aefa6505df4e5e",
       "finding_ids": [
@@ -486,24 +488,28 @@
         "HATED-20261030-03"
       ],
       "qualification": "Complete AI_religionValue with engine stubs: 83970 configurations; 65556 positive-hated cases match original feature, 18414 zero-hated cases match pinned baseline, plus absent-religion early return. Original triggers UBSan division by zero. No engine/MSVC/DLL/game result.",
-      "latest_review": "docs/reviews/hated-religion-denominator-2026-10-30.md",
-      "last_review_parent": "c45a473baa07adc9cfbe898f17e074025902016a"
+      "latest_review": "docs/reviews/hated-native-2026-10-30.md",
+      "last_review_parent": "c45a473baa07adc9cfbe898f17e074025902016a",
+      "feature_snapshot": "7154a34bc88bbcd5cdde4201c35ee15f1b1c5a83"
     },
     {
       "branch": "LeaderCivilizationDecisionPreferences",
       "head_at_inventory": "aac03388283a5ac316f6a19f6e3754a7435b6511",
       "coverage": "source_review_partial",
-      "native_verification": "cleanup_and_event_blocks_fixture_only_no_dll_build",
-      "next_action": "Typed unit/class/combat choice snapshots repaired; review full consumer integration and preference initialization/XML/cache.",
+      "native_verification": "scoped_preference_consumer_and_record_reader_fixtures_only_no_dll",
+      "next_action": "Review enclosing preference-info loader cleanup/repeated reads, index range/default inheritance, player initialization and complete native integration.",
       "refinement_branch": "PreferenceFrameworkDraft-ChatGPT",
       "draft_code_sha": "a290ad622d68cb48c9b5c5562a6dcc60a1fc6d89",
       "finding_ids": [
         "PREFERENCE-20261028-01",
         "PREFERENCE-20261028-02",
         "PREFERENCE-20261029-03",
-        "PREFERENCE-20261029-04"
+        "PREFERENCE-20261029-04",
+        "PREFERENCE-20261030-05"
       ],
-      "qualification": "Actual event blocks and EventPreferenceData accessors passed 1024 small-value configurations with metadata stubs; no full event method, large arithmetic or DLL result."
+      "qualification": "All actual preference structs and revised implementation compiled with cursor/XML stubs; 2880 record configurations plus 3 supplied technology XML row values passed C++03/ASan/UBSan. Original fails known technology-ID assertion; real parser/full loaders/MSVC/DLL/game unverified.",
+      "latest_review": "docs/reviews/preference-cursor-2026-10-30.md",
+      "last_review_parent": "166d6a47995801991f147b6f7154eda1b241892b"
     },
     {
       "branch": "LeaderCivilizationSummoningRandomEvents",
@@ -1111,17 +1117,21 @@
       "branch": "UniqueCivicsReligions",
       "head_at_inventory": "d0fc7c0f93320e112903416c17bb2a2030819d60",
       "coverage": "source_review_partial",
-      "native_verification": "scoped_native_gate_fixture_only_no_dll_build",
-      "next_action": "Reuse draft for existing metadata/loading, binding, actual caller execution and whole-feature native validation; do not invent missing rules.",
+      "native_verification": "scoped_ui_gate_and_pass3_fixtures_only_no_dll",
+      "next_action": "Review pass-3 failure propagation, full enum/metadata/hybrid loading, constructor/default inheritance, bindings and actual callers before native validation.",
       "review_branch": "CivicScrollDraft-ChatGPT",
       "draft_code_sha": "30fb84064c9c791868d70582875e7a8e01814df4",
       "finding_ids": [
         "CIVICUI-20261028-01",
         "RELIGIONUI-20261028-01",
-        "RELIGION-20261028-01"
+        "RELIGION-20261028-01",
+        "ORGLOAD-20261030-01",
+        "ORGLOAD-20261030-02"
       ],
       "source_review_scope": "Civic-screen XANA draw/visibility blocks; marked player/metadata/religion-screen consumers read for context. Other integration scopes unverified.",
-      "qualification": "UI fixtures retained; actual canDoReligion/isAllowedReligion passed 72 C++03/ASan/UBSan prerequisite/presence combinations with engine stubs. No full DLL/game result."
+      "qualification": "4116 strict C++03/ASan/UBSan staged-list cases for actual three pass-3 bodies in reduced class shells. Negative controls reproduce missing derived declarations and bounds assertion; no full header/classes/MSVC/DLL/XML/game.",
+      "latest_review": "docs/reviews/organization-pass3-2026-10-30.md",
+      "last_review_parent": "f85393be51e32f7440fedc3e4f7946d8b56f25cb"
     },
     {
       "branch": "UnitCombatUpgradeBuild-ChatGPT",
@@ -1209,27 +1219,31 @@
       "branch": "CivicScrollDraft-ChatGPT",
       "head_at_inventory": "f85393be51e32f7440fedc3e4f7946d8b56f25cb",
       "coverage": "published_review_artifact",
-      "native_verification": "scoped_native_gate_fixture_only_no_dll_build",
+      "native_verification": "scoped_ui_gate_and_pass3_fixtures_only_no_dll",
       "source_branch": "UniqueCivicsReligions",
       "source_head": "d0fc7c0f93320e112903416c17bb2a2030819d60",
       "draft_code_sha": "30fb84064c9c791868d70582875e7a8e01814df4",
-      "next_action": "Reuse draft for existing metadata/loading, binding, actual caller execution and whole-feature native validation; do not invent missing rules.",
+      "next_action": "Review pass-3 failure propagation, full enum/metadata/hybrid loading, constructor/default inheritance, bindings and actual callers before native validation.",
       "finding_ids": [
         "CIVICUI-20261028-01",
         "RELIGIONUI-20261028-01",
-        "RELIGION-20261028-01"
+        "RELIGION-20261028-01",
+        "ORGLOAD-20261030-01",
+        "ORGLOAD-20261030-02"
       ],
-      "qualification": "UI fixtures retained; actual canDoReligion/isAllowedReligion passed 72 C++03/ASan/UBSan prerequisite/presence combinations with engine stubs. No full DLL/game result."
+      "qualification": "4116 strict C++03/ASan/UBSan staged-list cases for actual three pass-3 bodies in reduced class shells. Negative controls reproduce missing derived declarations and bounds assertion; no full header/classes/MSVC/DLL/XML/game.",
+      "latest_review": "docs/reviews/organization-pass3-2026-10-30.md",
+      "last_review_parent": "f85393be51e32f7440fedc3e4f7946d8b56f25cb"
     },
     {
       "branch": "SimpleStorageChangeDraft-ChatGPT",
-      "head_at_inventory": "82b05f776a57fc95cd9ddbd773eddcd23710471e",
+      "head_at_inventory": "7f71ac09a6eb9250f65500f137ee0a3e7f2ee64f",
       "coverage": "published_review_artifact",
-      "native_verification": "scoped_header_fixtures_only_no_dll",
+      "native_verification": "scoped_complete_header_fixtures_only_no_dll",
       "source_branch": "FSimpleDataStorage",
       "source_head": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
       "draft_code_sha": "80aba592df6f12d4a3e85a615b615bb4a41763ee",
-      "next_action": "Review remaining byte allocation overflow on 32-bit, arbitrary element lifetime/alignment and const static access; current checked dimension products verified with stubs.",
+      "next_action": "Review 32-bit byte-allocation overflow, arbitrary element lifetime/alignment and consuming-engine integration; const static indexing scope completed.",
       "refinement_branch": "SimpleStorageChangeDraft-ChatGPT",
       "finding_ids": [
         "STORAGE-20261028-01",
@@ -1238,16 +1252,18 @@
         "STORAGE-20261029-04",
         "STORAGE-20261029-05",
         "STORAGE-20261029-06",
-        "STORAGE-20261030-07"
+        "STORAGE-20261030-07",
+        "STORAGE-20261030-08"
       ],
-      "qualification": "Prior fixtures retained; actual complete header passes 120 C++03/ASan/UBSan dimension/allocation/load cases with stream/XML/deletion stubs. Not byte-size/native DLL/game validation.",
-      "latest_review": "docs/reviews/storage-dimensions-2026-10-30.md"
+      "qualification": "Complete actual header: nine primitive type/size cases pass C++03/ASan/UBSan with engine stubs; original permits const mutation and corrected API rejects it at compile time. Prior fixtures retained; no MSVC/DLL/game verification.",
+      "latest_review": "docs/reviews/storage-const-2026-10-30.md",
+      "last_review_parent": "7f71ac09a6eb9250f65500f137ee0a3e7f2ee64f"
     },
     {
       "branch": "HatedDiplomacyDraft-ChatGPT",
       "head_at_inventory": "c45a473baa07adc9cfbe898f17e074025902016a",
       "coverage": "published_review_artifact",
-      "native_verification": "scoped_counter_cache_and_religion_function_fixtures_only_no_dll",
+      "native_verification": "native_overlay_prepared_result_pending",
       "source_branch": "HatedCivicReligionDiplomacy",
       "source_head": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
       "draft_code_sha": "bd9fe6e0816ed0f6c5311b5fb2aefa6505df4e5e",
@@ -1256,10 +1272,11 @@
         "HATED-20261028-02",
         "HATED-20261030-03"
       ],
-      "next_action": "Review save/lifecycle/cache integration and remaining arithmetic ranges; retain integer-ratio scoring policy until an explicit mechanics design exists.",
+      "next_action": "Follow requested Release/Debug build to terminal results; inspect artifacts Build.log when available; original head unmodified.",
       "qualification": "Complete AI_religionValue with engine stubs: 83970 configurations; 65556 positive-hated cases match original feature, 18414 zero-hated cases match pinned baseline, plus absent-religion early return. Original triggers UBSan division by zero. No engine/MSVC/DLL/game result.",
-      "latest_review": "docs/reviews/hated-religion-denominator-2026-10-30.md",
-      "last_review_parent": "c45a473baa07adc9cfbe898f17e074025902016a"
+      "latest_review": "docs/reviews/hated-native-2026-10-30.md",
+      "last_review_parent": "c45a473baa07adc9cfbe898f17e074025902016a",
+      "feature_snapshot": "7154a34bc88bbcd5cdde4201c35ee15f1b1c5a83"
     },
     {
       "branch": "FirstImpressionDraft-ChatGPT",
@@ -1282,18 +1299,23 @@
     },
     {
       "branch": "PreferenceFrameworkDraft-ChatGPT",
-      "head_at_inventory": "4ae2aca39f3d9400d2fa56713bfc2291ed6da1a7",
+      "head_at_inventory": "166d6a47995801991f147b6f7154eda1b241892b",
       "coverage": "published_review_artifact",
-      "native_verification": "cleanup_and_event_blocks_fixture_only_no_dll_build",
+      "native_verification": "scoped_preference_consumer_and_record_reader_fixtures_only_no_dll",
       "source_branch": "LeaderCivilizationDecisionPreferences",
       "source_head": "aac03388283a5ac316f6a19f6e3754a7435b6511",
       "draft_code_sha": "a290ad622d68cb48c9b5c5562a6dcc60a1fc6d89",
       "finding_ids": [
         "PREFERENCE-20261028-01",
-        "PREFERENCE-20261028-02"
+        "PREFERENCE-20261028-02",
+        "PREFERENCE-20261029-03",
+        "PREFERENCE-20261029-04",
+        "PREFERENCE-20261030-05"
       ],
-      "next_action": "Review remaining tech/unit consumer type consistency, metadata loaders and whole-feature integration before DLL validation.",
-      "qualification": "Actual event blocks and EventPreferenceData accessors passed 1024 small-value configurations with metadata stubs; no full event method, large arithmetic or DLL result."
+      "next_action": "Review enclosing preference-info loader cleanup/repeated reads, index range/default inheritance, player initialization and complete native integration.",
+      "qualification": "All actual preference structs and revised implementation compiled with cursor/XML stubs; 2880 record configurations plus 3 supplied technology XML row values passed C++03/ASan/UBSan. Original fails known technology-ID assertion; real parser/full loaders/MSVC/DLL/game unverified.",
+      "latest_review": "docs/reviews/preference-cursor-2026-10-30.md",
+      "last_review_parent": "166d6a47995801991f147b6f7154eda1b241892b"
     },
     {
       "branch": "CityPopulationDraft-ChatGPT",
@@ -1462,7 +1484,7 @@
     "date": "2026-10-30",
     "branch_count": 75,
     "original_head_changes": [],
-    "scope": "Hated religion zero denominator with baseline fallback",
-    "assistant_parent": "c45a473baa07adc9cfbe898f17e074025902016a"
+    "scope": "FStaticArray const indexing",
+    "assistant_parent": "7f71ac09a6eb9250f65500f137ee0a3e7f2ee64f"
   }
 }
