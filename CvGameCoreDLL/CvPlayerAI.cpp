@@ -18242,7 +18242,7 @@ int CvPlayerAI::AI_religionValue(ReligionTypes eReligion) const
 		also, most civs with a high base modifier also have iReligionFlavor > 0;
 		and so their final modifier will be reduced. */
 // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
-	int iDiplomaticModifier = 10 * iDiplomaticBase * (iLikedReligionCivs / iHatedReligionCivs) /
+	int iDiplomaticModifier = 10 * iDiplomaticBase * (iLikedReligionCivs / std::max(1, iHatedReligionCivs)) /
 			std::max(1, iTotalCivs);
 // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	iDiplomaticModifier /= 10 + iReligionFlavor;
