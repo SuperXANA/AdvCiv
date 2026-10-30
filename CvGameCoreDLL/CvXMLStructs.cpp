@@ -25,16 +25,12 @@ bool TechPreferenceData::isNotPreferredChoice() const
 }
 
 bool TechPreferenceData::read(CvXMLLoadUtility* pXML)
-{	
-	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
-	{
-		pXML->SetInfoIDFromChildXmlVal(iTech, "TechType");
-		pXML->GetChildXmlValByName(&iTechValueModifierPercent, "iTechValueModifierPercent");
-		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
-		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
-
-		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-	}
+{
+	// Caller already positioned the XML cursor on this preference record.
+	pXML->SetInfoIDFromChildXmlVal(iTech, "TechType");
+	pXML->GetChildXmlValByName(&iTechValueModifierPercent, "iTechValueModifierPercent");
+	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
+	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
 	return true;
 }
 // XANA: 04-26-2025 Favorite Technologies for Advanced Civ
@@ -63,15 +59,11 @@ bool EventPreferenceData::isNotPreferredChoice() const
 
 bool EventPreferenceData::read(CvXMLLoadUtility* pXML)
 {
-	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
-	{
-		pXML->SetInfoIDFromChildXmlVal(iEvent, "Event");
-		pXML->GetChildXmlValByName(&iEventValueModifierPercent, "iEventValueModifierPercent");
-		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
-		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
-
-		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-	}
+	// Caller already positioned the XML cursor on this preference record.
+	pXML->SetInfoIDFromChildXmlVal(iEvent, "Event");
+	pXML->GetChildXmlValByName(&iEventValueModifierPercent, "iEventValueModifierPercent");
+	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
+	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
 	return true;
 }
 // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
@@ -100,15 +92,11 @@ bool UnitCombatPreferenceData::isNotPreferredChoice() const
 
 bool UnitCombatPreferenceData::read(CvXMLLoadUtility* pXML)
 {
-	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
-	{
-		pXML->SetInfoIDFromChildXmlVal(iUnitCombat, "UnitCombatType");
-		pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
-		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
-		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
-
-		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-	}
+	// Caller already positioned the XML cursor on this preference record.
+	pXML->SetInfoIDFromChildXmlVal(iUnitCombat, "UnitCombatType");
+	pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
+	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
+	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
 	return true;
 }
 
@@ -134,15 +122,11 @@ bool UnitClassPreferenceData::isNotPreferredChoice() const
 
 bool UnitClassPreferenceData::read(CvXMLLoadUtility* pXML)
 {
-	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
-	{
-		pXML->SetInfoIDFromChildXmlVal(iUnitClass, "UnitClassType");
-		pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
-		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
-		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
-
-		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-	}
+	// Caller already positioned the XML cursor on this preference record.
+	pXML->SetInfoIDFromChildXmlVal(iUnitClass, "UnitClassType");
+	pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
+	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
+	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
 	return true;
 }
 
@@ -168,15 +152,11 @@ bool UnitPreferenceData::isNotPreferredChoice() const
 
 bool UnitPreferenceData::read(CvXMLLoadUtility* pXML)
 {
-	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
-	{
-		pXML->SetInfoIDFromChildXmlVal(iUnit, "UnitType");
-		pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
-		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
-		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
-
-		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-	}
+	// Caller already positioned the XML cursor on this preference record.
+	pXML->SetInfoIDFromChildXmlVal(iUnit, "UnitType");
+	pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
+	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
+	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
 	return true;
 }
 // XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
