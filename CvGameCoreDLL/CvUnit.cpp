@@ -727,7 +727,7 @@ void CvUnit::doExpireTempPromotions()
 		
 		int iExpireTurn = getPromotionExpireTurn(eLoopPromotion);
 		
-		if (iExpireTurn == -1) // XANA (note): Infinite Duration Promotion
+		if (iExpireTurn <= 0) // No deadline (0) or infinite duration (-1)
 			continue;
 		
 		if (iExpireTurn <= GC.getGame().getGameTurn())
@@ -11722,9 +11722,14 @@ void CvUnit::applyEvent(EventTypes eEvent)
 		if (kEvent.getPromotionExpireTurns() != 0)
 		{
 			int iExpireTurn = kEvent.getPromotionExpireTurns();
-			iExpireTurn *= GC.getInfo(GC.getGame().getGameSpeedType()).getTrainPercent();
-			iExpireTurn /= 100;
-			iExpireTurn += GC.getGame().getGameTurn();
+			if (iExpireTurn < 0)
+				iExpireTurn = -1; // Match promotion metadata: infinite duration.
+			else
+			{
+				iExpireTurn *= GC.getInfo(GC.getGame().getGameSpeedType()).getTrainPercent();
+				iExpireTurn /= 100;
+				iExpireTurn += GC.getGame().getGameTurn();
+			}
 			setPromotionExpireTurn((PromotionTypes)kEvent.getUnitPromotion(), iExpireTurn);
 		}
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
