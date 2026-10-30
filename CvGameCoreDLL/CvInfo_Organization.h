@@ -86,6 +86,9 @@ public: // All the const functions are exposed to Python
 	int* getStateReligionCommerceArray() const;
 
 	bool read(CvXMLLoadUtility* pXML);
+	// XANA: 06-27-2026 Unique Civics and Religions
+	bool readPass3();
+	// XANA: 06-27-2026 Unique Civics and Religions
 
 	static bool isReligionTech(TechTypes eTech); // advc.003w: Moved from CvGameCoreUtils
 
@@ -140,6 +143,9 @@ public: // All the const functions are exposed to Python
 	int* getYieldProducedArray() const;
 
 	bool read(CvXMLLoadUtility* pXML);
+	// XANA: 06-27-2026 Unique Civics and Religions
+	bool readPass3();
+	// XANA: 06-27-2026 Unique Civics and Religions
 
 	static bool isCorporationTech(TechTypes eTech); // advc.003w: Moved from CvGameCoreUtils; unused.
 

@@ -230,7 +230,7 @@ bool CvReligionInfo::read(CvXMLLoadUtility* pXML)
 // XANA: 06-27-2026 Unique Civics and Religions
 bool CvReligionInfo::readPass3()
 {
-	if (m_aszExtraXMLforPass3.size() < 1)
+	if (m_aszExtraXMLforPass3.size() < 3)
 	{
 		FAssert(false);
 		return false;
@@ -391,7 +391,7 @@ bool CvCorporationInfo::read(CvXMLLoadUtility* pXML)
 }
 bool CvCorporationInfo::readPass3()
 {
-	if (m_aszExtraXMLforPass3.size() < 1)
+	if (m_aszExtraXMLforPass3.size() < 3)
 	{
 		FAssert(false);
 		return false;
