@@ -60,7 +60,7 @@ jobs:
               if (Test-Path $outputDir) { Remove-Item $outputDir -Recurse -Force }
             }
             # Remove existing MSBuild logs to protect against uploading older log files - especially when evaluating failing builds
-            foreach ($logName in @("Build.log", "JustErrors.log", "JustWarnings.log")) {
+            foreach ($logName in @("Build.log", "JustErrors.log", "JustWarnings.log", "BuildTiming.log")) {
               $logPath = Join-Path $projectDir $logName
               if (Test-Path -LiteralPath $logPath) { Remove-Item -LiteralPath $logPath -Force }
             }
