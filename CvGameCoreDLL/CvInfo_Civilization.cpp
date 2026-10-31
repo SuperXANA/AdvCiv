@@ -697,12 +697,12 @@ void CvLeaderHeadInfo::setCivicWeightModifier(CivicTypes eCivic, int iValue)
 // XANA: 04-20-2025 Civic Adoption Weights
 
 // XANA: 06-21-2026 Religion Adoption Weights
-int CvLeaderHeadInfo::getReligionWeightModifier(ReligonTypes eReligion) const
+int CvLeaderHeadInfo::getReligionWeightModifier(ReligionTypes eReligion) const
 {
 	FAssertBounds(0, GC.getNumReligionInfos(), eReligion);
 	return m_piReligionWeightModifier ? m_piReligionWeightModifier[eReligion] : 0;
 }
-void CvLeaderHeadInfo::changeReligionWeightModifier(ReligonTypes eReligion, int iChange)
+void CvLeaderHeadInfo::changeReligionWeightModifier(ReligionTypes eReligion, int iChange)
 {
 	if (iChange != 0)
 	{
@@ -710,7 +710,7 @@ void CvLeaderHeadInfo::changeReligionWeightModifier(ReligonTypes eReligion, int 
 		m_piReligionWeightModifier[eReligion] = (m_piReligionWeightModifier[eReligion] + iChange);
 	}
 }
-void CvLeaderHeadInfo::setReligionWeightModifier(ReligonTypes eReligion, int iValue)
+void CvLeaderHeadInfo::setReligionWeightModifier(ReligionTypes eReligion, int iValue)
 {
 	FAssertBounds(0, GC.getNumReligionInfos(), eReligion);
 	m_piReligionWeightModifier[eReligion] = iValue;

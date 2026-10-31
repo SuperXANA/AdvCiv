@@ -22,8 +22,8 @@ public: // All the const functions are exposed to Python
 	MissionTypes getMissionType() const { return m_eMissionType; }
 	void setMissionType(int iNewType);
 	// XANA: 06-27-2026 Unique Civics and Religions
-	CivilizationTypes getPrereqCivilization() const { return m_iPrereqCivilization; }
-	LeaderHeadTypes getPrereqLeader() const { return m_iPrereqLeader; }
+	CivilizationTypes getPrereqCivilization() const { return static_cast<CivilizationTypes>(m_iPrereqCivilization); }
+	LeaderHeadTypes getPrereqLeader() const { return static_cast<LeaderHeadTypes>(m_iPrereqLeader); }
 	bool isMinorOrganization() const { return m_bMinorOrganization; }
 	// XANA: 06-27-2026 Unique Civics and Religions
 
@@ -66,7 +66,7 @@ public: // All the const functions are exposed to Python
 	void setHolyCityChar(wchar c);
 	int getNumFreeUnits() const;
 	// XANA: 06-27-2026 Unique Civics and Religions
-	HybridOrganizationTypes getHybridOrganizationType() const { return m_iHybridOrganization; }
+	HybridOrganizationTypes getHybridOrganizationType() const { return static_cast<HybridOrganizationTypes>(m_iHybridOrganization); }
 	// XANA: 06-27-2026 Unique Civics and Religions
 
 	const TCHAR* getTechButton() const;
@@ -123,7 +123,7 @@ public: // All the const functions are exposed to Python
 	int getMaintenance() const { return m_iMaintenance; }
 	BonusTypes getBonusProduced() const { return m_eBonusProduced; }
 	// XANA: 06-27-2026 Unique Civics and Religions
-	HybridOrganizationTypes getHybridOrganizationType() const { return m_iHybridOrganization; }
+	HybridOrganizationTypes getHybridOrganizationType() const { return static_cast<HybridOrganizationTypes>(m_iHybridOrganization); }
 	// XANA: 06-27-2026 Unique Civics and Religions
 
 	// Array access:

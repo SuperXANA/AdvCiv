@@ -231,9 +231,9 @@ public: // advc: All the const functions are exposed to Python except those adde
 	void setCivicWeightModifier(CivicTypes eCivic, int iValue);
 	// XANA: 04-20-2025 Civic Adoption Weights
 	// XANA: 06-21-2026 Religion Adoption Weights
-	int getReligionWeightModifier(ReligonTypes eReligion) const;
-	void changeReligionWeightModifier(ReligonTypes eReligion, int iChange);
-	void setReligionWeightModifier(ReligonTypes eReligion, int iValue);
+	int getReligionWeightModifier(ReligionTypes eReligion) const;
+	void changeReligionWeightModifier(ReligionTypes eReligion, int iChange);
+	void setReligionWeightModifier(ReligionTypes eReligion, int iValue);
 	// XANA: 06-21-2026 Religion Adoption Weights
 	#if ENABLE_XML_FILE_CACHE
 	void read(FDataStreamBase* stream);
