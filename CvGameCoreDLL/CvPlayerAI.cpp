@@ -13600,6 +13600,38 @@ void copyUnitPreferenceChoice(UnitPreferenceData& target, Preference const& sour
 	target.bPreferredChoice = source.isPreferredChoice();
 	target.bNotPreferredChoice = source.isNotPreferredChoice();
 }
+
+bool copyUnitPreferenceForUnit(CvUnitPreferenceInfo const& kPref,
+	UnitTypes eUnit, UnitClassTypes eUnitClass, UnitCombatTypes eUnitCombat,
+	UnitPreferenceData& kTarget)
+{
+	int iPrefIndex = kPref.getUnitPreferenceIndex(eUnit);
+	if (iPrefIndex != -1)
+	{
+		copyUnitPreferenceChoice(kTarget, kPref.getUnitPreference(iPrefIndex));
+		return true;
+	}
+	if (eUnitClass != NO_UNITCLASS)
+	{
+		iPrefIndex = kPref.getUnitClassPreferenceIndex(eUnitClass);
+		if (iPrefIndex != -1)
+		{
+			copyUnitPreferenceChoice(kTarget, kPref.getUnitClassPreference(iPrefIndex));
+			return true;
+		}
+	}
+	// Civilian and other noncombat units may have NO_UNITCOMBAT.
+	if (eUnitCombat != NO_UNITCOMBAT)
+	{
+		iPrefIndex = kPref.getUnitCombatPreferenceIndex(eUnitCombat);
+		if (iPrefIndex != -1)
+		{
+			copyUnitPreferenceChoice(kTarget, kPref.getUnitCombatPreference(iPrefIndex));
+			return true;
+		}
+	}
+	return false;
+}
 }
 // XANA: 10-29-2026 Typed unit preference choice snapshots (ChatGPT)
 
@@ -13965,83 +13997,29 @@ int CvPlayerAI::AI_unitValue(UnitTypes eUnit, UnitAITypes eUnitAI,
 	UnitPreferenceData leaderChoice, civilizationChoice;
 	UnitPreferenceData const* pLeaderPref = NULL;
 	UnitPreferenceData const* pCivilizationPref = NULL;
-	
+
+	// Resolve specificity independently: a leader's exact-unit entry must not
+	// suppress the civilization's class/combat fallback (or vice versa).
 	if (AI_getLeaderUnitPreferences() != NO_UNITPREFERENCE)
 	{
 		CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getLeaderUnitPreferences());
-		int const iPrefIndex = kPref.getUnitPreferenceIndex(eUnit); 
-		if (iPrefIndex != -1)
+		if (copyUnitPreferenceForUnit(kPref, eUnit, u.getUnitClassType(),
+			u.getUnitCombatType(), leaderChoice))
 		{
-			copyUnitPreferenceChoice(leaderChoice, kPref.getUnitPreference(iPrefIndex));
 			pLeaderPref = &leaderChoice;
 		}
 	}
 	if (AI_getCivilizationUnitPreferences() != NO_UNITPREFERENCE)
 	{
 		CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getCivilizationUnitPreferences());
-		int const iPrefIndex = kPref.getUnitPreferenceIndex(eUnit); 
-		if (iPrefIndex != -1)
+		if (copyUnitPreferenceForUnit(kPref, eUnit, u.getUnitClassType(),
+			u.getUnitCombatType(), civilizationChoice))
 		{
-			copyUnitPreferenceChoice(civilizationChoice, kPref.getUnitPreference(iPrefIndex));
 			pCivilizationPref = &civilizationChoice;
 		}
 	}
-	
-	bool bHasLeaderPreference = (pLeaderPref != NULL);
-	bool bHasCivilizationPreference = (pCivilizationPref != NULL);
-	
-	if (!bHasLeaderPreference && !bHasCivilizationPreference)
-	{
-		if (AI_getLeaderUnitPreferences() != NO_UNITPREFERENCE)
-		{
-			CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getLeaderUnitPreferences());
-			int const iPrefIndex = kPref.getUnitClassPreferenceIndex(u.getUnitClassType()); 
-			if (iPrefIndex != -1)
-			{
-				copyUnitPreferenceChoice(leaderChoice, kPref.getUnitClassPreference(iPrefIndex));
-			pLeaderPref = &leaderChoice;
-			}
-		}
-		if (AI_getCivilizationUnitPreferences() != NO_UNITPREFERENCE)
-		{
-			CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getCivilizationUnitPreferences());
-			int const iPrefIndex = kPref.getUnitClassPreferenceIndex(u.getUnitClassType()); 
-			if (iPrefIndex != -1)
-			{
-				copyUnitPreferenceChoice(civilizationChoice, kPref.getUnitClassPreference(iPrefIndex));
-			pCivilizationPref = &civilizationChoice;
-			}
-		}
-		bHasLeaderPreference = (pLeaderPref != NULL);
-		bHasCivilizationPreference = (pCivilizationPref != NULL);
-	}
-	if (!bHasLeaderPreference && !bHasCivilizationPreference)
-	{
-		if (AI_getLeaderUnitPreferences() != NO_UNITPREFERENCE)
-		{
-			CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getLeaderUnitPreferences());
-			int const iPrefIndex = kPref.getUnitCombatPreferenceIndex(u.getUnitCombatType()); 
-			if (iPrefIndex != -1)
-			{
-				copyUnitPreferenceChoice(leaderChoice, kPref.getUnitCombatPreference(iPrefIndex));
-			pLeaderPref = &leaderChoice;
-			}
-		}
-		if (AI_getCivilizationUnitPreferences() != NO_UNITPREFERENCE)
-		{
-			CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getCivilizationUnitPreferences());
-			int const iPrefIndex = kPref.getUnitCombatPreferenceIndex(u.getUnitCombatType()); 
-			if (iPrefIndex != -1)
-			{
-				copyUnitPreferenceChoice(civilizationChoice, kPref.getUnitCombatPreference(iPrefIndex));
-			pCivilizationPref = &civilizationChoice;
-			}
-		}
-		bHasLeaderPreference = (pLeaderPref != NULL);
-		bHasCivilizationPreference = (pCivilizationPref != NULL);
-	}
-		
-	if (bHasLeaderPreference)
+
+	if (pLeaderPref != NULL)
 	{
 		UnitPreferenceData const& kPrefData = *pLeaderPref;
 		if (kPrefData.isPreferredChoice())
@@ -14053,7 +14031,7 @@ int CvPlayerAI::AI_unitValue(UnitTypes eUnit, UnitAITypes eUnitAI,
 			iValue = 0;
 		}
 	}
-	if (bHasCivilizationPreference)
+	if (pCivilizationPref != NULL)
 	{
 		UnitPreferenceData const& kPrefData = *pCivilizationPref;
 		if (kPrefData.isPreferredChoice())
