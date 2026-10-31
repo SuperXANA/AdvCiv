@@ -221,6 +221,7 @@ bool CvReligionInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(m_szAdjectiveKey, "Adjective");
 	
 // XANA: 06-27-2026 Unique Civics and Religions
+	CvString szTextVal; // XANA: 10-30-2026 Declare religion hybrid-name staging local (ChatGPT)
 	pXML->GetChildXmlValByName(szTextVal, "HybridOrganization");
 	m_aszExtraXMLforPass3.push_back(szTextVal);
 // XANA: 06-27-2026 Unique Civics and Religions

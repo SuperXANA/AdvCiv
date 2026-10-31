@@ -76,8 +76,28 @@ public:
     void GetChildXmlValByName(CvString& out, char const* tag) {
         ++calls; out=present(tag) ? tag : "";
     }
+    void GetChildXmlValByName(std::wstring& out, char const*) { ++calls; out=L""; }
+    void* GetXML() { return NULL; }
+    void InitList(int** out, int count) { *out=new int[count]; for(int i=0;i<count;++i)(*out)[i]=0; }
+    void SetCommerceArray(int** out) { InitList(out,3); }
 };
 bool CvHotkeyInfo::read(CvXMLLoadUtility* p) { return p->baseOK; }
+struct XmlIface { bool SetToChildByTagName(void*,char const*) { return false; } };
+struct DLL { XmlIface iface; XmlIface* getXMLIFace() { return &iface; } } dll;
+DLL* gDLL=&dll;
+enum { NUM_COMMERCE_TYPES=3 };
+// Reduced shell for the additional complete religion read body; constructor/arrays are stand-ins.
+class CvReligionInfo : public CvOrganizationInfo {
+public:
+    int m_iNumFreeUnits;
+    int *m_paiGlobalReligionCommerce, *m_paiHolyCityCommerce, *m_paiStateReligionCommerce;
+    CvString m_szTechButton, m_szGenericTechButton;
+    std::wstring m_szAdjectiveKey;
+    CvReligionInfo() : m_iNumFreeUnits(0), m_paiGlobalReligionCommerce(NULL),
+        m_paiHolyCityCommerce(NULL), m_paiStateReligionCommerce(NULL) {}
+    ~CvReligionInfo() { delete[]m_paiGlobalReligionCommerce; delete[]m_paiHolyCityCommerce; delete[]m_paiStateReligionCommerce; }
+    bool read(CvXMLLoadUtility*);
+};
 '''
 checks = r'''
 void defaults(CvHybridOrganizationInfo const& info) {
@@ -127,13 +147,24 @@ int main() {
         ++cases;
     }
     assert(cases==15360);
+    for(int baseOK=0;baseOK<2;++baseOK) {
+        CvReligionInfo religion;
+        CvXMLLoadUtility xml(0,0,baseOK!=0);
+        assert(religion.read(&xml)==(baseOK!=0));
+        assert(religion.m_aszExtraXMLforPass3.size()==(baseOK ? 3U : 0U));
+        if(baseOK) {
+            assert(religion.m_aszExtraXMLforPass3[2].empty());
+            assert(religion.m_paiGlobalReligionCommerce && religion.m_paiHolyCityCommerce && religion.m_paiStateReligionCommerce);
+        } else assert(xml.calls==0);
+    }
     std::cout << cases << " base/hybrid constructor and read configurations passed\n";
+    std::cout << "2 religion read success/failure cases passed (reduced shell)\n";
 }
 '''
 methods = [method(signature) for signature in [
     'CvOrganizationInfo::CvOrganizationInfo(', 'wchar CvOrganizationInfo::getChar(', 'bool CvOrganizationInfo::read(',
     'CvHybridOrganizationInfo::CvHybridOrganizationInfo(', 'CvHybridOrganizationInfo::~CvHybridOrganizationInfo(',
-    'bool CvHybridOrganizationInfo::read(']]
+    'bool CvHybridOrganizationInfo::read(', 'bool CvReligionInfo::read(']]
 code = prefix + declaration('CvOrganizationInfo') + declaration('CvHybridOrganizationInfo') + xml + '\n'.join(methods) + checks
 with tempfile.TemporaryDirectory() as directory_name:
     p=Path(directory_name)
