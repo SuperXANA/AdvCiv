@@ -8676,16 +8676,23 @@ int CvPlayerAI::AI_getShareRelativeProgressAttitude(PlayerTypes ePlayer, int iPa
 	int const iOurRank = kGame.getPlayerRank(getID());
 	int const iTheirRank = kGame.getPlayerRank(ePlayer);
 	int const iTotalPlayers = kGame.getCivPlayersEverAlive();
+	// <ChatGPT 2026-10-31: rank normalization needs two ranked players>
+	if (iTotalPlayers <= 1)
+		return 0;
+	// </ChatGPT 2026-10-31>
 	bool const bBothPlayersAreDoingPoorly = (iOurRank * eAttitudeThreshold >= iTotalPlayers) && (iTheirRank * eAttitudeThreshold >= iTotalPlayers);
 	if (!bBothPlayersAreDoingPoorly)
 	{
 		return 0;
 	}
 	// XANA (note): rAttitude states how worried/annoyed we are that both we and ePlayer are doing poorly in the overall rankings.
-	scaled const rAttitude = kOurPersonality.getShareRelativeProgressAttitudeChange() + 
-                    ((scaled(((iOurRank + iTheirRank) / (iTotalPlayers - 1)) / 2) - 
-                    fixp(0.5)) * 
-                   (AI_getShareRelativeProgressCounter(ePlayer) / kOurPersonality.getShareRelativeProgressAttitudeChangeDivisor()));
+	// <ChatGPT 2026-10-31: preserve fractions in the existing rank formula>
+	scaled const rRankAverage(iOurRank + iTheirRank, 2 * (iTotalPlayers - 1));
+	scaled const rCounter(AI_getShareRelativeProgressCounter(ePlayer),
+			kOurPersonality.getShareRelativeProgressAttitudeChangeDivisor());
+	scaled const rAttitude = kOurPersonality.getShareRelativeProgressAttitudeChange() +
+			(rRankAverage - fixp(0.5)) * rCounter;
+	// </ChatGPT 2026-10-31>
 	if (kOurPersonality.getShareRelativeProgressAttitudeChangeLimit() == 0)
 	{
 		return rAttitude.round();
