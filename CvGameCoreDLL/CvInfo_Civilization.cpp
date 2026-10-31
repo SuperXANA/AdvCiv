@@ -699,21 +699,38 @@ void CvLeaderHeadInfo::setCivicWeightModifier(CivicTypes eCivic, int iValue)
 // XANA: 06-21-2026 Religion Adoption Weights
 int CvLeaderHeadInfo::getReligionWeightModifier(ReligionTypes eReligion) const
 {
+	// <ChatGPT 2026-10-31: reject invalid IDs before indexing optional weights>
+	if (eReligion < 0 || eReligion >= GC.getNumReligionInfos())
+		return 0;
+	// </ChatGPT 2026-10-31>
 	FAssertBounds(0, GC.getNumReligionInfos(), eReligion);
 	return m_piReligionWeightModifier ? m_piReligionWeightModifier[eReligion] : 0;
 }
 void CvLeaderHeadInfo::changeReligionWeightModifier(ReligionTypes eReligion, int iChange)
 {
-	if (iChange != 0)
-	{
-		FAssertBounds(0, GC.getNumReligionInfos(), eReligion);
-		m_piReligionWeightModifier[eReligion] = (m_piReligionWeightModifier[eReligion] + iChange);
-	}
+	// <ChatGPT 2026-10-31: use the checked, allocating setter>
+	if (iChange != 0 && eReligion >= 0 && eReligion < GC.getNumReligionInfos())
+		setReligionWeightModifier(eReligion, getReligionWeightModifier(eReligion) + iChange);
+	// </ChatGPT 2026-10-31>
 }
 void CvLeaderHeadInfo::setReligionWeightModifier(ReligionTypes eReligion, int iValue)
 {
+	// <ChatGPT 2026-10-31: optional storage represents all-zero weights>
+	if (eReligion < 0 || eReligion >= GC.getNumReligionInfos())
+		return;
 	FAssertBounds(0, GC.getNumReligionInfos(), eReligion);
+	if (m_piReligionWeightModifier == NULL)
+	{
+		if (iValue == 0)
+			return;
+		int const iCount = GC.getNumReligionInfos();
+		int* pWeights = new int[iCount];
+		for (int i = 0; i < iCount; ++i)
+			pWeights[i] = 0;
+		m_piReligionWeightModifier = pWeights;
+	}
 	m_piReligionWeightModifier[eReligion] = iValue;
+	// </ChatGPT 2026-10-31>
 }
 // XANA: 06-21-2026 Religion Adoption Weights
 
