@@ -2159,11 +2159,11 @@ bool CvEventPreferenceInfo::read(CvXMLLoadUtility* pXML)
 					EventPreferenceData kEventPref;
 					kEventPref.read(pXML);
 					
-					EventTypes eEvent = static_cast<EventTypes>(kEventPref.getEventType());
-					if (eEvent != NO_EVENT)
+					int const iEvent = kEventPref.getEventType();
+					if (iEvent >= 0 && iEvent < GC.getNumEventInfos()) // XANA: 10-31-2026 Bound preference map IDs (ChatGPT)
 					{
 						m_vEventPrefData.push_back(kEventPref);
-						m_aiVectorIndexMap[eEvent] = ((int)m_vEventPrefData.size() - 1);
+						m_aiVectorIndexMap[iEvent] = ((int)m_vEventPrefData.size() - 1);
 					}
 					
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))

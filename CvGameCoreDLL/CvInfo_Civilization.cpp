@@ -1624,11 +1624,11 @@ bool CvTechPreferenceInfo::read(CvXMLLoadUtility* pXML)
 					TechPreferenceData kTechPref;
 					kTechPref.read(pXML);
 					
-					TechTypes eTech = static_cast<TechTypes>(kTechPref.getTechType());
-					if (eTech != NO_TECH)
+					int const iTech = kTechPref.getTechType();
+					if (iTech >= 0 && iTech < GC.getNumTechInfos()) // XANA: 10-31-2026 Bound preference map IDs (ChatGPT)
 					{
 						m_vTechPrefData.push_back(kTechPref);
-						m_aiVectorIndexMap[eTech] = ((int)m_vTechPrefData.size() - 1);
+						m_aiVectorIndexMap[iTech] = ((int)m_vTechPrefData.size() - 1);
 					}
 					
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))

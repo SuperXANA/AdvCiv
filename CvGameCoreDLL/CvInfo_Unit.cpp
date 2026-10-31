@@ -2643,11 +2643,11 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
 					UnitCombatPreferenceData kUnitPref;
 					kUnitPref.read(pXML);
 					
-					UnitCombatTypes eUnitCombat = static_cast<UnitCombatTypes>(kUnitPref.getUnitCombatType());
-					if (eUnitCombat != NO_UNITCOMBAT)
+					int const iUnitCombat = kUnitPref.getUnitCombatType();
+					if (iUnitCombat >= 0 && iUnitCombat < GC.getNumUnitCombatInfos()) // XANA: 10-31-2026 Bound preference map IDs (ChatGPT)
 					{
 						m_vUnitCombatPrefData.push_back(kUnitPref);
-						m_aiVectorIndexMapForUnitCombats[eUnitCombat] = ((int)m_vUnitCombatPrefData.size() - 1);
+						m_aiVectorIndexMapForUnitCombats[iUnitCombat] = ((int)m_vUnitCombatPrefData.size() - 1);
 					}
 					
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
@@ -2677,11 +2677,11 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
 					UnitClassPreferenceData kUnitPref;
 					kUnitPref.read(pXML);
 					
-					UnitClassTypes eUnitClass = static_cast<UnitClassTypes>(kUnitPref.getUnitClassType());
-					if (eUnitClass != NO_UNITCLASS)
+					int const iUnitClass = kUnitPref.getUnitClassType();
+					if (iUnitClass >= 0 && iUnitClass < GC.getNumUnitClassInfos()) // XANA: 10-31-2026 Bound preference map IDs (ChatGPT)
 					{
 						m_vUnitClassPrefData.push_back(kUnitPref);
-						m_aiVectorIndexMapForUnitClasses[eUnitClass] = ((int)m_vUnitClassPrefData.size() - 1);
+						m_aiVectorIndexMapForUnitClasses[iUnitClass] = ((int)m_vUnitClassPrefData.size() - 1);
 					}
 					
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
@@ -2711,11 +2711,11 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
 					UnitPreferenceData kUnitPref;
 					kUnitPref.read(pXML);
 					
-					UnitTypes eUnit = static_cast<UnitTypes>(kUnitPref.getUnitType());
-					if (eUnit != NO_UNIT)
+					int const iUnit = kUnitPref.getUnitType();
+					if (iUnit >= 0 && iUnit < GC.getNumUnitInfos()) // XANA: 10-31-2026 Bound preference map IDs (ChatGPT)
 					{
 						m_vUnitPrefData.push_back(kUnitPref);
-						m_aiVectorIndexMapForUnits[eUnit] = ((int)m_vUnitPrefData.size() - 1);
+						m_aiVectorIndexMapForUnits[iUnit] = ((int)m_vUnitPrefData.size() - 1);
 					}
 					
 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
