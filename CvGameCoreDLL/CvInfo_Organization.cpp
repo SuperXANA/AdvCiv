@@ -12,7 +12,8 @@ m_eMissionType(NO_MISSION),
 m_iSpreadFactor(0),
 // XANA: 06-27-2026 Unique Civics and Religions
 m_iPrereqCivilization(NO_CIVILIZATION),
-m_iPrereqLeader(NO_LEADER)
+m_iPrereqLeader(NO_LEADER),
+m_bMinorOrganization(false) // XANA: 10-30-2026 Initialize minor-organization metadata (ChatGPT)
 // XANA: 06-27-2026 Unique Civics and Religions
 {}
 
@@ -440,5 +441,6 @@ bool CvHybridOrganizationInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(&m_iMinUnhappinessRequired, "iMinUnhappinessRequired");
 	pXML->GetChildXmlValByName(&m_iBaseSpreadChancePercentage, "iBaseSpreadChancePercentage");
 	pXML->GetChildXmlValByName(&m_iWithdrawalUnhappinessTurns, "iWithdrawalUnhappinessTurns");
+	return true; // XANA: 10-30-2026 Complete successful hybrid metadata read (ChatGPT)
 }
 // XANA: 06-27-2026 Unique Civics and Religions
