@@ -2074,7 +2074,10 @@ void CvPlot::setTempTerrainType(TerrainTypes eNewValue, int iTimer)
 
 void CvPlot::setTempFeatureType(FeatureTypes eFeature, int iVariety, int iTimer)
 {
-	if (eFeature != getFeatureType())
+	// XANA: 10-31-2026 Honor explicit temporary feature variety changes (ChatGPT)
+	if (eFeature != getFeatureType() ||
+		(eFeature != NO_FEATURE && iVariety >= 0 && iVariety != getFeatureVariety() &&
+		iVariety < GC.getInfo(eFeature).getArtInfo()->getNumVarieties()))
 	{
 		PlotTempChangeMap& kTempChangesMap = GC.getMap().getPlotTempChangeMap();
 		CvPlot const& kPlot = *this;

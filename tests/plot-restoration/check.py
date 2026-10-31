@@ -93,7 +93,17 @@ struct Map {
     PlotTempChangeMap* changes;
     PlotTempChangeMap& getPlotTempChangeMap() { assert(changes); return *changes; }
 };
-struct Globals { Map map; Map& getMap() { return map; } };
+struct RestorationFeatureArt { int getNumVarieties() const { return 64; } };
+struct RestorationFeatureInfo {
+    RestorationFeatureArt art;
+    RestorationFeatureArt const* getArtInfo() const { return &art; }
+};
+struct Globals {
+    Map map; Map& getMap() { return map; }
+    RestorationFeatureInfo const& getInfo(FeatureTypes) const {
+        static RestorationFeatureInfo info; return info;
+    }
+};
 extern Globals GC;
 '''
 checks = r'''
