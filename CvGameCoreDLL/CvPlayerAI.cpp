@@ -23324,6 +23324,14 @@ void CvPlayerAI::read(FDataStreamBase* pStream)
 				kPlayer.uwai().getCache().cacheCitiesAfterRead();
 		} // </advc.104>
 	}
+
+	// These selections are derived from the loaded leader/civilization and XML,
+	// so rebuild them after reading a save instead of serializing cached IDs.
+	// XANA: 10-31-2026 Rebuild AI preference selections after save load (ChatGPT)
+	AI_updateTechPreferences();
+	AI_updateEventPreferences();
+	AI_updateUnitPreferences();
+	// XANA: 10-31-2026 Rebuild AI preference selections after save load (ChatGPT)
 }
 
 // save object to a stream
