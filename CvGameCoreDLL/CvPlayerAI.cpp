@@ -14677,6 +14677,18 @@ int CvPlayerAI::AI_unitValue(UnitTypes eUnit, UnitAITypes eUnitAI,
 		}
 	}
 
+	// XANA: 10-31-2026 Apply unit preference value modifiers (ChatGPT)
+	if (pLeaderPref != NULL && pLeaderPref->iUnitValueModifierPercent != 0)
+	{
+		iValue *= (100 + pLeaderPref->iUnitValueModifierPercent);
+		iValue /= 100;
+	}
+	if (pCivilizationPref != NULL && pCivilizationPref->iUnitValueModifierPercent != 0)
+	{
+		iValue *= (100 + pCivilizationPref->iUnitValueModifierPercent);
+		iValue /= 100;
+	}
+	// XANA: 10-31-2026 Apply unit preference value modifiers (ChatGPT)
 	return std::max(0, iValue);
 }
 
