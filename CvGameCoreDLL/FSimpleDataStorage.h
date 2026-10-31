@@ -4,9 +4,23 @@
 #define F_SIMPLE_DATA_STORAGE_H
 
 #include <limits>
+#include <cstddef>
+#include <new>
 
 static const int iHEADERSIZE = 8; /* 8 bytes for likely-safe alignment of 32-bit double and long-long data */
 // XANA (note): if we ever get 64-bit compatibility in the DLL/EXE, I believe we would only need to double the size of the header in order to support doubles/long-long data types once more
+
+// XANA: 10-30-2026 Checked headered allocation bytes (ChatGPT)
+inline std::size_t FStorageAllocationSize(int iSize, std::size_t iElementSize)
+{
+	std::size_t const iMaxBytes = (std::numeric_limits<std::size_t>::max)();
+	if (iSize < 0 || iElementSize == 0 ||
+		static_cast<std::size_t>(iSize) >
+		(iMaxBytes - iHEADERSIZE) / iElementSize)
+		throw std::bad_alloc();
+	return iHEADERSIZE + iElementSize * static_cast<std::size_t>(iSize);
+}
+// XANA: 10-30-2026 Checked headered allocation bytes (ChatGPT)
 
 class FDataStreamBase;
 class CvXMLLoadUtility;
@@ -40,7 +54,7 @@ public:
 		if (iSize <= 0 || m_pArray != NULL) return;
 		// Allocate: (Size of Header) + (Size of Data)
 		// We use 8 safe bytes at the start for the 'int' size to support double/long-long values
-		char* pBuffer = new char[iHEADERSIZE + (sizeof(T) * iSize)];
+		char* pBuffer = new char[FStorageAllocationSize(iSize, sizeof(T))];
 		// Store the size at the very beginning
 		*(int*)pBuffer = iSize;
 		// Set our member pointer to the start of the DATA (skipping the header)
@@ -227,7 +241,7 @@ public:
 		if ((iSize <= 0 || m_pArray != NULL)) return;
 		// Allocate: (Size of Header) + (Size of Data)
 		// We use 8 safe bytes at the start for the 'int' size to support double/long-long values
-		char* pBuffer = new char[iHEADERSIZE + (sizeof(T) * iSize)];
+		char* pBuffer = new char[FStorageAllocationSize(iSize, sizeof(T))];
 		// Store the size at the very beginning
 		*(int*)pBuffer = iSize;
 		// Set our member pointer to the start of the DATA (skipping the header)
