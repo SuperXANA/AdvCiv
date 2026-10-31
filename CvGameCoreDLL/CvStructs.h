@@ -597,7 +597,8 @@ struct AlignmentScale
 	void read(FDataStreamBase* pStream);
 	void write(FDataStreamBase* pStream);
 };
-// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ// XANA: 11-15-2025 Reputation System for Advanced Civ
+// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
+// XANA: 11-15-2025 Reputation System for Advanced Civ
 struct ReputationAttitudeInfo
 {
     int iGoodChange;
@@ -611,6 +612,47 @@ struct ReputationAttitudeInfo
 	void read(FDataStreamBase* pStream);
 	void write(FDataStreamBase* pStream);
 	#endif
+};
+
+// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
+struct DiplomacyProfile
+{
+	int aiShortTermBond[MAX_PLAYERS];
+	int aiLongTermBond[MAX_PLAYERS];
+	int aiTrust[MAX_PLAYERS]; 
+	int aiTrustTarget[MAX_PLAYERS];
+	int aiTrustInertia[MAX_PLAYERS];
+	DiploSceneTypes aeCurrentScene[MAX_PLAYERS];
+	int aiSceneIntensity[MAX_PLAYERS];
+	EmotionTypes aeEmotion[MAX_PLAYERS];
+	int aiEmotionTimer[MAX_PLAYERS];
+	int aiEmotionIntensity[MAX_PLAYERS];
+	static const int MEMORY_DEPTH = 10;
+	DiplomaticEvent aHistory[MAX_PLAYERS][MEMORY_DEPTH];
+	int aiHistoryIndex[MAX_PLAYERS];
+	
+/* XANA (note): [TODO] Create C++ functions for getting and setting this data above
+	int getID() const;
+	void setID(int iID);
+	void read(FDataStreamBase* pStream);
+	void write(FDataStreamBase* pStream);
+	*/
+};
+
+// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
+struct GameStateMemory
+{
+    PlayerTypes eSubject;    // Who is this about?
+    MemoryContext eContext;  // What kind of event?
+    int iTurn;               // When?
+    int iOutcome;            // 1: Positive, -1: Backstab/Negative
+    bool bObsolete;          // For memory cleanup
+    std::vector<scaled> rFeatures;
+
+    GameStateMemory() : eSubject(NO_PLAYER), iTurn(-1), iOutcome(0), bObsolete(false) {}
+    
+    void read(FDataStreamBase* pStream);
+    void write(FDataStreamBase* pStream);
 };
 // XANA: 11-15-2025 Reputation System for Advanced Civ
 

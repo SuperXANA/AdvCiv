@@ -660,4 +660,177 @@ void ReputationAttitudeInfo::write(FDataStreamBase* pStream)
 	pStream->Write(iBadDivisor);
 	pStream->Write(iBadLimit);
 }
+
+// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
+/*
+
+// XANA: [TODO] Need to create explicit getters and setters for DiplomacyProfile memory/data
+int DiplomacyProfile::getID() const
+{
+	return m_iId;
+}
+
+void DiplomacyProfile::setID(int iID)
+{
+	m_iId = iID;
+}
+
+void DiplomacyProfile::read(FDataStreamBase* pStream)
+{
+	pStream->Read(&m_iId);
+	pStream->Read((int*)&m_eTrigger);
+	pStream->Read(&m_iTurn);
+	pStream->Read((int*)&m_ePlayer);
+	pStream->Read(&m_iCityId);
+	pStream->Read(&m_iPlotX);
+	pStream->Read(&m_iPlotY);
+	pStream->Read(&m_iUnitId);
+	pStream->Read((int*)&m_eOtherPlayer);
+	pStream->Read(&m_iOtherPlayerCityId);
+	pStream->Read((int*)&m_eReligion);
+	pStream->Read((int*)&m_eCorporation);
+	pStream->Read((int*)&m_eBuilding);
+	pStream->ReadString(m_szText);
+	pStream->ReadString(m_szGlobalText);
+}
+
+void DiplomacyProfile::write(FDataStreamBase* pStream)
+{
+	pStream->Write(m_iId);
+	pStream->Write(m_eTrigger);
+	pStream->Write(m_iTurn);
+	pStream->Write(m_ePlayer);
+	pStream->Write(m_iCityId);
+	pStream->Write(m_iPlotX);
+	pStream->Write(m_iPlotY);
+	pStream->Write(m_iUnitId);
+	pStream->Write(m_eOtherPlayer);
+	pStream->Write(m_iOtherPlayerCityId);
+	pStream->Write(m_eReligion);
+	pStream->Write(m_eCorporation);
+	pStream->Write(m_eBuilding);
+	pStream->WriteString(m_szText);
+	pStream->WriteString(m_szGlobalText);
+}
+
+// XANA: [TODO] This commented out code is not a duplicacte intentionally, this is unfinished work...
+int VoteSelectionData::getID() const
+{
+	return iId;
+}
+
+void VoteSelectionData::setID(int iID)
+{
+	iId = iID;
+}
+
+void VoteSelectionData::read(FDataStreamBase* pStream)
+{
+	pStream->Read(&iId);
+	pStream->Read((int*)&eVoteSource);
+	int iSize;
+	pStream->Read(&iSize);
+	for (int i = 0; i < iSize; ++i)
+	{
+		VoteSelectionSubData kData;
+		pStream->Read((int*)&kData.eVote);
+		pStream->Read((int*)&kData.ePlayer);
+		pStream->Read(&kData.iCityId);
+		pStream->Read((int*)&kData.eOtherPlayer);
+		pStream->ReadString(kData.szText);
+		aVoteOptions.push_back(kData);
+	}
+}
+
+void VoteSelectionData::write(FDataStreamBase* pStream)
+{
+	pStream->Write(iId);
+	pStream->Write(eVoteSource);
+	pStream->Write(aVoteOptions.size());
+	for (std::vector<VoteSelectionSubData>::iterator it = aVoteOptions.begin(); it != aVoteOptions.end(); ++it)
+	{
+		pStream->Write(it->eVote);
+		pStream->Write(it->ePlayer);
+		pStream->Write(it->iCityId);
+		pStream->Write(it->eOtherPlayer);
+		pStream->WriteString(it->szText);
+	}
+}
+
+int VoteTriggeredData::getID() const
+{
+	return iId;
+}
+
+void VoteTriggeredData::setID(int iID)
+{
+	iId = iID;
+}
+
+void VoteTriggeredData::read(FDataStreamBase* pStream)
+{
+	pStream->Read(&iId);
+	pStream->Read((int*)&eVoteSource);
+	pStream->Read((int*)&kVoteOption.eVote);
+	pStream->Read((int*)&kVoteOption.ePlayer);
+	pStream->Read(&kVoteOption.iCityId);
+	pStream->Read((int*)&kVoteOption.eOtherPlayer);
+	pStream->ReadString(kVoteOption.szText);
+}
+
+void VoteTriggeredData::write(FDataStreamBase* pStream)
+{
+	pStream->Write(iId);
+	pStream->Write(eVoteSource);
+	pStream->Write(kVoteOption.eVote);
+	pStream->Write(kVoteOption.ePlayer);
+	pStream->Write(kVoteOption.iCityId);
+	pStream->Write(kVoteOption.eOtherPlayer);
+	pStream->WriteString(kVoteOption.szText);
+}
+// XANA: End Unfinished work intended to be tagged with Realism System AI tag - I'll need to review local context with prior AI agents to determine what this above was supposed to look like, don't uncomment yet
+*/
+
+// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
+void GameStateMemory::write(FDataStreamBase* pStream)
+{
+	pStream->Write((int)ePlayer);
+	pStream->Write((int)eContext);
+	pStream->Write(iTurn);
+	pStream->Write(bWasBackstabbed);
+	{
+		// Save the vector size, then the floats
+		int const iSize = (int)features.size();
+		pStream->Write(iSize);
+		for (int i = 0; i < iSize; ++i++)
+		{
+			pStream->Write(features[i]);
+		}
+	}
+}
+
+void GameStateMemory::read(FDataStreamBase* pStream)
+{
+	{
+		int iTempValue;
+		pStream->Read(&iTempValue);
+		ePlayer = static_cast<PlayerTypes)>(iTempValue);
+	}
+	{
+		int iTempValue;
+		pStream->Read(&iTempValue);
+		eContext = static_cast<MemoryContext>(iTempValue);
+	}
+	pStream->Read(&iTurn);
+	pStream->Read(&bWasBackstabbed);
+	{
+		int iSize;
+		pStream->Read(&iSize);
+		features.assign(iSize, static_cast<float>(0));
+		for (int i = 0; i < iSize; i++)
+		{
+			pStream->Read(&features[i]);
+		}
+	}
+}
 // XANA: 11-15-2025 Reputation System for Advanced Civ

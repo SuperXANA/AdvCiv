@@ -704,6 +704,23 @@ public:
 	CvDLLUtilityIFaceBase* getDLLIFace() const { return m_pDLL; } // advc: const
 	DllExport CvDLLUtilityIFaceBase* getDLLIFaceNonInl();
 	ModName const& getModName() const { return m_modName; } // advc.106i
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
+	GameStateMemory* getGameMemory(int iIndex) const
+	{
+		if (iIndex > 0 && iIndex < (int)m_gameMemory.size())
+		{
+			return &m_gameMemory[iIndex];
+		}
+		return NULL;
+	}
+	GameStateMemory const* getGameMemory(int iIndex) const { CvGlobals const& kThis = *this; return kThis.getGameMemory(iIndex); }
+	/* XANA: [TODO] Unfinished work to add data to m_gameMemory data storage context
+	void addGameMemory(int iOtherPlayer, int iMemoryContext, )
+	{
+		;
+	}
+	*/
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
 
 	DllExport void setDLLProfiler(FProfiler* prof);
 	FProfiler* getDLLProfiler();
@@ -822,6 +839,10 @@ protected:
 	bool m_bZoomIn;
 	bool m_bLoadGameFromFile;*/ // advc.003j: Unused; not even written.
 	ModName m_modName; // advc.106i
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
+	typedef std::vector<GameStateMemory> GameMemoryData;
+	GameMemoryData m_gameMemory; /* global memory struct, AI players store index pointers to this memory data */
+	// XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
 
 	FMPIManager* m_pFMPMgr;
 
