@@ -23187,8 +23187,21 @@ void CvPlayerAI::read(FDataStreamBase* pStream)
 	pStream->Read(MAX_PLAYERS, m_aiDifferentReligionCounter);
 	pStream->Read(MAX_PLAYERS, m_aiFavoriteCivicCounter);
 // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
-	pStream->Read(MAX_PLAYERS, m_aiHateCivicCounter);
-	pStream->Read(MAX_PLAYERS, m_aiHateReligionCounter);
+// <ChatGPT 2026-10-31: version the hated diplomacy counter arrays>
+	if (uiFlag >= 23)
+	{
+		pStream->Read(MAX_PLAYERS, m_aiHateCivicCounter);
+		pStream->Read(MAX_PLAYERS, m_aiHateReligionCounter);
+	}
+	else
+	{
+		for (int i = 0; i < MAX_PLAYERS; i++)
+		{
+			m_aiHateCivicCounter[i] = 0;
+			m_aiHateReligionCounter[i] = 0;
+		}
+	}
+// </ChatGPT 2026-10-31>
 // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
 	pStream->Read(MAX_PLAYERS, m_aiBonusTradeCounter);
 	pStream->Read(MAX_PLAYERS, m_aiPeacetimeTradeValue);
@@ -23360,7 +23373,10 @@ void CvPlayerAI::write(FDataStreamBase* pStream)
 	//uiFlag = 19; // advc.130n (mostly removed again)
 	//uiFlag = 20; // advc.115f
 	//uiFlag = 21; // advc.130c (remove separate cache for score diff)
-	uiFlag = 22; // advc.130w: Cache for expansionist hate
+	//uiFlag = 22; // advc.130w: Cache for expansionist hate
+	// <ChatGPT 2026-10-31: hated civic/religion counter save format>
+	uiFlag = 23;
+	// </ChatGPT 2026-10-31>
 	pStream->Write(uiFlag);
 
 	pStream->Write(m_iPeaceWeight);
