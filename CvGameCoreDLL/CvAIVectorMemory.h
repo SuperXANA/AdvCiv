@@ -20,8 +20,8 @@ public:
 	bool isInitialized() const { return m_bInitialized; }
 	
 	// Core API
-	void recordMemory(PlayerTypes eSubject, MemoryContext eContext, const std::vector<scaled>& rObservations, int iOutcome);
-	int predictOutcome(PlayerTypes eSubject, MemoryContext eContext, const std::vector<scaled>& rObservations);
+	void recordMemory(PlayerTypes eSubject, AIMemoryContextTypes eContext, const std::vector<scaled>& rObservations, int iOutcome);
+	int predictOutcome(PlayerTypes eSubject, AIMemoryContextTypes eContext, const std::vector<scaled>& rObservations);
 
 	// Social Mechanics
 	void spreadGossip(PlayerTypes eTarget);
@@ -33,13 +33,12 @@ public:
 
 private:
 	bool m_bInitialized;
-	int getLSHHash(MemoryContextTypes eContext, const std::vector<scaled>& rObservations) const;
+	int getLSHHash(AIMemoryContextTypes eContext, const std::vector<scaled>& rObservations) const;
 
 	// Each player has their own index of which memories they "know" about
 	// (Maps LSH Hash -> List of global GameMemoryData Vector Indices)
-	stdext::hash_map<int, std::vector<int> m_knowledge;
+	stdext::hash_map<int, std::vector<int> > m_knowledge;
 	scaled m_rHyperplanes[NUM_MEMORY_HYPERPLANE_TYPES * NUM_MEMORY_FEATURE_TYPES];
 };
 
 #endif
-};

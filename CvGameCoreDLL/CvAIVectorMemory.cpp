@@ -40,7 +40,7 @@ void CvAIVectorMemory::uninit()
 	}
 }
 
-int CvAIVectorMemory::getLSHHash(MemoryContextTypes eContext, const std::vector<scaled>& rObservations) const
+int CvAIVectorMemory::getLSHHash(AIMemoryContextTypes eContext, const std::vector<scaled>& rObservations) const
 {
 	int iMemoryKey = 0;
 	for (int iHyperplane = 0; iHyperplane < NUM_MEMORY_HYPERPLANE_TYPES; iHyperplane++)

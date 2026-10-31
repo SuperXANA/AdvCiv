@@ -794,10 +794,11 @@ void VoteTriggeredData::write(FDataStreamBase* pStream)
 // XANA: 05-02-2026 Realism System for Civ4 Game Artificial Intelligence
 void GameStateMemory::write(FDataStreamBase* pStream)
 {
-	pStream->Write((int)ePlayer);
+	pStream->Write((int)eSubject);
 	pStream->Write((int)eContext);
 	pStream->Write(iTurn);
-	pStream->Write(bWasBackstabbed);
+	pStream->Write(iOutcome);
+	pStream->Write(bObsolete);
 	{
 		// Save the vector size, then the floats
 		int const iSize = (int)features.size();
@@ -814,7 +815,7 @@ void GameStateMemory::read(FDataStreamBase* pStream)
 	{
 		int iTempValue;
 		pStream->Read(&iTempValue);
-		ePlayer = static_cast<PlayerTypes)>(iTempValue);
+		ePlayer = static_cast<PlayerTypes>(iTempValue);
 	}
 	{
 		int iTempValue;
@@ -822,7 +823,8 @@ void GameStateMemory::read(FDataStreamBase* pStream)
 		eContext = static_cast<MemoryContext>(iTempValue);
 	}
 	pStream->Read(&iTurn);
-	pStream->Read(&bWasBackstabbed);
+	pStream->Read(iOutcome);
+	pStream->Read(bObsolete);
 	{
 		int iSize;
 		pStream->Read(&iSize);
