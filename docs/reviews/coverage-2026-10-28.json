@@ -1048,7 +1048,8 @@
       "latest_review": "docs/reviews/promotion-expiry-save-2026-10-31.md",
       "qualification": "Actual reader/writer tails and writer flag pass 245 C++03/ASan/UBSan cases with map/stream stand-ins; baseline seven-map reader tail unchanged. Two negative controls reproduce stream displacement/version collision. Prior timing fixtures retained. No native DLL/real EnumMap encoding/complete engine saves/game result.",
       "last_review_parent": "bc405cd9333ec0204f965c4f31c756c2ba3f05cb",
-      "draft_code_sha": "4f26fd68d6405c9a45bced3062629ebf15644bc7"
+      "draft_code_sha": "4312cbbe8338bba449ae3799a4adb482ee3b21b4",
+      "marker_preservation_commit": "4312cbbe8338bba449ae3799a4adb482ee3b21b4"
     },
     {
       "branch": "PromotionXPBuild-ChatGPT",
@@ -1565,7 +1566,8 @@
       "latest_review": "docs/reviews/promotion-expiry-save-2026-10-31.md",
       "qualification": "Actual reader/writer tails and writer flag pass 245 C++03/ASan/UBSan cases with map/stream stand-ins; baseline seven-map reader tail unchanged. Two negative controls reproduce stream displacement/version collision. Prior timing fixtures retained. No native DLL/real EnumMap encoding/complete engine saves/game result.",
       "last_review_parent": "bc405cd9333ec0204f965c4f31c756c2ba3f05cb",
-      "draft_code_sha": "4f26fd68d6405c9a45bced3062629ebf15644bc7"
+      "draft_code_sha": "4312cbbe8338bba449ae3799a4adb482ee3b21b4",
+      "marker_preservation_commit": "4312cbbe8338bba449ae3799a4adb482ee3b21b4"
     },
     {
       "branch": "PromotionHPDraft-ChatGPT",
@@ -1652,11 +1654,12 @@
     "date": "2026-10-31",
     "source_sha": "5f0e1235780e19a81a09aba91234bb0487489fcf",
     "assistant_parent": "bc405cd9333ec0204f965c4f31c756c2ba3f05cb",
-    "code_commit": "4f26fd68d6405c9a45bced3062629ebf15644bc7",
+    "code_commit": "4312cbbe8338bba449ae3799a4adb482ee3b21b4",
     "dll_build_triggered": false,
     "fixture_cases": 245,
     "negative_controls": 2,
-    "inventory_branch_count": 75
+    "inventory_branch_count": 75,
+    "original_xana_markers_preserved": 16
   },
   "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",
   "previous_baseline_sha": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
