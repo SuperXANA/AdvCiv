@@ -347,6 +347,6 @@ jobs:
           ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
           
           # Clean up the pulled local data on the Linux orchestrator VM so subsequent runs start completely fresh without old DLL state.
-          rm -f ./artifacts/CvGameCoreDLL.dll ./artifactsCvGameCoreDLL.pdb  ./artifacts/*.log \
+          rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.pdb  ./artifacts/*.log \
             ./build-provenance.txt ./expected-sources.txt ./actual-sources.txt \
            ./source-hashes.diff ./source-verification.txt
