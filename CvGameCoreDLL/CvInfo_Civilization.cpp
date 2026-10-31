@@ -1111,6 +1111,11 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 	{
 		if (pXML->SkipToNextVal())
 		{
+			// XANA: 10-31-2026 Replace explicitly supplied vote staging (ChatGPT)
+			m_aszExtraXMLforPass3.clear();
+			m_aiFirstExtraXMLforPass3.clear();
+			m_aiSecondExtraXMLforPass3.clear();
+			// XANA: 10-31-2026 Replace explicitly supplied vote staging (ChatGPT)
 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 			{
