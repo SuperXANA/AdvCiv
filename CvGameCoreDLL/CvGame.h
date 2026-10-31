@@ -1060,6 +1060,9 @@ protected:
 	bool m_bDoMShown; // advc.004x
 	bool m_bLayerFromSavegame; // advc.004m
 	bool m_bFPTestDone; // advc.003g
+	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
+	bool m_bSidSaysPatchTestDone;
+	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
 
 	HandicapTypes m_eHandicap;
 	HandicapTypes m_eAIHandicap; // advc.127

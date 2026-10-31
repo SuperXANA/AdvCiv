@@ -623,6 +623,9 @@ void CvGame::reset(HandicapTypes eHandicap, bool bConstructorCall)
 	m_bFeignSP = false; // advc.135c
 	m_bDoMShown = false; // advc.004x
 	m_bFPTestDone = false; // advc.003g
+	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
+	m_bSidSaysPatchTestDone = false;
+	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
 	// <advc.003r>
 	for (int i = 0; i < NUM_UPDATE_TIMER_TYPES; i++)
 		m_aiUpdateTimers[i] = -1; // </advc.003r>
@@ -2861,6 +2864,13 @@ void CvGame::update()
 		iSuccessiveUpdates = 0;
 	for (int i = 0; i < iSuccessiveUpdates; i++)
 		updateUnprofiled(); // </advc.256>
+	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
+	if (!m_bSidSaysPatchTestDone)
+	{
+		smc::BtS_EXE.patchSidSays(); // XANA (note): Uses ChatGPT authored Sid Says Discovery build code, not my prior untested blind overwrite
+		m_bSidSaysPatchTestDone = true; // XANA (note): I think we have to do it once, at a time where the game is ready and running on a map, not at CvGame::init because the game memory layout may not be ready just yet
+	}
+	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
 	PROFILE_END();
 	stopProfilingDLL(false);
 }
