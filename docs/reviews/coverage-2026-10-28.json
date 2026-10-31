@@ -1544,7 +1544,7 @@
     },
     {
       "branch": "PreferenceFrameworkDraft-ChatGPT",
-      "head_at_inventory": "3a40c7856bab3edd6caf84950370c38d23744c70",
+      "head_at_inventory": "e4a2f47727855dd10768c5f57ed5001a901f9fe0",
       "coverage": "published_scoped_refinements_with_integration_blockers",
       "native_verification": "focused_cpp03_helper_fixture_passed_no_dll",
       "source_branch": "LeaderCivilizationDecisionPreferences",
@@ -1743,7 +1743,7 @@
       "dll_build": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e"
     },
     "assistant_heads": {
-      "PreferenceFrameworkDraft_ChatGPT": "3a40c7856bab3edd6caf84950370c38d23744c70",
+      "PreferenceFrameworkDraft_ChatGPT": "e4a2f47727855dd10768c5f57ed5001a901f9fe0",
       "SummonCatchupDraft_ChatGPT": "9408469df1c280bc24db9aee750ac972bb77028b"
     },
     "assistant_parent": "80c72f26cd336bc8557669d6027c3ed4244dda94",
@@ -1803,7 +1803,8 @@
       {
         "branch": "PreferenceFrameworkDraft-ChatGPT",
         "previous_head": "80c72f26cd336bc8557669d6027c3ed4244dda94",
-        "new_head": "3a40c7856bab3edd6caf84950370c38d23744c70"
+        "new_head": "e4a2f47727855dd10768c5f57ed5001a901f9fe0",
+        "code_head_before_ledger": "3a40c7856bab3edd6caf84950370c38d23744c70"
       },
       {
         "branch": "SummonCatchupDraft-ChatGPT",
@@ -1840,9 +1841,9 @@
         "source_branch": "LeaderCivilizationDecisionPreferences",
         "source_head": "aac03388283a5ac316f6a19f6e3754a7435b6511",
         "assistant_branch": "PreferenceFrameworkDraft-ChatGPT",
-        "assistant_head": "3a40c7856bab3edd6caf84950370c38d23744c70",
+        "assistant_head": "e4a2f47727855dd10768c5f57ed5001a901f9fe0",
         "merge_base": "aac03388283a5ac316f6a19f6e3754a7435b6511",
-        "ahead_by": 17,
+        "ahead_by": 27,
         "disposition": "No merge. The source branch is user-owned; assistant derivative already contains its history. Missing Event/Unit preference XML assets block integration."
       }
     ],
