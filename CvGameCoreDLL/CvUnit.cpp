@@ -10686,9 +10686,6 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.read(pStream);
 		m_aiExtraFeatureDefensePercent.read(pStream);
 		m_aiExtraUnitCombatModifier.read(pStream);
-// XANA: 05-17-2025 Timed Promotion Expiry Turns
-		m_aiPromotionExpireTurns.read(pStream);
-// XANA: 05-17-2025 Timed Promotion Expiry Turns
 	}
 	else
 	{
@@ -10699,10 +10696,12 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.readArray<int>(pStream);
 		m_aiExtraFeatureDefensePercent.readArray<int>(pStream);
 		m_aiExtraUnitCombatModifier.readArray<int>(pStream);
-// XANA: 05-17-2025 Timed Promotion Expiry Turns
-		m_aiPromotionExpireTurns.readArray<int>(pStream);
-// XANA: 05-17-2025 Timed Promotion Expiry Turns
 	}
+// XANA: 10-31-2026 Versioned promotion deadline persistence (ChatGPT)
+	if (uiFlag >= 9)
+		m_aiPromotionExpireTurns.read(pStream);
+	else m_aiPromotionExpireTurns.reset();
+// XANA: 10-31-2026 Versioned promotion deadline persistence (ChatGPT)
 }
 
 
@@ -10717,7 +10716,8 @@ void CvUnit::write(FDataStreamBase* pStream)
 	//uiFlag = 5; // advc.164
 	//uiFlag = 6; // advc.opt (m_bFlatMovement)
 	//uiFlag = 7; // advc.enum: new enum map save behavior
-	uiFlag = 8; // advc.313: Disorganized promo removed, advc.enum: bugfix.
+	//uiFlag = 8; // advc.313: Disorganized promo removed, advc.enum: bugfix.
+	uiFlag = 9; // XANA: 10-31-2026 Promotion deadline map follows unit data (ChatGPT)
 	pStream->Write(uiFlag);
 	REPRO_TEST_BEGIN_WRITE(CvString::format("Unit(%d,%d,%d)", getID(), getX(), getY()));
 
