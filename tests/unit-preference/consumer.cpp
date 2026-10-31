@@ -220,6 +220,16 @@ int evaluate(int unitClass, int unitCombat)
 		if (pCivilizationPref->isPreferredChoice()) iValue += 10000;
 		else if (pCivilizationPref->isNotPreferredChoice()) iValue = 0;
 	}
+	if (pLeaderPref != NULL && pLeaderPref->iUnitValueModifierPercent != 0)
+	{
+		iValue *= (100 + pLeaderPref->iUnitValueModifierPercent);
+		iValue /= 100;
+	}
+	if (pCivilizationPref != NULL && pCivilizationPref->iUnitValueModifierPercent != 0)
+	{
+		iValue *= (100 + pCivilizationPref->iUnitValueModifierPercent);
+		iValue /= 100;
+	}
 	return iValue;
 }
 
@@ -276,4 +286,12 @@ int main()
 	flags(GC.info[0].cls,1);
 	flags(GC.info[1].combat,1);
 	assert(evaluate(1,2) == 20001);
+	// Percent modifiers are applied after the two independent preferences.
+	GC.info[0].mask = 1;
+	GC.info[1].mask = 2;
+	flags(GC.info[0].unit,1);
+	flags(GC.info[1].cls,1);
+	GC.info[0].unit.iUnitValueModifierPercent = 50;
+	GC.info[1].cls.iUnitValueModifierPercent = 50;
+	assert(evaluate(1,2) == 22501);
 }
