@@ -727,6 +727,7 @@ void CvUnit::doExpireTempPromotions()
 		
 		int iExpireTurn = getPromotionExpireTurn(eLoopPromotion);
 		
+		// XANA (note): Infinite Duration Promotion
 		if (iExpireTurn <= 0) // No deadline (0) or infinite duration (-1)
 			continue;
 		
