@@ -2630,9 +2630,9 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
 		{
 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
 			m_vUnitCombatPrefData.clear();
+			SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitCombats); // XANA: 10-30-2026 Keep preference indexes synchronized (ChatGPT)
 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 			{
-				SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitCombats);
 				m_aiVectorIndexMapForUnitCombats = new int[GC.getNumUnitCombatInfos()];
 				FOR_EACH_ENUM(UnitCombat)
 				{
@@ -2664,9 +2664,9 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
 		{
 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
 			m_vUnitClassPrefData.clear();
+			SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitClasses); // XANA: 10-30-2026 Keep preference indexes synchronized (ChatGPT)
 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 			{
-				SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitClasses);
 				m_aiVectorIndexMapForUnitClasses = new int[GC.getNumUnitClassInfos()];
 				FOR_EACH_ENUM(UnitClass)
 				{
@@ -2698,9 +2698,9 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
 		{
 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
 			m_vUnitPrefData.clear();
+			SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnits); // XANA: 10-30-2026 Keep preference indexes synchronized (ChatGPT)
 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 			{
-				SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnits);
 				m_aiVectorIndexMapForUnits = new int[GC.getNumUnitInfos()];
 				FOR_EACH_ENUM(Unit)
 				{

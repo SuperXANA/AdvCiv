@@ -1611,9 +1611,9 @@ bool CvTechPreferenceInfo::read(CvXMLLoadUtility* pXML)
 		{
 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
 			m_vTechPrefData.clear();
+			SAFE_DELETE_ARRAY(m_aiVectorIndexMap); // XANA: 10-30-2026 Keep preference indexes synchronized (ChatGPT)
 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 			{
-				SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
 				m_aiVectorIndexMap = new int[GC.getNumTechInfos()];
 				FOR_EACH_ENUM(Tech)
 				{

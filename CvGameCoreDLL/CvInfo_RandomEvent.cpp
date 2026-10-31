@@ -2146,9 +2146,9 @@ bool CvEventPreferenceInfo::read(CvXMLLoadUtility* pXML)
 		{
 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
 			m_vEventPrefData.clear();
+			SAFE_DELETE_ARRAY(m_aiVectorIndexMap); // XANA: 10-30-2026 Keep preference indexes synchronized (ChatGPT)
 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
 			{
-				SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
 				m_aiVectorIndexMap = new int[GC.getNumEventInfos()];
 				FOR_EACH_ENUM(Event)
 				{
