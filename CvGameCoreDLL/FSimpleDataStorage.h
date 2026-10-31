@@ -22,6 +22,31 @@ inline std::size_t FStorageAllocationSize(int iSize, std::size_t iElementSize)
 }
 // XANA: 10-30-2026 Checked headered allocation bytes (ChatGPT)
 
+// XANA: 10-31-2026 Headered element lifetime (ChatGPT)
+template<typename T>
+T* FStorageConstructArray(int iSize, T const& defaultValue)
+{
+	char* pBuffer = new char[FStorageAllocationSize(iSize, sizeof(T))];
+	// Store the size at the very beginning.
+	*(int*)pBuffer = iSize;
+	T* pArray = reinterpret_cast<T*>(pBuffer + iHEADERSIZE);
+	int iConstructed = 0;
+	try
+	{
+		for (; iConstructed < iSize; ++iConstructed)
+			new (pArray + iConstructed) T(defaultValue);
+	}
+	catch (...)
+	{
+		while (iConstructed > 0)
+			pArray[--iConstructed].~T();
+		delete[] pBuffer;
+		throw;
+	}
+	return pArray;
+}
+// XANA: 10-31-2026 Headered element lifetime (ChatGPT)
+
 class FDataStreamBase;
 class CvXMLLoadUtility;
 
@@ -47,6 +72,9 @@ public:
 	void clear()
 	{
 		if (m_pArray == NULL) return;
+		// XANA: 10-31-2026 Destroy constructed headered elements (ChatGPT)
+		for (int i = size(); i > 0; --i)
+			m_pArray[i - 1].~T();
 		SAFE_DELETE_HEADERED_ARRAY(m_pArray, iHEADERSIZE);
 	}
 	void init(int iSize, T defaultValue = T())
@@ -54,15 +82,8 @@ public:
 		if (iSize <= 0 || m_pArray != NULL) return;
 		// Allocate: (Size of Header) + (Size of Data)
 		// We use 8 safe bytes at the start for the 'int' size to support double/long-long values
-		char* pBuffer = new char[FStorageAllocationSize(iSize, sizeof(T))];
-		// Store the size at the very beginning
-		*(int*)pBuffer = iSize;
-		// Set our member pointer to the start of the DATA (skipping the header)
-		m_pArray = reinterpret_cast<T*>(pBuffer + iHEADERSIZE);
-		for (int i = 0; i < iSize; ++i)
-		{
-			m_pArray[i] = defaultValue;
-		}
+		// Construct the elements before publishing the managed data pointer.
+		m_pArray = FStorageConstructArray(iSize, defaultValue);
 	}
 	void uninit()
 	{
@@ -187,9 +208,16 @@ public:
 		if (kOther.m_pArray != NULL)
 		{
 			this->reset(kOther.size());
-			for (int i = 0; i < kOther.size(); ++i)
+			// XANA: 10-31-2026 Clean up failed element-copy construction (ChatGPT)
+			try
 			{
-				this->m_pArray[i] = kOther.m_pArray[i];
+				for (int i = 0; i < kOther.size(); ++i)
+					this->m_pArray[i] = kOther.m_pArray[i];
+			}
+			catch (...)
+			{
+				clear();
+				throw;
 			}
 		}
 	}
@@ -233,6 +261,9 @@ public:
 	void clear()
 	{
 		if (m_pArray == NULL) return;
+		// XANA: 10-31-2026 Destroy constructed headered elements (ChatGPT)
+		for (int i = size(); i > 0; --i)
+			m_pArray[i - 1].~T();
 		SAFE_DELETE_HEADERED_ARRAY(m_pArray, iHEADERSIZE);
 	}
 	void init(int iSizeX, int iSizeY, T defaultValue = T())
@@ -241,15 +272,8 @@ public:
 		if ((iSize <= 0 || m_pArray != NULL)) return;
 		// Allocate: (Size of Header) + (Size of Data)
 		// We use 8 safe bytes at the start for the 'int' size to support double/long-long values
-		char* pBuffer = new char[FStorageAllocationSize(iSize, sizeof(T))];
-		// Store the size at the very beginning
-		*(int*)pBuffer = iSize;
-		// Set our member pointer to the start of the DATA (skipping the header)
-		m_pArray = reinterpret_cast<T*>(pBuffer + iHEADERSIZE);
-		for (int i = 0; i < iSize; ++i)
-		{
-			m_pArray[i] = defaultValue;
-		}
+		// Construct the elements before publishing the managed data pointer.
+		m_pArray = FStorageConstructArray(iSize, defaultValue);
 	}
 	void uninit()
 	{
@@ -373,9 +397,16 @@ public:
 		if (kOther.m_pArray != NULL)
 		{
 			this->reset(kOther.size(), 1); // XANA: 10-28-2026 Preserve flat allocation (ChatGPT)
-			for (int i = 0; i < kOther.size(); ++i)
+			// XANA: 10-31-2026 Clean up failed element-copy construction (ChatGPT)
+			try
 			{
-				this->m_pArray[i] = kOther.m_pArray[i];
+				for (int i = 0; i < kOther.size(); ++i)
+					this->m_pArray[i] = kOther.m_pArray[i];
+			}
+			catch (...)
+			{
+				clear();
+				throw;
 			}
 		}
 	}
