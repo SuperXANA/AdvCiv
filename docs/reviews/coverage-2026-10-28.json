@@ -1744,7 +1744,8 @@
     },
     "assistant_heads": {
       "PreferenceFrameworkDraft_ChatGPT": "3a40c7856bab3edd6caf84950370c38d23744c70",
-      "SummonCatchupDraft_ChatGPT": "9408469df1c280bc24db9aee750ac972bb77028b"
+      "SummonCatchupDraft_ChatGPT": "9408469df1c280bc24db9aee750ac972bb77028b",
+      "PreferenceFramework_ChatGPT": "3a40c7856bab3edd6caf84950370c38d23744c70"
     },
     "assistant_parent": "80c72f26cd336bc8557669d6027c3ed4244dda94",
     "code_commits": [
@@ -1764,7 +1765,9 @@
       "scope": "independent leader/civilization fallback, NO_UNITCLASS/NO_UNITCOMBAT sentinel handling, sequential unit percentage modifiers"
     },
     "repository_consumer_fixture": "updated_not_run",
-    "inventory_branch_count": 75
+    "inventory_branch_count": 75,
+    "workflow_source_sha": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+    "ledger_update_commit": "0d560050bac5d1cd218f651fb4d4f860388ace36"
   },
   "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",
   "previous_baseline_sha": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
@@ -1778,11 +1781,13 @@
     ],
     "retired_branch": "dll-build-debug",
     "qualification": "Use the current named workflow and populate pinned overlay provenance; do not recreate a separate Debug branch.",
-    "source_sha": "07133f27906c364b266043a1788ec0eacd2e8b3b",
-    "artifact_log_policy": "Download produced artifacts and inspect extracted MSBuild Build.log; explicitly report artifact/download absence. Do not infer compiler output solely from GitHub shell output when artifact logs are available."
+    "source_sha": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+    "artifact_log_policy": "Download produced artifacts and inspect extracted MSBuild Build.log; explicitly report artifact/download absence. Do not infer compiler output solely from GitHub shell output when artifact logs are available.",
+    "previous_verified_workflow_source_sha": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
+    "current_workflow_review": "docs/reviews/preference-bounds-2026-10-31.md"
   },
   "assistant_branch_cleanup_policy": "Reuse suitable assistant branches. For clearly duplicate older/newer assistant branches, inspect histories and contents, merge older into newer preserving newer edits, then mark older safe for user manual removal. Never delete the older branch automatically. This explicit user authorization is limited to assistant branch consolidation.",
-  "inventory_date": "2026-10-29",
+  "inventory_date": "2026-10-31",
   "inventory_branch_count": 75,
   "last_inventory": {
     "date": "2026-10-31",
@@ -1809,5 +1814,32 @@
     ],
     "scope": "Preference consumer/save-load integration; summon transfer and event selection lifecycle; current build workflow cleanup",
     "qualification": "75-branch inventory retained. No original source head changed. Assistant branches are isolated derivatives; no authorized assistant-to-assistant consolidation was needed in this pass."
+  },
+  "assistant_branch_count": 32,
+  "assistant_branch_consolidation_review": {
+    "date": "2026-10-31",
+    "inventory_assistant_branch_count": 32,
+    "reviewed_derivatives": [
+      {
+        "source_branch": "LeaderCivilizationSummoningRandomEvents",
+        "source_head": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+        "assistant_branch": "SummonCatchupDraft-ChatGPT",
+        "assistant_head": "9408469df1c280bc24db9aee750ac972bb77028b",
+        "merge_base": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+        "ahead_by": 12,
+        "disposition": "No merge. The source branch is user-owned; assistant derivative already contains its history. Missing CvUnit and triggered-event persistence contracts block integration."
+      },
+      {
+        "source_branch": "LeaderCivilizationDecisionPreferences",
+        "source_head": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+        "assistant_branch": "PreferenceFrameworkDraft-ChatGPT",
+        "assistant_head": "3a40c7856bab3edd6caf84950370c38d23744c70",
+        "merge_base": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+        "ahead_by": 17,
+        "disposition": "No merge. The source branch is user-owned; assistant derivative already contains its history. Missing Event/Unit preference XML assets block integration."
+      }
+    ],
+    "new_assistant_to_assistant_merges_performed": [],
+    "disposition": "No new overlapping assistant-owned pair was established in the reviewed feature families. Do not merge assistant work into user-owned branches. The previously recorded AISurvivorSQLiteFixes-ChatGPT to AISurvivorSQLiteBuild-ChatGPT consolidation remains the only verified consolidation in the existing ledger."
   }
 }
