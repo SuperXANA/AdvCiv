@@ -14,6 +14,7 @@ prefix = r'''
 #include <cstddef>
 #include <new>
 #define FAssert(x) assert(x)
+#define FAssertMsg(x,m) ((void)0)
 #define SAFE_DELETE_ARRAY(p) do { delete[] p; p = NULL; } while (0)
 #define SAFE_DELETE_HEADERED_ARRAY(p,n) do { delete[] (reinterpret_cast<char*>(p) - (n)); p = NULL; } while (0)
 struct FDataStreamBase {
@@ -51,42 +52,34 @@ void classChecks() {
     a.clear(); b.clear();
 #ifdef SIMULATED_32
     assert(sizeof(unsigned int) == 4 && INT_MAX == 2147483647);
-    bool threw = false;
-    try { a.init(INT_MAX); } catch (std::bad_alloc const&) { threw = true; }
-    assert(threw && a.size() == 0);
-    threw = false;
-    try { b.init(INT_MAX, 1); } catch (std::bad_alloc const&) { threw = true; }
-    assert(threw && b.size() == 0);
+    a.init(INT_MAX);
+    assert(a.size() == 0);
+    b.init(INT_MAX, 1);
+    assert(b.size() == 0);
     a.init(2, 17); b.init(2, 1, 19);
     // An existing init is still a no-op, even for an oversized request.
     a.init(INT_MAX); b.init(INT_MAX, 1);
     assert(a.size() == 2 && a.get(0) == 17);
     assert(b.size() == 2 && b.get(0) == 19);
-    threw = false;
-    try { a.reset(INT_MAX); } catch (std::bad_alloc const&) { threw = true; }
-    assert(threw && a.size() == 0);
-    threw = false;
-    try { b.reset(INT_MAX, 1); } catch (std::bad_alloc const&) { threw = true; }
-    assert(threw && b.size() == 0);
+    a.reset(INT_MAX);
+    assert(a.size() == 0);
+    b.reset(INT_MAX, 1);
+    assert(b.size() == 0);
     raw = new double[1]; raw[0] = 23;
     double* savedRaw = raw;
-    threw = false;
-    try { a.load(raw, INT_MAX); } catch (std::bad_alloc const&) { threw = true; }
-    assert(threw && a.size() == 0 && raw == savedRaw && raw[0] == 23);
+    a.load(raw, INT_MAX);
+    assert(a.size() == 0 && raw == savedRaw && raw[0] == 23);
     delete[] raw;
     rows = new double*[1]; rows[0] = new double[1]; rows[0][0] = 29;
     double** savedRows = rows;
-    threw = false;
-    try { b.load(rows, INT_MAX, 1); } catch (std::bad_alloc const&) { threw = true; }
-    assert(threw && b.size() == 0 && rows == savedRows && rows[0][0] == 29);
+    b.load(rows, INT_MAX, 1);
+    assert(b.size() == 0 && rows == savedRows && rows[0][0] == 29);
     delete[] rows[0]; delete[] rows;
     FDataStreamBase stream(INT_MAX);
-    threw = false;
-    try { a.Read(&stream); } catch (std::bad_alloc const&) { threw = true; }
-    assert(threw && a.size() == 0 && stream.dataReads == 0);
-    threw = false;
-    try { b.Read(&stream); } catch (std::bad_alloc const&) { threw = true; }
-    assert(threw && b.size() == 0 && stream.dataReads == 0);
+    a.Read(&stream);
+    assert(a.size() == 0 && stream.dataReads == 0);
+    b.Read(&stream);
+    assert(b.size() == 0 && stream.dataReads == 0);
     a.init(1, 31); b.init(1, 1, 37);
     assert(a.get(0) == 31 && b.get(0) == 37);
 #endif
@@ -112,7 +105,7 @@ def checks(bits):
         if valid:
             lines.append('assert(%s == static_cast<ByteSize>(0x%xUL));' % (call, value))
         else:
-            lines.append('{ bool threw = false; try { (void)%s; } catch (std::bad_alloc const&) { threw = true; } assert(threw); }' % call)
+            lines.append('assert(%s == 0);' % call)
     lines += ['classChecks();', '}']
     return '\n'.join(lines), len(cases)
 
@@ -126,7 +119,7 @@ with tempfile.TemporaryDirectory() as directory:
         main, count = checks(bits)
         alias = 'typedef %s ByteSize;\n' % ('unsigned int' if simulated else 'std::size_t')
         (tmp / 'check.cpp').write_text(prefix + alias + body + main)
-        command = ['g++', '-std=c++03', '-Wall', '-Wextra', '-Werror', '-pedantic',
+        command = ['g++', '-std=c++03', '-fno-exceptions', '-Wall', '-Wextra', '-Werror', '-pedantic',
                    '-fsanitize=address,undefined', '-g', str(tmp / 'check.cpp'), '-o', str(tmp / 'check')]
         if simulated:
             command.insert(1, '-DSIMULATED_32')

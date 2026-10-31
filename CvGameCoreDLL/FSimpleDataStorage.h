@@ -7,6 +7,8 @@
 #include <cstddef>
 #include <new>
 
+// XANA: 10-31-2026 Native failure returns; element operations must not raise exceptions (ChatGPT)
+
 static const int iHEADERSIZE = 8; /* 8 bytes for likely-safe alignment of 32-bit double and long-long data */
 // XANA (note): if we ever get 64-bit compatibility in the DLL/EXE, I believe we would only need to double the size of the header in order to support doubles/long-long data types once more
 
@@ -17,7 +19,10 @@ inline std::size_t FStorageAllocationSize(int iSize, std::size_t iElementSize)
 	if (iSize < 0 || iElementSize == 0 ||
 		static_cast<std::size_t>(iSize) >
 		(iMaxBytes - iHEADERSIZE) / iElementSize)
-		throw std::bad_alloc();
+	{
+		FAssertMsg(false, "Invalid storage allocation size");
+		return 0;
+	}
 	return iHEADERSIZE + iElementSize * static_cast<std::size_t>(iSize);
 }
 // XANA: 10-30-2026 Checked headered allocation bytes (ChatGPT)
@@ -26,23 +31,17 @@ inline std::size_t FStorageAllocationSize(int iSize, std::size_t iElementSize)
 template<typename T>
 T* FStorageConstructArray(int iSize, T const& defaultValue)
 {
-	char* pBuffer = new char[FStorageAllocationSize(iSize, sizeof(T))];
+	std::size_t const iBytes = FStorageAllocationSize(iSize, sizeof(T));
+	if (iBytes == 0) return NULL;
+	char* pBuffer = new (std::nothrow) char[iBytes];
+	FAssertMsg(pBuffer != NULL, "Storage allocation failed");
+	if (pBuffer == NULL) return NULL;
 	// Store the size at the very beginning.
 	*(int*)pBuffer = iSize;
 	T* pArray = reinterpret_cast<T*>(pBuffer + iHEADERSIZE);
-	int iConstructed = 0;
-	try
-	{
-		for (; iConstructed < iSize; ++iConstructed)
-			new (pArray + iConstructed) T(defaultValue);
-	}
-	catch (...)
-	{
-		while (iConstructed > 0)
-			pArray[--iConstructed].~T();
-		delete[] pBuffer;
-		throw;
-	}
+	// Element operations must not raise exceptions across the DLL interface.
+	for (int i = 0; i < iSize; ++i)
+		new (pArray + i) T(defaultValue);
 	return pArray;
 }
 // XANA: 10-31-2026 Headered element lifetime (ChatGPT)
@@ -136,6 +135,7 @@ public:
 		if (pRawArray == NULL || iSize <= 0) return;
 		// 1. Initialize our internal storage (allocates header + data)
 		reset(iSize);
+		if (m_pArray == NULL) return;
 		// 2. Copy data from the XML-allocated pointer to our managed pointer
 		for (int i = 0; i < iSize; ++i)
 		{
@@ -152,6 +152,7 @@ public:
 		if (iSize > 0)
 		{
 			reset(iSize);
+			if (m_pArray == NULL) return;
 			pStream->Read(iSize, m_pArray);
 		}
 		else clear(); // XANA: 10-29-2026 Empty 1D stream replaces old data (ChatGPT)
@@ -171,12 +172,8 @@ public:
 		T* tempArray = NULL;
 		pXML->SetVariableListTagPair(&tempArray, szXMLTag, iSize);
 		// XANA: 10-31-2026 Release local XML staging on failed transfer (ChatGPT)
-		try { load(tempArray, iSize); }
-		catch (...)
-		{
-			SAFE_DELETE_ARRAY(tempArray);
-			throw;
-		}
+		load(tempArray, iSize);
+		SAFE_DELETE_ARRAY(tempArray);
 		// XANA: 10-31-2026 Release local XML staging on failed transfer (ChatGPT)
 	}
 	struct ConstProxyArray
@@ -216,16 +213,8 @@ public:
 		{
 			this->reset(kOther.size());
 			// XANA: 10-31-2026 Clean up failed element-copy construction (ChatGPT)
-			try
-			{
-				for (int i = 0; i < kOther.size(); ++i)
-					this->m_pArray[i] = kOther.m_pArray[i];
-			}
-			catch (...)
-			{
-				clear();
-				throw;
-			}
+			for (int i = 0; m_pArray != NULL && i < kOther.size(); ++i)
+				this->m_pArray[i] = kOther.m_pArray[i];
 		}
 	}
 	FDynamicArray& operator=(const FDynamicArray& kOther)
@@ -235,7 +224,7 @@ public:
 			// XANA: 10-29-2026 Empty 1D assignment replaces old data (ChatGPT)
 			if (kOther.size() == 0) clear();
 			else this->reset(kOther.size());
-			if (kOther.m_pArray != NULL)
+			if (kOther.m_pArray != NULL && m_pArray != NULL)
 			{
 				for (int i = 0; i < kOther.size(); ++i)
 				{
@@ -329,6 +318,7 @@ public:
 		if (pRawArray == NULL || FStorage2DSize(iSizeX, iSizeY) == 0) return;
 		// 1. Initialize our internal storage (allocates header + data)
 		reset(iSizeX, iSizeY);
+		if (m_pArray == NULL) return;
 		// 2. Copy data from the XML-allocated pointer to our managed pointer
 		for (int i = 0; i < iSizeX; ++i)
 		{
@@ -355,6 +345,7 @@ public:
 		if (iSize > 0)
 		{
 			reset(iSize, 1); // XANA: 10-28-2026 Preserve flat allocation (ChatGPT)
+			if (m_pArray == NULL) return;
 			pStream->Read(iSize, m_pArray);
 		}
 		else clear(); // XANA: 10-28-2026 Empty stream replaces old data (ChatGPT)
@@ -405,16 +396,8 @@ public:
 		{
 			this->reset(kOther.size(), 1); // XANA: 10-28-2026 Preserve flat allocation (ChatGPT)
 			// XANA: 10-31-2026 Clean up failed element-copy construction (ChatGPT)
-			try
-			{
-				for (int i = 0; i < kOther.size(); ++i)
-					this->m_pArray[i] = kOther.m_pArray[i];
-			}
-			catch (...)
-			{
-				clear();
-				throw;
-			}
+			for (int i = 0; m_pArray != NULL && i < kOther.size(); ++i)
+				this->m_pArray[i] = kOther.m_pArray[i];
 		}
 	}
 	FDynamic2DArray& operator=(const FDynamic2DArray& kOther)
@@ -422,7 +405,7 @@ public:
 		if (this != &kOther)
 		{
 			this->reset(kOther.size(), 1); // XANA: 10-28-2026 Preserve flat allocation (ChatGPT)
-			if (kOther.m_pArray != NULL)
+			if (kOther.m_pArray != NULL && m_pArray != NULL)
 			{
 				for (int i = 0; i < kOther.size(); ++i)
 				{
@@ -451,7 +434,9 @@ public:
 	{
 		if (m_pArray == NULL && iSIZE > 0)
 		{
-			m_pArray = new T[iSIZE];
+			m_pArray = new (std::nothrow) T[iSIZE];
+			FAssertMsg(m_pArray != NULL, "Storage allocation failed");
+			if (m_pArray == NULL) return;
 			for (int i = 0; i < iSIZE; ++i)
 			{
 				m_pArray[i] = defaultValue;
@@ -479,18 +464,21 @@ public:
 	}
 	T get(int i) const
 	{
-		FAssert(i >= 0 && i < iSIZE);
+		FAssert(i >= 0 && i < iSIZE && m_pArray != NULL);
+		if (i < 0 || i >= iSIZE || m_pArray == NULL) return T();
 		return m_pArray[i];
 	}
 	void set(int i, T value)
 	{
-		FAssert(i >= 0 && i < iSIZE);
+		FAssert(i >= 0 && i < iSIZE && m_pArray != NULL);
+		if (i < 0 || i >= iSIZE || m_pArray == NULL) return;
 		m_pArray[i] = value;
 	}
 	template<class U>
 	void change(int i, U value)
 	{
-		FAssert(i >= 0 && i < iSIZE);
+		FAssert(i >= 0 && i < iSIZE && m_pArray != NULL);
+		if (i < 0 || i >= iSIZE || m_pArray == NULL) return;
 		FStorageChange<T, U>::apply(m_pArray[i], value);
 	}
 	/**
@@ -502,6 +490,7 @@ public:
 		if (pRawArray == NULL || iSIZE <= 0) return;
 		// 1. Initialize our internal storage now
 		reset();
+		if (m_pArray == NULL) return;
 		// 2. Copy data from the XML-allocated pointer to our managed pointer
 		for (int i = 0; i < iSIZE; ++i)
 		{
@@ -514,10 +503,13 @@ public:
 	void Read(FDataStreamBase* pStream)
 	{
 		reset();
+		if (m_pArray == NULL) return;
 		pStream->Read(iSIZE, m_pArray);
 	}
 	void Write(FDataStreamBase* pStream)
 	{
+		FAssert(m_pArray != NULL);
+		if (m_pArray == NULL) return;
 		pStream->Write(iSIZE, m_pArray);
 	}
 	void readArray(CvXMLLoadUtility* pXML, const char* szXMLTag)
@@ -525,12 +517,8 @@ public:
 		T* tempArray = NULL;
 		pXML->SetVariableListTagPair(&tempArray, szXMLTag, iSIZE);
 		// XANA: 10-31-2026 Release local XML staging on failed transfer (ChatGPT)
-		try { load(tempArray); }
-		catch (...)
-		{
-			SAFE_DELETE_ARRAY(tempArray);
-			throw;
-		}
+		load(tempArray);
+		SAFE_DELETE_ARRAY(tempArray);
 		// XANA: 10-31-2026 Release local XML staging on failed transfer (ChatGPT)
 	}
 	FStaticArray(const FStaticArray& kOther) : m_pArray(NULL) 
@@ -538,17 +526,10 @@ public:
 		if (kOther.m_pArray != NULL)
 		{
 			// XANA: 10-31-2026 Clean up failed static-array construction (ChatGPT)
-			try
-			{
-				this->reset();
-				for (int i = 0; i < iSIZE; ++i)
-					this->m_pArray[i] = kOther.m_pArray[i];
-			}
-			catch (...)
-			{
-				clear();
-				throw;
-			}
+			this->reset();
+			for (int i = 0; m_pArray != NULL && i < iSIZE; ++i)
+				this->m_pArray[i] = kOther.m_pArray[i];
+
 			// XANA: 10-31-2026 Clean up failed static-array construction (ChatGPT)
 		}
 	}
@@ -557,7 +538,7 @@ public:
 		if (this != &kOther)
 		{
 			this->reset();
-			if (kOther.m_pArray != NULL)
+			if (kOther.m_pArray != NULL && m_pArray != NULL)
 			{
 				for (int i = 0; i < iSIZE; ++i)
 				{

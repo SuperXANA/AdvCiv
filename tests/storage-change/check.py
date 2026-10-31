@@ -6,6 +6,7 @@ stub=r'''
 #include <cassert>
 #include <cstddef>
 #define FAssert(x) assert(x)
+#define FAssertMsg(x,m) FAssert(x)
 #define SAFE_DELETE_ARRAY(p) do{delete[]p;p=NULL;}while(0)
 #define SAFE_DELETE_HEADERED_ARRAY(p,n) do{delete[](reinterpret_cast<char*>(p)-(n));p=NULL;}while(0)
 struct FDataStreamBase {

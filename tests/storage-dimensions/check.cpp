@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <iostream>
 #define FAssert(x) assert(x)
+#define FAssertMsg(x,m) FAssert(x)
 #define SAFE_DELETE_ARRAY(p) do{delete[] p;p=NULL;}while(0)
 #define SAFE_DELETE_HEADERED_ARRAY(p,n) do{delete[](reinterpret_cast<char*>(p)-(n));p=NULL;}while(0)
 struct FDataStreamBase {template<class T>void Read(T*){}template<class T>void Read(int,T*){}template<class T>void Write(T){}template<class T>void Write(int,const T*){}};
