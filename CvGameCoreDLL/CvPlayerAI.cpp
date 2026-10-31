@@ -23158,6 +23158,32 @@ void CvPlayerAI::read(FDataStreamBase* pStream)
 	else if(isAlive())
 		AI_updateNeededExplorers();
 	// </advc.opt>
+	// <ChatGPT 2026-10-31: versioned vote-history persistence>
+	{
+		ArrayEnumMap<VoteTypes,int,int,0> aiVoteAlignment;
+		ArrayEnumMap<CivTeamTypes,int,int,0> aiElectionPreference;
+		ArrayEnumMap<CivPlayerTypes,int,int,0> aiCityPreference;
+		if (uiFlag >= 23)
+		{
+			aiVoteAlignment.read(pStream);
+			aiElectionPreference.read(pStream);
+			aiCityPreference.read(pStream);
+		}
+		int const iVoteCount = GC.getNumVoteInfos();
+		if (m_aiVoteAlignment == NULL && iVoteCount > 0)
+			m_aiVoteAlignment = new int[iVoteCount];
+		for (int i = 0; i < iVoteCount; ++i)
+			m_aiVoteAlignment[i] = aiVoteAlignment.get(static_cast<VoteTypes>(i));
+		if (m_aiElectionTeamPreference == NULL)
+			m_aiElectionTeamPreference = new int[NUM_CIV_TEAM_TYPES];
+		for (int i = 0; i < NUM_CIV_TEAM_TYPES; ++i)
+			m_aiElectionTeamPreference[i] = aiElectionPreference.get(static_cast<CivTeamTypes>(i));
+		if (m_aiCityAssignmentPlayerPreference == NULL)
+			m_aiCityAssignmentPlayerPreference = new int[NUM_CIV_PLAYER_TYPES];
+		for (int i = 0; i < NUM_CIV_PLAYER_TYPES; ++i)
+			m_aiCityAssignmentPlayerPreference[i] = aiCityPreference.get(static_cast<CivPlayerTypes>(i));
+	}
+	// </ChatGPT 2026-10-31: versioned vote-history persistence>
 	// <advc.104>
 	if(isMajorCiv() && (uiFlag < 15 ? isEverAlive() : isAlive()))
 		m_pUWAI->read(pStream); // </advc.104>
@@ -23196,7 +23222,10 @@ void CvPlayerAI::write(FDataStreamBase* pStream)
 	//uiFlag = 19; // advc.130n (mostly removed again)
 	//uiFlag = 20; // advc.115f
 	//uiFlag = 21; // advc.130c (remove separate cache for score diff)
-	uiFlag = 22; // advc.130w: Cache for expansionist hate
+	//uiFlag = 22; // advc.130w: Cache for expansionist hate
+	// <ChatGPT 2026-10-31: three vote-history maps>
+	uiFlag = 23;
+	// </ChatGPT 2026-10-31>
 	pStream->Write(uiFlag);
 
 	pStream->Write(m_iPeaceWeight);
@@ -23303,6 +23332,31 @@ void CvPlayerAI::write(FDataStreamBase* pStream)
 		pStream->Write(it->first);
 		pStream->Write(it->second);
 	} // </advc.opt>
+	// <ChatGPT 2026-10-31: versioned vote-history persistence>
+	{
+		ArrayEnumMap<VoteTypes,int,int,0> aiVoteAlignment;
+		ArrayEnumMap<CivTeamTypes,int,int,0> aiElectionPreference;
+		ArrayEnumMap<CivPlayerTypes,int,int,0> aiCityPreference;
+		if (m_aiVoteAlignment != NULL)
+		{
+			for (int i = 0; i < GC.getNumVoteInfos(); ++i)
+				aiVoteAlignment.set(static_cast<VoteTypes>(i), m_aiVoteAlignment[i]);
+		}
+		if (m_aiElectionTeamPreference != NULL)
+		{
+			for (int i = 0; i < NUM_CIV_TEAM_TYPES; ++i)
+				aiElectionPreference.set(static_cast<CivTeamTypes>(i), m_aiElectionTeamPreference[i]);
+		}
+		if (m_aiCityAssignmentPlayerPreference != NULL)
+		{
+			for (int i = 0; i < NUM_CIV_PLAYER_TYPES; ++i)
+				aiCityPreference.set(static_cast<CivPlayerTypes>(i), m_aiCityAssignmentPlayerPreference[i]);
+		}
+		aiVoteAlignment.write(pStream);
+		aiElectionPreference.write(pStream);
+		aiCityPreference.write(pStream);
+	}
+	// </ChatGPT 2026-10-31: versioned vote-history persistence>
 	REPRO_TEST_END_WRITE();
 	// <advc.104>
 	if(isAlive() && isMajorCiv())
