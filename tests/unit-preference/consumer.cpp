@@ -293,5 +293,5 @@ int main()
 	flags(GC.info[1].cls,1);
 	GC.info[0].unit.iUnitValueModifierPercent = 50;
 	GC.info[1].cls.iUnitValueModifierPercent = 50;
-	assert(evaluate(1,2) == 22501);
+	assert(evaluate(1,2) == 45001);
 }
