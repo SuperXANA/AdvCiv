@@ -1,6 +1,42 @@
 #include "CvGameCoreDLL.h"
 #include "CvXMLStructs.h"
 #include "CvXMLLoadUtility.h"
+#include <cstring>
+#include "CvInfo_Tech.h"
+#include "CvInfo_RandomEvent.h"
+#include "CvInfo_Unit.h"
+
+// XANA: 10-31-2026 Validate preference key categories (ChatGPT)
+namespace
+{
+	template<class EnumType>
+	bool readPreferenceInfoID(CvXMLLoadUtility* pXML, int& iResult,
+		char const* szTag, int iInfoCount)
+	{
+		iResult = -1;
+		CvString szType;
+		if (!pXML->GetChildXmlValByName(szType, szTag))
+			return false;
+		int const iCandidate = GC.getInfoTypeForString(szType.c_str());
+		if (iCandidate < 0)
+			return false;
+		if (iCandidate >= iInfoCount)
+		{
+			FAssertMsg(false, "Preference type index is outside its info category");
+			return false;
+		}
+		char const* szCanonicalType = GC.getInfo(static_cast<EnumType>(iCandidate)).getType();
+		if (szCanonicalType == NULL || std::strcmp(szCanonicalType, szType.c_str()) != 0)
+		{
+			FAssertMsg(false, "Preference type belongs to a different info category");
+			return false;
+		}
+		iResult = iCandidate;
+		return true;
+	}
+}
+// XANA: 10-31-2026 Validate preference key categories (ChatGPT)
+
 
 
 // XANA: 04-26-2025 Favorite Technologies for Advanced Civ
@@ -27,7 +63,8 @@ bool TechPreferenceData::isNotPreferredChoice() const
 bool TechPreferenceData::read(CvXMLLoadUtility* pXML)
 {
 	// Caller already positioned the XML cursor on this preference record.
-	pXML->SetInfoIDFromChildXmlVal(iTech, "TechType");
+	if (!readPreferenceInfoID<TechTypes>(pXML, iTech, "TechType", GC.getNumTechInfos()))
+		return false;
 	pXML->GetChildXmlValByName(&iTechValueModifierPercent, "iTechValueModifierPercent");
 	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
 	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
@@ -60,7 +97,8 @@ bool EventPreferenceData::isNotPreferredChoice() const
 bool EventPreferenceData::read(CvXMLLoadUtility* pXML)
 {
 	// Caller already positioned the XML cursor on this preference record.
-	pXML->SetInfoIDFromChildXmlVal(iEvent, "Event");
+	if (!readPreferenceInfoID<EventTypes>(pXML, iEvent, "Event", GC.getNumEventInfos()))
+		return false;
 	pXML->GetChildXmlValByName(&iEventValueModifierPercent, "iEventValueModifierPercent");
 	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
 	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
@@ -93,7 +131,8 @@ bool UnitCombatPreferenceData::isNotPreferredChoice() const
 bool UnitCombatPreferenceData::read(CvXMLLoadUtility* pXML)
 {
 	// Caller already positioned the XML cursor on this preference record.
-	pXML->SetInfoIDFromChildXmlVal(iUnitCombat, "UnitCombatType");
+	if (!readPreferenceInfoID<UnitCombatTypes>(pXML, iUnitCombat, "UnitCombatType", GC.getNumUnitCombatInfos()))
+		return false;
 	pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
 	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
 	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
@@ -123,7 +162,8 @@ bool UnitClassPreferenceData::isNotPreferredChoice() const
 bool UnitClassPreferenceData::read(CvXMLLoadUtility* pXML)
 {
 	// Caller already positioned the XML cursor on this preference record.
-	pXML->SetInfoIDFromChildXmlVal(iUnitClass, "UnitClassType");
+	if (!readPreferenceInfoID<UnitClassTypes>(pXML, iUnitClass, "UnitClassType", GC.getNumUnitClassInfos()))
+		return false;
 	pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
 	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
 	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
@@ -153,7 +193,8 @@ bool UnitPreferenceData::isNotPreferredChoice() const
 bool UnitPreferenceData::read(CvXMLLoadUtility* pXML)
 {
 	// Caller already positioned the XML cursor on this preference record.
-	pXML->SetInfoIDFromChildXmlVal(iUnit, "UnitType");
+	if (!readPreferenceInfoID<UnitTypes>(pXML, iUnit, "UnitType", GC.getNumUnitInfos()))
+		return false;
 	pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
 	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
 	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
