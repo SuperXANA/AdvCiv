@@ -89,3 +89,20 @@ Do not invent leader/civilization unit or event preferences. Supply the intended
 A focused C++03 helper fixture compiled with `g++ -std=c++03 -Wall -Wextra -Werror -pedantic` and passed checks for independent leader/civilization fallback, `NO_UNITCLASS`/`NO_UNITCOMBAT` sentinel handling, and compounded percentage modifiers. The repository consumer fixture was expanded to cover 4096 combinations plus sentinel, mixed-specificity, and modifier cases; that full repository fixture was not run in this turn.
 
 All code/test/schema commits used `[skip ci]`; no DLL build was triggered. No MSVC 7.1, actual XML installation/cache, save/load game, or runtime result is claimed. The remaining missing event/unit XML authoring prevents approval of the whole feature for integration.
+
+
+---
+
+# Separate feature review: summon transfer follow-up — 2026-10-31
+
+Source branch `LeaderCivilizationSummoningRandomEvents` remains at `d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc`. The existing `SummonCatchupDraft-ChatGPT` branch is a direct descendant of that source head and is 12 commits ahead. No user-owned branch was edited and no branch merge was performed.
+
+[Commit 9408469df1c280bc24db9aee750ac972bb77028b](https://github.com/SuperXANA/AdvCiv/commit/9408469df1c280bc24db9aee750ac972bb77028b) corrects the city-transfer helper's `CvEventInfo` parameter type, malformed city-split message construction, notification helper message argument, and city pointer constness. It also rejects explicit leader/civilization pairs that are incompatible when `GAMEOPTION_LEAD_ANY_CIV` is disabled. The assistant branch already contains earlier corrections to the source's malformed candidate-builder call, mutable unit count, missing defector vector, and stray conditional semicolon.
+
+## SUMMON-20261031-12 — random selection is repeated across eligibility and execution
+
+The event eligibility path and event execution path both call the random leader/civilization resolver. The resolver consumes synchronized RNG and the selected pair is not persisted in triggered-event data. Consequently, eligibility evaluation can consume RNG and the later execution can resolve a different pair. Repeated eligibility/valuation queries can also alter the RNG stream.
+
+A durable correction requires an explicit selection lifecycle in triggered-event data, including save/load handling, or a deterministic eligibility-only check followed by one execution-time draw. The relevant event-triggered-data storage and serialization contract is not supplied in this feature branch. Do not invent those fields or persistence rules.
+
+The prior skip remains in force: the military/defection implementation references `CvUnit::isHero()` and `canFoundCity()`, absent from pinned AdvCiv 1.14 and with no feature-supplied `CvUnit` implementation. Hero classification is unspecified. Do not import unrelated feature branches or invent unit semantics to force a build. No DLL build was triggered; the branch is not approved for integration.
