@@ -15792,7 +15792,7 @@ namespace
 			if (iCreateChance > 0)
 			{
 				CvCity& kCity = *kEventPlot.getPlotCity();
-				int const iCreateNum = (kCity.getPopulation() / 2);
+				int iCreateNum = (kCity.getPopulation() / 2); // XANA: 10-31-2026 Mutable minimum-unit count (ChatGPT)
 				if (iCreateNum <= 0)
 				{
 					iCreateNum = 1; // 1 Unit by Default: Represents the leader and their guard force
@@ -15808,11 +15808,12 @@ namespace
 				}
 			}
 		}
-		if (eSummoner != NO_PLAYER);
+		if (eSummoner != NO_PLAYER) // XANA: 10-31-2026 Honor summoner guard (ChatGPT)
 		{
 			int const iDefectChance = kEvent.getSummonUnitDefectChance();
 			if (iDefectChance > 0)
 			{
+				std::vector<CvUnit*> apDefectors; // XANA: 10-31-2026 Local transfer collection (ChatGPT)
 				FOR_EACH_UNIT_IN(pLoopUnit, kEventPlot)
 				{
 					if (!pLoopUnit->isGreatPerson() && !pLoopUnit->canFoundCity())
