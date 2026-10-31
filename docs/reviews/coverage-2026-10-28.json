@@ -221,10 +221,10 @@
     },
     {
       "branch": "dll-build",
-      "head_at_inventory": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
-      "coverage": "changed_workflow_source_reviewed_and_derivative_validated",
-      "native_verification": "current_action_pins_partner_derivative_passed",
-      "next_action": "Use current dll-build workflow for future authorized overlays; no duplicate native build needed solely for adding an existing manifest to artifact paths.",
+      "head_at_inventory": "07133f27906c364b266043a1788ec0eacd2e8b3b",
+      "coverage": "changed_diagnostic_upload_condition_reviewed",
+      "native_verification": "current_head_local_yaml_and_hash_gate_only_no_new_native_run",
+      "next_action": "Use current exact workflow in the next otherwise warranted pinned complete overlay; no redundant DLL build solely for this diagnostic upload condition.",
       "refinement_branch": "PartnerDiplomacyBuild-ChatGPT",
       "workflow_draft_sha": "cb8335e59cba9ed5e3b767e6f301ae4b2664f631",
       "finding_ids": [
@@ -234,13 +234,15 @@
         "WORKFLOW-20261028-04"
       ],
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40788471435",
-      "qualification": "Source adopted earlier fixes plus Rebuild and local log-path verification; derivative at exact SHA passed both configurations. Original dll-build branch was not run.",
+      "qualification": "Only diagnostic upload condition changed; output marker exists in correct sequence. Actual YAML parsed and six local manifest-gate cases passed. Current-head GitHub conditional artifact behavior not remotely observed. Historical native results retained for their exact older workflow SHAs.",
       "latest_source_review": {
-        "classification": "artifact_manifest_upload_only",
+        "classification": "conditional_diagnostic_upload_only",
+        "source_sha": "07133f27906c364b266043a1788ec0eacd2e8b3b",
+        "previous_source_sha": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
         "native_verified": false,
-        "previous_native_verified_workflow_source": "e4e33b487d5f5805361f8938cf1491829f5ed923",
-        "scope": "Lines 103-105 generate and compare manifests; line 148 now includes actual-sources.txt in successful build artifact. No compiler, synchronization, matrix or cleanup behavior change.",
-        "review_document": "docs/reviews/workflow-manifest-2026-10-28.md"
+        "local_manifest_guard_cases": 6,
+        "hash_and_build_body_unchanged": true,
+        "review_document": "docs/reviews/workflow-diagnostics-guard-2026-10-31.md"
       },
       "last_head_review": {
         "classification": "SHA256_sync_verification_workflow",
@@ -773,10 +775,10 @@
       "branch": "LeaderSpecificVoteActionDiplomacy",
       "head_at_inventory": "8fcfdd97329279393120aaab34c00dde84e729df",
       "coverage": "source_review_partial",
-      "native_verification": "finalizer_caller_copy_and_prior_counter_fixtures_only_no_dll",
-      "next_action": "Review actual early-read XML staging/default behavior, schema/info cache and player counter save-load integration before native overlay. Previous finalizer allocation/parser/bounds issues now fixed.",
+      "native_verification": "scoped_counter_copy_finalizer_and_early_staging_fixtures_only_no_dll",
+      "next_action": "Review real XML/default merging, comments/malformed nodes and failed-skip cursor cleanup, allocated-array inheritance/cache, player counter persistence/attitude cache and whole native integration.",
       "refinement_branch": "VoteCounterDraft-ChatGPT",
-      "draft_code_sha": "45de0c4d322d916e2bafe8a250457d263d3808d2",
+      "draft_code_sha": "635242cfeb29ccbe49646f8f679fde7f4650771f",
       "finding_ids": [
         "VOTE-20261027-01",
         "VOTE-20261027-02",
@@ -786,20 +788,22 @@
         "VOTE-20261030-06",
         "VOTE-20261030-07",
         "VOTE-20261030-08",
-        "VOTE-20261030-09"
+        "VOTE-20261030-09",
+        "VOTE-20261031-10"
       ],
       "source_head": "8fcfdd97329279393120aaab34c00dde84e729df",
       "source_branch": "LeaderSpecificVoteActionDiplomacy",
-      "qualification": "Complete actual no-argument finalizer passes 1933 C++03/ASan/UBSan cases with class/global stand-ins; caller block passes 21 cleanup/failure cases. No full engine/MSVC/DLL/real XML/game result.",
+      "qualification": "Actual early-staging block plus complete finalizer pass 2184 C++03/ASan/UBSan cases with XML/leader/global stand-ins; three negative controls reproduce duplicate staging in each vector. Prior fixtures retained. No full engine/XML/MSVC/DLL/save/game result.",
       "review_disposition": "active_partial_review_after_source_change",
-      "latest_review": "docs/reviews/vote-finalizer-2026-10-30.md",
+      "latest_review": "docs/reviews/vote-staging-2026-10-31.md",
       "skip_history": [
         {
           "source_sha": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
           "reason": "Per-leader post-vote XML routing and supplied VoteDecisionAttitudes schema/data missing; readPass3 requires XML utility but caller supplies none. Do not fabricate metadata or pass current vote cursor.",
           "resolved_by_source_sha": "8fcfdd97329279393120aaab34c00dde84e729df"
         }
-      ]
+      ],
+      "last_review_parent": "fc7f4a04f002a5bfe261aca49d8375fdbf03a946"
     },
     {
       "branch": "LeaderTeamSizeBuild-ChatGPT",
@@ -1086,7 +1090,7 @@
     },
     {
       "branch": "RealisticAIDecisions",
-      "head_at_inventory": "8383ce62fd67f00d399c937867828dd456915e43",
+      "head_at_inventory": "372d64549f70884fbc86cec7bfbee0a9778bd948",
       "coverage": "changed_delta_read_incomplete_implementation",
       "native_verification": "not_built_changed_head_missing_memory_implementation",
       "next_action": "Skip unchanged original source head and pause associated assistant full-DLL integration/build preparation; do not invent the unfinished memory model.",
@@ -1106,15 +1110,31 @@
       ],
       "source_review_scope": "Completed-turn score window/defaults plus player score-vector load cardinality and const serialization; remaining feature scopes unverified.",
       "qualification": "Six-file changed-source delta and surrounding integration/type interfaces read; exact new head skipped. Integer-expression diagnostic only; no DLL/engine/RNG/real fixed-point validation. Prior score fixtures and production refinements retained against previous source.",
-      "source_head": "8383ce62fd67f00d399c937867828dd456915e43",
-      "latest_review": "docs/reviews/realistic-memory-readiness-2026-10-31.md",
+      "source_head": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "latest_review": "docs/reviews/realistic-memory-delta-2026-10-31.md",
       "last_review_parent": "7e1294956a9b3eaaf9f3d67b6172c4f57b9bdd1c",
-      "latest_review_source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
-      "skip_source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
-      "skip_reason": "New user-authored vector memory is explicitly unfinished: recording/prediction/social/persistence methods and global insertion are unimplemented; feature extraction and outcome/persistence contracts are unspecified. Declaration/serializer/type inconsistencies prevent meaningful DLL validation. Do not invent implementation to obtain a build.",
+      "latest_review_source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "skip_source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "skip_reason": "Vector-memory recording/prediction/social/persistence and global insertion remain unfinished; feature extraction/outcome contracts are not supplied. User header/context/serializer corrections are preserved, but current declaration/read mismatches remain. Do not invent implementation to obtain DLL validation.",
       "resume_condition": "Inspect a new original-source delta supplying missing memory/feature/prediction/persistence integration details; preserve prior score refinements.",
       "previous_reviewed_source_sha": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
-      "review_disposition": "skip_until_source_head_changes"
+      "review_disposition": "skip_until_source_head_changes",
+      "skip_history": [
+        {
+          "source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
+          "reason": "New user-authored vector memory is explicitly unfinished: recording/prediction/social/persistence methods and global insertion are unimplemented; feature extraction and outcome/persistence contracts are unspecified. Declaration/serializer/type inconsistencies prevent meaningful DLL validation. Do not invent implementation to obtain a build.",
+          "superseded_by_source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+          "missing_implementation_resolved": false
+        }
+      ],
+      "last_delta_review": {
+        "source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+        "previous_source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
+        "changed_files": 4,
+        "production_changes": false,
+        "classification": "partial_user_corrections_missing_implementation_remains",
+        "new_source_delta_integrated": false
+      }
     },
     {
       "branch": "RenegadeDiplomacyBuild-ChatGPT",
@@ -1283,12 +1303,12 @@
     },
     {
       "branch": "VoteCounterDraft-ChatGPT",
-      "head_at_inventory": "6c0caf2d993dfacab2778258f47241fd74dd1f03",
+      "head_at_inventory": "fc7f4a04f002a5bfe261aca49d8375fdbf03a946",
       "coverage": "published_review_artifact",
-      "native_verification": "finalizer_caller_copy_and_prior_counter_fixtures_only_no_dll",
-      "next_action": "Review actual early-read XML staging/default behavior, schema/info cache and player counter save-load integration before native overlay. Previous finalizer allocation/parser/bounds issues now fixed.",
+      "native_verification": "scoped_counter_copy_finalizer_and_early_staging_fixtures_only_no_dll",
+      "next_action": "Review real XML/default merging, comments/malformed nodes and failed-skip cursor cleanup, allocated-array inheritance/cache, player counter persistence/attitude cache and whole native integration.",
       "refinement_branch": "VoteCounterDraft-ChatGPT",
-      "draft_code_sha": "45de0c4d322d916e2bafe8a250457d263d3808d2",
+      "draft_code_sha": "635242cfeb29ccbe49646f8f679fde7f4650771f",
       "finding_ids": [
         "VOTE-20261027-01",
         "VOTE-20261027-02",
@@ -1298,24 +1318,26 @@
         "VOTE-20261030-06",
         "VOTE-20261030-07",
         "VOTE-20261030-08",
-        "VOTE-20261030-09"
+        "VOTE-20261030-09",
+        "VOTE-20261031-10"
       ],
       "source_head": "8fcfdd97329279393120aaab34c00dde84e729df",
       "source_branch": "LeaderSpecificVoteActionDiplomacy",
-      "qualification": "Complete actual no-argument finalizer passes 1933 C++03/ASan/UBSan cases with class/global stand-ins; caller block passes 21 cleanup/failure cases. No full engine/MSVC/DLL/real XML/game result.",
+      "qualification": "Actual early-staging block plus complete finalizer pass 2184 C++03/ASan/UBSan cases with XML/leader/global stand-ins; three negative controls reproduce duplicate staging in each vector. Prior fixtures retained. No full engine/XML/MSVC/DLL/save/game result.",
       "review_disposition": "active_partial_review_after_source_change",
-      "latest_review": "docs/reviews/vote-finalizer-2026-10-30.md",
+      "latest_review": "docs/reviews/vote-staging-2026-10-31.md",
       "skip_history": [
         {
           "source_sha": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
           "reason": "Per-leader post-vote XML routing and supplied VoteDecisionAttitudes schema/data missing; readPass3 requires XML utility but caller supplies none. Do not fabricate metadata or pass current vote cursor.",
           "resolved_by_source_sha": "8fcfdd97329279393120aaab34c00dde84e729df"
         }
-      ]
+      ],
+      "last_review_parent": "fc7f4a04f002a5bfe261aca49d8375fdbf03a946"
     },
     {
       "branch": "ReputationWindowDraft-ChatGPT",
-      "head_at_inventory": "bdeb212cc0f21d71b3509cc21c9fa96539f88f21",
+      "head_at_inventory": "89903b02c0c7ace0524a789de3426cd4cc4fe704",
       "coverage": "source_review_partial",
       "native_verification": "not_built_changed_head_missing_memory_implementation",
       "source_branch": "RealisticAIDecisions",
@@ -1335,15 +1357,31 @@
         "REALISM-20261031-01"
       ],
       "qualification": "Six-file changed-source delta and surrounding integration/type interfaces read; exact new head skipped. Integer-expression diagnostic only; no DLL/engine/RNG/real fixed-point validation. Prior score fixtures and production refinements retained against previous source.",
-      "latest_review": "docs/reviews/realistic-memory-readiness-2026-10-31.md",
+      "latest_review": "docs/reviews/realistic-memory-delta-2026-10-31.md",
       "last_review_parent": "7e1294956a9b3eaaf9f3d67b6172c4f57b9bdd1c",
-      "latest_review_source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
-      "skip_source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
-      "skip_reason": "New user-authored vector memory is explicitly unfinished: recording/prediction/social/persistence methods and global insertion are unimplemented; feature extraction and outcome/persistence contracts are unspecified. Declaration/serializer/type inconsistencies prevent meaningful DLL validation. Do not invent implementation to obtain a build.",
+      "latest_review_source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "skip_source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "skip_reason": "Vector-memory recording/prediction/social/persistence and global insertion remain unfinished; feature extraction/outcome contracts are not supplied. User header/context/serializer corrections are preserved, but current declaration/read mismatches remain. Do not invent implementation to obtain DLL validation.",
       "resume_condition": "Inspect a new original-source delta supplying missing memory/feature/prediction/persistence integration details; preserve prior score refinements.",
       "review_disposition": "paused_with_missing_source_implementation",
       "refined_source_sha": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
-      "new_source_delta_integrated": false
+      "new_source_delta_integrated": false,
+      "skip_history": [
+        {
+          "source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
+          "reason": "New user-authored vector memory is explicitly unfinished: recording/prediction/social/persistence methods and global insertion are unimplemented; feature extraction and outcome/persistence contracts are unspecified. Declaration/serializer/type inconsistencies prevent meaningful DLL validation. Do not invent implementation to obtain a build.",
+          "superseded_by_source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+          "missing_implementation_resolved": false
+        }
+      ],
+      "last_delta_review": {
+        "source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+        "previous_source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
+        "changed_files": 4,
+        "production_changes": false,
+        "classification": "partial_user_corrections_missing_implementation_remains",
+        "new_source_delta_integrated": false
+      }
     },
     {
       "branch": "CivicScrollDraft-ChatGPT",
@@ -1665,15 +1703,14 @@
     }
   ],
   "current_pass": {
-    "classification": "changed_realistic_ai_memory_readiness_skip",
+    "classification": "changed_realistic_memory_and_workflow_deltas",
     "date": "2026-10-31",
-    "source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
-    "previous_source_sha": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
-    "assistant_parent": "bdeb212cc0f21d71b3509cc21c9fa96539f88f21",
+    "source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+    "workflow_sha": "07133f27906c364b266043a1788ec0eacd2e8b3b",
+    "assistant_parent": "89903b02c0c7ace0524a789de3426cd4cc4fe704",
     "production_changes": false,
     "dll_build_triggered": false,
-    "changed_files_reviewed": 6,
-    "integer_expression_inputs": 2000,
+    "local_manifest_gate_cases": 6,
     "inventory_branch_count": 75
   },
   "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",
@@ -1688,7 +1725,7 @@
     ],
     "retired_branch": "dll-build-debug",
     "qualification": "Use the current named workflow and populate pinned overlay provenance; do not recreate a separate Debug branch.",
-    "source_sha": "af5c2f130e195c23a011a5aed35fcff212389f2e",
+    "source_sha": "07133f27906c364b266043a1788ec0eacd2e8b3b",
     "artifact_log_policy": "Download produced artifacts and inspect extracted MSBuild Build.log; explicitly report artifact/download absence. Do not infer compiler output solely from GitHub shell output when artifact logs are available."
   },
   "assistant_branch_cleanup_policy": "Reuse suitable assistant branches. For clearly duplicate older/newer assistant branches, inspect histories and contents, merge older into newer preserving newer edits, then mark older safe for user manual removal. Never delete the older branch automatically. This explicit user authorization is limited to assistant branch consolidation.",
@@ -1700,11 +1737,16 @@
     "original_head_changes": [
       {
         "branch": "RealisticAIDecisions",
-        "previous": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
-        "current": "8383ce62fd67f00d399c937867828dd456915e43"
+        "previous": "8383ce62fd67f00d399c937867828dd456915e43",
+        "current": "372d64549f70884fbc86cec7bfbee0a9778bd948"
+      },
+      {
+        "branch": "dll-build",
+        "previous": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
+        "current": "07133f27906c364b266043a1788ec0eacd2e8b3b"
       }
     ],
-    "scope": "Changed vector-memory implementation readiness",
-    "assistant_parent": "bdeb212cc0f21d71b3509cc21c9fa96539f88f21"
+    "scope": "Changed memory readiness and diagnostic artifact guard",
+    "assistant_parent": "89903b02c0c7ace0524a789de3426cd4cc4fe704"
   }
 }
