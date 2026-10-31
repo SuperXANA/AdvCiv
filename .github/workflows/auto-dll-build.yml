@@ -244,6 +244,7 @@ jobs:
         name: compilation-failure-artifacts-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
         path: |
           ./artifacts/*.log
+        if-no-files-found: error
         
     - name: Copy DLL files Over To Linux
       if: ${{ always() && steps.build.outcome == 'success' }}
