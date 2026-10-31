@@ -26,7 +26,10 @@ struct CvWString : std::wstring {
 struct Unit {int deadline;int getPromotionExpireTurn(int)const{return deadline;}};
 struct Game {int turn;int getGameTurn()const{return turn;}};
 struct Globals {Game game;Game& getGame(){return game;}} GC;
-CvWString suffix(Unit* pUnit){int eLoopPromotion=0;CvWString szTempBuffer;BLOCK return szTempBuffer;}
+CvWString suffix(Unit* pUnit){int eLoopPromotion=0;CvWString szTempBuffer;
+BLOCK
+return szTempBuffer;
+}
 int main(){int count=0;
     int const deadlines[]={-1,0,1,32767,32768,65536,INT_MAX};
     int const turns[]={0,1,32766,32767,32768,65536,INT_MAX};
