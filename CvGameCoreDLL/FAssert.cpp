@@ -171,6 +171,24 @@ bool FAssertDlg( const char* szExpr, const char* szMsg, const char* szFile, unsi
 	g_AssertInfo.szFunctionName = szFunction; // advc.006f
 	g_AssertInfo.line = line;
 
+	// XANA 2026-10-31: Automatically debug assertions when attached.
+	if (::IsDebuggerPresent())
+	{
+		::OutputDebugStringA("FAssert failed: ");
+		::OutputDebugStringA(szExpr != NULL ? szExpr : "(no expression)");
+		::OutputDebugStringA("\r\n");
+
+		if (szMsg != NULL && szMsg[0] != '\0')
+		{
+			::OutputDebugStringA("Message: ");
+			::OutputDebugStringA(szMsg);
+			::OutputDebugStringA("\r\n");
+		}
+
+		return true;
+	}
+	// XANA 2026-10-31: End automatic assertion debugging.
+
 	DWORD dwResult = DisplayAssertDialog();
 
 	switch( dwResult )
