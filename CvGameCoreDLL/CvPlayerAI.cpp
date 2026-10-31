@@ -23146,8 +23146,21 @@ void CvPlayerAI::read(FDataStreamBase* pStream)
 	pStream->Read(MAX_PLAYERS, m_aiDifferentReligionCounter);
 	pStream->Read(MAX_PLAYERS, m_aiFavoriteCivicCounter);
 // XANA: 10-25-2025 Gender Specific Diplomacy
-	pStream->Read(MAX_PLAYERS, m_aiFavoriteGenderCounter);
-	pStream->Read(MAX_PLAYERS, m_aiHateGenderCounter);
+	// XANA: 10-31-2026 Versioned gender counter persistence (ChatGPT)
+	if (uiFlag >= 23)
+	{
+		pStream->Read(MAX_PLAYERS, m_aiFavoriteGenderCounter);
+		pStream->Read(MAX_PLAYERS, m_aiHateGenderCounter);
+	}
+	else
+	{
+		for (int i = 0; i < MAX_PLAYERS; ++i)
+		{
+			m_aiFavoriteGenderCounter[i] = 0;
+			m_aiHateGenderCounter[i] = 0;
+		}
+	}
+	// XANA: 10-31-2026 Versioned gender counter persistence (ChatGPT)
 // XANA: 10-25-2025 Gender Specific Diplomacy
 	pStream->Read(MAX_PLAYERS, m_aiBonusTradeCounter);
 	pStream->Read(MAX_PLAYERS, m_aiPeacetimeTradeValue);
@@ -23319,7 +23332,8 @@ void CvPlayerAI::write(FDataStreamBase* pStream)
 	//uiFlag = 19; // advc.130n (mostly removed again)
 	//uiFlag = 20; // advc.115f
 	//uiFlag = 21; // advc.130c (remove separate cache for score diff)
-	uiFlag = 22; // advc.130w: Cache for expansionist hate
+	//uiFlag = 22; // advc.130w: Cache for expansionist hate
+	uiFlag = 23; // XANA: 10-31-2026 Favorite/hated gender counters (ChatGPT)
 	pStream->Write(uiFlag);
 
 	pStream->Write(m_iPeaceWeight);
