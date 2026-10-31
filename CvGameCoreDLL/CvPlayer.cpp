@@ -15633,7 +15633,14 @@ namespace
 		}
 		// Explicit pairs take precedence over weighted arrays and need no draw.
 		if (bHasSpecificLeader && bHasSpecificCiv)
+		{
+			if (!GC.getGame().isOption(GAMEOPTION_LEAD_ANY_CIV) &&
+				!GC.getInfo(eOutCiv).isLeaders(eOutLeader))
+			{
+				return false;
+			}
 			return true;
+		}
 		/*
 		 * ============================================================
 		 * STEP 2: If we have a specific value on one side, resolve
@@ -16037,7 +16044,7 @@ namespace
 		}
 	}
 	
-	void acquireCityForSummonedPlayer(CvEvent const& kEvent, CvCity*& pTargetCity, CvPlayer& kCityTakeoverPlayer, bool& bDoWorldTechDiffusion)
+	void acquireCityForSummonedPlayer(CvEventInfo const& kEvent, CvCity*& pTargetCity, CvPlayer& kCityTakeoverPlayer, bool& bDoWorldTechDiffusion)
 	{
 		if (pTargetCity == NULL)
 		{
@@ -16063,7 +16070,7 @@ namespace
 		pTargetCity = kCityPlot.getPlotCity();
 	}
 	
-	void doShowCitySplitMessageForSummonedPlayer(CvCity*& pNewCapital, PlayerTypes eNewPlayer, PlayerTypes eObserver, TeamTypes eTeamObserver, bool& bShownMessage)
+	void doShowCitySplitMessageForSummonedPlayer(CvCity const* pNewCapital, PlayerTypes eNewPlayer, PlayerTypes eObserver, TeamTypes eTeamObserver, CvWString const& szMessage, bool& bShownMessage)
 	{
 		if (bShownMessage)
 			return;
@@ -17433,9 +17440,8 @@ void CvPlayer::applyEvent(EventTypes eEvent, int iEventTriggeredId, bool bUpdate
 						}
 					}
 					{
-						CvString szMessage;
-						szMessage = gDLL->getText("TXT_KEY_MISC_MOD_CITY_SPLIT", getNameKey(),
-								GC.getInfo(eSummonCiv).getShortDescriptionKey().
+						CvWString szMessage = gDLL->getText("TXT_KEY_MISC_MOD_CITY_SPLIT",
+								getNameKey(), GC.getInfo(eSummonCiv).getShortDescriptionKey(),
 								GC.getInfo(eSummonLeader).getTextKeyWide());
 						kGame.addReplayMessage(REPLAY_MESSAGE_MAJOR_EVENT, getID(), szMessage, GC.getColorType("HIGHLIGHT_TEXT"));
 						
@@ -17458,12 +17464,12 @@ void CvPlayer::applyEvent(EventTypes eEvent, int iEventTriggeredId, bool bUpdate
 						CvCity const* pNewCapital = kCityTakeoverPlayer.getCapital();
 						if (bAffectsOurCity && !bShownMessage)
 						{
-							doShowCitySplitMessageForSummonedPlayer(pNewCapital, eCityTakeoverPlayer, getID(), getTeam(), bShownMessage);
+							doShowCitySplitMessageForSummonedPlayer(pNewCapital, eCityTakeoverPlayer, getID(), getTeam(), szMessage, bShownMessage);
 						}
 						if (bAffectsOtherCity && !bShownMessage)
 						{
 							PlayerTypes const eOtherPlayer = pTriggeredData->m_eOtherPlayer;
-							doShowCitySplitMessageForSummonedPlayer(pNewCapital, eCityTakeoverPlayer, eOtherPlayer, GET_PLAYER(eOtherPlayer).getTeam(), bShownMessage);
+							doShowCitySplitMessageForSummonedPlayer(pNewCapital, eCityTakeoverPlayer, eOtherPlayer, GET_PLAYER(eOtherPlayer).getTeam(), szMessage, bShownMessage);
 						}
 					}
 				}
