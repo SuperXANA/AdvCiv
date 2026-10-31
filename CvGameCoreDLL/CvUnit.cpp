@@ -10704,9 +10704,19 @@ void CvUnit::read(FDataStreamBase* pStream)
 // XANA: 05-17-2025 Timed Promotion Expiry Turns
 	}
 // XANA: 10-31-2026 Versioned promotion deadline persistence (ChatGPT)
-	if (uiFlag >= 9)
+	// EnumMap::read leaves an empty payload unchanged; clear stale state first.
+	m_aiPromotionExpireTurns.reset();
+	if (uiFlag >= 10)
 		m_aiPromotionExpireTurns.read(pStream);
-	else m_aiPromotionExpireTurns.reset();
+	else if (uiFlag == 9)
+	{
+		// Version 9 stored absolute deadlines in signed-short slots.
+		ArrayEnumMap<PromotionTypes,int,short> aiLegacyExpireTurns;
+		aiLegacyExpireTurns.read(pStream);
+		FOR_EACH_ENUM(Promotion)
+			m_aiPromotionExpireTurns.set(eLoopPromotion,
+					aiLegacyExpireTurns.get(eLoopPromotion));
+	}
 // XANA: 10-31-2026 Versioned promotion deadline persistence (ChatGPT)
 }
 
@@ -10723,7 +10733,8 @@ void CvUnit::write(FDataStreamBase* pStream)
 	//uiFlag = 6; // advc.opt (m_bFlatMovement)
 	//uiFlag = 7; // advc.enum: new enum map save behavior
 	//uiFlag = 8; // advc.313: Disorganized promo removed, advc.enum: bugfix.
-	uiFlag = 9; // XANA: 10-31-2026 Promotion deadline map follows unit data (ChatGPT)
+	//uiFlag = 9; // XANA: 10-31-2026 Promotion deadline map follows unit data (ChatGPT)
+	uiFlag = 10; // XANA: 10-31-2026 Full-width promotion deadlines (ChatGPT)
 	pStream->Write(uiFlag);
 	REPRO_TEST_BEGIN_WRITE(CvString::format("Unit(%d,%d,%d)", getID(), getX(), getY()));
 

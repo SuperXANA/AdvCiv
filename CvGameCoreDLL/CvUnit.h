@@ -1214,7 +1214,7 @@ protected:
 	ArrayEnumMap<UnitCombatTypes,int,short> m_aiExtraUnitCombatModifier;
 	// </advc.enum>
 // XABA: 05-17-2025 Timed Promotion Expiry Turns
-	ArrayEnumMap<PromotionTypes,int,short> m_aiPromotionExpireTurns;
+	ArrayEnumMap<PromotionTypes,int,int> m_aiPromotionExpireTurns;
 // XABA: 05-17-2025 Timed Promotion Expiry Turns
 
 	PlayerTypes getCombatOwner_bulk(TeamTypes eForTeam, CvPlot const& kPlot) const; // advc
