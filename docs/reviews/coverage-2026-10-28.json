@@ -221,26 +221,38 @@
     },
     {
       "branch": "dll-build",
-      "head_at_inventory": "9f62e13990b39a8c16e8c6dd404c6aca995e53f3",
-      "coverage": "changed_workflow_source_reviewed_and_derivative_validated",
-      "native_verification": "current_action_pins_partner_derivative_passed",
-      "next_action": "Use current dll-build workflow for future authorized overlays; no duplicate native build needed solely for adding an existing manifest to artifact paths.",
-      "refinement_branch": "PartnerDiplomacyBuild-ChatGPT",
-      "workflow_draft_sha": "cb8335e59cba9ed5e3b767e6f301ae4b2664f631",
+      "head_at_inventory": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+      "coverage": "changed_source_log_cleanup_set_and_equivalent_copy_only_upload_guard_reviewed",
+      "native_verification": "pinned_current_workflow_template_release_debug_passed_on_corrected_vote_overlay",
+      "next_action": "Latest user source adopts the timing-log cleanup fix. Do not repeat a DLL build solely for this diagnostic-only adoption; inspect new workflow changes first.",
+      "refinement_branch": "HatedDiplomacyDraft-ChatGPT",
+      "workflow_draft_sha": "7a90901362d00fa7ec43ae85bcaeadf1ca274b1f",
       "finding_ids": [
         "WORKFLOW-20261028-01",
         "WORKFLOW-20261028-02",
         "WORKFLOW-20261028-03",
-        "WORKFLOW-20261028-04"
+        "WORKFLOW-20261028-04",
+        "WORKFLOW-20261031-05",
+        "WORKFLOW-20261031-06",
+        "WORKFLOW-20261031-07",
+        "WORKFLOW-20261031-08",
+        "WORKFLOW-20261031-09"
       ],
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40788471435",
-      "qualification": "Source adopted earlier fixes plus Rebuild and local log-path verification; derivative at exact SHA passed both configurations. Original dll-build branch was not run.",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41221093729",
+      "qualification": "Current f77f8a6 workflow copied unchanged except exact provenance pins into complete vote overlay. Run 41227377831 passed both configurations; all four success ZIPs and actual logs/provenance/manifests/binaries verified. Prior local workflow findings/history retained separately; no actual-game claim.",
       "latest_source_review": {
-        "classification": "artifact_manifest_upload_only",
+        "source_sha": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "previous_source_sha": "733140746ebe7a488db066aa85d299897ff6e0e0",
+        "intermediate_source_sha": "4dec9b6502486a8b045d1f2a44ec9d4569162613",
+        "classification": "adopted_timing_and_copy_guards_then_collected_log_cleanup_fix",
+        "implementation_commit": "7a90901362d00fa7ec43ae85bcaeadf1ca274b1f",
+        "adopted_in_user_source": true,
         "native_verified": false,
-        "previous_native_verified_workflow_source": "e4e33b487d5f5805361f8938cf1491829f5ed923",
-        "scope": "Lines 103-105 generate and compare manifests; line 148 now includes actual-sources.txt in successful build artifact. No compiler, synchronization, matrix or cleanup behavior change.",
-        "review_document": "docs/reviews/workflow-manifest-2026-10-28.md"
+        "local_copy_cases": 6,
+        "local_log_cases": 5,
+        "local_hash_cases": 6,
+        "regression_control": "restored_omission_fails_collected_subset_cleared_set",
+        "review_document": "docs/reviews/workflow-log-set-2026-10-31.md"
       },
       "last_head_review": {
         "classification": "SHA256_sync_verification_workflow",
@@ -268,6 +280,106 @@
         "local_guard_cases": 6,
         "hash_implementation_changed": false,
         "review": "docs/reviews/workflow-source-hash-2026-10-30.md"
+      },
+      "latest_review": "docs/reviews/workflow-log-set-2026-10-31.md",
+      "workflow_failure_log_validation": {
+        "workflow_source": "1cbd526fddeec564231958870aeab3f2be187a4e",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "feature_source": "484ab0fca026c3b11e8975cb6c71499a2a8b685d",
+        "tested_commit": "ea9ef9f83f735bcb0660e33908449a316ffa7621",
+        "run": 41203236797,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "compiler": "MSVC7.1_1310_probe_in_build_chain",
+        "root_source_count": 349,
+        "manifest_sha256": "b1ea9061f07bf130e6965cda3e0df31f2c48ad559bf5e8fd8ce5b73317edf995",
+        "manifests_match": true,
+        "diagnostic_artifacts": {
+          "release": 13043915430,
+          "debug": 13043925801
+        },
+        "dll_artifacts": {
+          "release": 13043840662,
+          "debug": 13043925823
+        },
+        "artifact_Build_logs_inspected": true,
+        "all_four_ZIPs_downloaded_and_extracted": true,
+        "PE32_x86_verified": true,
+        "debug_PDB_bytes": 70585344,
+        "probe_removed": true,
+        "local_collection_cases": 4,
+        "local_manifest_guard_cases": 6,
+        "review": "docs/reviews/workflow-failure-logs-2026-10-31.md",
+        "probe_run": {
+          "commit": "361629eee61adf4d9cc5c354e414e5845d7d4ce3",
+          "run": 41202703341,
+          "release": "real_C1854_PCH_failure_before_probe",
+          "debug": "MSBuild_success_0_warnings_0_errors_then_intentional_step_failure",
+          "both_current_failure_log_uploads_succeeded": true,
+          "actual_Build_logs_inspected": true,
+          "diagnostic_artifacts": {
+            "release": 13043342290,
+            "debug": 13043780042
+          },
+          "log_artifacts": {
+            "release": 13043153460,
+            "debug": 13042894608
+          }
+        },
+        "remaining_limitations": "Original dll-build unmodified. First Release C4622/C1854 cause unconfirmed; absent on subsequent normal run. No speculative PCH fix. No gameplay/save certification."
+      },
+      "source_mtime_preparation": {
+        "branch": "DynamicRankDraft-ChatGPT",
+        "commit": "4d4672665066214036fb57678e13a6b8990db2ec",
+        "run": 41212425210,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "scope": "normalize only staged source mtimes after hash verification and fresh-output deletion; add invocation-correlated BuildTiming.log",
+        "local_collection_cases": 5,
+        "local_manifest_guard_cases": 6,
+        "root_cause": "unconfirmed; source timestamp normalization mitigates cross-machine dependency-time hazards; retry passed",
+        "report": "docs/reviews/dynamic-rank-fractions-2026-10-31.md"
+      },
+      "workflow_copy_validation": {
+        "workflow_source": "733140746ebe7a488db066aa85d299897ff6e0e0",
+        "previous_workflow_source": "1cbd526fddeec564231958870aeab3f2be187a4e",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "feature_source": "f843027233b4cacee3709a5de80b16506189a5d0",
+        "tested_commit": "cb7d75b4d03077b644f24f4b41647f53f06a4a64",
+        "run": 41221093729,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+        "local_copy_cases": 6,
+        "negative_controls": 3,
+        "local_log_collection_cases": 5,
+        "local_manifest_guard_cases": 6,
+        "remote_copy_failure_fault_injected": false,
+        "remote_successful_transfer_and_upload_observed": true,
+        "all_four_ZIPs_downloaded_and_extracted": true,
+        "actual_artifact_Build_logs_inspected": true,
+        "PE32_x86_DLLs_verified": true,
+        "debug_PDB_bytes": 70585344,
+        "root_source_count": 349,
+        "manifest_sha256": "dc8403980c1bc3247b2fcd39f837bfb69e5f4b2b3f2eaf3dadce7091f6e9e14f",
+        "diagnostic_artifacts": {
+          "release": 13050206391,
+          "debug": 13050371213
+        },
+        "dll_artifacts": {
+          "release": 13050395813,
+          "debug": 13050575771
+        },
+        "report": "docs/reviews/workflow-copy-outcome-2026-10-31.md"
+      },
+      "current_template_native_validation": {
+        "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "tested_commit": "2787283390994434207ca40c1784adbd64e64cb0",
+        "feature_branch": "VoteCounterDraft-ChatGPT",
+        "selected_source": "6d6e73b10343f277481da186013426be702ce00a",
+        "run": 41227377831,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "all_four_ZIPs_verified": true,
+        "artifact_Build_logs_inspected": true,
+        "workflow_changes": "only_exact_provenance_pins",
+        "report": "docs/reviews/vote-save-2026-10-31.md"
       }
     },
     {
@@ -429,10 +541,10 @@
       "branch": "FSimpleDataStorage",
       "head_at_inventory": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
       "coverage": "source_review_partial",
-      "native_verification": "complete_header_native_and_simulated32_byte_boundary_fixtures_only_no_dll",
-      "next_action": "Review arbitrary element lifetime/alignment, caller exception handling and consuming-engine integration; byte-count overflow scope completed.",
+      "native_verification": "complete_header_static_copy_XML_wrapper_and_prior_scoped_fixtures_only_no_dll",
+      "next_action": "Review alignment and actual engine allocator/delete/XML/stream consumers, XML-loader exceptions before return, zero/invalid-size raw handoff and assignment/load value rollback policy before native integration. Completed static-copy/local-wrapper exception ownership scope should not be repeated unchanged.",
       "review_branch": "SimpleStorageChangeDraft-ChatGPT",
-      "draft_code_sha": "07f6e24a84c4f9755b1fc68e31992788a2246163",
+      "draft_code_sha": "086f2deaf662be610b74ee113db0c92226e0b50a",
       "finding_ids": [
         "STORAGE-20261028-01",
         "STORAGE-20261028-02",
@@ -442,23 +554,40 @@
         "STORAGE-20261029-06",
         "STORAGE-20261030-07",
         "STORAGE-20261030-08",
-        "STORAGE-20261030-09"
+        "STORAGE-20261030-09",
+        "STORAGE-20261031-10",
+        "STORAGE-20261031-11",
+        "STORAGE-20261031-12"
       ],
-      "source_review_scope": "Actual full header and deletion macro read; bool/int change dispatch and parse repair refined. Prior other storage observations remain unimplemented.",
-      "qualification": "Complete revised header passed 72 native-size_t and 90 simulated unsigned-32 byte boundary cases plus class allocation/load/read failure checks; previous 120 dimension cases pass. Real -m32 blocked by missing C++ headers. No MSVC/DLL/engine allocator/game result.",
+      "source_review_scope": "Actual original/current full header; static copy-constructor reset/default-assignment/source-copy cleanup and 1D/static XML-wrapper load unwinding. Existing dynamic lifetime and dimension scopes retained.",
+      "qualification": "195 complete-header static-construction/XML exception ownership cases, 4 negative controls, prior 202 lifetime and 120 dimension cases pass strict C++03/ASan/UBSan. No LSAN, native engine allocator/XML/stream, MSVC7.1/DLL/game result; no strong rollback guarantee.",
       "refinement_branch": "SimpleStorageChangeDraft-ChatGPT",
-      "latest_review": "docs/reviews/storage-bytes-2026-10-30.md",
-      "last_review_parent": "7959c9f435da6dd47a7b863b6928c6d12a5675a2"
+      "latest_review": "docs/reviews/storage-exceptions-2026-10-31.md",
+      "last_review_parent": "fdc705108af59618e0cf474c19222c0038574b9d",
+      "exception_ownership_review": {
+        "code_commit": "086f2deaf662be610b74ee113db0c92226e0b50a",
+        "source_sha": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+        "cases": 195,
+        "negative_controls": 4,
+        "prior_lifetime_cases": 202,
+        "prior_dimension_cases": 120,
+        "whole_header_included": true,
+        "compiler": "g++ strict C++03 ASan UBSan",
+        "engine_interfaces": "stand_ins",
+        "DLL_build": false,
+        "strong_value_rollback_guarantee": false,
+        "report": "docs/reviews/storage-exceptions-2026-10-31.md"
+      }
     },
     {
       "branch": "GenderCounterDraft-ChatGPT",
-      "head_at_inventory": "0defec2e2925ca3f3fe96a4e27423b5f12d88212",
+      "head_at_inventory": "6aea3099138d7d00bbb260d540d81ac67caff6d8",
       "source_branch": "GenderSpecificDiplomacy",
       "coverage": "counter_scope_only",
-      "native_verification": "counter_save_switch_and_ui_fixtures_only_no_dll",
+      "native_verification": "scoped_gender_fixtures_and_versioned_ai_stream_region_only_no_dll",
       "focused_verification": "C++03 and ASan/UBSan methods/update fixture; XML scalar structure checks",
-      "next_action": "Review basic-info metadata/schema/loading, actual localization/UI and versioned save compatibility before coherent native overlay.",
-      "draft_code_sha": "0d69e69e0d491dd6ec49249351d48455f05764bf",
+      "next_action": "Review basic-info XML/schema/runtime integration, actual engine save/map compatibility and full native feature integration; old unversioned gender-v22 saves remain unsupported.",
+      "draft_code_sha": "c0de081419894dddd83e78d45169f03dc8635d95",
       "finding_ids": [
         "GENDER-20261027-01",
         "GENDER-20261027-02",
@@ -467,21 +596,23 @@
         "GENDER-20261028-05",
         "GENDER-20261029-06",
         "GENDER-20261029-07",
-        "GENDER-20261030-08"
+        "GENDER-20261030-08",
+        "GENDER-20261031-09"
       ],
       "review_branch": "GenderCounterDraft-ChatGPT",
-      "qualification": "Prior fixtures retained; actual UI helper and guarded callers pass 750 C++03/ASan/UBSan cases with wide text/localization/metadata stand-ins. No actual rendering/MSVC/DLL/game result.",
+      "qualification": "Actual AI version/counter read-write statements pass 252 C++03/ASan/UBSan cases with engine/map/ownership stand-ins; three negative controls reproduce displacement/version collision/stale counters. Prior fixtures retained. No full class/MSVC/DLL/real saves/game result.",
       "source_head": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
-      "latest_review": "docs/reviews/gender-ui-2026-10-30.md"
+      "latest_review": "docs/reviews/gender-save-version-2026-10-31.md",
+      "last_review_parent": "6aea3099138d7d00bbb260d540d81ac67caff6d8"
     },
     {
       "branch": "GenderSpecificDiplomacy",
       "head_at_inventory": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
       "coverage": "first_source_pass_counter_refinement",
-      "native_verification": "counter_save_switch_and_ui_fixtures_only_no_dll",
-      "next_action": "Review basic-info metadata/schema/loading, actual localization/UI and versioned save compatibility before coherent native overlay.",
+      "native_verification": "scoped_gender_fixtures_and_versioned_ai_stream_region_only_no_dll",
+      "next_action": "Review basic-info XML/schema/runtime integration, actual engine save/map compatibility and full native feature integration; old unversioned gender-v22 saves remain unsupported.",
       "refinement_branch": "GenderCounterDraft-ChatGPT",
-      "draft_code_sha": "0d69e69e0d491dd6ec49249351d48455f05764bf",
+      "draft_code_sha": "c0de081419894dddd83e78d45169f03dc8635d95",
       "finding_ids": [
         "GENDER-20261027-01",
         "GENDER-20261027-02",
@@ -490,39 +621,42 @@
         "GENDER-20261028-05",
         "GENDER-20261029-06",
         "GENDER-20261029-07",
-        "GENDER-20261030-08"
+        "GENDER-20261030-08",
+        "GENDER-20261031-09"
       ],
       "review_branch": "GenderCounterDraft-ChatGPT",
-      "qualification": "Prior fixtures retained; actual UI helper and guarded callers pass 750 C++03/ASan/UBSan cases with wide text/localization/metadata stand-ins. No actual rendering/MSVC/DLL/game result.",
+      "qualification": "Actual AI version/counter read-write statements pass 252 C++03/ASan/UBSan cases with engine/map/ownership stand-ins; three negative controls reproduce displacement/version collision/stale counters. Prior fixtures retained. No full class/MSVC/DLL/real saves/game result.",
       "source_head": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
-      "latest_review": "docs/reviews/gender-ui-2026-10-30.md",
-      "additional_read_scope": "2026-10-30: LoadBasicInfos gender registration, supplied GenderInfos XML, leader gender scalar/enum reads and actual leader scalar helper context inspected; metadata/schema integration remains open, no code finding proposed in this pass."
+      "latest_review": "docs/reviews/gender-save-version-2026-10-31.md",
+      "additional_read_scope": "2026-10-30: LoadBasicInfos gender registration, supplied GenderInfos XML, leader gender scalar/enum reads and actual leader scalar helper context inspected; metadata/schema integration remains open, no code finding proposed in this pass.",
+      "last_review_parent": "6aea3099138d7d00bbb260d540d81ac67caff6d8"
     },
     {
       "branch": "HatedCivicReligionDiplomacy",
       "head_at_inventory": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
       "coverage": "source_review_partial",
-      "native_verification": "linked_assistant_overlay_passed_original_not_built",
-      "next_action": "Do not repeat unchanged passing builds. Review save/cache versioning and runtime/metadata/strategy integration as new coverage; inspect source changes first.",
+      "native_verification": "linked_versioned_assistant_overlay_passed_original_not_built",
+      "next_action": "Do not repeat unchanged passing builds. Review actual complete engine save/load and leader-info XML/cache compatibility, runtime strategy/attitude integration; unversioned feature-v22 saves remain unsupported.",
       "refinement_branch": "HatedDiplomacyDraft-ChatGPT",
-      "draft_code_sha": "bd9fe6e0816ed0f6c5311b5fb2aefa6505df4e5e",
+      "draft_code_sha": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
       "finding_ids": [
         "HATED-20261028-01",
         "HATED-20261028-02",
         "HATED-20261030-03",
         "HATED-20261030-04",
         "HATED-20261030-05",
-        "HATED-20261030-06"
+        "HATED-20261030-06",
+        "HATED-20261031-07"
       ],
-      "qualification": "Complete pinned-base plus corrected feature overlay passed Release/Debug MSVC7.1 probes and Rebuild. Both artifact ZIPs extracted; actual Build.log zero warnings/errors, exact provenance/source manifests and PE32 x86 DLLs verified. Original head/save/cache/gameplay not certified.",
-      "latest_review": "docs/reviews/hated-native-2026-10-30.md",
-      "last_review_parent": "c45a473baa07adc9cfbe898f17e074025902016a",
-      "tested_code_sha": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
-      "feature_snapshot": "e3887b18825dc14d026a0d8fb5f7a6b58a5c7484",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41126096699",
+      "qualification": "Versioned hated counter overlay passed MSVC7.1 Release/Debug Rebuild with 0 warnings/errors. All four ZIPs extracted; actual Build.log, provenance, 349-source manifests, PE32 x86 DLLs and Debug PDB verified. 252 scoped C++03/ASan/UBSan stream cases and 2 negative controls. Original head, whole engine saves, metadata caches and gameplay not certified.",
+      "latest_review": "docs/reviews/hated-save-version-2026-10-31.md",
+      "last_review_parent": "a1a0e57918132ca96759ef289c78c583cde79adb",
+      "tested_code_sha": "1df6f1f3fa80feabbba16a0ba719462ca4dee3b0",
+      "feature_snapshot": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41206948813",
       "native_artifacts": {
-        "release": 13011635160,
-        "debug": 13009659769
+        "release": 13045175164,
+        "debug": 13045445075
       },
       "build_history": [
         {
@@ -537,6 +671,14 @@
           "run": 41126096699,
           "result": "Release_and_Debug_success_0_warnings_0_errors",
           "compiler": "MSVC7.1_1310_probe_verified",
+          "actual_artifact_Build_log_inspected": true
+        },
+        {
+          "commit": "1df6f1f3fa80feabbba16a0ba719462ca4dee3b0",
+          "source": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
+          "run": 41206948813,
+          "result": "Release_Debug_success_0_warnings_0_errors",
+          "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
           "actual_artifact_Build_log_inspected": true
         }
       ],
@@ -561,36 +703,65 @@
         "local_guard_cases": 6,
         "hash_implementation_changed": false,
         "review": "docs/reviews/workflow-source-hash-2026-10-30.md"
+      },
+      "save_version_refinement": {
+        "source_sha": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+        "code_commit": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
+        "tested_commit": "1df6f1f3fa80feabbba16a0ba719462ca4dee3b0",
+        "run": 41206948813,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow_source": "1cbd526fddeec564231958870aeab3f2be187a4e",
+        "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+        "stream_cases": 252,
+        "negative_controls": 2,
+        "all_ZIPs_downloaded_and_extracted": true,
+        "actual_artifact_Build_logs_inspected": true,
+        "PE32_x86_DLLs_verified": true,
+        "root_source_count": 349,
+        "manifest_sha256": "dc8403980c1bc3247b2fcd39f837bfb69e5f4b2b3f2eaf3dadce7091f6e9e14f",
+        "diagnostic_artifacts": {
+          "release": 13043944429,
+          "debug": 13045235380
+        },
+        "dll_artifacts": {
+          "release": 13045175164,
+          "debug": 13045445075
+        },
+        "save_version": 23,
+        "old_feature_version22_saves": "ambiguous_unsupported",
+        "report": "docs/reviews/hated-save-version-2026-10-31.md"
       }
     },
     {
       "branch": "LeaderCivilizationDecisionPreferences",
       "head_at_inventory": "aac03388283a5ac316f6a19f6e3754a7435b6511",
       "coverage": "source_review_partial",
-      "native_verification": "scoped_record_reader_and_enclosing_list_lifecycle_fixtures_only_no_dll",
-      "next_action": "Review invalid positive ID ranges, owning-info copy/cache/default behavior, player initialization and whole-feature native integration; explicit-empty list/map cleanup scope completed.",
+      "native_verification": "scoped_record_cursor_list_lifecycle_and_ID_bounds_fixtures_only_no_dll",
+      "next_action": "Review in-range category correctness, owning-info copying/default inheritance/cache, player initialization and whole-feature native integration; map index range scope completed.",
       "refinement_branch": "PreferenceFrameworkDraft-ChatGPT",
-      "draft_code_sha": "09367de35a207e4faa45fd9ab1e4099e23192a0e",
+      "draft_code_sha": "dcd135136f8b3fabdc87bbe39a89f0cac6d8d7f9",
       "finding_ids": [
         "PREFERENCE-20261028-01",
         "PREFERENCE-20261028-02",
         "PREFERENCE-20261029-03",
         "PREFERENCE-20261029-04",
         "PREFERENCE-20261030-05",
-        "PREFERENCE-20261030-06"
+        "PREFERENCE-20261030-06",
+        "PREFERENCE-20261031-07"
       ],
-      "qualification": "Actual enclosing classes/constructors/destructors/getters/loaders pass 960 repeated-load sequences with XML tree/record stubs; five individual original-placement controls reproduce stale lookup indexes. Prior actual-record fixtures retained. No MSVC/DLL/real XML/game result.",
-      "latest_review": "docs/reviews/preference-reload-2026-10-30.md",
-      "last_review_parent": "8d6dc5585b79af44cdffc7ae4a3c22317d4e9361"
+      "qualification": "Actual enclosing preference classes/loaders/getters pass 15552 C++03/ASan/UBSan boundary configurations with XML/record/global stand-ins. Five focused nonnegative-ID controls reproduce ASan heap-buffer-overflow. Prior record/lifecycle fixtures retained; no real XML/MSVC/DLL/game result.",
+      "latest_review": "docs/reviews/preference-bounds-2026-10-31.md",
+      "last_review_parent": "afb7f7ce941698df0c904a233c1120dacb177970"
     },
     {
       "branch": "LeaderCivilizationSummoningRandomEvents",
       "head_at_inventory": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
       "coverage": "source_review_partial",
-      "native_verification": "scoped_resolver_and_prior_helper_fixtures_only_no_dll",
-      "next_action": "Review canDoEvent RNG consumption/selection consistency, slot/transfer safety and metadata integration; existing weighted-total limits remain unchanged.",
+      "native_verification": "not_built_missing_unit_integration_scoped_military_fixture_only",
+      "next_action": "Skip unchanged user source head and pause assistant full-DLL integration; retain scoped fixes and resume when new user work supplies the missing unit/hero interfaces.",
       "review_branch": "SummonCatchupDraft-ChatGPT",
-      "draft_code_sha": "cb83bcd5425b49185855653b0470633ad66dcbbe",
+      "draft_code_sha": "ca04e9c2a6477de23ab9e6b3e15f843f4bd4d858",
       "source_review_scope": "World tech diffusion and lower-median era helper evaluated; adjacent event call paths read. Remaining selection/transfer/metadata scope not certified.",
       "finding_ids": [
         "SUMMON-20261027-01",
@@ -601,12 +772,18 @@
         "SUMMON-20261029-06",
         "SUMMON-20261030-07",
         "SUMMON-20261030-08",
-        "SUMMON-20261030-09"
+        "SUMMON-20261030-09",
+        "SUMMON-20261031-10",
+        "SUMMON-20261031-11"
       ],
-      "qualification": "Complete resolver with event/selector stubs passed 6400 C++03/ASan/UBSan configurations plus 3 focused regressions; includes 576 deterministic explicit pairs and 4800 unavailable-ID rejections. No actual compatibility/RNG/player lifecycle/MSVC/DLL/game result.",
+      "qualification": "Complete actual military helper passed 1344 C++03/ASan/UBSan configurations with unit/RNG/iteration/transfer stand-ins; negative controls reproduce two compiler failures and bypassed guard. Actual baseline/source unit interfaces checked and missing API integration recorded. Prior fixtures retained; no DLL/game result.",
       "source_head": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
-      "latest_review": "docs/reviews/summon-resolver-2026-10-30.md",
-      "last_review_parent": "d0a02a7eec47c41830647ab218595a68518f8894"
+      "latest_review": "docs/reviews/summon-military-2026-10-31.md",
+      "last_review_parent": "493cb38589f903411956d6117681f4b7c3a22b88",
+      "skip_source_sha": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+      "skip_reason": "Military/defection code requires CvUnit::isHero() and canFoundCity(), absent from pinned 1.14 and with no feature-supplied CvUnit implementation. Hero-classification integration is unspecified; do not import independent features, remove the explicit exclusion rule or invent it to obtain DLL validation.",
+      "resume_condition": "Inspect a new original-source head supplying the missing unit/hero integration; preserve prior resolver/weights/catch-up/military refinements.",
+      "review_disposition": "skip_until_source_head_changes"
     },
     {
       "branch": "LeaderCivilizationVariantMechanics",
@@ -657,19 +834,77 @@
       "branch": "LeaderSpecificDynamicRankBonusDiplomacy",
       "head_at_inventory": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
       "coverage": "source_review_partial",
-      "native_verification": "exact_overlay_release_debug_passed",
-      "next_action": "Native compile verified; rank normalization/threshold mechanics and versioned persistence remain unverified.",
+      "native_verification": "fractional_overlay_release_debug_passed_artifact_Build_logs_inspected",
+      "next_action": "Do not repeat unchanged passing builds. Review shared attitude-threshold/rank policy, versioned player-counter persistence, XML/default/cache compatibility and actual game behavior; extreme arithmetic bounds remain unverified.",
       "review_branch": "DynamicRankDraft-ChatGPT",
       "finding_ids": [
         "RANK-20261028-01",
-        "RANK-20261029-02"
+        "RANK-20261029-02",
+        "RANK-20261031-03",
+        "WORKFLOW-20261031-07"
       ],
-      "tested_code_sha": "197a968d1b24135a9c42f5f1a951bbe16903fc0e",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40982393659",
+      "tested_code_sha": "4d4672665066214036fb57678e13a6b8990db2ec",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41212425210",
       "artifacts": {
-        "Release": 12945297909,
-        "Debug": 12945433081
-      }
+        "Release": 13047011759,
+        "Debug": 13047012057
+      },
+      "previous_native": {
+        "tested_code_sha": "197a968d1b24135a9c42f5f1a951bbe16903fc0e",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40982393659",
+        "artifacts": {
+          "Release": 12945297909,
+          "Debug": 12945433081
+        }
+      },
+      "fractional_rank_validation": {
+        "source_sha": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+        "code_commit": "96ed28f2cd67a8f9e96d9409f6f0fc4df11f4aa4",
+        "tested_commit": "4d4672665066214036fb57678e13a6b8990db2ec",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow_source": "1cbd526fddeec564231958870aeab3f2be187a4e",
+        "run": 41212425210,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+        "extracted_method_cases": 2313362,
+        "arithmetic_fixture": "game_and_2048_scale_fixed_point_stand_ins",
+        "negative_controls": 2,
+        "all_four_ZIPs_downloaded_and_extracted": true,
+        "artifact_Build_logs_inspected": true,
+        "PE32_x86_DLLs_verified": true,
+        "root_source_count": 349,
+        "manifest_sha256": "1c5ec7ff6242106addeb5d23e88bd3e358fd5075ba5f1d86b34a4c31e8e2d00a",
+        "diagnostic_artifacts": {
+          "release": 13047515056,
+          "debug": 13047480576
+        },
+        "dll_artifacts": {
+          "release": 13047011759,
+          "debug": 13047012057
+        },
+        "debug_PDB_bytes": 70609920,
+        "report": "docs/reviews/dynamic-rank-fractions-2026-10-31.md",
+        "first_run": {
+          "commit": "b273b1505d5ffa46870af947250ea5fc6e5bd3a0",
+          "run": 41211949237,
+          "Release": "C2220_C4622_C1854_duplicate_PCH_1_warning_4_errors",
+          "Debug": "success_0_warnings_0_errors",
+          "all_four_ZIPs_extracted": true,
+          "actual_Build_logs_inspected": true,
+          "diagnostic_artifacts": {
+            "release": 13046129818,
+            "debug": 13046399034
+          },
+          "failure_logs": 13046029991,
+          "debug_DLL_artifact": 13047305245
+        },
+        "PCH_root_cause": "unconfirmed; source timestamp normalization mitigates cross-machine dependency-time hazards; retry passed"
+      },
+      "latest_review": "docs/reviews/dynamic-rank-fractions-2026-10-31.md",
+      "refinement_branch": "DynamicRankDraft-ChatGPT",
+      "draft_code_sha": "96ed28f2cd67a8f9e96d9409f6f0fc4df11f4aa4",
+      "qualification": "2,313,362 extracted-method C++03/ASan/UBSan cases with game/fixed-point stand-ins; 2 negative controls. Native corrected overlay Release/Debug zero warnings/errors; all 4 ZIPs extracted, actual Build.log/provenance/349-source manifests/PE32 x86 DLLs/Debug PDB verified. Initial Release PCH failure retained; precise cause unconfirmed. No whole-game/saves/numerical DLL execution certification.",
+      "last_review_parent": "8f8f6830478d97c0f0fb88856dff5561098e9f4b"
     },
     {
       "branch": "LeaderSpecificFavoriteUnitCombats",
@@ -772,11 +1007,11 @@
     {
       "branch": "LeaderSpecificVoteActionDiplomacy",
       "head_at_inventory": "8fcfdd97329279393120aaab34c00dde84e729df",
-      "coverage": "source_review_partial",
-      "native_verification": "scoped_counter_copy_finalizer_and_early_staging_fixtures_only_no_dll",
-      "next_action": "Review real XML/default merging, comments/malformed nodes and failed-skip cursor cleanup, allocated-array inheritance/cache, player counter persistence/attitude cache and whole native integration.",
+      "coverage": "source_review_partial_native_corrected_overlay_passed",
+      "native_verification": "linked_corrected_assistant_overlay_passed_original_not_built",
+      "next_action": "Do not repeat unchanged passing builds. Review actual engine save/load with compatible info counts/order, attitude-cache coherence, XML/default/copy/cache behavior and malformed/comment/cursor paths; retain all prior scoped fixes and exact native evidence.",
       "refinement_branch": "VoteCounterDraft-ChatGPT",
-      "draft_code_sha": "635242cfeb29ccbe49646f8f679fde7f4650771f",
+      "draft_code_sha": "6d6e73b10343f277481da186013426be702ce00a",
       "finding_ids": [
         "VOTE-20261027-01",
         "VOTE-20261027-02",
@@ -787,13 +1022,15 @@
         "VOTE-20261030-07",
         "VOTE-20261030-08",
         "VOTE-20261030-09",
-        "VOTE-20261031-10"
+        "VOTE-20261031-10",
+        "VOTE-20261031-11",
+        "VOTE-20261031-12"
       ],
       "source_head": "8fcfdd97329279393120aaab34c00dde84e729df",
       "source_branch": "LeaderSpecificVoteActionDiplomacy",
-      "qualification": "Actual early-staging block plus complete finalizer pass 2184 C++03/ASan/UBSan cases with XML/leader/global stand-ins; three negative controls reproduce duplicate staging in each vector. Prior fixtures retained. No full engine/XML/MSVC/DLL/save/game result.",
-      "review_disposition": "active_partial_review_after_source_change",
-      "latest_review": "docs/reviews/vote-staging-2026-10-31.md",
+      "qualification": "576 extracted vote-history stream cases and 5 negative controls pass strict C++03/ASan/UBSan with codec/stream/owner stand-ins. Complete corrected overlay passed MSVC7.1 Release/Debug 0 warnings/errors; all 8 ZIPs across both runs extracted, actual logs/pins/manifests inspected, final PE32 DLLs/PDB verified. Original head and actual complete engine saves/XML/game not certified.",
+      "review_disposition": "active_partial_review_native_overlay_passed",
+      "latest_review": "docs/reviews/vote-save-2026-10-31.md",
       "skip_history": [
         {
           "source_sha": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
@@ -801,7 +1038,89 @@
           "resolved_by_source_sha": "8fcfdd97329279393120aaab34c00dde84e729df"
         }
       ],
-      "last_review_parent": "fc7f4a04f002a5bfe261aca49d8375fdbf03a946"
+      "last_review_parent": "c976c633638c13b46d068ef33af011ed58954f3c",
+      "persistence_code_sha": "6bdd040daf69e8d08c3b2ec74a47e99f8b21a29d",
+      "tested_code_sha": "2787283390994434207ca40c1784adbd64e64cb0",
+      "feature_snapshot": "6d6e73b10343f277481da186013426be702ce00a",
+      "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41227377831",
+      "native_artifacts": {
+        "Release": 13052845205,
+        "Debug": 13052446086
+      },
+      "hash_diagnostics": {
+        "Release": 13051494793,
+        "Debug": 13051923902
+      },
+      "save_history_validation": {
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "original_source": "8fcfdd97329279393120aaab34c00dde84e729df",
+        "persistence_code": "6bdd040daf69e8d08c3b2ec74a47e99f8b21a29d",
+        "corrected_source": "6d6e73b10343f277481da186013426be702ce00a",
+        "tested_commit": "2787283390994434207ca40c1784adbd64e64cb0",
+        "run": 41227377831,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+        "all_four_success_ZIPs_downloaded_and_extracted": true,
+        "actual_Build_logs_inspected": true,
+        "timing_logs_inspected": true,
+        "PE32_x86_DLLs_verified": true,
+        "debug_PDB_bytes": 70675456,
+        "root_source_count": 349,
+        "manifest_sha256": "ca9a2fdfe3879ee4526cb77642104a6adac68e341323bbf876d531eb85ce2ced",
+        "DLL_artifacts": {
+          "Release": 13052845205,
+          "Debug": 13052446086
+        },
+        "diagnostic_artifacts": {
+          "Release": 13051494793,
+          "Debug": 13051923902
+        },
+        "stream_cases": 576,
+        "negative_controls": 5,
+        "real_EnumMap_templates_compiled_not_runtime_save_tested": true,
+        "report": "docs/reviews/vote-save-2026-10-31.md"
+      },
+      "native_build_history": [
+        {
+          "commit": "ef4c9ad10344b983a1d642da7c6c27e2d4c4f64c",
+          "selected_source": "6bdd040daf69e8d08c3b2ec74a47e99f8b21a29d",
+          "run": 41227109182,
+          "result": "Release_Debug_failed_C2653_std11_C3861_iota",
+          "warnings_per_configuration": 0,
+          "errors_including_wrappers_per_configuration": 4,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "manifest_sha256": "8e1919bcb403dba589477b5489d34479e688edfeab8a975246282b2ad402fa9a",
+          "failure_logs": {
+            "Release": 13052780029,
+            "Debug": 13051074883
+          },
+          "diagnostics": {
+            "Release": 13052765008,
+            "Debug": 13051359350
+          }
+        },
+        {
+          "commit": "2787283390994434207ca40c1784adbd64e64cb0",
+          "selected_source": "6d6e73b10343f277481da186013426be702ce00a",
+          "run": 41227377831,
+          "result": "Release_Debug_success_0_warnings_0_errors",
+          "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "DLL_artifacts": {
+            "Release": 13052845205,
+            "Debug": 13052446086
+          },
+          "diagnostics": {
+            "Release": 13051494793,
+            "Debug": 13051923902
+          }
+        }
+      ],
+      "source_review_scope": "Actual three-history allocation/reset, update/selection and player reader/writer; baseline ArrayEnumMap codec and enum dimensions; full pinned overlay build and unmarked CvGame baseline helper repair."
     },
     {
       "branch": "LeaderTeamSizeBuild-ChatGPT",
@@ -1017,6 +1336,15 @@
       "artifacts": {
         "Release": 12964370350,
         "Debug": 12963343212
+      },
+      "additional_source_inspection": {
+        "date": "2026-10-31",
+        "assistant_head": "185a4a161d3a3e039e355236254a9fd8b44ff425",
+        "original_head": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+        "scope": "constructor/maxHitPoints/currHitPoints/setDamage/setHasPromotion HP delta/convert promotion-before-damage ordering",
+        "result": "No additional code edit; no conversion-order defect found. Bounds and maximum-HP reduction versus existing damage require coherent damage/death policy.",
+        "DLL_build_triggered": false,
+        "record": "docs/reviews/storage-exceptions-2026-10-31.md"
       }
     },
     {
@@ -1088,7 +1416,7 @@
     },
     {
       "branch": "RealisticAIDecisions",
-      "head_at_inventory": "8383ce62fd67f00d399c937867828dd456915e43",
+      "head_at_inventory": "372d64549f70884fbc86cec7bfbee0a9778bd948",
       "coverage": "changed_delta_read_incomplete_implementation",
       "native_verification": "not_built_changed_head_missing_memory_implementation",
       "next_action": "Skip unchanged original source head and pause associated assistant full-DLL integration/build preparation; do not invent the unfinished memory model.",
@@ -1108,15 +1436,31 @@
       ],
       "source_review_scope": "Completed-turn score window/defaults plus player score-vector load cardinality and const serialization; remaining feature scopes unverified.",
       "qualification": "Six-file changed-source delta and surrounding integration/type interfaces read; exact new head skipped. Integer-expression diagnostic only; no DLL/engine/RNG/real fixed-point validation. Prior score fixtures and production refinements retained against previous source.",
-      "source_head": "8383ce62fd67f00d399c937867828dd456915e43",
-      "latest_review": "docs/reviews/realistic-memory-readiness-2026-10-31.md",
+      "source_head": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "latest_review": "docs/reviews/realistic-memory-delta-2026-10-31.md",
       "last_review_parent": "7e1294956a9b3eaaf9f3d67b6172c4f57b9bdd1c",
-      "latest_review_source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
-      "skip_source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
-      "skip_reason": "New user-authored vector memory is explicitly unfinished: recording/prediction/social/persistence methods and global insertion are unimplemented; feature extraction and outcome/persistence contracts are unspecified. Declaration/serializer/type inconsistencies prevent meaningful DLL validation. Do not invent implementation to obtain a build.",
+      "latest_review_source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "skip_source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "skip_reason": "Vector-memory recording/prediction/social/persistence and global insertion remain unfinished; feature extraction/outcome contracts are not supplied. User header/context/serializer corrections are preserved, but current declaration/read mismatches remain. Do not invent implementation to obtain DLL validation.",
       "resume_condition": "Inspect a new original-source delta supplying missing memory/feature/prediction/persistence integration details; preserve prior score refinements.",
       "previous_reviewed_source_sha": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
-      "review_disposition": "skip_until_source_head_changes"
+      "review_disposition": "skip_until_source_head_changes",
+      "skip_history": [
+        {
+          "source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
+          "reason": "New user-authored vector memory is explicitly unfinished: recording/prediction/social/persistence methods and global insertion are unimplemented; feature extraction and outcome/persistence contracts are unspecified. Declaration/serializer/type inconsistencies prevent meaningful DLL validation. Do not invent implementation to obtain a build.",
+          "superseded_by_source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+          "missing_implementation_resolved": false
+        }
+      ],
+      "last_delta_review": {
+        "source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+        "previous_source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
+        "changed_files": 4,
+        "production_changes": false,
+        "classification": "partial_user_corrections_missing_implementation_remains",
+        "new_source_delta_integrated": false
+      }
     },
     {
       "branch": "RenegadeDiplomacyBuild-ChatGPT",
@@ -1211,13 +1555,13 @@
     },
     {
       "branch": "SummonCatchupDraft-ChatGPT",
-      "head_at_inventory": "d0a02a7eec47c41830647ab218595a68518f8894",
+      "head_at_inventory": "493cb38589f903411956d6117681f4b7c3a22b88",
       "coverage": "published_review_artifact",
-      "native_verification": "scoped_resolver_and_prior_helper_fixtures_only_no_dll",
+      "native_verification": "not_built_missing_unit_integration_scoped_military_fixture_only",
       "source_branch": "LeaderCivilizationSummoningRandomEvents",
       "source_head": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
-      "draft_code_sha": "cb83bcd5425b49185855653b0470633ad66dcbbe",
-      "next_action": "Review canDoEvent RNG consumption/selection consistency, slot/transfer safety and metadata integration; existing weighted-total limits remain unchanged.",
+      "draft_code_sha": "ca04e9c2a6477de23ab9e6b3e15f843f4bd4d858",
+      "next_action": "Skip unchanged user source head and pause assistant full-DLL integration; retain scoped fixes and resume when new user work supplies the missing unit/hero interfaces.",
       "finding_ids": [
         "SUMMON-20261027-01",
         "SUMMON-20261027-02",
@@ -1227,20 +1571,26 @@
         "SUMMON-20261029-06",
         "SUMMON-20261030-07",
         "SUMMON-20261030-08",
-        "SUMMON-20261030-09"
+        "SUMMON-20261030-09",
+        "SUMMON-20261031-10",
+        "SUMMON-20261031-11"
       ],
-      "qualification": "Complete resolver with event/selector stubs passed 6400 C++03/ASan/UBSan configurations plus 3 focused regressions; includes 576 deterministic explicit pairs and 4800 unavailable-ID rejections. No actual compatibility/RNG/player lifecycle/MSVC/DLL/game result.",
-      "latest_review": "docs/reviews/summon-resolver-2026-10-30.md",
-      "last_review_parent": "d0a02a7eec47c41830647ab218595a68518f8894"
+      "qualification": "Complete actual military helper passed 1344 C++03/ASan/UBSan configurations with unit/RNG/iteration/transfer stand-ins; negative controls reproduce two compiler failures and bypassed guard. Actual baseline/source unit interfaces checked and missing API integration recorded. Prior fixtures retained; no DLL/game result.",
+      "latest_review": "docs/reviews/summon-military-2026-10-31.md",
+      "last_review_parent": "493cb38589f903411956d6117681f4b7c3a22b88",
+      "skip_source_sha": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+      "skip_reason": "Military/defection code requires CvUnit::isHero() and canFoundCity(), absent from pinned 1.14 and with no feature-supplied CvUnit implementation. Hero-classification integration is unspecified; do not import independent features, remove the explicit exclusion rule or invent it to obtain DLL validation.",
+      "resume_condition": "Inspect a new original-source head supplying the missing unit/hero integration; preserve prior resolver/weights/catch-up/military refinements.",
+      "review_disposition": "paused_with_missing_source_implementation"
     },
     {
       "branch": "UniqueCivicsReligions",
       "head_at_inventory": "d0fc7c0f93320e112903416c17bb2a2030819d60",
-      "coverage": "source_review_partial",
-      "native_verification": "scoped_ui_gate_pass3_and_organization_reader_fixtures_only_no_dll",
-      "next_action": "Review enum/type consistency, repeated staging/default inheritance, pass-3 failure propagation, full metadata/commerce lifecycle, bindings and complete native integration; default, hybrid return and religion local scopes completed.",
+      "coverage": "source_review_partial_with_exact_head_readiness_skip",
+      "native_verification": "failed_native_missing_user_unhappiness_timer_implementation_no_DLL",
+      "next_action": "Skip this unchanged original head and associated assistant integration/build work. Preserve the scoped weight/cast fixes; resume after user changes supply the missing minor-religion withdrawal anger implementation.",
       "review_branch": "CivicScrollDraft-ChatGPT",
-      "draft_code_sha": "77b17aadc2177843c7a093834268c3a37beb31a9",
+      "draft_code_sha": "3ac8bca1a805156652028fe71376fddc43eab428",
       "finding_ids": [
         "CIVICUI-20261028-01",
         "RELIGIONUI-20261028-01",
@@ -1249,12 +1599,77 @@
         "ORGLOAD-20261030-02",
         "ORGLOAD-20261030-03",
         "ORGLOAD-20261030-04",
-        "ORGLOAD-20261030-05"
+        "ORGLOAD-20261030-05",
+        "ORGLOAD-20261031-06",
+        "ORGLOAD-20261031-07",
+        "RELIGION-20261031-02",
+        "ORGLOAD-20261031-08"
       ],
-      "source_review_scope": "Civic-screen XANA draw/visibility blocks; marked player/metadata/religion-screen consumers read for context. Other integration scopes unverified.",
-      "qualification": "Actual base/hybrid declarations, constructors and complete read bodies pass 15360 C++03/ASan/UBSan configurations with interfaces stubbed; actual religion read body passes 2 reduced-shell cases. Independent controls reproduce missing-return/undeclared-local compiler errors and uninitialized-bool UBSan error. No full translation unit/MSVC/DLL/real XML/game result.",
-      "latest_review": "docs/reviews/organization-load-2026-10-30.md",
-      "last_review_parent": "bfcc3e0c5dd41a9888397f4256f4242b425fb949"
+      "source_review_scope": "Actual original/current religion-weight methods, constructor zero-map representation, civic prerequisite getters, and native City departure hook/header/baseline timer absence. Other metadata/player/yield/cache scope remains uncertified.",
+      "qualification": "2695 actual-method mutation/bounds/allocation-failure cases plus prior 15 getter/20 weight cases passed strict C++03/ASan/UBSan with engine/owning-info stand-ins; 3 negative controls. Two complete native overlay matrices failed; all 8 ZIPs extracted and actual logs/pins/manifests verified. Enum casts cleared C2440; final C3861 is missing source implementation. No DLL produced; changed weight translation unit not reached natively.",
+      "latest_review": "docs/reviews/religion-weight-mutation-2026-10-31.md",
+      "last_review_parent": "07bf390e44fca4927d0043d73fa276d45d8aa782",
+      "native_cast_refinement_sha": "3c7b7f01d41396cad0ced2b4d38fdaf5cbb546b1",
+      "tested_code_sha": "596f539981627e0373d557804f80410e248dc6c0",
+      "review_disposition": "skip_until_original_source_head_changes",
+      "skip_source_sha": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+      "skip_reason": "CvCity::setCityChangesDueToMinorReligionLeaving calls changeUnhappinessTimer at CvCity.cpp:13582 under an explicit TODO. No supplied or baseline API/state/implementation. Native C3861. Do not substitute another timer or invent anger magnitude/stacking/decay/persistence/UI to force a build.",
+      "resume_condition": "Assess changed user source for the missing timer API/implementation and mechanics; unchanged assistant/docs commits do not reopen this source readiness gate.",
+      "workflow_source": "4dec9b6502486a8b045d1f2a44ec9d4569162613",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41224382638",
+      "native_build_history": [
+        {
+          "commit": "5a31326b440238e97d8f831da17c6bd9631f8216",
+          "selected_source": "3ac8bca1a805156652028fe71376fddc43eab428",
+          "run": 41224201639,
+          "result": "Release_Debug_failed_C2440_civic_prerequisite_enum_returns",
+          "warnings_per_configuration": 0,
+          "errors_including_wrappers_per_configuration": 4,
+          "DLL_artifacts": 0,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "root_source_count": 349,
+          "manifest_sha256": "2c59de8f76fad331bfc7ff5c1a161ea8c7f8b13664473303ff5594dd872e286a",
+          "failure_logs": {
+            "release": 13050164675,
+            "debug": 13051145948
+          },
+          "diagnostics": {
+            "release": 13051106020,
+            "debug": 13051036171
+          }
+        },
+        {
+          "commit": "596f539981627e0373d557804f80410e248dc6c0",
+          "selected_source": "3c7b7f01d41396cad0ced2b4d38fdaf5cbb546b1",
+          "run": 41224382638,
+          "result": "Release_Debug_failed_C3861_missing_changeUnhappinessTimer",
+          "warnings_per_configuration": 0,
+          "errors_including_wrappers_per_configuration": 3,
+          "DLL_artifacts": 0,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "root_source_count": 349,
+          "manifest_sha256": "752e992a06d65ee09794fd5d778a5b319aefa921e26b0f40813b18d506749c2b",
+          "failure_logs": {
+            "release": 13050976411,
+            "debug": 13051760256
+          },
+          "diagnostics": {
+            "release": 13050164909,
+            "debug": 13051271027
+          }
+        }
+      ],
+      "religion_weight_refinement": {
+        "commit": "3ac8bca1a805156652028fe71376fddc43eab428",
+        "standalone_cases": 2695,
+        "negative_controls": 3,
+        "prior_organization_getter_cases": 15,
+        "prior_weight_cases": 20,
+        "class_and_GC_stand_ins": true,
+        "native_changed_translation_unit_compiled": false
+      }
     },
     {
       "branch": "UnitCombatUpgradeBuild-ChatGPT",
@@ -1285,12 +1700,12 @@
     },
     {
       "branch": "VoteCounterDraft-ChatGPT",
-      "head_at_inventory": "fc7f4a04f002a5bfe261aca49d8375fdbf03a946",
-      "coverage": "published_review_artifact",
-      "native_verification": "scoped_counter_copy_finalizer_and_early_staging_fixtures_only_no_dll",
-      "next_action": "Review real XML/default merging, comments/malformed nodes and failed-skip cursor cleanup, allocated-array inheritance/cache, player counter persistence/attitude cache and whole native integration.",
+      "head_at_inventory": "2787283390994434207ca40c1784adbd64e64cb0",
+      "coverage": "source_review_partial_native_corrected_overlay_passed",
+      "native_verification": "corrected_overlay_release_debug_passed_artifact_Build_logs_inspected",
+      "next_action": "Do not repeat unchanged passing builds. Review actual engine save/load with compatible info counts/order, attitude-cache coherence, XML/default/copy/cache behavior and malformed/comment/cursor paths; retain all prior scoped fixes and exact native evidence.",
       "refinement_branch": "VoteCounterDraft-ChatGPT",
-      "draft_code_sha": "635242cfeb29ccbe49646f8f679fde7f4650771f",
+      "draft_code_sha": "6d6e73b10343f277481da186013426be702ce00a",
       "finding_ids": [
         "VOTE-20261027-01",
         "VOTE-20261027-02",
@@ -1301,13 +1716,15 @@
         "VOTE-20261030-07",
         "VOTE-20261030-08",
         "VOTE-20261030-09",
-        "VOTE-20261031-10"
+        "VOTE-20261031-10",
+        "VOTE-20261031-11",
+        "VOTE-20261031-12"
       ],
       "source_head": "8fcfdd97329279393120aaab34c00dde84e729df",
       "source_branch": "LeaderSpecificVoteActionDiplomacy",
-      "qualification": "Actual early-staging block plus complete finalizer pass 2184 C++03/ASan/UBSan cases with XML/leader/global stand-ins; three negative controls reproduce duplicate staging in each vector. Prior fixtures retained. No full engine/XML/MSVC/DLL/save/game result.",
-      "review_disposition": "active_partial_review_after_source_change",
-      "latest_review": "docs/reviews/vote-staging-2026-10-31.md",
+      "qualification": "576 extracted vote-history stream cases and 5 negative controls pass strict C++03/ASan/UBSan with codec/stream/owner stand-ins. Complete corrected overlay passed MSVC7.1 Release/Debug 0 warnings/errors; all 8 ZIPs across both runs extracted, actual logs/pins/manifests inspected, final PE32 DLLs/PDB verified. Original head and actual complete engine saves/XML/game not certified.",
+      "review_disposition": "active_partial_review_native_overlay_passed",
+      "latest_review": "docs/reviews/vote-save-2026-10-31.md",
       "skip_history": [
         {
           "source_sha": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
@@ -1315,11 +1732,93 @@
           "resolved_by_source_sha": "8fcfdd97329279393120aaab34c00dde84e729df"
         }
       ],
-      "last_review_parent": "fc7f4a04f002a5bfe261aca49d8375fdbf03a946"
+      "last_review_parent": "c976c633638c13b46d068ef33af011ed58954f3c",
+      "persistence_code_sha": "6bdd040daf69e8d08c3b2ec74a47e99f8b21a29d",
+      "tested_code_sha": "2787283390994434207ca40c1784adbd64e64cb0",
+      "feature_snapshot": "6d6e73b10343f277481da186013426be702ce00a",
+      "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41227377831",
+      "native_artifacts": {
+        "Release": 13052845205,
+        "Debug": 13052446086
+      },
+      "hash_diagnostics": {
+        "Release": 13051494793,
+        "Debug": 13051923902
+      },
+      "save_history_validation": {
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "original_source": "8fcfdd97329279393120aaab34c00dde84e729df",
+        "persistence_code": "6bdd040daf69e8d08c3b2ec74a47e99f8b21a29d",
+        "corrected_source": "6d6e73b10343f277481da186013426be702ce00a",
+        "tested_commit": "2787283390994434207ca40c1784adbd64e64cb0",
+        "run": 41227377831,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+        "all_four_success_ZIPs_downloaded_and_extracted": true,
+        "actual_Build_logs_inspected": true,
+        "timing_logs_inspected": true,
+        "PE32_x86_DLLs_verified": true,
+        "debug_PDB_bytes": 70675456,
+        "root_source_count": 349,
+        "manifest_sha256": "ca9a2fdfe3879ee4526cb77642104a6adac68e341323bbf876d531eb85ce2ced",
+        "DLL_artifacts": {
+          "Release": 13052845205,
+          "Debug": 13052446086
+        },
+        "diagnostic_artifacts": {
+          "Release": 13051494793,
+          "Debug": 13051923902
+        },
+        "stream_cases": 576,
+        "negative_controls": 5,
+        "real_EnumMap_templates_compiled_not_runtime_save_tested": true,
+        "report": "docs/reviews/vote-save-2026-10-31.md"
+      },
+      "native_build_history": [
+        {
+          "commit": "ef4c9ad10344b983a1d642da7c6c27e2d4c4f64c",
+          "selected_source": "6bdd040daf69e8d08c3b2ec74a47e99f8b21a29d",
+          "run": 41227109182,
+          "result": "Release_Debug_failed_C2653_std11_C3861_iota",
+          "warnings_per_configuration": 0,
+          "errors_including_wrappers_per_configuration": 4,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "manifest_sha256": "8e1919bcb403dba589477b5489d34479e688edfeab8a975246282b2ad402fa9a",
+          "failure_logs": {
+            "Release": 13052780029,
+            "Debug": 13051074883
+          },
+          "diagnostics": {
+            "Release": 13052765008,
+            "Debug": 13051359350
+          }
+        },
+        {
+          "commit": "2787283390994434207ca40c1784adbd64e64cb0",
+          "selected_source": "6d6e73b10343f277481da186013426be702ce00a",
+          "run": 41227377831,
+          "result": "Release_Debug_success_0_warnings_0_errors",
+          "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "DLL_artifacts": {
+            "Release": 13052845205,
+            "Debug": 13052446086
+          },
+          "diagnostics": {
+            "Release": 13051494793,
+            "Debug": 13051923902
+          }
+        }
+      ],
+      "source_review_scope": "Actual three-history allocation/reset, update/selection and player reader/writer; baseline ArrayEnumMap codec and enum dimensions; full pinned overlay build and unmarked CvGame baseline helper repair."
     },
     {
       "branch": "ReputationWindowDraft-ChatGPT",
-      "head_at_inventory": "bdeb212cc0f21d71b3509cc21c9fa96539f88f21",
+      "head_at_inventory": "89903b02c0c7ace0524a789de3426cd4cc4fe704",
       "coverage": "source_review_partial",
       "native_verification": "not_built_changed_head_missing_memory_implementation",
       "source_branch": "RealisticAIDecisions",
@@ -1339,25 +1838,41 @@
         "REALISM-20261031-01"
       ],
       "qualification": "Six-file changed-source delta and surrounding integration/type interfaces read; exact new head skipped. Integer-expression diagnostic only; no DLL/engine/RNG/real fixed-point validation. Prior score fixtures and production refinements retained against previous source.",
-      "latest_review": "docs/reviews/realistic-memory-readiness-2026-10-31.md",
+      "latest_review": "docs/reviews/realistic-memory-delta-2026-10-31.md",
       "last_review_parent": "7e1294956a9b3eaaf9f3d67b6172c4f57b9bdd1c",
-      "latest_review_source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
-      "skip_source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
-      "skip_reason": "New user-authored vector memory is explicitly unfinished: recording/prediction/social/persistence methods and global insertion are unimplemented; feature extraction and outcome/persistence contracts are unspecified. Declaration/serializer/type inconsistencies prevent meaningful DLL validation. Do not invent implementation to obtain a build.",
+      "latest_review_source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "skip_source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "skip_reason": "Vector-memory recording/prediction/social/persistence and global insertion remain unfinished; feature extraction/outcome contracts are not supplied. User header/context/serializer corrections are preserved, but current declaration/read mismatches remain. Do not invent implementation to obtain DLL validation.",
       "resume_condition": "Inspect a new original-source delta supplying missing memory/feature/prediction/persistence integration details; preserve prior score refinements.",
       "review_disposition": "paused_with_missing_source_implementation",
       "refined_source_sha": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
-      "new_source_delta_integrated": false
+      "new_source_delta_integrated": false,
+      "skip_history": [
+        {
+          "source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
+          "reason": "New user-authored vector memory is explicitly unfinished: recording/prediction/social/persistence methods and global insertion are unimplemented; feature extraction and outcome/persistence contracts are unspecified. Declaration/serializer/type inconsistencies prevent meaningful DLL validation. Do not invent implementation to obtain a build.",
+          "superseded_by_source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+          "missing_implementation_resolved": false
+        }
+      ],
+      "last_delta_review": {
+        "source_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+        "previous_source_sha": "8383ce62fd67f00d399c937867828dd456915e43",
+        "changed_files": 4,
+        "production_changes": false,
+        "classification": "partial_user_corrections_missing_implementation_remains",
+        "new_source_delta_integrated": false
+      }
     },
     {
       "branch": "CivicScrollDraft-ChatGPT",
-      "head_at_inventory": "bfcc3e0c5dd41a9888397f4256f4242b425fb949",
-      "coverage": "published_review_artifact",
-      "native_verification": "scoped_ui_gate_pass3_and_organization_reader_fixtures_only_no_dll",
+      "head_at_inventory": "596f539981627e0373d557804f80410e248dc6c0",
+      "coverage": "source_review_partial_with_exact_head_readiness_skip",
+      "native_verification": "failed_native_missing_user_unhappiness_timer_implementation_no_DLL",
       "source_branch": "UniqueCivicsReligions",
       "source_head": "d0fc7c0f93320e112903416c17bb2a2030819d60",
-      "draft_code_sha": "77b17aadc2177843c7a093834268c3a37beb31a9",
-      "next_action": "Review enum/type consistency, repeated staging/default inheritance, pass-3 failure propagation, full metadata/commerce lifecycle, bindings and complete native integration; default, hybrid return and religion local scopes completed.",
+      "draft_code_sha": "3ac8bca1a805156652028fe71376fddc43eab428",
+      "next_action": "Skip this unchanged original head and associated assistant integration/build work. Preserve the scoped weight/cast fixes; resume after user changes supply the missing minor-religion withdrawal anger implementation.",
       "finding_ids": [
         "CIVICUI-20261028-01",
         "RELIGIONUI-20261028-01",
@@ -1366,21 +1881,87 @@
         "ORGLOAD-20261030-02",
         "ORGLOAD-20261030-03",
         "ORGLOAD-20261030-04",
-        "ORGLOAD-20261030-05"
+        "ORGLOAD-20261030-05",
+        "ORGLOAD-20261031-06",
+        "ORGLOAD-20261031-07",
+        "RELIGION-20261031-02",
+        "ORGLOAD-20261031-08"
       ],
-      "qualification": "Actual base/hybrid declarations, constructors and complete read bodies pass 15360 C++03/ASan/UBSan configurations with interfaces stubbed; actual religion read body passes 2 reduced-shell cases. Independent controls reproduce missing-return/undeclared-local compiler errors and uninitialized-bool UBSan error. No full translation unit/MSVC/DLL/real XML/game result.",
-      "latest_review": "docs/reviews/organization-load-2026-10-30.md",
-      "last_review_parent": "bfcc3e0c5dd41a9888397f4256f4242b425fb949"
+      "qualification": "2695 actual-method mutation/bounds/allocation-failure cases plus prior 15 getter/20 weight cases passed strict C++03/ASan/UBSan with engine/owning-info stand-ins; 3 negative controls. Two complete native overlay matrices failed; all 8 ZIPs extracted and actual logs/pins/manifests verified. Enum casts cleared C2440; final C3861 is missing source implementation. No DLL produced; changed weight translation unit not reached natively.",
+      "latest_review": "docs/reviews/religion-weight-mutation-2026-10-31.md",
+      "last_review_parent": "07bf390e44fca4927d0043d73fa276d45d8aa782",
+      "native_cast_refinement_sha": "3c7b7f01d41396cad0ced2b4d38fdaf5cbb546b1",
+      "tested_code_sha": "596f539981627e0373d557804f80410e248dc6c0",
+      "review_disposition": "skip_until_original_source_head_changes",
+      "skip_source_sha": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+      "skip_reason": "CvCity::setCityChangesDueToMinorReligionLeaving calls changeUnhappinessTimer at CvCity.cpp:13582 under an explicit TODO. No supplied or baseline API/state/implementation. Native C3861. Do not substitute another timer or invent anger magnitude/stacking/decay/persistence/UI to force a build.",
+      "resume_condition": "Assess changed user source for the missing timer API/implementation and mechanics; unchanged assistant/docs commits do not reopen this source readiness gate.",
+      "source_review_scope": "Actual original/current religion-weight methods, constructor zero-map representation, civic prerequisite getters, and native City departure hook/header/baseline timer absence. Other metadata/player/yield/cache scope remains uncertified.",
+      "workflow_source": "4dec9b6502486a8b045d1f2a44ec9d4569162613",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41224382638",
+      "native_build_history": [
+        {
+          "commit": "5a31326b440238e97d8f831da17c6bd9631f8216",
+          "selected_source": "3ac8bca1a805156652028fe71376fddc43eab428",
+          "run": 41224201639,
+          "result": "Release_Debug_failed_C2440_civic_prerequisite_enum_returns",
+          "warnings_per_configuration": 0,
+          "errors_including_wrappers_per_configuration": 4,
+          "DLL_artifacts": 0,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "root_source_count": 349,
+          "manifest_sha256": "2c59de8f76fad331bfc7ff5c1a161ea8c7f8b13664473303ff5594dd872e286a",
+          "failure_logs": {
+            "release": 13050164675,
+            "debug": 13051145948
+          },
+          "diagnostics": {
+            "release": 13051106020,
+            "debug": 13051036171
+          }
+        },
+        {
+          "commit": "596f539981627e0373d557804f80410e248dc6c0",
+          "selected_source": "3c7b7f01d41396cad0ced2b4d38fdaf5cbb546b1",
+          "run": 41224382638,
+          "result": "Release_Debug_failed_C3861_missing_changeUnhappinessTimer",
+          "warnings_per_configuration": 0,
+          "errors_including_wrappers_per_configuration": 3,
+          "DLL_artifacts": 0,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "root_source_count": 349,
+          "manifest_sha256": "752e992a06d65ee09794fd5d778a5b319aefa921e26b0f40813b18d506749c2b",
+          "failure_logs": {
+            "release": 13050976411,
+            "debug": 13051760256
+          },
+          "diagnostics": {
+            "release": 13050164909,
+            "debug": 13051271027
+          }
+        }
+      ],
+      "religion_weight_refinement": {
+        "commit": "3ac8bca1a805156652028fe71376fddc43eab428",
+        "standalone_cases": 2695,
+        "negative_controls": 3,
+        "prior_organization_getter_cases": 15,
+        "prior_weight_cases": 20,
+        "class_and_GC_stand_ins": true,
+        "native_changed_translation_unit_compiled": false
+      }
     },
     {
       "branch": "SimpleStorageChangeDraft-ChatGPT",
-      "head_at_inventory": "7959c9f435da6dd47a7b863b6928c6d12a5675a2",
-      "coverage": "published_review_artifact",
-      "native_verification": "complete_header_native_and_simulated32_byte_boundary_fixtures_only_no_dll",
+      "head_at_inventory": "086f2deaf662be610b74ee113db0c92226e0b50a",
+      "coverage": "source_review_partial",
+      "native_verification": "complete_header_static_copy_XML_wrapper_and_prior_scoped_fixtures_only_no_dll",
       "source_branch": "FSimpleDataStorage",
       "source_head": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
-      "draft_code_sha": "07f6e24a84c4f9755b1fc68e31992788a2246163",
-      "next_action": "Review arbitrary element lifetime/alignment, caller exception handling and consuming-engine integration; byte-count overflow scope completed.",
+      "draft_code_sha": "086f2deaf662be610b74ee113db0c92226e0b50a",
+      "next_action": "Review alignment and actual engine allocator/delete/XML/stream consumers, XML-loader exceptions before return, zero/invalid-size raw handoff and assignment/load value rollback policy before native integration. Completed static-copy/local-wrapper exception ownership scope should not be repeated unchanged.",
       "refinement_branch": "SimpleStorageChangeDraft-ChatGPT",
       "finding_ids": [
         "STORAGE-20261028-01",
@@ -1391,38 +1972,61 @@
         "STORAGE-20261029-06",
         "STORAGE-20261030-07",
         "STORAGE-20261030-08",
-        "STORAGE-20261030-09"
+        "STORAGE-20261030-09",
+        "STORAGE-20261031-10",
+        "STORAGE-20261031-11",
+        "STORAGE-20261031-12"
       ],
-      "qualification": "Complete revised header passed 72 native-size_t and 90 simulated unsigned-32 byte boundary cases plus class allocation/load/read failure checks; previous 120 dimension cases pass. Real -m32 blocked by missing C++ headers. No MSVC/DLL/engine allocator/game result.",
-      "latest_review": "docs/reviews/storage-bytes-2026-10-30.md",
-      "last_review_parent": "7959c9f435da6dd47a7b863b6928c6d12a5675a2"
+      "qualification": "195 complete-header static-construction/XML exception ownership cases, 4 negative controls, prior 202 lifetime and 120 dimension cases pass strict C++03/ASan/UBSan. No LSAN, native engine allocator/XML/stream, MSVC7.1/DLL/game result; no strong rollback guarantee.",
+      "latest_review": "docs/reviews/storage-exceptions-2026-10-31.md",
+      "last_review_parent": "fdc705108af59618e0cf474c19222c0038574b9d",
+      "exception_ownership_review": {
+        "code_commit": "086f2deaf662be610b74ee113db0c92226e0b50a",
+        "source_sha": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+        "cases": 195,
+        "negative_controls": 4,
+        "prior_lifetime_cases": 202,
+        "prior_dimension_cases": 120,
+        "whole_header_included": true,
+        "compiler": "g++ strict C++03 ASan UBSan",
+        "engine_interfaces": "stand_ins",
+        "DLL_build": false,
+        "strong_value_rollback_guarantee": false,
+        "report": "docs/reviews/storage-exceptions-2026-10-31.md"
+      },
+      "source_review_scope": "Actual original/current full header; static copy-constructor reset/default-assignment/source-copy cleanup and 1D/static XML-wrapper load unwinding. Existing dynamic lifetime and dimension scopes retained."
     },
     {
       "branch": "HatedDiplomacyDraft-ChatGPT",
-      "head_at_inventory": "52875b0b3b93ee49408d94cf983d59cf13956014",
+      "head_at_inventory": "a13d837a06dc6f26508673e1ba242bc1c34b5296",
       "coverage": "published_review_artifact",
-      "native_verification": "release_debug_corrected_overlay_passed",
+      "native_verification": "latest_diagnostic_only_head_not_built_prior_exact_DLL_results_retained",
       "source_branch": "HatedCivicReligionDiplomacy",
       "source_head": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
-      "draft_code_sha": "bd9fe6e0816ed0f6c5311b5fb2aefa6505df4e5e",
+      "draft_code_sha": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
       "finding_ids": [
         "HATED-20261028-01",
         "HATED-20261028-02",
         "HATED-20261030-03",
         "HATED-20261030-04",
         "HATED-20261030-05",
-        "HATED-20261030-06"
+        "HATED-20261030-06",
+        "WORKFLOW-20261031-05",
+        "WORKFLOW-20261031-06",
+        "HATED-20261031-07",
+        "WORKFLOW-20261031-08",
+        "WORKFLOW-20261031-09"
       ],
-      "next_action": "Do not repeat unchanged passing builds. Review save/cache versioning and runtime/metadata/strategy integration as new coverage; inspect source changes first.",
-      "qualification": "Complete pinned-base plus corrected feature overlay passed Release/Debug MSVC7.1 probes and Rebuild. Both artifact ZIPs extracted; actual Build.log zero warnings/errors, exact provenance/source manifests and PE32 x86 DLLs verified. Original head/save/cache/gameplay not certified.",
-      "latest_review": "docs/reviews/workflow-source-hash-2026-10-30.md",
-      "last_review_parent": "c45a473baa07adc9cfbe898f17e074025902016a",
-      "tested_code_sha": "52875b0b3b93ee49408d94cf983d59cf13956014",
-      "feature_snapshot": "e3887b18825dc14d026a0d8fb5f7a6b58a5c7484",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41128696560",
+      "next_action": "Do not repeat unchanged passing builds. Review actual complete engine save/load and leader-info XML/cache compatibility, runtime strategy/attitude integration; unversioned feature-v22 saves remain unsupported.",
+      "qualification": "Versioned hated counter overlay passed MSVC7.1 Release/Debug Rebuild with 0 warnings/errors. All four ZIPs extracted; actual Build.log, provenance, 349-source manifests, PE32 x86 DLLs and Debug PDB verified. 252 scoped C++03/ASan/UBSan stream cases and 2 negative controls. Original head, whole engine saves, metadata caches and gameplay not certified.",
+      "latest_review": "docs/reviews/workflow-log-set-2026-10-31.md",
+      "last_review_parent": "f843027233b4cacee3709a5de80b16506189a5d0",
+      "tested_code_sha": "cb7d75b4d03077b644f24f4b41647f53f06a4a64",
+      "feature_snapshot": "f843027233b4cacee3709a5de80b16506189a5d0",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41221093729",
       "native_artifacts": {
-        "release": 13012616456,
-        "debug": 13013085398
+        "release": 13050395813,
+        "debug": 13050575771
       },
       "build_history": [
         {
@@ -1438,6 +2042,24 @@
           "result": "Release_and_Debug_success_0_warnings_0_errors",
           "compiler": "MSVC7.1_1310_probe_verified",
           "actual_artifact_Build_log_inspected": true
+        },
+        {
+          "commit": "1df6f1f3fa80feabbba16a0ba719462ca4dee3b0",
+          "source": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
+          "run": 41206948813,
+          "result": "Release_Debug_success_0_warnings_0_errors",
+          "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+          "actual_artifact_Build_log_inspected": true
+        },
+        {
+          "commit": "cb7d75b4d03077b644f24f4b41647f53f06a4a64",
+          "source": "f843027233b4cacee3709a5de80b16506189a5d0",
+          "workflow_source": "733140746ebe7a488db066aa85d299897ff6e0e0",
+          "run": 41221093729,
+          "result": "Release_Debug_success_0_warnings_0_errors",
+          "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+          "actual_artifact_Build_log_inspected": true,
+          "scope": "workflow_copy_outcome_guard_no_DLL_source_change"
         }
       ],
       "workflow_hash_validation": {
@@ -1461,6 +2083,119 @@
         "local_guard_cases": 6,
         "hash_implementation_changed": false,
         "review": "docs/reviews/workflow-source-hash-2026-10-30.md"
+      },
+      "workflow_failure_log_validation": {
+        "workflow_source": "1cbd526fddeec564231958870aeab3f2be187a4e",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "feature_source": "484ab0fca026c3b11e8975cb6c71499a2a8b685d",
+        "tested_commit": "ea9ef9f83f735bcb0660e33908449a316ffa7621",
+        "run": 41203236797,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "compiler": "MSVC7.1_1310_probe_in_build_chain",
+        "root_source_count": 349,
+        "manifest_sha256": "b1ea9061f07bf130e6965cda3e0df31f2c48ad559bf5e8fd8ce5b73317edf995",
+        "manifests_match": true,
+        "diagnostic_artifacts": {
+          "release": 13043915430,
+          "debug": 13043925801
+        },
+        "dll_artifacts": {
+          "release": 13043840662,
+          "debug": 13043925823
+        },
+        "artifact_Build_logs_inspected": true,
+        "all_four_ZIPs_downloaded_and_extracted": true,
+        "PE32_x86_verified": true,
+        "debug_PDB_bytes": 70585344,
+        "probe_removed": true,
+        "local_collection_cases": 4,
+        "local_manifest_guard_cases": 6,
+        "review": "docs/reviews/workflow-failure-logs-2026-10-31.md",
+        "probe_run": {
+          "commit": "361629eee61adf4d9cc5c354e414e5845d7d4ce3",
+          "run": 41202703341,
+          "release": "real_C1854_PCH_failure_before_probe",
+          "debug": "MSBuild_success_0_warnings_0_errors_then_intentional_step_failure",
+          "both_current_failure_log_uploads_succeeded": true,
+          "actual_Build_logs_inspected": true,
+          "diagnostic_artifacts": {
+            "release": 13043342290,
+            "debug": 13043780042
+          },
+          "log_artifacts": {
+            "release": 13043153460,
+            "debug": 13042894608
+          }
+        },
+        "remaining_limitations": "Original dll-build unmodified. First Release C4622/C1854 cause unconfirmed; absent on subsequent normal run. No speculative PCH fix. No gameplay/save certification."
+      },
+      "save_version_refinement": {
+        "source_sha": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+        "code_commit": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
+        "tested_commit": "1df6f1f3fa80feabbba16a0ba719462ca4dee3b0",
+        "run": 41206948813,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow_source": "1cbd526fddeec564231958870aeab3f2be187a4e",
+        "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+        "stream_cases": 252,
+        "negative_controls": 2,
+        "all_ZIPs_downloaded_and_extracted": true,
+        "actual_artifact_Build_logs_inspected": true,
+        "PE32_x86_DLLs_verified": true,
+        "root_source_count": 349,
+        "manifest_sha256": "dc8403980c1bc3247b2fcd39f837bfb69e5f4b2b3f2eaf3dadce7091f6e9e14f",
+        "diagnostic_artifacts": {
+          "release": 13043944429,
+          "debug": 13045235380
+        },
+        "dll_artifacts": {
+          "release": 13045175164,
+          "debug": 13045445075
+        },
+        "save_version": 23,
+        "old_feature_version22_saves": "ambiguous_unsupported",
+        "report": "docs/reviews/hated-save-version-2026-10-31.md"
+      },
+      "workflow_copy_validation": {
+        "workflow_source": "733140746ebe7a488db066aa85d299897ff6e0e0",
+        "previous_workflow_source": "1cbd526fddeec564231958870aeab3f2be187a4e",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "feature_source": "f843027233b4cacee3709a5de80b16506189a5d0",
+        "tested_commit": "cb7d75b4d03077b644f24f4b41647f53f06a4a64",
+        "run": 41221093729,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+        "local_copy_cases": 6,
+        "negative_controls": 3,
+        "local_log_collection_cases": 5,
+        "local_manifest_guard_cases": 6,
+        "remote_copy_failure_fault_injected": false,
+        "remote_successful_transfer_and_upload_observed": true,
+        "all_four_ZIPs_downloaded_and_extracted": true,
+        "actual_artifact_Build_logs_inspected": true,
+        "PE32_x86_DLLs_verified": true,
+        "debug_PDB_bytes": 70585344,
+        "root_source_count": 349,
+        "manifest_sha256": "dc8403980c1bc3247b2fcd39f837bfb69e5f4b2b3f2eaf3dadce7091f6e9e14f",
+        "diagnostic_artifacts": {
+          "release": 13050206391,
+          "debug": 13050371213
+        },
+        "dll_artifacts": {
+          "release": 13050395813,
+          "debug": 13050575771
+        },
+        "report": "docs/reviews/workflow-copy-outcome-2026-10-31.md"
+      },
+      "latest_diagnostic_cleanup": {
+        "code_commit": "7a90901362d00fa7ec43ae85bcaeadf1ca274b1f",
+        "original_source": "4dec9b6502486a8b045d1f2a44ec9d4569162613",
+        "adopted_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "DLL_build_triggered_on_this_head": false,
+        "local_copy_cases": 6,
+        "local_log_cases": 5,
+        "local_hash_cases": 6
       }
     },
     {
@@ -1484,24 +2219,25 @@
     },
     {
       "branch": "PreferenceFrameworkDraft-ChatGPT",
-      "head_at_inventory": "8d6dc5585b79af44cdffc7ae4a3c22317d4e9361",
+      "head_at_inventory": "afb7f7ce941698df0c904a233c1120dacb177970",
       "coverage": "published_review_artifact",
-      "native_verification": "scoped_record_reader_and_enclosing_list_lifecycle_fixtures_only_no_dll",
+      "native_verification": "scoped_record_cursor_list_lifecycle_and_ID_bounds_fixtures_only_no_dll",
       "source_branch": "LeaderCivilizationDecisionPreferences",
       "source_head": "aac03388283a5ac316f6a19f6e3754a7435b6511",
-      "draft_code_sha": "09367de35a207e4faa45fd9ab1e4099e23192a0e",
+      "draft_code_sha": "dcd135136f8b3fabdc87bbe39a89f0cac6d8d7f9",
       "finding_ids": [
         "PREFERENCE-20261028-01",
         "PREFERENCE-20261028-02",
         "PREFERENCE-20261029-03",
         "PREFERENCE-20261029-04",
         "PREFERENCE-20261030-05",
-        "PREFERENCE-20261030-06"
+        "PREFERENCE-20261030-06",
+        "PREFERENCE-20261031-07"
       ],
-      "next_action": "Review invalid positive ID ranges, owning-info copy/cache/default behavior, player initialization and whole-feature native integration; explicit-empty list/map cleanup scope completed.",
-      "qualification": "Actual enclosing classes/constructors/destructors/getters/loaders pass 960 repeated-load sequences with XML tree/record stubs; five individual original-placement controls reproduce stale lookup indexes. Prior actual-record fixtures retained. No MSVC/DLL/real XML/game result.",
-      "latest_review": "docs/reviews/preference-reload-2026-10-30.md",
-      "last_review_parent": "8d6dc5585b79af44cdffc7ae4a3c22317d4e9361"
+      "next_action": "Review in-range category correctness, owning-info copying/default inheritance/cache, player initialization and whole-feature native integration; map index range scope completed.",
+      "qualification": "Actual enclosing preference classes/loaders/getters pass 15552 C++03/ASan/UBSan boundary configurations with XML/record/global stand-ins. Five focused nonnegative-ID controls reproduce ASan heap-buffer-overflow. Prior record/lifecycle fixtures retained; no real XML/MSVC/DLL/game result.",
+      "latest_review": "docs/reviews/preference-bounds-2026-10-31.md",
+      "last_review_parent": "afb7f7ce941698df0c904a233c1120dacb177970"
     },
     {
       "branch": "CityPopulationDraft-ChatGPT",
@@ -1639,6 +2375,15 @@
       "artifacts": {
         "Release": 12964370350,
         "Debug": 12963343212
+      },
+      "additional_source_inspection": {
+        "date": "2026-10-31",
+        "assistant_head": "185a4a161d3a3e039e355236254a9fd8b44ff425",
+        "original_head": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+        "scope": "constructor/maxHitPoints/currHitPoints/setDamage/setHasPromotion HP delta/convert promotion-before-damage ordering",
+        "result": "No additional code edit; no conversion-order defect found. Bounds and maximum-HP reduction versus existing damage require coherent damage/death policy.",
+        "DLL_build_triggered": false,
+        "record": "docs/reviews/storage-exceptions-2026-10-31.md"
       }
     },
     {
@@ -1658,25 +2403,99 @@
     },
     {
       "branch": "DynamicRankDraft-ChatGPT",
-      "native_verification": "exact_overlay_release_debug_passed",
-      "tested_code_sha": "197a968d1b24135a9c42f5f1a951bbe16903fc0e",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40982393659",
+      "native_verification": "fractional_overlay_release_debug_passed_artifact_Build_logs_inspected",
+      "tested_code_sha": "4d4672665066214036fb57678e13a6b8990db2ec",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41212425210",
       "artifacts": {
-        "Release": 12945297909,
-        "Debug": 12945433081
+        "Release": 13047011759,
+        "Debug": 13047012057
       },
-      "next_action": "Native compile verified; rank normalization/threshold mechanics and versioned persistence remain unverified."
+      "next_action": "Do not repeat unchanged passing builds. Review shared attitude-threshold/rank policy, versioned player-counter persistence, XML/default/cache compatibility and actual game behavior; extreme arithmetic bounds remain unverified.",
+      "finding_ids": [
+        "RANK-20261028-01",
+        "RANK-20261029-02",
+        "RANK-20261031-03",
+        "WORKFLOW-20261031-07"
+      ],
+      "previous_native": {
+        "tested_code_sha": "197a968d1b24135a9c42f5f1a951bbe16903fc0e",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40982393659",
+        "artifacts": {
+          "Release": 12945297909,
+          "Debug": 12945433081
+        }
+      },
+      "fractional_rank_validation": {
+        "source_sha": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+        "code_commit": "96ed28f2cd67a8f9e96d9409f6f0fc4df11f4aa4",
+        "tested_commit": "4d4672665066214036fb57678e13a6b8990db2ec",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow_source": "1cbd526fddeec564231958870aeab3f2be187a4e",
+        "run": 41212425210,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+        "extracted_method_cases": 2313362,
+        "arithmetic_fixture": "game_and_2048_scale_fixed_point_stand_ins",
+        "negative_controls": 2,
+        "all_four_ZIPs_downloaded_and_extracted": true,
+        "artifact_Build_logs_inspected": true,
+        "PE32_x86_DLLs_verified": true,
+        "root_source_count": 349,
+        "manifest_sha256": "1c5ec7ff6242106addeb5d23e88bd3e358fd5075ba5f1d86b34a4c31e8e2d00a",
+        "diagnostic_artifacts": {
+          "release": 13047515056,
+          "debug": 13047480576
+        },
+        "dll_artifacts": {
+          "release": 13047011759,
+          "debug": 13047012057
+        },
+        "debug_PDB_bytes": 70609920,
+        "report": "docs/reviews/dynamic-rank-fractions-2026-10-31.md",
+        "first_run": {
+          "commit": "b273b1505d5ffa46870af947250ea5fc6e5bd3a0",
+          "run": 41211949237,
+          "Release": "C2220_C4622_C1854_duplicate_PCH_1_warning_4_errors",
+          "Debug": "success_0_warnings_0_errors",
+          "all_four_ZIPs_extracted": true,
+          "actual_Build_logs_inspected": true,
+          "diagnostic_artifacts": {
+            "release": 13046129818,
+            "debug": 13046399034
+          },
+          "failure_logs": 13046029991,
+          "debug_DLL_artifact": 13047305245
+        },
+        "PCH_root_cause": "unconfirmed; source timestamp normalization mitigates cross-machine dependency-time hazards; retry passed"
+      },
+      "latest_review": "docs/reviews/dynamic-rank-fractions-2026-10-31.md",
+      "refinement_branch": "DynamicRankDraft-ChatGPT",
+      "draft_code_sha": "96ed28f2cd67a8f9e96d9409f6f0fc4df11f4aa4",
+      "coverage": "source_review_partial",
+      "qualification": "2,313,362 extracted-method C++03/ASan/UBSan cases with game/fixed-point stand-ins; 2 negative controls. Native corrected overlay Release/Debug zero warnings/errors; all 4 ZIPs extracted, actual Build.log/provenance/349-source manifests/PE32 x86 DLLs/Debug PDB verified. Initial Release PCH failure retained; precise cause unconfirmed. No whole-game/saves/numerical DLL execution certification.",
+      "last_review_parent": "8f8f6830478d97c0f0fb88856dff5561098e9f4b",
+      "head_at_inventory": "4d4672665066214036fb57678e13a6b8990db2ec",
+      "source_branch": "LeaderSpecificDynamicRankBonusDiplomacy",
+      "source_head": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e"
     }
   ],
   "current_pass": {
-    "classification": "replace_explicit_early_vote_staging",
+    "classification": "vote_history_persistence_and_overlay_compatibility",
     "date": "2026-10-31",
     "source_sha": "8fcfdd97329279393120aaab34c00dde84e729df",
-    "assistant_parent": "fc7f4a04f002a5bfe261aca49d8375fdbf03a946",
-    "code_commit": "635242cfeb29ccbe49646f8f679fde7f4650771f",
-    "dll_build_triggered": false,
-    "fixture_cases": 2184,
-    "negative_controls": 3,
+    "assistant_parent": "c976c633638c13b46d068ef33af011ed58954f3c",
+    "persistence_code_sha": "6bdd040daf69e8d08c3b2ec74a47e99f8b21a29d",
+    "compatibility_code_sha": "6d6e73b10343f277481da186013426be702ce00a",
+    "tested_code_sha": "2787283390994434207ca40c1784adbd64e64cb0",
+    "dll_build_triggered": true,
+    "native_runs": [
+      41227109182,
+      41227377831
+    ],
+    "result": "Release_Debug_success_0_warnings_0_errors",
+    "stream_cases": 576,
+    "negative_controls": 5,
+    "all_eight_ZIPs_extracted": true,
     "inventory_branch_count": 75
   },
   "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",
@@ -1691,17 +2510,17 @@
     ],
     "retired_branch": "dll-build-debug",
     "qualification": "Use the current named workflow and populate pinned overlay provenance; do not recreate a separate Debug branch.",
-    "source_sha": "af5c2f130e195c23a011a5aed35fcff212389f2e",
+    "source_sha": "07133f27906c364b266043a1788ec0eacd2e8b3b",
     "artifact_log_policy": "Download produced artifacts and inspect extracted MSBuild Build.log; explicitly report artifact/download absence. Do not infer compiler output solely from GitHub shell output when artifact logs are available."
   },
   "assistant_branch_cleanup_policy": "Reuse suitable assistant branches. For clearly duplicate older/newer assistant branches, inspect histories and contents, merge older into newer preserving newer edits, then mark older safe for user manual removal. Never delete the older branch automatically. This explicit user authorization is limited to assistant branch consolidation.",
-  "inventory_date": "2026-10-29",
+  "inventory_date": "2026-10-31",
   "inventory_branch_count": 75,
   "last_inventory": {
     "date": "2026-10-31",
     "branch_count": 75,
     "original_head_changes": [],
-    "scope": "Repeated early vote staging",
-    "assistant_parent": "fc7f4a04f002a5bfe261aca49d8375fdbf03a946"
+    "scope": "Vote-history persistence and baseline overlay namespace compatibility",
+    "assistant_parent": "c976c633638c13b46d068ef33af011ed58954f3c"
   }
 }
