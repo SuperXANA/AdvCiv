@@ -596,12 +596,14 @@ void CvGameTextMgr::setUnitHelp(CvWStringBuffer &szString, const CvUnit* pUnit,
 				// <advc.004>
 				if (bAlt && /*(gDLL->getChtLvl() > 0))*/ /* advc.135c: */ bDebugMode)
 				{
-					if ((pUnit.getPromotionExpireTurn(eLoopPromotion) - GC.getGame().getGameTurn()) >= 0)
-						szTempBuffer.append((L"(%d)"), (pUnit.getPromotionExpireTurn(eLoopPromotion) - GC.getGame().getGameTurn()));
+					int const iExpireTurn = pUnit->getPromotionExpireTurn(eLoopPromotion);
+					int const iGameTurn = GC.getGame().getGameTurn();
+					if (iExpireTurn > 0 && iExpireTurn >= iGameTurn)
+						szTempBuffer.append(CvWString::format(L"(%d)", iExpireTurn - iGameTurn));
 				}
 				if (bFirst)
 				{
-					szString.append('');
+					szString.append(' ');
 					bFirst = false;
 				} // </advc.004>
 				szString.append(szTempBuffer);
