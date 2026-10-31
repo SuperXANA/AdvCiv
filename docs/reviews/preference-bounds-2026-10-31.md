@@ -106,3 +106,12 @@ The event eligibility path and event execution path both call the random leader/
 A durable correction requires an explicit selection lifecycle in triggered-event data, including save/load handling, or a deterministic eligibility-only check followed by one execution-time draw. The relevant event-triggered-data storage and serialization contract is not supplied in this feature branch. Do not invent those fields or persistence rules.
 
 The prior skip remains in force: the military/defection implementation references `CvUnit::isHero()` and `canFoundCity()`, absent from pinned AdvCiv 1.14 and with no feature-supplied `CvUnit` implementation. Hero classification is unspecified. Do not import unrelated feature branches or invent unit semantics to force a build. No DLL build was triggered; the branch is not approved for integration.
+
+
+---
+
+# Build workflow follow-up — 2026-10-31
+
+The `dll-build` branch advanced from `07133f27906c364b266043a1788ec0eacd2e8b3b` to `f77f8a67cd17fdfa9d1c3f443d49005cee04421e`. The complete commit diff adds `BuildTiming.log` to the list of stale MSBuild logs removed before a build. The source hash gate and build command are unchanged. This prevents a prior timing log from being mistaken for output from the current build.
+
+No native run was triggered for this cleanup-only workflow change. The next meaningful overlay should copy the exact current `.github/workflows/auto-dll-build.yml` from `dll-build`.
