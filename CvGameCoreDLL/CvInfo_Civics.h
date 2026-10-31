@@ -74,8 +74,8 @@ public: // The const functions are exposed to Python except those added by AdvCi
 	std::wstring pyGetWeLoveTheKing() { return getWeLoveTheKing(); }
 	const wchar* getWeLoveTheKing();
 	// XANA: 06-27-2026 Unique Civics and Relgions
-	CivilizationTypes getPrereqCivilization() const { return m_iPrereqCivilization; }
-	LeaderHeadTypes getPrereqLeader() const { return m_iPrereqLeader; }
+	CivilizationTypes getPrereqCivilization() const { return static_cast<CivilizationTypes>(m_iPrereqCivilization); }
+	LeaderHeadTypes getPrereqLeader() const { return static_cast<LeaderHeadTypes>(m_iPrereqLeader); }
 	// XANA: 06-27-2026 Unique Civics and Relgions
 
 	// Array access:
