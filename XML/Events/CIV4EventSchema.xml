@@ -457,7 +457,7 @@
 	<ElementType name="EventPreferenceInfos" content="eltOnly">
 		<element type="EventPreferenceInfo" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
-	<ElementType name="Civ4EventPerferenceInfos" content="eltOnly">
+	<ElementType name="Civ4EventPreferenceInfos" content="eltOnly">
 		<element type="EventPreferenceInfos" minOccurs="1" maxOccurs="1"/>
 	</ElementType>
 	<!-- XANA: 09-05-2026 Event Preferences for AI Decision-Making Process -->
