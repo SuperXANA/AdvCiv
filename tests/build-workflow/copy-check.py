@@ -2,6 +2,7 @@
 """Actual DLL-copy Bash with SCP stand-ins; static upload-condition regression check."""
 import argparse
 import os
+import re
 from pathlib import Path
 import subprocess
 import tempfile
@@ -14,7 +15,14 @@ steps=yaml.safe_load(args.workflow.read_text())['jobs']['build-dll']['steps']
 copy=next(x for x in steps if x['name']=='Copy DLL files Over To Linux')
 upload=next(x for x in steps if x['name']=='Upload Compiled DLL Artifact')
 assert copy['id']=='copy_dll'
-assert upload['if']=="${{ always() && steps.build.outcome == 'success' && steps.copy_dll.outcome == 'success' }}"
+assert "always()" in copy['if'] and "steps.build.outcome == 'success'" in copy['if']
+assert "always()" in upload['if'] and "steps.copy_dll.outcome == 'success'" in upload['if']
+log_copy=next(x for x in steps if x['name']=='Copy Build Log files Over To Linux')
+ps=next(x for x in steps if x.get('id')=='build')['env']['PS_CODE']
+cleared=set(re.findall(r'"([^"\n]+\.log)"',re.search(r'foreach \(\$logName in @\((.*?)\)\)',ps,re.S).group(1)))
+collected=set(re.search(r'for LOG in ([^;]+); do',log_copy['run']).group(1).split())
+assert collected<=cleared,(collected-cleared)
+assert ps.index('foreach ($logName')<ps.index('codex-build-log-token.txt')
 stub=r'''#!/usr/bin/env python3
 import os,sys
 from pathlib import Path

@@ -40,11 +40,11 @@ jobs:
           
           # YAML automatically preserves this string exactly as written
           # add feature commit SHA here
-          FEATURE_COMMIT_SHA: "f843027233b4cacee3709a5de80b16506189a5d0"
+          FEATURE_COMMIT_SHA: "35a2a9e01ebec15ccfbffe47305a0811a65b7edb"
           
           # YAML automatically preserves this string exactly as written
           # add workflow commit SHA here
-          WORKFLOW_COMMIT_SHA: "733140746ebe7a488db066aa85d299897ff6e0e0"
+          WORKFLOW_COMMIT_SHA: "4dec9b6502486a8b045d1f2a44ec9d4569162613"
           
           # YAML automatically preserves this multi-line string exactly as written
           PS_CODE: |
@@ -52,8 +52,9 @@ jobs:
               [string]$cfg
             )
             $ErrorActionPreference = "Stop"
+            $sourceRoot = "R:\CvGameCoreDLL"
             # Preserve the VM's Project configuration and force fresh build outputs.
-            $projectDir = "R:\CvGameCoreDLL\Project"
+            $projectDir = "$sourceRoot\Project"
             foreach ($dir in @("Release", "Debug", "temp_files", "obj")) {
               $outputDir = Join-Path $projectDir $dir
               if (Test-Path $outputDir) { Remove-Item $outputDir -Recurse -Force }
@@ -68,7 +69,6 @@ jobs:
             # rsync preserves runner timestamps; the VM clock can lag behind it.
             # Fresh outputs are already removed, so source-only mtime normalization
             # cannot hide stale objects and does not change verified file contents.
-            $sourceRoot = "R:\CvGameCoreDLL"
             $precompileSource = Get-Item -LiteralPath (Join-Path $sourceRoot "_precompile.cpp")
             $sourceStamp = [DateTime]::UtcNow.AddSeconds(-2)
             $timingLog = Join-Path $projectDir "BuildTiming.log"
@@ -293,7 +293,7 @@ jobs:
         
         # Copy files so upload-artifact can upload them
         mkdir -p artifacts
-        
+
         # Remove earlier local binaries before starting a new transfer.
         rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.pdb
         
@@ -308,7 +308,7 @@ jobs:
         test -s ./artifacts/CvGameCoreDLL.dll
         
     - name: Upload Compiled DLL Artifact
-      if: ${{ always() && steps.build.outcome == 'success' && steps.copy_dll.outcome == 'success' }}
+      if: ${{ always() && steps.copy_dll.outcome == 'success' }}
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
       
       with:
@@ -347,6 +347,6 @@ jobs:
           ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
           
           # Clean up the pulled local data on the Linux orchestrator VM so subsequent runs start completely fresh without old DLL state.
-          rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/*.pdb  ./artifacts/*.log \
+          rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.pdb  ./artifacts/*.log \
             ./build-provenance.txt ./expected-sources.txt ./actual-sources.txt \
            ./source-hashes.diff ./source-verification.txt
