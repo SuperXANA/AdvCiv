@@ -19,3 +19,9 @@ All six actual-copy Bash cases, five log-collection Bash cases and six source-ma
 This diagnostic-only refinement and test use [skip ci]; no DLL build was triggered on this assistant workflow head. Prior exact native passes remain historical evidence for their recorded commits, not native validation of 4dec9b6 or 7a90901. The corrected cleanup block was also copied into the separately pinned CivicScrollDraft native preparation; that run's exact compiler/log results are recorded in the companion metadata report. No remote error was injected between token publication and timing-log writing.
 
 User-owned dll-build and baseline 1.14 remain read-only. The PCH root cause remains unconfirmed; this cleanup-set fix makes no new claim about C1854.
+
+## Source adoption during this pass
+
+A final source-head check found dll-build f77f8a67cd17fdfa9d1c3f443d49005cee04421e. Its only change from 4dec9b6 is the same BuildTiming.log deletion-list correction. That latest source was read and rechecked: six copy cases, five log cases and six hash-guard cases pass locally. After removing the three filled provenance pins, the prepared workflow is byte-identical to this latest source. The original branch was never edited by the assistant. No additional DLL run was triggered merely for this adoption.
+
+The independently pinned Civic run 41224201639 failed on two enum-return compiler errors; after scoped casts, run 41224382638 failed on the original feature's explicitly unfinished changeUnhappinessTimer API. Both complete matrices were followed; all eight ZIPs extracted and actual Build.log/BuildTiming.log plus exact source manifests inspected. The workflow preparation/log collection executed, but neither run produced a DLL. Companion report: docs/reviews/religion-weight-mutation-2026-10-31.md.
