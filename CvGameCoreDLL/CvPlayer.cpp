@@ -14778,7 +14778,7 @@ void CvPlayer::read(FDataStreamBase* pStream)
 		pStream->Read((int*)&eFaction);
 		m_aAlignmentAxisFactions.push_back(eFaction);
 	}
-	stream->Read((int*)&m_eAlignmentFaction);
+	pStream->Read((int*)&m_eAlignmentFaction);
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 }
 
@@ -15162,7 +15162,7 @@ void CvPlayer::write(FDataStreamBase* pStream)
 		std::vector<AlignmentScore>::iterator it;
 		for (it = m_aAlignmentAxisScores.begin(); it != m_aAlignmentAxisScores.end(); ++it)
 		{
-			it.write(pStream);
+			it->write(pStream);
 		}
 	}
 	{
@@ -15174,7 +15174,7 @@ void CvPlayer::write(FDataStreamBase* pStream)
 			pStream->Write(*it);
 		}
 	}
-	stream->Write(m_eAlignmentFaction);
+	pStream->Write(m_eAlignmentFaction);
 	// XANA: 02-14-2026 FfH Faction Alignment for Advanced Civ
 	REPRO_TEST_END_WRITE();
 }
