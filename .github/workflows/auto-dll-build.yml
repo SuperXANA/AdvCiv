@@ -40,11 +40,11 @@ jobs:
           
           # YAML automatically preserves this string exactly as written
           # add feature commit SHA here
-          FEATURE_COMMIT_SHA: "13278bd71472c39ec4ea9d00944b8efbe878ec74"
+          FEATURE_COMMIT_SHA: "f843027233b4cacee3709a5de80b16506189a5d0"
           
           # YAML automatically preserves this string exactly as written
           # add workflow commit SHA here
-          WORKFLOW_COMMIT_SHA: "1cbd526fddeec564231958870aeab3f2be187a4e"
+          WORKFLOW_COMMIT_SHA: "733140746ebe7a488db066aa85d299897ff6e0e0"
           
           # YAML automatically preserves this multi-line string exactly as written
           PS_CODE: |
@@ -58,12 +58,30 @@ jobs:
               $outputDir = Join-Path $projectDir $dir
               if (Test-Path $outputDir) { Remove-Item $outputDir -Recurse -Force }
             }
-            foreach ($logName in @("Build.log", "JustErrors.log", "JustWarnings.log")) {
+            # Remove existing MSBuild logs to protect against uploading older log files - especially when evaluating failing builds
+            foreach ($logName in @("Build.log", "JustErrors.log", "JustWarnings.log", "BuildTiming.log")) {
               $logPath = Join-Path $projectDir $logName
               if (Test-Path -LiteralPath $logPath) { Remove-Item -LiteralPath $logPath -Force }
             }
             # Correlate failure logs with this exact invocation, including reruns.
             Set-Content -LiteralPath (Join-Path $projectDir "codex-build-log-token.txt") -Encoding ASCII '${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.configuration }}-${{ github.sha }}'
+            # rsync preserves runner timestamps; the VM clock can lag behind it.
+            # Fresh outputs are already removed, so source-only mtime normalization
+            # cannot hide stale objects and does not change verified file contents.
+            $sourceRoot = "R:\CvGameCoreDLL"
+            $precompileSource = Get-Item -LiteralPath (Join-Path $sourceRoot "_precompile.cpp")
+            $sourceStamp = [DateTime]::UtcNow.AddSeconds(-2)
+            $timingLog = Join-Path $projectDir "BuildTiming.log"
+            @(
+              ("vm_utc_before=" + [DateTime]::UtcNow.ToString("o")),
+              ("precompile_utc_before=" + $precompileSource.LastWriteTimeUtc.ToString("o")),
+              ("normalized_source_utc=" + $sourceStamp.ToString("o"))
+            ) | Set-Content -LiteralPath $timingLog -Encoding ASCII
+            $sourceExtensions = @(".c", ".cpp", ".h", ".inl")
+            foreach ($sourceFile in @(Get-ChildItem -LiteralPath $sourceRoot -Force | Where-Object { -not $_.PSIsContainer -and $sourceExtensions -contains $_.Extension.ToLowerInvariant() })) {
+              $sourceFile.LastWriteTimeUtc = $sourceStamp
+            }
+            Add-Content -LiteralPath $timingLog -Encoding ASCII ("precompile_utc_after=" + (Get-Item -LiteralPath $precompileSource.FullName).LastWriteTimeUtc.ToString("o"))
             # Check the compiler selected by the machine-local Makefile.user.
             # The VS2010 shell only hosts MSBuild; game code must use VC7.1.
             $probeSource = Join-Path $projectDir "codex-toolset-check.cpp"
@@ -212,21 +230,7 @@ jobs:
           
           # Connect to local Windows Server builder virtual machine and start the build remotely
           ssh Administrator@192.168.2.252 "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG'\""
-          
-    # this always-run upload contains diagnostics, not binaries
-    - name: Upload Source Verification Diagnostics
-      if: ${{ always() && steps.build.outputs.source_verification_started == 'true' }}
-      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
-      with:
-        name: source-verification-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
-        path: |
-          ./expected-sources.txt
-          ./actual-sources.txt
-          ./source-hashes.diff
-          ./source-verification.txt
-          ./build-provenance.txt
-        if-no-files-found: warn
-        
+     
     - name: Copy Build Log files Over To Linux
       if: ${{ always() && steps.build.outputs.build_started == 'true' }}
       shell: bash
@@ -238,6 +242,7 @@ jobs:
         # Copy files so upload-artifact can upload them
         mkdir -p artifacts
         rm -f ./artifacts/*.log
+        
         EXPECTED_LOG_TOKEN='${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.configuration }}-${{ github.sha }}'
         REMOTE_LOG_TOKEN=$(ssh -o IPQoS=throughput Administrator@192.168.2.252 \
           'cat /cygdrive/r/cvgamecoredll/project/codex-build-log-token.txt' | tr -d '\r\n')
@@ -247,7 +252,7 @@ jobs:
         fi
         
         # Get the build log that MSBUild created - local build with updated msbuild cmd verified that these were created in source R:/CvGameCoreDLL/Project
-        for LOG in Build.log JustErrors.log JustWarnings.log; do
+        for LOG in Build.log JustErrors.log JustWarnings.log BuildTiming.log; do
           if ! scp "Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$LOG" ./artifacts/; then
             echo "::warning::No current $LOG could be copied."
           fi
@@ -262,8 +267,23 @@ jobs:
         path: |
           ./artifacts/*.log
         if-no-files-found: error
+    
+    # this always-run upload contains diagnostics, not binaries
+    - name: Upload Source Verification Diagnostics
+      if: ${{ always() && steps.build.outputs.source_verification_started == 'true' }}
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+      with:
+        name: source-verification-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
+        path: |
+          ./expected-sources.txt
+          ./actual-sources.txt
+          ./source-hashes.diff
+          ./source-verification.txt
+          ./build-provenance.txt
+        if-no-files-found: error
         
     - name: Copy DLL files Over To Linux
+      id: copy_dll
       if: ${{ always() && steps.build.outcome == 'success' }}
       shell: bash
       run: |
@@ -274,16 +294,21 @@ jobs:
         # Copy files so upload-artifact can upload them
         mkdir -p artifacts
         
+        # Remove earlier local binaries before starting a new transfer.
+        rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.pdb
+        
         # Get the game DLL file - known-working source location
         scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$CONFIG/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.dll
         # Get the PDB file if this is a Debug build - known-working source location
         if [ "$CONFIG" = "Debug" ]; then
           scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/temp_files/$CONFIG/CvGameCoreDLL.pdb ./artifacts/CvGameCoreDLL.pdb
+          test -s ./artifacts/CvGameCoreDLL.pdb
         fi
         
         test -s ./artifacts/CvGameCoreDLL.dll
         
     - name: Upload Compiled DLL Artifact
+      if: ${{ always() && steps.build.outcome == 'success' && steps.copy_dll.outcome == 'success' }}
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
       
       with:
@@ -303,7 +328,6 @@ jobs:
           PS_CODE: |
             $ErrorActionPreference = "Stop"
             Write-Output "Scrubbing workspace build artifacts..."
-            Remove-Item -LiteralPath "R:\CvGameCoreDLL\Project\codex-build-log-token.txt" -Force -ErrorAction SilentlyContinue
             Set-Location "R:\CvGameCoreDLL\Project"
             $cleanupDirs = @("Release", "Debug", "temp_files", "obj")
             foreach ($dir in $cleanupDirs) {
@@ -312,6 +336,9 @@ jobs:
                 Write-Output "Successfully wiped: $dir"
               }
             }
+            $logToken = "codex-build-log-token.txt"
+            Remove-Item -LiteralPath "R:\CvGameCoreDLL\Project\$logToken" -Force -ErrorAction SilentlyContinue
+            Write-Output "Successfully wiped: $logToken"
       run: |
           # Encode the command for PowerShell
           ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
