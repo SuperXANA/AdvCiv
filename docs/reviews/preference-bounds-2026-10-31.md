@@ -39,3 +39,53 @@ Flags: `g++ -std=c++03 -Wall -Wextra -Werror -pedantic -fsanitize=address,undefi
 Range checks cannot prove category correctness for a wrong-category global ID whose numeric value happens to be within range. No new keyed schema, type registry or authoring contract was invented. Full category validation, real parser/XML installation, owning-info copying/default inheritance/cache, player initialization and complete engine/native integration remain open.
 
 No full MSVC7.1/DLL/game result. Partial scoped code uses [skip ci]; no DLL run triggered. This is not a validation of the real global-ID lookup or enum ABI, which are stubbed in the fixture. Original branches and baseline remain untouched.
+
+
+---
+
+# Follow-up: unit preference consumer and save-load integration — 2026-10-31
+
+Source branch `LeaderCivilizationDecisionPreferences` remains unchanged at `aac03388283a5ac316f6a19f6e3754a7435b6511`. The existing assistant branch was reused; it is now 17 commits ahead of that source head with the source head as its merge base. No user-owned branch was edited.
+
+## PREFERENCE-20261031-08 — independent unit fallback and sentinel safety
+
+In `CvPlayerAI.cpp`, the previous combined fallback only attempted class and combat preferences when neither the leader nor civilization had a more-specific entry. This incorrectly allowed one profile's direct-unit choice to suppress the other profile's class/combat choice. The combat lookup also passed `u.getUnitCombatType()` directly to the bounded index-map accessor; `NO_UNITCOMBAT` is a valid sentinel and must not be used as an array index.
+
+Correction: `copyUnitPreferenceForUnit` now resolves direct unit, then class, then combat independently for each profile. It skips class/combat lookup when the corresponding type is `NO_UNITCLASS`/`NO_UNITCOMBAT`. The resulting leader and civilization choices are both applied.
+
+[Implementation commit ffc3fed40cfc401d40fb482ecf65fe44e6eea32c](https://github.com/SuperXANA/AdvCiv/commit/ffc3fed40cfc401d40fb482ecf65fe44e6eea32c).
+
+## PREFERENCE-20261031-09 — unit percentage modifier was copied but unused
+
+The typed snapshot helper copied `iUnitValueModifierPercent`, but `AI_unitValue` never consumed that value. The unit preference modifier therefore had no effect on unit valuation.
+
+Correction: apply leader and civilization percentage modifiers after the rest of unit valuation, using the same additive-percent convention as technology preferences: multiply by `100 + modifier`, then divide by 100. Both profiles are applied in sequence. The existing integer multiplication convention is retained; extreme modifier/score overflow is not separately proven safe.
+
+[Implementation commit 895734bc6130811d8cb520490c5dd9b92663f561](https://github.com/SuperXANA/AdvCiv/commit/895734bc6130811d8cb520490c5dd9b92663f561). The focused consumer fixture was updated in [bd478e60670bd208d0990e7297ca73edc4af8f37](https://github.com/SuperXANA/AdvCiv/commit/bd478e60670bd208d0990e7297ca73edc4af8f37).
+
+## PREFERENCE-20261031-10 — derived preference selections were not rebuilt after save load
+
+The six cached leader/civilization preference IDs are derived from loaded player identity and XML; they are not serialized. `CvPlayerAI::AI_init` initializes them for new-game initialization, but `CvPlayerAI::read` did not rebuild them after `CvPlayer::read` restored the saved leader and civilization. A loaded game could therefore retain constructor defaults or stale selections.
+
+Correction: the end of `CvPlayerAI::read` now calls `AI_updateTechPreferences`, `AI_updateEventPreferences`, and `AI_updateUnitPreferences` after the saved player state has been read.
+
+[Implementation commit ee098b8c62490346cc6632366ff16ecce9e1cf6d](https://github.com/SuperXANA/AdvCiv/commit/ee098b8c62490346cc6632366ff16ecce9e1cf6d).
+
+## PREFERENCE-20261031-11 — XML schema root spelling
+
+The new technology and event preference schema declarations spelled the root element `PerferenceInfos`, while their loader paths and expected XML root names spell `PreferenceInfos`. Corrected both schema element names.
+
+[Technology schema correction](https://github.com/SuperXANA/AdvCiv/commit/762681ebf7d85738076424e81785170bdabbd121).
+[Event schema correction](https://github.com/SuperXANA/AdvCiv/commit/eb2b2cd551c2ea8fed420f80deb2459e95a3703a).
+
+## PREFERENCE-20261031-12 — event/unit preference XML authoring remains incomplete
+
+`CvXMLLoadUtilitySet.cpp` requests `CIV4UnitPreferenceInfos.xml` at line 713 and `CIV4EventPreferenceInfos.xml` at line 865. The current feature-branch tree contains only `XML/Civilizations/CIV4TechPreferenceInfos.xml`; neither matching event nor unit preference data file is supplied. The event schema now declares the expected structure, but the data file is absent. No unit preference schema/data authoring path is present in this branch.
+
+Do not invent leader/civilization unit or event preferences. Supply the intended XML assets and schemas before runtime validation or full feature integration.
+
+## Verification and limits
+
+A focused C++03 helper fixture compiled with `g++ -std=c++03 -Wall -Wextra -Werror -pedantic` and passed checks for independent leader/civilization fallback, `NO_UNITCLASS`/`NO_UNITCOMBAT` sentinel handling, and compounded percentage modifiers. The repository consumer fixture was expanded to cover 4096 combinations plus sentinel, mixed-specificity, and modifier cases; that full repository fixture was not run in this turn.
+
+All code/test/schema commits used `[skip ci]`; no DLL build was triggered. No MSVC 7.1, actual XML installation/cache, save/load game, or runtime result is claimed. The remaining missing event/unit XML authoring prevents approval of the whole feature for integration.
