@@ -1772,7 +1772,8 @@
       "owning-info copying/default inheritance/cache lifecycle",
       "real XML installation and load-order behavior",
       "percentage modifier bounds and overflow"
-    ]
+    ],
+    "inventory_assistant_branch_count": 34
   },
   "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",
   "previous_baseline_sha": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
@@ -1818,12 +1819,13 @@
       }
     ],
     "scope": "Preference consumer/save-load integration; summon transfer and event selection lifecycle; current build workflow cleanup",
-    "qualification": "75-branch inventory retained. No original source head changed. Assistant branches are isolated derivatives; no authorized assistant-to-assistant consolidation was needed in this pass."
+    "qualification": "75-branch inventory retained. No original source head changed. Assistant branches are isolated derivatives; no authorized assistant-to-assistant consolidation was needed in this pass.",
+    "assistant_branch_count": 34
   },
-  "assistant_branch_count": 32,
+  "assistant_branch_count": 34,
   "assistant_branch_consolidation_review": {
     "date": "2026-10-31",
-    "inventory_assistant_branch_count": 32,
+    "inventory_assistant_branch_count": 34,
     "reviewed_derivatives": [
       {
         "source_branch": "LeaderCivilizationSummoningRandomEvents",
