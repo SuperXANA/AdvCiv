@@ -170,7 +170,14 @@ public:
 		int const iSize = size();
 		T* tempArray = NULL;
 		pXML->SetVariableListTagPair(&tempArray, szXMLTag, iSize);
-		load(tempArray, iSize);
+		// XANA: 10-31-2026 Release local XML staging on failed transfer (ChatGPT)
+		try { load(tempArray, iSize); }
+		catch (...)
+		{
+			SAFE_DELETE_ARRAY(tempArray);
+			throw;
+		}
+		// XANA: 10-31-2026 Release local XML staging on failed transfer (ChatGPT)
 	}
 	struct ConstProxyArray
 	{
@@ -517,17 +524,32 @@ public:
 	{
 		T* tempArray = NULL;
 		pXML->SetVariableListTagPair(&tempArray, szXMLTag, iSIZE);
-		load(tempArray);
+		// XANA: 10-31-2026 Release local XML staging on failed transfer (ChatGPT)
+		try { load(tempArray); }
+		catch (...)
+		{
+			SAFE_DELETE_ARRAY(tempArray);
+			throw;
+		}
+		// XANA: 10-31-2026 Release local XML staging on failed transfer (ChatGPT)
 	}
 	FStaticArray(const FStaticArray& kOther) : m_pArray(NULL) 
 	{
 		if (kOther.m_pArray != NULL)
 		{
-			this->reset();
-			for (int i = 0; i < iSIZE; ++i)
+			// XANA: 10-31-2026 Clean up failed static-array construction (ChatGPT)
+			try
 			{
-				this->m_pArray[i] = kOther.m_pArray[i];
+				this->reset();
+				for (int i = 0; i < iSIZE; ++i)
+					this->m_pArray[i] = kOther.m_pArray[i];
 			}
+			catch (...)
+			{
+				clear();
+				throw;
+			}
+			// XANA: 10-31-2026 Clean up failed static-array construction (ChatGPT)
 		}
 	}
 	FStaticArray& operator=(const FStaticArray& kOther)
