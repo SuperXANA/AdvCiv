@@ -37,4 +37,9 @@ The full build at `26692191a21c50317245db3191ce7d4b47c2644d` completed successfu
 | Release | [124676200129](https://github.com/SuperXANA/AdvCiv/actions/runs/41248273797/job/124676200129) | 0 / 0 | [13059718649](https://github.com/SuperXANA/AdvCiv/actions/runs/41248273797/artifacts/13059718649), 2,349,259 bytes |
 | Debug | [124676200037](https://github.com/SuperXANA/AdvCiv/actions/runs/41248273797/job/124676200037) | 0 / 0 | [13060402551](https://github.com/SuperXANA/AdvCiv/actions/runs/41248273797/artifacts/13060402551), 18,577,826 bytes |
 
-The Debug artifact includes the compiled DLL and matching PDB; the copy step requires both files to exist and be nonempty. Binary archives were not independently downloaded or run. A documentation/coverage follow-up does not change the tested source or retrigger the DLL build.
+The Debug artifact includes the compiled DLL and matching PDB; the copy step requires both files to exist and be nonempty. At initial publication, binary archives had not been independently downloaded or run. A documentation/coverage follow-up does not change the tested source or retrigger the DLL build.
+
+
+## Artifact verification follow-up
+
+The independent [artifact verification report](assertion-artifacts-2026-10-31.md) closes the initial download gap: all four ZIPs, actual MSBuild logs, source manifests/provenance, x86 binaries and matching Debug DLL/PDB identity were checked. Live-game/debugger execution remains untested. No DLL source or workflow was changed by this follow-up.

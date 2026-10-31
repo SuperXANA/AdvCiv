@@ -560,7 +560,7 @@
       "branch": "SidSaysDiscoveryBuild-ChatGPT",
       "head_at_inventory": "26692191a21c50317245db3191ce7d4b47c2644d",
       "coverage": "published_review_artifact",
-      "native_verification": "linked_build_commit_passed",
+      "native_verification": "Release_Debug_build_logs_sources_binaries_and_matching_Debug_symbols_verified",
       "source_branch": "SidSaysPatch",
       "source_head": "8c52c7e7b85cb574ee0494611a8931efb3b20d01",
       "tested_code_sha": "26692191a21c50317245db3191ce7d4b47c2644d",
@@ -588,7 +588,67 @@
       ],
       "reviewed_source_commit": "26692191a21c50317245db3191ce7d4b47c2644d",
       "scope": "Existing Sid discovery implementation plus automatic assertion debugger output/breakpoint path",
-      "qualification": "Both native configurations passed. Live debugger attachment, symbol loading, and assertion handling were not exercised."
+      "qualification": "Actual MSBuild logs 0 warnings/errors, all four ZIPs extracted and archive metadata hashes/sizes verified; 349-file manifests and exact provenance pins match, PE32 x86 DLLs and Debug DLL/PDB CodeView GUID/age identity checked. No live debugger/game execution.",
+      "artifact_verification": {
+        "tested_commit": "26692191a21c50317245db3191ce7d4b47c2644d",
+        "selected_source": "cefc020169ab8ac8938c58b5580ce97829c6fd58",
+        "original_source": "8c52c7e7b85cb574ee0494611a8931efb3b20d01",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "run": 41248273797,
+        "all_four_ZIPs_downloaded_extracted": true,
+        "archive_metadata_sizes_and_SHA256_verified": true,
+        "actual_MSBuild_Build_logs_inspected": true,
+        "actual_BuildTiming_logs_inspected": true,
+        "current_DLL_blobs_match_tested": true,
+        "Release": {
+          "configuration": "Release",
+          "binary_artifact": 13059718649,
+          "diagnostics_artifact": 13060142718,
+          "root_sources": 349,
+          "manifest_sha256": "1fde96efe70489a820c77f7c2331fa41121a84115f1a80a976320eaebf0fdbfb",
+          "warnings": 0,
+          "errors": 0,
+          "dll_bytes": 6565888,
+          "dll_sha256": "6fd670557cdbdb367a832b77ebf27cc0b9c3db05d39d072ef6b7638757370f88",
+          "PE": "PE32 x86 DLL",
+          "timing": [
+            "vm_utc_before=2026-10-31T22:27:38.6493201Z",
+            "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+            "normalized_source_utc=2026-10-31T22:27:36.6493201Z",
+            "precompile_utc_after=2026-10-31T22:27:36.6493201Z"
+          ]
+        },
+        "Debug": {
+          "configuration": "Debug",
+          "binary_artifact": 13060402551,
+          "diagnostics_artifact": 13060781543,
+          "root_sources": 349,
+          "manifest_sha256": "1fde96efe70489a820c77f7c2331fa41121a84115f1a80a976320eaebf0fdbfb",
+          "warnings": 0,
+          "errors": 0,
+          "dll_bytes": 25202688,
+          "dll_sha256": "3df668159f209950aa9a958eede217835364875190a1adf88c77dd1124c482da",
+          "PE": "PE32 x86 DLL",
+          "timing": [
+            "vm_utc_before=2026-10-31T22:30:29.8524471Z",
+            "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+            "normalized_source_utc=2026-10-31T22:30:27.8368211Z",
+            "precompile_utc_after=2026-10-31T22:30:27.8368211Z"
+          ],
+          "pdb_identity": {
+            "format": "RSDS",
+            "guid": "de264c73-57d6-41a5-8407-ec644e2b7834",
+            "age": 1
+          },
+          "pdb_bytes": 70642688,
+          "pdb_sha256": "b5ec001d2bb9994c57087caa9da6062641d42998965142d6150149d218f205a5"
+        },
+        "live_debugger_or_game_tested": false,
+        "report": "docs/reviews/assertion-artifacts-2026-10-31.md"
+      },
+      "latest_review": "docs/reviews/assertion-artifacts-2026-10-31.md",
+      "reviewed_assistant_head": "0b5a7dc869a5f7e2967ac073ca42071dbe707dd7"
     }
   ],
   "current_pass": {
