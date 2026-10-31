@@ -238,7 +238,7 @@ jobs:
         done
 
     - name: Upload Build Artifacts Always on Failure
-      if: steps.build.outcome == 'failure'
+      if: ${{ steps.build.outcome == 'failure' }}
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
       with:
         name: compilation-failure-artifacts-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
