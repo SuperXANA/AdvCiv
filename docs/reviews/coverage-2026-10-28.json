@@ -576,7 +576,7 @@
       "head_at_inventory": "aac03388283a5ac316f6a19f6e3754a7435b6511",
       "coverage": "source_review_partial_with_assistant_refinements",
       "native_verification": "focused_cpp03_helper_fixture_passed_no_dll",
-      "next_action": "Supply the missing Event/Unit preference XML assets and Unit schema; then validate real XML loading, save/load reconstruction, modifier bounds/overflow and a pinned MSVC7.1 DLL overlay. Do not claim feature integration before those assets exist.",
+      "next_action": "Complete in-range category correctness for wrong-category IDs, owning-info copy/default inheritance/cache lifecycle, and real XML installation/load-order review. Supply the missing Event/Unit preference XML assets and Unit schema before any full DLL overlay; then verify save/load reconstruction and percentage bounds/overflow.",
       "refinement_branch": "PreferenceFrameworkDraft-ChatGPT",
       "draft_code_sha": "3a40c7856bab3edd6caf84950370c38d23744c70",
       "finding_ids": [
@@ -1564,7 +1564,7 @@
         "PREFERENCE-20261031-11",
         "PREFERENCE-20261031-12"
       ],
-      "next_action": "Do not run a full DLL build until Event/Unit preference XML assets and the Unit schema are supplied. Then validate XML parser/load order, save/load, category inheritance and percentage bounds/overflow.",
+      "next_action": "Complete in-range category correctness for wrong-category IDs, owning-info copy/default inheritance/cache lifecycle, and real XML installation/load-order review. Supply the missing Event/Unit preference XML assets and Unit schema before any full DLL overlay; then verify save/load reconstruction and percentage bounds/overflow.",
       "qualification": "Scoped C++03 helper fixture passed for independent preference fallback, sentinel guards and sequential percentage modifiers. Updated repository consumer fixture is not yet executed. No real XML/MSVC/DLL/game validation. Source feature branch remains incomplete because Event/Unit preference XML assets are absent.",
       "latest_review": "docs/reviews/preference-bounds-2026-10-31.md",
       "last_review_parent": "80c72f26cd336bc8557669d6027c3ed4244dda94"
@@ -1744,8 +1744,7 @@
     },
     "assistant_heads": {
       "PreferenceFrameworkDraft_ChatGPT": "3a40c7856bab3edd6caf84950370c38d23744c70",
-      "SummonCatchupDraft_ChatGPT": "9408469df1c280bc24db9aee750ac972bb77028b",
-      "PreferenceFramework_ChatGPT": "3a40c7856bab3edd6caf84950370c38d23744c70"
+      "SummonCatchupDraft_ChatGPT": "9408469df1c280bc24db9aee750ac972bb77028b"
     },
     "assistant_parent": "80c72f26cd336bc8557669d6027c3ed4244dda94",
     "code_commits": [
@@ -1767,7 +1766,13 @@
     "repository_consumer_fixture": "updated_not_run",
     "inventory_branch_count": 75,
     "workflow_source_sha": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
-    "ledger_update_commit": "0d560050bac5d1cd218f651fb4d4f860388ace36"
+    "prior_ledger_update_commit": "0d560050bac5d1cd218f651fb4d4f860388ace36",
+    "remaining_preference_scope": [
+      "wrong-category IDs that are numerically in-range",
+      "owning-info copying/default inheritance/cache lifecycle",
+      "real XML installation and load-order behavior",
+      "percentage modifier bounds and overflow"
+    ]
   },
   "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",
   "previous_baseline_sha": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
