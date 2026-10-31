@@ -213,10 +213,6 @@ jobs:
           # Connect to local Windows Server builder virtual machine and start the build remotely
           ssh Administrator@192.168.2.252 "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG'\""
           
-          # Temporary diagnostic-path test after successful MSBuild; not a compiler error.
-          echo '::notice::CHATGPT_CONTROLLED_BUILD_STEP_FAILURE_AFTER_MSBUILD_SUCCESS'
-          exit 1
-
     # this always-run upload contains diagnostics, not binaries
     - name: Upload Source Verification Diagnostics
       if: ${{ always() && steps.build.outputs.source_verification_started == 'true' }}
