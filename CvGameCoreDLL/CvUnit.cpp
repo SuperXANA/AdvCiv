@@ -10686,6 +10686,9 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.read(pStream);
 		m_aiExtraFeatureDefensePercent.read(pStream);
 		m_aiExtraUnitCombatModifier.read(pStream);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+		// The deadline field is read below only for version 9 and later.
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 	}
 	else
 	{
@@ -10696,6 +10699,9 @@ void CvUnit::read(FDataStreamBase* pStream)
 		m_aiExtraFeatureAttackPercent.readArray<int>(pStream);
 		m_aiExtraFeatureDefensePercent.readArray<int>(pStream);
 		m_aiExtraUnitCombatModifier.readArray<int>(pStream);
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
+		// Baseline legacy arrays contain no promotion deadline field.
+// XANA: 05-17-2025 Timed Promotion Expiry Turns
 	}
 // XANA: 10-31-2026 Versioned promotion deadline persistence (ChatGPT)
 	if (uiFlag >= 9)

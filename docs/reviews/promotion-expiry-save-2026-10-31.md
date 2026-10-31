@@ -15,7 +15,7 @@ CvGameCoreDLL/CvUnit.cpp:
 - write: emit uiFlag=9 (line 10720), retaining the existing historical version-8 comment. The existing appended map write is unchanged.
 - remove the unconditional deadline read/readArray calls from the older map branches.
 
-The corrected old-version seven-map tail before the new gate matches the pinned baseline tail exactly. EnumMap.h was read and documents reset() as restoring the map's default; this numeric map defaults to zero. The earlier expiry-sentinel correction treats zero as no scheduled deadline. No deadline is invented for a save that never stored one.
+The corrected old-version seven-map operations before the new gate match the pinned baseline tail; original XANA marker pairs remain at the former deadline-read locations with explanatory comments. EnumMap.h was read and documents reset() as restoring the map's default; this numeric map defaults to zero. The earlier expiry-sentinel correction treats zero as no scheduled deadline. No deadline is invented for a save that never stored one.
 
 Original feature XANA markers and previous lifecycle/sentinel changes remain. New gate/version lines have dated ChatGPT markers. No compact storage type, duration arithmetic, promotion ownership or expiry mechanics change in this patch.
 
