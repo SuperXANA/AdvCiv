@@ -222,7 +222,31 @@ jobs:
           ./build-provenance.txt
         if-no-files-found: warn
         
+    - name: Copy Build Log files Over To Linux
+      shell: bash
+      run: |
+        set -euo pipefail
+        # Set configuration based on matrix
+        CONFIG="${{ matrix.configuration }}"
+        
+        # Copy files so upload-artifact can upload them
+        mkdir -p artifacts
+        
+        # Get the build log that MSBUild created - local build with updated msbuild cmd verified that these were created in source R:/CvGameCoreDLL/Project
+        for LOG in Build.log JustErrors.log JustWarnings.log; do
+          scp "Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$LOG" ./artifacts/
+        done
+
+    - name: Upload Build Artifacts Always on Failure
+      if: steps.build.outcome == 'failure'
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+      with:
+        name: compilation-failure-artifacts-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
+        path: |
+          ./artifacts/*.log
+        
     - name: Copy DLL files Over To Linux
+      if: ${{ always() && steps.build.outcome == 'success' }}
       shell: bash
       run: |
         set -euo pipefail
@@ -234,10 +258,6 @@ jobs:
         
         # Get the game DLL file - known-working source location
         scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$CONFIG/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.dll
-        # Get the build log that MSBUild created - local build with updated msbuild cmd verified that these were created in source R:/CvGameCoreDLL/Project
-        for LOG in Build.log JustErrors.log JustWarnings.log; do
-          scp "Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$LOG" ./artifacts/
-        done
         # Get the PDB file if this is a Debug build - known-working source location
         if [ "$CONFIG" = "Debug" ]; then
           scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/temp_files/$CONFIG/CvGameCoreDLL.pdb ./artifacts/CvGameCoreDLL.pdb
