@@ -558,27 +558,28 @@
       "branch": "HatedCivicReligionDiplomacy",
       "head_at_inventory": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
       "coverage": "source_review_partial",
-      "native_verification": "linked_assistant_overlay_passed_original_not_built",
-      "next_action": "Do not repeat unchanged passing builds. Review save/cache versioning and runtime/metadata/strategy integration as new coverage; inspect source changes first.",
+      "native_verification": "linked_versioned_assistant_overlay_passed_original_not_built",
+      "next_action": "Do not repeat unchanged passing builds. Review actual complete engine save/load and leader-info XML/cache compatibility, runtime strategy/attitude integration; unversioned feature-v22 saves remain unsupported.",
       "refinement_branch": "HatedDiplomacyDraft-ChatGPT",
-      "draft_code_sha": "bd9fe6e0816ed0f6c5311b5fb2aefa6505df4e5e",
+      "draft_code_sha": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
       "finding_ids": [
         "HATED-20261028-01",
         "HATED-20261028-02",
         "HATED-20261030-03",
         "HATED-20261030-04",
         "HATED-20261030-05",
-        "HATED-20261030-06"
+        "HATED-20261030-06",
+        "HATED-20261031-07"
       ],
-      "qualification": "Complete pinned-base plus corrected feature overlay passed Release/Debug MSVC7.1 probes and Rebuild. Both artifact ZIPs extracted; actual Build.log zero warnings/errors, exact provenance/source manifests and PE32 x86 DLLs verified. Original head/save/cache/gameplay not certified.",
-      "latest_review": "docs/reviews/hated-native-2026-10-30.md",
-      "last_review_parent": "c45a473baa07adc9cfbe898f17e074025902016a",
-      "tested_code_sha": "2f37cbcc50427fbf0b81a4c8e6a30270f5af35cd",
-      "feature_snapshot": "e3887b18825dc14d026a0d8fb5f7a6b58a5c7484",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41126096699",
+      "qualification": "Versioned hated counter overlay passed MSVC7.1 Release/Debug Rebuild with 0 warnings/errors. All four ZIPs extracted; actual Build.log, provenance, 349-source manifests, PE32 x86 DLLs and Debug PDB verified. 252 scoped C++03/ASan/UBSan stream cases and 2 negative controls. Original head, whole engine saves, metadata caches and gameplay not certified.",
+      "latest_review": "docs/reviews/hated-save-version-2026-10-31.md",
+      "last_review_parent": "a1a0e57918132ca96759ef289c78c583cde79adb",
+      "tested_code_sha": "1df6f1f3fa80feabbba16a0ba719462ca4dee3b0",
+      "feature_snapshot": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41206948813",
       "native_artifacts": {
-        "release": 13011635160,
-        "debug": 13009659769
+        "release": 13045175164,
+        "debug": 13045445075
       },
       "build_history": [
         {
@@ -593,6 +594,14 @@
           "run": 41126096699,
           "result": "Release_and_Debug_success_0_warnings_0_errors",
           "compiler": "MSVC7.1_1310_probe_verified",
+          "actual_artifact_Build_log_inspected": true
+        },
+        {
+          "commit": "1df6f1f3fa80feabbba16a0ba719462ca4dee3b0",
+          "source": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
+          "run": 41206948813,
+          "result": "Release_Debug_success_0_warnings_0_errors",
+          "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
           "actual_artifact_Build_log_inspected": true
         }
       ],
@@ -617,6 +626,34 @@
         "local_guard_cases": 6,
         "hash_implementation_changed": false,
         "review": "docs/reviews/workflow-source-hash-2026-10-30.md"
+      },
+      "save_version_refinement": {
+        "source_sha": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+        "code_commit": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
+        "tested_commit": "1df6f1f3fa80feabbba16a0ba719462ca4dee3b0",
+        "run": 41206948813,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow_source": "1cbd526fddeec564231958870aeab3f2be187a4e",
+        "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+        "stream_cases": 252,
+        "negative_controls": 2,
+        "all_ZIPs_downloaded_and_extracted": true,
+        "actual_artifact_Build_logs_inspected": true,
+        "PE32_x86_DLLs_verified": true,
+        "root_source_count": 349,
+        "manifest_sha256": "dc8403980c1bc3247b2fcd39f837bfb69e5f4b2b3f2eaf3dadce7091f6e9e14f",
+        "diagnostic_artifacts": {
+          "release": 13043944429,
+          "debug": 13045235380
+        },
+        "dll_artifacts": {
+          "release": 13045175164,
+          "debug": 13045445075
+        },
+        "save_version": 23,
+        "old_feature_version22_saves": "ambiguous_unsupported",
+        "report": "docs/reviews/hated-save-version-2026-10-31.md"
       }
     },
     {
@@ -1505,12 +1542,12 @@
     },
     {
       "branch": "HatedDiplomacyDraft-ChatGPT",
-      "head_at_inventory": "ea9ef9f83f735bcb0660e33908449a316ffa7621",
+      "head_at_inventory": "1df6f1f3fa80feabbba16a0ba719462ca4dee3b0",
       "coverage": "published_review_artifact",
-      "native_verification": "isolated_corrected_workflow_Release_Debug_passed_current_failure_path_observed",
+      "native_verification": "versioned_overlay_release_debug_passed",
       "source_branch": "HatedCivicReligionDiplomacy",
       "source_head": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
-      "draft_code_sha": "bd9fe6e0816ed0f6c5311b5fb2aefa6505df4e5e",
+      "draft_code_sha": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
       "finding_ids": [
         "HATED-20261028-01",
         "HATED-20261028-02",
@@ -1519,18 +1556,19 @@
         "HATED-20261030-05",
         "HATED-20261030-06",
         "WORKFLOW-20261031-05",
-        "WORKFLOW-20261031-06"
+        "WORKFLOW-20261031-06",
+        "HATED-20261031-07"
       ],
-      "next_action": "Retain known-passing overlay and diagnostic fixes. Do not repeat unchanged passing builds; rotate to coverage gaps.",
-      "qualification": "Complete pinned-base plus corrected feature overlay passed Release/Debug MSVC7.1 probes and Rebuild. Both artifact ZIPs extracted; actual Build.log zero warnings/errors, exact provenance/source manifests and PE32 x86 DLLs verified. Original head/save/cache/gameplay not certified.",
-      "latest_review": "docs/reviews/workflow-failure-logs-2026-10-31.md",
-      "last_review_parent": "c45a473baa07adc9cfbe898f17e074025902016a",
-      "tested_code_sha": "52875b0b3b93ee49408d94cf983d59cf13956014",
-      "feature_snapshot": "e3887b18825dc14d026a0d8fb5f7a6b58a5c7484",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41128696560",
+      "next_action": "Do not repeat unchanged passing builds. Review actual complete engine save/load and leader-info XML/cache compatibility, runtime strategy/attitude integration; unversioned feature-v22 saves remain unsupported.",
+      "qualification": "Versioned hated counter overlay passed MSVC7.1 Release/Debug Rebuild with 0 warnings/errors. All four ZIPs extracted; actual Build.log, provenance, 349-source manifests, PE32 x86 DLLs and Debug PDB verified. 252 scoped C++03/ASan/UBSan stream cases and 2 negative controls. Original head, whole engine saves, metadata caches and gameplay not certified.",
+      "latest_review": "docs/reviews/hated-save-version-2026-10-31.md",
+      "last_review_parent": "a1a0e57918132ca96759ef289c78c583cde79adb",
+      "tested_code_sha": "1df6f1f3fa80feabbba16a0ba719462ca4dee3b0",
+      "feature_snapshot": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41206948813",
       "native_artifacts": {
-        "release": 13012616456,
-        "debug": 13013085398
+        "release": 13045175164,
+        "debug": 13045445075
       },
       "build_history": [
         {
@@ -1545,6 +1583,14 @@
           "run": 41126096699,
           "result": "Release_and_Debug_success_0_warnings_0_errors",
           "compiler": "MSVC7.1_1310_probe_verified",
+          "actual_artifact_Build_log_inspected": true
+        },
+        {
+          "commit": "1df6f1f3fa80feabbba16a0ba719462ca4dee3b0",
+          "source": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
+          "run": 41206948813,
+          "result": "Release_Debug_success_0_warnings_0_errors",
+          "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
           "actual_artifact_Build_log_inspected": true
         }
       ],
@@ -1614,6 +1660,34 @@
           }
         },
         "remaining_limitations": "Original dll-build unmodified. First Release C4622/C1854 cause unconfirmed; absent on subsequent normal run. No speculative PCH fix. No gameplay/save certification."
+      },
+      "save_version_refinement": {
+        "source_sha": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+        "code_commit": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
+        "tested_commit": "1df6f1f3fa80feabbba16a0ba719462ca4dee3b0",
+        "run": 41206948813,
+        "status": "Release_Debug_success_0_warnings_0_errors",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow_source": "1cbd526fddeec564231958870aeab3f2be187a4e",
+        "compiler": "MSVC7.1_1310_probe_verified_both_jobs",
+        "stream_cases": 252,
+        "negative_controls": 2,
+        "all_ZIPs_downloaded_and_extracted": true,
+        "actual_artifact_Build_logs_inspected": true,
+        "PE32_x86_DLLs_verified": true,
+        "root_source_count": 349,
+        "manifest_sha256": "dc8403980c1bc3247b2fcd39f837bfb69e5f4b2b3f2eaf3dadce7091f6e9e14f",
+        "diagnostic_artifacts": {
+          "release": 13043944429,
+          "debug": 13045235380
+        },
+        "dll_artifacts": {
+          "release": 13045175164,
+          "debug": 13045445075
+        },
+        "save_version": 23,
+        "old_feature_version22_saves": "ambiguous_unsupported",
+        "report": "docs/reviews/hated-save-version-2026-10-31.md"
       }
     },
     {
@@ -1823,18 +1897,22 @@
     }
   ],
   "current_pass": {
-    "classification": "changed_workflow_failure_logs",
+    "classification": "hated_counter_save_version",
     "date": "2026-10-31",
-    "source_sha": "1cbd526fddeec564231958870aeab3f2be187a4e",
-    "assistant_parent": "484ab0fca026c3b11e8975cb6c71499a2a8b685d",
-    "code_commit": "ea9ef9f83f735bcb0660e33908449a316ffa7621",
+    "source_sha": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+    "assistant_parent": "a1a0e57918132ca96759ef289c78c583cde79adb",
+    "code_commit": "13278bd71472c39ec4ea9d00944b8efbe878ec74",
+    "tested_code_sha": "1df6f1f3fa80feabbba16a0ba719462ca4dee3b0",
     "dll_build_triggered": true,
-    "run": 41203236797,
+    "run": 41206948813,
+    "stream_cases": 252,
+    "negative_controls": 2,
+    "inventory_branch_count": 75,
     "result": "Release_Debug_success_0_warnings_0_errors",
-    "failure_probe_run": 41202703341,
-    "local_collection_cases": 4,
-    "local_manifest_guard_cases": 6,
-    "inventory_branch_count": 75
+    "verified_artifacts": {
+      "release": 13045175164,
+      "debug": 13045445075
+    }
   },
   "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",
   "previous_baseline_sha": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
@@ -1857,14 +1935,8 @@
   "last_inventory": {
     "date": "2026-10-31",
     "branch_count": 75,
-    "original_head_changes": [
-      {
-        "branch": "dll-build",
-        "previous_head": "07133f27906c364b266043a1788ec0eacd2e8b3b",
-        "head": "1cbd526fddeec564231958870aeab3f2be187a4e"
-      }
-    ],
-    "scope": "Changed failure-log workflow; known-passing DLL source control",
-    "assistant_parent": "484ab0fca026c3b11e8975cb6c71499a2a8b685d"
+    "original_head_changes": [],
+    "scope": "Hated civic/religion counter save versioning",
+    "assistant_parent": "a1a0e57918132ca96759ef289c78c583cde79adb"
   }
 }
