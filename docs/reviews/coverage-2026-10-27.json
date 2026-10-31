@@ -558,23 +558,37 @@
     },
     {
       "branch": "SidSaysDiscoveryBuild-ChatGPT",
-      "head_at_inventory": "e58809298b28163773301b58a9def25af3fe2bd7",
+      "head_at_inventory": "26692191a21c50317245db3191ce7d4b47c2644d",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
       "source_branch": "SidSaysPatch",
       "source_head": "8c52c7e7b85cb574ee0494611a8931efb3b20d01",
-      "tested_code_sha": "e58809298b28163773301b58a9def25af3fe2bd7",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40604520179",
-      "next_action": "Reuse this isolated branch for a later explicitly invoked diagnostic hook and evidence-based patch; Release/Debug diagnostic DLL compilation passed.",
+      "tested_code_sha": "26692191a21c50317245db3191ce7d4b47c2644d",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41248273797",
+      "next_action": "Validate enabled assertions in an attached native debugger. Later Sid label work still requires an explicitly invoked diagnostic hook and live UI evidence.",
       "artifacts": {
-        "Release": 12780770867,
-        "Debug": 12780811116
+        "Release": 13059718649,
+        "Debug": 13060402551
       },
       "native_configurations": [
         "Release",
         "Debug"
       ],
-      "compiler": "_MSC_VER == 1310 (MSVC 7.1)"
+      "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
+      "native_validation_history": [
+        {
+          "tested_code_sha": "e58809298b28163773301b58a9def25af3fe2bd7",
+          "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40604520179",
+          "artifacts": {
+            "Release": 12780770867,
+            "Debug": 12780811116
+          },
+          "scope": "Sid attribution discovery refinement"
+        }
+      ],
+      "reviewed_source_commit": "26692191a21c50317245db3191ce7d4b47c2644d",
+      "scope": "Existing Sid discovery implementation plus automatic assertion debugger output/breakpoint path",
+      "qualification": "Both native configurations passed. Live debugger attachment, symbol loading, and assertion handling were not exercised."
     }
   ],
   "current_pass": {
@@ -599,5 +613,43 @@
     "deferred_target": "FFHRaceTypes",
     "deferred_scope": "Source inventory and XANA blocks read for triage; changed SidSaysPatch head took priority before a scoped evaluation/refinement was completed.",
     "native_result": "success_release_and_debug_zero_warnings_zero_errors"
-  }
+  },
+  "last_updated": "2026-10-31",
+  "requested_followups": [
+    {
+      "id": "ASSERT-AUTO-20261031",
+      "date": "2026-10-31",
+      "branch": "SidSaysDiscoveryBuild-ChatGPT",
+      "reviewed_starting_head": "507912e1f5bc2002b876789bc02d62eff6c0ac05",
+      "source_commit": "cefc020169ab8ac8938c58b5580ce97829c6fd58",
+      "build_commit": "26692191a21c50317245db3191ce7d4b47c2644d",
+      "scope": "CvGameCoreDLL/FAssert.cpp: debugger output and automatic Debug path when IsDebuggerPresent() is true",
+      "baseline_sha": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "workflow_source_sha": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41248273797",
+      "native_result": "success_release_and_debug_zero_warnings_zero_errors",
+      "validation": [
+        {
+          "configuration": "Release",
+          "job_id": 124676200129,
+          "artifact_id": 13059718649,
+          "size_in_bytes": 2349259,
+          "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
+          "warnings": 0,
+          "errors": 0
+        },
+        {
+          "configuration": "Debug",
+          "job_id": 124676200037,
+          "artifact_id": 13060402551,
+          "size_in_bytes": 18577826,
+          "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
+          "warnings": 0,
+          "errors": 0
+        }
+      ],
+      "report": "docs/reviews/automatic-assert-debug-2026-10-31.md",
+      "live_game_verification": "not_performed"
+    }
+  ]
 }
