@@ -58,12 +58,29 @@ jobs:
               $outputDir = Join-Path $projectDir $dir
               if (Test-Path $outputDir) { Remove-Item $outputDir -Recurse -Force }
             }
-            foreach ($logName in @("Build.log", "JustErrors.log", "JustWarnings.log")) {
+            foreach ($logName in @("Build.log", "JustErrors.log", "JustWarnings.log", "BuildTiming.log")) {
               $logPath = Join-Path $projectDir $logName
               if (Test-Path -LiteralPath $logPath) { Remove-Item -LiteralPath $logPath -Force }
             }
             # Correlate failure logs with this exact invocation, including reruns.
             Set-Content -LiteralPath (Join-Path $projectDir "codex-build-log-token.txt") -Encoding ASCII '${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.configuration }}-${{ github.sha }}'
+            # rsync preserves runner timestamps; the VM clock can lag behind it.
+            # Fresh outputs are already removed, so source-only mtime normalization
+            # cannot hide stale objects and does not change verified file contents.
+            $sourceRoot = "R:\CvGameCoreDLL"
+            $precompileSource = Get-Item -LiteralPath (Join-Path $sourceRoot "_precompile.cpp")
+            $sourceStamp = [DateTime]::UtcNow.AddSeconds(-2)
+            $timingLog = Join-Path $projectDir "BuildTiming.log"
+            @(
+              ("vm_utc_before=" + [DateTime]::UtcNow.ToString("o")),
+              ("precompile_utc_before=" + $precompileSource.LastWriteTimeUtc.ToString("o")),
+              ("normalized_source_utc=" + $sourceStamp.ToString("o"))
+            ) | Set-Content -LiteralPath $timingLog -Encoding ASCII
+            $sourceExtensions = @(".c", ".cpp", ".h", ".inl")
+            foreach ($sourceFile in @(Get-ChildItem -LiteralPath $sourceRoot -Force | Where-Object { -not $_.PSIsContainer -and $sourceExtensions -contains $_.Extension.ToLowerInvariant() })) {
+              $sourceFile.LastWriteTimeUtc = $sourceStamp
+            }
+            Add-Content -LiteralPath $timingLog -Encoding ASCII ("precompile_utc_after=" + (Get-Item -LiteralPath $precompileSource.FullName).LastWriteTimeUtc.ToString("o"))
             # Check the compiler selected by the machine-local Makefile.user.
             # The VS2010 shell only hosts MSBuild; game code must use VC7.1.
             $probeSource = Join-Path $projectDir "codex-toolset-check.cpp"
@@ -247,7 +264,7 @@ jobs:
         fi
         
         # Get the build log that MSBUild created - local build with updated msbuild cmd verified that these were created in source R:/CvGameCoreDLL/Project
-        for LOG in Build.log JustErrors.log JustWarnings.log; do
+        for LOG in Build.log JustErrors.log JustWarnings.log BuildTiming.log; do
           if ! scp "Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$LOG" ./artifacts/; then
             echo "::warning::No current $LOG could be copied."
           fi
