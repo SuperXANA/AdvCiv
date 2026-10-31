@@ -571,7 +571,7 @@
 	<ElementType name="TechPreferenceInfos" content="eltOnly">
 		<element type="TechPreferenceInfo" minOccurs="0" maxOccurs="*"/>
 	</ElementType>
-	<ElementType name="Civ4TechPerferenceInfos" content="eltOnly">
+	<ElementType name="Civ4TechPreferenceInfos" content="eltOnly">
 		<element type="TechPreferenceInfos" minOccurs="1" maxOccurs="1"/>
 	</ElementType>
 	<!-- XANA: 04-26-2025 Favorite Technologies for Advanced Civ -->
