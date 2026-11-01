@@ -39,11 +39,17 @@ public:
 	void Write(int iValue)			{ if (m_pStream) m_pStream->Write(iValue); }
 	void Write(bool bValue)			{ if (m_pStream) m_pStream->Write(bValue); }
 	// XANA: 10-27-2026 Strings must use the string codec, not pointer-to-bool conversion.
-	void Write(const TCHAR* szVal)	{ if (m_pStream) m_pStream->WriteString(szVal); }
+	// XANA: 11-01-2026 Route both character widths to their string codecs (ChatGPT)
+	void Write(const char* szVal)	{ if (m_pStream) m_pStream->WriteString(szVal); }
+	void Write(const wchar* szVal) { if (m_pStream) m_pStream->WriteString(szVal); }
+	// XANA: 11-01-2026 Route both character widths to their string codecs (ChatGPT)
 	void Read(int* piValue)			{ if (m_pStream) m_pStream->Read(piValue); }
 	void Read(bool* pbValue)		{ if (m_pStream) m_pStream->Read(pbValue); }
 	// The caller must provide a sufficiently large buffer, as with the base API.
-	void Read(TCHAR* szVal)			{ if (m_pStream) m_pStream->ReadString(szVal); }
+	// XANA: 11-01-2026 Read either width through the matching string codec (ChatGPT)
+	void Read(char* szVal)			{ if (m_pStream) m_pStream->ReadString(szVal); }
+	void Read(wchar* szVal)		{ if (m_pStream) m_pStream->ReadString(szVal); }
+	// XANA: 11-01-2026 Read either width through the matching string codec (ChatGPT)
 	// XANA: 10-27-2026 Use owning strings when the destination size is unknown.
 	void WriteString(std::string const& szVal) { if (m_pStream) m_pStream->WriteString(szVal); }
 	void WriteString(std::wstring const& szVal) { if (m_pStream) m_pStream->WriteString(szVal); }
