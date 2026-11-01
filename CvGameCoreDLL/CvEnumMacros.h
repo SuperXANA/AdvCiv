@@ -164,6 +164,9 @@
 #define CvDomainInfo CvInfoBase
 #define CvAttitudeInfo CvInfoBase
 #define CvMemoryInfo CvInfoBase
+// XANA: 11-01-2026 Gender basic-info class alias (ChatGPT)
+#define CvGenderInfo CvInfoBase
+// XANA: 11-01-2026 Gender basic-info class alias (ChatGPT)
 #define CvCityTabInfo CvInfoBase
 #define CvCalendarInfo CvInfoBase
 #define CvUnitAIInfo CvInfoBase
