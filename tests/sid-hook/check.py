@@ -25,8 +25,8 @@ group=game_header[game_header.index('\tbool m_bScoreDirty;'):game_header.index('
 assert len(re.findall(r'\bbool m_b',group))==16
 start=game.index('if (isFinalInitialized() &&',game.index('void CvGame::update()'))
 hook=game[start:game.index('\n\t// XANA:',start)]
-reset='smc::BtS_EXE.resetSidSaysDiscovery();'
-assert reset in game[game.index('void CvGame::reset('):game.index('void CvGame::reset(')+15000]
+reset='if (!bConstructorCall) smc::BtS_EXE.resetSidSaysDiscovery();'
+assert 'if (!bConstructorCall)\n\t\tsmc::BtS_EXE.resetSidSaysDiscovery();' in game[game.index('void CvGame::reset('):game.index('void CvGame::reset(')+15000]
 driver=r'''
 #include <cstddef>
 #include <iostream>
@@ -37,7 +37,7 @@ void Civ4BeyondSwordPatches::showErrorMsgToPlayer(CvWString msg){playerErrors.pu
 struct GameHarness {
     bool ready;
     bool isFinalInitialized()const{return ready;}
-    void resetHook(){RESET}
+    void resetHook(bool bConstructorCall=false){RESET}
     void updateHook(){HOOK}
 };
 struct OldBoolGroup{bool values[16];int next;};
@@ -62,6 +62,7 @@ int main(){
         assert(smc::BtS_EXE.isSidSaysDiscoveryDone());
         if(eligible)assert(reads==first);
         GC.disabled=false;first=reads;game.updateHook();assert(reads==first);
+        game.resetHook(true);assert(smc::BtS_EXE.isSidSaysDiscoveryDone());
         game.resetHook();assert(!smc::BtS_EXE.isSidSaysDiscoveryDone());
         setup();GC.map.plots=3;game.ready=false;game.updateHook();assert(reads==0);
         game.ready=true;game.updateHook();assert(reads>0&&playerErrors.size()==1);

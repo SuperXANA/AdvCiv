@@ -627,7 +627,8 @@ void CvGame::reset(HandicapTypes eHandicap, bool bConstructorCall)
 	m_bDoMShown = false; // advc.004x
 	m_bFPTestDone = false; // advc.003g
 	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
-	smc::BtS_EXE.resetSidSaysDiscovery();
+	if (!bConstructorCall)
+		smc::BtS_EXE.resetSidSaysDiscovery();
 	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
 	// <advc.003r>
 	for (int i = 0; i < NUM_UPDATE_TIMER_TYPES; i++)
