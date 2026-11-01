@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Compile the actual XANA enum proxy against a small C++03 globals fixture."""
+import os
 import pathlib
 import subprocess
 import tempfile
@@ -14,6 +15,7 @@ declaration = next(line.strip() for line in header.splitlines()
                    if "CvEnumType getEnumForString(" in line)
 fixture = r'''
 #include <cassert>
+#include <cstdio>
 #include <cstring>
 #include <string>
 #include "CvEnumMacros.h"
@@ -54,7 +56,21 @@ int main() {
     assert(static_cast<int>(preserved) == 17);
     UnitTypes missing = GET_ENUM_HIDE_ASSERT("UNIT_MISSING");
     assert(static_cast<int>(missing) == -1 && hideAssertSeen);
-    UnitTypes mismatch = GET_ENUM("CIVIC_POLICE_STATE");
+    // The actual baseline accepts NONE and empty optional XML names silently.
+    int sentinelCases = 0;
+#define CHECK_SENTINELS(Name, Prefix) { \
+    Name##Types none = GET_ENUM("NONE"); \
+    Name##Types empty = GET_ENUM(""); \
+    Name##Types hidden = GET_ENUM_HIDE_ASSERT("NONE"); \
+    assert(static_cast<int>(none) == -1 && static_cast<int>(empty) == -1 && static_cast<int>(hidden) == -1); \
+    sentinelCases += 3; \
+}
+    DO_FOR_EACH_DYN_INFO_TYPE(CHECK_SENTINELS)
+    DO_FOR_EACH_STATIC_INFO_TYPE(CHECK_SENTINELS)
+#undef CHECK_SENTINELS
+    assert(sentinelCases > 0 && assertionCount == 0);
+    std::printf("%d typed sentinel conversions passed\n", sentinelCases);
+        UnitTypes mismatch = GET_ENUM("CIVIC_POLICE_STATE");
     (void)mismatch;
 #ifdef FASSERT_ENABLE
     assert(assertionCount == 1);
@@ -69,8 +85,10 @@ with tempfile.TemporaryDirectory() as temp:
     source.write_text(fixture)
     for assertions in (False, True):
         binary = pathlib.Path(temp) / ("assertions" if assertions else "release")
-        command = ["g++", "-std=c++03", "-pedantic-errors", "-Wall", "-Wextra",
+        command = ["g++", "-std=c++03", "-fno-exceptions", "-pedantic-errors", "-Wall", "-Wextra", "-Werror",
                    "-I", str(macros.parent), str(source), "-o", str(binary)]
+        if os.environ.get("ENUM_LOOKUP_SANITIZE"):
+            command[1:1] = ["-fsanitize=address,undefined", "-fno-omit-frame-pointer"]
         if assertions:
             command.insert(1, "-DFASSERT_ENABLE")
         subprocess.run(command, check=True)

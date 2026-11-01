@@ -988,7 +988,9 @@ public:
     operator EnumType() const
     {
 #ifdef FASSERT_ENABLE
-    	VALIDATE_ENUM(static_cast<EnumType*>(NULL));
+    	// XANA: 10-31-2026 Preserve baseline optional-name sentinels (ChatGPT)
+    	if (!m_szType.empty() && m_szType != "NONE")
+    		VALIDATE_ENUM(static_cast<EnumType*>(NULL));
     	// XANA (note): We must acquire a NULL pointer of this Enum Type, in order to ensure the proper overload of the function is called, therefore the call shall reference what Enum prefix we are validating for.
 #endif
     	return static_cast<EnumType>(CvGlobals::getConstInstance().getInfoTypeForString(m_szType.c_str(), m_bHideAssert));
