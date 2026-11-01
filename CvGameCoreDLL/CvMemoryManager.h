@@ -22,20 +22,26 @@
 // Deletes a 2D array (array of pointers to arrays)
 // p: The double pointer array (e.g., m_aiiDoubleArray)
 // size: The size of the outer array (e.g., numRows, or GC.getNumTraitInfos())
+// XANA: 11-01-2026 Evaluate deletion arguments once, outside macro scope (ChatGPT)
+template<class T>
+inline void FDelete2DArray(T**& pArray, int iRows)
+{
+    if (pArray == NULL)
+        return;
+    for (int iRow = 0; iRow < iRows; ++iRow)
+    {
+        SAFE_DELETE_ARRAY(pArray[iRow]);
+    }
+    SAFE_DELETE_ARRAY(pArray);
+}
+// XANA: 11-01-2026 Evaluate deletion arguments once, outside macro scope (ChatGPT)
 #define SAFE_DELETE_2D_ARRAY(p, size) \
  /* XANA (note): The do {...} while(false) loop causes the macro statement to run only once, and forces the macro to require a semicolon after it */ \
     do \
-	{ \
-		if (p != NULL) \
-		{ \
-            for (int i = 0; i < (size); ++i) \
-			{ \
-                SAFE_DELETE_ARRAY(p[i]); /* Reuse the simple array macro */ \
-            } \
-            SAFE_DELETE_ARRAY(p); /* Reuse the simple array macro */ \
-        } \
+    { \
+        ::FDelete2DArray((p), (size)); \
     } \
-	while (false)
+    while (false)
 
 #ifdef _DEBUG
 //#define MEMORY_TRACKING
