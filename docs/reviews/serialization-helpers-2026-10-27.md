@@ -39,3 +39,8 @@ uses MSBuild to invoke the NMake project. The machine-local
 `R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
 compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
 the DLL's C/C++ compilation uses MSVC 7.1.
+
+
+## Both-character-width follow-up — 2026-11-01
+
+The [character-width refinement](stream-width-2026-11-01.md) closes the remaining pointer-to-bool path for a raw string whose width differs from TCHAR. Both raw widths now explicitly forward to string codecs; owning/primitive/enum/null-stream behavior remains intact. Each TCHAR configuration passes 133 focused cases, and an exact Release/Debug DLL matrix passes with all four archives, actual Build.log/timing, 350-source manifests/provenance and Debug symbol identity verified. Existing record-migration and runtime verification limits still apply.
