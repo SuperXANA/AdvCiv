@@ -1,0 +1,63 @@
+{
+  "finding": "FIRST-20261101-01",
+  "source": "cc764ad80e89f751f809998a61a23225254109f2",
+  "assistant_parent": "3589d41a23b722a2b4bac89d0f32c759a4599d85",
+  "code": "b0802e9365fea80de4bedc41fa920a122dd48ba2",
+  "tested_commit": "08a82f722a9c6d56d94d0ed68f61927796dc7989",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+  "run": 41286570324,
+  "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41286570324",
+  "completed_success": true,
+  "compiler_probe_verified_both": "_MSC_VER == 1310 (MSVC 7.1)",
+  "all_four_archives_size_SHA256_verified_and_extracted": true,
+  "actual_MSBuild_logs_and_timing_verified": true,
+  "exact_manifest_names_match_tested_tree": true,
+  "modified_UWAI_independently_hashed": true,
+  "host_cases": 16,
+  "old_bounds_error_reproduced": true,
+  "host_and_game_limits": "Actual collection block; globals/leader/enum stand-ins. No game or engine XML/cache/save execution.",
+  "Release": {
+    "configuration": "Release",
+    "binary_artifact": 13075243536,
+    "diagnostics_artifact": 13075637711,
+    "root_sources": 349,
+    "manifest_sha256": "ff9b3924606d699a3f1425c6a82b98024f4c3a6d1da9d1f10e01b9f748964d6d",
+    "warnings": 0,
+    "errors": 0,
+    "dll_bytes": 6565888,
+    "dll_sha256": "314148e24f72af987965c471fe5c7ca2bc21910533c50045a6d2651b4c347eb7",
+    "PE": "PE32 x86 DLL",
+    "timing": [
+      "vm_utc_before=2026-11-01T07:53:30.2118202Z",
+      "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+      "normalized_source_utc=2026-11-01T07:53:28.2118202Z",
+      "precompile_utc_after=2026-11-01T07:53:28.2118202Z"
+    ]
+  },
+  "Debug": {
+    "configuration": "Debug",
+    "binary_artifact": 13075094182,
+    "diagnostics_artifact": 13075623011,
+    "root_sources": 349,
+    "manifest_sha256": "ff9b3924606d699a3f1425c6a82b98024f4c3a6d1da9d1f10e01b9f748964d6d",
+    "warnings": 0,
+    "errors": 0,
+    "dll_bytes": 25182208,
+    "dll_sha256": "1c465fe5abb912045d626a1062461fc8db9fdf7974b8284c0c539973fc78383a",
+    "PE": "PE32 x86 DLL",
+    "timing": [
+      "vm_utc_before=2026-11-01T07:56:14.5868192Z",
+      "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+      "normalized_source_utc=2026-11-01T07:56:12.5868192Z",
+      "precompile_utc_after=2026-11-01T07:56:12.5868192Z"
+    ],
+    "pdb_identity": {
+      "format": "RSDS",
+      "guid": "46acb82c-897d-49bb-8452-b4c7febed4b9",
+      "age": 1
+    },
+    "pdb_bytes": 70609920,
+    "pdb_sha256": "e28c199e388eb232d3e5ea98939676b6da4e919d2ac36cdf2bdf4529b251680d"
+  }
+}
