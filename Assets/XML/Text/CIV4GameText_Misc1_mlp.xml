@@ -525,4 +525,12 @@
 		<Italian>"Hai negoziato un embargo contro di noi!"</Italian>
 		<Spanish>"&#161;Hab&#233;is negociado un embargo comercial contra nosotros!"</Spanish>
 	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_SIDS_TIPS</Tag> <!-- XANA: Attribute Strategy Tips to Solais a Tuath (Aurora Borealis), the lore historian of the MLP Civ Gen 4+Gen 5 world -->
+		<English>[COLOR_HIGHLIGHT_TEXT]Sol's Tips: [COLOR_REVERT]</English>
+		<French>[COLOR_HIGHLIGHT_TEXT]Conseils de Sol : [COLOR_REVERT]</French>
+		<German>[COLOR_HIGHLIGHT_TEXT]Sols Tipps: [COLOR_REVERT]</German>
+		<Italian>[COLOR_HIGHLIGHT_TEXT]Il suggerimento di Sol: [COLOR_REVERT]</Italian>
+		<Spanish>[COLOR_HIGHLIGHT_TEXT]Consejo de Sol: [COLOR_REVERT]</Spanish>
+	</TEXT>
 </Civ4GameText>
