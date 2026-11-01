@@ -516,6 +516,9 @@ class CvTechPreferenceInfo : public CvInfoBase
 	friend class CvXMLLoadUtility;
 public: // All the const functions returning primitive types are exposed to Python
 	CvTechPreferenceInfo();
+	// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
+	CvTechPreferenceInfo(CvTechPreferenceInfo const& kOther);
+	// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
 	~CvTechPreferenceInfo();
 
 	int getLeaderType() const;

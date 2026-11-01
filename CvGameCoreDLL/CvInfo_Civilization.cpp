@@ -1570,6 +1570,24 @@ CvTechPreferenceInfo::CvTechPreferenceInfo() :
 	m_aiVectorIndexMap(NULL)
 {}
 
+// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
+CvTechPreferenceInfo::CvTechPreferenceInfo(CvTechPreferenceInfo const& kOther) :
+	base_t(kOther),
+	m_iLeaderType(kOther.m_iLeaderType),
+	m_iCivilizationType(kOther.m_iCivilizationType),
+	m_vTechPrefData(kOther.m_vTechPrefData),
+	m_aiVectorIndexMap(NULL)
+{
+	if (kOther.m_aiVectorIndexMap != NULL)
+	{
+		int const iCount = GC.getNumTechInfos();
+		m_aiVectorIndexMap = new int[iCount];
+		for (int i = 0; i < iCount; ++i)
+			m_aiVectorIndexMap[i] = kOther.m_aiVectorIndexMap[i];
+	}
+}
+// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
+
 CvTechPreferenceInfo::~CvTechPreferenceInfo()
 {
 	SAFE_DELETE_ARRAY(m_aiVectorIndexMap);

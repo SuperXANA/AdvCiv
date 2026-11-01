@@ -2563,6 +2563,42 @@ CvUnitPreferenceInfo::CvUnitPreferenceInfo() :
 	m_aiVectorIndexMapForUnits(NULL)
 {}
 
+// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
+CvUnitPreferenceInfo::CvUnitPreferenceInfo(CvUnitPreferenceInfo const& kOther) :
+	base_t(kOther),
+	m_iLeaderType(kOther.m_iLeaderType),
+	m_iCivilizationType(kOther.m_iCivilizationType),
+	m_vUnitCombatPrefData(kOther.m_vUnitCombatPrefData),
+	m_vUnitClassPrefData(kOther.m_vUnitClassPrefData),
+	m_vUnitPrefData(kOther.m_vUnitPrefData),
+	m_aiVectorIndexMapForUnitCombats(NULL),
+	m_aiVectorIndexMapForUnitClasses(NULL),
+	m_aiVectorIndexMapForUnits(NULL)
+{
+	if (kOther.m_aiVectorIndexMapForUnitCombats != NULL)
+	{
+		int const iCount = GC.getNumUnitCombatInfos();
+		m_aiVectorIndexMapForUnitCombats = new int[iCount];
+		for (int i = 0; i < iCount; ++i)
+			m_aiVectorIndexMapForUnitCombats[i] = kOther.m_aiVectorIndexMapForUnitCombats[i];
+	}
+	if (kOther.m_aiVectorIndexMapForUnitClasses != NULL)
+	{
+		int const iCount = GC.getNumUnitClassInfos();
+		m_aiVectorIndexMapForUnitClasses = new int[iCount];
+		for (int i = 0; i < iCount; ++i)
+			m_aiVectorIndexMapForUnitClasses[i] = kOther.m_aiVectorIndexMapForUnitClasses[i];
+	}
+	if (kOther.m_aiVectorIndexMapForUnits != NULL)
+	{
+		int const iCount = GC.getNumUnitInfos();
+		m_aiVectorIndexMapForUnits = new int[iCount];
+		for (int i = 0; i < iCount; ++i)
+			m_aiVectorIndexMapForUnits[i] = kOther.m_aiVectorIndexMapForUnits[i];
+	}
+}
+// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
+
 CvUnitPreferenceInfo::~CvUnitPreferenceInfo()
 {
 	SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitCombats);
