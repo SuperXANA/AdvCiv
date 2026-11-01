@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "snapshot_date": "2026-10-28",
+  "snapshot_date": "2026-11-01",
   "repository": "SuperXANA/AdvCiv",
   "baseline_sha": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
   "policy": [
@@ -846,11 +846,11 @@
     {
       "branch": "LeaderCivilizationVariantMechanics",
       "head_at_inventory": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
-      "coverage": "source_review_partial",
-      "native_verification": "component_restoration_lifecycle_and_stream_fixtures_only_no_dll",
-      "next_action": "Review same-type refresh/zero-duration/cancellation and permanent-edit policies, actual enum-map encoding and whole-feature metadata/player/yield integration before native validation.",
+      "coverage": "source_review_partial_variety_component_corrected_metadata_integration_blocked",
+      "native_verification": "not_built_exact_source_head_inconsistent_axis_metadata",
+      "next_action": "Skip unchanged original 39edf4ca659e806b6fb4bb2de4ab280756829a99 and associated whole-feature integration. Resume after user source supplies a consistent gameplay axis declaration/constructor/getter/XML contract and intended sign/configuration details. Preserve the component fixes; do not invent metadata or run partial/baseline builds.",
       "review_branch": "PlotTimerDraft-ChatGPT",
-      "draft_code_sha": "6cce496f0f0de61f236b1be2ad7a3d6299b0e2e3",
+      "draft_code_sha": "deccf25b689cd34c355ee9094d64863a43c8701f",
       "source_review_scope": "Temporary plot timer wrappers and complete supporting PlotTempChangeMap component; map and UI consumers read for context. Other gameplay-mechanic loading/player/yield scopes not certified.",
       "finding_ids": [
         "PLOTTIMER-20261027-01",
@@ -859,12 +859,32 @@
         "PLOTTIMER-20261028-04",
         "PLOTTIMER-20261028-05",
         "PLOTTIMER-20261030-06",
-        "PLOTTIMER-20261030-07"
+        "PLOTTIMER-20261030-07",
+        "PLOTTIMER-20261031-08",
+        "VARIANT-20261031-01"
       ],
-      "qualification": "Five actual temporary setters plus complete timer component passed 3744 C++03/ASan/UBSan repeated-change sequences with plot/enum-map engine stubs; original guards fail backup assertion. No real setters/save/metadata/MSVC/DLL/game result.",
+      "qualification": "7294 actual temporary-feature setter/ordinary normalization-front-end/complete timer-component C++03 -fno-exceptions ASan/UBSan sequences and one type-only-guard control; prior 3744 restoration cases pass. Engine metadata/art/EnumMap/remaining setter behavior are stand-ins. No DLL/MSVC/game result. New exact-head readiness skip records inconsistent/missing axis metadata implementation; no compiler run was made for that blocker.",
       "source_head": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
-      "latest_review": "docs/reviews/plot-restoration-2026-10-30.md",
-      "last_review_parent": "887dde82df4082665e22ba7b50da17ffa06e915a"
+      "latest_review": "docs/reviews/plot-variety-2026-10-31.md",
+      "last_review_parent": "1fa0a79b6e9d3d002b7096d4b5b437ec8087533b",
+      "reviewed_source_sha": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "skip_source_sha": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "skip_reason": "Gameplay-mechanic axis members disagree between header declarations (TerrainAxis), getters/XML (PlotChangeAxis) and constructor (PlotChangeAxisAxis); header sign comments conflict with positive/negative Ragnarok XML mapping. No supplied configuration/schema resolves the intended model; metadata source also has syntax/member-name blockers. Do not invent a replacement implementation solely to obtain a DLL build.",
+      "resume_condition": "Changed user source supplying coherent gameplay-mechanic axis metadata implementation and intended sign/configuration contract.",
+      "review_disposition": "skip_until_source_head_changes",
+      "variety_component_review": {
+        "code_sha": "deccf25b689cd34c355ee9094d64863a43c8701f",
+        "source_sha": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+        "positive_sequences": 7294,
+        "negative_controls": 1,
+        "prior_restoration_cases": 3744,
+        "actual_temporary_setter": true,
+        "actual_ordinary_setter_front_end": true,
+        "actual_timer_component": true,
+        "full_engine_setter": false,
+        "MSVC_DLL_build": false,
+        "report": "docs/reviews/plot-variety-2026-10-31.md"
+      }
     },
     {
       "branch": "LeaderFamilyRelations",
@@ -1354,13 +1374,13 @@
     },
     {
       "branch": "PlotTimerDraft-ChatGPT",
-      "head_at_inventory": "887dde82df4082665e22ba7b50da17ffa06e915a",
-      "coverage": "published_review_artifact",
-      "native_verification": "component_restoration_lifecycle_and_stream_fixtures_only_no_dll",
+      "head_at_inventory": "deccf25b689cd34c355ee9094d64863a43c8701f",
+      "coverage": "source_review_partial_variety_component_corrected_metadata_integration_blocked",
+      "native_verification": "not_built_exact_source_head_inconsistent_axis_metadata",
       "source_branch": "LeaderCivilizationVariantMechanics",
       "source_head": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
-      "draft_code_sha": "6cce496f0f0de61f236b1be2ad7a3d6299b0e2e3",
-      "next_action": "Review same-type refresh/zero-duration/cancellation and permanent-edit policies, actual enum-map encoding and whole-feature metadata/player/yield integration before native validation.",
+      "draft_code_sha": "deccf25b689cd34c355ee9094d64863a43c8701f",
+      "next_action": "Skip unchanged original 39edf4ca659e806b6fb4bb2de4ab280756829a99 and associated whole-feature integration. Resume after user source supplies a consistent gameplay axis declaration/constructor/getter/XML contract and intended sign/configuration details. Preserve the component fixes; do not invent metadata or run partial/baseline builds.",
       "inventory_note": "Code SHA recorded here; this commit is followed by the associated documentation-only publication.",
       "finding_ids": [
         "PLOTTIMER-20261027-01",
@@ -1369,11 +1389,31 @@
         "PLOTTIMER-20261028-04",
         "PLOTTIMER-20261028-05",
         "PLOTTIMER-20261030-06",
-        "PLOTTIMER-20261030-07"
+        "PLOTTIMER-20261030-07",
+        "PLOTTIMER-20261031-08",
+        "VARIANT-20261031-01"
       ],
-      "qualification": "Five actual temporary setters plus complete timer component passed 3744 C++03/ASan/UBSan repeated-change sequences with plot/enum-map engine stubs; original guards fail backup assertion. No real setters/save/metadata/MSVC/DLL/game result.",
-      "latest_review": "docs/reviews/plot-restoration-2026-10-30.md",
-      "last_review_parent": "887dde82df4082665e22ba7b50da17ffa06e915a"
+      "qualification": "7294 actual temporary-feature setter/ordinary normalization-front-end/complete timer-component C++03 -fno-exceptions ASan/UBSan sequences and one type-only-guard control; prior 3744 restoration cases pass. Engine metadata/art/EnumMap/remaining setter behavior are stand-ins. No DLL/MSVC/game result. New exact-head readiness skip records inconsistent/missing axis metadata implementation; no compiler run was made for that blocker.",
+      "latest_review": "docs/reviews/plot-variety-2026-10-31.md",
+      "last_review_parent": "1fa0a79b6e9d3d002b7096d4b5b437ec8087533b",
+      "reviewed_source_sha": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "skip_source_sha": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "skip_reason": "Gameplay-mechanic axis members disagree between header declarations (TerrainAxis), getters/XML (PlotChangeAxis) and constructor (PlotChangeAxisAxis); header sign comments conflict with positive/negative Ragnarok XML mapping. No supplied configuration/schema resolves the intended model; metadata source also has syntax/member-name blockers. Do not invent a replacement implementation solely to obtain a DLL build.",
+      "resume_condition": "Changed user source supplying coherent gameplay-mechanic axis metadata implementation and intended sign/configuration contract.",
+      "review_disposition": "paused_full_feature_integration_until_original_source_details_change",
+      "variety_component_review": {
+        "code_sha": "deccf25b689cd34c355ee9094d64863a43c8701f",
+        "source_sha": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+        "positive_sequences": 7294,
+        "negative_controls": 1,
+        "prior_restoration_cases": 3744,
+        "actual_temporary_setter": true,
+        "actual_ordinary_setter_front_end": true,
+        "actual_timer_component": true,
+        "full_engine_setter": false,
+        "MSVC_DLL_build": false,
+        "report": "docs/reviews/plot-variety-2026-10-31.md"
+      }
     },
     {
       "branch": "PromotionAltersUnitHPValues",
@@ -1797,17 +1837,17 @@
     },
     {
       "branch": "SidSaysDiscoveryBuild-ChatGPT",
-      "head_at_inventory": "0b5a7dc869a5f7e2967ac073ca42071dbe707dd7",
-      "coverage": "changed_assistant_assert_debug_path_reviewed_and_artifacts_verified",
+      "head_at_inventory": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
+      "coverage": "new_user_CvGame_hook_integrated_with_unchanged_read_only_locator_and_assert_debugger",
       "native_verification": "Release_Debug_build_logs_sources_binaries_and_matching_Debug_symbols_verified",
       "source_branch": "SidSaysPatch",
-      "source_head": "8c52c7e7b85cb574ee0494611a8931efb3b20d01",
-      "tested_code_sha": "26692191a21c50317245db3191ce7d4b47c2644d",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41248273797",
-      "next_action": "No unchanged rebuild needed. Live BtS assertion/debugger/symbol loading remains untested; any later Sid-label locator invocation or UI renaming still needs explicit task authorization and runtime evidence.",
+      "source_head": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
+      "tested_code_sha": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255403884",
+      "next_action": "Live BtS evaluation: inspect SidSaysCandidates.log, measure first-update scan pause and validate whether candidates are active UI sites. No executable string replacement is implemented.",
       "artifacts": {
-        "Release": 13059718649,
-        "Debug": 13060402551
+        "Release": 13063650159,
+        "Debug": 13063140677
       },
       "native_configurations": [
         "Release",
@@ -1815,12 +1855,12 @@
       ],
       "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
       "last_head_review": {
-        "classification": "production_assert_debugging_block_and_workflow_update",
+        "classification": "CvGame_controlled_read_only_discovery",
         "production_changes": true,
         "source_reviewed": true,
-        "artifact_verification_complete": true,
-        "baseline_and_prior_SelfMod_preserved": true,
-        "new_production_change_proposed": false
+        "baseline_and_prior_locator_and_FAssert_preserved": true,
+        "new_production_change_proposed": true,
+        "artifact_verification_complete": true
       },
       "native_validation_history": [
         {
@@ -1832,28 +1872,144 @@
             "Debug": 12780811116
           },
           "scope": "prior Sid-label discovery native result; no new verification in this follow-up"
+        },
+        {
+          "head": "0b5a7dc869a5f7e2967ac073ca42071dbe707dd7",
+          "tested_code_sha": "26692191a21c50317245db3191ce7d4b47c2644d",
+          "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41248273797",
+          "artifact_verification": {
+            "tested_commit": "26692191a21c50317245db3191ce7d4b47c2644d",
+            "selected_source": "cefc020169ab8ac8938c58b5580ce97829c6fd58",
+            "original_source": "8c52c7e7b85cb574ee0494611a8931efb3b20d01",
+            "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+            "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+            "run": 41248273797,
+            "all_four_ZIPs_downloaded_extracted": true,
+            "archive_metadata_sizes_and_SHA256_verified": true,
+            "actual_MSBuild_Build_logs_inspected": true,
+            "actual_BuildTiming_logs_inspected": true,
+            "current_DLL_blobs_match_tested": true,
+            "Release": {
+              "configuration": "Release",
+              "binary_artifact": 13059718649,
+              "diagnostics_artifact": 13060142718,
+              "root_sources": 349,
+              "manifest_sha256": "1fde96efe70489a820c77f7c2331fa41121a84115f1a80a976320eaebf0fdbfb",
+              "warnings": 0,
+              "errors": 0,
+              "dll_bytes": 6565888,
+              "dll_sha256": "6fd670557cdbdb367a832b77ebf27cc0b9c3db05d39d072ef6b7638757370f88",
+              "PE": "PE32 x86 DLL",
+              "timing": [
+                "vm_utc_before=2026-10-31T22:27:38.6493201Z",
+                "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+                "normalized_source_utc=2026-10-31T22:27:36.6493201Z",
+                "precompile_utc_after=2026-10-31T22:27:36.6493201Z"
+              ]
+            },
+            "Debug": {
+              "configuration": "Debug",
+              "binary_artifact": 13060402551,
+              "diagnostics_artifact": 13060781543,
+              "root_sources": 349,
+              "manifest_sha256": "1fde96efe70489a820c77f7c2331fa41121a84115f1a80a976320eaebf0fdbfb",
+              "warnings": 0,
+              "errors": 0,
+              "dll_bytes": 25202688,
+              "dll_sha256": "3df668159f209950aa9a958eede217835364875190a1adf88c77dd1124c482da",
+              "PE": "PE32 x86 DLL",
+              "timing": [
+                "vm_utc_before=2026-10-31T22:30:29.8524471Z",
+                "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+                "normalized_source_utc=2026-10-31T22:30:27.8368211Z",
+                "precompile_utc_after=2026-10-31T22:30:27.8368211Z"
+              ],
+              "pdb_identity": {
+                "format": "RSDS",
+                "guid": "de264c73-57d6-41a5-8407-ec644e2b7834",
+                "age": 1
+              },
+              "pdb_bytes": 70642688,
+              "pdb_sha256": "b5ec001d2bb9994c57087caa9da6062641d42998965142d6150149d218f205a5"
+            },
+            "live_debugger_or_game_tested": false,
+            "report": "docs/reviews/assertion-artifacts-2026-10-31.md"
+          },
+          "scope": "Prior automatic assertion debugger validation; preserved by CvGame hook integration"
+        },
+        {
+          "tested_code_sha": "933107cb6fb9edd6005b6aeb9e95db6f1c910316",
+          "feature_snapshot": "16682e75237ca7bc1e93eb555ea7a6b4d8a8febb",
+          "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255085515",
+          "all_four_ZIPs_downloaded_extracted": true,
+          "results": {
+            "Release": {
+              "configuration": "Release",
+              "binary_artifact": 13062584243,
+              "diagnostics_artifact": 13063295122,
+              "root_sources": 349,
+              "manifest_sha256": "6571d3b4e03c83c6cc5cd1dc294b35bebbb0c4e638a8ff92b65bbd1a191af11f",
+              "warnings": 0,
+              "errors": 0,
+              "dll_bytes": 6569984,
+              "dll_sha256": "4abd1a3db62da6dedf8627aebbd2a72c0529c2909fc3356078f525c5fdc9df01",
+              "PE": "PE32 x86 DLL",
+              "timing": [
+                "vm_utc_before=2026-11-01T00:03:53.8368191Z",
+                "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+                "normalized_source_utc=2026-11-01T00:03:51.8368191Z",
+                "precompile_utc_after=2026-11-01T00:03:51.8368191Z"
+              ]
+            },
+            "Debug": {
+              "configuration": "Debug",
+              "binary_artifact": 13063120636,
+              "diagnostics_artifact": 13063285343,
+              "root_sources": 349,
+              "manifest_sha256": "6571d3b4e03c83c6cc5cd1dc294b35bebbb0c4e638a8ff92b65bbd1a191af11f",
+              "warnings": 0,
+              "errors": 0,
+              "dll_bytes": 25202688,
+              "dll_sha256": "a4fa8d58b49744e002539e785ad4daf5170e06e1ea5ce03e79d3f51fe87a0656",
+              "PE": "PE32 x86 DLL",
+              "timing": [
+                "vm_utc_before=2026-11-01T00:06:39.2743218Z",
+                "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+                "normalized_source_utc=2026-11-01T00:06:37.2743218Z",
+                "precompile_utc_after=2026-11-01T00:06:37.2743218Z"
+              ],
+              "pdb_identity": {
+                "format": "RSDS",
+                "guid": "62e2569f-6827-4448-a466-f7e9336eb43c",
+                "age": 1
+              },
+              "pdb_bytes": 70642688,
+              "pdb_sha256": "a3b0ca4c1c89e38b109808dd89e605a7fb222f05d4b4b5f967be6c672658a7d1"
+            }
+          },
+          "scope": "Initial CvGame hook integration before runtime-only reset refinement; both native configurations passed"
         }
       ],
-      "reviewed_assistant_head": "0b5a7dc869a5f7e2967ac073ca42071dbe707dd7",
-      "reviewed_source_sha": "8c52c7e7b85cb574ee0494611a8931efb3b20d01",
-      "source_code_sha": "cefc020169ab8ac8938c58b5580ce97829c6fd58",
-      "feature_snapshot": "cefc020169ab8ac8938c58b5580ce97829c6fd58",
+      "reviewed_assistant_head": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
+      "reviewed_source_sha": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
+      "source_code_sha": "a994b2ed9db89aac098b2b0a640146e7688a017f",
+      "feature_snapshot": "a994b2ed9db89aac098b2b0a640146e7688a017f",
       "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
       "hash_diagnostics": {
-        "Release": 13060142718,
-        "Debug": 13060781543
+        "Release": 13063370685,
+        "Debug": 13063575086
       },
-      "qualification": "Actual MSBuild logs 0 warnings/errors, all four ZIPs extracted and archive metadata hashes/sizes verified; 349-file manifests and exact provenance pins match, PE32 x86 DLLs and Debug DLL/PDB CodeView GUID/age identity checked. No live debugger/game execution.",
-      "latest_review": "docs/reviews/assertion-artifacts-2026-10-31.md",
-      "last_review_parent": "0b5a7dc869a5f7e2967ac073ca42071dbe707dd7",
-      "source_review_scope": "Actual 18-line FAssertDlg debugger branch, existing WIN32/FASSERT_ENABLE guards and FAssert/FAssertMsg ignore/breakpoint macro paths; exact old-to-new source diff and SelfMod preservation. Existing build independently checked through all artifact ZIPs, MSBuild logs, source manifests/pins and binary/symbol identity.",
+      "qualification": "Actual MSBuild logs 0 warnings/errors; all four ZIPs downloaded/extracted, archive sizes/SHA256 verified, 349-file manifests and exact pins match including final hook files, PE32 x86 DLLs and Debug DLL/PDB identity verified. No live game/debugger or UI-site verification.",
+      "latest_review": "docs/reviews/sid-game-hook-2026-11-01.md",
+      "last_review_parent": "d307c2ba103c8d53d23a668c218fd66cc464dafa",
+      "source_review_scope": "SidSaysPatch new CvGame reset/update hook and header layout; state moved to DLL-owned SelfMod, ready/nonempty-map gate and reentry guard; existing locator/FAssert preserved",
       "artifact_verification": {
-        "tested_commit": "26692191a21c50317245db3191ce7d4b47c2644d",
-        "selected_source": "cefc020169ab8ac8938c58b5580ce97829c6fd58",
-        "original_source": "8c52c7e7b85cb574ee0494611a8931efb3b20d01",
+        "tested_commit": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
+        "selected_source": "a994b2ed9db89aac098b2b0a640146e7688a017f",
+        "original_source": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
         "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
         "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
-        "run": 41248273797,
+        "run": 41255403884,
         "all_four_ZIPs_downloaded_extracted": true,
         "archive_metadata_sizes_and_SHA256_verified": true,
         "actual_MSBuild_Build_logs_inspected": true,
@@ -1861,75 +2017,80 @@
         "current_DLL_blobs_match_tested": true,
         "Release": {
           "configuration": "Release",
-          "binary_artifact": 13059718649,
-          "diagnostics_artifact": 13060142718,
+          "binary_artifact": 13063650159,
+          "diagnostics_artifact": 13063370685,
           "root_sources": 349,
-          "manifest_sha256": "1fde96efe70489a820c77f7c2331fa41121a84115f1a80a976320eaebf0fdbfb",
+          "manifest_sha256": "2639af4d9fddfde630ef195829ec8f6562b489614443bc346c3b50f58ca8f352",
           "warnings": 0,
           "errors": 0,
-          "dll_bytes": 6565888,
-          "dll_sha256": "6fd670557cdbdb367a832b77ebf27cc0b9c3db05d39d072ef6b7638757370f88",
+          "dll_bytes": 6569984,
+          "dll_sha256": "493a214595951c4aba593e7ae87a05b88c587fb8c02b300ef5efa2aa7fc2ef0e",
           "PE": "PE32 x86 DLL",
           "timing": [
-            "vm_utc_before=2026-10-31T22:27:38.6493201Z",
+            "vm_utc_before=2026-11-01T00:09:07.5711963Z",
             "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
-            "normalized_source_utc=2026-10-31T22:27:36.6493201Z",
-            "precompile_utc_after=2026-10-31T22:27:36.6493201Z"
+            "normalized_source_utc=2026-11-01T00:09:05.5711963Z",
+            "precompile_utc_after=2026-11-01T00:09:05.5711963Z"
           ]
         },
         "Debug": {
           "configuration": "Debug",
-          "binary_artifact": 13060402551,
-          "diagnostics_artifact": 13060781543,
+          "binary_artifact": 13063140677,
+          "diagnostics_artifact": 13063575086,
           "root_sources": 349,
-          "manifest_sha256": "1fde96efe70489a820c77f7c2331fa41121a84115f1a80a976320eaebf0fdbfb",
+          "manifest_sha256": "2639af4d9fddfde630ef195829ec8f6562b489614443bc346c3b50f58ca8f352",
           "warnings": 0,
           "errors": 0,
           "dll_bytes": 25202688,
-          "dll_sha256": "3df668159f209950aa9a958eede217835364875190a1adf88c77dd1124c482da",
+          "dll_sha256": "b724173cdaa9b63172187d3a6c88628635d62b2be4303adc5c3e4076a646ce00",
           "PE": "PE32 x86 DLL",
           "timing": [
-            "vm_utc_before=2026-10-31T22:30:29.8524471Z",
+            "vm_utc_before=2026-11-01T00:11:50.8211957Z",
             "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
-            "normalized_source_utc=2026-10-31T22:30:27.8368211Z",
-            "precompile_utc_after=2026-10-31T22:30:27.8368211Z"
+            "normalized_source_utc=2026-11-01T00:11:48.8211957Z",
+            "precompile_utc_after=2026-11-01T00:11:48.8211957Z"
           ],
           "pdb_identity": {
             "format": "RSDS",
-            "guid": "de264c73-57d6-41a5-8407-ec644e2b7834",
+            "guid": "b975ad0b-b5a4-4b25-a0a4-b538a06f51de",
             "age": 1
           },
           "pdb_bytes": 70642688,
-          "pdb_sha256": "b5ec001d2bb9994c57087caa9da6062641d42998965142d6150149d218f205a5"
+          "pdb_sha256": "939486c08731396d830094d914562eeceed48222f4732c1d3bbb573a19902e10"
         },
         "live_debugger_or_game_tested": false,
-        "report": "docs/reviews/assertion-artifacts-2026-10-31.md"
-      }
+        "report": "docs/reviews/sid-game-hook-2026-11-01.md"
+      },
+      "finding_ids": [
+        "SID-20261101-01"
+      ]
     },
     {
       "branch": "SidSaysPatch",
-      "head_at_inventory": "8c52c7e7b85cb574ee0494611a8931efb3b20d01",
-      "coverage": "published_scoped_review",
-      "native_verification": "linked_refinement_passed",
-      "next_action": "Revisit changed source or gather actual EXE/UI evidence; original source head was not built and no attribution change is activated.",
+      "head_at_inventory": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
+      "coverage": "new_CvGame_reset_update_and_layout_reviewed_refinement_published",
+      "native_verification": "corrected_assistant_overlay_Release_Debug_verified",
+      "next_action": "Gather actual EXE/UI evidence or revisit changed source. See assistant row for exact corrected overlay validation.",
       "refinement_branch": "SidSaysDiscoveryBuild-ChatGPT",
-      "tested_code_sha": "e58809298b28163773301b58a9def25af3fe2bd7",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40604520179",
+      "tested_code_sha": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255403884",
       "finding_ids": [
         "SID-20261027-01",
         "SID-20261027-02",
-        "SID-20261027-03"
+        "SID-20261027-03",
+        "SID-20261101-01"
       ],
-      "qualification": "Diagnostic-only complete-base refinement; no automatic invocation or UI renaming. Source branch remains unchanged.",
+      "qualification": "Original user source unchanged and not built directly. Refined hook preserves CvGame member layout; diagnostic-only, no UI renaming.",
       "artifacts": {
-        "Release": 12780770867,
-        "Debug": 12780811116
+        "Release": 13063650159,
+        "Debug": 13063140677
       },
       "native_configurations": [
         "Release",
         "Debug"
       ],
-      "compiler": "_MSC_VER == 1310 (MSVC 7.1)"
+      "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
+      "reviewed_source_sha": "3171a91bd8b595781f624d94ee14d3f2552ac9e7"
     },
     {
       "branch": "SummonCatchupDraft-ChatGPT",
@@ -4682,5 +4843,318 @@
       "branch": "dll-build",
       "sha": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e"
     }
-  ]
+  ],
+  "inventory_2026_10_31_plot_variety": [
+    {
+      "branch": "1.14",
+      "sha": "5970334b64a875b5cdb370c94fc9a98db4eacda6"
+    },
+    {
+      "branch": "AISurvivorSQLiteBuild-ChatGPT",
+      "sha": "590fb06d83dd74da94c90d641de94cecbd76d677"
+    },
+    {
+      "branch": "AISurvivorStatTracking",
+      "sha": "f2575de4bb94f561d3e1f0df651489487e3742ae"
+    },
+    {
+      "branch": "AdvancedDiplomacy",
+      "sha": "e83ce4c7977daf4193b07d0b94a533bb0338fb11"
+    },
+    {
+      "branch": "CityBonusDiplomacyBuild-ChatGPT",
+      "sha": "b7cdc0447e3bba3da04fae6828ce64762e8370d6"
+    },
+    {
+      "branch": "CityBonusLeaderDiplomacyModifiers",
+      "sha": "084726f21f44dda2f1e8b4e3906da7ae66ce4759"
+    },
+    {
+      "branch": "CityPopulationDraft-ChatGPT",
+      "sha": "f159c2c47de9c8a3b2dca31f02e5abf513d20305"
+    },
+    {
+      "branch": "CityPopulationTrait",
+      "sha": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3"
+    },
+    {
+      "branch": "CivicScrollDraft-ChatGPT",
+      "sha": "a7a1290aa2a0c125432dd60df5f4153294eead82"
+    },
+    {
+      "branch": "CodeMacroHelpers",
+      "sha": "d9908667cdc5fddef11a49e3864dfad1ecc47e92"
+    },
+    {
+      "branch": "CodeMacroHelpersBuild-ChatGPT",
+      "sha": "7880264054c6066e60bf862df848102e3105a680"
+    },
+    {
+      "branch": "ColonyLeaderBuild-ChatGPT",
+      "sha": "d3c5e6aeb2c29606d10cfbb931205c709e01250b"
+    },
+    {
+      "branch": "CustomAIDiplomacyComments",
+      "sha": "ca3531fac64b2e70ea66b98745e45733da1f0c37"
+    },
+    {
+      "branch": "CvPartyGroup",
+      "sha": "c6b1b14d0263196c497d8dcf85da41982d5ec7af"
+    },
+    {
+      "branch": "DynamicRankDraft-ChatGPT",
+      "sha": "6173663f4e80b96817b6d0c59ef7692a64e01648"
+    },
+    {
+      "branch": "EquipmentGatesDraft-ChatGPT",
+      "sha": "1fc3d59b0807904187fb8e24909e9d6e3b1d920d"
+    },
+    {
+      "branch": "FFHEquipmentTypes",
+      "sha": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5"
+    },
+    {
+      "branch": "FFHRaceTypes",
+      "sha": "a50b62ccd1ec72672c3b8b4814ad03230088ea18"
+    },
+    {
+      "branch": "FFHSpellCreationBuild-ChatGPT",
+      "sha": "9c7ff06e4c33ff822f5b112eacba8a1d4da5655a"
+    },
+    {
+      "branch": "FFHSpellTypes",
+      "sha": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e"
+    },
+    {
+      "branch": "FSimpleDataStorage",
+      "sha": "1b7de3bc31268786c341238ff9ecc2e25640f27e"
+    },
+    {
+      "branch": "FamilyRelationsBuild-ChatGPT",
+      "sha": "f07cf78b4afea17cef1514a1960890ab709c6e3d"
+    },
+    {
+      "branch": "FavoriteUnitCombatDraft-ChatGPT",
+      "sha": "d8ea44e0240a03981769a2621f6fcbb4d521e90d"
+    },
+    {
+      "branch": "FirstImpressionDiplomacyModifiers",
+      "sha": "cc764ad80e89f751f809998a61a23225254109f2"
+    },
+    {
+      "branch": "FirstImpressionDraft-ChatGPT",
+      "sha": "3589d41a23b722a2b4bac89d0f32c759a4599d85"
+    },
+    {
+      "branch": "FreePromotionLoaderBuild-ChatGPT",
+      "sha": "cd3316f9b460d1962359833b3dc4fdb52b1d9f72"
+    },
+    {
+      "branch": "GenderCounterDraft-ChatGPT",
+      "sha": "db3c3e16dfcc892222559ff2b7c28e9d39a5ed40"
+    },
+    {
+      "branch": "GenderSpecificDiplomacy",
+      "sha": "80e6ec595041cf335d5437b7bedea4fcaa61622b"
+    },
+    {
+      "branch": "HatedCivicReligionDiplomacy",
+      "sha": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785"
+    },
+    {
+      "branch": "HatedDiplomacyDraft-ChatGPT",
+      "sha": "a13d837a06dc6f26508673e1ba242bc1c34b5296"
+    },
+    {
+      "branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "sha": "0d76c106aa8c5d0974e7803faffd62e55e6f1344"
+    },
+    {
+      "branch": "LLMDiplomacyTextGeneration",
+      "sha": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e"
+    },
+    {
+      "branch": "LeaderCivilizationDecisionPreferences",
+      "sha": "aac03388283a5ac316f6a19f6e3754a7435b6511"
+    },
+    {
+      "branch": "LeaderCivilizationSummoningRandomEvents",
+      "sha": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc"
+    },
+    {
+      "branch": "LeaderCivilizationVariantMechanics",
+      "sha": "39edf4ca659e806b6fb4bb2de4ab280756829a99"
+    },
+    {
+      "branch": "LeaderFamilyRelations",
+      "sha": "ba88a0e713fb21fccff9ae2469164af78544bc2b"
+    },
+    {
+      "branch": "LeaderSpecificColonySplitVassal",
+      "sha": "c2c8690c4854482f98ea3ceae2974586e5d1503d"
+    },
+    {
+      "branch": "LeaderSpecificDynamicRankBonusDiplomacy",
+      "sha": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e"
+    },
+    {
+      "branch": "LeaderSpecificFavoriteUnitCombats",
+      "sha": "799082c323ea44335c66b9714e1a9bb365c12095"
+    },
+    {
+      "branch": "LeaderSpecificMultilayeredAIDecisionEval",
+      "sha": "484412d0de7e42e2d310bb39e75340fc5307f597"
+    },
+    {
+      "branch": "LeaderSpecificRebelliousTeamDiplomaticDecisions",
+      "sha": "4b24f235ef0056a6dcab56b0dada3dcd0909798d"
+    },
+    {
+      "branch": "LeaderSpecificTeamSizeAttitude",
+      "sha": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58"
+    },
+    {
+      "branch": "LeaderSpecificUWAIAspectWeights",
+      "sha": "d38c565a981984a7c34417a9d9529fec2bcd7165"
+    },
+    {
+      "branch": "LeaderSpecificVoteActionDiplomacy",
+      "sha": "8fcfdd97329279393120aaab34c00dde84e729df"
+    },
+    {
+      "branch": "LeaderTeamSizeBuild-ChatGPT",
+      "sha": "a2f01100680d037b72d4cc08e3661950cff5984e"
+    },
+    {
+      "branch": "PartnerDiplomacyBuild-ChatGPT",
+      "sha": "4f38c94e2267543582ab88619a16a6b5a1b97513"
+    },
+    {
+      "branch": "PartnerLeaderCivSpecificDiplomacyText",
+      "sha": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0"
+    },
+    {
+      "branch": "PartyWrapperDraft-ChatGPT",
+      "sha": "85e2d6f28e1c2e92d0cf3715c58d7979f1edf533"
+    },
+    {
+      "branch": "PerUnitCombatFreePromotionTraits",
+      "sha": "c122a8c130b6e47760aade7d2d438c798dca8951"
+    },
+    {
+      "branch": "PerUnitCombatUpgradeCostModifers",
+      "sha": "3e8418a1b6840192f21af4650dcfce89a8c557d1"
+    },
+    {
+      "branch": "PlotTimerDraft-ChatGPT",
+      "sha": "deccf25b689cd34c355ee9094d64863a43c8701f"
+    },
+    {
+      "branch": "PreferenceFrameworkDraft-ChatGPT",
+      "sha": "5012475e85a727dd0417bbb1249fe845a3b9d321"
+    },
+    {
+      "branch": "PromotionAltersUnitHPValues",
+      "sha": "d64fade8bb53d8c4bd92521c6a606b323af91025"
+    },
+    {
+      "branch": "PromotionAltersUnitXPValues",
+      "sha": "09741c7206588a8fc42b1e62b90c76ecaea13a55"
+    },
+    {
+      "branch": "PromotionExpiryDraft-ChatGPT",
+      "sha": "45dabe719c0fea87478ac99df4381e4d7c7f0785"
+    },
+    {
+      "branch": "PromotionHPDraft-ChatGPT",
+      "sha": "185a4a161d3a3e039e355236254a9fd8b44ff425"
+    },
+    {
+      "branch": "PromotionTimedExpireTurns",
+      "sha": "5f0e1235780e19a81a09aba91234bb0487489fcf"
+    },
+    {
+      "branch": "PromotionXPBuild-ChatGPT",
+      "sha": "9230eeb926de40e4d2ebd79f59b867b27f30e492"
+    },
+    {
+      "branch": "RaceDemographicsDraft-ChatGPT",
+      "sha": "45256362feb2b354410ba7d2f8efa23719c0344e"
+    },
+    {
+      "branch": "RealisticAIDecisions",
+      "sha": "372d64549f70884fbc86cec7bfbee0a9778bd948"
+    },
+    {
+      "branch": "RenegadeDiplomacyBuild-ChatGPT",
+      "sha": "6660adfd2883b8286c9fbd759f310b6da7dd4c86"
+    },
+    {
+      "branch": "ReputationWindowDraft-ChatGPT",
+      "sha": "1ae7ec40153adafffa54d07ca325f059db3dff49"
+    },
+    {
+      "branch": "SerializationHelpers",
+      "sha": "2be6010dc6787a717c851cd125e005010cf71450"
+    },
+    {
+      "branch": "SerializationHelpersBuild-ChatGPT",
+      "sha": "6b74935fd718db11c108ae2feeb4c6c961a22bd4"
+    },
+    {
+      "branch": "SidSaysDiscoveryBuild-ChatGPT",
+      "sha": "d307c2ba103c8d53d23a668c218fd66cc464dafa"
+    },
+    {
+      "branch": "SidSaysPatch",
+      "sha": "3171a91bd8b595781f624d94ee14d3f2552ac9e7"
+    },
+    {
+      "branch": "SimpleStorageChangeDraft-ChatGPT",
+      "sha": "d9571efb9cfb42f856b4b5a5543b0fda16c07291"
+    },
+    {
+      "branch": "SummonCatchupDraft-ChatGPT",
+      "sha": "9408469df1c280bc24db9aee750ac972bb77028b"
+    },
+    {
+      "branch": "UWAIWeightsDraft-ChatGPT",
+      "sha": "f1d3125c0f35dff4c4a144c63a66d9437a270acd"
+    },
+    {
+      "branch": "UniqueCivicsReligions",
+      "sha": "d0fc7c0f93320e112903416c17bb2a2030819d60"
+    },
+    {
+      "branch": "UnitCombatUpgradeBuild-ChatGPT",
+      "sha": "cb5e560613ea2bbc9c04c84f1888d2440028a6d5"
+    },
+    {
+      "branch": "UnitStatusEffects",
+      "sha": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed"
+    },
+    {
+      "branch": "VoteCounterDraft-ChatGPT",
+      "sha": "a4bf7f3e4516d135b18872fca3d6ff2d3c0080a2"
+    },
+    {
+      "branch": "alert-autofix-1",
+      "sha": "f52ced74c31bdbd9696c37b00b73ce12b99f5d1b"
+    },
+    {
+      "branch": "dll-build",
+      "sha": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e"
+    }
+  ],
+  "inventory_2026_11_01_sid_game_hook": {
+    "source": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
+    "assistant_parent": "d307c2ba103c8d53d23a668c218fd66cc464dafa",
+    "selected_source": "a994b2ed9db89aac098b2b0a640146e7688a017f",
+    "tested_commit": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
+    "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+    "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+    "scope": "Explicitly authorized CvGame hook integration; original branches unchanged",
+    "report": "docs/reviews/sid-game-hook-2026-11-01.md",
+    "previous_plot_review_preserved": true
+  }
 }

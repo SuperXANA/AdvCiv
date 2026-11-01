@@ -71,3 +71,8 @@ the DLL's C/C++ compilation uses MSVC 7.1.
 
 Both configuration logs additionally confirm the compiler probe:
 `Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1).`
+
+
+## CvGame discovery follow-up — 2026-11-01
+
+The authorized [CvGame hook integration](sid-game-hook-2026-11-01.md) supersedes earlier no-automatic-invocation statements: discovery now runs once on the first eligible initialized, nonempty-map update after a runtime reset. The read-only locator and automatic assertion debugger remain unchanged. Candidate/UI validation and live game/debugger execution remain untested.

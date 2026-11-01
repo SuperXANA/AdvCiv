@@ -43,3 +43,8 @@ The Debug artifact includes the compiled DLL and matching PDB; the copy step req
 ## Artifact verification follow-up
 
 The independent [artifact verification report](assertion-artifacts-2026-10-31.md) closes the initial download gap: all four ZIPs, actual MSBuild logs, source manifests/provenance, x86 binaries and matching Debug DLL/PDB identity were checked. Live-game/debugger execution remains untested. No DLL source or workflow was changed by this follow-up.
+
+
+## CvGame discovery follow-up — 2026-11-01
+
+The authorized [CvGame hook integration](sid-game-hook-2026-11-01.md) supersedes earlier no-automatic-invocation statements: discovery now runs once on the first eligible initialized, nonempty-map update after a runtime reset. The read-only locator and automatic assertion debugger remain unchanged. Candidate/UI validation and live game/debugger execution remain untested.

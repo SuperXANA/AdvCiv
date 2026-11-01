@@ -53,3 +53,8 @@ FAssert.cpp:175–192 adds the IsDebuggerPresent check and OutputDebugStringA ou
 The source/compile/artifact checks do not execute BtS, attach a debugger, load symbols into a live session, trigger an assertion, validate breakpoint policy or establish the earlier Sid-label locator's runtime behavior. A matching PDB does not prove that a live debugger has loaded it. These remain runtime work.
 
 This publication adds evidence and updates coverage only, uses [skip ci] and triggers no new DLL run. Original branches, baseline, current workflow and all DLL files remain unchanged. No binary archive, signed download URL, credentials or full Actions runner log is published.
+
+
+## CvGame discovery follow-up — 2026-11-01
+
+The authorized [CvGame hook integration](sid-game-hook-2026-11-01.md) supersedes earlier no-automatic-invocation statements: discovery now runs once on the first eligible initialized, nonempty-map update after a runtime reset. The read-only locator and automatic assertion debugger remain unchanged. Candidate/UI validation and live game/debugger execution remain untested.

@@ -1,0 +1,110 @@
+{
+  "tested_commit": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
+  "selected_source": "a994b2ed9db89aac098b2b0a640146e7688a017f",
+  "original_source": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+  "run": 41255403884,
+  "all_four_ZIPs_downloaded_extracted": true,
+  "archive_metadata_sizes_and_SHA256_verified": true,
+  "actual_MSBuild_Build_logs_inspected": true,
+  "actual_BuildTiming_logs_inspected": true,
+  "current_DLL_blobs_match_tested": true,
+  "Release": {
+    "configuration": "Release",
+    "binary_artifact": 13063650159,
+    "diagnostics_artifact": 13063370685,
+    "root_sources": 349,
+    "manifest_sha256": "2639af4d9fddfde630ef195829ec8f6562b489614443bc346c3b50f58ca8f352",
+    "warnings": 0,
+    "errors": 0,
+    "dll_bytes": 6569984,
+    "dll_sha256": "493a214595951c4aba593e7ae87a05b88c587fb8c02b300ef5efa2aa7fc2ef0e",
+    "PE": "PE32 x86 DLL",
+    "timing": [
+      "vm_utc_before=2026-11-01T00:09:07.5711963Z",
+      "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+      "normalized_source_utc=2026-11-01T00:09:05.5711963Z",
+      "precompile_utc_after=2026-11-01T00:09:05.5711963Z"
+    ]
+  },
+  "Debug": {
+    "configuration": "Debug",
+    "binary_artifact": 13063140677,
+    "diagnostics_artifact": 13063575086,
+    "root_sources": 349,
+    "manifest_sha256": "2639af4d9fddfde630ef195829ec8f6562b489614443bc346c3b50f58ca8f352",
+    "warnings": 0,
+    "errors": 0,
+    "dll_bytes": 25202688,
+    "dll_sha256": "b724173cdaa9b63172187d3a6c88628635d62b2be4303adc5c3e4076a646ce00",
+    "PE": "PE32 x86 DLL",
+    "timing": [
+      "vm_utc_before=2026-11-01T00:11:50.8211957Z",
+      "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+      "normalized_source_utc=2026-11-01T00:11:48.8211957Z",
+      "precompile_utc_after=2026-11-01T00:11:48.8211957Z"
+    ],
+    "pdb_identity": {
+      "format": "RSDS",
+      "guid": "b975ad0b-b5a4-4b25-a0a4-b538a06f51de",
+      "age": 1
+    },
+    "pdb_bytes": 70642688,
+    "pdb_sha256": "939486c08731396d830094d914562eeceed48222f4732c1d3bbb573a19902e10"
+  },
+  "live_debugger_or_game_tested": false,
+  "report": "docs/reviews/sid-game-hook-2026-11-01.md",
+  "initial_integration": {
+    "tested_commit": "933107cb6fb9edd6005b6aeb9e95db6f1c910316",
+    "source": "16682e75237ca7bc1e93eb555ea7a6b4d8a8febb",
+    "run": 41255085515,
+    "all_four_ZIPs_downloaded_extracted": true,
+    "archive_metadata_sizes_and_SHA256_verified": true,
+    "results": {
+      "Release": {
+        "configuration": "Release",
+        "binary_artifact": 13062584243,
+        "diagnostics_artifact": 13063295122,
+        "root_sources": 349,
+        "manifest_sha256": "6571d3b4e03c83c6cc5cd1dc294b35bebbb0c4e638a8ff92b65bbd1a191af11f",
+        "warnings": 0,
+        "errors": 0,
+        "dll_bytes": 6569984,
+        "dll_sha256": "4abd1a3db62da6dedf8627aebbd2a72c0529c2909fc3356078f525c5fdc9df01",
+        "PE": "PE32 x86 DLL",
+        "timing": [
+          "vm_utc_before=2026-11-01T00:03:53.8368191Z",
+          "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+          "normalized_source_utc=2026-11-01T00:03:51.8368191Z",
+          "precompile_utc_after=2026-11-01T00:03:51.8368191Z"
+        ]
+      },
+      "Debug": {
+        "configuration": "Debug",
+        "binary_artifact": 13063120636,
+        "diagnostics_artifact": 13063285343,
+        "root_sources": 349,
+        "manifest_sha256": "6571d3b4e03c83c6cc5cd1dc294b35bebbb0c4e638a8ff92b65bbd1a191af11f",
+        "warnings": 0,
+        "errors": 0,
+        "dll_bytes": 25202688,
+        "dll_sha256": "a4fa8d58b49744e002539e785ad4daf5170e06e1ea5ce03e79d3f51fe87a0656",
+        "PE": "PE32 x86 DLL",
+        "timing": [
+          "vm_utc_before=2026-11-01T00:06:39.2743218Z",
+          "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+          "normalized_source_utc=2026-11-01T00:06:37.2743218Z",
+          "precompile_utc_after=2026-11-01T00:06:37.2743218Z"
+        ],
+        "pdb_identity": {
+          "format": "RSDS",
+          "guid": "62e2569f-6827-4448-a466-f7e9336eb43c",
+          "age": 1
+        },
+        "pdb_bytes": 70642688,
+        "pdb_sha256": "a3b0ca4c1c89e38b109808dd89e605a7fb222f05d4b4b5f967be6c672658a7d1"
+      }
+    }
+  }
+}
