@@ -1294,4 +1294,13 @@
 		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
 		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
 	</TEXT>
+	<!-- XANA: Attribute Strategy Tips to Solais a Tuath (Aurora Borealis), the lore historian of the MLP Civ Gen 4+Gen 5 world -->
+	<TEXT>
+		<Tag>TXT_KEY_PLAYER_OPTION_ADVISOR_HELP</Tag>
+		<English>Solais' Guidance</English>
+		<French>Aide du conseiller</French>
+		<German>Beraterhilfe</German>
+		<Italian>Aiuto del consigliere</Italian>
+		<Spanish>Ayuda de consejeros</Spanish>
+	</TEXT>
 </Civ4GameText>
