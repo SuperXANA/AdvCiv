@@ -13,7 +13,7 @@
 		 Added info about recommended items. -->
 	<TEXT>  <!-- XANA: Attribute Strategy Tips to Solais a Tuath (Aurora Borealis), the lore historian of the MLP Civ Gen 4+Gen 5 world -->
 		<Tag>TXT_KEY_PLAYER_OPTION_ADVISOR_HELP_HELP</Tag>
-		<English>Research and production popups include strategy advice from Solais a Tuath, historian, astronomer, and teacher, who wrote the fabled "Histories of Civiliation". Regardless of this option, the game AI always marks two of the choices in a popup as "recommended."</English>
+		<English>Research and production popups include strategy advice from Solais a Tuath, historian, astronomer, and teacher, who wrote the fabled "Histories of Civilization". Regardless of this option, the game AI always marks two of the choices in a popup as "recommended."</English>
 		<French>Le conseiller appara&#238;t pour aider le joueur quand il a achev&#233; une recherche ou construit un b&#226;timent.</French>
 		<German>Auswahlmenüs zu Forschung und Produktion enthalten Ratschläge. Unabhängig von dieser Option werden stets zwei Alternativen von der Spiel-KI als "empfohlen" markiert.</German>
 		<Italian>Quando dovrai scegliere una costruzione o una ricerca, il consigliere apparir&#224; per offrirti aiuto extra</Italian>
