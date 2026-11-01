@@ -61,3 +61,8 @@ uses MSBuild to invoke the NMake project. The machine-local
 `R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
 compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
 the DLL's C/C++ compilation uses MSVC 7.1.
+
+
+## Optional-name compatibility follow-up — 2026-10-31
+
+The [sentinel refinement](enum-sentinels-2026-10-31.md) preserves the baseline's silent NONE/empty-name handling in the assertion-enabled proxy while retaining ordinary wrong-prefix assertions. Focused regressions and a new exact Release/Debug DLL build pass; all four ZIPs, actual Build.log/timing files, source hashes/provenance and Debug symbol identity are verified in that report. Earlier build records above remain tied to their named revisions.

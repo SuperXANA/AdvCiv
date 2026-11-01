@@ -1,0 +1,64 @@
+{
+  "review_local_date": "2026-10-31",
+  "original_source": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+  "selected_source": "9187b83372c4086d4f3f1d34e10abd4f3097b0ac",
+  "tested_commit": "04ef4c9a5bc91308c1dbef5af3a9004f117fb535",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+  "run": 41270728749,
+  "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41270728749",
+  "Release_Debug_completed_successfully": true,
+  "compiler_probe_verified_both": "_MSC_VER == 1310 (MSVC 7.1)",
+  "all_four_ZIPs_downloaded_extracted": true,
+  "archive_metadata_size_and_SHA256_verified": true,
+  "actual_MSBuild_Build_logs_inspected": true,
+  "actual_BuildTiming_logs_inspected": true,
+  "source_manifest_count": 349,
+  "actual_equals_expected_sources": true,
+  "empty_hash_diffs": true,
+  "CvGlobals_h_and_preserved_CvMemoryManager_h_independently_hashed": true,
+  "Release": {
+    "configuration": "Release",
+    "binary_artifact": 13068978301,
+    "diagnostics_artifact": 13068774388,
+    "root_sources": 349,
+    "manifest_sha256": "ce89936a9ec04dd96ca3ad1a03186f8f79032ca12026c415884ab197f30d0634",
+    "warnings": 0,
+    "errors": 0,
+    "dll_bytes": 6565888,
+    "dll_sha256": "7c0cb51ddf86bb1b8a486e5a386c8a0772514af8f959ab5368de4e7b4706f6d9",
+    "PE": "PE32 x86 DLL",
+    "timing": [
+      "vm_utc_before=2026-11-01T03:50:08.9930722Z",
+      "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+      "normalized_source_utc=2026-11-01T03:50:06.9930722Z",
+      "precompile_utc_after=2026-11-01T03:50:06.9930722Z"
+    ]
+  },
+  "Debug": {
+    "configuration": "Debug",
+    "binary_artifact": 13069211745,
+    "diagnostics_artifact": 13069281476,
+    "root_sources": 349,
+    "manifest_sha256": "ce89936a9ec04dd96ca3ad1a03186f8f79032ca12026c415884ab197f30d0634",
+    "warnings": 0,
+    "errors": 0,
+    "dll_bytes": 25194496,
+    "dll_sha256": "e2566ffdafad15fb688a0cedfcee8224612244617214cbfcbb566da2f27cd93d",
+    "PE": "PE32 x86 DLL",
+    "timing": [
+      "vm_utc_before=2026-11-01T03:52:53.9149442Z",
+      "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+      "normalized_source_utc=2026-11-01T03:52:51.9149442Z",
+      "precompile_utc_after=2026-11-01T03:52:51.9149442Z"
+    ],
+    "pdb_identity": {
+      "format": "RSDS",
+      "guid": "ece69d07-5aac-4c13-b977-314a3afc94e1",
+      "age": 1
+    },
+    "pdb_bytes": 70642688,
+    "pdb_sha256": "75e950a79ea46f1a64152997cce1c5ee73ec38c485f39cbb92397c6e8ef9c93e"
+  },
+  "live_game_or_XML_execution": false
+}
