@@ -1087,7 +1087,12 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
 // XANA: 05-25-2025 Leader-Specific Colony Split
 bool CvLeaderHeadInfo::readPass2(CvXMLLoadUtility* pXML)
 {
-	pXML->SetInfoIDFromChildXmlVal(m_iDerivativeLeader, "DerivativeLeader");
+	// XANA: 11-01-2026 Omission remains optional when the prior leader index is zero.
+	CvString szDerivativeLeader;
+	pXML->GetChildXmlValByName(szDerivativeLeader, "DerivativeLeader", "");
+	if (!szDerivativeLeader.IsEmpty())
+		m_iDerivativeLeader = pXML->FindInInfoClass(szDerivativeLeader);
+	// XANA: 11-01-2026 Omission remains optional when the prior leader index is zero.
 	return true;
 }
 // XANA: 05-25-2025 Leader-Specific Colony Split
