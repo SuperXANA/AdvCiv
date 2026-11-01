@@ -40,7 +40,7 @@ jobs:
           
           # YAML automatically preserves this string exactly as written
           # add feature commit SHA here
-          FEATURE_COMMIT_SHA: cefc020169ab8ac8938c58b5580ce97829c6fd58
+          FEATURE_COMMIT_SHA: 16682e75237ca7bc1e93eb555ea7a6b4d8a8febb
           
           # YAML automatically preserves this string exactly as written
           # add workflow commit SHA here
