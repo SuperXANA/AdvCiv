@@ -1,0 +1,1306 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by XMLSPY 2004 Professional Ed. Release 2, Installed Multi + SMP for 3 users (Firaxis Games) -->
+<!-- Sid Meier's Civilization 4 -->
+<!-- Copyright Firaxis Games 2005 -->
+<!-- -->
+<!-- Game Text Infos -->
+<Civ4GameText xmlns="http://www.firaxis.com">
+	<TEXT>
+		<Tag>TXT_KEY_TECH_MYSTICISM_QUOTE</Tag>
+		<English>"She's an evil enchantress, She does evil dances, And if you look deep in her eyes, She'll put you in trances, Then what will she do? She'll mix up an evil brew, Then she'll gobble you up In a big tasty stew so... Watch out!" - Pinkie Pie</English>
+		<French>"Il y a des dieux parce que la nature en a imprim&#233; la notion dans toutes les &#226;mes." - Cic&#233;ron</French>
+		<German>"Die Natur hat uns den Begriff der G&#246;tter selbst gegeben." - Cicero</German>
+		<Italian>"La Natura stessa ha impresso nelle menti di tutti l'idea di Dio." - Cicerone</Italian>
+		<Spanish>"La propia Naturaleza ha grabado en la mente de todos la idea de Dios." - Cicer&#243;n</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_MEDITATION_QUOTE</Tag>
+		<English>"I'd like to be a tree." - Fluttershy</English>
+		<French>"Le sage s'adonne &#224; la m&#233;ditation ; l'ignorant s'y refuse. Apprends &#224; reconna&#238;tre ce qui te fait avancer et ce qui entrave ta progression." - Bouddha</French>
+		<German>"Meditation bedeutet Weisheit. Mangelnde Meditation bedeutet Ignoranz. Wisse, was dich voranbringt oder hemmt." - Buddha</German>
+		<Italian>"La meditazione porta saggezza. La mancanza di meditazione rende ignoranti. Impara bene ci&#242; che pu&#242; migliorarti e ci&#242; che pu&#242; peggiorarti." - Budda</Italian>
+		<Spanish>"La meditaci&#243;n trae la sabidur&#237;a y su carencia conlleva ignorancia. Has de conocer bien lo que te hace avanzar y lo que te frena." - Buda</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_POLYTHEISM_QUOTE</Tag>
+		<English>"There were two regal sisters who ruled together and created harmony for all the land." - Story of the Two Princesses</English>
+		<French>"La race des Dieux Immortels n'est point semblable &#224; celle des hommes qui marchent sur la Terre." - Hom&#232;re</French>
+		<German>"Die unsterblichen G&#246;tter haben nichts mit den Menschen, die auf Erden wandeln, gemein." - Homer</German>
+		<Italian>"La razza degli dei immortali e quella degli uomini terreni non sempre si somigliano." - Omero</Italian>
+		<Spanish>"No se parecen en absoluto la raza de los dioses inmortales y la raza de los hombres que hollan la Tierra." - Homero</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_PRIESTHOOD_QUOTE</Tag>
+		<English>"The ringleader of the frightened children. Hast thou come to make peace?" - Luna</English>
+		<French>"Le Seigneur te b&#233;nit et te garde ; il tourne vers toi son visage et te sourit. Il fait briller sur toi sa lumi&#232;re et te donne sa joie." - La Bible, Nombres 6.24</French>
+		<German>"Der Herr segne euch und beh&#252;te euch! Der Herr lasse sein Angesicht leuchten &#252;ber euch und sei euch gn&#228;dig! Der Herr erhebe sein Angesicht auf euch und gebe euch Frieden." - Die Bibel, Numeri</German>
+		<Italian>"Il Signore ti benedice e ti conforta; gli occhi del Signore sono gentili e vegliano su di te; lo sguardo del Signore si volge verso di te e ti dona la pace." - La Bibbia</Italian>
+		<Spanish>"El Se&#241;or te bendiga y te guarde. El Se&#241;or te muestre su rostro y tenga misericordia de ti. Vuelva el Se&#241;or su rostro hacia ti y te conceda la paz." - La Biblia, N&#250;meros</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_MONOTHEISM_QUOTE</Tag>
+		<English>"The elder sister took on responsibility for both sun and moon and harmony has been maintained in Equestria for generations since." - Story of the Two Princesses</English>
+		<French>"Je suis le Seigneur, ton Dieu. Tu n'adoreras pas d'autre Dieu que moi." - La Bible, l'Exode</French>
+		<German>"Ich bin der Herr, dein Gott. Du sollst nicht haben andere G&#246;tter neben mir." - Die Bibel, Exodus</German>
+		<Italian>"Io sono il Signore. Non avrai altro Dio all'infuori di me." - La Bibbia - Esodo</Italian>
+		<Spanish>"Yo soy Yav&#233;, tu Dios. No tendr&#225;s otro Dios que a m&#237;." - La Biblia, &#201;xodo</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_MONARCHY_QUOTE</Tag>
+		<English>"There can only be one princess in Equestria, and that princess will be me!" - Luna</English>
+		<French>"Abondance de souverains nuit ! Il ne peut y en avoir qu'un, un seul Roi !" - H&#233;rodote</French>
+		<German>"Zu viele Herrscher sind nicht gut. M&#246;ge ein Herrscher als K&#246;nig regieren!" - Herodot</German>
+		<Italian>"Non servono molti sovrani. Che il comando sia di un uomo solo, che sia proclamato un re." - Erodoto</Italian>
+		<Spanish>"No es bueno el caudillaje de muchos; sea uno solo el caudillo, uno solo el rey." - Herodoto</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_LITERATURE_QUOTE</Tag>
+		<English>"Look at all these ancient books! It's a veritable goldmine of information! I can't believe it!" - Twilight Sparkle</English>
+		<French>"Certains livres se go&#251;tent, d'autres se d&#233;vorent, d'autres encore se m&#226;chent et se dig&#232;rent lentement." - Sir Francis Bacon</French>
+		<German>"Manche B&#252;cher m&#252;ssen gekostet werden, manche verschlingt man, und nur einige wenige kaut man und verdaut sie ganz." - Sir Francis Bacon</German>
+		<Italian>"Alcuni libri devono essere gustati, altri inghiottiti, altri divorati e digeriti." - Sir Francis Bacon</Italian>
+		<Spanish>"Algunos libros se han de paladear, otros se han de engullir y unos cuantos m&#225;s se han de masticar y digerir." - Sir Francis Bacon</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_CODE_OF_LAWS_QUOTE</Tag>
+		<English>"How does it feel, knowing that soon every Pegasus, Unicorn, and Earth Pony will bow to my will and that there is nothing you can do to stop it?" - Tirek</English>
+		<French>"Pour accompagner le r&#232;gne des justes sur la Terre afin que le fort jamais ne brutalise le faible." - Code d'Hammurabi, Prologue</French>
+		<German>"Es wird Zeit, dem Land Gesetze zu schenken, auf dass die Reichen die Armen nicht unterdr&#252;cken." - Codex Hammurabi, Prolog</German>
+		<Italian>"Per portare regole e giustizia, in modo che il pi&#249; forte non possa nuocere al pi&#249; debole." - Codice di Hammurabi, Prologo</Italian>
+		<Spanish>"Para traer el imperio de la Justicia al pa&#237;s y que los fuertes no perjudiquen a los d&#233;biles." - Pre&#225;mbulo del C&#243;digo de Hammurabi</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_DRAMA_QUOTE</Tag>
+		<English>"Whinning? I am not whinning, I am complaining." - Rarity</English>
+		<French>"Le monde entier est une immense sc&#232;ne ! Tous, hommes et femmes, des acteurs qui y jouent leurs sorties, qui y jouent leurs entr&#233;es ; chacun interpr&#232;te maints r&#244;les dans sa vie !" - William Shakespeare</French>
+		<German>"Die ganze Welt ist B&#252;hne. Und alle Frauen und M&#228;nner blo&#223;e Spieler. Sie treten auf und gehen wieder ab. Sein Leben lang spielt einer manche Rollen." - William Shakespeare</German>
+		<Italian>"Il mondo &#232; un palco, uomini e donne sono solamente attori. Ci sono ingressi e uscite e ciascuno pu&#242; rivestire ruoli diversi. " - William Shakespeare</Italian>
+		<Spanish>"El mundo es un escenario y los hombres y mujeres que lo pueblan son solo actores. Todos hacen entradas y mutis y diversos papeles en la vida. " - William Shakespeare</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_FEUDALISM_QUOTE</Tag>
+		<English>"But this is the traditional royal canterlot voice. It is tradition to speak using the royal we and to use this much volume when addressing our subjects." - Luna</English>
+		<French>"Je jure loyaut&#233; et fid&#233;lit&#233; &#224; mon seigneur, j'aimerai ce qu'il aime et me d&#233;tournerai de ce dont il se d&#233;tourne." - Serment d'all&#233;geance anglo-saxon</French>
+		<German>"Ich werde meinem Herrn treue Dienste leisten. Seine Feinde sollen auch meine Feinde sein." - Angels&#228;chsischer Treueeid</German>
+		<Italian>"Sono devoto e credo nel mio Signore, amo ci&#242; che lui ama e rifuggo ci&#242; che lui rifugge." - Giuramento di fedelt&#224; anglosassone</Italian>
+		<Spanish>"Ser&#233; fiel y sincero para con mi se&#241;or, y amar&#233; todo lo que ame y abominar&#233; de todo lo que abomine." - Juramento de fidelidad anglosaj&#243;n</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_THEOLOGY_QUOTE</Tag>
+		<English>"You don't beleive because you don't understand." - Pinkie Pie</English>
+		<French>"Deux amours ont fait deux cit&#233;s : l'amour de soi, la cit&#233; terrestre ; l'amour de Dieu, la cit&#233; c&#233;leste." - Saint-Augustin</French>
+		<German>"Es gibt zwei St&#228;dte auf der Welt. Die eine ist auf der Liebe zu sich selbst, die andere auf der Liebe zu Gott errichtet." - Augustinus</German>
+		<Italian>"Esistono due tipi di citt&#224;, fondate su due tipi d'amore: quello terreno per s&#233; stessi e quello celeste per di Dio." - Sant'Agostino</Italian>
+		<Spanish>"Dos amores han fundado dos ciudades: el amor a uno mismo, la terrenal; y el amor a Dios, la celestial." - San Agust&#237;n</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_MUSIC_QUOTE</Tag>
+		<English>"You've got a real problem alright and a banjo is the only answer!" - Pinkie Pie</English>
+		<French>"Si la musique nourrit l'amour, alors jouez !" - William Shakespeare</French>
+		<German>"Wenn Musik die Nahrung der Liebe ist, so spielt fort." - William Shakespeare</German>
+		<Italian>"Se la musica &#232; il nutrimento dell'amore, continua a suonare." - William Shakespeare</Italian>
+		<Spanish>"Si la m&#250;sica es el alimento del amor, tocadla." - William Shakespeare</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_GUILDS_QUOTE</Tag>
+		<English>"But the store is called Quills and Sofas You only sell two things." - Spike</English>
+		<French>"Ceux qui partagent le m&#234;me m&#233;tier se r&#233;unissent rarement, m&#234;me pour se divertir, mais leur conversation se fait in&#233;vitablement au d&#233;triment du public." - Adam Smith</French>
+		<German>"Gesch&#228;ftsleute des gleichen Gewerbes kommen selten, selbst zu Festen und zur Zerstreuung, zusammen, ohne dass das Gespr&#228;ch in einer Verschw&#246;rung gegen die &#214;ffentlichkeit endet." - Adam Smith</German>
+		<Italian>"&#200; raro che quelli che fanno lo stesso lavoro si riuniscano, nemmeno per divertirsi o fare baldoria, ma la conversazione termina sempre con una cospirazione ai danni della clientela." - Adam Smith</Italian>
+		<Spanish>"Gente del mismo oficio rara vez se re&#250;ne, ni tan solo para alegrarse o divertirse, sin que la conversaci&#243;n termine en una conspiraci&#243;n contra el p&#250;blico." - Adam Smith</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_CIVIL_SERVICE_QUOTE</Tag>
+		<English>"I am her student and I'll do my royal duty, but the fate of Equestria does not rest on me making friends." - Twilight Sparkle</English>
+		<French>"La bureaucratie grandit pour r&#233;pondre aux besoins croissants de la bureaucratie grandissante." - Inconnu</French>
+		<German>"Die B&#252;rokratie wurde erfunden, um die Bed&#252;rfnisse der B&#252;rokratie zu stillen." - Unbekannt</German>
+		<Italian>"La burocrazia si espande per soddisfare i bisogni di una burocrazia in espansione." - Anonimo</Italian>
+		<Spanish>"La burocracia se expande para satisfacer las necesidades de una burocracia en expansi&#243;n." - An&#243;nimo</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_DIVINE_RIGHT_QUOTE</Tag>
+		<English>"I am Lord Tirek, and I will take what should have been mine long ago." - Tirek</English>
+		<French>"L'Etat, c'est moi." - Louis XIV</French>
+		<German>"Der Staat bin ich." - Ludwig XIV.</German>
+		<Italian>"Lo stato sono io." - Luigi XIV</Italian>
+		<Spanish>"El Estado soy yo." - Luis XIV</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_NATIONALISM_QUOTE</Tag>
+		<English>"For them! For me! For Equestria!" - Twilight Sparkle</English>
+		<French>"Un homme n'accepte pas de risquer sa vie pour deux sous par jour ou pour une m&#233;daille. Il faut parler &#224; son &#226;me, le galvaniser !" - Napol&#233;on Bonaparte</French>
+		<German>"Ein Mann riskiert nicht f&#252;r einen j&#228;mmerlichen Sold sein Leben. Man muss seine Seele ansprechen, um ihn zu elektrisieren!" - Napoleon Bonaparte</German>
+		<Italian>"Un uomo non rischia la vita per pochi soldi o per promozioni insignificanti. Per infervorarlo, bisogna parlare alla sua anima." - Napoleone Bonaparte</Italian>
+		<Spanish>"Un hombre no est&#225; dispuesto a morir por medio penique al d&#237;a ni por un qu&#237;tame all&#225; esas penas. Debes hablarle al alma para conmoverlo." - Napole&#243;n Bonaparte</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_MILITARY_TRADITION_QUOTE</Tag>
+		<English>"Don't they realize we are mighty tribe of warriors and should not be crossed." - Hurricane</English>
+		<French>"Le vainqueur triomphe avant m&#234;me de partir &#224; la guerre, le vaincu part &#224; la guerre puis r&#234;ve de triomphe." - Sun-Tzu</French>
+		<German>"Der General, der eine Schlacht gewinnt, stellt vor dem Kampf viele Berechnungen an. Der General, der verliert, stellt vorher kaum Berechnungen an." - Sun-Tzu</German>
+		<Italian>"I guerrieri vittoriosi prima vincono e poi vanno in guerra; quelli sconfitti, prima vanno in guerra e poi cercano di vincere." - Sun-Tzu</Italian>
+		<Spanish>"Los guerreros vencedores ganan primero y luego van a la guerra, mientras que los perdedores van a la guerra primero y luego pretenden ganar." - Sun Tzu</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_CONSTITUTION_QUOTE</Tag>
+		<English>"She might banish you from Equestria, or throw you in a dungeon! Or banish you and then throw you in a dungeon in the place she banishes you to." - Twilight Sparkle</English>
+		<French>"Aucun homme libre ne sera saisi, emprisonn&#233; ou ex&#233;cut&#233;, de quelque mani&#232;re que ce soit, sans un jugement l&#233;gal de ses pairs." - La Magna Carta</French>
+		<German>"Kein freier Mann darf eingesperrt oder bestraft werden ohne ein rechtm&#228;&#223;iges Urteil seiner Standesgenossen." - Magna Carta</German>
+		<Italian>"Nessun uomo libero pu&#242; essere sequestrato, imprigionato o annullato in qualsiasi modo, ma deve essere giudicato solamente per le sue azioni." - La Magna Carta</Italian>
+		<Spanish>"Ning&#250;n hombre libre podr&#225; ser detenido o encarcelado o privado de sus derechos de cualquier otra forma, sino en virtud de sentencia judicial de sus pares y con arreglo a la ley del reino." - La Carta Magna</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_LIBERALISM_QUOTE</Tag>
+		<English>"Um...I'm just wondering if it's okay if I hold you down against your will for a little bit" - Fluttershy</English>
+		<French>"Une soci&#233;t&#233; pr&#234;te &#224; sacrifier un peu de libert&#233; contre un peu de s&#233;curit&#233; ne m&#233;rite ni l'une ni l'autre et finit par perdre les deux !" - Benjamin Franklin</French>
+		<German>"Eine Gesellschaft, die ihre Freiheit zugunsten der Sicherheit opfert, hat beides nicht verdient." - Benjamin Franklin</German>
+		<Italian>"Qualsiasi societ&#224; che sacrifica un po' di libert&#224; per una maggiore sicurezza non si merita nessuna delle due cose e le perde entrambe." - Benjamin Franklin</Italian>
+		<Spanish>"Cualquier sociedad que renuncie a un poco de libertad para obtener algo de seguridad no se merece ni una ni otra y acabar&#225; perdiendo ambas." - Benjamin Franklin</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_DEMOCRACY_QUOTE</Tag>
+		<English>"What a lovely but absolutely ridiculous sentiment." - Chrysalis</English>
+		<French>"On a dit que la d&#233;mocratie est la pire forme de gouvernement &#224; l'exception de toutes les autres." - Winston Churchill</French>
+		<German>"Man sagt, die Demokratie ist die schlechteste Staatsform, mit Ausnahme aller anderen." - Winston Churchill</German>
+		<Italian>"&#200; stato detto che la democrazia &#232; la peggior forma di governo all'infuori di tutte quelle che sono state gi&#224; tentate precedentemente." - Winston Churchill</Italian>
+		<Spanish>"La democracia es el peor de los reg&#237;menes, con excepci&#243;n de todos los dem&#225;s que se han probado." - Winston Churchill</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_FASCISM_QUOTE</Tag>
+		<English>"When all the truth does, is make your heart ache... sometimes a lie is easier to take." - Discord</English>
+		<French>"C'est un fait que les masses avalent plus facilement un gros mensonge qu'un petit." - Adolf Hitler</French>
+		<German>"Die meisten Menschen werden leichter Opfer einer gro&#223;en L&#252;ge als einer kleinen." - deutscher Diktator</German>
+		<Italian>"Le grandi masse... sono pi&#249; propense a cadere vittime di una grande bugia, piuttosto di una piccola." - Adolf Hitler</Italian>
+		<Spanish>"Las grandes masas del pueblo caer&#225;n m&#225;s f&#225;cilmente v&#237;ctimas de una mentira grande que de una peque&#241;a." - Adolf Hitler</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_CORPORATION_QUOTE</Tag>
+		<English>"I'm not giving him cake, I'm assaulting him with cake!" - Pinkie Pie</English>
+		<French>"Soci&#233;t&#233; commerciale, d&#233;finition : dispositif ing&#233;nieux favorisant le profit individuel sans responsabilit&#233; individuelle." - Ambrose Pierce</French>
+		<German>"Unternehmen sind eine M&#246;glichkeit, ohne individuelle Verantwortlichkeit Gewinne zu erwirtschaften." - Ambrose Bierce</German>
+		<Italian>"Corporazione, sostantivo. Un meccanismo ingegnoso per conquistare profitti individuali senza responsabilit&#224; individuali." - Ambrose Bierce</Italian>
+		<Spanish>"Persona jur&#237;dica, f. Der. Un ingenioso artificio para obtener ganancia individual sin responsabilidad individual." - Ambrose Bierce</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_UTOPIA_QUOTE</Tag>
+		<English>"I ate too much pie" - Twilight Sparkle</English>
+		<French>"Je nourris un pauvre et l'on me dit que je suis un saint. Je demande pourquoi le pauvre n'a pas de quoi se nourrir et l'on me traite de communiste !" - Dom Helder Camara</French>
+		<German>"Gebe ich den Armen zu essen, nennen sie mich einen Heiligen. Frage ich, warum sie nichts zu essen haben, nennen sie mich einen Kommunisten!" - Dom Helder Camara</German>
+		<Italian>"Quando offro il cibo ai poveri, mi chiamano santo. Quando chiedo perch&#233; i poveri non hanno cibo, mi chiamano comunista." - Dom Helder Camara</Italian>
+		<Spanish>"Cuando doy comida a un pobre me llaman santo. Cuando pregunto por qu&#233; un pobre no tiene comida me llaman comunista." - Dom H&#233;lder C&#226;mara</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_MASS_MEDIA_QUOTE</Tag>
+		<English>"Oh, what fun is there in making sense?" - Discord</English>
+		<French>"Qu'on parle de vous, c'est affreux. Mais il y a une chose pire : c'est qu'on n'en parle pas." - Oscar Wilde</French>
+		<German>"Schlimmer als &#252;ber jemanden zu reden, ist &#252;ber jemanden nicht zu reden!" - Oscar Wilde</German>
+		<Italian>"L'unica cosa peggiore del parlare di qualcosa, &#232; non parlarne affatto." - Oscar Wilde</Italian>
+		<Spanish>"En este mundo lo &#250;nico peor que soportar que hablen de ti es que no se diga nada." - Oscar Wilde</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_ECOLOGY_QUOTE</Tag>
+		<English>"Why, if I ever saw one of them cockathingies face-to-face, I'd laugh at how silly it was." - Apple Bloom</English>
+		<French>"Nous n'h&#233;ritons pas de la Terre de nos anc&#234;tres, nous l'empruntons &#224; nos enfants." - Chant am&#233;rindien</French>
+		<German>"Wir haben die Erde nicht von unseren Vorfahren geerbt, sondern von unseren Kindern geliehen." - Indianerlied</German>
+		<Italian>"Non ereditiamo la terra dai nostri antenati, la prendiamo in prestito per i nostri figli." - Canzone dei Nativi Americani</Italian>
+		<Spanish>"La Tierra no es una herencia de nuestros padres, sino un pr&#233;stamo de nuestros hijos." - Canci&#243;n de los ind&#237;genas americanos</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_FISHING_QUOTE</Tag>
+		<English>"And I'm the one who used up all the hot water in ponyville yesterday because I took a 7 hour bubble bath." - Spike</English>
+		<French>"Donne un poisson &#224; un homme et tu le nourris pour un jour, apprends-lui &#224; p&#234;cher et tu le nourris pour toujours." - Lao-Tseu</French>
+		<German>"Gib einem Menschen einen Fisch, und du ern&#228;hrst ihn f&#252;r einen Tag. Bring ihm bei zu fischen, und du ern&#228;hrst ihn sein Leben lang." - Laotse</German>
+		<Italian>"Un uomo pu&#242; saziarsi con un pesce al giorno. Un uomo che impara a pescare pu&#242; saziarsi per tutta la vita." - Lao Tzu</Italian>
+		<Spanish>"Si le das a un hombre un pescado, comer&#225; un d&#237;a. Si le ense&#241;as a pescar, comer&#225; toda la vida." - Lao Ts&#233;</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_THE_WHEEL_QUOTE</Tag>
+		<English>"The Great and Powerful Trixe doesn't trust wheels." - The Great and Powerful Trixe</English>
+		<French>"La roue de la fortune tourne plus vite que celle du moulin." - Miguel de Cervant&#232;s</French>
+		<German>"Das Rad der Zeit l&#228;sst sich nicht zur&#252;ckdrehen." - Sprichwort</German>
+		<Italian>"Mettiti al lavoro di buona lena." - Esopo</Italian>
+		<Spanish>"Arrima el hombro a la rueda." - Esopo</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_AGRICULTURE_QUOTE</Tag>
+		<English>"20 stalks bean or celery?" - Applejack</English>
+		<French>"Oh, paysan, prie afin que tes &#233;t&#233;s soient humides et tes hivers secs." - Virgile</French>
+		<German>"Nassen Sommer kann auch der Herbst nicht trocknen." - Bauernregel</German>
+		<Italian>"Oh contadini, pregate perch&#233; le vostre estati non siano aride e i vostri inverni rigidi.." - Virgilio</Italian>
+		<Spanish>"Oh, campesinos, rezad para que en vuestros veranos llueva y vuestros inviernos sean despejados." - Virgilio</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_POTTERY_QUOTE</Tag>
+		<English>"Gotcha." - Celestia</English>
+		<French>"Le potier n'a-t-il pas pouvoir sur l'argile pour faire de la m&#234;me masse un vase &#224; honneur et un autre &#224; d&#233;shonneur ?" - La Bible, Ep&#238;tre aux Romains</French>
+		<German>"Hat nicht ein T&#246;pfer Macht &#252;ber den Ton, aus demselben Klumpen ein Gef&#228;&#223; zu ehrenvollem und ein anderes zu nicht ehrenvollem Gebrauch zu machen?" - Die Bibel, R&#246;mer</German>
+		<Italian>"Nelle mani dell'artigiano sta la capacit&#224; di creare vasi da giorno e vasi da notte." - La Bibbia, i Romani</Italian>
+		<Spanish>"&#191;O es que no puede el alfarero hacer del mismo barro un vaso de honor y uno indecoroso?" - La Biblia, San Mateo, Ep&#237;stola a los Romanos</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_SAILING_QUOTE</Tag>
+		<English>"There now you look like a pirate. A sleepy pirate with a really weird mane cut." - Pinkie Pie</English>
+		<French>"On ne peut pas faire tourner le vent, mais on peut faire tourner ses voiles." - Inconnu</French>
+		<German>"Den Wind vermagst du nicht zu lenken, deine Segel wohl." - Unbekannt</German>
+		<Italian>"Non puoi cambiare la direzione del vento, ma puoi orientare le tue vele." - Rhye</Italian>
+		<Spanish>"No puedes dirigir el viento, pero puedes mover las velas de tu barco." - Proverbio chino</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_WRITING_QUOTE</Tag>
+		<English>"Dear Princess Celestia, I wanted to share my thoughts with you... I didn't learn anything. I was right all along." - Applejack</English>
+		<French>"La gloire s'acquiert en accomplissant ce qui m&#233;rite d'&#234;tre &#233;crit et en &#233;crivant ce qui m&#233;rite d'&#234;tre lu." - Pline l'Ancien</French>
+		<German>"Gl&#252;cklich sind jene, die Taten vollbringen, die es wert sind, aufgezeichnet zu werden, oder Schriften verfassen, die es wert sind, gelesen zu werden." - Plinius der &#196;ltere</German>
+		<Italian>"La vera gloria consiste nel fare ci&#242; che merita di essere scritto e nello scrivere ci&#242; che merita di essere letto." - Plinio il Vecchio</Italian>
+		<Spanish>"La verdadera gloria consiste en hacer lo que merece escribirse y en escribir lo que merece leerse." - Plinio el Viejo</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_MATHEMATICS_QUOTE</Tag>
+		<English>"Don't you use your fancy mathematics to muddy the issue!" - Applejack</English>
+		<French>"La science vise une certitude qui ne souffre aucun doute, une v&#233;rit&#233; qui ne souffre aucune erreur, les math&#233;matiques s'imposent donc comme les fondations de toute science." - Roger Bacon</French>
+		<German>"Nur mithilfe der Mathematik kann man wirklich wissen, denn in jeder Wissenschaft ist nur so viel an Wahrheit enthalten, wie in ihr Mathematik steckt." - Roger Bacon</German>
+		<Italian>"Se in altre scienze &#232; probabile raggiungere la certezza senza dubbio e senza errore, &#232; giusto porre le fondamenta del sapere nella matematica." - Roger Bacon</Italian>
+		<Spanish>"Si en las dem&#225;s ciencias hubi&#233;ramos de obtener la certeza sin dudas y la verdad sin errores, nos corresponder&#237;a basar el conocimiento en las Matem&#225;ticas." - Roger Bacon</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_ALPHABET_QUOTE</Tag>
+		<English>"Read any good books lately?" - Twilight Sparkle</English>
+		<French>"Les mots ont le pouvoir de d&#233;truire et de soigner. Lorsqu'ils sont justes et g&#233;n&#233;reux, ils peuvent changer le monde." - Bouddha</French>
+		<German>"Worte haben die Kraft zu zerst&#246;ren oder zu heilen. Wenn Worte wahr und zugleich g&#252;tig sind, k&#246;nnen sie unsere Welt ver&#228;ndern." - Buddha</German>
+		<Italian>"Le parole hanno il potere di distruggere e di creare. Quando le parole sono sincere e gentili, possono cambiare il mondo." - Budda</Italian>
+		<Spanish>"Las palabras tienen el poder de destruir y sanar. Cuando las palabras son buenas y sinceras tienen el poder de cambiar el mundo." - Buda</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_CALENDAR_QUOTE</Tag>
+		<English>"The clock is ticking Twilight. Clock, is, ticking." - Twilight Sparkle</English>
+		<French>"A toute chose sa saison, et &#224; toute affaire sous les cieux, son temps." - Le livre de l'Eccl&#233;siaste</French>
+		<German>"F&#252;r alles gibt es eine Stunde. Und f&#252;r jedes Vorhaben unter dem Himmel eine Zeit." - Ekklesiastes</German>
+		<Italian>"Esistono una stagione e un tempo per ogni cosa." - Ecclesiaste</Italian>
+		<Spanish>"Todo tiene su tiempo, y todo cuanto se hace bajo el sol tiene su hora." - La Biblia, Eclesiast&#233;s</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_CURRENCY_QUOTE</Tag>
+		<English>"Oh, I'd hate to be you right now, because Iron Will is gonna to rain down a world of hurt unless Iron Will gets his money pronto!" - Iron Will</English>
+		<French>"Toute chose a la valeur que son acqu&#233;reur est pr&#234;t &#224; payer." - Publius Syrus</French>
+		<German>"Jedes Ding ist wert, was der K&#228;ufer daf&#252;r zahlen will." - Publius Syrus</German>
+		<Italian>"Ogni cosa vale il prezzo che un acquirente &#232; disposto a pagare." - Publilio Siro</Italian>
+		<Spanish>"Las cosas valen lo que su comprador est&#233; dispuesto a pagar por ellas." - Publio Siro</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_ASTRONOMY_QUOTE</Tag>
+		<English>"The Earth is round, there is no up or down." - Puddinghead</English>
+		<French>"L'astronomie oblige l'&#226;me &#224; se tourner vers les cieux et nous guide de ce monde vers un autre." - Platon </French>
+		<German>"Die Astronomie zwingt die Seele, nach oben zu schauen, und f&#252;hrt sie in eine andere Welt." - Plato</German>
+		<Italian>"L'astronomia obbliga l'anima a guardare in alto e ci conduce da un mondo a un altro." - Platone</Italian>
+		<Spanish>"La Astronom&#237;a obliga al alma a mirar hacia arriba y nos lleva de este mundo a otro." - Plat&#243;n</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_PHILOSOPHY_QUOTE</Tag>
+		<English>"Friendship is magic." - Discord</English>
+		<French>"La philosophie m'a appris ceci : ce que je fais sans que l'on me l'ordonne, les autres le font par crainte de la loi." - Aristote</French>
+		<German>"Dies habe ich durch Philosophie gewonnen. Dass ich tue, ohne befohlen zu werden, was andere nur aus Furcht vor dem Gesetz tun." - Aristoteles</German>
+		<Italian>"Con la filosofia ho conquistato il diritto di fare ci&#242; che voglio senza essere comandato da chi lo fa solo per timore della legge." - Aristotele</Italian>
+		<Spanish>"Con la filosof&#237;a he logrado lo siguiente: hacer, sin que me lo ordenen, lo que otros hacen solamente por temor a la ley." - Arist&#243;teles</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_PAPER_QUOTE</Tag>
+		<English>"This is my book, and I'm gonna read it!" - Twilight Sparkle</English>
+		<French>"Je ne peux pas vivre sans livres." - Thomas Jefferson</French>
+		<German>"Ohne B&#252;cher kann ich nicht leben!" - Thomas Jefferson</German>
+		<Italian>"Non potrei vivere senza libri" - Thomas Jefferson</Italian>
+		<Spanish>"No puedo vivir sin libros." - Thomas Jefferson</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_BANKING_QUOTE</Tag>
+		<English>"We've got the liar, the grump, the hoarder and the brute. That just about covers it." - Twilight Sparkle</English>
+		<French>"Les &#233;tablissements bancaires sont plus dangereux qu'une arm&#233;e en campagne." - Thomas Jefferson</French>
+		<German>"Banken sind gef&#228;hrlicher als stehende Armeen." - Thomas Jefferson</German>
+		<Italian>"Gli istituti bancari sono pi&#249; pericolosi di un esercito sul piede di guerra." - Thomas Jefferson</Italian>
+		<Spanish>"Los bancos son m&#225;s peligrosos para nuestras libertades que los ej&#233;rcitos en armas." - Thomas Jefferson</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_EDUCATION_QUOTE</Tag>
+		<English>"Let's move on to my favorite style of learning... Flash Cards!" - Twilight Sparkle</English>
+		<French>"Il n'existe plus grande richesse que le savoir, plus grande pauvret&#233; que l'ignorance." - Ali ibn Abi Talib</French>
+		<German>"Wissen ist der gr&#246;&#223;te Reichtum und Ignoranz zeugt von Armut." - Ali ibn Abi-Talib</German>
+		<Italian>"La conoscenza &#232; sintomo di benessere, l'ignoranza &#232; sintomo di povert&#224;." - Ali ibn Abi-Talib</Italian>
+		<Spanish>"No hay mayor riqueza que el conocimiento ni mayor pobreza que la ignorancia." - Al&#237; ibn Abi-Talib</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_PRINTING_PRESS_QUOTE</Tag>
+		<English>"You should be ashamed of yourself, humiliating your sister and me like that. We don't wanna talk to any of y'all right now so take your little gossip column and your embarrassing photographs and just go away!" - Big McIntosh</English>
+		<French>"La presse &#233;crite a chang&#233; l'esprit comme la poudre &#224; canon a chang&#233; la guerre." - Wendell Phillips</French>
+		<German>"Was das Schie&#223;pulver f&#252;r den Krieg war, ist die Druckerpresse f&#252;r den Geist." - Wendell Phillips</German>
+		<Italian>"La tipografia sta alla mente come la polvere da sparo sta alla guerra." - Wendell Phillips</Italian>
+		<Spanish>"La imprenta ha hecho por la mente lo que la p&#243;lvora hizo por la guerra." - Wendell Phillips</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_ECONOMICS_QUOTE</Tag>
+		<English>"And, by capturing the whole sale market, purchasing in bulk and slashing all prices, we undermine every other gift market in town, and that's how Rich's Barnyard Bargains became the cornerstone of retail in Ponyville." - Filthy Rich</English>
+		<French>"Les int&#233;r&#234;ts compos&#233;s sont la plus grande force de tout l'univers." - Albert Einstein</French>
+		<German>"Der Zinseszins war die gr&#246;&#223;te Erfindung des menschlichen Denkens." - Albert Einstein</German>
+		<Italian>"L'interesse composto &#232; la forza pi&#249; potente dell'universo." - Albert Einstein</Italian>
+		<Spanish>"El inter&#233;s compuesto es la fuerza m&#225;s poderosa de la galaxia." - Albert Einstein</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_SCIENTIFIC_METHOD_QUOTE</Tag>
+		<English>"Choas is a wonderful, wonderful, thing!" - Discord</English>
+		<French>"J'ai du mal &#224; croire que le m&#234;me Dieu qui nous a dot&#233;s d'esprit, de raison et d'intelligence puisse vouloir que nous y renoncions." - Galil&#233;e</French>
+		<German>"Ich f&#252;hle mich nicht zu dem Glauben verpflichtet, dass derselbe Gott, der uns mit Sinnen, Vernunft und Verstand ausgestattet hat, von uns verlangt, dieselben nicht zu benutzen." - Galileo Galilei</German>
+		<Italian>"Non sono obbligato a credere che lo stesso Dio che ci ha donato il senso, la ragione e l'intelligenza voleva che ne dimenticassimo l_uso." - Galileo Galilei</Italian>
+		<Spanish>"No me siento obligado a creer que el mismo Dios que nos ha dotado de sentido com&#250;n, raciocinio e intelecto tuviera como intenci&#243;n privarnos de su uso." - Galileo Galilei</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_CHEMISTRY_QUOTE</Tag>
+		<English>"You're my cutie-patootie lovie-dovie honey-bunny." - Cheerilee</English>
+		<French>"La chimie est ce qui s&#233;pare la pauvret&#233; et la famine de l'abondance." - Robert Brent</French>
+		<German>"Die Chemie macht den Unterschied zwischen Armut und Hunger und einem Leben im &#220;berfluss." - Robert Brent</German>
+		<Italian>"La chimica rappresenta la differenza tra povert&#224; e fame e una vita piena di abbondanza." - Robert Brent</Italian>
+		<Spanish>"La Qu&#237;mica supone la diferencia entre la pobreza y la hambruna y una vida llena de abundancia." - Robert Brent</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_PHYSICS_QUOTE</Tag>
+		<English>"I didn't know you could burn juice." - Rarity</English>
+		<French>"A chaque action correspond une r&#233;action &#233;gale." - Isaac Newton</French>
+		<German>"Jede Aktion erzeugt gleichzeitig eine Reaktion." - Isaac Newton</German>
+		<Italian>"Ad ogni azione, corrisponde una reazione uguale ma di segno opposto." - Isaac Newton</Italian>
+		<Spanish>"Para cada acci&#243;n existe siempre una reacci&#243;n igual y de sentido contrario." - Isaac Newton</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_BIOLOGY_QUOTE</Tag>
+		<English>"I turned gray! Can you believe it?" - Pinkie Pie</English>
+		<French>"Ce n'est pas l'esp&#232;ce la plus puissante qui survit mais celle qui s'adapte le mieux au changement." - Charles Darwin</French>
+		<German>"Nicht die st&#228;rksten Spezies werden &#252;berleben, sondern jene, die sich Ver&#228;nderungen am besten anpassen k&#246;nnen." - Charles Darwin</German>
+		<Italian>"Non sopravvive la specie pi&#249; forte, ma quella pi&#249; adatta al cambiamento." - Charles Darwin</Italian>
+		<Spanish>"No sobrevive la especie m&#225;s fuerte, sino la m&#225;s adaptable al cambio." - Charles Darwin</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_MEDICINE_QUOTE</Tag>
+		<English>"Well of course I'm sick, the blue skin, these sneezes. Can somebody find me a fainting couch?" - Discord</English>
+		<French>"Il faut s'exercer, dans le domaine des maladies, &#224; deux choses : &#234;tre utile, sinon ne pas nuire." - Hippocrate</French>
+		<German>"Was Krankheiten betrifft, so hat man zwei M&#246;glichkeiten: zu heilen oder wenigstens nicht zu schaden." - Hippokrates</German>
+		<Italian>"Per debellare le malattie ci vogliono cose in grado di aiutare o, al massimo, non nuocere." - Ippocrate</Italian>
+		<Spanish>"En cuanto a las enfermedades, ten por costumbre dos cosas: ayudar o, al menos, no hacer m&#225;s da&#241;o." - Hip&#243;crates</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_ELECTRICITY_QUOTE</Tag>
+		<English>"A whole stand filled with Discord shaped lamps? Seriously?" - Rainbow Dash</English>
+		<French>"L'&#233;lectricit&#233; sera si bon march&#233; que seuls les riches s'&#233;claireront encore &#224; la bougie." - Thomas Edison</French>
+		<German>"Wir machen die Elektrizit&#228;t so billig, dass nur noch die Reichen Kerzen benutzen!" - Thomas Edison</German>
+		<Italian>"Renderemo l'elettricit&#224; cos&#236; economica che solamente i ricchi accenderanno le candele." - Thomas Edison</Italian>
+		<Spanish>"Abarataremos tanto la electricidad que solo los ricos usar&#225;n velas." - Thomas Edison</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_COMBUSTION_QUOTE</Tag>
+		<English>"What if she explode and then, and then, exploded again." - Pinkie Pie</English>
+		<French>"Dans la vie, tout est ailleurs, et on ne peut y aller qu'en voiture !" - E. B. White</French>
+		<German>"Im Leben ist alles irgendwo anders. Und hin kommt man mit dem Auto." - E. B. White</German>
+		<Italian>"Ogni cosa della vita si trova da qualche parte ed &#232; raggiungibile in automobile." - E. B. White</Italian>
+		<Spanish>"Todo en la vida est&#225; en otra parte, y all&#237; se llega en coche." - E. B. White</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_FISSION_QUOTE</Tag>
+		<English>"You see, Nightmare Moon, when those Elements are ignited by the... the spark, that resides in the heart of us all, it creates the sixth element: the element of... magic!" - Twilight Sparkle</English>
+		<French>"Si la splendeur de mille soleils &#233;clatait &#224; la fois dans les cieux, cela serait comparable au rayonnement du grand Etre... Je suis devenu la Mort, le destructeur des mondes." - J. Robert Oppenheimer, citant la Bhagavad Gita</French>
+		<German>"Wenn das Licht von tausend Sonnen am Himmel pl&#246;tzlich br&#228;ch' hervor, zu gleicher Zeit - das w&#228;re gleich dem Glanze des Herrlichen ... Ich bin der Tod, der alles raubt, Ersch&#252;tterer der Welten." - J. Robert Oppenheimer, Zitat aus der "Bhagavad Gita"</German>
+		<Italian>Se migliaia di soli illuminassero il cielo sarebbe uno spettacolo di straordinaria potenza... Sono la Morte, Distruttrice di Mondi. - J. Robert Oppenheimer, citando il "Bhagavad Gita"</Italian>
+		<Spanish>"Si el brillo de mil soles refulgiese a la vez en el cielo, ser&#237;a como el esplendor del Poderoso... Me he convertido en la Muerte, la destructora de mundos." - J. Robert Oppenheimer, citando "El Bhagavad Gita"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_FLIGHT_QUOTE</Tag>
+		<English>"Oh Fluttershy, would you be a dear and fly faster please." - Rarity</English>
+		<French>"Car lorsque vous aurez go&#251;t&#233; aux beaut&#233;s du vol, vous parcourrez la Terre les yeux tourn&#233;s vers le ciel, car vous y serez all&#233; et qu'il vous tardera d'y revenir." - L&#233;onard de Vinci</French>
+		<German>"Wenn du einmal das Fliegen empfunden hast, wirst du f&#252;r immer auf der Erde wandeln mit deinen Augen himmelw&#228;rts gerichtet, denn dort bist du gewesen und dort wird es dich immer wieder hinziehen." - Leonardo Da Vinci</German>
+		<Italian>"Una volta aver assaporato il volo, quando tornerai sulla terra continuerai a guardare verso il cielo." - Leonardo Da Vinci</Italian>
+		<Spanish>"Una vez hayas probado el vuelo caminar&#225;s por la tierra con los ojos alzados hacia el cielo porque ya habr&#225;s estado all&#237; y querr&#225;s volver." - Leonardo Da Vinci</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_PLASTICS_QUOTE</Tag>
+		<English>"It needs to be about 20% cooler" - Rainbow Dash</English>
+		<French>"Je ne vous dirai qu'un mot, un seul mot : plastique." - Calder Willingham, Le Laur&#233;at</French>
+		<German>"Ich sage nur ein Wort. Nur ein einziges Wort: Plastik!" - Calder Willingham, Die Reifepr&#252;fung</German>
+		<Italian>"Voglio solo dirti una parola. Una sola. Plastica." - Calder Willingham, Il Laureato</Italian>
+		<Spanish>"Solo quiero decirle una palabra, una nada m&#225;s: pl&#225;stico." - Calder Willingham, El graduado</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_COMPOSITES_QUOTE</Tag>
+		<English>"Yeah, rainbows aren't really known for their flavor." - Rainbow Dash</English>
+		<French>"La totalit&#233; est plus que la somme des parties." - Aristote</French>
+		<German>"Das Ganze ist mehr als die Summe seiner Teile." - Aristoteles</German>
+		<Italian>"Il risultato &#232; migliore della somma delle sue parti." - Aristotele</Italian>
+		<Spanish>"Un todo es mayor que la suma de sus partes." - Arist&#243;teles</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_GENETICS_QUOTE</Tag>
+		<English>"And his father before him" - Thunderhooves</English>
+		<French>"Bient&#244;t, ce sera un p&#233;ch&#233; pour des parents d'avoir un enfant souffrant d'une maladie g&#233;n&#233;tique." - Bob Edwards</French>
+		<German>"Bald wird es eine S&#252;nde sein, wenn Eltern ein behindertes Kind zur Welt bringen." - Bob Edwards</German>
+		<Italian>"Presto sar&#224; un peccato per dei genitori avere figli che portano il fardello di una malattia genetica." - Bob Edwards</Italian>
+		<Spanish>"Pronto ser&#225; un pecado que los padres tengan hijos que lleven la pesada carga de una enfermedad gen&#233;tica." - Bob Edwards</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_FIBER_OPTICS_QUOTE</Tag>
+		<English>"Dumb fabric." - Sweetie Belle</English>
+		<French>"La lumi&#232;re de la science est unique et lorsqu'elle &#233;claire quelque part, elle &#233;claire partout." - Isaac Asimov</French>
+		<German>"Es gibt nur ein Licht der Wissenschaft, und es irgendwo zu entz&#252;nden hei&#223;t, es &#252;berall zu entz&#252;nden." - Isaac Asimov</German>
+		<Italian>"Accendendo la luce della scienza da qualche parte, lo si fa ovunque." - Isaac Asimov</Italian>
+		<Spanish>"La ciencia es una sola luz, e iluminar con ella cualquier parte es iluminar con ella el mundo entero." - Isaac Asimov</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_FUSION_QUOTE</Tag>
+		<English>"It's not scientifically possible. You are not scientifically possible" - Twilight Sparkle</English>
+		<French>"Une technologie suffisamment sophistiqu&#233;e ne peut &#234;tre distingu&#233;e de la magie." - Arthur C. Clarke</French>
+		<German>"Jede fortgeschrittene Technologie ist anfangs von Magie nicht zu unterscheiden." - Arthur C. Clarke</German>
+		<Italian>"Ogni tecnologia sufficientemente avanzata, &#232; indistinguibile dalla magia." - Arthur C. Clarke</Italian>
+		<Spanish>"Cualquier tecnolog&#237;a lo suficientemente avanzada es indistinguible de la magia." - Arthur C. Clarke</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_HUNTING_QUOTE</Tag>
+		<English>"I despise camping! All that... nature." - Rarity</English>
+		<French>"Chasse deux li&#232;vres &#224; la fois et tu n'en attraperas aucun." - Proverbe am&#233;rindien</French>
+		<German>"Der, der zwei Hasen jagt, l&#228;sst einen zur&#252;ck und verliert den anderen." - Indianisches Sprichwort</German>
+		<Italian>"Se dai la caccia a due conigli, li perderai entrambi." - Proverbio dei Nativi Americani</Italian>
+		<Spanish>"Si persigues a dos conejos al mismo tiempo, los perder&#225;s a ambos." - Dicho de los ind&#237;genas americanos</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_MINING_QUOTE</Tag>
+		<English>"Yes.. Crystals.." - King Sombra</English>
+		<French>"L'homme qui d&#233;place une montagne commence par les petites pierres." - Confucius</French>
+		<German>"Der Mann, der den Berg abtrug, war derselbe, der anfing, kleine Steine wegzutragen." - Konfuzius</German>
+		<Italian>"Un uomo che deve spostare una montagna comincia dalle piccole pietre." - Confucio</Italian>
+		<Spanish>"El hombre que mueve monta&#241;as empieza apartando piedrecitas." - Confucio</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_ARCHERY_QUOTE</Tag>
+		<English>"And so the games conclude as they always do... with the ice archery finals." - Shining Armor</English>
+		<French>"Ne lance pas la fl&#232;che qui se retournera contre toi !" - Proverbe kurde</French>
+		<German>"Schie&#223;e keinen Pfeil, der zu dir zur&#252;ckkehren k&#246;nnte." - Kurdisches Sprichwort</German>
+		<Italian>"Non scagliare la freccia che ti si rivolter&#224; contro." - Proverbio Curdo</Italian>
+		<Spanish>"No dispares la flecha que pueda volverse contra ti." - Proverbio kurdo</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_MASONRY_QUOTE</Tag>
+		<English>"A rock, that's my destiny!" - Rarity</English>
+		<French>"Ce sont leurs ennemis et non leurs amis qui ont enseign&#233; aux cit&#233;s &#224; b&#226;tir de hautes murailles !" - Aristophane</French>
+		<German>"Nicht von ihren Freunden, sondern von ihren Feinden lernen St&#228;dte, hohe Mauern zu bauen." - Aristophanes</German>
+		<Italian>"&#200; dai nemici, non dagli amici, che le citt&#224; imparano la lezione di costruire alte mura." - Aristofane</Italian>
+		<Spanish>"Es de los enemigos, no de los amigos, que las ciudades aprenden la lecci&#243;n de construir murallas altas." - Arist&#243;fanes</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_BRONZE_WORKING_QUOTE</Tag>
+		<English>"Rock, you are a rock. Grey, you are grey, like a rock, which you are, rock." - Maud Pie</English>
+		<French>"Un jeune homme tomb&#233; dans la bataille peut afficher la pointe d'airain fich&#233;e dans son corps car rien ne choque chez un mort." - Hom&#232;re</French>
+		<German>"So mancher J&#252;ngling f&#228;llt in der Schlacht, zermalmt von bronzenem Speer. Im Tode so scheint sein Schicksal vollbracht." - Homer</German>
+		<Italian>"Per un giovane &#232; decoroso morire in battaglia trafitto da una lancia di bronzo. Nella morte, tutte le cose sembrano giuste." - Omero</Italian>
+		<Spanish>"Yacer en el suelo, habiendo sido atravesado en la lid por el agudo bronce, es decoroso para un joven, y cuanto de &#233;l pueda verse todo es bello, a pesar de la muerte." - Homero</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_ANIMAL_HUSBANDRY_QUOTE</Tag>
+		<English>"You're going to love me!" - Fluttershy</English>
+		<French>"B&#233;nis seront le fruit de ton b&#233;tail, le fruit de tes entrailles et la laine de tes brebis." - La Bible, Deut&#233;ronome 28:4</French>
+		<German>"Gesegnet wird sein der Ertrag deines Ackers und die Jungtiere deines Viehs, deiner Rinder und deiner Schafe." - Die Bibel, Deut. 28:4</German>
+		<Italian>"Sia benedetto il frutto delle mandrie di bovini e delle greggi di pecore." - La Bibbia, Deut. 28:4</Italian>
+		<Spanish>"Bendito el fruto de tu vientre, y el fruto de tu bestia, la cr&#237;a de tus vacas, y los reba&#241;os de tus ovejas." - La Biblia, Deuteronomio 28:4</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_IRON_WORKING_QUOTE</Tag>
+		<English>"Iron Will's my name, training ponies is my game." - Iron Will</English>
+		<French>"Il faut battre le fer tant qu'il est chaud." - Publius Syrus</French>
+		<German>"Man muss das Eisen schmieden, solange es hei&#223; ist." - Publius Syrus</German>
+		<Italian>"Dovresti battere il ferro finch&#233; &#232; caldo." - Publilio Siro</Italian>
+		<Spanish>"Debes golpear el hierro cuando a&#250;n est&#225; al rojo vivo." - Publio Siro</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_METAL_CASTING_QUOTE</Tag>
+		<English>"Necklace, necklace, necklace, necklace, and big crown thingy. Come on everypony, let's go." - Twilight Sparkle</English>
+		<French>"Et ceux qui auront v&#233;cu par l'&#233;p&#233;e p&#233;riront par l'&#233;p&#233;e." - La Bible, Matthieu</French>
+		<German>"Wer das Schwert nimmt, der soll durchs Schwert umkommen." - Die Bibel, Matth&#228;us</German>
+		<Italian>"Chi di spada ferisce, di spada perisce." - La Bibbia, Matteo</Italian>
+		<Spanish>"Quien toma la espada, a espada morir&#225;." - La Biblia, San Mateo</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_CONSTRUCTION_QUOTE</Tag>
+		<English>"Why wait for something to happen when you can make it happen?" - Rainbow Dash</English>
+		<French>"Et sur le pi&#233;destal apparaissent ces mots : 'Je suis Ozymandias, le Roi des Rois ; contemple mon oeuvre, &#212; Tout-puissant, et d&#233;sesp&#232;re !'" - Percy Bysshe Shelley </French>
+		<German>"Und auf dem Sockel erscheinen folgende Worte: 'Mein Name ist Ozymandias, K&#246;nig der K&#246;nige: Betrachtet mein Werk, ihr M&#228;chtigen, und verzweifelt!'" - Percy Bysshe Shelley</German>
+		<Italian>"E sul mio piedistallo saranno incise queste parole: 'Il mio nome &#232; Ozymandias, re dei re; guarda il mio operato e ammutolisci!'" - Percy Bysshe Shelley</Italian>
+		<Spanish>"Y en el pedestal se leen estas palabras: 'Mi nombre es Ozymandias, rey de reyes: &#161;Contemplad mis obras, poderosos, y perded la esperanza!' " - Percy Bysshe Shelley</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_HORSEBACK_RIDING_QUOTE</Tag>
+		<English>"Hi-ho, Twilight! Away!" - Spike</English>
+		<French>"Si tu dis vrai, mets le pied &#224; l'&#233;trier." - Proverbe turc</French>
+		<German>"Wer die Wahrheit spricht, sollte besser einen Fu&#223; im Steigb&#252;gel haben." - Arabisches Sprichwort</German>
+		<Italian>"Se dici il vero, metti un piede nella staffa." - Proverbio Turco</Italian>
+		<Spanish>"Si dices la verdad, ya tienes un pie en el estribo." - Proverbio turco</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_COMPASS_QUOTE</Tag>
+		<English>"Hello everypony. Did I mess anything?" - Luna</English>
+		<French>"L'homme avis&#233; suit sa propre direction." - Euripide</French>
+		<German>"Ein weiser Mann folgt nur sich selbst." - Euripides</German>
+		<Italian>"Gli uomini pi&#249; saggi conoscono la direzione in cui andare." - Euripide</Italian>
+		<Spanish>"Los hombres m&#225;s sabios siguen su propio rumbo." - Eur&#237;pides</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_MACHINERY_QUOTE</Tag>
+		<English>"You were nothing but a doormat and Iron Will turned you into a lean, mean, assertive machine!" - Iron Will</English>
+		<French>"La machine a enfant&#233; un DIEU." - Menander</French>
+		<German>"Deus ex machina." - Menander</German>
+		<Italian>"La divinit&#224; delle macchine" - Menandro</Italian>
+		<Spanish>"Deus ex machina." - Menandro</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_ENGINEERING_QUOTE</Tag>
+		<English>"That nest needs to be condemned." - Spike</English>
+		<French>"La perfection est atteinte non pas parce qu'il n'y a plus rien &#224; ajouter, mais lorsqu'il n'y a plus rien &#224; retirer." - Antoine de Saint-Exup&#233;ry</French>
+		<German>"Perfektion ist nicht dann erreicht, wenn es nichts mehr hinzuzuf&#252;gen gibt, sondern wenn man nichts mehr weglassen kann." - Antoine de Saint-Exup&#233;ry</German>
+		<Italian>"Un progettista sa di aver raggiunto la perfezione non quando non c'&#232; pi&#249; niente da aggiungere, ma quando non c'&#232; pi&#249; nulla da eliminare." - Antoine de Saint-Exupry</Italian>
+		<Spanish>"Un dise&#241;ador sabe que ha alcanzado la perfecci&#243;n no cuando ya no tiene nada m&#225;s que a&#241;adir, sino cuando no le queda nada m&#225;s que quitar." - Antoine de Saint-Exup&#233;ry</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_OPTICS_QUOTE</Tag>
+		<English>"I'm watching you, like a hawk." - Gilda</English>
+		<French>"Ne d&#233;couvre de nouvelles terres, que celui qui sait quitter tout rivage." - Andr&#233; Gide</French>
+		<German>"Man kann keine neuen L&#228;nder entdecken, ohne die K&#252;ste aus den Augen zu verlieren." - Andr&#233; Gide</German>
+		<Italian>"Una persona non pu&#242; scoprire nuove terre senza vederne la spiagge." - Andre Gide</Italian>
+		<Spanish>"Uno no descubre nuevas tierras sin perder de vista la costa." - Andr&#233; Gide</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_GUNPOWDER_QUOTE</Tag>
+		<English>"Oh, I never leave home without my party cannon." - Pinkie Pie</English>
+		<French>"On obtient plus en demandant poliment une arme &#224; la main qu'en demandant juste poliment." - Al Capone</French>
+		<German>"Wenn du etwas wirklich willst, musst du deinen Worten mit einer Waffe Nachdruck verleihen." - Al Capone</German>
+		<Italian>"Con una parola gentile e una pistola, puoi ottenere di pi&#249; che con una sola parola gentile." - Al Capone</Italian>
+		<Spanish>"Uno puede conseguir m&#225;s con una palabra amable y una pistola que solo con una palabra amable." - Al Capone</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_REPLACEABLE_PARTS_QUOTE</Tag>
+		<English>"Tis a lie! Thy backside is whole and ungobbled, thou ungrateful whelp!" - Luna</English>
+		<French>"La totalit&#233; est plus que la somme des parties." - Aristote</French>
+		<German>"Das Ganze ist gr&#246;&#223;er als die Summe seiner Teile." - Aristoteles</German>
+		<Italian>"Il risultato &#232; migliore della somma delle sue parti." - Aristotele</Italian>
+		<Spanish>"Un todo es m&#225;s que la suma de sus partes." - Arist&#243;teles</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_RIFLING_QUOTE</Tag>
+		<English>"I'm prepared to be defeated now, ladies. Fire when ready." - Discord</English>
+		<French>"Le pouvoir politique sort du canon d'un fusil." - Mao Ts&#233;-Tung</French>
+		<German>"Alle politische Macht r&#252;hrt von einem Gewehrlauf." - Mao Tsetung</German>
+		<Italian>"Il potere politico nasce dalla canna di un fucile." - Mao Tse Tung</Italian>
+		<Spanish>"El poder pol&#237;tico nace de los ca&#241;ones de los fusiles." - Mao Zedong</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_STEAM_POWER_QUOTE</Tag>
+		<English>"Tornado power! That's right, Pegasi-driven tornado power. A team of Pegasi combine their wing power to create a jumbo tornado, powerful enough to pull water out of the local reservoir and funnel it all the way up to Cloudsdale." - Pegasi Educational Film</English>
+		<French>"Vous feriez avancer un navire contre vents et courants en allumant un brasier sous le pont ? Je n'ai pas de temps &#224; perdre avec de telles inepties." - Napol&#233;on parlant du bateau &#224; vapeur de Robert Fulton</French>
+		<German>"Was veranlasst Sie zu der Annahme, dass ein Schiff gegen den Wind und gegen die Str&#246;mung segeln k&#246;nnte, wenn man nur ein Feuer unter Deck anz&#252;nde? Ich habe keine Zeit, mir so einen Unsinn anzuh&#246;ren." - Napoleon &#252;ber Robert Fultons Dampfschiff</German>
+		<Italian>"Quindi per far andare una nave controvento dovresti accendere un fuoco nella stiva? Non ho tempo per queste idiozie." - Napoleone a proposito della nave a vapore di Robert Fulton</Italian>
+		<Spanish>"-&#191;Usted har&#237;a barcos que navegaran contra las corrientes y los vientos con solo encender una caldera bajo la cubierta? &#173;Disc&#250;lpeme, no tengo tiempo para escuchar tonter&#237;as." - Napole&#243;n, hablando del barco a vapor de Robert Fulton</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_STEEL_QUOTE</Tag>
+		<English>"When somepony tries to block show them that you rock!" - Iron Will</English>
+		<French>"Je mourrai le marteau &#224; la main avant que la machine &#224; vapeur ne me batte." - Chanson de John Henry (Steel-Driving Man)</French>
+		<German>"Wenn dieser Dampfbohrer mich schl&#228;gt, sterbe ich mit dem Hammer in der Hand." - Aus "John Henry, Steel-Driving Man"</German>
+		<Italian>"Piuttosto che farmi eliminare dalla trivella a vapore, morir&#242; con il martello in mano." - da "John Henry, the Steel-Driving Man"</Italian>
+		<Spanish>"Antes de que esa perforadora a vapor me derrote, morir&#233; con el martillo en la mano." - De la balada popular norteamericana "John Henry, the Steel-Driving Man"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_RAILROAD_QUOTE</Tag>
+		<English>"Terrible is right, your train is full seven minutes late! That's seven minutes less for you to delight in the pleasures and wonders of... Applelooosa!" - Braeburn</English>
+		<French>"Je t'ai roul&#233;, je t'ai roul&#233;, je t'ai roul&#233;, j'ai eu la fonte, j'ai eu la fonte, j'ai eu la fonte." - Chanson de Lonnie Donegan (Rock Island Line)</French>
+		<German>"Eine Eisenbahn besteht zu 95% aus Menschen und zu 5% aus Eisen." - Adam Smith</German>
+		<Italian>"Due rotaie che corrono parallele, per un viaggio pieno di traversine." - Lonnie Donegan, "Rock Island Line"</Italian>
+		<Spanish>"El tren camina y camina, y la m&#225;quina resuella, y tose con tos ferina. &#161;Vamos en una centella!" - Antonio Machado</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_ARTILLERY_QUOTE</Tag>
+		<English>"Hah hah, the fun has been doubled." - Luna</English>
+		<French>"L'artillerie conf&#232;re un peu de dignit&#233; &#224; ce qui ne serait que vulgaire bagarre !" - Fr&#233;d&#233;ric le Grand</French>
+		<German>"Die Artillerie verleiht einem vulg&#228;ren Gemetzel W&#252;rde." - Friedrich der Gro&#223;e</German>
+		<Italian>"L'artiglieria aggiunge dignit&#224; a quella che altrimenti sarebbe una volgare rissa." - Federico il Grande</Italian>
+		<Spanish>"La artiller&#237;a da dignidad a lo que, de otro modo, ser&#237;a una vulgar pelea." - Federico el Grande</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_ASSEMBLY_LINE_QUOTE</Tag>
+		<English>"Another donut, extra sprinkles!" - Spike</English>
+		<French>"Les gens peuvent choisir la couleur de leur voiture, pourvu que ce soit noir." - Henry Ford</French>
+		<German>"Unser Modell T ist in jeder Farbe lieferbar, vorausgesetzt sie ist schwarz." - Henry Ford</German>
+		<Italian>"La gente pu&#242; avere il modello T in qualsiasi colore, a patto che sia nero." - Henry Ford</Italian>
+		<Spanish>"Los clientes pueden tener un coche del color que quieran, siempre que sea negro." - Henry Ford</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_INDUSTRIALISM_QUOTE</Tag>
+		<English>"Just thought you should know I'm making a really big decision that changes everything. Oh, never mind, you'll hear about it when you get the invitation." - Twilight Sparkle</English>
+		<French>"L'industriel ne doit ob&#233;ir qu'&#224; une seule r&#232;gle : produire des biens de la meilleure qualit&#233; possible au moindre co&#251;t en payant les plus hauts salaires possibles." - Henry Ford</French>
+		<German>"Die wichtigste unternehmerische Regel lautet: Mache m&#246;glichst gute Produkte zu m&#246;glichst niedrigen Preisen und bezahle m&#246;glichst hohe L&#246;hne." - Henry Ford</German>
+		<Italian>"Esiste una sola regola per l'imprenditore: fare il miglior prodotto possibile al minor costo possibile, pagando i massimi stipendi possibili." - Henry Ford</Italian>
+		<Spanish>"Para el industrial solo hay una regla, que es la siguiente: hacer los productos de la mejor calidad posible al menor coste posible, pagando los salarios m&#225;s altos posibles." - Henry Ford</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_RADIO_QUOTE</Tag>
+		<English>"When you decide not to be lame anymore give me a call." - Gilda</English>
+		<French>"Et un matin, elle &#233;couta une station de New York, et sa vie fut sauv&#233;e par le Rock'n'roll !" - The Velvet Underground (Rock And Roll)</French>
+		<German>"Es gibt in allen Funkh&#228;usern Leute, die nichts zu tun haben, aber das richtig gehetzt." - Robert Lembke</German>
+		<Italian>"Poi, una mattina, si sintonizz&#242; su una stazione radio di New York. La sua vita venne salvata dal rock 'n' roll." - The Velvet Underground, "Rock And Roll"</Italian>
+		<Spanish>"La radio no tiene futuro, los rayos X resultar&#225;n una farsa y las m&#225;quinas voladoras m&#225;s pesadas que el aire son imposibles." - William Thomson</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_REFRIGERATION_QUOTE</Tag>
+		<English>"Iron Will does have some grocery shopping to do. Iron Will will come back this afternoon." - Iron Will</English>
+		<French>"Dis-moi ce que tu manges et je te dirai qui tu es !" - Anthelme Brillat-Savarin</French>
+		<German>"Der Mensch ist, was er isst." - Anthelme Brillat-Savarin</German>
+		<Italian>"Dimmi cosa mangi e ti dir&#242; chi sei." - Anthelme Brillat-Savarin</Italian>
+		<Spanish>"Dime lo que comes y te dir&#233; qui&#233;n eres." - Anthelme Brillat-Savarin</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_COMPUTERS_QUOTE</Tag>
+		<English>"Eternal chaos comes with chocolate rain, you guys! Chocolate rain!" - Pinkie Pie</English>
+		<French>"M&#233;fiez-vous d'un ordinateur que vous ne pouvez pas jeter par la fen&#234;tre." - Steve Wozniak</French>
+		<German>"Vertraue keinem Computer, den du nicht aus dem Fenster werfen kannst." - Steve Wozniak</German>
+		<Italian>"Mai fidarsi di un computer che non si pu&#242; lanciare fuori dalla finestra." - Steve Wozniak</Italian>
+		<Spanish>"Nunca te f&#237;es de un ordenador que no puedas tirar por la ventana." - Steve Wozniak</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_ROCKETRY_QUOTE</Tag>
+		<English>"Reluctantly, the elder sister harnessed the most powerful magic known to ponydom: the Elements of Harmony. Using the magic of the Elements of Harmony, she defeated her younger sister, and banished her permanently in the moon." - Story of the Two Princesses</English>
+		<French> "La Terre est le berceau de l'humanit&#233;, mais qui veut passer sa vie enti&#232;re dans un berceau ?" - Konstantin Tsiolkovsky</French>
+		<German>"Die Erde ist die Wiege der Menschheit, aber welches Kind bleibt schon ewig in seiner Wiege." - Konstantin E. Ciolkowski</German>
+		<Italian>"La Terra &#232; la culla della mente... ma non si pu&#242; vivere sempre in una culla..." - Konstantin E. Tsiolkovksy</Italian>
+		<Spanish>"La Tierra es la cuna de la Humanidad, pero no puedes vivir en una cuna eternamente." - Konstant&#237;n E. Tsiolkovksi</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_SATELLITES_QUOTE</Tag>
+		<English>"Monitor everything!" - Twilight Sparkle</English>
+		<French>"Bip... bip... bip... bip..." - Spoutnik I</French>
+		<German>"Beep ... Beep ... Beep ... Beep." - Sputnik I.</German>
+		<Italian>"Bip...bip... bip... bip" - Sputnik I</Italian>
+		<Spanish>"Bip... bip... bip... bip..." - Sputnik I</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_ROBOTICS_QUOTE</Tag>
+		<English>"If I can't find a friendship problem, I'll make a friendship problem." - Twilight Sparkle</English>
+		<French>"La vraie question n'est pas de savoir si les machines pensent mais si les humains pensent." - B.F. Skinner</French>
+		<German>"Das eigentliche Problem ist nicht, ob Maschinen denken k&#246;nnen, sondern ob Menschen es k&#246;nnen." - B.F. Skinner</German>
+		<Italian>"Il problema non &#232; se le macchine sono in grado di pensare, ma se lo &#232; l'uomo." - B.F. Skinner</Italian>
+		<Spanish>"El verdadero problema no es si las m&#225;quinas piensan, sino si los hombres lo hacen." - B. F. Skinner</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_TECH_FUTURE_TECH_QUOTE</Tag>
+		<English>"And I know, it's gonna be so awesome!" - Rainbow Dash</English>
+		<French>"Le futur sera meilleur demain !" - Dan Quayle</French>
+		<German>"Morgen wird die Zukunft besser sein." - Dan Quayle</German>
+		<Italian>"Domani, il futuro sar&#224; migliore." - Dan Quayle</Italian>
+		<Spanish>"El futuro ser&#225; mejor ma&#241;ana." - Dan Quayle</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DAWN_OF_MAN_SCREEN_TITLE</Tag>
+		<!-- %s1_year = string version of the date -->
+		<English>The Dawn of Ponydom</English>
+		<French>L'aube de l'Humanit&#233;</French>
+		<German>Der Beginn der Menschheit</German>
+		<Italian>L'alba dell'umanit&#224;</Italian>
+		<Spanish>Los Albores del Hombre</Spanish>
+	</TEXT>                           
+	<TEXT>
+		<Tag>TXT_KEY_CITY_WARNING_HAPPY</Tag>
+		<!-- %s1 = TXT_KEY_CITYNAME_   %s2 = TXT_KEY_BUILDING_ -->
+		<English>Sire, the ponies %s1 are an unruly lot. Some are even refusing to work! They demand construction of a %s2</English>
+		<French>Votre Altesse, les citoyens de %s1 sont indisciplin&#233;s. Certains refusent m&#234;me de travailler ! Ils demandent la construction d'un b&#226;timent : %s2</French>
+		<German>Die B&#252;rger von %s1 sind ein widerspenstiges Pack! Einige von ihnen verweigern sogar die Arbeit! Sie verlangen ein neues Geb&#228;ude: %s2</German>
+		<Italian>Sire, il popolo %s1 si &#232; insubordinato. Alcuni si rifiutano persino di lavorare! Vogliono la costruzione dell'edificio %s2</Italian>
+		<Spanish>Excelencia, el pueblo de %s1 se ha convertido en un turba incontrolada. &#161;Algunos hasta se niegan a trabajar! Exigen la construcci&#243;n de [NUM2:un:una:unos:unas] %s2.</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DOMESTIC_ADVISOR_GREATPEOPLE</Tag>
+		<English>great ponies production.</English>
+		<French>l'&#233;mergence de personnages illustres.</French>
+		<German>Produktion Gro&#223;er Pers&#246;nlichkeiten.</German>
+		<Italian>produzione Grandi Personaggi.</Italian>
+		<Spanish>la producci&#243;n de grandes personajes.</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_POPUP_UNHAPPY_CITIZENS_DEMAND</Tag>
+		<English>Sire, the ponies of %s1_CityName are an unruly lot. Some are even refusing to work!!! They demand construction of a [COLOR_BUILDING_TEXT]%s2_BldgName[COLOR_REVERT]!</English>
+		<French>Votre Altesse, le peuple de %s1_CityName s'agite. Certains refusent m&#234;me de travailler ! Ils demandent la construction  d'1 [COLOR_BUILDING_TEXT]%s2_BldgName[COLOR_REVERT] !</French>
+		<German>Die B&#252;rger von %s1_CityName sind ein widerspenstiges Pack! Einige von ihnen verweigern sogar die Arbeit! Sie verlangen ein neues Geb&#228;ude: [COLOR_BUILDING_TEXT]%s2_BldgName[COLOR_REVERT]!</German>
+		<Italian>Sire, i cittadini di %s1_CityName sono completamente indisciplinati. Alcuni di rifiutano persino di lavorare!!! Chiedono la costruzione dell'edificio [COLOR_BUILDING_TEXT]%s2_BldgName[COLOR_REVERT]!</Italian>
+		<Spanish>Excelencia, el pueblo de %s1_CityName se ha convertido en un turba incontrolada. &#161;Algunos hasta se niegan a trabajar! Exigen la construcci&#243;n de [NUM2:un:una:unos:unas] [COLOR_BUILDING_TEXT]%s2_BldgName[COLOR_REVERT].</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MISC_ATTITUDE_OPEN_BORDERS</Tag>
+		<English>%D1: "Our Open Borders have brought our ponies close together."</English>
+		<French>%D1 : "Le libre passage a rapproch&#233; nos deux peuples."</French>
+		<German>%D1: "Die &#214;ffnung unserer Grenzen hat unsere V&#246;lker n&#228;her gebracht."</German>
+		<Italian>%D1: "Il nostro accordo di diritto di passaggio ha permesso ai nostri popoli di avvicinarsi"</Italian>
+		<Spanish>%D1: "La apertura de fronteras ha acercado m&#225;s a nuestros pueblos."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_MINORITY_RELIGION</Tag>
+		<English>"Too few of my ponies follow that faith..."</English>
+		<French>"Trop peu de nos citoyens ont adopt&#233; cette religion..."</French>
+		<German>"Zu wenige unserer B&#252;rger folgen diesem Glauben..."</German>
+		<Italian>"Troppe poche persone seguono la nostra fede..."</Italian>
+		<Spanish>"Muy pocos de los nuestros siguen esa fe..."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_POPUP_BUILDING_DEFENSE_DEMAND</Tag>
+		<English>Sire, the defenses of %s1_CityName are very weak, making us an inviting target! Remember, good fences make good neighbors. The construction of [COLOR_BUILDING_TEXT]%s2_BldgName[COLOR_REVERT] would give our ponies safety at last!</English>
+		<French>Sire, les d&#233;fenses de la ville de %s1_CityName sont tr&#232;s faibles, ce qui fait de nous une cible bien vuln&#233;rable ! N'oubliez pas que mieux vaut pr&#233;venir que gu&#233;rir ! La construction d'un b&#226;timent ([COLOR_BUILDING_TEXT]%s2_BldgName[COLOR_REVERT]) permettrait d'assurer la s&#233;curit&#233; de notre peuple !</French>
+		<German>%s1_CityName besitzt nur sehr schwache Verteidigungsm&#246;glichkeiten! Das macht sie geradewegs zur Zielscheibe! Ihr wisst ja sicher: Nur gute Z&#228;une gew&#228;hrleisten gute Nachbarschaft. Wenn wir das Geb&#228;ude [COLOR_BUILDING_TEXT]%s2_BldgName[COLOR_REVERT] errichten w&#252;rden, w&#228;re die Bev&#246;lkerung endlich sicher!</German>
+		<Italian>Sire, le difese della citt&#224; %s1_CityName sono deboli e siamo un bersaglio invitante! Ricorda, una buona difesa crea un buon vicinato, La costruzione dell'edificio [COLOR_BUILDING_TEXT]%s2_BldgName[COLOR_REVERT] metterebbe al sicuro la nostra gente!</Italian>
+		<Spanish>Excelencia, las defensas de %s1_CityName son muy d&#233;biles, por lo que estamos invitando a que la invadan. Recordad que las verjas altas hacen buenos a los vecinos. La construcci&#243;n de [NUM2:un:una:unos:unas] [COLOR_BUILDING_TEXT]%s2_BldgName[COLOR_REVERT] le dar&#237;a a nuestro pueblo una merecida seguridad.</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MISC_ATTITUDE_WAR</Tag>
+		<English>%D1: "This war weakens our relationship."</English>
+		<French>%D1 : "Cette guerre nuit &#224; nos relations."</French>
+		<German>%D1: "Dieser Krieg beeintr&#228;chtigt unsere Beziehungen!"</German>
+		<Italian>%D1: "Questa guerra rovina i nostri rapporti."</Italian>
+		<Spanish>%D1: "Esta guerra echa por tierra nuestras relaciones."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_NEVER</Tag>
+		<English>"You'll have to pry it from my cold, dead body!"</English>
+		<French>"Il faudra d'abord nous passer sur le corps !"</French>
+		<German>"Nur &#252;ber unsere Leichen!"</German>
+		<Italian>"Dovrai passare sul nostro cadavere."</Italian>
+		<Spanish>"Nos lo arrebatar&#233;is por encima de nuestro cad&#225;ver."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_TOO_MUCH</Tag>
+		<English>"Sorry, I don't believe you'll be able to make good use of this."</English>
+		<French>"Vous nous demandez beaucoup trop !"</French>
+		<German>"Da verlangt Ihr definitiv zu viel!"</German>
+		<Italian>"Sul serio, hai preteso troppo!"</Italian>
+		<Spanish>"&#161;Est&#225; claro que ped&#237;s demasiado!"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_MYSTERY</Tag>
+		<English>"I have my reasons."</English>
+		<French>"Nous avons nos raisons."</French>
+		<German>"Wir haben unsere Gr&#252;nde."</German>
+		<Italian>"Abbiamo i nostri motivi."</Italian>
+		<Spanish>"Tenemos nuestros motivos."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_JOKING</Tag>
+		<English>"You surely must be joking..."</English>
+		<French>"C'est une plaisanterie, j'esp&#232;re !"</French>
+		<German>"Ihr beliebt wohl zu scherzen ..."</German>
+		<Italian>"Seriamente, stai scherzando..."</Italian>
+		<Spanish>"Seguro que deb&#233;is de estar bromeando..."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_ANGER_CIVIC</Tag>
+		<English>"I don't want to deal with the unhappiness."</English>
+		<French>"Nous ne voulons pas traiter avec le malheur."</French>
+		<German>"Wir haben keine Lust, uns Unzufriedenheit einzuhandeln."</German>
+		<Italian>"Non vogliamo avere a che fare con il malumore del popolo."</Italian>
+		<Spanish>"No queremos arriesgarnos a la infelicidad."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_FAVORITE_CIVIC</Tag>
+		<English>"That would go against everything I stand for!"</English>
+		<French>"Cela irait &#224; l'encontre de tous nos principes !"</French>
+		<German>"Das w&#252;rde gegen alle unsere Grunds&#228;tze versto&#223;en!"</German>
+		<Italian>"Sarebbe contro i nostri principi!"</Italian>
+		<Spanish>"&#161;Eso ir&#237;a contra todo por lo que luchamos!"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_MINORITY_RELIGION</Tag>
+		<English>"Too few of my ponies follow that faith..."</English>
+		<French>"Trop peu de nos citoyens ont adopt&#233; cette religion..."</French>
+		<German>"Zu wenige unserer B&#252;rger folgen diesem Glauben..."</German>
+		<Italian>"Troppe poche persone seguono la nostra fede..."</Italian>
+		<Spanish>"Muy pocos de los nuestros siguen esa fe..."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_CONTACT_THEM</Tag>
+		<English>"I'd love to, but you'll have to contact them..."</English>
+		<French>"Ce serait avec plaisir, mais vous devez les contacter..."</French>
+		<German>"Das w&#252;rden wir gern tun, aber Ihr m&#252;sst Kontakt zu ihnen aufnehmen ..."</German>
+		<Italian>"Ci piacerebbe, ma non li abbiamo mai incontrati..."</Italian>
+		<Spanish>"Nos encantar&#237;a, pero tendr&#233;is que contactar con ellos..."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_VICTORY</Tag>
+		<English>"I'd rather claim victory, thank you very much..."</English>
+		<French>"Nous pr&#233;f&#233;rons &#234;tre vainqueurs, merci..."</French>
+		<German>"Wir haben eigentlich vor, das Spiel zu gewinnen! Besten Dank ..."</German>
+		<Italian>"Ci piacerebbe vincere la partita, grazie lo stesso..."</Italian>
+		<Spanish>"Preferimos ganar la partida, muchas gracias..."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_ATTITUDE</Tag>
+		<English>"I don't like you enough."</English>
+		<French>"Nous ne vous appr&#233;cions pas suffisamment."</French>
+		<German>"Ganz so nah stehen wir Euch dann eigentlich doch nicht."</German>
+		<Italian>"Non ci piaci abbastanza."</Italian>
+		<Spanish>"No nos ca&#233;is lo bastante bien."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_ATTITUDE_THEM</Tag>
+		<English>"I refuse to betray my friend!"</English>
+		<French>"Nous ne trahirons pas nos plus fid&#232;les amis !"</French>
+		<German>"Es w&#252;rde uns nie in den Sinn kommen, enge Freunde zu hintergehen!"</German>
+		<Italian>"Non potremmo mai tradire i nostri pi&#249; cari amici!"</Italian>
+		<Spanish>"&#161;No podr&#237;amos traicionar a nuestros amigos del alma!"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_TECH_WHORE</Tag>
+		<English>"I fear you are becoming too advanced."</English>
+		<French>"Nous craignons que vous preniez trop d'avance dans votre essor technologique."</French>
+		<German>"Wir haben die Bef&#252;rchtung, dass Ihr zu fortschrittlich werdet."</German>
+		<Italian>"Temiamo che ti possa sviluppare troppo."</Italian>
+		<Spanish>"Nos tememos que hab&#233;is avanzado demasiado."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_TECH_MONOPOLY</Tag>
+		<English>"I don't want to trade this technology right now."</English>
+		<French>"Nous ne souhaitons pas &#233;changer cette technologie pour l'instant."</French>
+		<German>"Wir finden es noch zu fr&#252;h, mit dieser Technologie zu handeln."</German>
+		<Italian>"Non vogliamo ancora commerciare questa tecnologia."</Italian>
+		<Spanish>"A&#250;n no queremos empezar a comerciar con esta tecnolog&#237;a."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_POWER_US</Tag>
+		<English>"I'm doing fine on my own..."</English>
+		<French>"Nous nous en sortons tr&#232;s bien seuls."</French>
+		<German>"Wir kommen ganz gut allein klar."</German>
+		<Italian>"Ce la facciamo da soli."</Italian>
+		<Spanish>"Nos va bien sin ayuda."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_POWER_YOU</Tag>
+		<English>"You've grown too powerful for me..."</English>
+		<French>"Vous &#234;tes devenu trop puissant pour nous."</French>
+		<German>"Ihr seid zu m&#228;chtig f&#252;r uns geworden."</German>
+		<Italian>"Siete diventati troppo potenti per noi."</Italian>
+		<Spanish>"Os hab&#233;is hecho demasiado poderosos para nosotros."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_POWER_THEM</Tag>
+		<English>"I'm afraid of their military might!"</English>
+		<French>"Leur puissance militaire nous inqui&#232;te!"</French>
+		<German>"Wir haben m&#228;chtigen Respekt vor ihrer milit&#228;rischen St&#228;rke!"</German>
+		<Italian>"Temiamo la loro potenza militare!"</Italian>
+		<Spanish>"Tememos su poder militar!"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_TOO_MANY_WARS</Tag>
+		<English>"I have enough to deal with right now."</English>
+		<French>"Nous avons d&#233;j&#224; suffisamment &#224; faire."</French>
+		<German>"Zurzeit haben wir genug andere Sorgen."</German>
+		<Italian>"Stiamo gi&#224; affrontando troppi conflitti."</Italian>
+		<Spanish>"Ya tenemos demasiado entre manos."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_NO_GAIN</Tag>
+		<English>"I would have nothing to gain."</English>
+		<French>"Nous n'avons rien &#224; y gagner."</French>
+		<German>"Davon h&#228;tten wir nichts."</German>
+		<Italian>"Non avremmo niente da guadagnarci."</Italian>
+		<Spanish>"No tenemos nada que ganar."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_NOT_ALLIED</Tag>
+		<English>"I haven't had a defensive pact or shared a war with you recently."</English>
+		<French>"Nous n'avons pas sign&#233; de pacte de d&#233;fense ou combattu ensemble depuis assez longtemps.'"</French>
+		<German>"Wir haben lange genug kein Verteidigungsb&#252;ndnis geschlossen oder sind gemeinsam in den Krieg gezogen."</German>
+		<Italian>"Non abbiamo avuto un'alleanza difensiva o combattuto una guerra insieme da troppo tempo."</Italian>
+		<Spanish>"No hemos firmado un acuerdo de protecci&#243;n ni guerreado el tiempo suficiente."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_DENIAL_RECENT_CANCEL</Tag>
+		<English>"Not right now... maybe I'll change my mind in a few years."</English>
+		<French>"Pas pour l'instant... mais nous pourrions changer d'avis dans quelques ann&#233;es...'"</French>
+		<German>"Das ist ein schlechter Zeitpunkt ... Vielleicht &#228;ndern wir unsere Meinung ja in ein paar Jahren."</German>
+		<Italian>"Non ora... Forse cambieremo idea tra qualche anno."</Italian>
+		<Spanish>"Ahora no... Quiz&#225; cambiemos de idea en unos a&#241;os."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_DECLARED_WAR</Tag>
+		<English>"You declared war on me!"</English>
+		<French>"Vous nous avez d&#233;clar&#233; la guerre !"</French>
+		<German>"Ihr habt uns den Krieg erkl&#228;rt!"</German>
+		<Italian>"Ci hai dichiarato guerra!"</Italian>
+		<Spanish>"&#161;Nos declarasteis la guerra!"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_NUKED_US</Tag>
+		<English>"You nuked me!"</English>
+		<French>"Vous nous avez attaqu&#233; avec une arme nucl&#233;aire !"</French>
+		<German>"Ihr habt einen atomaren Angriff gegen uns ausgef&#252;hrt!"</German>
+		<Italian>"Ci hai bombardato con l'atomica!"</Italian>
+		<Spanish>"&#161;Nos bombardeasteis con armas nucleares!"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_RAZED_CITY</Tag>
+		<English>"You razed one of my cities!"</English>
+		<French>"Vous avez ras&#233; l'une de nos villes !"</French>
+		<German>"Ihr habt eine unserer St&#228;dte vernichtet!"</German>
+		<Italian>"Hai razziato una delle nostre citt&#224;!"</Italian>
+		<Spanish>"&#161;Arrasasteis una de nuestras ciudades!"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_RAZED_HOLY_CITY</Tag>
+		<English>"You razed one of my most cherished cities!"</English>
+		<French>"Vous avez ras&#233; une ville sainte !"</French>
+		<German>"Ihr habt eine Heilige Stadt vernichtet!"</German>
+		<Italian>"Hai razziato una Citt&#224; Santa!"</Italian>
+		<Spanish>"&#161;Arrasasteis una ciudad santa!"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_GIVE_HELP</Tag>
+		<English>"You gave me help."</English>
+		<French>"Vous nous avez aid&#233;s."</French>
+		<German>"Ihr habt uns geholfen."</German>
+		<Italian>"Ci hai aiutati."</Italian>
+		<Spanish>"Nos ayudasteis."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_REFUSED_HELP</Tag>
+		<English>"You refused to help me!"</English>
+		<French>"Vous avez refus&#233; de nous aider !"</French>
+		<German>"Ihr habt uns Eure Hilfe verwehrt!"</German>
+		<Italian>"Avete rifiutato di aiutarci!"</Italian>
+		<Spanish>"&#161;Os negasteis a ayudarnos!"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_ACCEPT_DEMAND</Tag>
+		<English>"You gave me tribute."</English>
+		<French>"Vous nous avez vers&#233; un tribut !"</French>
+		<German>"Ihr habt uns Tribut gezollt."</German>
+		<Italian>"Ci hai donato dei tributi."</Italian>
+		<Spanish>"Nos disteis un tributo."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_REJECTED_DEMAND</Tag>
+		<English>"You refused to give me tribute!"</English>
+		<French>"Vous avez refus&#233; de nous verser un tribut !"</French>
+		<German>"Ihr habt Euch geweigert, uns Tribut zu zollen!"</German>
+		<Italian>"Avete rifiutato di donarci dei tributi!"</Italian>
+		<Spanish>"&#161;Os negasteis a darnos un tributo!"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_ACCEPTED_RELIGION</Tag>
+		<English>"You accepted the state religion of my empire."</English>
+		<French>"Vous avez accept&#233; notre religion d'&#233;tat."</French>
+		<German>"Ihr habt unsere Staatsreligion akzeptiert."</German>
+		<Italian>"Hai accettato la nostra religione ufficiale."</Italian>
+		<Spanish>"Aceptasteis nuestra religi&#243;n oficial."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_DENIED_RELIGION</Tag>
+		<English>"You refused to accept the state religion of my empire!"</English>
+		<French>"Vous avez refus&#233; notre religion d'&#233;tat !"</French>
+		<German>"Ihr habt unsere Staatsreligion abgelehnt!"</German>
+		<Italian>"Hai rifiutato di adottare la nostra religione ufficiale."</Italian>
+		<Spanish>"&#161;Os negasteis a aceptar nuestra religi&#243;n oficial!"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_ACCEPTED_CIVIC</Tag>
+		<English>"You accepted my favorite civic policy."</English>
+		<French>"Vous avez accept&#233; notre doctrine pr&#233;f&#233;r&#233;e."</French>
+		<German>"Ihr habt unsere bevorzugte Staatsform akzeptiert."</German>
+		<Italian>"Hai accettato la nostra forma di governo preferita."</Italian>
+		<Spanish>"Adoptasteis nuestro principio favorito."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_DENIED_CIVIC</Tag>
+		<English>"You refused to accept my favorite civic policy!"</English>
+		<French>"Vous avez refus&#233; notre doctrine pr&#233;f&#233;r&#233;e."</French>
+		<German>"Ihr habt unsere bevorzugte Staatsform abgelehnt!"</German>
+		<Italian>"Avete rifiutato la nostra forma di governo preferita."</Italian>
+		<Spanish>"&#161;Os negasteis a adoptar nuestro principio favorito!" </Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_ACCEPTED_STOP_TRADING</Tag>
+		<English>"You agreed to stop trading with my worst enemy."</English>
+		<French>"Vous avez accept&#233; de cesser tout commerce avec notre pire ennemi."</French>
+		<German>"Ihr habt zugestimmt, Eure Handelsbeziehungen mit unserem schlimmsten Feind einzustellen."</German>
+		<Italian>"Avete accettato di interrompere il commercio con il nostro peggior nemico."</Italian>
+		<Spanish>"Accedisteis a dejar de comerciar con nuestro peor enemigo."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_DENIED_STOP_TRADING</Tag>
+		<English>"You refused to stop trading with my worst enemy."</English>
+		<French>"Vous avez refus&#233; de cesser tout commerce avec notre pire ennemi."</French>
+		<German>"Ihr habt Euch geweigert, Eure Handelsbeziehungen mit unserem schlimmsten Feind einzustellen!"</German>
+		<Italian>"Vi siete rifiutati di interrompere il commercio con il nostro peggior nemico." </Italian>
+		<Spanish>"Os negasteis a dejar de comerciar con nuestro peor enemigo."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_STOPPED_TRADING</Tag>
+		<English>"You stopped trading with me."</English>
+		<French>"Vous avez cess&#233; de commercer avec nous."</French>
+		<German>"Ihr habt Eure Handelsbeziehungen mit uns eingestellt."</German>
+		<Italian>"Hai smesso di commerciare con noi."</Italian>
+		<Spanish>"Dejasteis de comerciar con nosotros."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_STOPPED_TRADING_RECENT</Tag>
+		<English>"You recently stopped trading with me!"</English>
+		<French>"Vous venez de cesser tout commerce avec nous !"</French>
+		<German>"Ihr habt k&#252;rzlich Eure Handelsbeziehungen mit uns eingestellt!"</German>
+		<Italian>"Di recente hai interrotto il commercio con noi!"</Italian>
+		<Spanish>"Hace poco dejasteis de comerciar con nosotros."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_TRADED_TECH_TO_US</Tag>
+		<English>"You have shared your technological discoveries with me."</English>
+		<French>"Vous avez partag&#233; vos d&#233;couvertes technologiques avec nous."</French>
+		<German>"Ihr habt Eure technologischen Errungenschaften mit uns geteilt."</German>
+		<Italian>"Avete condiviso le vostre scoperte tecnologiche con noi."</Italian>
+		<Spanish>"Compartisteis con nosotros vuestros descubrimientos tecnol&#243;gicos."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_RECEIVED_TECH_FROM_ANY</Tag>
+		<English>"You have received technology from another civilization."</English>
+		<French>"Une autre civilisation vous a fait don d'une technologie."</French>
+		<German>"Ihr habt eine Technologie von einer anderen Zivilisation erhalten."</German>
+		<Italian>"Hai ricevuto una tecnologia da un'altra civilt&#224;."</Italian>
+		<Spanish>"Recibisteis una tecnolog&#237;a de otra civilizaci&#243;n."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_VOTED_FOR_US</Tag>
+		<English>"You voted for me!"</English>
+		<French>"Vous avez vot&#233; pour nous."</French>
+		<German>"Ihr habt f&#252;r uns gestimmt"</German>
+		<Italian>"Hai votato per noi."</Italian>
+		<Spanish>"Votasteis por nosotros."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_VOTED_AGAINST_US</Tag>
+		<English>"You voted against me!"</English>
+		<French>"Vous avez vot&#233; contre nous !"</French>
+		<German>"Ihr habt gegen uns gestimmt!"</German>
+		<Italian>"Hai votato contro di noi!"</Italian>
+		<Spanish>"&#161;Votasteis contra nosotros!"</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_EVENT_GOOD_TO_US</Tag>
+		<English>"Past events have proved your good nature to me."</English>
+		<French>"Les &#233;v&#233;nements pass&#233;s prouvent qu'on peut vous faire confiance."</French>
+		<German>"Fr&#252;here Geschehnisse haben gezeigt, dass Ihr uns wohl gesonnen seid."</German>
+		<Italian>"Gli eventi passati ci hanno dimostrato la tua buona natura."</Italian>
+		<Spanish>"Los acontecimientos pasados nos han demostrado vuestra bondad."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_EVENT_BAD_TO_US</Tag>
+		<English>"Past events have proved your bad nature to me."</English>
+		<French>"Les &#233;v&#233;nements pass&#233;s prouvent qu'on ne peut pas vous faire confiance."</French>
+		<German>"Fr&#252;here Geschehnisse haben gezeigt, dass Ihr uns nicht wohl gesonnen seid."</German>
+		<Italian>"Gli eventi passati ci hanno dimostrato la tua natura malvagia."</Italian>
+		<Spanish>"Los acontecimientos pasados nos han demostrado vuestra maldad."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MEMORY_LIBERATED_CITIES</Tag>
+		<English>"You liberated my cities."</English>
+		<French>"Vous avez lib&#233;r&#233; nos villes."</French>
+		<German>"Ihr habt unsere St&#228;dte befreit!"</German>
+		<Italian>"Hai liberato le nostre citt&#224;"</Italian>
+		<Spanish>"Liberasteis nuestras ciudades."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MISC_ATTITUDE_RIVAL_TRADE</Tag>
+		<English>%D1: "You have traded with my worst enemies!"</English>
+		<French>%D1 : "Vous avez commerc&#233; avec nos ennemis jur&#233;s !"</French>
+		<German>%D1: "Ihr habt mit unseren schlimmsten Feinden Handel betrieben!"</German>
+		<Italian>%D1: "Hai commerciato con i nostri peggior nemici!"</Italian>
+		<Spanish>%D1: "&#161;Hab&#233;is comerciado con nuestros peores enemigos!"</Spanish>
+	</TEXT>
+	<!-- advc.sha: Text was "Your small civilization is no threat to us".
+		 A bit misleading; it's not a matter of size. -->
+	<TEXT>
+		<Tag>TXT_KEY_MISC_ATTITUDE_BETTER_RANK</Tag>
+		<English>%D1: "You're hardly a threat to me."</English>
+		<French>%D1: "Vous ne nous posez aucune menace."</French>
+		<German>%D1: "Ihr seid kaum eine Bedrohung f&#252;r uns."</German>
+		<Italian>%D1: "Non ci ponete alcuna minaccia."</Italian>
+		<Spanish>%D1: "No supon&#233;is ninguna amenaza para nosotros."</Spanish>
+	</TEXT>
+	<!-- advc.sha: Works differently in AdvCiv, and "we feel threatened by
+		 your large civ" no longer fits well. -->
+	<TEXT>
+		<Tag>TXT_KEY_MISC_ATTITUDE_WORSE_RANK</Tag>
+		<English>%D1: "Your civilization's prestige is greater than mine."</English>
+		<French>%D1: "Vous &#234;tes en train de nous d&#233;passer."</French>
+		<German>%D1: "Ihr seid dabei uns zu &#252;berfl&#252;geln."</German>
+		<Italian>%D1: "Ci state scavalcando."</Italian>
+		<Spanish>%D1: "Nos est&#225;is aventajando."</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_MISC_ATTITUDE_LOST_WAR</Tag>
+		<English>%D1: "The war is going badly for me."</English>
+		<French>%D1: "Nous perdons la guerre."</French>
+		<German>%D1: "Dieser Krieg verl&#228;uft ung&#252;nstig f&#252;r uns."</German>
+		<Italian>%D1: "La guerra sta andando male per noi."</Italian>
+		<Spanish>%D1: "Nos va mal en esta guerra."</Spanish>
+	</TEXT>
+	<!-- advc.sha: Deleted TXT_KEY_MISC_ATTITUDE_LOW_RANK ("developing
+		 nations should work together to catch up") b/c it doesn't apply in
+		 AdvCiv. -->
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_POLICE_STATE</Tag>
+		<English>U.N. Resolution #1000 (Global Civic - Police State)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_REPRESENTATION</Tag>
+		<English>U.N. Resolution #1337 (Global Civic - Representation)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_HEREDITARY_RULE</Tag>
+		<English>U.N. Resolution #3141 (Global Civic - Hereditary Rule)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_DESPOTISM</Tag>
+		<English>U.N. Resolution #1044 (Global Civic - Despotism)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_NATIONHOOD</Tag>
+		<English>U.N. Resolution #1912 (Global Civic - Nationhood)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_BUREAUCRACY</Tag>
+		<English>U.N. Resolution #9045 (Global Civic - Bureaucracy)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_VASSALAGE</Tag>
+		<English>U.N. Resolution #0002 (Global Civic - Vassalage)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_BARBARISM</Tag>
+		<English>U.N. Resolution #0001 (Global Civic - Babarism)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_CASTE_SYSTEM</Tag>
+		<English>U.N. Resolution #1234 (Global Civic - Caste System)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_SERFDOM</Tag>
+		<English>U.N. Resolution #2222 (Global Civic - Serfdom)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_SLAVERY</Tag>
+		<English>U.N. Resolution #0100 (Global Civic - Slavery)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_TRIBALISM</Tag>
+		<English>U.N. Resolution #0070 (Global Civic - Tribalism)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_STATE_PROPERTY</Tag>
+		<English>U.N. Resolution #1919 (Global Civic - State Property)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_MERCANTALISM</Tag>
+		<English>U.N. Resolution #1452 (Global Civic - Mercantalism)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_DECENTRALIZATION</Tag>
+		<English>U.N. Resolution #1111 (Global Civic - Decentralization)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_PACIFISM</Tag>
+		<English>U.N. Resolution #1890 (Global Civic - Pacifism)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_THEOCRACY</Tag>
+		<English>U.N. Resolution #1500 (Global Civic - Theocracy)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_ORGANIZED_RELIGION</Tag>
+		<English>U.N. Resolution #0054 (Global Civic - Organized Religion)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<TEXT>
+		<Tag>TXT_KEY_VOTE_PAGANISM</Tag>
+		<English>U.N. Resolution #4321 (Global Civic - Paganism)</English>
+		<French>R&#233;solution de l'ONU n&#176; 3445 (Doctrine mondiale - libert&#233; d'expression)</French>
+		<German>U.N.-Resolution Nr. 3445 (Globale Staatsform - Meinungsfreiheit)</German>
+		<Italian>Mozione #3445 dell'ONU (Libert&#224; di parola globale)</Italian>
+		<Spanish>Resoluci&#243;n n&#186; 3445 de la ONU (principio mundial - Libertad de expresi&#243;n)</Spanish>
+	</TEXT>
+	<!-- XANA: Attribute Strategy Tips to Solais a Tuath (Aurora Borealis), the lore historian of the MLP Civ Gen 4+Gen 5 world -->
+	<TEXT>
+		<Tag>TXT_KEY_PLAYER_OPTION_ADVISOR_HELP</Tag>
+		<English>Solais' Guidance</English>
+		<French>Aide du conseiller</French>
+		<German>Beraterhilfe</German>
+		<Italian>Aiuto del consigliere</Italian>
+		<Spanish>Ayuda de consejeros</Spanish>
+	</TEXT>
+</Civ4GameText>
