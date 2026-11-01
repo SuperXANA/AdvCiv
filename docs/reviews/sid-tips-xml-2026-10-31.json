@@ -1,0 +1,38 @@
+{
+  "review_local_date": "2026-10-31",
+  "source_branch": "SidSaysPatch",
+  "source_head": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
+  "previous_reviewed_source": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
+  "assistant_branch": "SidSaysDiscoveryBuild-ChatGPT",
+  "assistant_parent": "39c02e59f5842dd8e94c77ba843fd1ae0b30a460",
+  "asset_commit": "33eb4651a21eaa4d28c51d946f558f6768d97112",
+  "path": "Assets/XML/Text/CIV4GameText_Misc1_mlp.xml",
+  "source_and_published_blob": "882a315815ba92279f964ab556a77c56cfaf7b00",
+  "validation": {
+    "entries": 26,
+    "unique_keys": 26,
+    "encoding": "ASCII subset of declared ISO-8859-1",
+    "target_count": 1,
+    "values": {
+      "English": "[COLOR_HIGHLIGHT_TEXT]Sol's Tips: [COLOR_REVERT]",
+      "French": "[COLOR_HIGHLIGHT_TEXT]Conseils de Sol : [COLOR_REVERT]",
+      "German": "[COLOR_HIGHLIGHT_TEXT]Sols Tipps: [COLOR_REVERT]",
+      "Italian": "[COLOR_HIGHLIGHT_TEXT]Il suggerimento di Sol: [COLOR_REVERT]",
+      "Spanish": "[COLOR_HIGHLIGHT_TEXT]Consejo de Sol: [COLOR_REVERT]"
+    },
+    "sha256": "ab651407ccf71998cc0835e4c6e392f993ce155ba47bcb7ec9c18c14455be781",
+    "game_runtime_verified": false
+  },
+  "XML_copied_byte_for_byte": true,
+  "source_DLL_files_unchanged_since_previous_review": true,
+  "assistant_DLL_and_workflow_unchanged": true,
+  "new_DLL_build": false,
+  "game_XDR_parser_run": false,
+  "game_text_load_order_verified": false,
+  "live_tips_UI_verified": false,
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "current_workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+  "prior_tested_DLL_commit": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
+  "prior_DLL_run": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255403884",
+  "qualification": "XML asset integration and static structural validation only; prior DLL evidence is unchanged and does not validate this XML in BtS."
+}

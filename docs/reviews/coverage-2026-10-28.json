@@ -40,10 +40,10 @@
     },
     {
       "branch": "AISurvivorSQLiteBuild-ChatGPT",
-      "head_at_inventory": "c02eea47ded87b403ad9e2d36ba1824a59c14e8c",
+      "head_at_inventory": "3520c1e04dbfce039a6dae97a9bd4f4d1a0e4f53",
       "coverage": "published_review_artifact",
       "native_verification": "linked_build_commit_passed",
-      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "next_action": "Review future changed source or actual consuming integration. Keep production schema version zero until identity/replay/authority/migration and schema contracts are supplied; no unchanged rebuild for inactive fixture or explicit-exception audit.",
       "source_branch": "AISurvivorStatTracking",
       "tested_code_sha": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885",
@@ -60,6 +60,45 @@
         "cpp_unchanged": true,
         "workflow_unchanged": true,
         "ci_skipped": true
+      },
+      "last_inventory_followup": {
+        "date": "2026-10-31",
+        "current_head": "3520c1e04dbfce039a6dae97a9bd4f4d1a0e4f53",
+        "classification": "previous_audit_ledger_only_publication_no_DLL_changes"
+      },
+      "reviewed_assistant_head": "590fb06d83dd74da94c90d641de94cecbd76d677",
+      "exception_boundary_review": {
+        "date": "2026-11-01",
+        "assistant_head": "590fb06d83dd74da94c90d641de94cecbd76d677",
+        "user_source_head": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+        "files": [
+          "CvGameCoreDLL/CvDatabaseManager.cpp",
+          "CvGameCoreDLL/CvDatabaseManager.h",
+          "CvGameCoreDLL/CvDatabaseQuery.cpp",
+          "CvGameCoreDLL/CvDatabaseQuery.h",
+          "CvGameCoreDLL/SQLiteConnection.cpp",
+          "CvGameCoreDLL/SQLiteConnection.h",
+          "CvGameCoreDLL/SQLiteStatement.cpp",
+          "CvGameCoreDLL/SQLiteStatement.h",
+          "CvGameCoreDLL/SQLiteTransaction.cpp",
+          "CvGameCoreDLL/SQLiteTransaction.h",
+          "CvGameCoreDLL/SQLiteValue.h"
+        ],
+        "coverage": "Full actual wrapper/manager/query/value source and interfaces read; native false/NULL returns, statement cache ownership, transaction-generation invalidation, conversion bounds and explicit exception syntax reviewed against prior safety/prototype reports.",
+        "new_actionable_findings": [],
+        "explicit_try_catch_throw_syntax_present": false,
+        "qualification": "No blanket guarantee about implicit standard-library allocation exceptions, vendor/engine code or recovery across DLL boundaries. No live gameplay/filesystem/save/multiplayer verification.",
+        "DLL_and_workflow_blobs_identical_to_historical_tested_commit": true,
+        "compared_blob_count": 506,
+        "historical_tested_commit": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
+        "historical_run": "https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885",
+        "new_tests_or_DLL_build": false,
+        "production_schema_version": 0,
+        "production_persistence_activated": false,
+        "prototype_record": "docs/reviews/sqlite-persistence-coverage-2026-10-30.json",
+        "prototype_reviewed_head": "c02eea47ded87b403ad9e2d36ba1824a59c14e8c",
+        "prototype_publication": "590fb06d83dd74da94c90d641de94cecbd76d677",
+        "prototype_qualification": "Existing inactive-fixture test evidence consulted, not rerun or presented as DLL/game validation."
       }
     },
     {
@@ -407,10 +446,10 @@
     },
     {
       "branch": "FamilyRelationsBuild-ChatGPT",
-      "head_at_inventory": "f07cf78b4afea17cef1514a1960890ab709c6e3d",
-      "coverage": "published_review_artifact",
-      "native_verification": "linked_build_commit_passed",
-      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "head_at_inventory": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
+      "coverage": "source_scoped_review_historical_artifacts_partially_verified",
+      "native_verification": "historical_runner_success_related_binaries_and_Debug_symbols_verified_missing_Build_log_and_source_hashes",
+      "next_action": "Do not rebuild unchanged passing code solely to repeat the historical run. Review changed source or remaining real XML/default/cache/save/attitude integration; use current workflow on the next relevant DLL validation. Historical Build.log and source-content evidence remain unavailable.",
       "source_branch": "LeaderFamilyRelations",
       "tested_code_sha": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051",
@@ -418,7 +457,94 @@
         "classification": "documentation_only",
         "production_changes": false,
         "tested_code_sha_unchanged": true
-      }
+      },
+      "artifact_verification": {
+        "review_local_date": "2026-10-31",
+        "verified_at_utc": "2026-11-01T00:52:54Z",
+        "branch": "FamilyRelationsBuild-ChatGPT",
+        "reviewed_head": "f07cf78b4afea17cef1514a1960890ab709c6e3d",
+        "tested_commit": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051",
+        "new_build_triggered": false,
+        "all_two_historical_ZIPs_downloaded_extracted": true,
+        "archive_sizes_and_SHA256_match_GitHub_metadata": true,
+        "current_362_DLL_blobs_match_tested_commit": true,
+        "complete_362_blob_baseline_retained": true,
+        "baseline_differing_files": [
+          "CvEnumMacros.h",
+          "CvInfo_Civilization.cpp",
+          "CvInfo_Civilization.h",
+          "CvPlayer.cpp",
+          "CvPlayer.h",
+          "CvPlayerAI.cpp",
+          "CvXMLLoadUtilitySet.cpp"
+        ],
+        "expected_source_names_match_349_root_files_in_tested_tree": true,
+        "actual_MSBuild_Build_log_inspected": false,
+        "source_content_hashes_available": false,
+        "runner_output_only": {
+          "Release": {
+            "job": 122402825430,
+            "compiler_probe": "_MSC_VER == 1310",
+            "warnings": 0,
+            "errors": 0,
+            "status": "Build succeeded."
+          },
+          "Debug": {
+            "job": 122402825996,
+            "compiler_probe": "_MSC_VER == 1310",
+            "warnings": 0,
+            "errors": 0,
+            "status": "Build succeeded."
+          }
+        },
+        "artifacts": {
+          "Release": {
+            "artifact": 12762701765,
+            "provenance": {
+              "commit": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
+              "configuration": "Release",
+              "compiler": "_MSC_VER_1310",
+              "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+              "feature_source": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+              "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+            },
+            "source_name_count": 349,
+            "dll_bytes": 6574080,
+            "dll_sha256": "ffcb87161b356d47e02b372567d14bf3f5389e150de86b7802a868133634e967",
+            "PE": "PE32 x86 DLL",
+            "Build_log_present": false,
+            "source_hash_manifest_present": false
+          },
+          "Debug": {
+            "artifact": 12763151213,
+            "provenance": {
+              "commit": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
+              "configuration": "Debug",
+              "compiler": "_MSC_VER_1310",
+              "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+              "feature_source": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+              "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+            },
+            "source_name_count": 349,
+            "dll_bytes": 25239552,
+            "dll_sha256": "7771a8eed424b4fa915a2948cc6be36f000caefd4b9f253ced49b036b86cd8b6",
+            "PE": "PE32 x86 DLL",
+            "Build_log_present": false,
+            "source_hash_manifest_present": false,
+            "pdb_identity": {
+              "format": "RSDS",
+              "guid": "75940495-4598-47b4-ad0a-38700f811659",
+              "age": 1
+            },
+            "pdb_bytes": 70716416,
+            "pdb_sha256": "bd395a85670846822f75514f1ab9e44fe6d7d0740e229482020c49b4dc799e1a"
+          }
+        },
+        "qualification": "Historical run and exact related binaries verified; not a new build and not full validation under current Build.log/source-hash requirements. No live game/XML/save/multiplayer validation."
+      },
+      "latest_review": "docs/reviews/family-artifacts-2026-10-31.md",
+      "qualification": "Historical run and exact related binaries verified; not a new build and not full validation under current Build.log/source-hash requirements. No live game/XML/save/multiplayer validation."
     },
     {
       "branch": "FFHEquipmentTypes",
@@ -600,7 +726,7 @@
     },
     {
       "branch": "GenderCounterDraft-ChatGPT",
-      "head_at_inventory": "6aea3099138d7d00bbb260d540d81ac67caff6d8",
+      "head_at_inventory": "db3c3e16dfcc892222559ff2b7c28e9d39a5ed40",
       "source_branch": "GenderSpecificDiplomacy",
       "coverage": "counter_scope_only",
       "native_verification": "scoped_gender_fixtures_and_versioned_ai_stream_region_only_no_dll",
@@ -632,6 +758,12 @@
         "classification": "runtime_schema_verification_limit_not_directory_defect",
         "production_changes": false,
         "new_whole_branch_skip": false
+      },
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "6aea3099138d7d00bbb260d540d81ac67caff6d8",
+        "current_head": "db3c3e16dfcc892222559ff2b7c28e9d39a5ed40",
+        "classification": "actual_version_23_counter_patch_matches_existing_recorded_review"
       }
     },
     {
@@ -889,13 +1021,99 @@
     {
       "branch": "LeaderFamilyRelations",
       "head_at_inventory": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
-      "coverage": "published_scoped_review",
-      "native_verification": "linked_refinement_passed",
-      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "coverage": "source_scoped_review_historical_artifacts_partially_verified",
+      "native_verification": "historical_runner_success_related_binaries_and_Debug_symbols_verified_missing_Build_log_and_source_hashes",
+      "next_action": "Do not rebuild unchanged passing code solely to repeat the historical run. Review changed source or remaining real XML/default/cache/save/attitude integration; use current workflow on the next relevant DLL validation. Historical Build.log and source-content evidence remain unavailable.",
       "refinement_branch": "FamilyRelationsBuild-ChatGPT",
       "tested_code_sha": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051",
-      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+      "qualification": "Historical run and exact related binaries verified; not a new build and not full validation under current Build.log/source-hash requirements. No live game/XML/save/multiplayer validation.",
+      "artifact_verification": {
+        "review_local_date": "2026-10-31",
+        "verified_at_utc": "2026-11-01T00:52:54Z",
+        "branch": "FamilyRelationsBuild-ChatGPT",
+        "reviewed_head": "f07cf78b4afea17cef1514a1960890ab709c6e3d",
+        "tested_commit": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051",
+        "new_build_triggered": false,
+        "all_two_historical_ZIPs_downloaded_extracted": true,
+        "archive_sizes_and_SHA256_match_GitHub_metadata": true,
+        "current_362_DLL_blobs_match_tested_commit": true,
+        "complete_362_blob_baseline_retained": true,
+        "baseline_differing_files": [
+          "CvEnumMacros.h",
+          "CvInfo_Civilization.cpp",
+          "CvInfo_Civilization.h",
+          "CvPlayer.cpp",
+          "CvPlayer.h",
+          "CvPlayerAI.cpp",
+          "CvXMLLoadUtilitySet.cpp"
+        ],
+        "expected_source_names_match_349_root_files_in_tested_tree": true,
+        "actual_MSBuild_Build_log_inspected": false,
+        "source_content_hashes_available": false,
+        "runner_output_only": {
+          "Release": {
+            "job": 122402825430,
+            "compiler_probe": "_MSC_VER == 1310",
+            "warnings": 0,
+            "errors": 0,
+            "status": "Build succeeded."
+          },
+          "Debug": {
+            "job": 122402825996,
+            "compiler_probe": "_MSC_VER == 1310",
+            "warnings": 0,
+            "errors": 0,
+            "status": "Build succeeded."
+          }
+        },
+        "artifacts": {
+          "Release": {
+            "artifact": 12762701765,
+            "provenance": {
+              "commit": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
+              "configuration": "Release",
+              "compiler": "_MSC_VER_1310",
+              "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+              "feature_source": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+              "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+            },
+            "source_name_count": 349,
+            "dll_bytes": 6574080,
+            "dll_sha256": "ffcb87161b356d47e02b372567d14bf3f5389e150de86b7802a868133634e967",
+            "PE": "PE32 x86 DLL",
+            "Build_log_present": false,
+            "source_hash_manifest_present": false
+          },
+          "Debug": {
+            "artifact": 12763151213,
+            "provenance": {
+              "commit": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
+              "configuration": "Debug",
+              "compiler": "_MSC_VER_1310",
+              "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+              "feature_source": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+              "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+            },
+            "source_name_count": 349,
+            "dll_bytes": 25239552,
+            "dll_sha256": "7771a8eed424b4fa915a2948cc6be36f000caefd4b9f253ced49b036b86cd8b6",
+            "PE": "PE32 x86 DLL",
+            "Build_log_present": false,
+            "source_hash_manifest_present": false,
+            "pdb_identity": {
+              "format": "RSDS",
+              "guid": "75940495-4598-47b4-ad0a-38700f811659",
+              "age": 1
+            },
+            "pdb_bytes": 70716416,
+            "pdb_sha256": "bd395a85670846822f75514f1ab9e44fe6d7d0740e229482020c49b4dc799e1a"
+          }
+        },
+        "qualification": "Historical run and exact related binaries verified; not a new build and not full validation under current Build.log/source-hash requirements. No live game/XML/save/multiplayer validation."
+      },
+      "latest_review": "docs/reviews/family-artifacts-2026-10-31.md"
     },
     {
       "branch": "LeaderSpecificColonySplitVassal",
@@ -1374,7 +1592,7 @@
     },
     {
       "branch": "PlotTimerDraft-ChatGPT",
-      "head_at_inventory": "deccf25b689cd34c355ee9094d64863a43c8701f",
+      "head_at_inventory": "fea29629a5f5bd4c986591423cd69b78afe7f90c",
       "coverage": "source_review_partial_variety_component_corrected_metadata_integration_blocked",
       "native_verification": "not_built_exact_source_head_inconsistent_axis_metadata",
       "source_branch": "LeaderCivilizationVariantMechanics",
@@ -1413,6 +1631,12 @@
         "full_engine_setter": false,
         "MSVC_DLL_build": false,
         "report": "docs/reviews/plot-variety-2026-10-31.md"
+      },
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "deccf25b689cd34c355ee9094d64863a43c8701f",
+        "current_head": "fea29629a5f5bd4c986591423cd69b78afe7f90c",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
       }
     },
     {
@@ -1730,7 +1954,7 @@
     },
     {
       "branch": "RaceDemographicsDraft-ChatGPT",
-      "head_at_inventory": "2151dc14537e057b35d218be161c6ef0ffec9ff7",
+      "head_at_inventory": "45256362feb2b354410ba7d2f8efa23719c0344e",
       "coverage": "published_review_artifact",
       "native_verification": "draft_only_no_dll_build",
       "source_branch": "FFHRaceTypes",
@@ -1744,7 +1968,13 @@
         "RACE-20261028-04"
       ],
       "qualification": "Previous scoped race fixtures retained; actual civilization declaration/constructor/destructor/accessor checked under C++03/ASan/UBSan with dependencies stubbed. Loader/cache/DLL/game remain unverified.",
-      "review_disposition": "paused_with_missing_source_implementation"
+      "review_disposition": "paused_with_missing_source_implementation",
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "2151dc14537e057b35d218be161c6ef0ffec9ff7",
+        "current_head": "45256362feb2b354410ba7d2f8efa23719c0344e",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      }
     },
     {
       "branch": "RealisticAIDecisions",
@@ -1837,14 +2067,14 @@
     },
     {
       "branch": "SidSaysDiscoveryBuild-ChatGPT",
-      "head_at_inventory": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
-      "coverage": "new_user_CvGame_hook_integrated_with_unchanged_read_only_locator_and_assert_debugger",
+      "head_at_inventory": "33eb4651a21eaa4d28c51d946f558f6768d97112",
+      "coverage": "new_localization_asset_integrated_and_static_XML_checked_existing_DLL_retained",
       "native_verification": "Release_Debug_build_logs_sources_binaries_and_matching_Debug_symbols_verified",
       "source_branch": "SidSaysPatch",
-      "source_head": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
+      "source_head": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
       "tested_code_sha": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255403884",
-      "next_action": "Live BtS evaluation: inspect SidSaysCandidates.log, measure first-update scan pause and validate whether candidates are active UI sites. No executable string replacement is implemented.",
+      "next_action": "Observe a fresh BtS localization load and TXT_KEY_SIDS_TIPS heading with the authored XML installed; check first-definition precedence and cache if old text remains. Do not infer an EXE function patch from zero literal candidates or rebuild unchanged DLL sources for XML.",
       "artifacts": {
         "Release": 13063650159,
         "Debug": 13063140677
@@ -1990,8 +2220,8 @@
           "scope": "Initial CvGame hook integration before runtime-only reset refinement; both native configurations passed"
         }
       ],
-      "reviewed_assistant_head": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
-      "reviewed_source_sha": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
+      "reviewed_assistant_head": "33eb4651a21eaa4d28c51d946f558f6768d97112",
+      "reviewed_source_sha": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
       "source_code_sha": "a994b2ed9db89aac098b2b0a640146e7688a017f",
       "feature_snapshot": "a994b2ed9db89aac098b2b0a640146e7688a017f",
       "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
@@ -1999,8 +2229,8 @@
         "Release": 13063370685,
         "Debug": 13063575086
       },
-      "qualification": "Actual MSBuild logs 0 warnings/errors; all four ZIPs downloaded/extracted, archive sizes/SHA256 verified, 349-file manifests and exact pins match including final hook files, PE32 x86 DLLs and Debug DLL/PDB identity verified. No live game/debugger or UI-site verification.",
-      "latest_review": "docs/reviews/sid-game-hook-2026-11-01.md",
+      "qualification": "Existing exact DLL evidence retained; latest change is a byte-identical user XML copy, 26 unique keys and five target-language values structurally checked. No real game/XDR/load-order/UI validation for the XML.",
+      "latest_review": "docs/reviews/sid-tips-xml-2026-10-31.md",
       "last_review_parent": "d307c2ba103c8d53d23a668c218fd66cc464dafa",
       "source_review_scope": "SidSaysPatch new CvGame reset/update hook and header layout; state moved to DLL-owned SelfMod, ready/nonempty-map gate and reentry guard; existing locator/FAssert preserved",
       "artifact_verification": {
@@ -2063,14 +2293,58 @@
       },
       "finding_ids": [
         "SID-20261101-01"
-      ]
+      ],
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
+        "current_head": "39c02e59f5842dd8e94c77ba843fd1ae0b30a460",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      "localization_review": {
+        "review_local_date": "2026-10-31",
+        "source_branch": "SidSaysPatch",
+        "source_head": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
+        "previous_reviewed_source": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
+        "assistant_branch": "SidSaysDiscoveryBuild-ChatGPT",
+        "assistant_parent": "39c02e59f5842dd8e94c77ba843fd1ae0b30a460",
+        "asset_commit": "33eb4651a21eaa4d28c51d946f558f6768d97112",
+        "path": "Assets/XML/Text/CIV4GameText_Misc1_mlp.xml",
+        "source_and_published_blob": "882a315815ba92279f964ab556a77c56cfaf7b00",
+        "validation": {
+          "entries": 26,
+          "unique_keys": 26,
+          "encoding": "ASCII subset of declared ISO-8859-1",
+          "target_count": 1,
+          "values": {
+            "English": "[COLOR_HIGHLIGHT_TEXT]Sol's Tips: [COLOR_REVERT]",
+            "French": "[COLOR_HIGHLIGHT_TEXT]Conseils de Sol : [COLOR_REVERT]",
+            "German": "[COLOR_HIGHLIGHT_TEXT]Sols Tipps: [COLOR_REVERT]",
+            "Italian": "[COLOR_HIGHLIGHT_TEXT]Il suggerimento di Sol: [COLOR_REVERT]",
+            "Spanish": "[COLOR_HIGHLIGHT_TEXT]Consejo de Sol: [COLOR_REVERT]"
+          },
+          "sha256": "ab651407ccf71998cc0835e4c6e392f993ce155ba47bcb7ec9c18c14455be781",
+          "game_runtime_verified": false
+        },
+        "XML_copied_byte_for_byte": true,
+        "source_DLL_files_unchanged_since_previous_review": true,
+        "assistant_DLL_and_workflow_unchanged": true,
+        "new_DLL_build": false,
+        "game_XDR_parser_run": false,
+        "game_text_load_order_verified": false,
+        "live_tips_UI_verified": false,
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "current_workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "prior_tested_DLL_commit": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
+        "prior_DLL_run": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255403884",
+        "qualification": "XML asset integration and static structural validation only; prior DLL evidence is unchanged and does not validate this XML in BtS."
+      }
     },
     {
       "branch": "SidSaysPatch",
-      "head_at_inventory": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
-      "coverage": "new_CvGame_reset_update_and_layout_reviewed_refinement_published",
+      "head_at_inventory": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
+      "coverage": "changed_XML_localization_reviewed_and_integrated_DLL_unchanged",
       "native_verification": "corrected_assistant_overlay_Release_Debug_verified",
-      "next_action": "Gather actual EXE/UI evidence or revisit changed source. See assistant row for exact corrected overlay validation.",
+      "next_action": "Observe a fresh BtS localization load and TXT_KEY_SIDS_TIPS heading with the authored XML installed; check first-definition precedence and cache if old text remains. Do not infer an EXE function patch from zero literal candidates or rebuild unchanged DLL sources for XML.",
       "refinement_branch": "SidSaysDiscoveryBuild-ChatGPT",
       "tested_code_sha": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255403884",
@@ -2080,7 +2354,7 @@
         "SID-20261027-03",
         "SID-20261101-01"
       ],
-      "qualification": "Original user source unchanged and not built directly. Refined hook preserves CvGame member layout; diagnostic-only, no UI renaming.",
+      "qualification": "User source remains read-only. New delta only adds text XML; corrected assistant DLL validation is historical and not XML runtime validation.",
       "artifacts": {
         "Release": 13063650159,
         "Debug": 13063140677
@@ -2090,7 +2364,45 @@
         "Debug"
       ],
       "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
-      "reviewed_source_sha": "3171a91bd8b595781f624d94ee14d3f2552ac9e7"
+      "reviewed_source_sha": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
+      "localization_review": {
+        "review_local_date": "2026-10-31",
+        "source_branch": "SidSaysPatch",
+        "source_head": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
+        "previous_reviewed_source": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
+        "assistant_branch": "SidSaysDiscoveryBuild-ChatGPT",
+        "assistant_parent": "39c02e59f5842dd8e94c77ba843fd1ae0b30a460",
+        "asset_commit": "33eb4651a21eaa4d28c51d946f558f6768d97112",
+        "path": "Assets/XML/Text/CIV4GameText_Misc1_mlp.xml",
+        "source_and_published_blob": "882a315815ba92279f964ab556a77c56cfaf7b00",
+        "validation": {
+          "entries": 26,
+          "unique_keys": 26,
+          "encoding": "ASCII subset of declared ISO-8859-1",
+          "target_count": 1,
+          "values": {
+            "English": "[COLOR_HIGHLIGHT_TEXT]Sol's Tips: [COLOR_REVERT]",
+            "French": "[COLOR_HIGHLIGHT_TEXT]Conseils de Sol : [COLOR_REVERT]",
+            "German": "[COLOR_HIGHLIGHT_TEXT]Sols Tipps: [COLOR_REVERT]",
+            "Italian": "[COLOR_HIGHLIGHT_TEXT]Il suggerimento di Sol: [COLOR_REVERT]",
+            "Spanish": "[COLOR_HIGHLIGHT_TEXT]Consejo de Sol: [COLOR_REVERT]"
+          },
+          "sha256": "ab651407ccf71998cc0835e4c6e392f993ce155ba47bcb7ec9c18c14455be781",
+          "game_runtime_verified": false
+        },
+        "XML_copied_byte_for_byte": true,
+        "source_DLL_files_unchanged_since_previous_review": true,
+        "assistant_DLL_and_workflow_unchanged": true,
+        "new_DLL_build": false,
+        "game_XDR_parser_run": false,
+        "game_text_load_order_verified": false,
+        "live_tips_UI_verified": false,
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "current_workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "prior_tested_DLL_commit": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
+        "prior_DLL_run": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255403884",
+        "qualification": "XML asset integration and static structural validation only; prior DLL evidence is unchanged and does not validate this XML in BtS."
+      }
     },
     {
       "branch": "SummonCatchupDraft-ChatGPT",
@@ -2240,7 +2552,7 @@
     },
     {
       "branch": "VoteCounterDraft-ChatGPT",
-      "head_at_inventory": "2787283390994434207ca40c1784adbd64e64cb0",
+      "head_at_inventory": "a4bf7f3e4516d135b18872fca3d6ff2d3c0080a2",
       "coverage": "source_review_partial_native_corrected_overlay_passed",
       "native_verification": "corrected_overlay_release_debug_passed_artifact_Build_logs_inspected",
       "next_action": "Do not repeat unchanged passing builds. Review actual engine save/load with compatible info counts/order, attitude-cache coherence, XML/default/copy/cache behavior and malformed/comment/cursor paths; retain all prior scoped fixes and exact native evidence.",
@@ -2354,11 +2666,17 @@
           }
         }
       ],
-      "source_review_scope": "Actual three-history allocation/reset, update/selection and player reader/writer; baseline ArrayEnumMap codec and enum dimensions; full pinned overlay build and unmarked CvGame baseline helper repair."
+      "source_review_scope": "Actual three-history allocation/reset, update/selection and player reader/writer; baseline ArrayEnumMap codec and enum dimensions; full pinned overlay build and unmarked CvGame baseline helper repair.",
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "2787283390994434207ca40c1784adbd64e64cb0",
+        "current_head": "a4bf7f3e4516d135b18872fca3d6ff2d3c0080a2",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      }
     },
     {
       "branch": "ReputationWindowDraft-ChatGPT",
-      "head_at_inventory": "89903b02c0c7ace0524a789de3426cd4cc4fe704",
+      "head_at_inventory": "1ae7ec40153adafffa54d07ca325f059db3dff49",
       "coverage": "source_review_partial",
       "native_verification": "not_built_changed_head_missing_memory_implementation",
       "source_branch": "RealisticAIDecisions",
@@ -2402,11 +2720,17 @@
         "production_changes": false,
         "classification": "partial_user_corrections_missing_implementation_remains",
         "new_source_delta_integrated": false
+      },
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "89903b02c0c7ace0524a789de3426cd4cc4fe704",
+        "current_head": "1ae7ec40153adafffa54d07ca325f059db3dff49",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
       }
     },
     {
       "branch": "CivicScrollDraft-ChatGPT",
-      "head_at_inventory": "596f539981627e0373d557804f80410e248dc6c0",
+      "head_at_inventory": "a7a1290aa2a0c125432dd60df5f4153294eead82",
       "coverage": "source_review_partial_with_exact_head_readiness_skip",
       "native_verification": "failed_native_missing_user_unhappiness_timer_implementation_no_DLL",
       "source_branch": "UniqueCivicsReligions",
@@ -2491,11 +2815,17 @@
         "prior_weight_cases": 20,
         "class_and_GC_stand_ins": true,
         "native_changed_translation_unit_compiled": false
+      },
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "596f539981627e0373d557804f80410e248dc6c0",
+        "current_head": "a7a1290aa2a0c125432dd60df5f4153294eead82",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
       }
     },
     {
       "branch": "SimpleStorageChangeDraft-ChatGPT",
-      "head_at_inventory": "87cd9ba0c0fa3395077200999960c2c1cda061a4",
+      "head_at_inventory": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
       "coverage": "source_review_partial_native_failure_paths_corrected",
       "native_verification": "complete_header_cpp03_fno_exceptions_ASan_UBSan_no_DLL",
       "source_branch": "FSimpleDataStorage",
@@ -2552,6 +2882,12 @@
         ],
         "DLL_build": false,
         "report": "docs/reviews/storage-native-returns-2026-10-31.md"
+      },
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "87cd9ba0c0fa3395077200999960c2c1cda061a4",
+        "current_head": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
       }
     },
     {
@@ -2777,7 +3113,7 @@
     },
     {
       "branch": "PreferenceFrameworkDraft-ChatGPT",
-      "head_at_inventory": "d103db3cc9e2ddb9f2b997364bfd8c899c04be33",
+      "head_at_inventory": "5012475e85a727dd0417bbb1249fe845a3b9d321",
       "coverage": "source_review_partial_category_aware_record_keys",
       "native_verification": "actual_record_helper_cpp03_fno_exceptions_ASan_UBSan_only_no_DLL",
       "source_branch": "LeaderCivilizationDecisionPreferences",
@@ -2813,6 +3149,12 @@
         "typed_tables_and_XML": "stand_ins",
         "DLL_build": false,
         "report": "docs/reviews/preference-categories-2026-10-31.md"
+      },
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "d103db3cc9e2ddb9f2b997364bfd8c899c04be33",
+        "current_head": "5012475e85a727dd0417bbb1249fe845a3b9d321",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
       }
     },
     {
@@ -2825,14 +3167,20 @@
         "POPULATION-20261028-01",
         "POPULATION-20261030-02"
       ],
-      "head_at_inventory": "54c845200c207cea5cab663df399ece52cc385ab",
+      "head_at_inventory": "f159c2c47de9c8a3b2dca31f02e5abf513d20305",
       "review_disposition": "paused_with_missing_source_implementation",
       "skip_source_sha": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
       "skip_reason": "Both extra-population metadata flags have constructor-false defaults with no XML/cache load, no supplied XML/schema authoring path; mutable player bonus lacks save/load reconstruction contract. Do not invent missing integration to obtain a DLL result.",
       "resume_condition": "Inspect new original-source work and resume when missing metadata/persistence integration details are supplied.",
       "next_action": "Skip unchanged original head and pause assistant integration/build work; preserve prior owner-context refinement.",
       "latest_review": "docs/reviews/population-integration-2026-10-30.md",
-      "qualification": "Complete six-file source inventory and metadata/player lifecycle reviewed; no operational bonus authoring path. Prior scoped helper fixture retained; no new tests/native build."
+      "qualification": "Complete six-file source inventory and metadata/player lifecycle reviewed; no operational bonus authoring path. Prior scoped helper fixture retained; no new tests/native build.",
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "54c845200c207cea5cab663df399ece52cc385ab",
+        "current_head": "f159c2c47de9c8a3b2dca31f02e5abf513d20305",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      }
     },
     {
       "branch": "UWAIWeightsDraft-ChatGPT",
@@ -2840,7 +3188,7 @@
       "source_head": "d38c565a981984a7c34417a9d9529fec2bcd7165",
       "coverage": "source_review_partial_XML_installation_and_registration_corrected",
       "native_verification": "release_debug_corrected_overlay_passed",
-      "head_at_inventory": "341124017d7e5374b9948b0198364a4a702c6db2",
+      "head_at_inventory": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
       "finding_ids": [
         "UWAI-20261028-01",
         "UWAI-20261029-02",
@@ -2907,6 +3255,12 @@
         "negative_controls": 2,
         "engine_XML_execution": false,
         "cache_compatibility": false
+      },
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "341124017d7e5374b9948b0198364a4a702c6db2",
+        "current_head": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
       }
     },
     {
@@ -2915,7 +3269,7 @@
       "source_head": "5f0e1235780e19a81a09aba91234bb0487489fcf",
       "coverage": "source_review_partial_full_width_deadlines_and_native_overlay",
       "native_verification": "exact_overlay_release_debug_passed",
-      "head_at_inventory": "0c9a61c50e70378d4296ba556077a1d77517bf7e",
+      "head_at_inventory": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
       "finding_ids": [
         "EXPIRY-20261029-01",
         "EXPIRY-20261029-02",
@@ -3133,7 +3487,13 @@
           "actual_Build_logs_inspected": true,
           "actual_BuildTiming_logs_inspected": true
         }
-      ]
+      ],
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "0c9a61c50e70378d4296ba556077a1d77517bf7e",
+        "current_head": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+        "classification": "only_DLL_delta_restores_original_XANA_note_already_recorded"
+      }
     },
     {
       "branch": "PromotionHPDraft-ChatGPT",
@@ -3141,7 +3501,7 @@
       "source_head": "d64fade8bb53d8c4bd92521c6a606b323af91025",
       "coverage": "source_review_partial",
       "native_verification": "exact_overlay_release_debug_passed_artifact_logs_inspected",
-      "head_at_inventory": "f809096d101f8ddf4f155c5d89999237010f12d5",
+      "head_at_inventory": "185a4a161d3a3e039e355236254a9fd8b44ff425",
       "finding_ids": [
         "HP-20261029-01",
         "HP-20261029-02",
@@ -3195,6 +3555,12 @@
         "result": "No additional code edit; no conversion-order defect found. Bounds and maximum-HP reduction versus existing damage require coherent damage/death policy.",
         "DLL_build_triggered": false,
         "record": "docs/reviews/storage-exceptions-2026-10-31.md"
+      },
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "f809096d101f8ddf4f155c5d89999237010f12d5",
+        "current_head": "185a4a161d3a3e039e355236254a9fd8b44ff425",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
       }
     },
     {
@@ -3203,14 +3569,20 @@
       "source_head": "799082c323ea44335c66b9714e1a9bb365c12095",
       "coverage": "published_scoped_refinement",
       "native_verification": "exact_overlay_release_debug_passed",
-      "head_at_inventory": "b031f2f2fb23fd7de7aed3901692f52753e4cd00",
+      "head_at_inventory": "d8ea44e0240a03981769a2621f6fcbb4d521e90d",
       "tested_code_sha": "53e3fb35bddc9c2bf67acc7a8d3b3254df5e0003",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40968286063",
       "artifacts": {
         "Release": 12939700982,
         "Debug": 12939093068
       },
-      "next_action": "Native overlay passed; inspect changed source or actual XML/cache/game integration without repeating unchanged builds."
+      "next_action": "Native overlay passed; inspect changed source or actual XML/cache/game integration without repeating unchanged builds.",
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "b031f2f2fb23fd7de7aed3901692f52753e4cd00",
+        "current_head": "d8ea44e0240a03981769a2621f6fcbb4d521e90d",
+        "classification": "DLL_and_workflow_tree_verified_identical_to_recorded_tested_commit"
+      }
     },
     {
       "branch": "DynamicRankDraft-ChatGPT",
@@ -3285,9 +3657,15 @@
       "coverage": "source_review_partial",
       "qualification": "2,313,362 extracted-method C++03/ASan/UBSan cases with game/fixed-point stand-ins; 2 negative controls. Native corrected overlay Release/Debug zero warnings/errors; all 4 ZIPs extracted, actual Build.log/provenance/349-source manifests/PE32 x86 DLLs/Debug PDB verified. Initial Release PCH failure retained; precise cause unconfirmed. No whole-game/saves/numerical DLL execution certification.",
       "last_review_parent": "8f8f6830478d97c0f0fb88856dff5561098e9f4b",
-      "head_at_inventory": "4d4672665066214036fb57678e13a6b8990db2ec",
+      "head_at_inventory": "6173663f4e80b96817b6d0c59ef7692a64e01648",
       "source_branch": "LeaderSpecificDynamicRankBonusDiplomacy",
-      "source_head": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e"
+      "source_head": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "4d4672665066214036fb57678e13a6b8990db2ec",
+        "current_head": "6173663f4e80b96817b6d0c59ef7692a64e01648",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      }
     }
   ],
   "current_pass": {
@@ -3325,7 +3703,7 @@
     "artifact_log_policy": "Download produced artifacts and inspect extracted MSBuild Build.log; explicitly report artifact/download absence. Do not infer compiler output solely from GitHub shell output when artifact logs are available."
   },
   "assistant_branch_cleanup_policy": "Reuse suitable assistant branches. For clearly duplicate older/newer assistant branches, inspect histories and contents, merge older into newer preserving newer edits, then mark older safe for user manual removal. Never delete the older branch automatically. This explicit user authorization is limited to assistant branch consolidation.",
-  "inventory_date": "2026-10-31",
+  "inventory_date": "2026-11-01",
   "inventory_branch_count": 75,
   "last_inventory": {
     "date": "2026-10-31",
@@ -5156,5 +5534,451 @@
     "scope": "Explicitly authorized CvGame hook integration; original branches unchanged",
     "report": "docs/reviews/sid-game-hook-2026-11-01.md",
     "previous_plot_review_preserved": true
+  },
+  "inventory_2026_11_01_sqlite_failure_audit": {
+    "branch_count": 75,
+    "heads": [
+      {
+        "branch": "1.14",
+        "head": "5970334b64a875b5cdb370c94fc9a98db4eacda6"
+      },
+      {
+        "branch": "AISurvivorSQLiteBuild-ChatGPT",
+        "head": "590fb06d83dd74da94c90d641de94cecbd76d677"
+      },
+      {
+        "branch": "AISurvivorStatTracking",
+        "head": "f2575de4bb94f561d3e1f0df651489487e3742ae"
+      },
+      {
+        "branch": "AdvancedDiplomacy",
+        "head": "e83ce4c7977daf4193b07d0b94a533bb0338fb11"
+      },
+      {
+        "branch": "CityBonusDiplomacyBuild-ChatGPT",
+        "head": "b7cdc0447e3bba3da04fae6828ce64762e8370d6"
+      },
+      {
+        "branch": "CityBonusLeaderDiplomacyModifiers",
+        "head": "084726f21f44dda2f1e8b4e3906da7ae66ce4759"
+      },
+      {
+        "branch": "CityPopulationDraft-ChatGPT",
+        "head": "f159c2c47de9c8a3b2dca31f02e5abf513d20305"
+      },
+      {
+        "branch": "CityPopulationTrait",
+        "head": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3"
+      },
+      {
+        "branch": "CivicScrollDraft-ChatGPT",
+        "head": "a7a1290aa2a0c125432dd60df5f4153294eead82"
+      },
+      {
+        "branch": "CodeMacroHelpers",
+        "head": "d9908667cdc5fddef11a49e3864dfad1ecc47e92"
+      },
+      {
+        "branch": "CodeMacroHelpersBuild-ChatGPT",
+        "head": "7880264054c6066e60bf862df848102e3105a680"
+      },
+      {
+        "branch": "ColonyLeaderBuild-ChatGPT",
+        "head": "d3c5e6aeb2c29606d10cfbb931205c709e01250b"
+      },
+      {
+        "branch": "CustomAIDiplomacyComments",
+        "head": "ca3531fac64b2e70ea66b98745e45733da1f0c37"
+      },
+      {
+        "branch": "CvPartyGroup",
+        "head": "c6b1b14d0263196c497d8dcf85da41982d5ec7af"
+      },
+      {
+        "branch": "DynamicRankDraft-ChatGPT",
+        "head": "6173663f4e80b96817b6d0c59ef7692a64e01648"
+      },
+      {
+        "branch": "EquipmentGatesDraft-ChatGPT",
+        "head": "1fc3d59b0807904187fb8e24909e9d6e3b1d920d"
+      },
+      {
+        "branch": "FFHEquipmentTypes",
+        "head": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5"
+      },
+      {
+        "branch": "FFHRaceTypes",
+        "head": "a50b62ccd1ec72672c3b8b4814ad03230088ea18"
+      },
+      {
+        "branch": "FFHSpellCreationBuild-ChatGPT",
+        "head": "9c7ff06e4c33ff822f5b112eacba8a1d4da5655a"
+      },
+      {
+        "branch": "FFHSpellTypes",
+        "head": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e"
+      },
+      {
+        "branch": "FSimpleDataStorage",
+        "head": "1b7de3bc31268786c341238ff9ecc2e25640f27e"
+      },
+      {
+        "branch": "FamilyRelationsBuild-ChatGPT",
+        "head": "f07cf78b4afea17cef1514a1960890ab709c6e3d"
+      },
+      {
+        "branch": "FavoriteUnitCombatDraft-ChatGPT",
+        "head": "d8ea44e0240a03981769a2621f6fcbb4d521e90d"
+      },
+      {
+        "branch": "FirstImpressionDiplomacyModifiers",
+        "head": "cc764ad80e89f751f809998a61a23225254109f2"
+      },
+      {
+        "branch": "FirstImpressionDraft-ChatGPT",
+        "head": "3589d41a23b722a2b4bac89d0f32c759a4599d85"
+      },
+      {
+        "branch": "FreePromotionLoaderBuild-ChatGPT",
+        "head": "cd3316f9b460d1962359833b3dc4fdb52b1d9f72"
+      },
+      {
+        "branch": "GenderCounterDraft-ChatGPT",
+        "head": "db3c3e16dfcc892222559ff2b7c28e9d39a5ed40"
+      },
+      {
+        "branch": "GenderSpecificDiplomacy",
+        "head": "80e6ec595041cf335d5437b7bedea4fcaa61622b"
+      },
+      {
+        "branch": "HatedCivicReligionDiplomacy",
+        "head": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785"
+      },
+      {
+        "branch": "HatedDiplomacyDraft-ChatGPT",
+        "head": "a13d837a06dc6f26508673e1ba242bc1c34b5296"
+      },
+      {
+        "branch": "LLMDiplomacyTextBuild-ChatGPT",
+        "head": "0d76c106aa8c5d0974e7803faffd62e55e6f1344"
+      },
+      {
+        "branch": "LLMDiplomacyTextGeneration",
+        "head": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e"
+      },
+      {
+        "branch": "LeaderCivilizationDecisionPreferences",
+        "head": "aac03388283a5ac316f6a19f6e3754a7435b6511"
+      },
+      {
+        "branch": "LeaderCivilizationSummoningRandomEvents",
+        "head": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc"
+      },
+      {
+        "branch": "LeaderCivilizationVariantMechanics",
+        "head": "39edf4ca659e806b6fb4bb2de4ab280756829a99"
+      },
+      {
+        "branch": "LeaderFamilyRelations",
+        "head": "ba88a0e713fb21fccff9ae2469164af78544bc2b"
+      },
+      {
+        "branch": "LeaderSpecificColonySplitVassal",
+        "head": "c2c8690c4854482f98ea3ceae2974586e5d1503d"
+      },
+      {
+        "branch": "LeaderSpecificDynamicRankBonusDiplomacy",
+        "head": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e"
+      },
+      {
+        "branch": "LeaderSpecificFavoriteUnitCombats",
+        "head": "799082c323ea44335c66b9714e1a9bb365c12095"
+      },
+      {
+        "branch": "LeaderSpecificMultilayeredAIDecisionEval",
+        "head": "484412d0de7e42e2d310bb39e75340fc5307f597"
+      },
+      {
+        "branch": "LeaderSpecificRebelliousTeamDiplomaticDecisions",
+        "head": "4b24f235ef0056a6dcab56b0dada3dcd0909798d"
+      },
+      {
+        "branch": "LeaderSpecificTeamSizeAttitude",
+        "head": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58"
+      },
+      {
+        "branch": "LeaderSpecificUWAIAspectWeights",
+        "head": "d38c565a981984a7c34417a9d9529fec2bcd7165"
+      },
+      {
+        "branch": "LeaderSpecificVoteActionDiplomacy",
+        "head": "8fcfdd97329279393120aaab34c00dde84e729df"
+      },
+      {
+        "branch": "LeaderTeamSizeBuild-ChatGPT",
+        "head": "a2f01100680d037b72d4cc08e3661950cff5984e"
+      },
+      {
+        "branch": "PartnerDiplomacyBuild-ChatGPT",
+        "head": "4f38c94e2267543582ab88619a16a6b5a1b97513"
+      },
+      {
+        "branch": "PartnerLeaderCivSpecificDiplomacyText",
+        "head": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0"
+      },
+      {
+        "branch": "PartyWrapperDraft-ChatGPT",
+        "head": "85e2d6f28e1c2e92d0cf3715c58d7979f1edf533"
+      },
+      {
+        "branch": "PerUnitCombatFreePromotionTraits",
+        "head": "c122a8c130b6e47760aade7d2d438c798dca8951"
+      },
+      {
+        "branch": "PerUnitCombatUpgradeCostModifers",
+        "head": "3e8418a1b6840192f21af4650dcfce89a8c557d1"
+      },
+      {
+        "branch": "PlotTimerDraft-ChatGPT",
+        "head": "fea29629a5f5bd4c986591423cd69b78afe7f90c"
+      },
+      {
+        "branch": "PreferenceFrameworkDraft-ChatGPT",
+        "head": "5012475e85a727dd0417bbb1249fe845a3b9d321"
+      },
+      {
+        "branch": "PromotionAltersUnitHPValues",
+        "head": "d64fade8bb53d8c4bd92521c6a606b323af91025"
+      },
+      {
+        "branch": "PromotionAltersUnitXPValues",
+        "head": "09741c7206588a8fc42b1e62b90c76ecaea13a55"
+      },
+      {
+        "branch": "PromotionExpiryDraft-ChatGPT",
+        "head": "45dabe719c0fea87478ac99df4381e4d7c7f0785"
+      },
+      {
+        "branch": "PromotionHPDraft-ChatGPT",
+        "head": "185a4a161d3a3e039e355236254a9fd8b44ff425"
+      },
+      {
+        "branch": "PromotionTimedExpireTurns",
+        "head": "5f0e1235780e19a81a09aba91234bb0487489fcf"
+      },
+      {
+        "branch": "PromotionXPBuild-ChatGPT",
+        "head": "9230eeb926de40e4d2ebd79f59b867b27f30e492"
+      },
+      {
+        "branch": "RaceDemographicsDraft-ChatGPT",
+        "head": "45256362feb2b354410ba7d2f8efa23719c0344e"
+      },
+      {
+        "branch": "RealisticAIDecisions",
+        "head": "372d64549f70884fbc86cec7bfbee0a9778bd948"
+      },
+      {
+        "branch": "RenegadeDiplomacyBuild-ChatGPT",
+        "head": "6660adfd2883b8286c9fbd759f310b6da7dd4c86"
+      },
+      {
+        "branch": "ReputationWindowDraft-ChatGPT",
+        "head": "1ae7ec40153adafffa54d07ca325f059db3dff49"
+      },
+      {
+        "branch": "SerializationHelpers",
+        "head": "2be6010dc6787a717c851cd125e005010cf71450"
+      },
+      {
+        "branch": "SerializationHelpersBuild-ChatGPT",
+        "head": "6b74935fd718db11c108ae2feeb4c6c961a22bd4"
+      },
+      {
+        "branch": "SidSaysDiscoveryBuild-ChatGPT",
+        "head": "39c02e59f5842dd8e94c77ba843fd1ae0b30a460"
+      },
+      {
+        "branch": "SidSaysPatch",
+        "head": "3171a91bd8b595781f624d94ee14d3f2552ac9e7"
+      },
+      {
+        "branch": "SimpleStorageChangeDraft-ChatGPT",
+        "head": "d9571efb9cfb42f856b4b5a5543b0fda16c07291"
+      },
+      {
+        "branch": "SummonCatchupDraft-ChatGPT",
+        "head": "9408469df1c280bc24db9aee750ac972bb77028b"
+      },
+      {
+        "branch": "UWAIWeightsDraft-ChatGPT",
+        "head": "f1d3125c0f35dff4c4a144c63a66d9437a270acd"
+      },
+      {
+        "branch": "UniqueCivicsReligions",
+        "head": "d0fc7c0f93320e112903416c17bb2a2030819d60"
+      },
+      {
+        "branch": "UnitCombatUpgradeBuild-ChatGPT",
+        "head": "cb5e560613ea2bbc9c04c84f1888d2440028a6d5"
+      },
+      {
+        "branch": "UnitStatusEffects",
+        "head": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed"
+      },
+      {
+        "branch": "VoteCounterDraft-ChatGPT",
+        "head": "a4bf7f3e4516d135b18872fca3d6ff2d3c0080a2"
+      },
+      {
+        "branch": "alert-autofix-1",
+        "head": "f52ced74c31bdbd9696c37b00b73ce12b99f5d1b"
+      },
+      {
+        "branch": "dll-build",
+        "head": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e"
+      }
+    ],
+    "changed_user_owned_source_heads": [],
+    "assistant_followups": [
+      {
+        "branch": "AISurvivorSQLiteBuild-ChatGPT",
+        "head": "590fb06d83dd74da94c90d641de94cecbd76d677",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      {
+        "branch": "CityPopulationDraft-ChatGPT",
+        "head": "f159c2c47de9c8a3b2dca31f02e5abf513d20305",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      {
+        "branch": "CivicScrollDraft-ChatGPT",
+        "head": "a7a1290aa2a0c125432dd60df5f4153294eead82",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      {
+        "branch": "DynamicRankDraft-ChatGPT",
+        "head": "6173663f4e80b96817b6d0c59ef7692a64e01648",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      {
+        "branch": "FavoriteUnitCombatDraft-ChatGPT",
+        "head": "d8ea44e0240a03981769a2621f6fcbb4d521e90d",
+        "classification": "DLL_and_workflow_tree_verified_identical_to_recorded_tested_commit"
+      },
+      {
+        "branch": "GenderCounterDraft-ChatGPT",
+        "head": "db3c3e16dfcc892222559ff2b7c28e9d39a5ed40",
+        "classification": "actual_version_23_counter_patch_matches_existing_recorded_review"
+      },
+      {
+        "branch": "PlotTimerDraft-ChatGPT",
+        "head": "fea29629a5f5bd4c986591423cd69b78afe7f90c",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      {
+        "branch": "PreferenceFrameworkDraft-ChatGPT",
+        "head": "5012475e85a727dd0417bbb1249fe845a3b9d321",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      {
+        "branch": "PromotionExpiryDraft-ChatGPT",
+        "head": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+        "classification": "only_DLL_delta_restores_original_XANA_note_already_recorded"
+      },
+      {
+        "branch": "PromotionHPDraft-ChatGPT",
+        "head": "185a4a161d3a3e039e355236254a9fd8b44ff425",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      {
+        "branch": "RaceDemographicsDraft-ChatGPT",
+        "head": "45256362feb2b354410ba7d2f8efa23719c0344e",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      {
+        "branch": "ReputationWindowDraft-ChatGPT",
+        "head": "1ae7ec40153adafffa54d07ca325f059db3dff49",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      {
+        "branch": "SidSaysDiscoveryBuild-ChatGPT",
+        "head": "39c02e59f5842dd8e94c77ba843fd1ae0b30a460",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      {
+        "branch": "SimpleStorageChangeDraft-ChatGPT",
+        "head": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      {
+        "branch": "UWAIWeightsDraft-ChatGPT",
+        "head": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      {
+        "branch": "VoteCounterDraft-ChatGPT",
+        "head": "a4bf7f3e4516d135b18872fca3d6ff2d3c0080a2",
+        "classification": "documentation_or_fixture_only_no_DLL_changes"
+      }
+    ],
+    "sqlite_audit": {
+      "date": "2026-11-01",
+      "assistant_head": "590fb06d83dd74da94c90d641de94cecbd76d677",
+      "user_source_head": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+      "files": [
+        "CvGameCoreDLL/CvDatabaseManager.cpp",
+        "CvGameCoreDLL/CvDatabaseManager.h",
+        "CvGameCoreDLL/CvDatabaseQuery.cpp",
+        "CvGameCoreDLL/CvDatabaseQuery.h",
+        "CvGameCoreDLL/SQLiteConnection.cpp",
+        "CvGameCoreDLL/SQLiteConnection.h",
+        "CvGameCoreDLL/SQLiteStatement.cpp",
+        "CvGameCoreDLL/SQLiteStatement.h",
+        "CvGameCoreDLL/SQLiteTransaction.cpp",
+        "CvGameCoreDLL/SQLiteTransaction.h",
+        "CvGameCoreDLL/SQLiteValue.h"
+      ],
+      "coverage": "Full actual wrapper/manager/query/value source and interfaces read; native false/NULL returns, statement cache ownership, transaction-generation invalidation, conversion bounds and explicit exception syntax reviewed against prior safety/prototype reports.",
+      "new_actionable_findings": [],
+      "explicit_try_catch_throw_syntax_present": false,
+      "qualification": "No blanket guarantee about implicit standard-library allocation exceptions, vendor/engine code or recovery across DLL boundaries. No live gameplay/filesystem/save/multiplayer verification.",
+      "DLL_and_workflow_blobs_identical_to_historical_tested_commit": true,
+      "compared_blob_count": 506,
+      "historical_tested_commit": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
+      "historical_run": "https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885",
+      "new_tests_or_DLL_build": false,
+      "production_schema_version": 0,
+      "production_persistence_activated": false,
+      "prototype_record": "docs/reviews/sqlite-persistence-coverage-2026-10-30.json",
+      "prototype_reviewed_head": "c02eea47ded87b403ad9e2d36ba1824a59c14e8c",
+      "prototype_publication": "590fb06d83dd74da94c90d641de94cecbd76d677",
+      "prototype_qualification": "Existing inactive-fixture test evidence consulted, not rerun or presented as DLL/game validation."
+    },
+    "baseline_unchanged": true,
+    "workflow_unchanged": true,
+    "stop_gate_satisfied": false,
+    "remaining_review_work": "Other partial source/integration areas remain; documented exact-head skips stay in force."
+  },
+  "inventory_2026_10_31_family_artifacts": {
+    "checked_at_utc": "2026-11-01T00:52:54Z",
+    "branch_count": 75,
+    "changed_user_owned_source_heads": [],
+    "assistant_only_change": "AISurvivorSQLiteBuild-ChatGPT prior ledger-only audit publication",
+    "source_review": "Actual relationship metadata/player consumer/loader code revisited against previous findings; no new actionable source defect established.",
+    "evidence_report": "docs/reviews/family-artifacts-2026-10-31.md",
+    "new_DLL_build": false,
+    "source_branches_unchanged": true,
+    "stop_gate_satisfied": false
+  },
+  "inventory_2026_10_31_sid_localization": {
+    "source": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
+    "asset_commit": "33eb4651a21eaa4d28c51d946f558f6768d97112",
+    "source_delta": "one added XML file; no DLL delta",
+    "review_report": "docs/reviews/sid-tips-xml-2026-10-31.md",
+    "branch_count": 75,
+    "new_DLL_build": false,
+    "prior_family_and_SQLite_records_preserved": true,
+    "stop_gate_satisfied": false
   }
 }
