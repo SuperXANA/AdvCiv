@@ -1,0 +1,85 @@
+{
+  "review_local_date": "2026-10-31",
+  "verified_at_utc": "2026-11-01T00:52:54Z",
+  "branch": "FamilyRelationsBuild-ChatGPT",
+  "reviewed_head": "f07cf78b4afea17cef1514a1960890ab709c6e3d",
+  "tested_commit": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
+  "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051",
+  "new_build_triggered": false,
+  "all_two_historical_ZIPs_downloaded_extracted": true,
+  "archive_sizes_and_SHA256_match_GitHub_metadata": true,
+  "current_362_DLL_blobs_match_tested_commit": true,
+  "complete_362_blob_baseline_retained": true,
+  "baseline_differing_files": [
+    "CvEnumMacros.h",
+    "CvInfo_Civilization.cpp",
+    "CvInfo_Civilization.h",
+    "CvPlayer.cpp",
+    "CvPlayer.h",
+    "CvPlayerAI.cpp",
+    "CvXMLLoadUtilitySet.cpp"
+  ],
+  "expected_source_names_match_349_root_files_in_tested_tree": true,
+  "actual_MSBuild_Build_log_inspected": false,
+  "source_content_hashes_available": false,
+  "runner_output_only": {
+    "Release": {
+      "job": 122402825430,
+      "compiler_probe": "_MSC_VER == 1310",
+      "warnings": 0,
+      "errors": 0,
+      "status": "Build succeeded."
+    },
+    "Debug": {
+      "job": 122402825996,
+      "compiler_probe": "_MSC_VER == 1310",
+      "warnings": 0,
+      "errors": 0,
+      "status": "Build succeeded."
+    }
+  },
+  "artifacts": {
+    "Release": {
+      "artifact": 12762701765,
+      "provenance": {
+        "commit": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
+        "configuration": "Release",
+        "compiler": "_MSC_VER_1310",
+        "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "feature_source": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+        "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+      },
+      "source_name_count": 349,
+      "dll_bytes": 6574080,
+      "dll_sha256": "ffcb87161b356d47e02b372567d14bf3f5389e150de86b7802a868133634e967",
+      "PE": "PE32 x86 DLL",
+      "Build_log_present": false,
+      "source_hash_manifest_present": false
+    },
+    "Debug": {
+      "artifact": 12763151213,
+      "provenance": {
+        "commit": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
+        "configuration": "Debug",
+        "compiler": "_MSC_VER_1310",
+        "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "feature_source": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+        "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+      },
+      "source_name_count": 349,
+      "dll_bytes": 25239552,
+      "dll_sha256": "7771a8eed424b4fa915a2948cc6be36f000caefd4b9f253ced49b036b86cd8b6",
+      "PE": "PE32 x86 DLL",
+      "Build_log_present": false,
+      "source_hash_manifest_present": false,
+      "pdb_identity": {
+        "format": "RSDS",
+        "guid": "75940495-4598-47b4-ad0a-38700f811659",
+        "age": 1
+      },
+      "pdb_bytes": 70716416,
+      "pdb_sha256": "bd395a85670846822f75514f1ab9e44fe6d7d0740e229482020c49b4dc799e1a"
+    }
+  },
+  "qualification": "Historical run and exact related binaries verified; not a new build and not full validation under current Build.log/source-hash requirements. No live game/XML/save/multiplayer validation."
+}

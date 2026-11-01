@@ -144,3 +144,8 @@ the DLL's C/C++ compilation uses MSVC 7.1.
 
 Both configuration logs additionally confirm the compiler probe:
 `Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1).`
+
+
+## Historical binary inspection follow-up — 2026-10-31
+
+The [artifact inspection](family-artifacts-2026-10-31.md) verifies the downloaded PE32 DLLs, archive metadata and matching Debug DLL/PDB identity. Current DLL sources match the exact historical tested commit. The older artifacts lack actual MSBuild Build.log and source-content hashes; the follow-up records that verification limit and does not claim a new full DLL validation.
