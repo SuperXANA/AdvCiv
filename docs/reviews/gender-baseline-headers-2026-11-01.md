@@ -11,3 +11,7 @@ Verified exactly two changed member-declaration lines and identical XANA marker 
 This is a header-reconciliation checkpoint, not a complete build overlay. The eight implementation files (CvGameTextMgr.cpp, CvInfo_Civilization.cpp, CvPlayer.cpp, CvPlayerAI.cpp, CvXMLLoadUtilitySet.cpp, CyInfoInterface3.cpp, CyPlayer.cpp and UWAI.cpp) still need comparison/reconciliation of unmarked older upstream copies while preserving marked user and newer assistant edits. Complete baseline-only files and the current pinned workflow must be added before publishing a build-triggering commit.
 
 No DLL run triggered; no MSVC7.1/build/artifact result. This sparse preparation uses [skip ci]. Prior Gender info alias/counter/UI/save repairs remain. No original branch or baseline edit, feature merge, PR or force push.
+
+## Completed native follow-up
+
+The complete reconciled overlay `5b122549e6df54bc61bcfbb19b7482cc9bec756e` subsequently passed Release and Debug MSVC7.1 with zero warnings/errors in run 41328157020. All four archives, actual MSBuild logs, source hashes/provenance and DLL/PDB identity were verified. See [gender-native-2026-11-01.md](gender-native-2026-11-01.md) for the exact scope and runtime limits. The pending preparation/build statements above describe this earlier checkpoint.

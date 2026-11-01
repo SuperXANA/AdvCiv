@@ -1262,10 +1262,10 @@
       "branch": "GenderCounterDraft-ChatGPT",
       "head_at_inventory": "db3c3e16dfcc892222559ff2b7c28e9d39a5ed40",
       "source_branch": "GenderSpecificDiplomacy",
-      "coverage": "counter_scope_only",
-      "native_verification": "scoped_gender_fixtures_and_versioned_ai_stream_region_only_no_dll",
+      "coverage": "complete_pinned_baseline_overlay_native_validated_runtime_integration_pending",
+      "native_verification": "corrected_complete_overlay_Release_Debug_passed_all_artifacts_verified",
       "focused_verification": "C++03 and ASan/UBSan methods/update fixture; XML scalar structure checks",
-      "next_action": "Continue baseline reconciliation of eight implementation files; six supplied headers reviewed and unrelated count-width drift restored. Then construct full pinned baseline overlay/current workflow for native validation.",
+      "next_action": "Do not repeat unchanged passing builds. Review relevant source changes, external basic-info schema/localization installation and actual new-game several-turn save/reload/UI/gameplay.",
       "draft_code_sha": "c0de081419894dddd83e78d45169f03dc8635d95",
       "finding_ids": [
         "GENDER-20261027-01",
@@ -1281,9 +1281,9 @@
         "GENDER-PREP-20261101-11"
       ],
       "review_branch": "GenderCounterDraft-ChatGPT",
-      "qualification": "Actual AI version/counter read-write statements pass 252 C++03/ASan/UBSan cases with engine/map/ownership stand-ins; three negative controls reproduce displacement/version collision/stale counters. Prior fixtures retained. No full class/MSVC/DLL/real saves/game result.",
+      "qualification": "Corrected complete baseline overlay passes Release/Debug MSVC7.1 with zero warnings/errors; all four archives, actual Build.log/BuildTiming, exact pins, 349-source manifests, 14 feature hashes, PE32 binaries and matching Debug PDB verified. Original source head and live XML/UI/save/game execution not certified.",
       "source_head": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
-      "latest_review": "docs/reviews/gender-baseline-headers-2026-11-01.md",
+      "latest_review": "docs/reviews/gender-native-2026-11-01.md",
       "last_review_parent": "6aea3099138d7d00bbb260d540d81ac67caff6d8",
       "basic_info_schema_read_scope": {
         "source_sha": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
@@ -1327,17 +1327,132 @@
         "previous_encoding": "char",
         "restored_encoding": "short",
         "XANA_markers_preserved": true,
-        "remaining_implementation_files": 8,
+        "remaining_implementation_files": 0,
         "full_DLL_build": false,
-        "report": "docs/reviews/gender-baseline-headers-2026-11-01.md"
-      }
+        "report": "docs/reviews/gender-baseline-headers-2026-11-01.md",
+        "implementation_reconciliation_completed": true
+      },
+      "reviewed_source_sha": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+      "tested_code_sha": "5b122549e6df54bc61bcfbb19b7482cc9bec756e",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41328157020",
+      "artifact_verification": {
+        "review_date": "2026-11-01",
+        "original_source": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+        "assistant_parent": "a36846ebc68b5943a0ba69fbc064cfd3bba2767b",
+        "selected_source": "04d6b9ff004ae47178958a1b047715f1130a99cd",
+        "tested_commit": "5b122549e6df54bc61bcfbb19b7482cc9bec756e",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "run": 41328157020,
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41328157020",
+        "Release_Debug_completed_successfully": true,
+        "compiler_probe_both": "_MSC_VER == 1310 (MSVC 7.1)",
+        "all_four_archives_downloaded_digest_size_verified_extracted": true,
+        "actual_Build_logs_and_timing_inspected": true,
+        "root_manifest_names_match_exact_tree": true,
+        "independently_hashed_feature_files": 14,
+        "baseline_blobs_retained": 872,
+        "DLL_blobs": 362,
+        "root_sources": 349,
+        "CPP_reconciliation": {
+          "reviewed": 8,
+          "files_restored": 5,
+          "unmarked_hunks_restored": 57,
+          "marked_hunks_retained": 34,
+          "XANA_marker_lines_unchanged": true
+        },
+        "archives": [
+          {
+            "id": 13092471219,
+            "name": "source-verification-Release-GenderCounterDraft-ChatGPT-5b122549e6df54bc61bcfbb19b7482cc9bec756e",
+            "bytes": 31092,
+            "digest": "sha256:d0a2d3a0654f7f8b6d2c680ac589df303f43e2620c7aa144210ac5db769ebf9f"
+          },
+          {
+            "id": 13091992764,
+            "name": "CvGameCoreDLL-Debug-GenderCounterDraft-ChatGPT-5b122549e6df54bc61bcfbb19b7482cc9bec756e",
+            "bytes": 18588489,
+            "digest": "sha256:73ccf9ba2aed95802a4873852d7385d050440cd7db5e09d9541135a5a861158a"
+          },
+          {
+            "id": 13091927955,
+            "name": "source-verification-Debug-GenderCounterDraft-ChatGPT-5b122549e6df54bc61bcfbb19b7482cc9bec756e",
+            "bytes": 31091,
+            "digest": "sha256:3da17e70af7f817f6bd5ba81e504cf47e23ddf645e764deb54e8cb6e4c3d2bbb"
+          },
+          {
+            "id": 13091714548,
+            "name": "CvGameCoreDLL-Release-GenderCounterDraft-ChatGPT-5b122549e6df54bc61bcfbb19b7482cc9bec756e",
+            "bytes": 2351283,
+            "digest": "sha256:abc65dcc4d36663ea118cbf1652106d0075031539e1c6a1094f5646343d00c67"
+          }
+        ],
+        "Release": {
+          "configuration": "Release",
+          "artifacts": {
+            "binary": 13091714548,
+            "diagnostic": 13092471219
+          },
+          "warnings": 0,
+          "errors": 0,
+          "root_sources": 349,
+          "manifest_sha256": "65f1e538f40446dafc7f0e0557897058f773a6a7e12b1fa749b7b2c9bed5794d",
+          "dll_bytes": 6574080,
+          "dll_sha256": "ea2280efc30cd3e1027c4bccb2d5b6127e2da941d0debeee383abcaf6f0df69e",
+          "PE": "PE32 x86 DLL",
+          "timing": [
+            "vm_utc_before=2026-11-01T16:47:51.7118189Z",
+            "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+            "normalized_source_utc=2026-11-01T16:47:49.7118189Z",
+            "precompile_utc_after=2026-11-01T16:47:49.7118189Z"
+          ]
+        },
+        "Debug": {
+          "configuration": "Debug",
+          "artifacts": {
+            "binary": 13091992764,
+            "diagnostic": 13091927955
+          },
+          "warnings": 0,
+          "errors": 0,
+          "root_sources": 349,
+          "manifest_sha256": "65f1e538f40446dafc7f0e0557897058f773a6a7e12b1fa749b7b2c9bed5794d",
+          "dll_bytes": 25214976,
+          "dll_sha256": "ee60278362f13d3a0a5dad5f4814ecd97cd6a19e03f830e1e2d40d70a61e6e68",
+          "PE": "PE32 x86 DLL",
+          "timing": [
+            "vm_utc_before=2026-11-01T16:50:34.2586950Z",
+            "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+            "normalized_source_utc=2026-11-01T16:50:32.2586950Z",
+            "precompile_utc_after=2026-11-01T16:50:32.2586950Z"
+          ],
+          "pdb_guid": "f5cc7806-c26e-48f6-a64d-7403a42bfc3e",
+          "pdb_age": 1,
+          "pdb_bytes": 70691840,
+          "pdb_sha256": "db3835c11471716712b9e7ff20ad8fb8282d654f8a1a412a1ad9b9c25e0e24ef"
+        },
+        "live_game": false
+      },
+      "artifacts": {
+        "Release": 13091714548,
+        "Debug": 13091992764
+      },
+      "hash_diagnostics": {
+        "Release": 13092471219,
+        "Debug": 13091927955
+      },
+      "native_configurations": [
+        "Release",
+        "Debug"
+      ],
+      "compiler": "_MSC_VER == 1310"
     },
     {
       "branch": "GenderSpecificDiplomacy",
       "head_at_inventory": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
-      "coverage": "first_source_pass_counter_refinement",
-      "native_verification": "scoped_gender_fixtures_and_versioned_ai_stream_region_only_no_dll",
-      "next_action": "Continue baseline reconciliation of eight implementation files; six supplied headers reviewed and unrelated count-width drift restored. Then construct full pinned baseline overlay/current workflow for native validation.",
+      "coverage": "complete_pinned_baseline_overlay_native_validated_runtime_integration_pending",
+      "native_verification": "corrected_complete_overlay_Release_Debug_passed_all_artifacts_verified",
+      "next_action": "Do not repeat unchanged passing builds. Review relevant source changes, external basic-info schema/localization installation and actual new-game several-turn save/reload/UI/gameplay.",
       "refinement_branch": "GenderCounterDraft-ChatGPT",
       "draft_code_sha": "c0de081419894dddd83e78d45169f03dc8635d95",
       "finding_ids": [
@@ -1354,9 +1469,9 @@
         "GENDER-PREP-20261101-11"
       ],
       "review_branch": "GenderCounterDraft-ChatGPT",
-      "qualification": "Actual AI version/counter read-write statements pass 252 C++03/ASan/UBSan cases with engine/map/ownership stand-ins; three negative controls reproduce displacement/version collision/stale counters. Prior fixtures retained. No full class/MSVC/DLL/real saves/game result.",
+      "qualification": "Corrected complete baseline overlay passes Release/Debug MSVC7.1 with zero warnings/errors; all four archives, actual Build.log/BuildTiming, exact pins, 349-source manifests, 14 feature hashes, PE32 binaries and matching Debug PDB verified. Original source head and live XML/UI/save/game execution not certified.",
       "source_head": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
-      "latest_review": "docs/reviews/gender-baseline-headers-2026-11-01.md",
+      "latest_review": "docs/reviews/gender-native-2026-11-01.md",
       "additional_read_scope": "2026-10-30: LoadBasicInfos gender registration, supplied GenderInfos XML, leader gender scalar/enum reads and actual leader scalar helper context inspected; metadata/schema integration remains open, no code finding proposed in this pass.",
       "last_review_parent": "6aea3099138d7d00bbb260d540d81ac67caff6d8",
       "basic_info_schema_read_scope": {
@@ -1395,10 +1510,125 @@
         "previous_encoding": "char",
         "restored_encoding": "short",
         "XANA_markers_preserved": true,
-        "remaining_implementation_files": 8,
+        "remaining_implementation_files": 0,
         "full_DLL_build": false,
-        "report": "docs/reviews/gender-baseline-headers-2026-11-01.md"
-      }
+        "report": "docs/reviews/gender-baseline-headers-2026-11-01.md",
+        "implementation_reconciliation_completed": true
+      },
+      "reviewed_source_sha": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+      "tested_code_sha": "5b122549e6df54bc61bcfbb19b7482cc9bec756e",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41328157020",
+      "artifact_verification": {
+        "review_date": "2026-11-01",
+        "original_source": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+        "assistant_parent": "a36846ebc68b5943a0ba69fbc064cfd3bba2767b",
+        "selected_source": "04d6b9ff004ae47178958a1b047715f1130a99cd",
+        "tested_commit": "5b122549e6df54bc61bcfbb19b7482cc9bec756e",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "run": 41328157020,
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41328157020",
+        "Release_Debug_completed_successfully": true,
+        "compiler_probe_both": "_MSC_VER == 1310 (MSVC 7.1)",
+        "all_four_archives_downloaded_digest_size_verified_extracted": true,
+        "actual_Build_logs_and_timing_inspected": true,
+        "root_manifest_names_match_exact_tree": true,
+        "independently_hashed_feature_files": 14,
+        "baseline_blobs_retained": 872,
+        "DLL_blobs": 362,
+        "root_sources": 349,
+        "CPP_reconciliation": {
+          "reviewed": 8,
+          "files_restored": 5,
+          "unmarked_hunks_restored": 57,
+          "marked_hunks_retained": 34,
+          "XANA_marker_lines_unchanged": true
+        },
+        "archives": [
+          {
+            "id": 13092471219,
+            "name": "source-verification-Release-GenderCounterDraft-ChatGPT-5b122549e6df54bc61bcfbb19b7482cc9bec756e",
+            "bytes": 31092,
+            "digest": "sha256:d0a2d3a0654f7f8b6d2c680ac589df303f43e2620c7aa144210ac5db769ebf9f"
+          },
+          {
+            "id": 13091992764,
+            "name": "CvGameCoreDLL-Debug-GenderCounterDraft-ChatGPT-5b122549e6df54bc61bcfbb19b7482cc9bec756e",
+            "bytes": 18588489,
+            "digest": "sha256:73ccf9ba2aed95802a4873852d7385d050440cd7db5e09d9541135a5a861158a"
+          },
+          {
+            "id": 13091927955,
+            "name": "source-verification-Debug-GenderCounterDraft-ChatGPT-5b122549e6df54bc61bcfbb19b7482cc9bec756e",
+            "bytes": 31091,
+            "digest": "sha256:3da17e70af7f817f6bd5ba81e504cf47e23ddf645e764deb54e8cb6e4c3d2bbb"
+          },
+          {
+            "id": 13091714548,
+            "name": "CvGameCoreDLL-Release-GenderCounterDraft-ChatGPT-5b122549e6df54bc61bcfbb19b7482cc9bec756e",
+            "bytes": 2351283,
+            "digest": "sha256:abc65dcc4d36663ea118cbf1652106d0075031539e1c6a1094f5646343d00c67"
+          }
+        ],
+        "Release": {
+          "configuration": "Release",
+          "artifacts": {
+            "binary": 13091714548,
+            "diagnostic": 13092471219
+          },
+          "warnings": 0,
+          "errors": 0,
+          "root_sources": 349,
+          "manifest_sha256": "65f1e538f40446dafc7f0e0557897058f773a6a7e12b1fa749b7b2c9bed5794d",
+          "dll_bytes": 6574080,
+          "dll_sha256": "ea2280efc30cd3e1027c4bccb2d5b6127e2da941d0debeee383abcaf6f0df69e",
+          "PE": "PE32 x86 DLL",
+          "timing": [
+            "vm_utc_before=2026-11-01T16:47:51.7118189Z",
+            "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+            "normalized_source_utc=2026-11-01T16:47:49.7118189Z",
+            "precompile_utc_after=2026-11-01T16:47:49.7118189Z"
+          ]
+        },
+        "Debug": {
+          "configuration": "Debug",
+          "artifacts": {
+            "binary": 13091992764,
+            "diagnostic": 13091927955
+          },
+          "warnings": 0,
+          "errors": 0,
+          "root_sources": 349,
+          "manifest_sha256": "65f1e538f40446dafc7f0e0557897058f773a6a7e12b1fa749b7b2c9bed5794d",
+          "dll_bytes": 25214976,
+          "dll_sha256": "ee60278362f13d3a0a5dad5f4814ecd97cd6a19e03f830e1e2d40d70a61e6e68",
+          "PE": "PE32 x86 DLL",
+          "timing": [
+            "vm_utc_before=2026-11-01T16:50:34.2586950Z",
+            "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+            "normalized_source_utc=2026-11-01T16:50:32.2586950Z",
+            "precompile_utc_after=2026-11-01T16:50:32.2586950Z"
+          ],
+          "pdb_guid": "f5cc7806-c26e-48f6-a64d-7403a42bfc3e",
+          "pdb_age": 1,
+          "pdb_bytes": 70691840,
+          "pdb_sha256": "db3835c11471716712b9e7ff20ad8fb8282d654f8a1a412a1ad9b9c25e0e24ef"
+        },
+        "live_game": false
+      },
+      "artifacts": {
+        "Release": 13091714548,
+        "Debug": 13091992764
+      },
+      "hash_diagnostics": {
+        "Release": 13092471219,
+        "Debug": 13091927955
+      },
+      "native_configurations": [
+        "Release",
+        "Debug"
+      ],
+      "compiler": "_MSC_VER == 1310"
     },
     {
       "branch": "HatedCivicReligionDiplomacy",
@@ -5187,8 +5417,8 @@
     "date": "2026-11-01",
     "branch_count": 75,
     "original_head_changes": [],
-    "scope": "Gender six-header baseline comparison and unmarked count-width restoration.",
-    "assistant_parent": "1a97f9043f49ed3a4801b82b9eada126e9accef9"
+    "scope": "Gender complete source reconciliation, full pinned DLL validation and downloaded artifact verification.",
+    "assistant_parent": "a36846ebc68b5943a0ba69fbc064cfd3bba2767b"
   },
   "inventory_2026_10_31_native_failure_review": [
     {
@@ -7781,6 +8011,15 @@
       "full_DLL_build": false,
       "report": "docs/reviews/gender-baseline-headers-2026-11-01.md"
     },
+    "stop_gate_satisfied": false
+  },
+  "inventory_2026_11_01_gender_native": {
+    "branch_count": 75,
+    "changed_user_owned_heads": [],
+    "selected_source": "04d6b9ff004ae47178958a1b047715f1130a99cd",
+    "tested_commit": "5b122549e6df54bc61bcfbb19b7482cc9bec756e",
+    "run": 41328157020,
+    "result": "Release_Debug_success_0_warnings_0_errors",
     "stop_gate_satisfied": false
   }
 }
