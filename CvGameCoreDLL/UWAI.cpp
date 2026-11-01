@@ -212,8 +212,11 @@ void UWAI::applyPersonalityWeight()
 			paiPersonalityVector->push_back(&aiImprovementWeightModifier[eLoopImprovement]);
 		personalityMatrix.push_back(paiPersonalityVector);
 // XANA: 05-31-2025 First Impression Modified By Other Leader
-		int* aiFirstImpressionModifier = (kLeader.m_piFirstImpressionModifier == NULL ? aiDevNull :
-				kLeader.m_piFirstImpressionModifier);
+		// Zero-only XML lists are NULL. Weighting can create nonzero values,
+		// so retain real storage rather than indexing the fixed-size sink.
+		if (kLeader.m_piFirstImpressionModifier == NULL)
+			kLeader.m_piFirstImpressionModifier = new int[GC.getNumLeaderHeadInfos()]();
+		int* aiFirstImpressionModifier = kLeader.m_piFirstImpressionModifier;
 		FOR_EACH_ENUM(LeaderHead)
 			paiPersonalityVector->push_back(&aiFirstImpressionModifier[eLoopLeaderHead]);
 // XANA: 05-31-2025 First Impression Modified By Other Leader
