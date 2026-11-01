@@ -1740,7 +1740,7 @@
       "head_at_inventory": "aac03388283a5ac316f6a19f6e3754a7435b6511",
       "coverage": "source_review_partial_category_aware_record_keys",
       "native_verification": "actual_record_helper_cpp03_fno_exceptions_ASan_UBSan_only_no_DLL",
-      "next_action": "Retain deep-copy/category/reload repairs. Review actual default merging/parser/record-copy integration, save reconstruction and percentage arithmetic; full DLL overlay still deferred until missing Event/Unit assets and Unit schema are supplied.",
+      "next_action": "Retain owning-map deep copies; actual records reviewed as primitive value types. Review actual default merging/parser integration, save reconstruction and percentage arithmetic; full DLL overlay still deferred until missing Event/Unit assets and Unit schema are supplied.",
       "refinement_branch": "PreferenceFrameworkDraft-ChatGPT",
       "draft_code_sha": "6e64cbcc973dd775328b610a9cc4b20e948d1b9a",
       "finding_ids": [
@@ -1796,6 +1796,34 @@
         "C03_fno_exceptions_ASan_UBSan": true,
         "full_DLL_build": false,
         "existing_missing_asset_gate_retained": true
+      },
+      "record_copy_inspection": {
+        "date": "2026-11-01",
+        "source_head": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+        "assistant_head": "b6f05e67afe3da98a7458a200390d4f990557fa4",
+        "scope": "Actual preference record field/copy semantics alongside the new owning-info copy constructors.",
+        "files": [
+          "CvGameCoreDLL/CvXMLStructs.h",
+          "CvGameCoreDLL/CvXMLStructs.cpp"
+        ],
+        "record_types": [
+          "TechPreferenceData",
+          "EventPreferenceData",
+          "UnitCombatPreferenceData",
+          "UnitClassPreferenceData",
+          "UnitPreferenceData"
+        ],
+        "observations": [
+          "Each record declares only its integer key, integer percentage and two boolean flags, with no owning pointer or custom copy/destructor logic.",
+          "Standard vector copy therefore copies these records by value; no further deep-copy member was identified beyond the five index maps already repaired.",
+          "Actual getters return scalar fields. Current category-aware readers and prior category report reviewed without repeating their findings/tests."
+        ],
+        "new_actionable_findings": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_build": false,
+        "qualification": "Static language/field-layout inspection, not real Firaxis XML/default merging or game execution. Existing scoped test qualifications and missing Event/Unit asset/schema DLL gate remain.",
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
       }
     },
     {
@@ -4722,7 +4750,7 @@
         "PREFERENCE-20261031-13",
         "PREFERENCE-20261101-14"
       ],
-      "next_action": "Retain deep-copy/category/reload repairs. Review actual default merging/parser/record-copy integration, save reconstruction and percentage arithmetic; full DLL overlay still deferred until missing Event/Unit assets and Unit schema are supplied.",
+      "next_action": "Retain owning-map deep copies; actual records reviewed as primitive value types. Review actual default merging/parser integration, save reconstruction and percentage arithmetic; full DLL overlay still deferred until missing Event/Unit assets and Unit schema are supplied.",
       "qualification": "1195 actual-record/header/helper C++03 -fno-exceptions ASan/UBSan cases with typed GC/XML stand-ins; five negative controls restricted to foreign in-range key collisions. No real parser/enclosing-loader/engine enum/MSVC7.1/DLL/game result. Prior range/consumer work retained; missing asset integration gate unchanged.",
       "latest_review": "docs/reviews/preference-copy-2026-11-01.md",
       "last_review_parent": "4d183d19b36c374f1fd3bf4830ca12c69b7b2a1f",
@@ -4766,6 +4794,34 @@
         "C03_fno_exceptions_ASan_UBSan": true,
         "full_DLL_build": false,
         "existing_missing_asset_gate_retained": true
+      },
+      "record_copy_inspection": {
+        "date": "2026-11-01",
+        "source_head": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+        "assistant_head": "b6f05e67afe3da98a7458a200390d4f990557fa4",
+        "scope": "Actual preference record field/copy semantics alongside the new owning-info copy constructors.",
+        "files": [
+          "CvGameCoreDLL/CvXMLStructs.h",
+          "CvGameCoreDLL/CvXMLStructs.cpp"
+        ],
+        "record_types": [
+          "TechPreferenceData",
+          "EventPreferenceData",
+          "UnitCombatPreferenceData",
+          "UnitClassPreferenceData",
+          "UnitPreferenceData"
+        ],
+        "observations": [
+          "Each record declares only its integer key, integer percentage and two boolean flags, with no owning pointer or custom copy/destructor logic.",
+          "Standard vector copy therefore copies these records by value; no further deep-copy member was identified beyond the five index maps already repaired.",
+          "Actual getters return scalar fields. Current category-aware readers and prior category report reviewed without repeating their findings/tests."
+        ],
+        "new_actionable_findings": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_build": false,
+        "qualification": "Static language/field-layout inspection, not real Firaxis XML/default merging or game execution. Existing scoped test qualifications and missing Event/Unit asset/schema DLL gate remain.",
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
       }
     },
     {
@@ -5459,8 +5515,8 @@
     "date": "2026-11-01",
     "branch_count": 75,
     "original_head_changes": [],
-    "scope": "Preference owning-map default-copy repair and scoped regression.",
-    "assistant_parent": "5012475e85a727dd0417bbb1249fe845a3b9d321"
+    "scope": "Actual preference record field/copy semantics alongside the new owning-info copy constructors.",
+    "assistant_parent": "b6f05e67afe3da98a7458a200390d4f990557fa4"
   },
   "inventory_2026_10_31_native_failure_review": [
     {
@@ -8086,6 +8142,39 @@
       "C03_fno_exceptions_ASan_UBSan": true,
       "full_DLL_build": false,
       "existing_missing_asset_gate_retained": true
+    },
+    "stop_gate_satisfied": false
+  },
+  "inventory_2026_11_01_preference_record_copy": {
+    "branch_count": 75,
+    "changed_user_owned_source_heads": [],
+    "review": {
+      "date": "2026-11-01",
+      "source_head": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+      "assistant_head": "b6f05e67afe3da98a7458a200390d4f990557fa4",
+      "scope": "Actual preference record field/copy semantics alongside the new owning-info copy constructors.",
+      "files": [
+        "CvGameCoreDLL/CvXMLStructs.h",
+        "CvGameCoreDLL/CvXMLStructs.cpp"
+      ],
+      "record_types": [
+        "TechPreferenceData",
+        "EventPreferenceData",
+        "UnitCombatPreferenceData",
+        "UnitClassPreferenceData",
+        "UnitPreferenceData"
+      ],
+      "observations": [
+        "Each record declares only its integer key, integer percentage and two boolean flags, with no owning pointer or custom copy/destructor logic.",
+        "Standard vector copy therefore copies these records by value; no further deep-copy member was identified beyond the five index maps already repaired.",
+        "Actual getters return scalar fields. Current category-aware readers and prior category report reviewed without repeating their findings/tests."
+      ],
+      "new_actionable_findings": [],
+      "production_changes": false,
+      "new_tests": false,
+      "new_DLL_build": false,
+      "qualification": "Static language/field-layout inspection, not real Firaxis XML/default merging or game execution. Existing scoped test qualifications and missing Event/Unit asset/schema DLL gate remain.",
+      "runtime_save_validation_policy": "save_runtime_validation_policy"
     },
     "stop_gate_satisfied": false
   }
