@@ -2067,11 +2067,11 @@
     },
     {
       "branch": "SidSaysDiscoveryBuild-ChatGPT",
-      "head_at_inventory": "e960bff4f5d418abfb0b4e23c4f34814f71586be",
+      "head_at_inventory": "da3a0c817acb8777c9b4087defafd9f45bbe9a83",
       "coverage": "updated_guidance_heading_option_and_help_XML_integrated_structurally_checked",
       "native_verification": "Release_Debug_build_logs_sources_binaries_and_matching_Debug_symbols_verified",
       "source_branch": "SidSaysPatch",
-      "source_head": "b6abf837c8b756c023246a42ac2b4e8243e4a80d",
+      "source_head": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
       "tested_code_sha": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255403884",
       "next_action": "Observe the newly authored heading/option/help wording in the installed game when useful. Treat _mlp.xml override precedence as resolved project behavior; no inherited-file clash investigation or unchanged DLL rebuild is pending.",
@@ -2220,7 +2220,7 @@
         }
       ],
       "reviewed_assistant_head": "e960bff4f5d418abfb0b4e23c4f34814f71586be",
-      "reviewed_source_sha": "b6abf837c8b756c023246a42ac2b4e8243e4a80d",
+      "reviewed_source_sha": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
       "source_code_sha": "a994b2ed9db89aac098b2b0a640146e7688a017f",
       "feature_snapshot": "a994b2ed9db89aac098b2b0a640146e7688a017f",
       "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
@@ -2382,11 +2382,27 @@
         "status": "verified_project_convention_accepted",
         "pending_blocker": false,
         "independent_game_execution_in_this_review": false
+      },
+      "localization_translation_followup": {
+        "source": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
+        "heading_blob": "748bedffb75382a3dc1eb1db2e6100cc5df40f00",
+        "values": {
+          "English": "[COLOR_HIGHLIGHT_TEXT]Solais' Guidance: [COLOR_REVERT]",
+          "French": "[COLOR_HIGHLIGHT_TEXT]Conseils de Solais : [COLOR_REVERT]",
+          "German": "[COLOR_HIGHLIGHT_TEXT]Solais Tipps: [COLOR_REVERT]",
+          "Italian": "[COLOR_HIGHLIGHT_TEXT]Il suggerimento di Solais: [COLOR_REVERT]",
+          "Spanish": "[COLOR_HIGHLIGHT_TEXT]Consejo de Solais: [COLOR_REVERT]"
+        },
+        "all_five_heading_languages_use_Solais": true,
+        "source_title_typo_fix_already_identical_to_assistant": true,
+        "structural_checks_passed": true,
+        "DLL_changed": false,
+        "game_execution": false
       }
     },
     {
       "branch": "SidSaysPatch",
-      "head_at_inventory": "b6abf837c8b756c023246a42ac2b4e8243e4a80d",
+      "head_at_inventory": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
       "coverage": "updated_guidance_heading_option_and_help_XML_integrated_structurally_checked",
       "native_verification": "corrected_assistant_overlay_Release_Debug_verified",
       "next_action": "Observe the newly authored heading/option/help wording in the installed game when useful. Treat _mlp.xml override precedence as resolved project behavior; no inherited-file clash investigation or unchanged DLL rebuild is pending.",
@@ -2409,7 +2425,7 @@
         "Debug"
       ],
       "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
-      "reviewed_source_sha": "b6abf837c8b756c023246a42ac2b4e8243e4a80d",
+      "reviewed_source_sha": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
       "localization_review": {
         "review_local_date": "2026-10-31",
         "source_branch": "SidSaysPatch",
@@ -2494,6 +2510,22 @@
         "status": "verified_project_convention_accepted",
         "pending_blocker": false,
         "independent_game_execution_in_this_review": false
+      },
+      "localization_translation_followup": {
+        "source": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
+        "heading_blob": "748bedffb75382a3dc1eb1db2e6100cc5df40f00",
+        "values": {
+          "English": "[COLOR_HIGHLIGHT_TEXT]Solais' Guidance: [COLOR_REVERT]",
+          "French": "[COLOR_HIGHLIGHT_TEXT]Conseils de Solais : [COLOR_REVERT]",
+          "German": "[COLOR_HIGHLIGHT_TEXT]Solais Tipps: [COLOR_REVERT]",
+          "Italian": "[COLOR_HIGHLIGHT_TEXT]Il suggerimento di Solais: [COLOR_REVERT]",
+          "Spanish": "[COLOR_HIGHLIGHT_TEXT]Consejo de Solais: [COLOR_REVERT]"
+        },
+        "all_five_heading_languages_use_Solais": true,
+        "source_title_typo_fix_already_identical_to_assistant": true,
+        "structural_checks_passed": true,
+        "DLL_changed": false,
+        "game_execution": false
       }
     },
     {
