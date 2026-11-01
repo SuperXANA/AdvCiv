@@ -1,0 +1,109 @@
+{
+  "date": "2026-11-01",
+  "finding_id": "COLONY-20261101-02",
+  "original_source": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+  "assistant_parent": "d3c5e6aeb2c29606d10cfbb931205c709e01250b",
+  "code_commit": "de358671fd7f7e3b9e9d1d396fde4632b11de243",
+  "tested_commit": "0f66179997115e5c4c49715033f643fe282dd243",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+  "run": 41359029328,
+  "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41359029328",
+  "terminal_status": "completed",
+  "terminal_conclusion": "success",
+  "compiler_probe_both": "_MSC_VER == 1310 (MSVC 7.1)",
+  "baseline_blobs_retained": 872,
+  "selected_DLL_blobs": 362,
+  "root_sources": 349,
+  "all_four_archives_downloaded_size_digest_checked_extracted": true,
+  "actual_Build_logs_inspected_both": true,
+  "actual_BuildTiming_logs_inspected_both": true,
+  "source_manifests_expected_equal_actual": true,
+  "source_hash_diffs_empty": true,
+  "source_manifest_names_match_exact_tested_tree": true,
+  "all_five_feature_DLL_sources_and_baseline_string_helper_independently_Git_blob_and_SHA256_checked": true,
+  "host_cases": 200,
+  "host_checks": [
+    "strict C++03 -fno-exceptions warnings-as-errors pedantic",
+    "ASan/UBSan; LSan disabled",
+    "original reader negative control reproduces optional-tag diagnostic"
+  ],
+  "host_boundary": "Actual field reader and actual string/generic helper bodies; FXml interface, ID lookup, strings and class shell stand-ins, int template routing modeled.",
+  "native": {
+    "Release": {
+      "configuration": "Release",
+      "artifacts": {
+        "binary": 13104801439,
+        "diagnostic": 13104243828
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 349,
+      "manifest_sha256": "b56d0b57c38c9a6b68b23b76048331ea1f573257d5ef1c6b25714e564f8a68c3",
+      "dll_bytes": 6565888,
+      "dll_sha256": "3989792df0e0e63132af6f8dff3ef6f2c67130985e58b7ae58abbcb342fd39ca",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-01T22:49:06.4462050Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-01T22:49:04.4305712Z",
+        "precompile_utc_after=2026-11-01T22:49:04.4305712Z"
+      ]
+    },
+    "Debug": {
+      "configuration": "Debug",
+      "artifacts": {
+        "binary": 13104003723,
+        "diagnostic": 13103514812
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 349,
+      "manifest_sha256": "b56d0b57c38c9a6b68b23b76048331ea1f573257d5ef1c6b25714e564f8a68c3",
+      "dll_bytes": 25194496,
+      "dll_sha256": "3dd744de02275e62f91a69bff1d56bfa05829a4e9e517278255e893ad0193beb",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-01T22:51:50.7430723Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-01T22:51:48.7430723Z",
+        "precompile_utc_after=2026-11-01T22:51:48.7430723Z"
+      ],
+      "pdb_guid": "3593ef38-01fa-438b-afc1-50d30fb7766d",
+      "pdb_age": 1,
+      "pdb_bytes": 70634496,
+      "pdb_sha256": "5d0ccfada4491cad5763694d0a87520e25a86d6d2d37fccb168c626978b2af3f"
+    }
+  },
+  "artifacts": [
+    {
+      "id": 13104801439,
+      "name": "CvGameCoreDLL-Release-ColonyLeaderBuild-ChatGPT-0f66179997115e5c4c49715033f643fe282dd243",
+      "size_in_bytes": 2350151,
+      "digest": "sha256:bb755578cb6582cac3ca5fde8d64f0849152d3bc51f69eda69154fb7629f8430",
+      "head_sha": "0f66179997115e5c4c49715033f643fe282dd243"
+    },
+    {
+      "id": 13104243828,
+      "name": "source-verification-Release-ColonyLeaderBuild-ChatGPT-0f66179997115e5c4c49715033f643fe282dd243",
+      "size_in_bytes": 31070,
+      "digest": "sha256:09e397931b1eb0a8683e23cd2f083bd4bd7c94344be3da66a02c043895591977",
+      "head_sha": "0f66179997115e5c4c49715033f643fe282dd243"
+    },
+    {
+      "id": 13104003723,
+      "name": "CvGameCoreDLL-Debug-ColonyLeaderBuild-ChatGPT-0f66179997115e5c4c49715033f643fe282dd243",
+      "size_in_bytes": 18572653,
+      "digest": "sha256:93fbac1e93123e210f3b1c3b23fba1f4523cb6fb1538240bbfc752e54409feac",
+      "head_sha": "0f66179997115e5c4c49715033f643fe282dd243"
+    },
+    {
+      "id": 13103514812,
+      "name": "source-verification-Debug-ColonyLeaderBuild-ChatGPT-0f66179997115e5c4c49715033f643fe282dd243",
+      "size_in_bytes": 31070,
+      "digest": "sha256:c2b6f061e805ccb893515267325baa225d5f6755daed9bd0c1af14bc824141ce",
+      "head_sha": "0f66179997115e5c4c49715033f643fe282dd243"
+    }
+  ],
+  "runtime_XML_and_colony_gameplay": false
+}

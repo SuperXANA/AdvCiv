@@ -78,3 +78,7 @@ uses MSBuild to invoke the NMake project. The machine-local
 `R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
 compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
 the DLL's C/C++ compilation uses MSVC 7.1.
+
+## Optional-field follow-up — 2026-11-01
+
+[COLONY-20261101-02](colony-optional-2026-11-01.md) corrects a false missing-tag assertion when a modular override omits DerivativeLeader after its prior value became valid leader index zero. Existing eligibility/scoring and original XANA markers remain. Exact overlay `0f66179997115e5c4c49715033f643fe282dd243` passes current-workflow MSVC7.1 Release and Debug with zero warnings/errors; all four archives, actual build logs, source hashes and Debug PDB identity were verified. Installed modular XML and live colony creation remain untested.
