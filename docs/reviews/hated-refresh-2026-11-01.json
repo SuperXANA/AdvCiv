@@ -1,0 +1,94 @@
+{
+  "finding": "HATED-20261101-08",
+  "review_date": "2026-11-01",
+  "original_source": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+  "assistant_parent": "a13d837a06dc6f26508673e1ba242bc1c34b5296",
+  "selected_source": "946f0dc7c4153354636db0abece3247f4554a53d",
+  "tested_commit": "ebccd9c32ef9644762d280489dc3ba949832d55d",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+  "run": 41344075881,
+  "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41344075881",
+  "Release_Debug_completed_successfully": true,
+  "compiler_probe_both": "_MSC_VER == 1310 (MSVC 7.1)",
+  "all_four_archives_downloaded_size_digest_verified_extracted": true,
+  "actual_Build_log_and_timing_inspected": true,
+  "root_names_match_tested_tree": true,
+  "independently_hashed_files": [
+    "CvPlayer.cpp",
+    "CvPlayerAI.cpp"
+  ],
+  "host_cases": 648,
+  "old_filter_stale_cache_negative_control": true,
+  "engine_UI_game_save_execution": false,
+  "archives": [
+    {
+      "id": 13098866059,
+      "name": "source-verification-Debug-HatedDiplomacyDraft-ChatGPT-ebccd9c32ef9644762d280489dc3ba949832d55d",
+      "bytes": 31089,
+      "digest": "sha256:3b8dd856baca725a3c56cb0710eaea5a3153edb177942e49ed613d2f2f0089c1"
+    },
+    {
+      "id": 13098731700,
+      "name": "CvGameCoreDLL-Debug-HatedDiplomacyDraft-ChatGPT-ebccd9c32ef9644762d280489dc3ba949832d55d",
+      "bytes": 18551779,
+      "digest": "sha256:ecbf151bd6d6c56da1e07fc5d703d84e61067da1dfd013248ae0c4d3ffa12b7e"
+    },
+    {
+      "id": 13098582664,
+      "name": "CvGameCoreDLL-Release-HatedDiplomacyDraft-ChatGPT-ebccd9c32ef9644762d280489dc3ba949832d55d",
+      "bytes": 2348842,
+      "digest": "sha256:2d316a6e90e8172b4bf4c9c5761277d13fec57be00ec223d9de7cc3ecb1090d7"
+    },
+    {
+      "id": 13098274854,
+      "name": "source-verification-Release-HatedDiplomacyDraft-ChatGPT-ebccd9c32ef9644762d280489dc3ba949832d55d",
+      "bytes": 31090,
+      "digest": "sha256:50a23c021229ec10ae2dd346866418bec7ad96e6488c9fa2eb9779c00e103ed8"
+    }
+  ],
+  "Release": {
+    "configuration": "Release",
+    "artifacts": {
+      "binary": 13098582664,
+      "diagnostic": 13098274854
+    },
+    "warnings": 0,
+    "errors": 0,
+    "root_sources": 349,
+    "manifest_sha256": "686baedba8d5ddaef320845ed955cbaf08bf9d43f8b9a77586d3df75d6aa4f0c",
+    "dll_bytes": 6565888,
+    "dll_sha256": "8541565cd4fcf899abf2099b4adf5a4209ec21a6269a0b41103cd6d271ce19cc",
+    "PE": "PE32 x86 DLL",
+    "timing": [
+      "vm_utc_before=2026-11-01T19:54:07.8055710Z",
+      "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+      "normalized_source_utc=2026-11-01T19:54:05.8055710Z",
+      "precompile_utc_after=2026-11-01T19:54:05.8055710Z"
+    ]
+  },
+  "Debug": {
+    "configuration": "Debug",
+    "artifacts": {
+      "binary": 13098731700,
+      "diagnostic": 13098866059
+    },
+    "warnings": 0,
+    "errors": 0,
+    "root_sources": 349,
+    "manifest_sha256": "686baedba8d5ddaef320845ed955cbaf08bf9d43f8b9a77586d3df75d6aa4f0c",
+    "dll_bytes": 25186304,
+    "dll_sha256": "f60f56a4f8cf295fbd1e9af5751272b4e01ada47c692c947703908ac26c43630",
+    "PE": "PE32 x86 DLL",
+    "timing": [
+      "vm_utc_before=2026-11-01T19:57:31.5399487Z",
+      "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+      "normalized_source_utc=2026-11-01T19:57:29.5399487Z",
+      "precompile_utc_after=2026-11-01T19:57:29.5399487Z"
+    ],
+    "pdb_guid": "e39c6668-a531-4617-bf1b-81eaee6fffb7",
+    "pdb_age": 1,
+    "pdb_bytes": 70585344,
+    "pdb_sha256": "55474f029510d257148d13dd33e0551ba2787f0e491f0a66fae68ee1a1a3f663"
+  }
+}
