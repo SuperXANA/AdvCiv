@@ -9449,6 +9449,9 @@ void CvPlayer::setLastStateReligion(ReligionTypes eNewReligion)
 		for (PlayerAIIter<MAJOR_CIV> it; it.hasNext(); ++it) // advc.003n
 		{
 			if (it->getStateReligion() != NO_RELIGION ||
+				// XANA: 11-01-2026 Refresh religionless observers with a hated religion (ChatGPT)
+				it->getHateReligion() != NO_RELIGION ||
+				// XANA: 11-01-2026 Refresh religionless observers with a hated religion (ChatGPT)
 				/*	advc.001: Update our own cache if we renounce. (Redundant
 					when we renounce by switching to a no-state-religion civic.
 					But perhaps we just chose no religion.) */
