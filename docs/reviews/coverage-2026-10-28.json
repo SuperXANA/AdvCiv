@@ -1985,7 +1985,7 @@
       "head_at_inventory": "8fcfdd97329279393120aaab34c00dde84e729df",
       "coverage": "source_review_partial_native_corrected_overlay_passed",
       "native_verification": "linked_corrected_assistant_overlay_passed_original_not_built",
-      "next_action": "Do not repeat unchanged passing builds. Review actual engine save/load with compatible info counts/order, attitude-cache coherence, XML/default/copy/cache behavior and malformed/comment/cursor paths; retain all prior scoped fixes and exact native evidence.",
+      "next_action": "Review actual XML/schema/default/copy/parser behavior, attitude-cache coherence and fresh-game save/reload. XML file-cache round-trip work is conditional on enabling ENABLE_XML_FILE_CACHE; do not repeat unchanged passing builds.",
       "refinement_branch": "VoteCounterDraft-ChatGPT",
       "draft_code_sha": "6d6e73b10343f277481da186013426be702ce00a",
       "finding_ids": [
@@ -2131,7 +2131,20 @@
         "new_tests": false,
         "new_DLL_build": false,
         "runtime_save_validation_policy": "save_runtime_validation_policy",
-        "qualification": "Source inspection only; no real XML parser, info-cache execution, gameplay or fresh-game save/reload. No hypothetical old feature saves are required."
+        "qualification": "Source inspection only; no real XML parser, info-cache execution, gameplay or fresh-game save/reload. No hypothetical old feature saves are required.",
+        "configuration_followup": "ENABLE_XML_FILE_CACHE=0 verified; absent feature cache serialization is inactive in current configuration."
+      },
+      "XML_file_cache_configuration": {
+        "date": "2026-11-01",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "reviewed_assistant_head": "2f0d6003b4397820753b13b18e12ff5863eaab16",
+        "macro": "ENABLE_XML_FILE_CACHE",
+        "value": 0,
+        "location": "CvGameCoreDLL/CvInfo_Base.h:12",
+        "baseline_and_selected_blob": "7a7758a5622c977358ac8b1b079ecee5a03124f7",
+        "load_path": "CvXMLLoadUtilitySet.cpp:1365–1390 excludes cache creation/read and takes LoadCivXml under #else.",
+        "disposition": "Disabled XML file cache is not a current-build runtime validation blocker. Audit cache serialization and pending staging lifecycle only if this compile-time option is enabled.",
+        "qualification": "Does not certify real XML/schema loading, in-memory attitude caches, gameplay or new-game save/reload. No source edits or rebuild."
       }
     },
     {
@@ -3638,7 +3651,7 @@
       "head_at_inventory": "a4bf7f3e4516d135b18872fca3d6ff2d3c0080a2",
       "coverage": "source_review_partial_native_corrected_overlay_passed",
       "native_verification": "corrected_overlay_release_debug_passed_artifact_Build_logs_inspected",
-      "next_action": "Do not repeat unchanged passing builds. Review actual engine save/load with compatible info counts/order, attitude-cache coherence, XML/default/copy/cache behavior and malformed/comment/cursor paths; retain all prior scoped fixes and exact native evidence.",
+      "next_action": "Review actual XML/schema/default/copy/parser behavior, attitude-cache coherence and fresh-game save/reload. XML file-cache round-trip work is conditional on enabling ENABLE_XML_FILE_CACHE; do not repeat unchanged passing builds.",
       "refinement_branch": "VoteCounterDraft-ChatGPT",
       "draft_code_sha": "6d6e73b10343f277481da186013426be702ce00a",
       "finding_ids": [
@@ -3790,7 +3803,20 @@
         "new_tests": false,
         "new_DLL_build": false,
         "runtime_save_validation_policy": "save_runtime_validation_policy",
-        "qualification": "Source inspection only; no real XML parser, info-cache execution, gameplay or fresh-game save/reload. No hypothetical old feature saves are required."
+        "qualification": "Source inspection only; no real XML parser, info-cache execution, gameplay or fresh-game save/reload. No hypothetical old feature saves are required.",
+        "configuration_followup": "ENABLE_XML_FILE_CACHE=0 verified; absent feature cache serialization is inactive in current configuration."
+      },
+      "XML_file_cache_configuration": {
+        "date": "2026-11-01",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "reviewed_assistant_head": "2f0d6003b4397820753b13b18e12ff5863eaab16",
+        "macro": "ENABLE_XML_FILE_CACHE",
+        "value": 0,
+        "location": "CvGameCoreDLL/CvInfo_Base.h:12",
+        "baseline_and_selected_blob": "7a7758a5622c977358ac8b1b079ecee5a03124f7",
+        "load_path": "CvXMLLoadUtilitySet.cpp:1365–1390 excludes cache creation/read and takes LoadCivXml under #else.",
+        "disposition": "Disabled XML file cache is not a current-build runtime validation blocker. Audit cache serialization and pending staging lifecycle only if this compile-time option is enabled.",
+        "qualification": "Does not certify real XML/schema loading, in-memory attitude caches, gameplay or new-game save/reload. No source edits or rebuild."
       }
     },
     {
@@ -5029,8 +5055,8 @@
     "date": "2026-11-01",
     "branch_count": 75,
     "original_head_changes": [],
-    "scope": "Vote leader metadata ownership, staged finalization and conditional leader-info cache coverage.",
-    "assistant_parent": "a4bf7f3e4516d135b18872fca3d6ff2d3c0080a2"
+    "scope": "Resolve vote XML-file-cache configuration uncertainty against actual baseline-identical header and loader guards.",
+    "assistant_parent": "2f0d6003b4397820753b13b18e12ff5863eaab16"
   },
   "inventory_2026_10_31_native_failure_review": [
     {
@@ -7533,6 +7559,23 @@
       "new_DLL_build": false,
       "runtime_save_validation_policy": "save_runtime_validation_policy",
       "qualification": "Source inspection only; no real XML parser, info-cache execution, gameplay or fresh-game save/reload. No hypothetical old feature saves are required."
+    },
+    "stop_gate_satisfied": false
+  },
+  "inventory_2026_11_01_vote_cache_configuration": {
+    "branch_count": 75,
+    "changed_user_owned_source_heads": [],
+    "review": {
+      "date": "2026-11-01",
+      "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "reviewed_assistant_head": "2f0d6003b4397820753b13b18e12ff5863eaab16",
+      "macro": "ENABLE_XML_FILE_CACHE",
+      "value": 0,
+      "location": "CvGameCoreDLL/CvInfo_Base.h:12",
+      "baseline_and_selected_blob": "7a7758a5622c977358ac8b1b079ecee5a03124f7",
+      "load_path": "CvXMLLoadUtilitySet.cpp:1365–1390 excludes cache creation/read and takes LoadCivXml under #else.",
+      "disposition": "Disabled XML file cache is not a current-build runtime validation blocker. Audit cache serialization and pending staging lifecycle only if this compile-time option is enabled.",
+      "qualification": "Does not certify real XML/schema loading, in-memory attitude caches, gameplay or new-game save/reload. No source edits or rebuild."
     },
     "stop_gate_satisfied": false
   }
