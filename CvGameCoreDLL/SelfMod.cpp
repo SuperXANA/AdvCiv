@@ -658,6 +658,10 @@ void Civ4BeyondSwordPatches::setHelpTextAreaSize(float fWidth)
 void Civ4BeyondSwordPatches::patchSidSays()
 {
 	// Diagnostic draft: leave the success flag false until exact UI sites are verified.
+	// XANA: 10-31-2026 Claim the attempt before scanning or showing UI (ChatGPT)
+	if (m_bSidSaysDiscoveryDone)
+		return;
+	m_bSidSaysDiscoveryDone = true;
 	if (GC.getDefineBOOL("DISABLE_EXE_RUNTIME_MODS"))
 		return;
 	SidSaysLocator().inspect();

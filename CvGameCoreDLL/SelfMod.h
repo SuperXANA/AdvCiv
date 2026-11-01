@@ -16,11 +16,14 @@ public:
 	// </advc.092c>
 	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
 	void patchSidSays();
+	void resetSidSaysDiscovery() { m_bSidSaysDiscoveryDone = false; }
+	bool isSidSaysDiscoveryDone() const { return m_bSidSaysDiscoveryDone; }
 	bool isSidSaysPatched() const { return m_bSidSaysPatched; }
 	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
 	
 	Civ4BeyondSwordPatches()
 	:	m_bPlotIndicatorSizePatched(false), m_fHelpTextAreaWidth(0), m_bSidSaysPatched(false) // XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
+	, m_bSidSaysDiscoveryDone(false) // XANA: 10-31-2026 CvGame-controlled discovery state (ChatGPT)
 	{}
 
 private:
@@ -28,6 +31,7 @@ private:
 	float m_fHelpTextAreaWidth; // advc.092c
 	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
 	bool m_bSidSaysPatched;
+	bool m_bSidSaysDiscoveryDone; // XANA: 10-31-2026 CvGame-controlled discovery state (ChatGPT)
 	// XANA: 10-27-2026 Solais a Tuath Strategy Entry "Sol Says" Patch
 	void showErrorMsgToPlayer(CvWString szMsg);
 };

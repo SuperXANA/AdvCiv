@@ -141,15 +141,19 @@ int main() {
     for (size_t i = 0; i < 200; ++i) label(0x1000 + 20 * i, "Sid Says:");
     assert(SidSaysLocator().inspect()); assert(count("Candidate RVA=") == 128);
     setup(); Civ4BeyondSwordPatches patches; GC.disabled = true;
-    patches.patchSidSays(); assert(!patches.isSidSaysPatched() && reads == 0 && fakeDLL.logs.empty());
+    patches.patchSidSays(); assert(patches.isSidSaysDiscoveryDone() && !patches.isSidSaysPatched() && reads == 0 && fakeDLL.logs.empty());
+    patches.patchSidSays(); assert(reads == 0);
+    patches.resetSidSaysDiscovery(); assert(!patches.isSidSaysDiscoveryDone());
     GC.disabled = false; before = image; patches.patchSidSays();
-    assert(!patches.isSidSaysPatched() && image == before && playerErrors.size() == 1);
+    assert(patches.isSidSaysDiscoveryDone() && !patches.isSidSaysPatched() && image == before && playerErrors.size() == 1);
+    size_t const firstReads = reads; patches.patchSidSays(); assert(reads == firstReads && playerErrors.size() == 1);
+    patches.resetSidSaysDiscovery(); patches.patchSidSays(); assert(reads > firstReads && playerErrors.size() == 2);
 }
 '''
 with tempfile.TemporaryDirectory() as directory:
     cpp, binary = Path(directory) / 'discovery.cpp', Path(directory) / 'discovery'
     cpp.write_text(stub + '\n' + header.replace('#pragma once', '') + '\n' + locator + '\n' + entry + '\n' + checks)
-    subprocess.run(['g++', '-std=c++03', '-Wall', '-Wextra', '-Werror', '-pedantic',
+    subprocess.run(['g++', '-std=c++03', '-fno-exceptions', '-Wall', '-Wextra', '-Werror', '-pedantic',
                     '-fsanitize=address,undefined', '-fno-omit-frame-pointer',
                     str(cpp), '-o', str(binary)], check=True)
     subprocess.run([str(binary)], check=True, env=dict(os.environ,
