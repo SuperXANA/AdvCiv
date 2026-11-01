@@ -1,0 +1,68 @@
+{
+  "review_date": "2026-11-01",
+  "source": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+  "assistant_parent": "cf8468d0badd364618005ec9cfc23f8b9cf3993f",
+  "selected_source": "3576901a3a6c78fbc1116eb28a30746f5682bef9",
+  "tested_commit": "63a04fb1f1f4f03f30cfb995e4f5bf3afd218c46",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+  "run": 41274710844,
+  "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41274710844",
+  "Release_Debug_completed_successfully": true,
+  "compiler_probe_verified_both": "_MSC_VER == 1310 (MSVC 7.1)",
+  "all_four_ZIPs_downloaded_extracted": true,
+  "archive_metadata_size_and_SHA256_verified": true,
+  "actual_MSBuild_Build_logs_inspected": true,
+  "actual_BuildTiming_logs_inspected": true,
+  "source_manifest_count": 349,
+  "actual_equals_expected_sources": true,
+  "empty_hash_diffs": true,
+  "changed_memory_header_and_preserved_globals_header_independently_hashed": true,
+  "Release": {
+    "configuration": "Release",
+    "binary_artifact": 13071286201,
+    "diagnostics_artifact": 13070577778,
+    "root_sources": 349,
+    "manifest_sha256": "6cfead84d0080c5673c78767ef4248131e735861c44c56807d223c80c9d3d875",
+    "warnings": 0,
+    "errors": 0,
+    "dll_bytes": 6565888,
+    "dll_sha256": "a404a4c72db79b1b033e2df73e036033140185ab5cb8c25bdaffdc3d8cd42c27",
+    "PE": "PE32 x86 DLL",
+    "timing": [
+      "vm_utc_before=2026-11-01T04:51:58.1336941Z",
+      "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+      "normalized_source_utc=2026-11-01T04:51:56.1180703Z",
+      "precompile_utc_after=2026-11-01T04:51:56.1180703Z"
+    ]
+  },
+  "Debug": {
+    "configuration": "Debug",
+    "binary_artifact": 13071066282,
+    "diagnostics_artifact": 13070387518,
+    "root_sources": 349,
+    "manifest_sha256": "6cfead84d0080c5673c78767ef4248131e735861c44c56807d223c80c9d3d875",
+    "warnings": 0,
+    "errors": 0,
+    "dll_bytes": 25194496,
+    "dll_sha256": "90e4eb54e2816aed3df2002e8947a9b9cb9e74dfc2e42034123d2af487f576f4",
+    "PE": "PE32 x86 DLL",
+    "timing": [
+      "vm_utc_before=2026-11-01T04:54:58.0868208Z",
+      "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+      "normalized_source_utc=2026-11-01T04:54:56.0868208Z",
+      "precompile_utc_after=2026-11-01T04:54:56.0868208Z"
+    ],
+    "pdb_identity": {
+      "format": "RSDS",
+      "guid": "3dcd862b-6615-4015-8722-814e5f48a3b8",
+      "age": 1
+    },
+    "pdb_bytes": 70642688,
+    "pdb_sha256": "1ad305574c249784f6eb43040cdbd0bba3a4889353e0d7291c90c63dc9b2453d"
+  },
+  "native_template_execution": false,
+  "engine_allocator_and_game_execution": false,
+  "host_header_cases": 115,
+  "host_flags": "C++03 -fno-exceptions warnings-as-errors; normal and ASan/UBSan; LSan disabled"
+}

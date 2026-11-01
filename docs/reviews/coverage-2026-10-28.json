@@ -186,16 +186,17 @@
     {
       "branch": "CodeMacroHelpers",
       "head_at_inventory": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
-      "coverage": "source_scoped_enum_optional_sentinel_compatibility_corrected",
+      "coverage": "scoped_2D_deletion_argument_capture_and_lifetime_corrected",
       "native_verification": "linked_corrected_assistant_Release_Debug_verified_original_not_built",
-      "next_action": "Review remaining SAFE_DELETE_2D_ARRAY helper behavior, actual XML/global-map reload integration and gameplay; do not repeat unchanged successful DLL builds.",
+      "next_action": "Review changed source or remaining utility/global-map integration and actual engine consumers. Keep prior enum-sentinel and deletion regressions; do not repeat unchanged passing DLL builds.",
       "refinement_branch": "CodeMacroHelpersBuild-ChatGPT",
-      "tested_code_sha": "04ef4c9a5bc91308c1dbef5af3a9004f117fb535",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41270728749",
-      "qualification": "Actual Release/Debug MSBuild logs zero warnings/errors; all four ZIPs downloaded/extracted with archive metadata hashes/sizes verified, 349-file manifests/pins match, PE32 x86 DLLs and matching Debug PDB verified. Sentinel fixture passes 240 conversions per normal/assert configuration plus existing regressions under C++03 -fno-exceptions and ASan/UBSan; game/XML/global-map behavior remains unexecuted.",
+      "tested_code_sha": "63a04fb1f1f4f03f30cfb995e4f5bf3afd218c46",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41274710844",
+      "qualification": "115 whole-header host deletion/lifetime/argument cases pass strict C++03 -fno-exceptions, normal and ASan/UBSan; old named-i count runtime defect reproduced. Full native DLL/header compilation passes MSVC7.1 Release/Debug zero warnings/errors; all four ZIPs, actual Build.log/timing, 349-file manifests/pins, PE32 binaries and Debug PDB identity verified. No production caller was invented; native template execution/engine allocator/game remains untested.",
       "reviewed_source_sha": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
       "finding_ids": [
-        "ENUMLOOKUP-20261031-01"
+        "ENUMLOOKUP-20261031-01",
+        "DELETE2D-20261101-01"
       ],
       "previous_native": {
         "tested_code_sha": "d857894158de6fa8aab25106a8518bb902a902c0",
@@ -203,7 +204,7 @@
         "qualification": "Prior Release result retained; no new verification of historical artifacts in this pass."
       },
       "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
-      "latest_review": "docs/reviews/enum-sentinels-2026-10-31.md",
+      "latest_review": "docs/reviews/delete2d-2026-11-01.md",
       "enum_sentinel_review": {
         "code_sha": "9187b83372c4086d4f3f1d34e10abd4f3097b0ac",
         "assistant_parent": "7880264054c6066e60bf862df848102e3105a680",
@@ -219,14 +220,15 @@
         "scope": "Actual proxy/declaration/macro lists; CvString, lookup results and concrete enum values are stand-ins. Baseline handler inspected separately."
       },
       "artifact_verification": {
-        "review_local_date": "2026-10-31",
-        "original_source": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
-        "selected_source": "9187b83372c4086d4f3f1d34e10abd4f3097b0ac",
-        "tested_commit": "04ef4c9a5bc91308c1dbef5af3a9004f117fb535",
+        "review_date": "2026-11-01",
+        "source": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+        "assistant_parent": "cf8468d0badd364618005ec9cfc23f8b9cf3993f",
+        "selected_source": "3576901a3a6c78fbc1116eb28a30746f5682bef9",
+        "tested_commit": "63a04fb1f1f4f03f30cfb995e4f5bf3afd218c46",
         "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
         "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
-        "run": 41270728749,
-        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41270728749",
+        "run": 41274710844,
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41274710844",
         "Release_Debug_completed_successfully": true,
         "compiler_probe_verified_both": "_MSC_VER == 1310 (MSVC 7.1)",
         "all_four_ZIPs_downloaded_extracted": true,
@@ -236,87 +238,180 @@
         "source_manifest_count": 349,
         "actual_equals_expected_sources": true,
         "empty_hash_diffs": true,
-        "CvGlobals_h_and_preserved_CvMemoryManager_h_independently_hashed": true,
+        "changed_memory_header_and_preserved_globals_header_independently_hashed": true,
         "Release": {
           "configuration": "Release",
-          "binary_artifact": 13068978301,
-          "diagnostics_artifact": 13068774388,
+          "binary_artifact": 13071286201,
+          "diagnostics_artifact": 13070577778,
           "root_sources": 349,
-          "manifest_sha256": "ce89936a9ec04dd96ca3ad1a03186f8f79032ca12026c415884ab197f30d0634",
+          "manifest_sha256": "6cfead84d0080c5673c78767ef4248131e735861c44c56807d223c80c9d3d875",
           "warnings": 0,
           "errors": 0,
           "dll_bytes": 6565888,
-          "dll_sha256": "7c0cb51ddf86bb1b8a486e5a386c8a0772514af8f959ab5368de4e7b4706f6d9",
+          "dll_sha256": "a404a4c72db79b1b033e2df73e036033140185ab5cb8c25bdaffdc3d8cd42c27",
           "PE": "PE32 x86 DLL",
           "timing": [
-            "vm_utc_before=2026-11-01T03:50:08.9930722Z",
+            "vm_utc_before=2026-11-01T04:51:58.1336941Z",
             "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
-            "normalized_source_utc=2026-11-01T03:50:06.9930722Z",
-            "precompile_utc_after=2026-11-01T03:50:06.9930722Z"
+            "normalized_source_utc=2026-11-01T04:51:56.1180703Z",
+            "precompile_utc_after=2026-11-01T04:51:56.1180703Z"
           ]
         },
         "Debug": {
           "configuration": "Debug",
-          "binary_artifact": 13069211745,
-          "diagnostics_artifact": 13069281476,
+          "binary_artifact": 13071066282,
+          "diagnostics_artifact": 13070387518,
           "root_sources": 349,
-          "manifest_sha256": "ce89936a9ec04dd96ca3ad1a03186f8f79032ca12026c415884ab197f30d0634",
+          "manifest_sha256": "6cfead84d0080c5673c78767ef4248131e735861c44c56807d223c80c9d3d875",
           "warnings": 0,
           "errors": 0,
           "dll_bytes": 25194496,
-          "dll_sha256": "e2566ffdafad15fb688a0cedfcee8224612244617214cbfcbb566da2f27cd93d",
+          "dll_sha256": "90e4eb54e2816aed3df2002e8947a9b9cb9e74dfc2e42034123d2af487f576f4",
           "PE": "PE32 x86 DLL",
           "timing": [
-            "vm_utc_before=2026-11-01T03:52:53.9149442Z",
+            "vm_utc_before=2026-11-01T04:54:58.0868208Z",
             "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
-            "normalized_source_utc=2026-11-01T03:52:51.9149442Z",
-            "precompile_utc_after=2026-11-01T03:52:51.9149442Z"
+            "normalized_source_utc=2026-11-01T04:54:56.0868208Z",
+            "precompile_utc_after=2026-11-01T04:54:56.0868208Z"
           ],
           "pdb_identity": {
             "format": "RSDS",
-            "guid": "ece69d07-5aac-4c13-b977-314a3afc94e1",
+            "guid": "3dcd862b-6615-4015-8722-814e5f48a3b8",
             "age": 1
           },
           "pdb_bytes": 70642688,
-          "pdb_sha256": "75e950a79ea46f1a64152997cce1c5ee73ec38c485f39cbb92397c6e8ef9c93e"
+          "pdb_sha256": "1ad305574c249784f6eb43040cdbd0bba3a4889353e0d7291c90c63dc9b2453d"
         },
-        "live_game_or_XML_execution": false
+        "native_template_execution": false,
+        "engine_allocator_and_game_execution": false,
+        "host_header_cases": 115,
+        "host_flags": "C++03 -fno-exceptions warnings-as-errors; normal and ASan/UBSan; LSan disabled"
       },
       "artifacts": {
-        "Release": 13068978301,
-        "Debug": 13069211745
+        "Release": 13071286201,
+        "Debug": 13071066282
       },
       "hash_diagnostics": {
-        "Release": 13068774388,
-        "Debug": 13069281476
+        "Release": 13070577778,
+        "Debug": 13070387518
       },
       "native_configurations": [
         "Release",
         "Debug"
       ],
-      "compiler": "_MSC_VER == 1310"
+      "compiler": "_MSC_VER == 1310",
+      "native_validation_history": [
+        {
+          "tested_commit": "04ef4c9a5bc91308c1dbef5af3a9004f117fb535",
+          "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41270728749",
+          "artifacts": {
+            "Release": 13068978301,
+            "Debug": 13069211745
+          },
+          "artifact_verification": {
+            "review_local_date": "2026-10-31",
+            "original_source": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+            "selected_source": "9187b83372c4086d4f3f1d34e10abd4f3097b0ac",
+            "tested_commit": "04ef4c9a5bc91308c1dbef5af3a9004f117fb535",
+            "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+            "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+            "run": 41270728749,
+            "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41270728749",
+            "Release_Debug_completed_successfully": true,
+            "compiler_probe_verified_both": "_MSC_VER == 1310 (MSVC 7.1)",
+            "all_four_ZIPs_downloaded_extracted": true,
+            "archive_metadata_size_and_SHA256_verified": true,
+            "actual_MSBuild_Build_logs_inspected": true,
+            "actual_BuildTiming_logs_inspected": true,
+            "source_manifest_count": 349,
+            "actual_equals_expected_sources": true,
+            "empty_hash_diffs": true,
+            "CvGlobals_h_and_preserved_CvMemoryManager_h_independently_hashed": true,
+            "Release": {
+              "configuration": "Release",
+              "binary_artifact": 13068978301,
+              "diagnostics_artifact": 13068774388,
+              "root_sources": 349,
+              "manifest_sha256": "ce89936a9ec04dd96ca3ad1a03186f8f79032ca12026c415884ab197f30d0634",
+              "warnings": 0,
+              "errors": 0,
+              "dll_bytes": 6565888,
+              "dll_sha256": "7c0cb51ddf86bb1b8a486e5a386c8a0772514af8f959ab5368de4e7b4706f6d9",
+              "PE": "PE32 x86 DLL",
+              "timing": [
+                "vm_utc_before=2026-11-01T03:50:08.9930722Z",
+                "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+                "normalized_source_utc=2026-11-01T03:50:06.9930722Z",
+                "precompile_utc_after=2026-11-01T03:50:06.9930722Z"
+              ]
+            },
+            "Debug": {
+              "configuration": "Debug",
+              "binary_artifact": 13069211745,
+              "diagnostics_artifact": 13069281476,
+              "root_sources": 349,
+              "manifest_sha256": "ce89936a9ec04dd96ca3ad1a03186f8f79032ca12026c415884ab197f30d0634",
+              "warnings": 0,
+              "errors": 0,
+              "dll_bytes": 25194496,
+              "dll_sha256": "e2566ffdafad15fb688a0cedfcee8224612244617214cbfcbb566da2f27cd93d",
+              "PE": "PE32 x86 DLL",
+              "timing": [
+                "vm_utc_before=2026-11-01T03:52:53.9149442Z",
+                "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+                "normalized_source_utc=2026-11-01T03:52:51.9149442Z",
+                "precompile_utc_after=2026-11-01T03:52:51.9149442Z"
+              ],
+              "pdb_identity": {
+                "format": "RSDS",
+                "guid": "ece69d07-5aac-4c13-b977-314a3afc94e1",
+                "age": 1
+              },
+              "pdb_bytes": 70642688,
+              "pdb_sha256": "75e950a79ea46f1a64152997cce1c5ee73ec38c485f39cbb92397c6e8ef9c93e"
+            },
+            "live_game_or_XML_execution": false
+          },
+          "scope": "Prior enum optional-name correction; preserved unchanged by deletion-helper work."
+        }
+      ],
+      "delete2d_review": {
+        "source_sha": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+        "assistant_parent": "cf8468d0badd364618005ec9cfc23f8b9cf3993f",
+        "code_sha": "3576901a3a6c78fbc1116eb28a30746f5682bef9",
+        "source_file": "CvGameCoreDLL/CvMemoryManager.h",
+        "cases": 115,
+        "whole_actual_header": true,
+        "old_named_i_count_runtime_failure_reproduced": true,
+        "Cpp03_fno_exceptions_warnings_as_errors": true,
+        "ASan_UBSan": true,
+        "LSan": false,
+        "actual_engine_allocator_or_DLL_execution": false,
+        "valid_input_contract": "Actual nonnegative int row count and matching delete[] allocations; argument evaluation order unspecified."
+      }
     },
     {
       "branch": "CodeMacroHelpersBuild-ChatGPT",
-      "head_at_inventory": "04ef4c9a5bc91308c1dbef5af3a9004f117fb535",
-      "coverage": "source_scoped_enum_optional_sentinel_compatibility_corrected",
+      "head_at_inventory": "63a04fb1f1f4f03f30cfb995e4f5bf3afd218c46",
+      "coverage": "scoped_2D_deletion_argument_capture_and_lifetime_corrected",
       "native_verification": "exact_overlay_Release_Debug_passed_all_artifacts_logs_hashes_symbols_verified",
-      "next_action": "Review remaining SAFE_DELETE_2D_ARRAY helper behavior, actual XML/global-map reload integration and gameplay; do not repeat unchanged successful DLL builds.",
+      "next_action": "Review changed source or remaining utility/global-map integration and actual engine consumers. Keep prior enum-sentinel and deletion regressions; do not repeat unchanged passing DLL builds.",
       "source_branch": "CodeMacroHelpers",
-      "tested_code_sha": "04ef4c9a5bc91308c1dbef5af3a9004f117fb535",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41270728749",
+      "tested_code_sha": "63a04fb1f1f4f03f30cfb995e4f5bf3afd218c46",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41274710844",
       "last_head_review": {
-        "classification": "optional_enum_sentinel_compatibility",
+        "classification": "2D_deletion_macro_capture",
         "production_changes": true,
         "source_reviewed": true,
         "artifact_verification_complete": true
       },
       "reviewed_source_sha": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
-      "reviewed_assistant_head": "04ef4c9a5bc91308c1dbef5af3a9004f117fb535",
+      "reviewed_assistant_head": "63a04fb1f1f4f03f30cfb995e4f5bf3afd218c46",
       "source_head": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
-      "source_code_sha": "9187b83372c4086d4f3f1d34e10abd4f3097b0ac",
+      "source_code_sha": "3576901a3a6c78fbc1116eb28a30746f5682bef9",
       "finding_ids": [
-        "ENUMLOOKUP-20261031-01"
+        "ENUMLOOKUP-20261031-01",
+        "DELETE2D-20261101-01"
       ],
       "previous_native": {
         "tested_code_sha": "d857894158de6fa8aab25106a8518bb902a902c0",
@@ -324,7 +419,7 @@
         "qualification": "Prior Release result retained; no new verification of historical artifacts in this pass."
       },
       "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
-      "latest_review": "docs/reviews/enum-sentinels-2026-10-31.md",
+      "latest_review": "docs/reviews/delete2d-2026-11-01.md",
       "enum_sentinel_review": {
         "code_sha": "9187b83372c4086d4f3f1d34e10abd4f3097b0ac",
         "assistant_parent": "7880264054c6066e60bf862df848102e3105a680",
@@ -339,16 +434,17 @@
         "game_execution": false,
         "scope": "Actual proxy/declaration/macro lists; CvString, lookup results and concrete enum values are stand-ins. Baseline handler inspected separately."
       },
-      "qualification": "Actual Release/Debug MSBuild logs zero warnings/errors; all four ZIPs downloaded/extracted with archive metadata hashes/sizes verified, 349-file manifests/pins match, PE32 x86 DLLs and matching Debug PDB verified. Sentinel fixture passes 240 conversions per normal/assert configuration plus existing regressions under C++03 -fno-exceptions and ASan/UBSan; game/XML/global-map behavior remains unexecuted.",
+      "qualification": "115 whole-header host deletion/lifetime/argument cases pass strict C++03 -fno-exceptions, normal and ASan/UBSan; old named-i count runtime defect reproduced. Full native DLL/header compilation passes MSVC7.1 Release/Debug zero warnings/errors; all four ZIPs, actual Build.log/timing, 349-file manifests/pins, PE32 binaries and Debug PDB identity verified. No production caller was invented; native template execution/engine allocator/game remains untested.",
       "artifact_verification": {
-        "review_local_date": "2026-10-31",
-        "original_source": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
-        "selected_source": "9187b83372c4086d4f3f1d34e10abd4f3097b0ac",
-        "tested_commit": "04ef4c9a5bc91308c1dbef5af3a9004f117fb535",
+        "review_date": "2026-11-01",
+        "source": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+        "assistant_parent": "cf8468d0badd364618005ec9cfc23f8b9cf3993f",
+        "selected_source": "3576901a3a6c78fbc1116eb28a30746f5682bef9",
+        "tested_commit": "63a04fb1f1f4f03f30cfb995e4f5bf3afd218c46",
         "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
         "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
-        "run": 41270728749,
-        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41270728749",
+        "run": 41274710844,
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41274710844",
         "Release_Debug_completed_successfully": true,
         "compiler_probe_verified_both": "_MSC_VER == 1310 (MSVC 7.1)",
         "all_four_ZIPs_downloaded_extracted": true,
@@ -358,65 +454,163 @@
         "source_manifest_count": 349,
         "actual_equals_expected_sources": true,
         "empty_hash_diffs": true,
-        "CvGlobals_h_and_preserved_CvMemoryManager_h_independently_hashed": true,
+        "changed_memory_header_and_preserved_globals_header_independently_hashed": true,
         "Release": {
           "configuration": "Release",
-          "binary_artifact": 13068978301,
-          "diagnostics_artifact": 13068774388,
+          "binary_artifact": 13071286201,
+          "diagnostics_artifact": 13070577778,
           "root_sources": 349,
-          "manifest_sha256": "ce89936a9ec04dd96ca3ad1a03186f8f79032ca12026c415884ab197f30d0634",
+          "manifest_sha256": "6cfead84d0080c5673c78767ef4248131e735861c44c56807d223c80c9d3d875",
           "warnings": 0,
           "errors": 0,
           "dll_bytes": 6565888,
-          "dll_sha256": "7c0cb51ddf86bb1b8a486e5a386c8a0772514af8f959ab5368de4e7b4706f6d9",
+          "dll_sha256": "a404a4c72db79b1b033e2df73e036033140185ab5cb8c25bdaffdc3d8cd42c27",
           "PE": "PE32 x86 DLL",
           "timing": [
-            "vm_utc_before=2026-11-01T03:50:08.9930722Z",
+            "vm_utc_before=2026-11-01T04:51:58.1336941Z",
             "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
-            "normalized_source_utc=2026-11-01T03:50:06.9930722Z",
-            "precompile_utc_after=2026-11-01T03:50:06.9930722Z"
+            "normalized_source_utc=2026-11-01T04:51:56.1180703Z",
+            "precompile_utc_after=2026-11-01T04:51:56.1180703Z"
           ]
         },
         "Debug": {
           "configuration": "Debug",
-          "binary_artifact": 13069211745,
-          "diagnostics_artifact": 13069281476,
+          "binary_artifact": 13071066282,
+          "diagnostics_artifact": 13070387518,
           "root_sources": 349,
-          "manifest_sha256": "ce89936a9ec04dd96ca3ad1a03186f8f79032ca12026c415884ab197f30d0634",
+          "manifest_sha256": "6cfead84d0080c5673c78767ef4248131e735861c44c56807d223c80c9d3d875",
           "warnings": 0,
           "errors": 0,
           "dll_bytes": 25194496,
-          "dll_sha256": "e2566ffdafad15fb688a0cedfcee8224612244617214cbfcbb566da2f27cd93d",
+          "dll_sha256": "90e4eb54e2816aed3df2002e8947a9b9cb9e74dfc2e42034123d2af487f576f4",
           "PE": "PE32 x86 DLL",
           "timing": [
-            "vm_utc_before=2026-11-01T03:52:53.9149442Z",
+            "vm_utc_before=2026-11-01T04:54:58.0868208Z",
             "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
-            "normalized_source_utc=2026-11-01T03:52:51.9149442Z",
-            "precompile_utc_after=2026-11-01T03:52:51.9149442Z"
+            "normalized_source_utc=2026-11-01T04:54:56.0868208Z",
+            "precompile_utc_after=2026-11-01T04:54:56.0868208Z"
           ],
           "pdb_identity": {
             "format": "RSDS",
-            "guid": "ece69d07-5aac-4c13-b977-314a3afc94e1",
+            "guid": "3dcd862b-6615-4015-8722-814e5f48a3b8",
             "age": 1
           },
           "pdb_bytes": 70642688,
-          "pdb_sha256": "75e950a79ea46f1a64152997cce1c5ee73ec38c485f39cbb92397c6e8ef9c93e"
+          "pdb_sha256": "1ad305574c249784f6eb43040cdbd0bba3a4889353e0d7291c90c63dc9b2453d"
         },
-        "live_game_or_XML_execution": false
+        "native_template_execution": false,
+        "engine_allocator_and_game_execution": false,
+        "host_header_cases": 115,
+        "host_flags": "C++03 -fno-exceptions warnings-as-errors; normal and ASan/UBSan; LSan disabled"
       },
       "artifacts": {
-        "Release": 13068978301,
-        "Debug": 13069211745
+        "Release": 13071286201,
+        "Debug": 13071066282
       },
       "hash_diagnostics": {
-        "Release": 13068774388,
-        "Debug": 13069281476
+        "Release": 13070577778,
+        "Debug": 13070387518
       },
       "native_configurations": [
         "Release",
         "Debug"
       ],
-      "compiler": "_MSC_VER == 1310"
+      "compiler": "_MSC_VER == 1310",
+      "last_inventory_followup": {
+        "date": "2026-11-01",
+        "previous_recorded_head": "04ef4c9a5bc91308c1dbef5af3a9004f117fb535",
+        "classification": "prior_enum_sentinel_report_publication_only",
+        "current_head": "cf8468d0badd364618005ec9cfc23f8b9cf3993f"
+      },
+      "native_validation_history": [
+        {
+          "tested_commit": "04ef4c9a5bc91308c1dbef5af3a9004f117fb535",
+          "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41270728749",
+          "artifacts": {
+            "Release": 13068978301,
+            "Debug": 13069211745
+          },
+          "artifact_verification": {
+            "review_local_date": "2026-10-31",
+            "original_source": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+            "selected_source": "9187b83372c4086d4f3f1d34e10abd4f3097b0ac",
+            "tested_commit": "04ef4c9a5bc91308c1dbef5af3a9004f117fb535",
+            "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+            "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+            "run": 41270728749,
+            "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41270728749",
+            "Release_Debug_completed_successfully": true,
+            "compiler_probe_verified_both": "_MSC_VER == 1310 (MSVC 7.1)",
+            "all_four_ZIPs_downloaded_extracted": true,
+            "archive_metadata_size_and_SHA256_verified": true,
+            "actual_MSBuild_Build_logs_inspected": true,
+            "actual_BuildTiming_logs_inspected": true,
+            "source_manifest_count": 349,
+            "actual_equals_expected_sources": true,
+            "empty_hash_diffs": true,
+            "CvGlobals_h_and_preserved_CvMemoryManager_h_independently_hashed": true,
+            "Release": {
+              "configuration": "Release",
+              "binary_artifact": 13068978301,
+              "diagnostics_artifact": 13068774388,
+              "root_sources": 349,
+              "manifest_sha256": "ce89936a9ec04dd96ca3ad1a03186f8f79032ca12026c415884ab197f30d0634",
+              "warnings": 0,
+              "errors": 0,
+              "dll_bytes": 6565888,
+              "dll_sha256": "7c0cb51ddf86bb1b8a486e5a386c8a0772514af8f959ab5368de4e7b4706f6d9",
+              "PE": "PE32 x86 DLL",
+              "timing": [
+                "vm_utc_before=2026-11-01T03:50:08.9930722Z",
+                "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+                "normalized_source_utc=2026-11-01T03:50:06.9930722Z",
+                "precompile_utc_after=2026-11-01T03:50:06.9930722Z"
+              ]
+            },
+            "Debug": {
+              "configuration": "Debug",
+              "binary_artifact": 13069211745,
+              "diagnostics_artifact": 13069281476,
+              "root_sources": 349,
+              "manifest_sha256": "ce89936a9ec04dd96ca3ad1a03186f8f79032ca12026c415884ab197f30d0634",
+              "warnings": 0,
+              "errors": 0,
+              "dll_bytes": 25194496,
+              "dll_sha256": "e2566ffdafad15fb688a0cedfcee8224612244617214cbfcbb566da2f27cd93d",
+              "PE": "PE32 x86 DLL",
+              "timing": [
+                "vm_utc_before=2026-11-01T03:52:53.9149442Z",
+                "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+                "normalized_source_utc=2026-11-01T03:52:51.9149442Z",
+                "precompile_utc_after=2026-11-01T03:52:51.9149442Z"
+              ],
+              "pdb_identity": {
+                "format": "RSDS",
+                "guid": "ece69d07-5aac-4c13-b977-314a3afc94e1",
+                "age": 1
+              },
+              "pdb_bytes": 70642688,
+              "pdb_sha256": "75e950a79ea46f1a64152997cce1c5ee73ec38c485f39cbb92397c6e8ef9c93e"
+            },
+            "live_game_or_XML_execution": false
+          },
+          "scope": "Prior enum optional-name correction; preserved unchanged by deletion-helper work."
+        }
+      ],
+      "delete2d_review": {
+        "source_sha": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+        "assistant_parent": "cf8468d0badd364618005ec9cfc23f8b9cf3993f",
+        "code_sha": "3576901a3a6c78fbc1116eb28a30746f5682bef9",
+        "source_file": "CvGameCoreDLL/CvMemoryManager.h",
+        "cases": 115,
+        "whole_actual_header": true,
+        "old_named_i_count_runtime_failure_reproduced": true,
+        "Cpp03_fno_exceptions_warnings_as_errors": true,
+        "ASan_UBSan": true,
+        "LSan": false,
+        "actual_engine_allocator_or_DLL_execution": false,
+        "valid_input_contract": "Actual nonnegative int row count and matching delete[] allocations; argument evaluation order unspecified."
+      }
     },
     {
       "branch": "ColonyLeaderBuild-ChatGPT",
@@ -6342,6 +6536,18 @@
     ],
     "SidSays_authored_translation_followup": "be355c9ea45072238bd0df8ac0db67c1e7cbbf0b",
     "no_source_branch_or_baseline_mutation": true,
+    "stop_gate_satisfied": false,
+    "result": "Release_Debug_success_0_warnings_0_errors"
+  },
+  "inventory_2026_11_01_delete2d": {
+    "branch_count": 75,
+    "changed_user_owned_source_heads": [],
+    "source": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+    "assistant_code": "3576901a3a6c78fbc1116eb28a30746f5682bef9",
+    "tested_commit": "63a04fb1f1f4f03f30cfb995e4f5bf3afd218c46",
+    "run": 41274710844,
+    "scope": "Marked 2D deletion macro and exact helper/test correction; prior enum fix retained.",
+    "baseline_and_source_read_only": true,
     "stop_gate_satisfied": false,
     "result": "Release_Debug_success_0_warnings_0_errors"
   }

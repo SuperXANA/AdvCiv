@@ -66,3 +66,8 @@ the DLL's C/C++ compilation uses MSVC 7.1.
 ## Optional-name compatibility follow-up — 2026-10-31
 
 The [sentinel refinement](enum-sentinels-2026-10-31.md) preserves the baseline's silent NONE/empty-name handling in the assertion-enabled proxy while retaining ordinary wrong-prefix assertions. Focused regressions and a new exact Release/Debug DLL build pass; all four ZIPs, actual Build.log/timing files, source hashes/provenance and Debug symbol identity are verified in that report. Earlier build records above remain tied to their named revisions.
+
+
+## 2D deletion helper follow-up — 2026-11-01
+
+The [deletion-argument refinement](delete2d-2026-11-01.md) fixes caller-name capture and repeated evaluation in SAFE_DELETE_2D_ARRAY. The actual header passes 115 host cases plus ASan/UBSan. A new exact Release/Debug DLL build passes; actual archived Build.log/timing, source hashes/provenance, binaries and matching Debug symbols are verified. Native template execution and engine allocation behavior are not claimed. Earlier enum findings and build evidence remain preserved.
