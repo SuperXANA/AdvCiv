@@ -99,6 +99,12 @@
         "prototype_reviewed_head": "c02eea47ded87b403ad9e2d36ba1824a59c14e8c",
         "prototype_publication": "590fb06d83dd74da94c90d641de94cecbd76d677",
         "prototype_qualification": "Existing inactive-fixture test evidence consulted, not rerun or presented as DLL/game validation."
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "3520c1e04dbfce039a6dae97a9bd4f4d1a0e4f53",
+        "source_head": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+        "merge_base": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -151,6 +157,12 @@
         "classification": "documentation_only",
         "production_changes": false,
         "tested_code_sha_unchanged": true
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "b7cdc0447e3bba3da04fae6828ce64762e8370d6",
+        "source_head": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+        "merge_base": null,
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -610,6 +622,12 @@
         "LSan": false,
         "actual_engine_allocator_or_DLL_execution": false,
         "valid_input_contract": "Actual nonnegative int row count and matching delete[] allocations; argument evaluation order unspecified."
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "9d550b45636f342480d0adc113c769910e40f96f",
+        "source_head": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+        "merge_base": null,
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -625,6 +643,12 @@
         "classification": "documentation_only",
         "production_changes": false,
         "tested_code_sha_unchanged": true
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "d3c5e6aeb2c29606d10cfbb931205c709e01250b",
+        "source_head": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+        "merge_base": null,
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -845,7 +869,13 @@
       "next_action": "Retain draft/test evidence; pause feature completion and DLL attempts until original source head changes.",
       "review_disposition": "paused_with_missing_source_implementation",
       "skip_source_branch": "FFHEquipmentTypes",
-      "skip_source_sha": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5"
+      "skip_source_sha": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+      "merge_readiness_audit": {
+        "reviewed_head": "1fc3d59b0807904187fb8e24909e9d6e3b1d920d",
+        "source_head": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+        "merge_base": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+      }
     },
     {
       "branch": "FamilyRelationsBuild-ChatGPT",
@@ -947,7 +977,13 @@
         "qualification": "Historical run and exact related binaries verified; not a new build and not full validation under current Build.log/source-hash requirements. No live game/XML/save/multiplayer validation."
       },
       "latest_review": "docs/reviews/family-artifacts-2026-10-31.md",
-      "qualification": "Historical run and exact related binaries verified; not a new build and not full validation under current Build.log/source-hash requirements. No live game/XML/save/multiplayer validation."
+      "qualification": "Historical run and exact related binaries verified; not a new build and not full validation under current Build.log/source-hash requirements. No live game/XML/save/multiplayer validation.",
+      "merge_readiness_audit": {
+        "reviewed_head": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
+        "source_head": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+        "merge_base": null,
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+      }
     },
     {
       "branch": "FFHEquipmentTypes",
@@ -1007,6 +1043,12 @@
         "cpp_unchanged": true,
         "workflow_unchanged": true,
         "ci_skipped": true
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "9c7ff06e4c33ff822f5b112eacba8a1d4da5655a",
+        "source_head": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
+        "merge_base": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -1065,6 +1107,12 @@
         "classification": "documentation_only",
         "production_changes": false,
         "tested_code_sha_unchanged": true
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "cd3316f9b460d1962359833b3dc4fdb52b1d9f72",
+        "source_head": "c122a8c130b6e47760aade7d2d438c798dca8951",
+        "merge_base": null,
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -1167,6 +1215,12 @@
         "previous_recorded_head": "6aea3099138d7d00bbb260d540d81ac67caff6d8",
         "current_head": "db3c3e16dfcc892222559ff2b7c28e9d39a5ed40",
         "classification": "actual_version_23_counter_patch_matches_existing_recorded_review"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "db3c3e16dfcc892222559ff2b7c28e9d39a5ed40",
+        "source_head": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+        "merge_base": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -1866,6 +1920,12 @@
         "classification": "documentation_only",
         "production_changes": false,
         "tested_code_sha_unchanged": true
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "a2f01100680d037b72d4cc08e3661950cff5984e",
+        "source_head": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+        "merge_base": null,
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -1881,6 +1941,12 @@
         "classification": "documentation_only",
         "production_changes": false,
         "tested_code_sha_unchanged": true
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
+        "source_head": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+        "merge_base": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -1930,7 +1996,13 @@
         }
       },
       "previous_native_validation_attempt_note": "40783621740 attempt 1 succeeded; later attempt 2 cancelled. Historical successful evidence refers specifically to attempt 1.",
-      "run_attempt": 1
+      "run_attempt": 1,
+      "merge_readiness_audit": {
+        "reviewed_head": "4f38c94e2267543582ab88619a16a6b5a1b97513",
+        "source_head": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+        "merge_base": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+      }
     },
     {
       "branch": "PartnerLeaderCivSpecificDiplomacyText",
@@ -1969,7 +2041,13 @@
       "next_action": "Retain draft/test evidence; pause feature completion and DLL attempts until original source head changes.",
       "review_disposition": "paused_with_missing_source_implementation",
       "skip_source_branch": "CvPartyGroup",
-      "skip_source_sha": "c6b1b14d0263196c497d8dcf85da41982d5ec7af"
+      "skip_source_sha": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "merge_readiness_audit": {
+        "reviewed_head": "85e2d6f28e1c2e92d0cf3715c58d7979f1edf533",
+        "source_head": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+        "merge_base": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+      }
     },
     {
       "branch": "PerUnitCombatFreePromotionTraits",
@@ -2040,6 +2118,12 @@
         "previous_recorded_head": "deccf25b689cd34c355ee9094d64863a43c8701f",
         "current_head": "fea29629a5f5bd4c986591423cd69b78afe7f90c",
         "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "fea29629a5f5bd4c986591423cd69b78afe7f90c",
+        "source_head": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+        "merge_base": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -2353,6 +2437,12 @@
         "classification": "documentation_only",
         "production_changes": false,
         "tested_code_sha_unchanged": true
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+        "source_head": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+        "merge_base": null,
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -2377,6 +2467,12 @@
         "previous_recorded_head": "2151dc14537e057b35d218be161c6ef0ffec9ff7",
         "current_head": "45256362feb2b354410ba7d2f8efa23719c0344e",
         "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "45256362feb2b354410ba7d2f8efa23719c0344e",
+        "source_head": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+        "merge_base": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -2440,6 +2536,12 @@
         "classification": "documentation_only",
         "production_changes": false,
         "tested_code_sha_unchanged": true
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "6660adfd2883b8286c9fbd759f310b6da7dd4c86",
+        "source_head": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+        "merge_base": null,
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -2466,6 +2568,12 @@
         "classification": "documentation_only",
         "production_changes": false,
         "tested_code_sha_unchanged": true
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "bea54776ac0ace2dab02000ecd8c7f3e0d85ed66",
+        "source_head": "2be6010dc6787a717c851cd125e005010cf71450",
+        "merge_base": null,
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -2802,6 +2910,12 @@
         "DLL_changed": false,
         "game_execution": false,
         "commit": "be355c9ea45072238bd0df8ac0db67c1e7cbbf0b"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "be355c9ea45072238bd0df8ac0db67c1e7cbbf0b",
+        "source_head": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
+        "merge_base": "8c52c7e7b85cb574ee0494611a8931efb3b20d01",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -2962,7 +3076,13 @@
       "skip_source_sha": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
       "skip_reason": "Military/defection code requires CvUnit::isHero() and canFoundCity(), absent from pinned 1.14 and with no feature-supplied CvUnit implementation. Hero-classification integration is unspecified; do not import independent features, remove the explicit exclusion rule or invent it to obtain DLL validation.",
       "resume_condition": "Inspect a new original-source head supplying the missing unit/hero integration; preserve prior resolver/weights/catch-up/military refinements.",
-      "review_disposition": "paused_with_missing_source_implementation"
+      "review_disposition": "paused_with_missing_source_implementation",
+      "merge_readiness_audit": {
+        "reviewed_head": "9408469df1c280bc24db9aee750ac972bb77028b",
+        "source_head": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+        "merge_base": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+      }
     },
     {
       "branch": "UniqueCivicsReligions",
@@ -3065,6 +3185,12 @@
         "classification": "documentation_only",
         "production_changes": false,
         "tested_code_sha_unchanged": true
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "cb5e560613ea2bbc9c04c84f1888d2440028a6d5",
+        "source_head": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+        "merge_base": null,
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -3201,6 +3327,12 @@
         "previous_recorded_head": "2787283390994434207ca40c1784adbd64e64cb0",
         "current_head": "a4bf7f3e4516d135b18872fca3d6ff2d3c0080a2",
         "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "a4bf7f3e4516d135b18872fca3d6ff2d3c0080a2",
+        "source_head": "8fcfdd97329279393120aaab34c00dde84e729df",
+        "merge_base": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -3255,6 +3387,12 @@
         "previous_recorded_head": "89903b02c0c7ace0524a789de3426cd4cc4fe704",
         "current_head": "1ae7ec40153adafffa54d07ca325f059db3dff49",
         "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "1ae7ec40153adafffa54d07ca325f059db3dff49",
+        "source_head": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+        "merge_base": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -3350,6 +3488,12 @@
         "previous_recorded_head": "596f539981627e0373d557804f80410e248dc6c0",
         "current_head": "a7a1290aa2a0c125432dd60df5f4153294eead82",
         "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "a7a1290aa2a0c125432dd60df5f4153294eead82",
+        "source_head": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+        "merge_base": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -3417,6 +3561,12 @@
         "previous_recorded_head": "87cd9ba0c0fa3395077200999960c2c1cda061a4",
         "current_head": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
         "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
+        "source_head": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+        "merge_base": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -3619,6 +3769,12 @@
         "local_copy_cases": 6,
         "local_log_cases": 5,
         "local_hash_cases": 6
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "a13d837a06dc6f26508673e1ba242bc1c34b5296",
+        "source_head": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+        "merge_base": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -3638,6 +3794,12 @@
       "artifacts": {
         "Release": 12912668298,
         "Debug": 12913101878
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "dd773ace6f4650cde2d0fe495b5b82d5173be70f",
+        "source_head": "cc764ad80e89f751f809998a61a23225254109f2",
+        "merge_base": "cc764ad80e89f751f809998a61a23225254109f2",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -3684,6 +3846,12 @@
         "previous_recorded_head": "d103db3cc9e2ddb9f2b997364bfd8c899c04be33",
         "current_head": "5012475e85a727dd0417bbb1249fe845a3b9d321",
         "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "5012475e85a727dd0417bbb1249fe845a3b9d321",
+        "source_head": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+        "merge_base": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -3709,6 +3877,12 @@
         "previous_recorded_head": "54c845200c207cea5cab663df399ece52cc385ab",
         "current_head": "f159c2c47de9c8a3b2dca31f02e5abf513d20305",
         "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "f159c2c47de9c8a3b2dca31f02e5abf513d20305",
+        "source_head": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
+        "merge_base": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -3790,6 +3964,12 @@
         "previous_recorded_head": "341124017d7e5374b9948b0198364a4a702c6db2",
         "current_head": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
         "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
+        "source_head": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+        "merge_base": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -4022,6 +4202,12 @@
         "previous_recorded_head": "0c9a61c50e70378d4296ba556077a1d77517bf7e",
         "current_head": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
         "classification": "only_DLL_delta_restores_original_XANA_note_already_recorded"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+        "source_head": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+        "merge_base": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -4090,6 +4276,12 @@
         "previous_recorded_head": "f809096d101f8ddf4f155c5d89999237010f12d5",
         "current_head": "185a4a161d3a3e039e355236254a9fd8b44ff425",
         "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "185a4a161d3a3e039e355236254a9fd8b44ff425",
+        "source_head": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+        "merge_base": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -4111,6 +4303,12 @@
         "previous_recorded_head": "b031f2f2fb23fd7de7aed3901692f52753e4cd00",
         "current_head": "d8ea44e0240a03981769a2621f6fcbb4d521e90d",
         "classification": "DLL_and_workflow_tree_verified_identical_to_recorded_tested_commit"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "7e5e7a04a8cb2366c741ddc8003f13610d2abf60",
+        "source_head": "799082c323ea44335c66b9714e1a9bb365c12095",
+        "merge_base": "799082c323ea44335c66b9714e1a9bb365c12095",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     },
     {
@@ -4194,6 +4392,12 @@
         "previous_recorded_head": "4d4672665066214036fb57678e13a6b8990db2ec",
         "current_head": "6173663f4e80b96817b6d0c59ef7692a64e01648",
         "classification": "documentation_or_fixture_only_no_DLL_changes"
+      },
+      "merge_readiness_audit": {
+        "reviewed_head": "6173663f4e80b96817b6d0c59ef7692a64e01648",
+        "source_head": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+        "merge_base": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+        "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
       }
     }
   ],
@@ -6550,5 +6754,21 @@
     "baseline_and_source_read_only": true,
     "stop_gate_satisfied": false,
     "result": "Release_Debug_success_0_warnings_0_errors"
+  },
+  "merge_readiness_2026_11_01": {
+    "pairs": 34,
+    "unrelated_history_pairs": 10,
+    "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+    "report": "docs/reviews/merge-readiness-2026-11-01.md",
+    "evidence": "docs/reviews/merge-readiness-2026-11-01.json",
+    "new_builds": false,
+    "user_branch_mutations": false,
+    "new_consolidations_required": false,
+    "scope": "Structural merge audit for every extant mapped assistant branch; targeted code review on CodeMacroHelpers and SidSays, prior source coverage retained. No user branch modified. No build triggered.",
+    "finding_ids": [
+      "MERGE-20261101-01",
+      "MERGE-20261101-02",
+      "MERGE-20261101-03"
+    ]
   }
 }

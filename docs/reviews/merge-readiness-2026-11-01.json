@@ -1,0 +1,788 @@
+{
+  "date": "2026-11-01",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "rows": [
+    {
+      "assistant": "AISurvivorSQLiteBuild-ChatGPT",
+      "assistant_sha": "3520c1e04dbfce039a6dae97a9bd4f4d1a0e4f53",
+      "user": "AISurvivorStatTracking",
+      "user_sha": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+      "merge_base": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+      "assistant_only_files": 887,
+      "baseline_identical_assistant_only_files": 868,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvDatabaseFwd.h",
+        "CvGameCoreDLL/CvDatabaseManager.cpp",
+        "CvGameCoreDLL/CvDatabaseManager.h",
+        "CvGameCoreDLL/CvDatabaseQuery.cpp",
+        "CvGameCoreDLL/CvGame.cpp",
+        "CvGameCoreDLL/CvGlobals.cpp",
+        "CvGameCoreDLL/CvGlobals.h",
+        "CvGameCoreDLL/SQLiteConnection.cpp",
+        "CvGameCoreDLL/SQLiteConnection.h",
+        "CvGameCoreDLL/SQLiteStatement.cpp",
+        "CvGameCoreDLL/SQLiteStatement.h",
+        "CvGameCoreDLL/SQLiteTransaction.cpp",
+        "CvGameCoreDLL/SQLiteTransaction.h",
+        "CvGameCoreDLL/SQLiteValue.h"
+      ],
+      "source_only_files": [],
+      "native_status": "linked_build_commit_passed",
+      "tested_code_sha": "d31ca516d41e15ffd76a8a4a9807c58dc9d0c741",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40538272885",
+      "prior_next_action": "Review future changed source or actual consuming integration. Keep production schema version zero until identity/replay/authority/migration and schema contracts are supplied; no unchanged rebuild for inactive fixture or explicit-exception audit.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "CityBonusDiplomacyBuild-ChatGPT",
+      "assistant_sha": "b7cdc0447e3bba3da04fae6828ce64762e8370d6",
+      "user": "CityBonusLeaderDiplomacyModifiers",
+      "user_sha": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+      "merge_base": null,
+      "assistant_only_files": 871,
+      "baseline_identical_assistant_only_files": 865,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvGameTextMgr.cpp",
+        "CvGameCoreDLL/CvGameTextMgr.h",
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvPlayerAI.cpp"
+      ],
+      "source_only_files": [
+        "README.md"
+      ],
+      "native_status": "linked_build_commit_passed",
+      "tested_code_sha": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169",
+      "prior_next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "CodeMacroHelpersBuild-ChatGPT",
+      "assistant_sha": "9d550b45636f342480d0adc113c769910e40f96f",
+      "user": "CodeMacroHelpers",
+      "user_sha": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+      "merge_base": null,
+      "assistant_only_files": 872,
+      "baseline_identical_assistant_only_files": 862,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvGlobals.h",
+        "CvGameCoreDLL/CvMemoryManager.h",
+        "CvGameCoreDLL/CvPlayer.h"
+      ],
+      "source_only_files": [
+        "README.md"
+      ],
+      "native_status": "exact_overlay_Release_Debug_passed_all_artifacts_logs_hashes_symbols_verified",
+      "tested_code_sha": "63a04fb1f1f4f03f30cfb995e4f5bf3afd218c46",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41274710844",
+      "prior_next_action": "Review changed source or remaining utility/global-map integration and actual engine consumers. Keep prior enum-sentinel and deletion regressions; do not repeat unchanged passing DLL builds.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "ColonyLeaderBuild-ChatGPT",
+      "assistant_sha": "d3c5e6aeb2c29606d10cfbb931205c709e01250b",
+      "user": "LeaderSpecificColonySplitVassal",
+      "user_sha": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+      "merge_base": null,
+      "assistant_only_files": 869,
+      "baseline_identical_assistant_only_files": 866,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvPlayer.cpp",
+        "CvGameCoreDLL/CyInfoInterface3.cpp"
+      ],
+      "source_only_files": [
+        "README.md"
+      ],
+      "native_status": "linked_build_commit_passed",
+      "tested_code_sha": "26b6ff5428b9bff6d7f79ea2892e424a7444cf4a",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40527777945",
+      "prior_next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "EquipmentGatesDraft-ChatGPT",
+      "assistant_sha": "1fc3d59b0807904187fb8e24909e9d6e3b1d920d",
+      "user": "FFHEquipmentTypes",
+      "user_sha": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+      "merge_base": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+      "assistant_only_files": 3,
+      "baseline_identical_assistant_only_files": 0,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvUnit.cpp"
+      ],
+      "source_only_files": [],
+      "native_status": "draft_only_no_dll_build",
+      "tested_code_sha": null,
+      "run_url": null,
+      "prior_next_action": "Retain draft/test evidence; pause feature completion and DLL attempts until original source head changes.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "FamilyRelationsBuild-ChatGPT",
+      "assistant_sha": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
+      "user": "LeaderFamilyRelations",
+      "user_sha": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+      "merge_base": null,
+      "assistant_only_files": 870,
+      "baseline_identical_assistant_only_files": 863,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvGameTextMgr.cpp",
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvInfo_Civilization.h",
+        "CvGameCoreDLL/CvPlayer.cpp",
+        "CvGameCoreDLL/CvPlayer.h",
+        "CvGameCoreDLL/CvPlayerAI.cpp",
+        "CvGameCoreDLL/CvXMLLoadUtilitySet.cpp"
+      ],
+      "source_only_files": [
+        "README.md"
+      ],
+      "native_status": "historical_runner_success_related_binaries_and_Debug_symbols_verified_missing_Build_log_and_source_hashes",
+      "tested_code_sha": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051",
+      "prior_next_action": "Do not rebuild unchanged passing code solely to repeat the historical run. Review changed source or remaining real XML/default/cache/save/attitude integration; use current workflow on the next relevant DLL validation. Historical Build.log and source-content evidence remain unavailable.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "FFHSpellCreationBuild-ChatGPT",
+      "assistant_sha": "9c7ff06e4c33ff822f5b112eacba8a1d4da5655a",
+      "user": "FFHSpellTypes",
+      "user_sha": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
+      "merge_base": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
+      "assistant_only_files": 753,
+      "baseline_identical_assistant_only_files": 743,
+      "changed_existing_files": [
+        "CvGameCoreDLL/AdvCiv4lerts.cpp",
+        "CvGameCoreDLL/CvInfo_Terrain.h",
+        "CvGameCoreDLL/CvInfo_Unit.h",
+        "CvGameCoreDLL/CvPlayer.h",
+        "CvGameCoreDLL/CvStructs.cpp",
+        "CvGameCoreDLL/CvStructs.h",
+        "CvGameCoreDLL/CvUnit.h"
+      ],
+      "source_only_files": [],
+      "native_status": "recorded_historical_build_failure",
+      "tested_code_sha": null,
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40402742595",
+      "prior_next_action": "Inspect existing assistant work and address scoped plot-storage/integration work before a new build; do not rerun unchanged failing head.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "FreePromotionLoaderBuild-ChatGPT",
+      "assistant_sha": "cd3316f9b460d1962359833b3dc4fdb52b1d9f72",
+      "user": "PerUnitCombatFreePromotionTraits",
+      "user_sha": "c122a8c130b6e47760aade7d2d438c798dca8951",
+      "merge_base": null,
+      "assistant_only_files": 867,
+      "baseline_identical_assistant_only_files": 864,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvGameTextMgr.cpp",
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvInfo_Civilization.h",
+        "CvGameCoreDLL/CvPlayer.cpp",
+        "CvGameCoreDLL/CvPlayerAI.cpp",
+        "CvGameCoreDLL/CvXMLLoadUtility.h",
+        "CvGameCoreDLL/CvXMLLoadUtilitySet.cpp"
+      ],
+      "source_only_files": [
+        "README.md"
+      ],
+      "native_status": "linked_build_commit_passed",
+      "tested_code_sha": "f5c7d3e40717fa2ac19324c70ee38882473632e3",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40556617050",
+      "prior_next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "GenderCounterDraft-ChatGPT",
+      "assistant_sha": "db3c3e16dfcc892222559ff2b7c28e9d39a5ed40",
+      "user": "GenderSpecificDiplomacy",
+      "user_sha": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+      "merge_base": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+      "assistant_only_files": 16,
+      "baseline_identical_assistant_only_files": 0,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvGameTextMgr.cpp",
+        "CvGameCoreDLL/CvGameTextMgr.h",
+        "CvGameCoreDLL/CvPlayerAI.cpp",
+        "CvGameCoreDLL/CvPlayerAI.h",
+        "XML/Civilizations/CIV4CivilizationsSchema.xml",
+        "XML/Civilizations/CIV4LeaderHeadInfos.xml"
+      ],
+      "source_only_files": [],
+      "native_status": "scoped_gender_fixtures_and_versioned_ai_stream_region_only_no_dll",
+      "tested_code_sha": null,
+      "run_url": null,
+      "prior_next_action": "Review basic-info XML/schema/runtime integration, actual engine save/map compatibility and full native feature integration; old unversioned gender-v22 saves remain unsupported.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "LeaderTeamSizeBuild-ChatGPT",
+      "assistant_sha": "a2f01100680d037b72d4cc08e3661950cff5984e",
+      "user": "LeaderSpecificTeamSizeAttitude",
+      "user_sha": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+      "merge_base": null,
+      "assistant_only_files": 871,
+      "baseline_identical_assistant_only_files": 868,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvPlayerAI.cpp"
+      ],
+      "source_only_files": [
+        "README.md"
+      ],
+      "native_status": "linked_build_commit_passed",
+      "tested_code_sha": "23b8e74ea630209d67deaa53475d31113bd614b1",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843",
+      "prior_next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "LLMDiplomacyTextBuild-ChatGPT",
+      "assistant_sha": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
+      "user": "LLMDiplomacyTextGeneration",
+      "user_sha": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+      "merge_base": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+      "assistant_only_files": 871,
+      "baseline_identical_assistant_only_files": 859,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvCriticalSectionMutex.h",
+        "CvGameCoreDLL/CvDynamicDiploManager.cpp",
+        "CvGameCoreDLL/CvDynamicDiploManager.h",
+        "CvGameCoreDLL/CvEnumMacros.h",
+        "CvGameCoreDLL/CvGame.cpp",
+        "CvGameCoreDLL/CvGame.h",
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvInfo_Civilization.h",
+        "CvGameCoreDLL/CvInfo_Misc.cpp",
+        "CvGameCoreDLL/CvInfo_Misc.h",
+        "CvGameCoreDLL/CvPlayer.cpp",
+        "CvGameCoreDLL/CvStructs.cpp",
+        "CvGameCoreDLL/CvStructs.h",
+        "CvGameCoreDLL/CvXMLLoadUtilitySet.cpp",
+        "CvGameCoreDLL/CyInfoInterface3.cpp",
+        "Python/CvDiplomacy.py"
+      ],
+      "source_only_files": [],
+      "native_status": "linked_build_commit_passed",
+      "tested_code_sha": "6d106160bfc778b47274ef2025f02e68d183f3af",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176",
+      "prior_next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "PartnerDiplomacyBuild-ChatGPT",
+      "assistant_sha": "4f38c94e2267543582ab88619a16a6b5a1b97513",
+      "user": "PartnerLeaderCivSpecificDiplomacyText",
+      "user_sha": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+      "merge_base": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+      "assistant_only_files": 877,
+      "baseline_identical_assistant_only_files": 864,
+      "changed_existing_files": [
+        "Assets/XML/GameInfo/CIV4DiplomacyInfos.xml",
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvInfo_Misc.cpp",
+        "CvGameCoreDLL/CvInfo_Misc.h",
+        "CvGameCoreDLL/CyInfoInterface3.cpp"
+      ],
+      "source_only_files": [
+        "README.md"
+      ],
+      "native_status": "linked_build_commit_passed",
+      "tested_code_sha": "e9b15e6b550d44cea48ec4f652fb3c8131879474",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40788471435",
+      "prior_next_action": "Retain current verified workflow and source provenance; revisit changed source or integration scope.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "PartyWrapperDraft-ChatGPT",
+      "assistant_sha": "85e2d6f28e1c2e92d0cf3715c58d7979f1edf533",
+      "user": "CvPartyGroup",
+      "user_sha": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "merge_base": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "assistant_only_files": 3,
+      "baseline_identical_assistant_only_files": 0,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CySelectionGroup.cpp",
+        "CvGameCoreDLL/CySelectionGroup.h"
+      ],
+      "source_only_files": [],
+      "native_status": "draft_only_no_dll_build",
+      "tested_code_sha": null,
+      "run_url": null,
+      "prior_next_action": "Retain draft/test evidence; pause feature completion and DLL attempts until original source head changes.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "PlotTimerDraft-ChatGPT",
+      "assistant_sha": "fea29629a5f5bd4c986591423cd69b78afe7f90c",
+      "user": "LeaderCivilizationVariantMechanics",
+      "user_sha": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "merge_base": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "assistant_only_files": 12,
+      "baseline_identical_assistant_only_files": 0,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvMap.cpp",
+        "CvGameCoreDLL/CvPlot.cpp",
+        "CvGameCoreDLL/PlotTempChangeMap.cpp",
+        "CvGameCoreDLL/PlotTempChangeMap.h"
+      ],
+      "source_only_files": [],
+      "native_status": "not_built_exact_source_head_inconsistent_axis_metadata",
+      "tested_code_sha": null,
+      "run_url": null,
+      "prior_next_action": "Skip unchanged original 39edf4ca659e806b6fb4bb2de4ab280756829a99 and associated whole-feature integration. Resume after user source supplies a consistent gameplay axis declaration/constructor/getter/XML contract and intended sign/configuration details. Preserve the component fixes; do not invent metadata or run partial/baseline builds.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "PromotionXPBuild-ChatGPT",
+      "assistant_sha": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+      "user": "PromotionAltersUnitXPValues",
+      "user_sha": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+      "merge_base": null,
+      "assistant_only_files": 868,
+      "baseline_identical_assistant_only_files": 865,
+      "changed_existing_files": [
+        "Assets/XML/Text/CIV4GameText_gamemods_mlp.xml",
+        "Assets/XML/Units/CIV4PromotionInfos.xml",
+        "CvGameCoreDLL/CvGameTextMgr.cpp",
+        "CvGameCoreDLL/CvInfo_Unit.cpp",
+        "CvGameCoreDLL/CvInfo_Unit.h",
+        "CvGameCoreDLL/CvUnit.cpp",
+        "CvGameCoreDLL/CvUnit.h"
+      ],
+      "source_only_files": [
+        "README.md"
+      ],
+      "native_status": "linked_build_commit_passed",
+      "tested_code_sha": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40518367294",
+      "prior_next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "RaceDemographicsDraft-ChatGPT",
+      "assistant_sha": "45256362feb2b354410ba7d2f8efa23719c0344e",
+      "user": "FFHRaceTypes",
+      "user_sha": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+      "merge_base": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+      "assistant_only_files": 8,
+      "baseline_identical_assistant_only_files": 0,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvInfo_Civilization.h",
+        "CvGameCoreDLL/CvPlayer.cpp",
+        "CvGameCoreDLL/CvPlot.cpp",
+        "CvGameCoreDLL/CvUnit.cpp"
+      ],
+      "source_only_files": [],
+      "native_status": "draft_only_no_dll_build",
+      "tested_code_sha": null,
+      "run_url": null,
+      "prior_next_action": "Preserve draft; resume only after original race source changes.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "RenegadeDiplomacyBuild-ChatGPT",
+      "assistant_sha": "6660adfd2883b8286c9fbd759f310b6da7dd4c86",
+      "user": "LeaderSpecificRebelliousTeamDiplomaticDecisions",
+      "user_sha": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+      "merge_base": null,
+      "assistant_only_files": 875,
+      "baseline_identical_assistant_only_files": 867,
+      "changed_existing_files": [
+        "Assets/XML/Civilizations/CIV4LeaderHeadInfos.xml",
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvPlayerAI.cpp"
+      ],
+      "source_only_files": [
+        "README.md"
+      ],
+      "native_status": "linked_build_commit_passed",
+      "tested_code_sha": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157",
+      "prior_next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "SerializationHelpersBuild-ChatGPT",
+      "assistant_sha": "bea54776ac0ace2dab02000ecd8c7f3e0d85ed66",
+      "user": "SerializationHelpers",
+      "user_sha": "2be6010dc6787a717c851cd125e005010cf71450",
+      "merge_base": null,
+      "assistant_only_files": 877,
+      "baseline_identical_assistant_only_files": 871,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvGameCoreDLL.h",
+        "CvGameCoreDLL/FDataStreamExtended.h"
+      ],
+      "source_only_files": [
+        "README.md"
+      ],
+      "native_status": "linked_build_commit_passed",
+      "tested_code_sha": "3535810625f27e8207e4731e2dcf848c924cd0fd",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40459830260",
+      "prior_next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "SidSaysDiscoveryBuild-ChatGPT",
+      "assistant_sha": "be355c9ea45072238bd0df8ac0db67c1e7cbbf0b",
+      "user": "SidSaysPatch",
+      "user_sha": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
+      "merge_base": "8c52c7e7b85cb574ee0494611a8931efb3b20d01",
+      "assistant_only_files": 882,
+      "baseline_identical_assistant_only_files": 867,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvGame.cpp",
+        "CvGameCoreDLL/CvGame.h",
+        "CvGameCoreDLL/SelfMod.cpp",
+        "CvGameCoreDLL/SelfMod.h"
+      ],
+      "source_only_files": [
+        "README.md"
+      ],
+      "native_status": "Release_Debug_build_logs_sources_binaries_and_matching_Debug_symbols_verified",
+      "tested_code_sha": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255403884",
+      "prior_next_action": "Observe the newly authored heading/option/help wording in the installed game when useful. Treat _mlp.xml override precedence as resolved project behavior; no inherited-file clash investigation or unchanged DLL rebuild is pending.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "SummonCatchupDraft-ChatGPT",
+      "assistant_sha": "9408469df1c280bc24db9aee750ac972bb77028b",
+      "user": "LeaderCivilizationSummoningRandomEvents",
+      "user_sha": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+      "merge_base": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+      "assistant_only_files": 15,
+      "baseline_identical_assistant_only_files": 0,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvPlayer.cpp"
+      ],
+      "source_only_files": [],
+      "native_status": "not_built_missing_unit_and_triggered_event_integration",
+      "tested_code_sha": null,
+      "run_url": null,
+      "prior_next_action": "Skip unchanged user source head. Resume only when user code supplies the missing CvUnit hero/founding interfaces and a triggered-event selection/save-load contract; preserve the assistant transfer corrections.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "UnitCombatUpgradeBuild-ChatGPT",
+      "assistant_sha": "cb5e560613ea2bbc9c04c84f1888d2440028a6d5",
+      "user": "PerUnitCombatUpgradeCostModifers",
+      "user_sha": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+      "merge_base": null,
+      "assistant_only_files": 865,
+      "baseline_identical_assistant_only_files": 863,
+      "changed_existing_files": [
+        "Assets/XML/Civilizations/CIV4CivilizationsSchema.xml",
+        "Assets/XML/Civilizations/CIV4TraitInfos.xml",
+        "Assets/XML/Text/CIV4GameText_gamemods_mlp.xml",
+        "CvGameCoreDLL/CvGameTextMgr.cpp",
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvInfo_Civilization.h",
+        "CvGameCoreDLL/CvPlayer.cpp",
+        "CvGameCoreDLL/CvPlayer.h",
+        "CvGameCoreDLL/CvUnit.cpp",
+        "CvGameCoreDLL/CvUnit.h"
+      ],
+      "source_only_files": [
+        "DLL/AdvCiv.log",
+        "DLL/CvGameCoreDLL.dll",
+        "DLL/Debug/AdvCiv.log",
+        "DLL/Debug/CvGameCoreDLL.dll",
+        "DLL/Debug/CvGameCoreDLL.pch",
+        "README.md"
+      ],
+      "native_status": "linked_build_commit_passed",
+      "tested_code_sha": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509",
+      "prior_next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "VoteCounterDraft-ChatGPT",
+      "assistant_sha": "a4bf7f3e4516d135b18872fca3d6ff2d3c0080a2",
+      "user": "LeaderSpecificVoteActionDiplomacy",
+      "user_sha": "8fcfdd97329279393120aaab34c00dde84e729df",
+      "merge_base": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
+      "assistant_only_files": 881,
+      "baseline_identical_assistant_only_files": 865,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvGame.cpp",
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvPlayerAI.cpp",
+        "CvGameCoreDLL/CvPlayerAI.h",
+        "CvGameCoreDLL/CvXMLLoadUtilitySet.cpp"
+      ],
+      "source_only_files": [],
+      "native_status": "corrected_overlay_release_debug_passed_artifact_Build_logs_inspected",
+      "tested_code_sha": "2787283390994434207ca40c1784adbd64e64cb0",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41227377831",
+      "prior_next_action": "Do not repeat unchanged passing builds. Review actual engine save/load with compatible info counts/order, attitude-cache coherence, XML/default/copy/cache behavior and malformed/comment/cursor paths; retain all prior scoped fixes and exact native evidence.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "ReputationWindowDraft-ChatGPT",
+      "assistant_sha": "1ae7ec40153adafffa54d07ca325f059db3dff49",
+      "user": "RealisticAIDecisions",
+      "user_sha": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "merge_base": "f7cfe6fd1c1c6f19fc832352ddd01d6409c08b4e",
+      "assistant_only_files": 18,
+      "baseline_identical_assistant_only_files": 0,
+      "changed_existing_files": [
+        "CvGameCoreDLL/AlignmentScore.cpp",
+        "CvGameCoreDLL/CvEnums.h",
+        "CvGameCoreDLL/CvGlobals.h",
+        "CvGameCoreDLL/CvPlayer.cpp",
+        "CvGameCoreDLL/CvStructs.cpp",
+        "CvGameCoreDLL/CvStructs.h",
+        "CvGameCoreDLL/ReputationScore.cpp",
+        "CvGameCoreDLL/ReputationScore.h"
+      ],
+      "source_only_files": [
+        "CvGameCoreDLL/CvAIVectorMemory.cpp",
+        "CvGameCoreDLL/CvAIVectorMemory.h"
+      ],
+      "native_status": "not_built_changed_head_missing_memory_implementation",
+      "tested_code_sha": null,
+      "run_url": null,
+      "prior_next_action": "Skip unchanged original source head and pause associated assistant full-DLL integration/build preparation; do not invent the unfinished memory model.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "CivicScrollDraft-ChatGPT",
+      "assistant_sha": "a7a1290aa2a0c125432dd60df5f4153294eead82",
+      "user": "UniqueCivicsReligions",
+      "user_sha": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+      "merge_base": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+      "assistant_only_files": 868,
+      "baseline_identical_assistant_only_files": 848,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvInfo_Civics.h",
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvInfo_Civilization.h",
+        "CvGameCoreDLL/CvInfo_Organization.cpp",
+        "CvGameCoreDLL/CvInfo_Organization.h",
+        "CvGameCoreDLL/CvPlayer.h",
+        "Python/Screens/CvCivicsScreen.py",
+        "Python/Screens/CvReligionScreen.py"
+      ],
+      "source_only_files": [],
+      "native_status": "failed_native_missing_user_unhappiness_timer_implementation_no_DLL",
+      "tested_code_sha": "596f539981627e0373d557804f80410e248dc6c0",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41224382638",
+      "prior_next_action": "Skip this unchanged original head and associated assistant integration/build work. Preserve the scoped weight/cast fixes; resume after user changes supply the missing minor-religion withdrawal anger implementation.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "SimpleStorageChangeDraft-ChatGPT",
+      "assistant_sha": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
+      "user": "FSimpleDataStorage",
+      "user_sha": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+      "merge_base": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+      "assistant_only_files": 20,
+      "baseline_identical_assistant_only_files": 0,
+      "changed_existing_files": [
+        "CvGameCoreDLL/FSimpleDataStorage.h"
+      ],
+      "source_only_files": [],
+      "native_status": "complete_header_cpp03_fno_exceptions_ASan_UBSan_no_DLL",
+      "tested_code_sha": null,
+      "run_url": null,
+      "prior_next_action": "Review actual consuming-engine allocation/deletion and native load-status propagation, MSVC7.1 integration and alignment. Do not restore exception recovery or repeat obsolete exception-injection coverage.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "HatedDiplomacyDraft-ChatGPT",
+      "assistant_sha": "a13d837a06dc6f26508673e1ba242bc1c34b5296",
+      "user": "HatedCivicReligionDiplomacy",
+      "user_sha": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+      "merge_base": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+      "assistant_only_files": 877,
+      "baseline_identical_assistant_only_files": 861,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvPlayerAI.cpp"
+      ],
+      "source_only_files": [],
+      "native_status": "latest_diagnostic_only_head_not_built_prior_exact_DLL_results_retained",
+      "tested_code_sha": "cb7d75b4d03077b644f24f4b41647f53f06a4a64",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41221093729",
+      "prior_next_action": "Do not repeat unchanged passing builds. Review actual complete engine save/load and leader-info XML/cache compatibility, runtime strategy/attitude integration; unversioned feature-v22 saves remain unsupported.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "FirstImpressionDraft-ChatGPT",
+      "assistant_sha": "dd773ace6f4650cde2d0fe495b5b82d5173be70f",
+      "user": "FirstImpressionDiplomacyModifiers",
+      "user_sha": "cc764ad80e89f751f809998a61a23225254109f2",
+      "merge_base": "cc764ad80e89f751f809998a61a23225254109f2",
+      "assistant_only_files": 876,
+      "baseline_identical_assistant_only_files": 867,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/UWAI.cpp"
+      ],
+      "source_only_files": [],
+      "native_status": "exact_overlay_release_debug_passed",
+      "tested_code_sha": "de9caca8cd6afc6e85309b51496a29da2e258e44",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40908991199",
+      "prior_next_action": "Inspect changed source only; native overlay passed, actual XML/cache/game execution unverified.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "PreferenceFrameworkDraft-ChatGPT",
+      "assistant_sha": "5012475e85a727dd0417bbb1249fe845a3b9d321",
+      "user": "LeaderCivilizationDecisionPreferences",
+      "user_sha": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+      "merge_base": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+      "assistant_only_files": 19,
+      "baseline_identical_assistant_only_files": 0,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvInfo_RandomEvent.cpp",
+        "CvGameCoreDLL/CvInfo_Unit.cpp",
+        "CvGameCoreDLL/CvPlayerAI.cpp",
+        "CvGameCoreDLL/CvXMLStructs.cpp",
+        "XML/Civilizations/CIV4CivilizationsSchema.xml",
+        "XML/Events/CIV4EventSchema.xml"
+      ],
+      "source_only_files": [],
+      "native_status": "actual_record_helper_cpp03_fno_exceptions_ASan_UBSan_only_no_DLL",
+      "tested_code_sha": null,
+      "run_url": null,
+      "prior_next_action": "Review owning-info copy/default inheritance/cache, actual XML parser integration, save reconstruction and percentage arithmetic. Defer full DLL overlay until original source supplies missing Event/Unit preference XML assets and Unit schema; do not invent profiles. Category-key collision correction completed.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "CityPopulationDraft-ChatGPT",
+      "assistant_sha": "f159c2c47de9c8a3b2dca31f02e5abf513d20305",
+      "user": "CityPopulationTrait",
+      "user_sha": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
+      "merge_base": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
+      "assistant_only_files": 4,
+      "baseline_identical_assistant_only_files": 0,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvCity.cpp",
+        "CvGameCoreDLL/CvCity.h",
+        "CvGameCoreDLL/CvPlayer.cpp"
+      ],
+      "source_only_files": [],
+      "native_status": "extracted_Cpp03_fixture_only",
+      "tested_code_sha": null,
+      "run_url": null,
+      "prior_next_action": "Skip unchanged original head and pause assistant integration/build work; preserve prior owner-context refinement.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "UWAIWeightsDraft-ChatGPT",
+      "assistant_sha": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
+      "user": "LeaderSpecificUWAIAspectWeights",
+      "user_sha": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+      "merge_base": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+      "assistant_only_files": 873,
+      "baseline_identical_assistant_only_files": 860,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvInfo_Civilization.h",
+        "CvGameCoreDLL/CvXMLLoadUtilitySet.cpp",
+        "CvGameCoreDLL/UWAI.h",
+        "CvGameCoreDLL/WarUtilityAspect.cpp",
+        "CvGameCoreDLL/WarUtilityAspect.h",
+        "CvGameCoreDLL/WarUtilityAspectAI.h"
+      ],
+      "source_only_files": [
+        "Assets/XML/GameInfos/CIV4GameInfoSchema.xml",
+        "Assets/XML/GameInfos/CIV4WarUtilityAspectAIInfos.xml"
+      ],
+      "native_status": "release_debug_corrected_overlay_passed",
+      "tested_code_sha": "341124017d7e5374b9948b0198364a4a702c6db2",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41235655264",
+      "prior_next_action": "Do not repeat unchanged passing builds. Review actual engine XML/XDR execution, warm/stale leader-info cache compatibility/default inheritance, missing-ID release protection and localized reporting; zero override policy remains a user mechanics choice.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "PromotionExpiryDraft-ChatGPT",
+      "assistant_sha": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+      "user": "PromotionTimedExpireTurns",
+      "user_sha": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+      "merge_base": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+      "assistant_only_files": 875,
+      "baseline_identical_assistant_only_files": 862,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvGameTextMgr.cpp",
+        "CvGameCoreDLL/CvUnit.cpp",
+        "CvGameCoreDLL/CvUnit.h"
+      ],
+      "source_only_files": [],
+      "native_status": "exact_overlay_release_debug_passed",
+      "tested_code_sha": "0c9a61c50e70378d4296ba556077a1d77517bf7e",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41241007281",
+      "prior_next_action": "Review positive-duration multiplication/addition overflow and scaled-to-zero turn-zero policy, real engine saves/EnumMap execution/promotion-ID migration, XML/cache and gameplay. Do not repeat unchanged passing native builds; do not invent caps or reconstruct already-truncated version-9 values.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "PromotionHPDraft-ChatGPT",
+      "assistant_sha": "185a4a161d3a3e039e355236254a9fd8b44ff425",
+      "user": "PromotionAltersUnitHPValues",
+      "user_sha": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+      "merge_base": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+      "assistant_only_files": 874,
+      "baseline_identical_assistant_only_files": 867,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvInfo_Unit.cpp",
+        "CvGameCoreDLL/CvUnit.cpp",
+        "CvGameCoreDLL/CvUnit.h"
+      ],
+      "source_only_files": [],
+      "native_status": "exact_overlay_release_debug_passed_artifact_logs_inspected",
+      "tested_code_sha": "f809096d101f8ddf4f155c5d89999237010f12d5",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41026141850",
+      "prior_next_action": "Native overlay passed; review changed source or remaining HP bounds/overflow and actual XML/cache/save/game integration. Do not repeat unchanged successful builds.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "FavoriteUnitCombatDraft-ChatGPT",
+      "assistant_sha": "7e5e7a04a8cb2366c741ddc8003f13610d2abf60",
+      "user": "LeaderSpecificFavoriteUnitCombats",
+      "user_sha": "799082c323ea44335c66b9714e1a9bb365c12095",
+      "merge_base": "799082c323ea44335c66b9714e1a9bb365c12095",
+      "assistant_only_files": 877,
+      "baseline_identical_assistant_only_files": 868,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvCityAI.cpp",
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvPlayerAI.cpp"
+      ],
+      "source_only_files": [],
+      "native_status": "exact_overlay_release_debug_passed",
+      "tested_code_sha": "53e3fb35bddc9c2bf67acc7a8d3b3254df5e0003",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40968286063",
+      "prior_next_action": "Native overlay passed; inspect changed source or actual XML/cache/game integration without repeating unchanged builds.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    },
+    {
+      "assistant": "DynamicRankDraft-ChatGPT",
+      "assistant_sha": "6173663f4e80b96817b6d0c59ef7692a64e01648",
+      "user": "LeaderSpecificDynamicRankBonusDiplomacy",
+      "user_sha": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+      "merge_base": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+      "assistant_only_files": 876,
+      "baseline_identical_assistant_only_files": 867,
+      "changed_existing_files": [
+        "CvGameCoreDLL/CvInfo_Civilization.cpp",
+        "CvGameCoreDLL/CvInfo_Civilization.h",
+        "CvGameCoreDLL/CvPlayerAI.cpp"
+      ],
+      "source_only_files": [],
+      "native_status": "fractional_overlay_release_debug_passed_artifact_Build_logs_inspected",
+      "tested_code_sha": "4d4672665066214036fb57678e13a6b8990db2ec",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41212425210",
+      "prior_next_action": "Do not repeat unchanged passing builds. Review shared attitude-threshold/rank policy, versioned player-counter persistence, XML/default/cache compatibility and actual game behavior; extreme arithmetic bounds remain unverified.",
+      "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates."
+    }
+  ],
+  "qualification": "Structural merge audit for every extant mapped assistant branch; targeted code review on CodeMacroHelpers and SidSays, prior source coverage retained. No user branch modified. No build triggered."
+}
