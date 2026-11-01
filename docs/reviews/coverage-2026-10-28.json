@@ -2067,14 +2067,14 @@
     },
     {
       "branch": "SidSaysDiscoveryBuild-ChatGPT",
-      "head_at_inventory": "33eb4651a21eaa4d28c51d946f558f6768d97112",
-      "coverage": "new_localization_asset_integrated_and_static_XML_checked_existing_DLL_retained",
+      "head_at_inventory": "e960bff4f5d418abfb0b4e23c4f34814f71586be",
+      "coverage": "updated_guidance_heading_option_and_help_XML_integrated_structurally_checked",
       "native_verification": "Release_Debug_build_logs_sources_binaries_and_matching_Debug_symbols_verified",
       "source_branch": "SidSaysPatch",
-      "source_head": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
+      "source_head": "b6abf837c8b756c023246a42ac2b4e8243e4a80d",
       "tested_code_sha": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255403884",
-      "next_action": "Observe a fresh BtS localization load and TXT_KEY_SIDS_TIPS heading with the authored XML installed; check first-definition precedence and cache if old text remains. Do not infer an EXE function patch from zero literal candidates or rebuild unchanged DLL sources for XML.",
+      "next_action": "Observe the newly authored heading/option/help wording in the installed game when useful. Treat _mlp.xml override precedence as resolved project behavior; no inherited-file clash investigation or unchanged DLL rebuild is pending.",
       "artifacts": {
         "Release": 13063650159,
         "Debug": 13063140677
@@ -2085,12 +2085,11 @@
       ],
       "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
       "last_head_review": {
-        "classification": "CvGame_controlled_read_only_discovery",
-        "production_changes": true,
+        "classification": "XML_guidance_asset_update",
+        "production_changes": false,
+        "XML_assets_changed": true,
         "source_reviewed": true,
-        "baseline_and_prior_locator_and_FAssert_preserved": true,
-        "new_production_change_proposed": true,
-        "artifact_verification_complete": true
+        "prior_DLL_unchanged": true
       },
       "native_validation_history": [
         {
@@ -2220,8 +2219,8 @@
           "scope": "Initial CvGame hook integration before runtime-only reset refinement; both native configurations passed"
         }
       ],
-      "reviewed_assistant_head": "33eb4651a21eaa4d28c51d946f558f6768d97112",
-      "reviewed_source_sha": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
+      "reviewed_assistant_head": "e960bff4f5d418abfb0b4e23c4f34814f71586be",
+      "reviewed_source_sha": "b6abf837c8b756c023246a42ac2b4e8243e4a80d",
       "source_code_sha": "a994b2ed9db89aac098b2b0a640146e7688a017f",
       "feature_snapshot": "a994b2ed9db89aac098b2b0a640146e7688a017f",
       "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
@@ -2229,8 +2228,8 @@
         "Release": 13063370685,
         "Debug": 13063575086
       },
-      "qualification": "Existing exact DLL evidence retained; latest change is a byte-identical user XML copy, 26 unique keys and five target-language values structurally checked. No real game/XDR/load-order/UI validation for the XML.",
-      "latest_review": "docs/reviews/sid-tips-xml-2026-10-31.md",
+      "qualification": "Three current XML files integrated from exact source blobs; only book-title typo changed, original encoding retained. XML structure/language/target-key/markup checks passed; no new live game rendering or DLL build. Existing exact native DLL evidence retained.",
+      "latest_review": "docs/reviews/sid-guidance-keys-2026-10-31.md",
       "last_review_parent": "d307c2ba103c8d53d23a668c218fd66cc464dafa",
       "source_review_scope": "SidSaysPatch new CvGame reset/update hook and header layout; state moved to DLL-owned SelfMod, ready/nonempty-map gate and reentry guard; existing locator/FAssert preserved",
       "artifact_verification": {
@@ -2303,48 +2302,94 @@
       "localization_review": {
         "review_local_date": "2026-10-31",
         "source_branch": "SidSaysPatch",
-        "source_head": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
-        "previous_reviewed_source": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
+        "source_head": "b6abf837c8b756c023246a42ac2b4e8243e4a80d",
+        "previous_source": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
         "assistant_branch": "SidSaysDiscoveryBuild-ChatGPT",
-        "assistant_parent": "39c02e59f5842dd8e94c77ba843fd1ae0b30a460",
-        "asset_commit": "33eb4651a21eaa4d28c51d946f558f6768d97112",
-        "path": "Assets/XML/Text/CIV4GameText_Misc1_mlp.xml",
-        "source_and_published_blob": "882a315815ba92279f964ab556a77c56cfaf7b00",
-        "validation": {
-          "entries": 26,
-          "unique_keys": 26,
-          "encoding": "ASCII subset of declared ISO-8859-1",
-          "target_count": 1,
-          "values": {
-            "English": "[COLOR_HIGHLIGHT_TEXT]Sol's Tips: [COLOR_REVERT]",
-            "French": "[COLOR_HIGHLIGHT_TEXT]Conseils de Sol : [COLOR_REVERT]",
-            "German": "[COLOR_HIGHLIGHT_TEXT]Sols Tipps: [COLOR_REVERT]",
-            "Italian": "[COLOR_HIGHLIGHT_TEXT]Il suggerimento di Sol: [COLOR_REVERT]",
-            "Spanish": "[COLOR_HIGHLIGHT_TEXT]Consejo de Sol: [COLOR_REVERT]"
-          },
-          "sha256": "ab651407ccf71998cc0835e4c6e392f993ce155ba47bcb7ec9c18c14455be781",
-          "game_runtime_verified": false
-        },
-        "XML_copied_byte_for_byte": true,
-        "source_DLL_files_unchanged_since_previous_review": true,
-        "assistant_DLL_and_workflow_unchanged": true,
-        "new_DLL_build": false,
-        "game_XDR_parser_run": false,
-        "game_text_load_order_verified": false,
-        "live_tips_UI_verified": false,
+        "assistant_parent": "89b417f5aa3f93e80506835953651146bd853b3d",
+        "asset_commit": "e960bff4f5d418abfb0b4e23c4f34814f71586be",
         "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
-        "current_workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
-        "prior_tested_DLL_commit": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
-        "prior_DLL_run": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255403884",
-        "qualification": "XML asset integration and static structural validation only; prior DLL evidence is unchanged and does not validate this XML in BtS."
+        "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "validation": {
+          "files": {
+            "CIV4GameTextInfos_mlp.xml": {
+              "records": 161,
+              "unique_keys_in_file": 160,
+              "source_git_blob": "7f91550516966eb0285cf950466b40fe13529fa6",
+              "published_git_blob": "7f91550516966eb0285cf950466b40fe13529fa6",
+              "source_sha256": "e7640724c854ab7c1029f4ef297629c8469d1b72dff6cd8461780aa579590385",
+              "published_sha256": "e7640724c854ab7c1029f4ef297629c8469d1b72dff6cd8461780aa579590385",
+              "unchanged_from_source": true,
+              "declared_encoding": "ISO-8859-1"
+            },
+            "CIV4GameText_Misc1_mlp.xml": {
+              "records": 1,
+              "unique_keys_in_file": 1,
+              "source_git_blob": "396fca059df27227b5c10c47f9bc1d4a4ce75190",
+              "published_git_blob": "3917f41333fb6ef3ef51b32625123c6a414e9df8",
+              "source_sha256": "f08bc297211fa388785c439e0197a5614402aba1457d8db954f76b6b5d5efd85",
+              "published_sha256": "861d2178d07b58be9e70100bd852e2d7c5c914d529f2d8c524825bbcfc80cda6",
+              "unchanged_from_source": false,
+              "declared_encoding": "ISO-8859-1"
+            },
+            "Civ4GameText_advc_OptionsScreen_mlp.xml": {
+              "records": 26,
+              "unique_keys_in_file": 26,
+              "source_git_blob": "93dea3cce9da1b423807043c9c12ea949e849325",
+              "published_git_blob": "93dea3cce9da1b423807043c9c12ea949e849325",
+              "source_sha256": "07cbe81fee5caec86e04af963faa1157e46bf2145e0da9cc02d004b7b240caa1",
+              "published_sha256": "07cbe81fee5caec86e04af963faa1157e46bf2145e0da9cc02d004b7b240caa1",
+              "unchanged_from_source": true,
+              "declared_encoding": "ISO-8859-1"
+            }
+          },
+          "total_records": 188,
+          "unique_keys_across_files": 187,
+          "target_keys": {
+            "TXT_KEY_SIDS_TIPS": {
+              "file": "Civ4GameText_advc_OptionsScreen_mlp.xml",
+              "English": "[COLOR_HIGHLIGHT_TEXT]Solais' Guidance: [COLOR_REVERT]"
+            },
+            "TXT_KEY_PLAYER_OPTION_ADVISOR_HELP": {
+              "file": "CIV4GameTextInfos_mlp.xml",
+              "English": "Solais' Guidance"
+            },
+            "TXT_KEY_PLAYER_OPTION_ADVISOR_HELP_HELP": {
+              "file": "CIV4GameText_Misc1_mlp.xml",
+              "English": "Research and production popups include strategy advice from Solais a Tuath, historian, astronomer, and teacher, who wrote the fabled \"Histories of Civilization\". Regardless of this option, the game AI always marks two of the choices in a popup as \"recommended.\""
+            }
+          },
+          "existing_duplicate_records": {
+            "TXT_KEY_DENIAL_MINORITY_RELIGION": {
+              "count": 2,
+              "identical_payload": true,
+              "preserved": true
+            }
+          },
+          "original_ISO_8859_1_bytes_verified_by_Git_blob": true,
+          "encoding_change_needed": false,
+          "title_typo_corrected": true,
+          "other_bytes_unchanged": true,
+          "XANA_comments_preserved": true,
+          "project_mlp_override_precedence": "accepted_verified_project_convention_not_a_pending_blocker",
+          "independent_live_game_execution_this_review": false
+        },
+        "DLL_changed": false,
+        "workflow_changed": false,
+        "new_DLL_build": false,
+        "report": "docs/reviews/sid-guidance-keys-2026-10-31.md"
+      },
+      "mlp_text_override_precedence": {
+        "status": "verified_project_convention_accepted",
+        "pending_blocker": false,
+        "independent_game_execution_in_this_review": false
       }
     },
     {
       "branch": "SidSaysPatch",
-      "head_at_inventory": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
-      "coverage": "changed_XML_localization_reviewed_and_integrated_DLL_unchanged",
+      "head_at_inventory": "b6abf837c8b756c023246a42ac2b4e8243e4a80d",
+      "coverage": "updated_guidance_heading_option_and_help_XML_integrated_structurally_checked",
       "native_verification": "corrected_assistant_overlay_Release_Debug_verified",
-      "next_action": "Observe a fresh BtS localization load and TXT_KEY_SIDS_TIPS heading with the authored XML installed; check first-definition precedence and cache if old text remains. Do not infer an EXE function patch from zero literal candidates or rebuild unchanged DLL sources for XML.",
+      "next_action": "Observe the newly authored heading/option/help wording in the installed game when useful. Treat _mlp.xml override precedence as resolved project behavior; no inherited-file clash investigation or unchanged DLL rebuild is pending.",
       "refinement_branch": "SidSaysDiscoveryBuild-ChatGPT",
       "tested_code_sha": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255403884",
@@ -2354,7 +2399,7 @@
         "SID-20261027-03",
         "SID-20261101-01"
       ],
-      "qualification": "User source remains read-only. New delta only adds text XML; corrected assistant DLL validation is historical and not XML runtime validation.",
+      "qualification": "Three current XML files integrated from exact source blobs; only book-title typo changed, original encoding retained. XML structure/language/target-key/markup checks passed; no new live game rendering or DLL build. Existing exact native DLL evidence retained.",
       "artifacts": {
         "Release": 13063650159,
         "Debug": 13063140677
@@ -2364,44 +2409,91 @@
         "Debug"
       ],
       "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
-      "reviewed_source_sha": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
+      "reviewed_source_sha": "b6abf837c8b756c023246a42ac2b4e8243e4a80d",
       "localization_review": {
         "review_local_date": "2026-10-31",
         "source_branch": "SidSaysPatch",
-        "source_head": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
-        "previous_reviewed_source": "3171a91bd8b595781f624d94ee14d3f2552ac9e7",
+        "source_head": "b6abf837c8b756c023246a42ac2b4e8243e4a80d",
+        "previous_source": "7d0ec96d4dc52b7534e376018a97cd10e8469fff",
         "assistant_branch": "SidSaysDiscoveryBuild-ChatGPT",
-        "assistant_parent": "39c02e59f5842dd8e94c77ba843fd1ae0b30a460",
-        "asset_commit": "33eb4651a21eaa4d28c51d946f558f6768d97112",
-        "path": "Assets/XML/Text/CIV4GameText_Misc1_mlp.xml",
-        "source_and_published_blob": "882a315815ba92279f964ab556a77c56cfaf7b00",
-        "validation": {
-          "entries": 26,
-          "unique_keys": 26,
-          "encoding": "ASCII subset of declared ISO-8859-1",
-          "target_count": 1,
-          "values": {
-            "English": "[COLOR_HIGHLIGHT_TEXT]Sol's Tips: [COLOR_REVERT]",
-            "French": "[COLOR_HIGHLIGHT_TEXT]Conseils de Sol : [COLOR_REVERT]",
-            "German": "[COLOR_HIGHLIGHT_TEXT]Sols Tipps: [COLOR_REVERT]",
-            "Italian": "[COLOR_HIGHLIGHT_TEXT]Il suggerimento di Sol: [COLOR_REVERT]",
-            "Spanish": "[COLOR_HIGHLIGHT_TEXT]Consejo de Sol: [COLOR_REVERT]"
-          },
-          "sha256": "ab651407ccf71998cc0835e4c6e392f993ce155ba47bcb7ec9c18c14455be781",
-          "game_runtime_verified": false
-        },
-        "XML_copied_byte_for_byte": true,
-        "source_DLL_files_unchanged_since_previous_review": true,
-        "assistant_DLL_and_workflow_unchanged": true,
-        "new_DLL_build": false,
-        "game_XDR_parser_run": false,
-        "game_text_load_order_verified": false,
-        "live_tips_UI_verified": false,
+        "assistant_parent": "89b417f5aa3f93e80506835953651146bd853b3d",
+        "asset_commit": "e960bff4f5d418abfb0b4e23c4f34814f71586be",
         "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
-        "current_workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
-        "prior_tested_DLL_commit": "770e9e4f0984f3099b7eaa8c261bbaa51a1e0756",
-        "prior_DLL_run": "https://github.com/SuperXANA/AdvCiv/actions/runs/41255403884",
-        "qualification": "XML asset integration and static structural validation only; prior DLL evidence is unchanged and does not validate this XML in BtS."
+        "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "validation": {
+          "files": {
+            "CIV4GameTextInfos_mlp.xml": {
+              "records": 161,
+              "unique_keys_in_file": 160,
+              "source_git_blob": "7f91550516966eb0285cf950466b40fe13529fa6",
+              "published_git_blob": "7f91550516966eb0285cf950466b40fe13529fa6",
+              "source_sha256": "e7640724c854ab7c1029f4ef297629c8469d1b72dff6cd8461780aa579590385",
+              "published_sha256": "e7640724c854ab7c1029f4ef297629c8469d1b72dff6cd8461780aa579590385",
+              "unchanged_from_source": true,
+              "declared_encoding": "ISO-8859-1"
+            },
+            "CIV4GameText_Misc1_mlp.xml": {
+              "records": 1,
+              "unique_keys_in_file": 1,
+              "source_git_blob": "396fca059df27227b5c10c47f9bc1d4a4ce75190",
+              "published_git_blob": "3917f41333fb6ef3ef51b32625123c6a414e9df8",
+              "source_sha256": "f08bc297211fa388785c439e0197a5614402aba1457d8db954f76b6b5d5efd85",
+              "published_sha256": "861d2178d07b58be9e70100bd852e2d7c5c914d529f2d8c524825bbcfc80cda6",
+              "unchanged_from_source": false,
+              "declared_encoding": "ISO-8859-1"
+            },
+            "Civ4GameText_advc_OptionsScreen_mlp.xml": {
+              "records": 26,
+              "unique_keys_in_file": 26,
+              "source_git_blob": "93dea3cce9da1b423807043c9c12ea949e849325",
+              "published_git_blob": "93dea3cce9da1b423807043c9c12ea949e849325",
+              "source_sha256": "07cbe81fee5caec86e04af963faa1157e46bf2145e0da9cc02d004b7b240caa1",
+              "published_sha256": "07cbe81fee5caec86e04af963faa1157e46bf2145e0da9cc02d004b7b240caa1",
+              "unchanged_from_source": true,
+              "declared_encoding": "ISO-8859-1"
+            }
+          },
+          "total_records": 188,
+          "unique_keys_across_files": 187,
+          "target_keys": {
+            "TXT_KEY_SIDS_TIPS": {
+              "file": "Civ4GameText_advc_OptionsScreen_mlp.xml",
+              "English": "[COLOR_HIGHLIGHT_TEXT]Solais' Guidance: [COLOR_REVERT]"
+            },
+            "TXT_KEY_PLAYER_OPTION_ADVISOR_HELP": {
+              "file": "CIV4GameTextInfos_mlp.xml",
+              "English": "Solais' Guidance"
+            },
+            "TXT_KEY_PLAYER_OPTION_ADVISOR_HELP_HELP": {
+              "file": "CIV4GameText_Misc1_mlp.xml",
+              "English": "Research and production popups include strategy advice from Solais a Tuath, historian, astronomer, and teacher, who wrote the fabled \"Histories of Civilization\". Regardless of this option, the game AI always marks two of the choices in a popup as \"recommended.\""
+            }
+          },
+          "existing_duplicate_records": {
+            "TXT_KEY_DENIAL_MINORITY_RELIGION": {
+              "count": 2,
+              "identical_payload": true,
+              "preserved": true
+            }
+          },
+          "original_ISO_8859_1_bytes_verified_by_Git_blob": true,
+          "encoding_change_needed": false,
+          "title_typo_corrected": true,
+          "other_bytes_unchanged": true,
+          "XANA_comments_preserved": true,
+          "project_mlp_override_precedence": "accepted_verified_project_convention_not_a_pending_blocker",
+          "independent_live_game_execution_this_review": false
+        },
+        "DLL_changed": false,
+        "workflow_changed": false,
+        "new_DLL_build": false,
+        "report": "docs/reviews/sid-guidance-keys-2026-10-31.md"
+      },
+      "latest_review": "docs/reviews/sid-guidance-keys-2026-10-31.md",
+      "mlp_text_override_precedence": {
+        "status": "verified_project_convention_accepted",
+        "pending_blocker": false,
+        "independent_game_execution_in_this_review": false
       }
     },
     {
@@ -5979,6 +6071,21 @@
     "branch_count": 75,
     "new_DLL_build": false,
     "prior_family_and_SQLite_records_preserved": true,
+    "stop_gate_satisfied": false
+  },
+  "inventory_2026_10_31_sid_guidance_keys": {
+    "source": "b6abf837c8b756c023246a42ac2b4e8243e4a80d",
+    "asset_commit": "e960bff4f5d418abfb0b4e23c4f34814f71586be",
+    "report": "docs/reviews/sid-guidance-keys-2026-10-31.md",
+    "branch_count": 75,
+    "source_delta": "three XML assets; no DLL changes",
+    "mlp_override_precedence": {
+      "status": "verified_project_convention_accepted",
+      "pending_blocker": false,
+      "independent_game_execution_in_this_review": false
+    },
+    "new_DLL_build": false,
+    "other_review_records_preserved": true,
     "stop_gate_satisfied": false
   }
 }
