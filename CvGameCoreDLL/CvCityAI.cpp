@@ -5755,13 +5755,15 @@ int CvCityAI::AI_buildingValue(BuildingTypes eBuilding, int iFocusFlags,
 				if (iCorpValue > 0)
 					iValue += iCorpValue;
 			}
+			// XANA: 11-02-2026 Hybrid building valuation native scope fixes (ChatGPT)
 			// XANA: 06-27-2026 Unique Civics and Religions
 			{
 				if (kBuilding.getFoundsHybridOrganization() != NO_HYBRID_ORGANIZATION)
 				{
-					CvHybridOrganizationInfo const& kHybridOrg = GC.getInfo(eHybridOrganization);
+					CvHybridOrganizationInfo const& kHybridOrg = GC.getInfo(kBuilding.getFoundsHybridOrganization());
 					if (kHybridOrg.getTriggerReligion() != NO_RELIGION)
 					{
+						CorporationTypes const eMinorCorporation = kHybridOrg.getTriggerCorporation();
 						int iMinorOrganizationValue = 0;
 						int iExpectedSpread = (kOwner.AI_atVictoryStage4() ? 45 :
 								(70 - (bWarPlan ? 10 : 0))); // advc: parentheses added for clarity
@@ -5769,9 +5771,8 @@ int CvCityAI::AI_buildingValue(BuildingTypes eBuilding, int iFocusFlags,
 							but is later converted to # of cities. */
 						if (kOwner.isNoCorporations())
 							iExpectedSpread = 0;
-						if (kHybridOrg.getTriggerCorporation() != NO_CORPORATION && iExpectedSpread > 0)
+						if (eMinorCorporation != NO_CORPORATION && iExpectedSpread > 0)
 						{
-							CorporationTypes const eMinorCorporation = kHybridOrg.getTriggerCorporation();
 							iMinorOrganizationValue = kOwner.AI_corporationValue(eMinorCorporation);
 							FOR_EACH_ENUM(Corporation)
 							{
@@ -5782,7 +5783,7 @@ int CvCityAI::AI_buildingValue(BuildingTypes eBuilding, int iFocusFlags,
 									/*	This new corp is no good to us if our competing corp
 										is already better. note: evaluation of the competing corp
 										for this particular city is ok. */
-									if (kOwner.AI_corporationValue(eLoopCorporation, this) > iCorpValue)
+									if (kOwner.AI_corporationValue(eLoopCorporation, this) > iMinorOrganizationValue)
 									{
 										iExpectedSpread = 0;
 										break;
@@ -5801,8 +5802,9 @@ int CvCityAI::AI_buildingValue(BuildingTypes eBuilding, int iFocusFlags,
 							iMinorOrganizationValue *= 4;
 							iMinorOrganizationValue /= 100;
 						}
-						iExpectedSpread += kGame.countCorporationLevels(eMinorCorporation);
-						if (iExpectedSpread > 0)
+						if (eMinorCorporation != NO_CORPORATION)
+							iExpectedSpread += kGame.countCorporationLevels(eMinorCorporation);
+						if (eMinorCorporation != NO_CORPORATION && iExpectedSpread > 0)
 						{
 							FOR_EACH_ENUM(Commerce)
 							{
@@ -5833,6 +5835,7 @@ int CvCityAI::AI_buildingValue(BuildingTypes eBuilding, int iFocusFlags,
 				}
 			}
 			// XANA: 06-27-2026 Unique Civics and Religions
+			// XANA: 11-02-2026 Hybrid building valuation native scope fixes (ChatGPT)
 			// K-Mod end (corp)
 			FOR_EACH_NON_DEFAULT_PAIR(kBuilding.
 				getReligionChange(), Religion, int)
