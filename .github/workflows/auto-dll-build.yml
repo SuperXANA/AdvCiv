@@ -36,15 +36,15 @@ jobs:
       env:  
           # YAML automatically preserves this string exactly as written
           # add pinned-1.14 commit SHA here
-          BASE_COMMIT_SHA: 0
+          BASE_COMMIT_SHA: 5970334b64a875b5cdb370c94fc9a98db4eacda6
           
           # YAML automatically preserves this string exactly as written
           # add feature commit SHA here
-          FEATURE_COMMIT_SHA: 0
+          FEATURE_COMMIT_SHA: 74098492ca88543c88e5e30781b84a687cb51e42
           
           # YAML automatically preserves this string exactly as written
           # add workflow commit SHA here
-          WORKFLOW_COMMIT_SHA: 0
+          WORKFLOW_COMMIT_SHA: a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a
           
           # YAML automatically preserves this multi-line string exactly as written
           HASH_SCRIPT: |
