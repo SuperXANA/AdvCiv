@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-02",
+  "finding_id": "PREFERENCE-20261102-15",
+  "source_branch": "LeaderCivilizationDecisionPreferences",
+  "source_sha": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+  "assistant_branch": "PreferenceFrameworkDraft-ChatGPT",
+  "assistant_parent": "5518502d36e4a180b1df6905ac91fffce42a4aaf",
+  "code_sha": "87a7aa044ea0ed52d304a0b3fbac9c15b5137962",
+  "baseline_sha": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "scope": "Actual baseline default/copy constructor semantics at preference clone initialization.",
+  "files": {
+    "CvGameCoreDLL/CvInfo_Civilization.cpp": 1575,
+    "CvGameCoreDLL/CvInfo_RandomEvent.cpp": 2110,
+    "CvGameCoreDLL/CvInfo_Unit.cpp": 2568
+  },
+  "baseline_evidence": {
+    "CvGameCoreDLL/CvInfo_Base.cpp": [
+      6,
+      9,
+      11,
+      148,
+      156,
+      162
+    ],
+    "CvGameCoreDLL/CvInfo_Civilization.cpp": [
+      517,
+      519,
+      522
+    ],
+    "CvGameCoreDLL/CvXMLLoadUtilitySet.cpp": [
+      1272,
+      1274,
+      1276
+    ]
+  },
+  "production_changes": "Three base_t(kOther) initializers become base_t(); derived scalar/vector/map deep copies remain unchanged.",
+  "XANA_markers_preserved": true,
+  "CPP_explicit_exceptions_added": false,
+  "verification": {
+    "strict_C03_fno_exceptions": true,
+    "normal_pass": true,
+    "ASan_UBSan_pass": true,
+    "ownership_sequences": 160,
+    "reload_sequences": 960,
+    "negative_controls": 3,
+    "each_old_class_initializer_triggers_unsupported_base_copy_diagnostic": true,
+    "actual_three_owner_classes_and_methods": true,
+    "baseline_base_constructor_bodies_reproduced": true,
+    "baseline_copy_parameter_name_omitted_for_host_unused_warning": true,
+    "base_diagnostic_counter_standin": true,
+    "XML_base_read_and_record_interfaces_standins": true,
+    "leak_detection": false
+  },
+  "full_DLL": {
+    "triggered": false,
+    "status": "deferred_missing_authored_Event_Unit_assets_and_Unit_schema",
+    "MSVC71_result": null,
+    "gameplay_result": null
+  },
+  "runtime_save_validation_policy": "save_runtime_validation_policy"
+}

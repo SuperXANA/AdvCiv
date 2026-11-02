@@ -21,3 +21,7 @@ These are scoped actual-owner/list implementations with simplified records and b
 ## Integration gate retained
 
 Full DLL overlay remains deferred under the existing missing Event/Unit preference assets and Unit schema gate. No XML profiles/schema or omitted implementation is invented to obtain a build. The copy repair is independently reviewable source work; it does not activate or certify the full preference feature. New-game save/reload, XML/default installation, percentage arithmetic and actual consumers remain future integration verification. Original branches and read-only baseline unchanged. Code and documentation use [skip ci].
+
+## Follow-up correction — 2026-11-02
+
+PREFERENCE-20261102-15 corrects the base initializer in all three new copy constructors. The actual baseline CvInfoBase copy constructor only raises an unimplemented-copy diagnostic and does not copy metadata; the earlier fixture's empty base did not model that contract. Use base_t(), matching baseline default cloning, and read the child's own base metadata through the existing read sequence. The derived scalar/vector/five-map deep copies remain. See preference-base-2026-11-02.md and code 87a7aa044ea0ed52d304a0b3fbac9c15b5137962 for evidence, expanded regression and unchanged full-DLL integration gate.
