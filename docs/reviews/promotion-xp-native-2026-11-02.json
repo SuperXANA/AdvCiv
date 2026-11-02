@@ -1,0 +1,110 @@
+{
+  "date": "2026-11-02",
+  "classification": "promotion_XP_missing_Debug_and_current_native_evidence_completed_without_Cpp_changes",
+  "original_source": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+  "selected_assistant_source": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "workflow_source": "1cc8c3d24e9fe15126485de0b9e6604167caac36",
+  "workflow_changes": "Only three provenance pins; user source already adopts prepare_sources ID/output guard and consistently renames step-local preparation script variables.",
+  "previous_workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+  "adopted_workflow_finding": "WORKFLOW-20261101-10",
+  "local_actual_preparation_script_cases": 6,
+  "local_standins": "rsync/SSH; no local remote PowerShell/compiler/artifact service",
+  "tested_commit": "007f5d98a97d949d69a212f525e612e9bfb1238f",
+  "run": 41395843089,
+  "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41395843089",
+  "terminal_status": "completed",
+  "terminal_conclusion": "success",
+  "Cpp_changes": false,
+  "baseline_blobs_retained": 872,
+  "selected_DLL_blobs_unchanged": 362,
+  "root_sources": 349,
+  "independent_feature_Git_blob_and_native_SHA256_checks": 5,
+  "compiler_probes_both": "_MSC_VER == 1310 (MSVC 7.1)",
+  "actual_Build_log_and_BuildTiming_inspected_both": true,
+  "all_four_archives_downloaded_API_size_SHA256_checked_extracted": true,
+  "all_extracted_entries_match_archive": true,
+  "source_manifests_expected_actual_equal": true,
+  "source_hash_diffs_empty": true,
+  "source_manifest_names_match_tested_tree": true,
+  "exact_all_provenance_pins_verified": true,
+  "both_source_diagnostics_uploads": "success",
+  "artifact_metadata": [
+    {
+      "id": 13119830930,
+      "name": "CvGameCoreDLL-Debug-PromotionXPBuild-ChatGPT-007f5d98a97d949d69a212f525e612e9bfb1238f",
+      "size_in_bytes": 18572618,
+      "digest": "sha256:700e00098fab55535cd762a7e615b60b0dc8648cb3f9572317eba458ab0503f0",
+      "head_sha": "007f5d98a97d949d69a212f525e612e9bfb1238f"
+    },
+    {
+      "id": 13119054247,
+      "name": "CvGameCoreDLL-Release-PromotionXPBuild-ChatGPT-007f5d98a97d949d69a212f525e612e9bfb1238f",
+      "size_in_bytes": 2349677,
+      "digest": "sha256:8a8ebc22702e4073969c39bfa3f2a23a1681cb8babfb50d755725ff32e996676",
+      "head_sha": "007f5d98a97d949d69a212f525e612e9bfb1238f"
+    },
+    {
+      "id": 13119039632,
+      "name": "source-verification-Debug-PromotionXPBuild-ChatGPT-007f5d98a97d949d69a212f525e612e9bfb1238f",
+      "size_in_bytes": 31098,
+      "digest": "sha256:c384d74c66278374341ce2a5844b8c755a468b991a1806d1a65e33aa46e0a10f",
+      "head_sha": "007f5d98a97d949d69a212f525e612e9bfb1238f"
+    },
+    {
+      "id": 13118834726,
+      "name": "source-verification-Release-PromotionXPBuild-ChatGPT-007f5d98a97d949d69a212f525e612e9bfb1238f",
+      "size_in_bytes": 31099,
+      "digest": "sha256:ab0a6d2092551c539054070b065229f44d17ac4feeb455127bfc59c0f1bbc4dc",
+      "head_sha": "007f5d98a97d949d69a212f525e612e9bfb1238f"
+    }
+  ],
+  "native": {
+    "Release": {
+      "configuration": "Release",
+      "artifacts": {
+        "binary": 13119054247,
+        "diagnostic": 13118834726
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 349,
+      "manifest_sha256": "112149f68eacbed6e828b5c36a6999c5abb65c9cadf60da356d1fa4c71305df1",
+      "dll_bytes": 6569984,
+      "dll_sha256": "27ad06e4586b0b09106573938e3162d77f7db658f0b7d1142cf4aacf4cdcaf87",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-02T05:45:09.9618211Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-02T05:45:07.9618211Z",
+        "precompile_utc_after=2026-11-02T05:45:07.9618211Z"
+      ]
+    },
+    "Debug": {
+      "configuration": "Debug",
+      "artifacts": {
+        "binary": 13119830930,
+        "diagnostic": 13119039632
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 349,
+      "manifest_sha256": "112149f68eacbed6e828b5c36a6999c5abb65c9cadf60da356d1fa4c71305df1",
+      "dll_bytes": 25194496,
+      "dll_sha256": "5f029eab3647b0b5b27976e28e9eee80aaa89cdaa2895ca0b9ce40301d64e57b",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-02T05:48:04.3680701Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-02T05:48:02.3524444Z",
+        "precompile_utc_after=2026-11-02T05:48:02.3524444Z"
+      ],
+      "pdb_guid": "ce974231-c9ed-4a9a-8f93-3954c7a25956",
+      "pdb_age": 1,
+      "pdb_bytes": 70634496,
+      "pdb_sha256": "9292f646d5849591695cca2737001780004d992e8562774d1d75e7357a211274"
+    }
+  },
+  "engine_XML_combat_XP_load_reconstruction_UI_gameplay": false,
+  "user_branches_modified": false
+}

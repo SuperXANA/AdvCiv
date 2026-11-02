@@ -80,3 +80,7 @@ uses MSBuild to invoke the NMake project. The machine-local
 `R:\CvGameCoreDLL\Project\Makefile` and `Makefile.user` select the VS2003
 compiler/toolchain. Visual Studio 2010 supplies the build tool environment;
 the DLL's C/C++ compilation uses MSVC 7.1.
+
+## Current Release/Debug validation — 2026-11-02
+
+The unchanged corrected DLL source now passes the current full Release/Debug procedure at exact commit `007f5d98a97d949d69a212f525e612e9bfb1238f`, [run 41395843089](https://github.com/SuperXANA/AdvCiv/actions/runs/41395843089). Both MSVC7.1 probes passed; actual Build.log files report zero warnings/errors. Four archives, source-content hashes/provenance, five feature-file hashes, PE32 DLLs and matching Debug PDB were verified. The current user workflow already adopts the source-diagnostics owner fix; only its provenance pins were populated. No C++ changed. Earlier run evidence remains historical Release-only. [Complete matrix report](promotion-xp-native-2026-11-02.md).
