@@ -1,0 +1,167 @@
+diff --git a/CvGameCoreDLL/CvInfo_Civilization.cpp b/CvGameCoreDLL/CvInfo_Civilization.cpp
+index a99c8a7cb669251be9b8150cf2a84f80a735b4e4..a6e940a29249481e3af9a69a46a9f9e4ce4944c1 100644
+--- a/CvGameCoreDLL/CvInfo_Civilization.cpp
++++ b/CvGameCoreDLL/CvInfo_Civilization.cpp
+@@ -1084,11 +1084,15 @@ bool CvLeaderHeadInfo::read(CvXMLLoadUtility* pXML)
+ 	return true;
+ }
+ // <advc.xmldefault>
+-
+ // XANA: 05-25-2025 Leader-Specific Colony Split
+ bool CvLeaderHeadInfo::readPass2(CvXMLLoadUtility* pXML)
+ {
+-	pXML->SetInfoIDFromChildXmlVal(m_iDerivativeLeader, "DerivativeLeader");
++	// XANA: 11-01-2026 Omission remains optional when the prior leader index is zero.
++	CvString szDerivativeLeader;
++	pXML->GetChildXmlValByName(szDerivativeLeader, "DerivativeLeader", "");
++	if (!szDerivativeLeader.IsEmpty())
++		m_iDerivativeLeader = pXML->FindInInfoClass(szDerivativeLeader);
++	// XANA: 11-01-2026 Omission remains optional when the prior leader index is zero.
+ 	return true;
+ }
+ // XANA: 05-25-2025 Leader-Specific Colony Split
+diff --git a/CvGameCoreDLL/CvPlayer.cpp b/CvGameCoreDLL/CvPlayer.cpp
+index 06fa386469382dddac3271c64cb69967840895b1..5e6e4bb872eb82c0b4438b8937571f4c725b42a2 100644
+--- a/CvGameCoreDLL/CvPlayer.cpp
++++ b/CvGameCoreDLL/CvPlayer.cpp
+@@ -3897,7 +3897,10 @@ bool CvPlayer::canTradeItem(PlayerTypes eWhoTo, TradeData item, bool bTestDenial
+ 	{
+ 		FAssertBounds(0, MAX_CIV_TEAMS, item.m_iData);
+ 		TeamTypes eTargetTeam = (TeamTypes)item.m_iData;
+-		if (!GET_TEAM(eTargetTeam).isAVassal() &&
++		// <advc.104> (correction from SAS)
++		bool bVassalStatusValid = (!GET_TEAM(eTargetTeam).isAVassal() ||
++				(getUWAI().isEnabled() && !GET_TEAM(eTargetTeam).isCapitulated()));
++		if (bVassalStatusValid && // </advc.104>
+ 			kOurTeam.isHasMet(eTargetTeam) && kToTeam.isHasMet(eTargetTeam) &&
+ 			kOurTeam.canDeclareWar(eTargetTeam))
+ 		{
+@@ -5068,20 +5071,29 @@ void CvPlayer::found(int iX, int iY)
+ 
+ 	if (getAdvancedStartPoints() >= 0)
+ 	{	// Free border expansion for Creative
+-		bool bCreative = false;
++		bool bFreeBorderExp = false; // advc: Renamed from "bCreative"
+ 		FOR_EACH_ENUM(Trait)
+ 		{
+ 			if (hasTrait(eLoopTrait))
+ 			{
+ 				if (GC.getInfo(eLoopTrait).getCommerceChange(COMMERCE_CULTURE) > 0)
+ 				{
+-					bCreative = true;
++					bFreeBorderExp = true;
+ 					break;
+ 				}
+ 			}
+ 		}
+-
+-		if (bCreative)
++		/*	<advc.908b> Let traits handle this explicitly
++			unless the free culture effect is unused */
++		FOR_EACH_ENUM(Trait)
++		{
++			if (kGame.freeCityCultureFromTrait(eLoopTrait) != 0)
++			{
++				bFreeBorderExp = false;
++				break;
++			}
++		} // </advc.908b>
++		if (bFreeBorderExp)
+ 		{
+ 			FOR_EACH_ENUM(CultureLevel)
+ 			{
+@@ -10999,7 +11011,7 @@ void CvPlayer::addMessage(CvTalkingHeadMessage const& kMessage)
+ 	if (eMessage == MESSAGE_TYPE_INFO || eMessage == MESSAGE_TYPE_MINOR_EVENT ||
+ 		eMessage == MESSAGE_TYPE_MAJOR_EVENT || eMessage == MESSAGE_TYPE_MAJOR_EVENT_LOG_ONLY)
+ 	{
+-		m_iNewMessages++; // See comment in postProcessBeginTurnEvents
++		m_iNewMessages++; // See comment in postProcessMessages
+ 	}
+ 	/*	Hotseat clears some messages before players get to see them; we'll show them
+ 		again at the start of the recipient's next turn. */
+@@ -11010,7 +11022,7 @@ void CvPlayer::addMessage(CvTalkingHeadMessage const& kMessage)
+ 	if (eMessage == MESSAGE_TYPE_MAJOR_EVENT || bMissedMsg)
+ 	{
+ 		/*  Need to make a copy b/c, apparently, the EXE deletes the original
+-			before postProcessBeginTurnEvents gets called. */
++			before postProcessMessages gets called. */
+ 		CvTalkingHeadMessage* pCopy = new CvTalkingHeadMessage(kMessage.getTurn(),
+ 				kMessage.getLength(), kMessage.getDescription(),
+ 				// Don't play it twice
+@@ -14304,8 +14316,30 @@ void CvPlayer::read(FDataStreamBase* pStream)
+ 		m_aiSpecialBuildingNotRequiredCount.read(pStream);
+ 		m_aiHasCivicOptionCount.read(pStream);
+ 		m_aiNoCivicUpkeepCount.read(pStream);
+-		m_aiHasReligionCount.read(pStream);
+-		m_aiHasCorporationCount.read(pStream);
++		if (uiFlag < 23)
++		{
++			ArrayEnumMap<ReligionTypes,int,char> aiHasReligionCountLegacy;
++			ArrayEnumMap<CorporationTypes,int,char> aiHasCorpCountLegacy;
++			aiHasReligionCountLegacy.read(pStream);
++			aiHasCorpCountLegacy.read(pStream);
++			/*	These legacy counts may have wrapped around, but we can't sort that out
++				until CvGame::onAllGameDataRead. */
++			FOR_EACH_ENUM(Religion)
++			{
++				m_aiHasReligionCount.set(eLoopReligion,
++						aiHasReligionCountLegacy.get(eLoopReligion));
++			}
++			FOR_EACH_ENUM(Corporation)
++			{
++				m_aiHasCorporationCount.set(eLoopCorporation,
++						aiHasCorpCountLegacy.get(eLoopCorporation));
++			}
++		}
++		else
++		{
++			m_aiHasReligionCount.read(pStream);
++			m_aiHasCorporationCount.read(pStream);
++		}
+ 		m_aiUpkeepCount.read(pStream);
+ 		m_aiSpecialistValidCount.read(pStream);
+ 		if (uiFlag >= 21)
+@@ -14701,7 +14735,8 @@ void CvPlayer::write(FDataStreamBase* pStream)
+ 	//uiFlag = 19; // advc.708
+ 	//uiFlag = 20; // advc.912g
+ 	//uiFlag = 21; // advc.enum: Bugfix in bool-valued ArrayEnumMap
+-	uiFlag = 22; // advc: Bugs fixed with civ-wide special commerce rate cache
++	//uiFlag = 22; // advc: Bugs fixed with civ-wide special commerce rate cache
++	uiFlag = 23; // advc: Larger EnumMap for religion, corporation count
+ 	pStream->Write(uiFlag);
+ 
+ 	// <advc.027>
+diff --git a/CvGameCoreDLL/CyInfoInterface3.cpp b/CvGameCoreDLL/CyInfoInterface3.cpp
+index b33f0ed08f7fd6e8c52d15c8069d00caa354c9e7..5dda8a4e18a2aca85764500726d6d584da19fb6b 100644
+--- a/CvGameCoreDLL/CyInfoInterface3.cpp
++++ b/CvGameCoreDLL/CyInfoInterface3.cpp
+@@ -587,7 +587,8 @@ void CyInfoPythonInterface3()
+ 		.def("getNumBonusesRequired", &CvEventTriggerInfo::getNumBonusesRequired, "int ()")
+ 		.def("getRouteRequired", &CvEventTriggerInfo::getRouteRequired, "int (int)")
+ 		.def("getNumRoutesRequired", &CvEventTriggerInfo::getNumRoutesRequired, "int ()")
+-		.def("getReligionRequired", &CvEventTriggerInfo::getBonusRequired, "int (int)")
++		// advc.sas (bugfix): 2nd arg was getBonusRequired
++		.def("getReligionRequired", &CvEventTriggerInfo::getReligionRequired, "int (int)")
+ 		.def("getNumReligionsRequired", &CvEventTriggerInfo::getNumReligionsRequired, "int ()")
+ 		.def("getCorporationRequired", &CvEventTriggerInfo::getCorporationRequired, "int (int)")
+ 		.def("getNumCorporationsRequired", &CvEventTriggerInfo::getNumCorporationsRequired, "int ()")
+@@ -601,7 +602,8 @@ void CyInfoPythonInterface3()
+ 		.def("isOtherPlayerHasOtherReligion", &CvEventTriggerInfo::isOtherPlayerHasOtherReligion, "bool ()")
+ 		.def("isOtherPlayerAI", &CvEventTriggerInfo::isOtherPlayerAI, "bool ()")
+ 		.def("isPickCity", &CvEventTriggerInfo::isPickCity, "bool ()")
+-		.def("isPickOtherPlayerCity", &CvEventTriggerInfo::isPickCity, "bool ()")
++		// advc.sas (bugfix): 2nd arg was isPickCity
++		.def("isPickOtherPlayerCity", &CvEventTriggerInfo::isPickOtherPlayerCity, "bool ()")
+ 		.def("isUnitsOnPlot", &CvEventTriggerInfo::isUnitsOnPlot, "bool ()")
+ 		.def("isOwnPlot", &CvEventTriggerInfo::isOwnPlot, "bool ()")
+ 		.def("isPickReligion", &CvEventTriggerInfo::isPickReligion, "bool ()")
+@@ -631,7 +633,8 @@ void CyInfoPythonInterface3()
+ 		.def("getTechMinTurnsLeft", &CvEventInfo::getTechMinTurnsLeft, "int ()")
+ 		.def("getPrereqTech", &CvEventInfo::getPrereqTech, "int ()")
+ 		.def("getUnitClass", &CvEventInfo::getUnitClass, "int ()")
+-		.def("getNumUnits", &CvEventTriggerInfo::getNumUnits, "int ()")
++		// advc.sas (bugfix): was CvEventTriggerInfo
++		.def("getNumUnits", &CvEventInfo::getNumUnits, "int ()")
+ 		.def("getBuildingClass", &CvEventInfo::getBuildingClass, "int ()")
+ 		.def("getBuildingChange", &CvEventInfo::getBuildingChange, "int ()")
+ 		.def("getHappy", &CvEventInfo::getHappy, "int ()")

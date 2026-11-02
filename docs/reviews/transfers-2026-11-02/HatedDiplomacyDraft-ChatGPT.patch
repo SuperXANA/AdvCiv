@@ -1,0 +1,153 @@
+diff --git a/CvGameCoreDLL/CvInfo_Civilization.cpp b/CvGameCoreDLL/CvInfo_Civilization.cpp
+index e86366179b2ae8634144f2b14bd24d0804610ffd..0475582bff1d98ec3ce85b6871806e482b88ecaa 100644
+--- a/CvGameCoreDLL/CvInfo_Civilization.cpp
++++ b/CvGameCoreDLL/CvInfo_Civilization.cpp
+@@ -874,7 +874,7 @@ void CvLeaderHeadInfo::write(FDataStreamBase* stream)
+ // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+ 	stream->Write(m_iHateReligionAttitudeChange);
+ 	stream->Write(m_iHateReligionAttitudeDivisor);
+-	stream->Write(m_iHateeligionAttitudeChangeLimit);
++	stream->Write(m_iHateReligionAttitudeChangeLimit);
+ // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+ 	stream->Write(m_iBonusTradeAttitudeDivisor);
+ 	stream->Write(m_iBonusTradeAttitudeChangeLimit);
+diff --git a/CvGameCoreDLL/CvPlayer.cpp b/CvGameCoreDLL/CvPlayer.cpp
+index c65d8d80904682ff0d3d9c35ab96b3eb5aa4a66d..a4454466a69b05c6ca1851069d7a43eb78f2988e 100644
+--- a/CvGameCoreDLL/CvPlayer.cpp
++++ b/CvGameCoreDLL/CvPlayer.cpp
+@@ -9449,6 +9449,9 @@ void CvPlayer::setLastStateReligion(ReligionTypes eNewReligion)
+ 		for (PlayerAIIter<MAJOR_CIV> it; it.hasNext(); ++it) // advc.003n
+ 		{
+ 			if (it->getStateReligion() != NO_RELIGION ||
++				// XANA: 11-01-2026 Refresh religionless observers with a hated religion (ChatGPT)
++				it->getHateReligion() != NO_RELIGION ||
++				// XANA: 11-01-2026 Refresh religionless observers with a hated religion (ChatGPT)
+ 				/*	advc.001: Update our own cache if we renounce. (Redundant
+ 					when we renounce by switching to a no-state-religion civic.
+ 					But perhaps we just chose no religion.) */
+diff --git a/CvGameCoreDLL/CvPlayerAI.cpp b/CvGameCoreDLL/CvPlayerAI.cpp
+index 0ef1425f4b95a382e76360326371110f6165516c..ff35af661db3a42efd2927b7e3f2c0b129a64ec8 100644
+--- a/CvGameCoreDLL/CvPlayerAI.cpp
++++ b/CvGameCoreDLL/CvPlayerAI.cpp
+@@ -13488,7 +13488,7 @@ DenialTypes CvPlayerAI::AI_religionTrade(ReligionTypes eReligion,
+ 	if (eHateReligion != NO_RELIGION)
+ 	{
+ 		if (eReligion == eHateReligion &&
+-		GET_PLAYER(ePlayer).isHasReligion(eReligion))
++		GET_PLAYER(ePlayer).getHasReligionCount(eReligion) > 0)
+ 		{
+ 			return DENIAL_FAVORITE_CIVIC;
+ 		}
+@@ -18242,7 +18242,7 @@ int CvPlayerAI::AI_religionValue(ReligionTypes eReligion) const
+ 		also, most civs with a high base modifier also have iReligionFlavor > 0;
+ 		and so their final modifier will be reduced. */
+ // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+-	int iDiplomaticModifier = 10 * iDiplomaticBase * (iLikedReligionCivs / iHatedReligionCivs) /
++	int iDiplomaticModifier = 10 * iDiplomaticBase * (iLikedReligionCivs / std::max(1, iHatedReligionCivs)) /
+ 			std::max(1, iTotalCivs);
+ // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+ 	iDiplomaticModifier /= 10 + iReligionFlavor;
+@@ -18780,7 +18780,7 @@ void CvPlayerAI::AI_changeHateCivicCounter(PlayerTypes eIndex, int iChange)
+ {
+ 	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+ 	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+-	m_aiFavoriteCivicCounter[eIndex] = (m_aiFavoriteCivicCounter[eIndex] + iChange);
++	m_aiHateCivicCounter[eIndex] = (m_aiHateCivicCounter[eIndex] + iChange);
+ 	FAssert(AI_getHateCivicCounter(eIndex) >= 0);
+ }
+ // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+@@ -19039,6 +19039,7 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
+ 		{
+ // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+ 		case ENEMY_RELIGION:
++		{
+ 			ReligionTypes eHateReligion = getHateReligion();
+ 			if (eHateReligion != NO_RELIGION &&
+ 				getStateReligion() != eHateReligion &&
+@@ -19047,7 +19048,9 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
+ 				iMatching += iCities;
+ 			}
+ 			break;
++		}
+ 		case ENEMY_CIVIC:
++		{
+ 			CivicTypes eHateCivic = getHateCivic();
+ 			if (eHateCivic != NO_CIVIC && !isCivic(eHateCivic) &&
+ 				itPlayer->isCivic(eHateCivic))
+@@ -19055,6 +19058,7 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
+ 				iMatching += iCities;
+ 			}
+ 			break;
++		}
+ // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+ 		case SAME_RELIGION:
+ 			if (getStateReligion() != NO_RELIGION &&
+@@ -23183,8 +23187,21 @@ void CvPlayerAI::read(FDataStreamBase* pStream)
+ 	pStream->Read(MAX_PLAYERS, m_aiDifferentReligionCounter);
+ 	pStream->Read(MAX_PLAYERS, m_aiFavoriteCivicCounter);
+ // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+-	pStream->Read(MAX_PLAYERS, m_aiHateCivicCounter);
+-	pStream->Read(MAX_PLAYERS, m_aiHateReligionCounter);
++// <ChatGPT 2026-10-31: version the hated diplomacy counter arrays>
++	if (uiFlag >= 23)
++	{
++		pStream->Read(MAX_PLAYERS, m_aiHateCivicCounter);
++		pStream->Read(MAX_PLAYERS, m_aiHateReligionCounter);
++	}
++	else
++	{
++		for (int i = 0; i < MAX_PLAYERS; i++)
++		{
++			m_aiHateCivicCounter[i] = 0;
++			m_aiHateReligionCounter[i] = 0;
++		}
++	}
++// </ChatGPT 2026-10-31>
+ // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+ 	pStream->Read(MAX_PLAYERS, m_aiBonusTradeCounter);
+ 	pStream->Read(MAX_PLAYERS, m_aiPeacetimeTradeValue);
+@@ -23356,7 +23373,10 @@ void CvPlayerAI::write(FDataStreamBase* pStream)
+ 	//uiFlag = 19; // advc.130n (mostly removed again)
+ 	//uiFlag = 20; // advc.115f
+ 	//uiFlag = 21; // advc.130c (remove separate cache for score diff)
+-	uiFlag = 22; // advc.130w: Cache for expansionist hate
++	//uiFlag = 22; // advc.130w: Cache for expansionist hate
++	// <ChatGPT 2026-10-31: hated civic/religion counter save format>
++	uiFlag = 23;
++	// </ChatGPT 2026-10-31>
+ 	pStream->Write(uiFlag);
+ 
+ 	pStream->Write(m_iPeaceWeight);
+@@ -25640,7 +25660,7 @@ void CvPlayerAI::AI_updateStrategyHash()
+ // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+ 				ReligionTypes eReligion = GC.getInfo(getPersonalityType()).getHateReligion();
+ 				if (eReligion != NO_RELIGION &&
+-					isHasReligion(eReligion))
++					getHasReligionCount(eReligion) > 0)
+ 				{
+ 					iMissionary /= 20;
+ 				}
+@@ -25772,12 +25792,12 @@ void CvPlayerAI::AI_updateStrategyHash()
+ // XANA: 05-24-2025 Hate Civic and Religion Diplomacy
+ 	CivicTypes eCivic = GC.getInfo(getPersonalityType()).getHateCivic();
+ 	if (eCivic != NO_CIVIC &&
+-		!isCivic(eReligion))
++		!isCivic(eCivic))
+ 	{
+ 		for (PlayerAIIter<FREE_MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getTeam());
+ 			itRival.hasNext(); ++itRival)
+ 		{
+-			if (itRival.isCivic(eCivic))
++			if (itRival->isCivic(eCivic))
+ 			{	
+ 				iParanoia += 10;
+ 			}
+@@ -25790,7 +25810,7 @@ void CvPlayerAI::AI_updateStrategyHash()
+ 		for (PlayerAIIter<FREE_MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getTeam());
+ 			itRival.hasNext(); ++itRival)
+ 		{
+-			if (itRival.getStateReligion() == eReligion)
++			if (itRival->getStateReligion() == eReligion)
+ 			{
+ 				iParanoia += 10;
+ 			}

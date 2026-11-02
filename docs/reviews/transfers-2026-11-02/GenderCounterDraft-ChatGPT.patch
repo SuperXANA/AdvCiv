@@ -1,0 +1,903 @@
+diff --git a/CvGameCoreDLL/CvEnumMacros.h b/CvGameCoreDLL/CvEnumMacros.h
+index 1e3ee97c403b31a3bf681ff077155b971162207c..5e5b2e65bf19c8e32568a23e74556cc478d0c64c 100644
+--- a/CvGameCoreDLL/CvEnumMacros.h
++++ b/CvGameCoreDLL/CvEnumMacros.h
+@@ -164,6 +164,9 @@
+ #define CvDomainInfo CvInfoBase
+ #define CvAttitudeInfo CvInfoBase
+ #define CvMemoryInfo CvInfoBase
++// XANA: 11-01-2026 Gender basic-info class alias (ChatGPT)
++#define CvGenderInfo CvInfoBase
++// XANA: 11-01-2026 Gender basic-info class alias (ChatGPT)
+ #define CvCityTabInfo CvInfoBase
+ #define CvCalendarInfo CvInfoBase
+ #define CvUnitAIInfo CvInfoBase
+diff --git a/CvGameCoreDLL/CvGameTextMgr.cpp b/CvGameCoreDLL/CvGameTextMgr.cpp
+index 0884733ea9f48479f624ad31eb5039eb50b31e92..3f4dac7deb3a5a6d1728e396a4b13cfe24fc4ba1 100644
+--- a/CvGameCoreDLL/CvGameTextMgr.cpp
++++ b/CvGameCoreDLL/CvGameTextMgr.cpp
+@@ -3068,6 +3068,17 @@ void CvGameTextMgr::setPlotHelp(CvWStringBuffer& szString, CvPlot const& kPlot)
+ 		}
+ 	}
+ 	CvUnit const* pHeadSelectedUnit = gDLL->UI().getHeadSelectedUnit(); // advc
++	// advc.004h: (Could show founding border in Go To mode here like BtS does)
++	/*static CvPlot const* pPrevPlot = NULL;
++	if (&kPlot != pPrevPlot)
++	{
++		pPrevPlot = &kPlot;
++		if (pHeadSelectedUnit != NULL &&
++			gDLL->UI().getInterfaceMode() == INTERFACEMODE_GO_TO)
++		{
++			pHeadSelectedUnit->updateFoundingBorder();
++		}
++	}*/
+ 	// <advc.012>
+ 	TeamTypes const eDefTeam = (eRevealedOwner != NO_PLAYER ?
+ 			GET_PLAYER(eRevealedOwner).getTeam() :
+@@ -3756,13 +3767,13 @@ void CvGameTextMgr::setHealthHappyBuildActionHelp(CvWStringBuffer& szBuffer,
+ 			if (iHappyChange != 0)
+ 			{
+ 				szBuffer.append(bFirst ? szNewItem : L", "); bFirst = false;
+-				szBuffer.append(CvWString::format(L"%s%d%c", iHappyChange > 0 ? "+" : "",
++				szBuffer.append(CvWString::format(L"%s%d%c", iHappyChange > 0 ? L"+" : L"",
+ 						iHappyChange, gDLL->getSymbolID(HAPPY_CHAR)));
+ 			}
+ 			if (iUnhappyChange != 0)
+ 			{
+ 				szBuffer.append(bFirst ? szNewItem : L", "); bFirst = false;
+-				szBuffer.append(CvWString::format(L"%s%d%c", iUnhappyChange > 0 ? "+" : "",
++				szBuffer.append(CvWString::format(L"%s%d%c", iUnhappyChange > 0 ? L"+" : L"",
+ 						iUnhappyChange, gDLL->getSymbolID(UNHAPPY_CHAR)));
+ 			}
+ 			if (iGoodHealthPercentChange != 0)
+@@ -10313,7 +10324,7 @@ void CvGameTextMgr::setBuildingHelpActual(CvWStringBuffer &szBuffer,
+ 	{
+ 		szTempBuffer.Format(
+ 				(bInBuildingList ? L"\n%s%d%c" : // advc.004w: Doesn't fit in one line
+-				L", %s%d%c"), (kBuilding.getGreatPeopleRateChange() > 0) ? "+" : "",
++				L", %s%d%c"), (kBuilding.getGreatPeopleRateChange() > 0) ? L"+" : L"",
+ 				kBuilding.getGreatPeopleRateChange(), gDLL->getSymbolID(GREAT_PEOPLE_CHAR));
+ 		szBuffer.append(szTempBuffer);
+ 		UnitClassTypes eGPClass = kBuilding.getGreatPeopleUnitClass(); // advc
+@@ -14206,7 +14217,7 @@ void CvGameTextMgr::setBonusExtraHelp(CvWStringBuffer &szBuffer, BonusTypes eBon
+ 					::applyColorToString(szDescr, "COLOR_HIGHLIGHT_TEXT");
+ 				szBuffer.append(CvWString::format(L"%c%s%d%% %s",
+ 						gDLL->getSymbolID(BULLET_CHAR),
+-						iProductionMod > 0 ? "+" : "", iProductionMod,
++						iProductionMod > 0 ? L"+" : L"", iProductionMod,
+ 						gDLL->getText("TXT_KEY_BONUS_SPEED_FOR",
+ 						szDescr.GetCString()).GetCString()));
+ 			}
+@@ -14252,7 +14263,7 @@ void CvGameTextMgr::setBonusExtraHelp(CvWStringBuffer &szBuffer, BonusTypes eBon
+ 			szBuffer.append(NEWLINE);
+ 			szBuffer.append(CvWString::format(L"%c%s%d%% %s",
+ 					gDLL->getSymbolID(BULLET_CHAR),
+-					iProductionMod > 0 ? "+" : "",
++					iProductionMod > 0 ? L"+" : L"",
+ 					iProductionMod, gDLL->getText("TXT_KEY_BONUS_SPEED_FOR",
+ 					kProject.getDescription()).GetCString()));
+ 		}
+@@ -14299,7 +14310,7 @@ void CvGameTextMgr::setBonusExtraHelp(CvWStringBuffer &szBuffer, BonusTypes eBon
+ 			{
+ 				szBuffer.append(NEWLINE);
+ 				szBuffer.append(CvWString::format(L"%c%s%d%c: ",
+-						gDLL->getSymbolID(BULLET_CHAR), iSpeed > 0 ? "+" : "",
++						gDLL->getSymbolID(BULLET_CHAR), iSpeed > 0 ? L"+" : L"",
+ 						iSpeed, gDLL->getSymbolID(MOVES_CHAR)));
+ 				szBuffer.append(kUnit.getDescription());
+ 			}
+@@ -14538,7 +14549,7 @@ void CvGameTextMgr::setReligionHelpCity(CvWStringBuffer &szBuffer, ReligionTypes
+ 					if (!bFirst)
+ 						szBuffer.append(L", ");
+ 					bFirst = false;
+-					szTempBuffer.Format(L"%s%d%c", iRate > 0 ? "+" : "",
++					szTempBuffer.Format(L"%s%d%c", iRate > 0 ? L"+" : L"",
+ 							iRate, GC.getInfo(eLoopCommerce).getChar());
+ 					szBuffer.append(szTempBuffer);
+ 				}
+@@ -14826,7 +14837,7 @@ void CvGameTextMgr::setCorporationHelpCity(CvWStringBuffer &szBuffer,
+ 				if (bHandled)
+ 					szBuffer.append(L", ");
+ 				CvWString szTempBuffer;
+-				szTempBuffer.Format(L"%s%d%c", iYieldRate > 0 ? "+" : "",
++				szTempBuffer.Format(L"%s%d%c", iYieldRate > 0 ? L"+" : L"",
+ 						(iYieldRate + 99) / 100,
+ 						GC.getInfo(eLoopYield).getChar());
+ 				szBuffer.append(szTempBuffer);
+@@ -14851,7 +14862,7 @@ void CvGameTextMgr::setCorporationHelpCity(CvWStringBuffer &szBuffer,
+ 			if (bHandled)
+ 				szBuffer.append(L", ");
+ 			CvWString szTempBuffer;
+-			szTempBuffer.Format(L"%s%d%c", iCommerceRate > 0 ? "+" : "",
++			szTempBuffer.Format(L"%s%d%c", iCommerceRate > 0 ? L"+" : L"",
+ 					(iCommerceRate + 99) / 100,
+ 					GC.getInfo(eLoopCommerce).getChar());
+ 			szBuffer.append(szTempBuffer);
+@@ -16159,7 +16170,7 @@ void CvGameTextMgr::appendToAttitudeBreakdown(CvWStringBuffer& szBreakdown, int
+ // XANA: 10-25-2025 Gender Specific Diplomacy
+ void CvGameTextMgr::appendToAttitudeBreakdownWithExtraDescription(CvWStringBuffer& szBreakdown, int iPass,
+ 	int iAttitudeChange, int& iTotal, char const* szTextKey, char const* szTextKeyAlt,
+-	char const* szExtraDescription)
++	wchar const* szExtraDescription)
+ {
+ 	if ((iPass == 0) ? (iAttitudeChange > 0) : (iAttitudeChange < 0))
+ 	{
+@@ -16257,16 +16268,20 @@ void CvGameTextMgr::getAttitudeString(CvWStringBuffer& szBuffer, PlayerTypes ePl
+ 				"TXT_KEY_MISC_ATTITUDE_EXTRA_GOOD",
+ 				"TXT_KEY_MISC_ATTITUDE_EXTRA_BAD");
+ 		// XANA: 10-25-2025 Gender Specific Diplomacy
+-		appendToAttitudeBreakdownWithExtraDescription(szBreakdown, iPass,
+-				kPlayer.AI_getFavoriteGenderAttitude(eTargetPlayer), iTotal,
+-				"TXT_KEY_MISC_ATTITUDE_FAVORED_GENDER",
+-				"TXT_KEY_MISC_ATTITUDE_DISFAVORED_GENDER",
+-				GC.getInfo(GET_PLAYER(eTargetPlayer).getGender()).getDescription());
+-		appendToAttitudeBreakdownWithExtraDescription(szBreakdown, iPass,
+-				kPlayer.AI_getHateGenderAttitude(eTargetPlayer), iTotal,
+-				"TXT_KEY_MISC_ATTITUDE_GENDER_ALLY",
+-				"TXT_KEY_MISC_ATTITUDE_GENDER_ENEMY",
+-				GC.getInfo(GET_PLAYER(eTargetPlayer).getGender()).getDescription());
++		GenderTypes const eTargetGender = GET_PLAYER(eTargetPlayer).getGender();
++		if (eTargetGender >= 0 && eTargetGender < GC.getNumGenderInfos())
++		{
++			appendToAttitudeBreakdownWithExtraDescription(szBreakdown, iPass,
++					kPlayer.AI_getFavoriteGenderAttitude(eTargetPlayer), iTotal,
++					"TXT_KEY_MISC_ATTITUDE_FAVORED_GENDER",
++					"TXT_KEY_MISC_ATTITUDE_DISFAVORED_GENDER",
++					GC.getInfo(eTargetGender).getDescription());
++			appendToAttitudeBreakdownWithExtraDescription(szBreakdown, iPass,
++					kPlayer.AI_getHateGenderAttitude(eTargetPlayer), iTotal,
++					"TXT_KEY_MISC_ATTITUDE_GENDER_ALLY",
++					"TXT_KEY_MISC_ATTITUDE_GENDER_ENEMY",
++					GC.getInfo(eTargetGender).getDescription());
++		}
+ 		// XANA: 10-25-2025 Gender Specific Diplomacy
+ 		// <advc.sha> (based on: Show Hidden Attitude Mod 01/22/2010)
+ 		if (bSHowHiddenAttitude)
+diff --git a/CvGameCoreDLL/CvGameTextMgr.h b/CvGameCoreDLL/CvGameTextMgr.h
+index 9ba2d5219dc88a46f6cd795040513ca717267f7a..dd445584beb9023eb1cba14674f177b7c4e6d663 100644
+--- a/CvGameCoreDLL/CvGameTextMgr.h
++++ b/CvGameCoreDLL/CvGameTextMgr.h
+@@ -274,7 +274,7 @@ public:
+ 	void appendToAttitudeBreakdownWithExtraDescription(CvWStringBuffer& szBreakdown, int iPass,
+ 			int iAttitudeChange, int& iTotal,
+ 			char const* szTextKey, char const* szTextKeyAlt = NULL, 
+-			char const* szExtraDescription = NULL);
++			wchar const* szExtraDescription = NULL);
+ 	// XANA: 10-25-2025 Gender Specific Diplomacy
+ 	void getVassalInfoString(CvWStringBuffer& szBuffer, PlayerTypes ePlayer); // K-Mod
+ 	void getWarWearinessString(CvWStringBuffer& szBuffer, PlayerTypes ePlayer, PlayerTypes eTargetPlayer) const; // K-Mod
+diff --git a/CvGameCoreDLL/CvPlayer.cpp b/CvGameCoreDLL/CvPlayer.cpp
+index f3ff7fd6845964f3162d98c94f6175dcafaf2e19..4acb966c51d32e98674d2093706e710778422532 100644
+--- a/CvGameCoreDLL/CvPlayer.cpp
++++ b/CvGameCoreDLL/CvPlayer.cpp
+@@ -3897,7 +3897,10 @@ bool CvPlayer::canTradeItem(PlayerTypes eWhoTo, TradeData item, bool bTestDenial
+ 	{
+ 		FAssertBounds(0, MAX_CIV_TEAMS, item.m_iData);
+ 		TeamTypes eTargetTeam = (TeamTypes)item.m_iData;
+-		if (!GET_TEAM(eTargetTeam).isAVassal() &&
++		// <advc.104> (correction from SAS)
++		bool bVassalStatusValid = (!GET_TEAM(eTargetTeam).isAVassal() ||
++				(getUWAI().isEnabled() && !GET_TEAM(eTargetTeam).isCapitulated()));
++		if (bVassalStatusValid && // </advc.104>
+ 			kOurTeam.isHasMet(eTargetTeam) && kToTeam.isHasMet(eTargetTeam) &&
+ 			kOurTeam.canDeclareWar(eTargetTeam))
+ 		{
+@@ -5068,20 +5071,29 @@ void CvPlayer::found(int iX, int iY)
+ 
+ 	if (getAdvancedStartPoints() >= 0)
+ 	{	// Free border expansion for Creative
+-		bool bCreative = false;
++		bool bFreeBorderExp = false; // advc: Renamed from "bCreative"
+ 		FOR_EACH_ENUM(Trait)
+ 		{
+ 			if (hasTrait(eLoopTrait))
+ 			{
+ 				if (GC.getInfo(eLoopTrait).getCommerceChange(COMMERCE_CULTURE) > 0)
+ 				{
+-					bCreative = true;
++					bFreeBorderExp = true;
+ 					break;
+ 				}
+ 			}
+ 		}
+-
+-		if (bCreative)
++		/*	<advc.908b> Let traits handle this explicitly
++			unless the free culture effect is unused */
++		FOR_EACH_ENUM(Trait)
++		{
++			if (kGame.freeCityCultureFromTrait(eLoopTrait) != 0)
++			{
++				bFreeBorderExp = false;
++				break;
++			}
++		} // </advc.908b>
++		if (bFreeBorderExp)
+ 		{
+ 			FOR_EACH_ENUM(CultureLevel)
+ 			{
+@@ -11013,7 +11025,7 @@ void CvPlayer::addMessage(CvTalkingHeadMessage const& kMessage)
+ 	if (eMessage == MESSAGE_TYPE_INFO || eMessage == MESSAGE_TYPE_MINOR_EVENT ||
+ 		eMessage == MESSAGE_TYPE_MAJOR_EVENT || eMessage == MESSAGE_TYPE_MAJOR_EVENT_LOG_ONLY)
+ 	{
+-		m_iNewMessages++; // See comment in postProcessBeginTurnEvents
++		m_iNewMessages++; // See comment in postProcessMessages
+ 	}
+ 	/*	Hotseat clears some messages before players get to see them; we'll show them
+ 		again at the start of the recipient's next turn. */
+@@ -11024,7 +11036,7 @@ void CvPlayer::addMessage(CvTalkingHeadMessage const& kMessage)
+ 	if (eMessage == MESSAGE_TYPE_MAJOR_EVENT || bMissedMsg)
+ 	{
+ 		/*  Need to make a copy b/c, apparently, the EXE deletes the original
+-			before postProcessBeginTurnEvents gets called. */
++			before postProcessMessages gets called. */
+ 		CvTalkingHeadMessage* pCopy = new CvTalkingHeadMessage(kMessage.getTurn(),
+ 				kMessage.getLength(), kMessage.getDescription(),
+ 				// Don't play it twice
+@@ -14318,8 +14330,30 @@ void CvPlayer::read(FDataStreamBase* pStream)
+ 		m_aiSpecialBuildingNotRequiredCount.read(pStream);
+ 		m_aiHasCivicOptionCount.read(pStream);
+ 		m_aiNoCivicUpkeepCount.read(pStream);
+-		m_aiHasReligionCount.read(pStream);
+-		m_aiHasCorporationCount.read(pStream);
++		if (uiFlag < 23)
++		{
++			ArrayEnumMap<ReligionTypes,int,char> aiHasReligionCountLegacy;
++			ArrayEnumMap<CorporationTypes,int,char> aiHasCorpCountLegacy;
++			aiHasReligionCountLegacy.read(pStream);
++			aiHasCorpCountLegacy.read(pStream);
++			/*	These legacy counts may have wrapped around, but we can't sort that out
++				until CvGame::onAllGameDataRead. */
++			FOR_EACH_ENUM(Religion)
++			{
++				m_aiHasReligionCount.set(eLoopReligion,
++						aiHasReligionCountLegacy.get(eLoopReligion));
++			}
++			FOR_EACH_ENUM(Corporation)
++			{
++				m_aiHasCorporationCount.set(eLoopCorporation,
++						aiHasCorpCountLegacy.get(eLoopCorporation));
++			}
++		}
++		else
++		{
++			m_aiHasReligionCount.read(pStream);
++			m_aiHasCorporationCount.read(pStream);
++		}
+ 		m_aiUpkeepCount.read(pStream);
+ 		m_aiSpecialistValidCount.read(pStream);
+ 		if (uiFlag >= 21)
+@@ -14715,7 +14749,8 @@ void CvPlayer::write(FDataStreamBase* pStream)
+ 	//uiFlag = 19; // advc.708
+ 	//uiFlag = 20; // advc.912g
+ 	//uiFlag = 21; // advc.enum: Bugfix in bool-valued ArrayEnumMap
+-	uiFlag = 22; // advc: Bugs fixed with civ-wide special commerce rate cache
++	//uiFlag = 22; // advc: Bugs fixed with civ-wide special commerce rate cache
++	uiFlag = 23; // advc: Larger EnumMap for religion, corporation count
+ 	pStream->Write(uiFlag);
+ 
+ 	// <advc.027>
+diff --git a/CvGameCoreDLL/CvPlayer.h b/CvGameCoreDLL/CvPlayer.h
+index 2af8e74168deb91750ae0400e13aaddabdddbb75..43f465ab863dc405d4d82f0918358ccadca408b2 100644
+--- a/CvGameCoreDLL/CvPlayer.h
++++ b/CvGameCoreDLL/CvPlayer.h
+@@ -1648,8 +1648,8 @@ protected:  // <advc.210>
+ 	ArrayEnumMap<SpecialBuildingTypes,int,char> m_aiSpecialBuildingNotRequiredCount;
+ 	ArrayEnumMap<CivicOptionTypes,int,char> m_aiHasCivicOptionCount;
+ 	ArrayEnumMap<CivicOptionTypes,int,char> m_aiNoCivicUpkeepCount;
+-	ArrayEnumMap<ReligionTypes,int,char> m_aiHasReligionCount;
+-	ArrayEnumMap<CorporationTypes,int,char> m_aiHasCorporationCount;
++	ArrayEnumMap<ReligionTypes,int,short> m_aiHasReligionCount;
++	ArrayEnumMap<CorporationTypes,int,short> m_aiHasCorporationCount;
+ 	ArrayEnumMap<UpkeepTypes,int,char> m_aiUpkeepCount; // advc (comment): unused (but accessible)
+ 	ArrayEnumMap<SpecialistTypes,int,char> m_aiSpecialistValidCount;
+ 	/*int** m_paiExtraBuildingYield;
+diff --git a/CvGameCoreDLL/CvPlayerAI.cpp b/CvGameCoreDLL/CvPlayerAI.cpp
+index b146044133ed79a3f65828fa344ae008a3b7826f..ace43255c7d8bc87221881f600efa26435373468 100644
+--- a/CvGameCoreDLL/CvPlayerAI.cpp
++++ b/CvGameCoreDLL/CvPlayerAI.cpp
+@@ -391,9 +391,8 @@ void CvPlayerAI::AI_updateCacheData()
+ 	int i = 0;
+ 	FOR_EACH_CITYAI_VAR(pCity, *this)
+ 	{
+-		pCity->AI_setCityValPercent(
+-				(1 - stats::percentileRank(
+-				rCityValues, rCityValues[i] + scaled::epsilon())).getPercent());
++		pCity->AI_setCityValPercent(stats::percentileRank(
++				rCityValues, rCityValues[i] + scaled::epsilon()).getPercent());
+ 		pCity->AI_updateSafety();
+ 		i++;
+ 	} // </advc.139>
+@@ -505,6 +504,16 @@ void CvPlayerAI::AI_doTurnUnitsPre()
+ 	}
+ }
+ 
++// advc.131e:
++struct DescByExperience
++{
++	bool operator()(CvUnitAI const* pFirst, CvUnitAI const* pSecond) const
++	{
++		if (pFirst->AI_upgradePriority() != pSecond->AI_upgradePriority())
++			return pFirst->AI_upgradePriority() > pSecond->AI_upgradePriority();
++		return pFirst->getID() < pSecond->getID(); // (mustn't let address break ties)
++	}
++};
+ 
+ void CvPlayerAI::AI_doTurnUnitsPost()
+ {
+@@ -527,7 +536,7 @@ void CvPlayerAI::AI_doTurnUnitsPost()
+ 	}
+ 	// BETTER_BTS_AI_MOD, Gold AI, 02/24/10, jdog5000: START
+ 	//bool bAnyWar = (GET_TEAM(getTeam()).getAnyWarPlanCount(true) > 0);
+-	int iStartingGold = getGold();
++	int const iStartingGold = getGold();
+ 	/* BBAI code
+ 	int iTargetGold = AI_goldTarget();
+ 	int iUpgradeBudget = (AI_getGoldToUpgradeAllUnits() / (bAnyWar ? 1 : 2));
+@@ -547,21 +556,30 @@ void CvPlayerAI::AI_doTurnUnitsPost()
+ 		int iMaxBudget = AI_goldTarget(true);
+ 		iUpgradeBudget = std::min(iMaxBudget, getGold() * iMaxBudget /
+ 				std::max(1, AI_goldTarget(false)));
+-	}
+-	// K-Mod end
++	} // K-Mod end
+ 
+ 	// Always willing to upgrade 1 unit if we have the money
+-	iUpgradeBudget = std::max(iUpgradeBudget,1);
++	iUpgradeBudget = std::max(iUpgradeBudget, 1);
+ 	// BETTER_BTS_AI_MOD: END
+ 
+ 	CvPlot const* pLastUpgradePlot = NULL;
+-	for (int iPass = 0; iPass < 4; iPass++)
+-	{
+-		FOR_EACH_UNITAI_VAR(pLoopUnit, *this)
+-		{
++	// <advc.131e>
++	std::vector<CvUnitAI*> apUnitsByExp;
++	FOR_EACH_UNITAI_VAR(pLoopUnit, *this)
++		apUnitsByExp.push_back(pLoopUnit);
++	std::sort(apUnitsByExp.begin(), apUnitsByExp.end(), DescByExperience());
++	for (int iPass = 0; iPass < 5; iPass++) // Case inserted for upgrade discounts
++	{	// BBAI check moved up to save time
++		if (iPass >= 3 && iStartingGold - getGold() >= iUpgradeBudget)
++			break; // </advc.131e>
++		//FOR_EACH_UNITAI_VAR(pLoopUnit, *this)
++		// <advc.131e>
++		for (std::vector<CvUnitAI*>::iterator itUnit = apUnitsByExp.begin();
++			itUnit != apUnitsByExp.end(); /* Increment later; may want to erase. */)
++		{
++			CvUnitAI* pLoopUnit = *itUnit; // </advc.131e>
+ 			bool bNoDisband = false;
+ 			bool bValid = false;
+-
+ 			switch (iPass)
+ 			{
+ 			case 0:
+@@ -593,23 +611,27 @@ void CvPlayerAI::AI_doTurnUnitsPost()
+ 				}
+ 				break;
+ 			}
++			// <advc.131e>
+ 			case 2:
++				if (pLoopUnit->getUpgradeDiscount() >= 40)
++					bValid = true;
++				break; // </advc.131e>
++			case 3:
+ 				/*if (pLoopUnit->cargoSpace() > 0)
+ 					bValid = true;*/ // BtS
+ 				// Only normal transports
+ 				if (pLoopUnit->cargoSpace() > 0 &&
+ 					pLoopUnit->specialCargo() == NO_SPECIALUNIT)
+ 				{
+-					bValid = iStartingGold - getGold() < iUpgradeBudget;
++					bValid = true;
+ 				}
+ 				// Also upgrade escort ships
+ 				if (pLoopUnit->AI_getUnitAIType() == UNITAI_ESCORT_SEA)
+-					bValid = iStartingGold - getGold() < iUpgradeBudget;
++					bValid = true;
+ 
+ 				break;
+-			case 3:
+-				//bValid = true; // BtS
+-				bValid = iStartingGold - getGold() < iUpgradeBudget;
++			case 4:
++				bValid = true;
+ 				break;
+ 			default:
+ 				FAssert(false);
+@@ -617,14 +639,23 @@ void CvPlayerAI::AI_doTurnUnitsPost()
+ 			}
+ 
+ 			if (!bValid)
++			{
++				++itUnit; // advc.131e
+ 				continue;
++			}
++			// advc.131e: One upgrade attempt per unit suffices
++			else itUnit = apUnitsByExp.erase(itUnit);
+ 
+ 			bool bKilled = false;
+ 			if (!bNoDisband)
+ 			{
+ 				//if (pLoopUnit->canFight()) // BtS
+ 				// K-Mod - bug fix for the rare case of a barb city spawning on top of an animal
+-				if (pLoopUnit->getUnitCombatType() != NO_UNITCOMBAT)
++				if (pLoopUnit->getUnitCombatType() != NO_UNITCOMBAT &&
++					!pLoopUnit->isFound() && // advc: Future-proof; from DoC.
++					/*	advc.131e: Will otherwise need to remove cargo from apUnitsByExp.
++						But probably a bad idea to scrap transports with cargo anyway. */
++					!pLoopUnit->hasCargo())
+ 				{
+ 					int iExp = pLoopUnit->getExperience();
+ 					CvCityAI const* pPlotCity = pLoopUnit->getPlot().AI_getPlotCity();
+@@ -4928,25 +4959,28 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
+ 	}
+ 
+ 	// K-Mod. Extra specialist commerce. (Based on my civic evaluation code)
+-	bool bSpecialistCommerce = false;
++	bool bSpecialistCommerce = false; // (advc: Just for saving time)
+ 	int iTotalBonusSpecialists = -1;
+ 	int iTotalCurrentSpecialists = -1;
+ 	FOR_EACH_ENUM(Commerce)
+ 	{
+-		bSpecialistCommerce = kTech.getSpecialistExtraCommerce(eLoopCommerce) != 0;
++		//bSpecialistCommerce = kTechInfo.getSpecialistExtraCommerce(i) != 0;
++		// <advc.001>
++		if (kTech.getSpecialistExtraCommerce(eLoopCommerce) != 0)
++		{
++			bSpecialistCommerce = true;
++			break;
++		} // </advc.001>
+ 	}
+-
+ 	if (bSpecialistCommerce)
+ 	{
+-		// If there are any bonuses, we need to count our specialists.
+- 		// (The value from the bonuses will be applied later.)
++		/*	If there are any bonuses, we need to count our specialists.
++			(The value from the bonuses will be applied later.) */
+ 		iTotalBonusSpecialists = iTotalCurrentSpecialists = 0;
+-
+ 		FOR_EACH_CITY(pLoopCity, *this)
+ 		{
+ 			iTotalBonusSpecialists += pLoopCity->getNumGreatPeople();
+ 			iTotalBonusSpecialists += pLoopCity->totalFreeSpecialists();
+-
+ 			iTotalCurrentSpecialists += pLoopCity->getNumGreatPeople();
+ 			iTotalCurrentSpecialists += pLoopCity->getSpecialistPopulation();
+ 		}
+@@ -4960,9 +4994,6 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
+  		// Commerce for specialists
+  		if (bSpecialistCommerce)
+  		{
+-			// If there are any bonuses, we need to count our specialists.
+- 			// (The value from the bonuses will be applied later.)
+-			iTotalBonusSpecialists = iTotalCurrentSpecialists = 0;
+  			iCommerceValue += 4*AI_averageCommerceMultiplier(eLoopCommerce)*
+ 					(kTech.getSpecialistExtraCommerce(eLoopCommerce) *
+ 					std::max((getTotalPopulation()+12*iTotalBonusSpecialists) /
+@@ -7451,8 +7482,11 @@ bool CvPlayerAI::AI_isWillingToTalk(PlayerTypes ePlayer, /* advc.104l: */ bool b
+ 			and some of the new code (isPeaceDealPossible) is expensive. */
+ 		if (gDLL->getDiplomacyPlayer() == getID())
+ 			return true;
+-		if (GET_TEAM(ePlayer).isAlwaysWar() || GET_TEAM(getTeam()).isAlwaysWar())
++		if (TEAMID(ePlayer) != getTeam() &&
++			(GET_TEAM(ePlayer).isAlwaysWar() || GET_TEAM(getTeam()).isAlwaysWar()))
++		{
+ 			return false;
++		}
+ 	} // </advc.104i>
+ 
+ 	// <advc.003n> In particular, don't call AI_surrenderTrade on non-major civs.
+@@ -8064,19 +8098,13 @@ int CvPlayerAI::AI_getFavoriteGenderAttitude(PlayerTypes ePlayer) const
+ 	eWeLike == getHateGender() ||
+ 	eWeLike != eTheyAre)
+ 		return 0;
+-	GenderTypes const eWeAre = getGender();
+-	bool const bPreferOwn = (eWeAre == eWeLike);
+ 	CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+ 	int iAttitude = kPersonality.getFavoriteGenderAttitudeChange();
+-	if (eWeLike == kPlayer.getHateGender() &&
+-		(bPreferOwn ? eWeAre != eTheyAre : eWeAre == eTheyAre))
+-		-iAttitude;
+-	if (eWeLike == kPlayer.getFavoriteGender() &&
+-		(bPreferOwn ? eWeAre == eTheyAre : eWeAre != eTheyAre))
++	if (eWeLike == kPlayer.getFavoriteGender())
+ 		iAttitude++;
+ 	bool const bEnemyAgainstType = (iAttitude < 0);
+ 	int const iAttitudeDivisor = (bEnemyAgainstType ? -kPersonality.getFavoriteGenderAttitudeDivisor() : kPersonality.getFavoriteGenderAttitudeDivisor());
+-	int const iAttitudeLimit = (bEnemyAgainstType ? -kPersonality.getFavoriteGenderAttitudeChangeLimit() : kPersonality.getFavoriteGenderAttitudeChangeLimit();
++	int const iAttitudeLimit = (bEnemyAgainstType ? -kPersonality.getFavoriteGenderAttitudeChangeLimit() : kPersonality.getFavoriteGenderAttitudeChangeLimit());
+ 	// advc.130n: Moved into new function
+ 	iAttitude += AI_ideologyAttitudeChange(ePlayer, ALLY_GENDER,
+ 			AI_getFavoriteGenderCounter(ePlayer),
+@@ -8095,19 +8123,13 @@ int CvPlayerAI::AI_getHateGenderAttitude(PlayerTypes ePlayer) const
+ 	eWeHate == getFavoriteGender() ||
+ 	eWeHate != eTheyAre)
+ 		return 0;
+-	GenderTypes const eWeAre = getGender();
+-	bool const bPreferOwn = (eWeAre != eWeHate);
+ 	CvLeaderHeadInfo const& kPersonality = GC.getInfo(getPersonalityType());
+ 	int iAttitude = kPersonality.getHateGenderAttitudeChange();
+-	if (eWeHate == kPlayer.getHateGender() && 
+-		(bPreferOwn ? eWeAre == eTheyAre : eWeAre != eTheyAre))
+-		-iAttitude;
+-	if (eWeHate == kPlayer.getFavoriteGender() && 
+-		(bPreferOwn ? eWeAre != eTheyAre : eWeAre == eTheyAre))
++	if (eWeHate == kPlayer.getFavoriteGender())
+ 		iAttitude--;
+ 	bool const bAllyAgainstType = (iAttitude > 0);
+ 	int const iAttitudeDivisor = (bAllyAgainstType ? -kPersonality.getHateGenderAttitudeDivisor() : kPersonality.getHateGenderAttitudeDivisor());
+-	int const iAttitudeLimit = (bAllyAgainstType ? -kPersonality.getHateGenderAttitudeChangeLimit() : kPersonality.getHateGenderAttitudeChangeLimit();
++	int const iAttitudeLimit = (bAllyAgainstType ? -kPersonality.getHateGenderAttitudeChangeLimit() : kPersonality.getHateGenderAttitudeChangeLimit());
+ 	// advc.130n: Moved into new function
+ 	iAttitude += AI_ideologyAttitudeChange(ePlayer, ENEMY_GENDER,
+ 			AI_getHateGenderCounter(ePlayer),
+@@ -13501,8 +13523,8 @@ uint CvPlayerAI::AI_unitImpassables(UnitTypes eUnit) const
+ 	if (!GC.getInfo(eUnit).isAnyTerrainImpassable() &&
+ 		!GC.getInfo(eUnit).isAnyFeatureImpassable())
+ 	{
+-		return 0; // </advc.003t>
+-	}
++		return 0;
++	} // </advc.003t>
+ 	uint uiCount = 0;
+ 	// <advc.057>
+ 	uint const uiCountBits = 3;
+@@ -14571,7 +14593,7 @@ int CvPlayerAI::AI_totalWaterAreaUnitAIs(CvArea const& kArea,
+ 	for(size_t i = 0; i < aeUnitAI.size(); i++)
+ 		iCount += AI_totalAreaUnitAIs(kArea, aeUnitAI[i]);
+ 	// </advc.081>
+-	for (PlayerIter<MAJOR_CIV> it; it.hasNext(); ++it)
++	for (PlayerIter<ALIVE> it; it.hasNext(); ++it)
+ 	{
+ 		CvPlayer const& kOwner = *it;
+ 		// <advc.opt> No need to go through cities that our ships can't enter
+@@ -14581,7 +14603,7 @@ int CvPlayerAI::AI_totalWaterAreaUnitAIs(CvArea const& kArea,
+ 		{
+ 			if (pLoopCity->waterArea() != &kArea)
+ 				continue;
+-			for(size_t j = 0; j < aeUnitAI.size(); j++) // advc.081
++			for (size_t j = 0; j < aeUnitAI.size(); j++) // advc.081
+ 			{
+ 				iCount += pLoopCity->getPlot().plotCount(PUF_isUnitAIType,
+ 						aeUnitAI[j], -1, getID()); // advc.081
+@@ -18707,41 +18729,52 @@ void CvPlayerAI::AI_changeFavoriteCivicCounter(PlayerTypes eIndex, int iChange)
+ 
+ 
+ // XANA: 10-25-2025 Gender Specific Diplomacy
++// XANA: 10-27-2026 Independent bounded gender histories
+ int CvPlayerAI::AI_getFavoriteGenderCounter(PlayerTypes eIndex) const
+ {
+-	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+-	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
++	FAssertMsg(eIndex >= 0 && eIndex < MAX_PLAYERS, "Invalid gender-counter player");
++	if (eIndex < 0 || eIndex >= MAX_PLAYERS)
++		return 0;
+ 	return m_aiFavoriteGenderCounter[eIndex];
+ }
+ 
+-
+-
+-oid CvPlayerAI::AI_changeFavoriteGenderCounter(PlayerTypes eIndex, int iChange)
++void CvPlayerAI::AI_changeFavoriteGenderCounter(PlayerTypes eIndex, int iChange)
+ {
+-	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+-	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+-	m_aiHateReligionCounter[eIndex] = (m_aiHateReligionCounter[eIndex] + iChange);
+-	FAssert(AI_getFavoriteGenderCounter(eIndex) >= 0);
++	FAssertMsg(eIndex >= 0 && eIndex < MAX_PLAYERS, "Invalid gender-counter player");
++	if (eIndex < 0 || eIndex >= MAX_PLAYERS)
++		return;
++	int const iOld = std::max(0, m_aiFavoriteGenderCounter[eIndex]);
++	// Check before addition, including an INT_MIN change.
++	if (iChange < -iOld)
++		m_aiFavoriteGenderCounter[eIndex] = 0;
++	else if (iChange > MAX_INT - iOld)
++		m_aiFavoriteGenderCounter[eIndex] = MAX_INT;
++	else m_aiFavoriteGenderCounter[eIndex] = iOld + iChange;
+ }
+ 
+-
+-
+ int CvPlayerAI::AI_getHateGenderCounter(PlayerTypes eIndex) const
+ {
+-	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+-	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
++	FAssertMsg(eIndex >= 0 && eIndex < MAX_PLAYERS, "Invalid gender-counter player");
++	if (eIndex < 0 || eIndex >= MAX_PLAYERS)
++		return 0;
+ 	return m_aiHateGenderCounter[eIndex];
+ }
+ 
+-
+-
+ void CvPlayerAI::AI_changeHateGenderCounter(PlayerTypes eIndex, int iChange)
+ {
+-	FAssertMsg(eIndex >= 0, "eIndex is expected to be non-negative (invalid Index)");
+-	FAssertMsg(eIndex < MAX_PLAYERS, "eIndex is expected to be within maximum bounds (invalid Index)");
+-	m_aiHateReligionCounter[eIndex] = (m_aiHateReligionCounter[eIndex] + iChange);
+-	FAssert(AI_getHateGemderCounter(eIndex) >= 0);
++	FAssertMsg(eIndex >= 0 && eIndex < MAX_PLAYERS, "Invalid gender-counter player");
++	if (eIndex < 0 || eIndex >= MAX_PLAYERS)
++		return;
++	int const iOld = std::max(0, m_aiHateGenderCounter[eIndex]);
++	// Check before addition, including an INT_MIN change.
++	if (iChange < -iOld)
++		m_aiHateGenderCounter[eIndex] = 0;
++	else if (iChange > MAX_INT - iOld)
++		m_aiHateGenderCounter[eIndex] = MAX_INT;
++	else m_aiHateGenderCounter[eIndex] = iOld + iChange;
+ }
++
++// XANA: 10-27-2026 Independent bounded gender histories
+ // XANA: 10-25-2025 Gender Specific Diplomacy
+ 
+ 
+@@ -18941,13 +18974,19 @@ void CvPlayerAI::AI_setFavoriteCivicCounter(PlayerTypes eIndex, int iValue)
+ // XANA: 10-25-2025 Gender Specific Diplomacy
+ void CvPlayerAI::AI_setFavoriteGenderCounter(PlayerTypes eIndex, int iValue)
+ {
+-	m_aiFavoriteGenderCounter[eIndex] = iValue;
++	FAssertMsg(eIndex >= 0 && eIndex < MAX_PLAYERS, "Invalid gender-counter player");
++	if (eIndex < 0 || eIndex >= MAX_PLAYERS)
++		return;
++	m_aiFavoriteGenderCounter[eIndex] = std::max(0, iValue);
+ }
+ 
+ 
+ void CvPlayerAI::AI_setHateGenderCounter(PlayerTypes eIndex, int iValue)
+ {
+-	m_aiHateGenderCounter[eIndex] = iValue;
++	FAssertMsg(eIndex >= 0 && eIndex < MAX_PLAYERS, "Invalid gender-counter player");
++	if (eIndex < 0 || eIndex >= MAX_PLAYERS)
++		return;
++	m_aiHateGenderCounter[eIndex] = std::max(0, iValue);
+ }
+ // XANA: 10-25-2025 Gender Specific Diplomacy
+ 
+@@ -18995,6 +19034,7 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
+ 		{
+ // XANA: 10-25-2025 Gender Specific Diplomacy
+ 		case ALLY_GENDER:
++		{
+ 			GenderTypes eFavGender = getFavoriteGender();
+ 			if (eFavGender != NO_GENDER &&
+ 				eFavGender == itPlayer->getFavoriteGender())
+@@ -19002,7 +19042,9 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
+ 				iMatching += iCities;
+ 			}
+ 			break;
++		}
+ 		case ENEMY_GENDER:
++		{
+ 			GenderTypes eHateGender = getHateGender();
+ 			if (eHateGender != NO_GENDER &&
+ 				eHateGender == itPlayer->getHateGender())
+@@ -19010,6 +19052,7 @@ int CvPlayerAI::AI_ideologyAttitudeChange(PlayerTypes eOther, IdeologicMarker eM
+ 				iMatching += iCities;
+ 			}
+ 			break;
++		}
+ // XANA: 10-25-2025 Gender Specific Diplomacy
+ 		case SAME_RELIGION:
+ 			if (getStateReligion() != NO_RELIGION &&
+@@ -19534,7 +19577,7 @@ void CvPlayerAI::AI_doCounter()
+ 			else
+ 			{
+ 				AI_setFavoriteGenderCounter(ePlayer,
+-						(AI_getHateCivicCounter(ePlayer) * rDecayFactor).floor());
++						(AI_getFavoriteGenderCounter(ePlayer) * rDecayFactor).floor());
+ 			}
+ 		}
+ 		if (getHateGender() != NO_GENDER)
+@@ -21901,6 +21944,9 @@ void CvPlayerAI::AI_proposeWarTrade(PlayerTypes eHireling)
+ 				{
+ 					iBestValue = iValue;
+ 					eBestTarget = kTarget.getID();
++					// <advc.104o> Moved up (as in SAS)
++					iBestTeamPrice = kOurTeam.AI_declareWarTradeVal(
++							eBestTarget, kHireling.getTeam()); // </advc.104o>
+ 				}
+ 			}
+ 		}
+@@ -23137,8 +23183,21 @@ void CvPlayerAI::read(FDataStreamBase* pStream)
+ 	pStream->Read(MAX_PLAYERS, m_aiDifferentReligionCounter);
+ 	pStream->Read(MAX_PLAYERS, m_aiFavoriteCivicCounter);
+ // XANA: 10-25-2025 Gender Specific Diplomacy
+-	pStream->Read(MAX_PLAYERS, m_aiFavoriteGenderCounter);
+-	pStream->Read(MAX_PLAYERS, m_aiHateHateCounter);
++	// XANA: 10-31-2026 Versioned gender counter persistence (ChatGPT)
++	if (uiFlag >= 23)
++	{
++		pStream->Read(MAX_PLAYERS, m_aiFavoriteGenderCounter);
++		pStream->Read(MAX_PLAYERS, m_aiHateGenderCounter);
++	}
++	else
++	{
++		for (int i = 0; i < MAX_PLAYERS; ++i)
++		{
++			m_aiFavoriteGenderCounter[i] = 0;
++			m_aiHateGenderCounter[i] = 0;
++		}
++	}
++	// XANA: 10-31-2026 Versioned gender counter persistence (ChatGPT)
+ // XANA: 10-25-2025 Gender Specific Diplomacy
+ 	pStream->Read(MAX_PLAYERS, m_aiBonusTradeCounter);
+ 	pStream->Read(MAX_PLAYERS, m_aiPeacetimeTradeValue);
+@@ -23310,7 +23369,8 @@ void CvPlayerAI::write(FDataStreamBase* pStream)
+ 	//uiFlag = 19; // advc.130n (mostly removed again)
+ 	//uiFlag = 20; // advc.115f
+ 	//uiFlag = 21; // advc.130c (remove separate cache for score diff)
+-	uiFlag = 22; // advc.130w: Cache for expansionist hate
++	//uiFlag = 22; // advc.130w: Cache for expansionist hate
++	uiFlag = 23; // XANA: 10-31-2026 Favorite/hated gender counters (ChatGPT)
+ 	pStream->Write(uiFlag);
+ 
+ 	pStream->Write(m_iPeaceWeight);
+@@ -23511,8 +23571,9 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
+ 		else if (iUnitValue == -1)
+ 			iUnitValue = 2000; //Great Person?  // (was 200)
+ 
+-		iUnitValue *= GC.getInfo(GC.getGame().getGameSpeedType()).getTrainPercent();
+-		iUnitValue /= 100; // K-Mod
++		iUnitValue *= GC.getInfo(GC.getGame().getGameSpeedType()).
++				getTrainPercent();
++		iUnitValue /= 100; // K-Mod (bugfix)
+ 		iValue -= iUnitValue;
+ 	}
+ 	{
+@@ -23531,6 +23592,7 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
+ 
+ 				iBuildingValue *= GC.getInfo(GC.getGame().getGameSpeedType()).
+ 						getConstructPercent();
++				iBuildingValue /= 100; // advc.001 (from SAS; like the K-Mod fix above)
+ 				iValue += kEvent.getBuildingChange() * iBuildingValue;
+ 			}
+ 		}
+@@ -24389,6 +24451,11 @@ int CvPlayerAI::AI_calculateCultureVictoryStage(
+ 				iVictoryCities, countdownList.end());
+ 		iWinningCountdown = countdownList[iVictoryCities-1];
+ 	}
++	{	// <advc.sas>
++		int iOwnVictoryCountdown = GET_TEAM(getTeam()).AI_getLowestVictoryCountdown();
++		if (iOwnVictoryCountdown >= 0 && iOwnVictoryCountdown < iWinningCountdown)
++			return 1; // </advc.sas>
++	}
+ 	if (iCloseToLegendaryCount >= iVictoryCities ||
+ 		//getCurrentEra() >= (GC.getNumEraInfos() - (2 + AI_getStrategyRand(1) % 2))
+ 		// K-Mod (note: this matches the above)
+@@ -25722,11 +25789,11 @@ void CvPlayerAI::AI_updateStrategyHash()
+ 	GenderTypes const eWeAre = kPersonality.getGender();
+ 	if (eFavGender != NO_GENDER)
+ 	{
+-		bool bPreferOwn = (eWeAre == eFavGender);
++		bool const bPreferOwn = (eWeAre == eFavGender);
+ 		for (PlayerAIIter<FREE_MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getTeam());
+ 			itRival.hasNext(); ++itRival)
+ 		{
+-			GenderTypes eTheyAre = GET_PLAYER(itRival).getGender();
++			GenderTypes eTheyAre = itRival->getGender();
+ 			if (bPreferOwn ? eTheyAre == eWeAre : eTheyAre != eWeAre)
+ 			{	
+ 				iParanoia -= 10;
+@@ -25735,11 +25802,11 @@ void CvPlayerAI::AI_updateStrategyHash()
+ 	}
+ 	if (eHateGender != NO_GENDER)
+ 	{
+-		bPreferOwn = (eWeAre != eHateGender);
++		bool const bPreferOwn = (eWeAre != eHateGender);
+ 		for (PlayerAIIter<FREE_MAJOR_CIV,KNOWN_POTENTIAL_ENEMY_OF> itRival(getTeam());
+ 			itRival.hasNext(); ++itRival)
+ 		{
+-			GenderTypes eTheyAre = GET_PLAYER(itRival).getGender();
++			GenderTypes eTheyAre = itRival->getGender();
+ 			if (bPreferOwn ? eTheyAre != eWeAre : eTheyAre == eWeAre)
+ 			{	
+ 				iParanoia += 10;
+@@ -26110,7 +26177,8 @@ void CvPlayerAI::AI_updateStrategyHash()
+ 			}
+ 			else if (kVictory.getCityCulture() > 0)
+ 			{
+-				if (m_eStrategyHash & AI_VICTORY_CULTURE1)
++				//if (m_iStrategyHash & AI_VICTORY_CULTURE1) // BBAI
++				if (AI_atVictoryStage(AI_VICTORY_CULTURE1)) // advc.001
+ 					iAchieveVictories++;
+ 			}
+ 			else if (kVictory.getMinLandPercent() > 0 || kVictory.getLandPercent() > 0)
+diff --git a/CvGameCoreDLL/CvPlayerAI.h b/CvGameCoreDLL/CvPlayerAI.h
+index 8388d0fc3b8ff214356b710350afc16c8ff8d143..11f0927c764421696a657c45a25d0b1058361444 100644
+--- a/CvGameCoreDLL/CvPlayerAI.h
++++ b/CvGameCoreDLL/CvPlayerAI.h
+@@ -517,8 +517,8 @@ public:
+ 	int AI_getFavoriteGenderCounter(PlayerTypes eIndex) const;
+ 	void AI_changeFavoriteGenderCounter(PlayerTypes eIndex, int iChange);
+ 	
+-	int AI_getFavoriteGenderCounter(PlayerTypes eIndex) const;
+-	void AI_changeFavoriteGenderCounter(PlayerTypes eIndex, int iChange);
++	int AI_getHateGenderCounter(PlayerTypes eIndex) const;
++	void AI_changeHateGenderCounter(PlayerTypes eIndex, int iChange);
+ 	// XANA: 10-25-2025 Gender Specific Diplomacy
+ 	
+ 	int AI_getBonusTradeCounter(PlayerTypes eIndex) const;
+@@ -821,8 +821,8 @@ protected:
+ 	int* m_aiDifferentReligionCounter;
+ 	int* m_aiFavoriteCivicCounter;
+ // XANA: 10-25-2025 Gender Specific Diplomacy
+-	int* m_aiHateCivicCounter;
+-	int* m_aiHateReligionCounter;
++	int* m_aiFavoriteGenderCounter;
++	int* m_aiHateGenderCounter;
+ // XANA: 10-25-2025 Gender Specific Diplomacy
+ 	int* m_aiBonusTradeCounter;
+ 	int* m_aiPeacetimeTradeValue;
+diff --git a/CvGameCoreDLL/CyInfoInterface3.cpp b/CvGameCoreDLL/CyInfoInterface3.cpp
+index 8630556e1e4a8724f3921acafcc39eecc54f7554..b7508454861fa6903cad96c54fa53d0fb0f4755a 100644
+--- a/CvGameCoreDLL/CyInfoInterface3.cpp
++++ b/CvGameCoreDLL/CyInfoInterface3.cpp
+@@ -599,7 +599,8 @@ void CyInfoPythonInterface3()
+ 		.def("getNumBonusesRequired", &CvEventTriggerInfo::getNumBonusesRequired, "int ()")
+ 		.def("getRouteRequired", &CvEventTriggerInfo::getRouteRequired, "int (int)")
+ 		.def("getNumRoutesRequired", &CvEventTriggerInfo::getNumRoutesRequired, "int ()")
+-		.def("getReligionRequired", &CvEventTriggerInfo::getBonusRequired, "int (int)")
++		// advc.sas (bugfix): 2nd arg was getBonusRequired
++		.def("getReligionRequired", &CvEventTriggerInfo::getReligionRequired, "int (int)")
+ 		.def("getNumReligionsRequired", &CvEventTriggerInfo::getNumReligionsRequired, "int ()")
+ 		.def("getCorporationRequired", &CvEventTriggerInfo::getCorporationRequired, "int (int)")
+ 		.def("getNumCorporationsRequired", &CvEventTriggerInfo::getNumCorporationsRequired, "int ()")
+@@ -613,7 +614,8 @@ void CyInfoPythonInterface3()
+ 		.def("isOtherPlayerHasOtherReligion", &CvEventTriggerInfo::isOtherPlayerHasOtherReligion, "bool ()")
+ 		.def("isOtherPlayerAI", &CvEventTriggerInfo::isOtherPlayerAI, "bool ()")
+ 		.def("isPickCity", &CvEventTriggerInfo::isPickCity, "bool ()")
+-		.def("isPickOtherPlayerCity", &CvEventTriggerInfo::isPickCity, "bool ()")
++		// advc.sas (bugfix): 2nd arg was isPickCity
++		.def("isPickOtherPlayerCity", &CvEventTriggerInfo::isPickOtherPlayerCity, "bool ()")
+ 		.def("isUnitsOnPlot", &CvEventTriggerInfo::isUnitsOnPlot, "bool ()")
+ 		.def("isOwnPlot", &CvEventTriggerInfo::isOwnPlot, "bool ()")
+ 		.def("isPickReligion", &CvEventTriggerInfo::isPickReligion, "bool ()")
+@@ -643,7 +645,8 @@ void CyInfoPythonInterface3()
+ 		.def("getTechMinTurnsLeft", &CvEventInfo::getTechMinTurnsLeft, "int ()")
+ 		.def("getPrereqTech", &CvEventInfo::getPrereqTech, "int ()")
+ 		.def("getUnitClass", &CvEventInfo::getUnitClass, "int ()")
+-		.def("getNumUnits", &CvEventTriggerInfo::getNumUnits, "int ()")
++		// advc.sas (bugfix): was CvEventTriggerInfo
++		.def("getNumUnits", &CvEventInfo::getNumUnits, "int ()")
+ 		.def("getBuildingClass", &CvEventInfo::getBuildingClass, "int ()")
+ 		.def("getBuildingChange", &CvEventInfo::getBuildingChange, "int ()")
+ 		.def("getHappy", &CvEventInfo::getHappy, "int ()")
+diff --git a/CvGameCoreDLL/CyPlayer.cpp b/CvGameCoreDLL/CyPlayer.cpp
+index 26cec322a4e4de194482a33bfd105a830e25a6e8..f1088f2a389f0dd7c36d1b893030bfc6f7a70a93 100644
+--- a/CvGameCoreDLL/CyPlayer.cpp
++++ b/CvGameCoreDLL/CyPlayer.cpp
+@@ -99,7 +99,10 @@ CyUnit* CyPlayer::initUnit(int /*UnitTypes*/ iIndex, int iX, int iY, UnitAITypes
+ 
+ void CyPlayer::disbandUnit(bool bAnnounce)
+ {
+-	return m_pPlayer ? m_pPlayer->disbandUnit(bAnnounce) : NULL;
++	//return m_pPlayer ? m_pPlayer->disbandUnit(bAnnounce) : NULL;
++	// <advc.001>
++	if (m_pPlayer)
++		m_pPlayer->disbandUnit(bAnnounce); // </advc.001>
+ }
+ 
+ void CyPlayer::killUnits()
+@@ -199,12 +202,16 @@ std::wstring CyPlayer::getStateReligionKey()
+ 
+ std::wstring CyPlayer::getBestAttackUnitName(int iForm)
+ {
+-	return m_pPlayer ? m_pPlayer->getBestAttackUnitName((uint)iForm) : std::wstring();
++	if (m_pPlayer != NULL) // advc.cppstd: Replacing conditional operator
++		return m_pPlayer->getBestAttackUnitName((uint)iForm);
++	return std::wstring();
+ }
+ 
+ std::wstring CyPlayer::getWorstEnemyName()
+ {
+-	return m_pPlayer ? m_pPlayer->getWorstEnemyName() : std::wstring();
++	if (m_pPlayer != NULL) // advc.cppstd: Replacing conditional operator
++		return m_pPlayer->getWorstEnemyName();
++	return std::wstring();
+ }
+ 
+ std::wstring CyPlayer::getBestAttackUnitKey()

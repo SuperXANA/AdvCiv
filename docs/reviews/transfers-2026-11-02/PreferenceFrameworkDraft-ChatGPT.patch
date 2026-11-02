@@ -1,0 +1,676 @@
+diff --git a/CvGameCoreDLL/CvInfo_Civilization.cpp b/CvGameCoreDLL/CvInfo_Civilization.cpp
+index 3b27e97b2723f72a67c2bf386b433a40ed737053..0dbd03b3658cfa13ab959e4a075f3b70e7e2ff38 100644
+--- a/CvGameCoreDLL/CvInfo_Civilization.cpp
++++ b/CvGameCoreDLL/CvInfo_Civilization.cpp
+@@ -1570,7 +1570,25 @@ CvTechPreferenceInfo::CvTechPreferenceInfo() :
+ 	m_aiVectorIndexMap(NULL)
+ {}
+ 
+-CvTechPreferenceInfo::~CvTechPreferenceInfo() :
++// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
++CvTechPreferenceInfo::CvTechPreferenceInfo(CvTechPreferenceInfo const& kOther) :
++	base_t(), // XANA: 11-02-2026 Re-read base metadata on default clones (ChatGPT)
++	m_iLeaderType(kOther.m_iLeaderType),
++	m_iCivilizationType(kOther.m_iCivilizationType),
++	m_vTechPrefData(kOther.m_vTechPrefData),
++	m_aiVectorIndexMap(NULL)
++{
++	if (kOther.m_aiVectorIndexMap != NULL)
++	{
++		int const iCount = GC.getNumTechInfos();
++		m_aiVectorIndexMap = new int[iCount];
++		for (int i = 0; i < iCount; ++i)
++			m_aiVectorIndexMap[i] = kOther.m_aiVectorIndexMap[i];
++	}
++}
++// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
++
++CvTechPreferenceInfo::~CvTechPreferenceInfo()
+ {
+ 	SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
+ }
+@@ -1611,9 +1629,9 @@ bool CvTechPreferenceInfo::read(CvXMLLoadUtility* pXML)
+ 		{
+ 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+ 			m_vTechPrefData.clear();
++			SAFE_DELETE_ARRAY(m_aiVectorIndexMap); // XANA: 10-30-2026 Keep preference indexes synchronized (ChatGPT)
+ 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+ 			{
+-				SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
+ 				m_aiVectorIndexMap = new int[GC.getNumTechInfos()];
+ 				FOR_EACH_ENUM(Tech)
+ 				{
+@@ -1624,11 +1642,11 @@ bool CvTechPreferenceInfo::read(CvXMLLoadUtility* pXML)
+ 					TechPreferenceData kTechPref;
+ 					kTechPref.read(pXML);
+ 					
+-					TechTypes eTech = static_cast<TechTypes>(kTechPref.getTechType());
+-					if (eTech != NO_TECH)
++					int const iTech = kTechPref.getTechType();
++					if (iTech >= 0 && iTech < GC.getNumTechInfos()) // XANA: 10-31-2026 Bound preference map IDs (ChatGPT)
+ 					{
+ 						m_vTechPrefData.push_back(kTechPref);
+-						m_aiVectorIndexMap[eTech] = ((int)m_vTechPrefData.size() - 1);
++						m_aiVectorIndexMap[iTech] = ((int)m_vTechPrefData.size() - 1);
+ 					}
+ 					
+ 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+diff --git a/CvGameCoreDLL/CvInfo_Civilization.h b/CvGameCoreDLL/CvInfo_Civilization.h
+index 47f991e4d40f8ca0e7ef8e18ae4cbfa211ae3767..abf2db3c7e84e3d2e2e688c54f5e9d5621af1e0d 100644
+--- a/CvGameCoreDLL/CvInfo_Civilization.h
++++ b/CvGameCoreDLL/CvInfo_Civilization.h
+@@ -516,6 +516,9 @@ class CvTechPreferenceInfo : public CvInfoBase
+ 	friend class CvXMLLoadUtility;
+ public: // All the const functions returning primitive types are exposed to Python
+ 	CvTechPreferenceInfo();
++	// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
++	CvTechPreferenceInfo(CvTechPreferenceInfo const& kOther);
++	// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
+ 	~CvTechPreferenceInfo();
+ 
+ 	int getLeaderType() const;
+diff --git a/CvGameCoreDLL/CvInfo_RandomEvent.cpp b/CvGameCoreDLL/CvInfo_RandomEvent.cpp
+index 7379432d7bf58cc4fcd0f3c45dcfbf7fbbeb2d02..3da81bcf44c5d308a5b290e42d0425f349f2a614 100644
+--- a/CvGameCoreDLL/CvInfo_RandomEvent.cpp
++++ b/CvGameCoreDLL/CvInfo_RandomEvent.cpp
+@@ -2105,7 +2105,25 @@ CvEventPreferenceInfo::CvEventPreferenceInfo() :
+ 	m_aiVectorIndexMap(NULL)
+ {}
+ 
+-CvEventPreferenceInfo::~CvEventPreferenceInfo() :
++// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
++CvEventPreferenceInfo::CvEventPreferenceInfo(CvEventPreferenceInfo const& kOther) :
++	base_t(), // XANA: 11-02-2026 Re-read base metadata on default clones (ChatGPT)
++	m_iLeaderType(kOther.m_iLeaderType),
++	m_iCivilizationType(kOther.m_iCivilizationType),
++	m_vEventPrefData(kOther.m_vEventPrefData),
++	m_aiVectorIndexMap(NULL)
++{
++	if (kOther.m_aiVectorIndexMap != NULL)
++	{
++		int const iCount = GC.getNumEventInfos();
++		m_aiVectorIndexMap = new int[iCount];
++		for (int i = 0; i < iCount; ++i)
++			m_aiVectorIndexMap[i] = kOther.m_aiVectorIndexMap[i];
++	}
++}
++// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
++
++CvEventPreferenceInfo::~CvEventPreferenceInfo()
+ {
+ 	SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
+ }
+@@ -2146,9 +2164,9 @@ bool CvEventPreferenceInfo::read(CvXMLLoadUtility* pXML)
+ 		{
+ 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+ 			m_vEventPrefData.clear();
++			SAFE_DELETE_ARRAY(m_aiVectorIndexMap); // XANA: 10-30-2026 Keep preference indexes synchronized (ChatGPT)
+ 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+ 			{
+-				SAFE_DELETE_ARRAY(m_aiVectorIndexMap);
+ 				m_aiVectorIndexMap = new int[GC.getNumEventInfos()];
+ 				FOR_EACH_ENUM(Event)
+ 				{
+@@ -2159,11 +2177,11 @@ bool CvEventPreferenceInfo::read(CvXMLLoadUtility* pXML)
+ 					EventPreferenceData kEventPref;
+ 					kEventPref.read(pXML);
+ 					
+-					EventTypes eEvent = static_cast<EventTypes>(kEventPref.getEventType());
+-					if (eEvent != NO_EVENT)
++					int const iEvent = kEventPref.getEventType();
++					if (iEvent >= 0 && iEvent < GC.getNumEventInfos()) // XANA: 10-31-2026 Bound preference map IDs (ChatGPT)
+ 					{
+ 						m_vEventPrefData.push_back(kEventPref);
+-						m_aiVectorIndexMap[eEvent] = ((int)m_vEventPrefData.size() - 1);
++						m_aiVectorIndexMap[iEvent] = ((int)m_vEventPrefData.size() - 1);
+ 					}
+ 					
+ 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+diff --git a/CvGameCoreDLL/CvInfo_RandomEvent.h b/CvGameCoreDLL/CvInfo_RandomEvent.h
+index 67069388a1ce121a730dd07af9268ce5c640aeea..6c35cd7dff454e65b9d432091ea5253e54d16bbf 100644
+--- a/CvGameCoreDLL/CvInfo_RandomEvent.h
++++ b/CvGameCoreDLL/CvInfo_RandomEvent.h
+@@ -379,6 +379,9 @@ class CvEventPreferenceInfo : public CvInfoBase
+ 	friend class CvXMLLoadUtility;
+ public: // All the const functions returning primitive types are exposed to Python
+ 	CvEventPreferenceInfo();
++	// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
++	CvEventPreferenceInfo(CvEventPreferenceInfo const& kOther);
++	// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
+ 	~CvEventPreferenceInfo();
+ 
+ 	int getLeaderType() const;
+diff --git a/CvGameCoreDLL/CvInfo_Unit.cpp b/CvGameCoreDLL/CvInfo_Unit.cpp
+index 003441343e231752f7a5a2014a53eca2d6b98f96..342f43ed9fab8958ade64e3a911287512e4e373f 100644
+--- a/CvGameCoreDLL/CvInfo_Unit.cpp
++++ b/CvGameCoreDLL/CvInfo_Unit.cpp
+@@ -2563,7 +2563,43 @@ CvUnitPreferenceInfo::CvUnitPreferenceInfo() :
+ 	m_aiVectorIndexMapForUnits(NULL)
+ {}
+ 
+-CvUnitPreferenceInfo::~CvUnitPreferenceInfo() :
++// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
++CvUnitPreferenceInfo::CvUnitPreferenceInfo(CvUnitPreferenceInfo const& kOther) :
++	base_t(), // XANA: 11-02-2026 Re-read base metadata on default clones (ChatGPT)
++	m_iLeaderType(kOther.m_iLeaderType),
++	m_iCivilizationType(kOther.m_iCivilizationType),
++	m_vUnitCombatPrefData(kOther.m_vUnitCombatPrefData),
++	m_vUnitClassPrefData(kOther.m_vUnitClassPrefData),
++	m_vUnitPrefData(kOther.m_vUnitPrefData),
++	m_aiVectorIndexMapForUnitCombats(NULL),
++	m_aiVectorIndexMapForUnitClasses(NULL),
++	m_aiVectorIndexMapForUnits(NULL)
++{
++	if (kOther.m_aiVectorIndexMapForUnitCombats != NULL)
++	{
++		int const iCount = GC.getNumUnitCombatInfos();
++		m_aiVectorIndexMapForUnitCombats = new int[iCount];
++		for (int i = 0; i < iCount; ++i)
++			m_aiVectorIndexMapForUnitCombats[i] = kOther.m_aiVectorIndexMapForUnitCombats[i];
++	}
++	if (kOther.m_aiVectorIndexMapForUnitClasses != NULL)
++	{
++		int const iCount = GC.getNumUnitClassInfos();
++		m_aiVectorIndexMapForUnitClasses = new int[iCount];
++		for (int i = 0; i < iCount; ++i)
++			m_aiVectorIndexMapForUnitClasses[i] = kOther.m_aiVectorIndexMapForUnitClasses[i];
++	}
++	if (kOther.m_aiVectorIndexMapForUnits != NULL)
++	{
++		int const iCount = GC.getNumUnitInfos();
++		m_aiVectorIndexMapForUnits = new int[iCount];
++		for (int i = 0; i < iCount; ++i)
++			m_aiVectorIndexMapForUnits[i] = kOther.m_aiVectorIndexMapForUnits[i];
++	}
++}
++// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
++
++CvUnitPreferenceInfo::~CvUnitPreferenceInfo()
+ {
+ 	SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitCombats);
+ 	SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitClasses);
+@@ -2630,9 +2666,9 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
+ 		{
+ 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+ 			m_vUnitCombatPrefData.clear();
++			SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitCombats); // XANA: 10-30-2026 Keep preference indexes synchronized (ChatGPT)
+ 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+ 			{
+-				SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitCombats);
+ 				m_aiVectorIndexMapForUnitCombats = new int[GC.getNumUnitCombatInfos()];
+ 				FOR_EACH_ENUM(UnitCombat)
+ 				{
+@@ -2643,11 +2679,11 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
+ 					UnitCombatPreferenceData kUnitPref;
+ 					kUnitPref.read(pXML);
+ 					
+-					UnitCombatTypes eUnitCombat = static_cast<UnitCombatTypes>(kUnitPref.getUnitCombatType());
+-					if (eUnitCombat != NO_UNITCOMBAT)
++					int const iUnitCombat = kUnitPref.getUnitCombatType();
++					if (iUnitCombat >= 0 && iUnitCombat < GC.getNumUnitCombatInfos()) // XANA: 10-31-2026 Bound preference map IDs (ChatGPT)
+ 					{
+ 						m_vUnitCombatPrefData.push_back(kUnitPref);
+-						m_aiVectorIndexMapForUnitCombats[eUnitCombat] = ((int)m_vUnitCombatPrefData.size() - 1);
++						m_aiVectorIndexMapForUnitCombats[iUnitCombat] = ((int)m_vUnitCombatPrefData.size() - 1);
+ 					}
+ 					
+ 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+@@ -2664,9 +2700,9 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
+ 		{
+ 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+ 			m_vUnitClassPrefData.clear();
++			SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitClasses); // XANA: 10-30-2026 Keep preference indexes synchronized (ChatGPT)
+ 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+ 			{
+-				SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnitClasses);
+ 				m_aiVectorIndexMapForUnitClasses = new int[GC.getNumUnitClassInfos()];
+ 				FOR_EACH_ENUM(UnitClass)
+ 				{
+@@ -2677,11 +2713,11 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
+ 					UnitClassPreferenceData kUnitPref;
+ 					kUnitPref.read(pXML);
+ 					
+-					UnitClassTypes eUnitClass = static_cast<UnitClassTypes>(kUnitPref.getUnitClassType());
+-					if (eUnitClass != NO_UNITCLASS)
++					int const iUnitClass = kUnitPref.getUnitClassType();
++					if (iUnitClass >= 0 && iUnitClass < GC.getNumUnitClassInfos()) // XANA: 10-31-2026 Bound preference map IDs (ChatGPT)
+ 					{
+ 						m_vUnitClassPrefData.push_back(kUnitPref);
+-						m_aiVectorIndexMapForUnitClasses[eUnitClass] = ((int)m_vUnitClassPrefData.size() - 1);
++						m_aiVectorIndexMapForUnitClasses[iUnitClass] = ((int)m_vUnitClassPrefData.size() - 1);
+ 					}
+ 					
+ 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+@@ -2698,9 +2734,9 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
+ 		{
+ 			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
+ 			m_vUnitPrefData.clear();
++			SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnits); // XANA: 10-30-2026 Keep preference indexes synchronized (ChatGPT)
+ 			if (iNumSibs > 0 && gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+ 			{
+-				SAFE_DELETE_ARRAY(m_aiVectorIndexMapForUnits);
+ 				m_aiVectorIndexMapForUnits = new int[GC.getNumUnitInfos()];
+ 				FOR_EACH_ENUM(Unit)
+ 				{
+@@ -2711,11 +2747,11 @@ bool CvUnitPreferenceInfo::read(CvXMLLoadUtility* pXML)
+ 					UnitPreferenceData kUnitPref;
+ 					kUnitPref.read(pXML);
+ 					
+-					UnitTypes eUnit = static_cast<UnitTypes>(kUnitPref.getUnitType());
+-					if (eUnit != NO_UNIT)
++					int const iUnit = kUnitPref.getUnitType();
++					if (iUnit >= 0 && iUnit < GC.getNumUnitInfos()) // XANA: 10-31-2026 Bound preference map IDs (ChatGPT)
+ 					{
+ 						m_vUnitPrefData.push_back(kUnitPref);
+-						m_aiVectorIndexMapForUnits[eUnit] = ((int)m_vUnitPrefData.size() - 1);
++						m_aiVectorIndexMapForUnits[iUnit] = ((int)m_vUnitPrefData.size() - 1);
+ 					}
+ 					
+ 					if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
+diff --git a/CvGameCoreDLL/CvInfo_Unit.h b/CvGameCoreDLL/CvInfo_Unit.h
+index b03ae8cb600817415e8e253d773b35f8db4868d1..1e519a27eb4ec6a0ae8ab14e0eb5be89919b83c9 100644
+--- a/CvGameCoreDLL/CvInfo_Unit.h
++++ b/CvGameCoreDLL/CvInfo_Unit.h
+@@ -817,6 +817,9 @@ class CvUnitPreferenceInfo : public CvInfoBase
+ 	friend class CvXMLLoadUtility;
+ public: // All the const functions returning primitive types are exposed to Python
+ 	CvUnitPreferenceInfo();
++	// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
++	CvUnitPreferenceInfo(CvUnitPreferenceInfo const& kOther);
++	// XANA: 11-01-2026 Independent preference default copies (ChatGPT)
+ 	~CvUnitPreferenceInfo();
+ 
+ 	int getLeaderType() const;
+diff --git a/CvGameCoreDLL/CvPlayerAI.cpp b/CvGameCoreDLL/CvPlayerAI.cpp
+index 50392534cb2685f6c993a1f8baf4983eca13e30f..bb1180dd1dfa6509bf28db98b3fa6216faa8474c 100644
+--- a/CvGameCoreDLL/CvPlayerAI.cpp
++++ b/CvGameCoreDLL/CvPlayerAI.cpp
+@@ -4656,8 +4656,8 @@ int CvPlayerAI::AI_techValue(TechTypes eTech, int iPathLength, bool bFreeTech,
+ 	int iValue = 1;
+ 	
+ 	// XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+-	TechPreferenceData* pLeaderPref = NULL;
+-	TechPreferenceData* pCivilizationPref = NULL;
++	TechPreferenceData const* pLeaderPref = NULL;
++	TechPreferenceData const* pCivilizationPref = NULL;
+ 	
+ 	if (AI_getLeaderTechPreferences() != NO_TECHPREFERENCE)
+ 	{
+@@ -13590,6 +13590,51 @@ uint CvPlayerAI::AI_unitImpassables(UnitTypes eUnit) const
+ 
+ /*	K-Mod note: currently, unit promotions are considered in
+ 	CvCityAI::AI_bestUnitAI rather than here. */
++// XANA: 10-29-2026 Typed unit preference choice snapshots (ChatGPT)
++namespace
++{
++template<class Preference>
++void copyUnitPreferenceChoice(UnitPreferenceData& target, Preference const& source)
++{
++	target.iUnitValueModifierPercent = source.getUnitValueModifierPercent();
++	target.bPreferredChoice = source.isPreferredChoice();
++	target.bNotPreferredChoice = source.isNotPreferredChoice();
++}
++
++bool copyUnitPreferenceForUnit(CvUnitPreferenceInfo const& kPref,
++	UnitTypes eUnit, UnitClassTypes eUnitClass, UnitCombatTypes eUnitCombat,
++	UnitPreferenceData& kTarget)
++{
++	int iPrefIndex = kPref.getUnitPreferenceIndex(eUnit);
++	if (iPrefIndex != -1)
++	{
++		copyUnitPreferenceChoice(kTarget, kPref.getUnitPreference(iPrefIndex));
++		return true;
++	}
++	if (eUnitClass != NO_UNITCLASS)
++	{
++		iPrefIndex = kPref.getUnitClassPreferenceIndex(eUnitClass);
++		if (iPrefIndex != -1)
++		{
++			copyUnitPreferenceChoice(kTarget, kPref.getUnitClassPreference(iPrefIndex));
++			return true;
++		}
++	}
++	// Civilian and other noncombat units may have NO_UNITCOMBAT.
++	if (eUnitCombat != NO_UNITCOMBAT)
++	{
++		iPrefIndex = kPref.getUnitCombatPreferenceIndex(eUnitCombat);
++		if (iPrefIndex != -1)
++		{
++			copyUnitPreferenceChoice(kTarget, kPref.getUnitCombatPreference(iPrefIndex));
++			return true;
++		}
++	}
++	return false;
++}
++}
++// XANA: 10-29-2026 Typed unit preference choice snapshots (ChatGPT)
++
+ int CvPlayerAI::AI_unitValue(UnitTypes eUnit, UnitAITypes eUnitAI,
+ 	CvArea const* pArea) const
+ {
+@@ -13949,79 +13994,32 @@ int CvPlayerAI::AI_unitValue(UnitTypes eUnit, UnitAITypes eUnitAI,
+ 	int iValue = 1;
+ 	
+ 	// XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
+-	UnitPreferenceData* pLeaderPref = NULL;
+-	UnitPreferenceData* pCivilizationPref = NULL;
+-	
++	UnitPreferenceData leaderChoice, civilizationChoice;
++	UnitPreferenceData const* pLeaderPref = NULL;
++	UnitPreferenceData const* pCivilizationPref = NULL;
++
++	// Resolve specificity independently: a leader's exact-unit entry must not
++	// suppress the civilization's class/combat fallback (or vice versa).
+ 	if (AI_getLeaderUnitPreferences() != NO_UNITPREFERENCE)
+ 	{
+ 		CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getLeaderUnitPreferences());
+-		int const iPrefIndex = kPref.getUnitPreferenceIndex(eUnit); 
+-		if (iPrefIndex != -1)
++		if (copyUnitPreferenceForUnit(kPref, eUnit, u.getUnitClassType(),
++			u.getUnitCombatType(), leaderChoice))
+ 		{
+-			pLeaderPref = &kPref.getUnitPreference(iPrefIndex);
++			pLeaderPref = &leaderChoice;
+ 		}
+ 	}
+ 	if (AI_getCivilizationUnitPreferences() != NO_UNITPREFERENCE)
+ 	{
+ 		CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getCivilizationUnitPreferences());
+-		int const iPrefIndex = kPref.getUnitPreferenceIndex(eUnit); 
+-		if (iPrefIndex != -1)
+-		{
+-			pCivilizationPref = &kPref.getUnitPreference(iPrefIndex);
+-		}
+-	}
+-	
+-	bool bHasLeaderPreference = (pLeaderPref != NULL);
+-	bool bHasCivilizationPreference = (pCivilizationPref != NULL);
+-	
+-	if (!bHasLeaderPreference && !bHasCivilizationPreference)
+-	{
+-		if (AI_getLeaderUnitPreferences() != NO_UNITPREFERENCE)
+-		{
+-			CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getLeaderUnitPreferences());
+-			int const iPrefIndex = kPref.getUnitClassPreferenceIndex(u.getUnitClassType()); 
+-			if (iPrefIndex != -1)
+-			{
+-				pLeaderPref = &kPref.getUnitClassPreference(iPrefIndex);
+-			}
+-		}
+-		if (AI_getCivilizationUnitPreferences() != NO_UNITPREFERENCE)
+-		{
+-			CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getCivilizationUnitPreferences());
+-			int const iPrefIndex = kPref.getUnitClassPreferenceIndex(u.getUnitClassType()); 
+-			if (iPrefIndex != -1)
+-			{
+-				pCivilizationPref = &kPref.getUnitClassPreference(iPrefIndex);
+-			}
+-		}
+-		bHasLeaderPreference = (pLeaderPref != NULL);
+-		bHasCivilizationPreference = (pCivilizationPref != NULL);
+-	}
+-	if (!bHasLeaderPreference && !bHasCivilizationPreference)
+-	{
+-		if (AI_getLeaderUnitPreferences() != NO_UNITPREFERENCE)
+-		{
+-			CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getLeaderUnitPreferences());
+-			int const iPrefIndex = kPref.getUnitCombatPreferenceIndex(u.getUnitCombatType()); 
+-			if (iPrefIndex != -1)
+-			{
+-				pLeaderPref = &kPref.getUnitCombatPreference(iPrefIndex);
+-			}
+-		}
+-		if (AI_getCivilizationUnitPreferences() != NO_UNITPREFERENCE)
++		if (copyUnitPreferenceForUnit(kPref, eUnit, u.getUnitClassType(),
++			u.getUnitCombatType(), civilizationChoice))
+ 		{
+-			CvUnitPreferenceInfo const& kPref = GC.getInfo(AI_getCivilizationUnitPreferences());
+-			int const iPrefIndex = kPref.getUnitCombatPreferenceIndex(u.getUnitCombatType()); 
+-			if (iPrefIndex != -1)
+-			{
+-				pCivilizationPref = &kPref.getUnitCombatPreference(iPrefIndex);
+-			}
++			pCivilizationPref = &civilizationChoice;
+ 		}
+-		bHasLeaderPreference = (pLeaderPref != NULL);
+-		bHasCivilizationPreference = (pCivilizationPref != NULL);
+ 	}
+-		
+-	if (bHasLeaderPreference)
++
++	if (pLeaderPref != NULL)
+ 	{
+ 		UnitPreferenceData const& kPrefData = *pLeaderPref;
+ 		if (kPrefData.isPreferredChoice())
+@@ -14033,7 +14031,7 @@ int CvPlayerAI::AI_unitValue(UnitTypes eUnit, UnitAITypes eUnitAI,
+ 			iValue = 0;
+ 		}
+ 	}
+-	if (bHasCivilizationPreference)
++	if (pCivilizationPref != NULL)
+ 	{
+ 		UnitPreferenceData const& kPrefData = *pCivilizationPref;
+ 		if (kPrefData.isPreferredChoice())
+@@ -14679,6 +14677,18 @@ int CvPlayerAI::AI_unitValue(UnitTypes eUnit, UnitAITypes eUnitAI,
+ 		}
+ 	}
+ 
++	// XANA: 10-31-2026 Apply unit preference value modifiers (ChatGPT)
++	if (pLeaderPref != NULL && pLeaderPref->iUnitValueModifierPercent != 0)
++	{
++		iValue *= (100 + pLeaderPref->iUnitValueModifierPercent);
++		iValue /= 100;
++	}
++	if (pCivilizationPref != NULL && pCivilizationPref->iUnitValueModifierPercent != 0)
++	{
++		iValue *= (100 + pCivilizationPref->iUnitValueModifierPercent);
++		iValue /= 100;
++	}
++	// XANA: 10-31-2026 Apply unit preference value modifiers (ChatGPT)
+ 	return std::max(0, iValue);
+ }
+ 
+@@ -23326,6 +23336,14 @@ void CvPlayerAI::read(FDataStreamBase* pStream)
+ 				kPlayer.uwai().getCache().cacheCitiesAfterRead();
+ 		} // </advc.104>
+ 	}
++
++	// These selections are derived from the loaded leader/civilization and XML,
++	// so rebuild them after reading a save instead of serializing cached IDs.
++	// XANA: 10-31-2026 Rebuild AI preference selections after save load (ChatGPT)
++	AI_updateTechPreferences();
++	AI_updateEventPreferences();
++	AI_updateUnitPreferences();
++	// XANA: 10-31-2026 Rebuild AI preference selections after save load (ChatGPT)
+ }
+ 
+ // save object to a stream
+@@ -23511,8 +23529,8 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
+ 	int iValue = SyncRandNum(kEvent.getAIValue());
+ 	
+ 	// XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+-	EventPreferenceData* pLeaderPref = NULL;
+-	EventPreferenceData* pCivilizationPref = NULL;
++	EventPreferenceData const* pLeaderPref = NULL;
++	EventPreferenceData const* pCivilizationPref = NULL;
+ 	
+ 	if (AI_getLeaderEventPreferences() != NO_EVENTPREFERENCE)
+ 	{
+@@ -24069,9 +24087,9 @@ int CvPlayerAI::AI_eventValue(EventTypes eEvent,
+ 	if (bHasLeaderPreference)
+ 	{
+ 		EventPreferenceData const& kPrefData = *pLeaderPref;
+-		if (kPrefData.getAIWeightModifierPercent() != 0)
++		if (kPrefData.getEventValueModifierPercent() != 0)
+ 		{
+-			iValue *= kPrefData.getAIWeightModifierPercent();
++			iValue *= kPrefData.getEventValueModifierPercent();
+ 			iValue /= 100;
+ 		}
+ 	}
+diff --git a/CvGameCoreDLL/CvXMLStructs.cpp b/CvGameCoreDLL/CvXMLStructs.cpp
+index dd947e6bbf03de2a3fa2683c6821f3563b17d276..9b172f589e37c07bc6e578ba22ada89ea74ddc6c 100644
+--- a/CvGameCoreDLL/CvXMLStructs.cpp
++++ b/CvGameCoreDLL/CvXMLStructs.cpp
+@@ -1,6 +1,42 @@
+ #include "CvGameCoreDLL.h"
+ #include "CvXMLStructs.h"
+ #include "CvXMLLoadUtility.h"
++#include <cstring>
++#include "CvInfo_Tech.h"
++#include "CvInfo_RandomEvent.h"
++#include "CvInfo_Unit.h"
++
++// XANA: 10-31-2026 Validate preference key categories (ChatGPT)
++namespace
++{
++	template<class EnumType>
++	bool readPreferenceInfoID(CvXMLLoadUtility* pXML, int& iResult,
++		char const* szTag, int iInfoCount)
++	{
++		iResult = -1;
++		CvString szType;
++		if (!pXML->GetChildXmlValByName(szType, szTag))
++			return false;
++		int const iCandidate = GC.getInfoTypeForString(szType.c_str());
++		if (iCandidate < 0)
++			return false;
++		if (iCandidate >= iInfoCount)
++		{
++			FAssertMsg(false, "Preference type index is outside its info category");
++			return false;
++		}
++		char const* szCanonicalType = GC.getInfo(static_cast<EnumType>(iCandidate)).getType();
++		if (szCanonicalType == NULL || std::strcmp(szCanonicalType, szType.c_str()) != 0)
++		{
++			FAssertMsg(false, "Preference type belongs to a different info category");
++			return false;
++		}
++		iResult = iCandidate;
++		return true;
++	}
++}
++// XANA: 10-31-2026 Validate preference key categories (ChatGPT)
++
+ 
+ 
+ // XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+@@ -19,22 +55,19 @@ bool TechPreferenceData::isPreferredChoice() const
+ 	return bPreferredChoice;
+ }
+ 
+-bool TechPreferenceData::isbNotPreferredChoice() const
++bool TechPreferenceData::isNotPreferredChoice() const
+ {
+ 	return bNotPreferredChoice;
+ }
+ 
+ bool TechPreferenceData::read(CvXMLLoadUtility* pXML)
+-{	
+-	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+-	{
+-		pXML->SetInfoIDFromChildXmlVal(iTech, "TechType");
+-		pXML->GetChildXmlValByName(&iTechValueModifierPercent, "iTechValueModifierPercent");
+-		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
+-		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
+-
+-		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+-	}
++{
++	// Caller already positioned the XML cursor on this preference record.
++	if (!readPreferenceInfoID<TechTypes>(pXML, iTech, "TechType", GC.getNumTechInfos()))
++		return false;
++	pXML->GetChildXmlValByName(&iTechValueModifierPercent, "iTechValueModifierPercent");
++	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
++	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
+ 	return true;
+ }
+ // XANA: 04-26-2025 Favorite Technologies for Advanced Civ
+@@ -63,15 +96,12 @@ bool EventPreferenceData::isNotPreferredChoice() const
+ 
+ bool EventPreferenceData::read(CvXMLLoadUtility* pXML)
+ {
+-	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+-	{
+-		pXML->SetInfoIDFromChildXmlVal(iEvent, "Event");
+-		pXML->GetChildXmlValByName(&iEventValueModifierPercent, "iEventValueModifierPercent");
+-		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
+-		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
+-
+-		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+-	}
++	// Caller already positioned the XML cursor on this preference record.
++	if (!readPreferenceInfoID<EventTypes>(pXML, iEvent, "Event", GC.getNumEventInfos()))
++		return false;
++	pXML->GetChildXmlValByName(&iEventValueModifierPercent, "iEventValueModifierPercent");
++	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
++	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
+ 	return true;
+ }
+ // XANA: 09-05-2026 Event Preferences for AI Decision-Making Process
+@@ -100,15 +130,12 @@ bool UnitCombatPreferenceData::isNotPreferredChoice() const
+ 
+ bool UnitCombatPreferenceData::read(CvXMLLoadUtility* pXML)
+ {
+-	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+-	{
+-		pXML->SetInfoIDFromChildXmlVal(iUnitCombat, "UnitCombatType");
+-		pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
+-		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
+-		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
+-
+-		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+-	}
++	// Caller already positioned the XML cursor on this preference record.
++	if (!readPreferenceInfoID<UnitCombatTypes>(pXML, iUnitCombat, "UnitCombatType", GC.getNumUnitCombatInfos()))
++		return false;
++	pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
++	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
++	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
+ 	return true;
+ }
+ 
+@@ -134,15 +161,12 @@ bool UnitClassPreferenceData::isNotPreferredChoice() const
+ 
+ bool UnitClassPreferenceData::read(CvXMLLoadUtility* pXML)
+ {
+-	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+-	{
+-		pXML->SetInfoIDFromChildXmlVal(iUnitClass, "UnitClassType");
+-		pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
+-		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
+-		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
+-
+-		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+-	}
++	// Caller already positioned the XML cursor on this preference record.
++	if (!readPreferenceInfoID<UnitClassTypes>(pXML, iUnitClass, "UnitClassType", GC.getNumUnitClassInfos()))
++		return false;
++	pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
++	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
++	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
+ 	return true;
+ }
+ 
+@@ -168,15 +192,12 @@ bool UnitPreferenceData::isNotPreferredChoice() const
+ 
+ bool UnitPreferenceData::read(CvXMLLoadUtility* pXML)
+ {
+-	if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
+-	{
+-		pXML->SetInfoIDFromChildXmlVal(iUnit, "UnitType");
+-		pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
+-		pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
+-		pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
+-
+-		gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
+-	}
++	// Caller already positioned the XML cursor on this preference record.
++	if (!readPreferenceInfoID<UnitTypes>(pXML, iUnit, "UnitType", GC.getNumUnitInfos()))
++		return false;
++	pXML->GetChildXmlValByName(&iUnitValueModifierPercent, "iUnitValueModifierPercent");
++	pXML->GetChildXmlValByName(&bPreferredChoice, "bPreferredChoice");
++	pXML->GetChildXmlValByName(&bNotPreferredChoice, "bNotPreferredChoice");
+ 	return true;
+ }
+ // XANA: 06-07-2025 Leader-Specific Favorite Unit Combat Type
