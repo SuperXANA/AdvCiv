@@ -1,0 +1,27 @@
+--- a/Assets/XML/Civilizations/CIV4TraitInfos.xml
++++ b/Assets/XML/Civilizations/CIV4TraitInfos.xml
+@@ -64,16 +64,24 @@
+ 					<UnitCombatType>UNITCOMBAT_MELEE</UnitCombatType>
+ 					<bFreePromotionUnitCombat>1</bFreePromotionUnitCombat>
+ 				</FreePromotionUnitCombat>
+ 				<FreePromotionUnitCombat>
+ 					<UnitCombatType>UNITCOMBAT_GUN</UnitCombatType>
+ 					<bFreePromotionUnitCombat>1</bFreePromotionUnitCombat>
+ 				</FreePromotionUnitCombat>
+ 			</FreePromotionUnitCombats>
++			<!-- XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv -->
++			<UpgradeCostModifierUnitCombats>
++				<UpgradeCostModifierUnitCombat>
++					<UnitCombatType>UNITCOMBAT_GUN</UnitCombatType>
++					<iUpgradeCostUnitCombat>-50</iUpgradeCostUnitCombat>
++				</UpgradeCostModifierUnitCombat>
++			</UpgradeCostModifierUnitCombats>
++			<!-- XANA: 03-22-2025 FfH Per-UnitCombat Upgrade Cost Modifier for AdvancedCiv -->
+ 		</TraitInfo>
+ 		<TraitInfo>
+ 			<Type>TRAIT_SPIRITUAL</Type>
+ 			<Description>TXT_KEY_TRAIT_SPIRITUAL</Description>
+ 			<ShortDescription>TXT_KEY_TRAIT_SPIRITUAL_SHORT</ShortDescription>
+ 			<Civilopedia>TXT_KEY_TRAIT_SPIRITUAL_PEDIA</Civilopedia>
+ 			<iHealth>0</iHealth>
+ 			<iHappiness>0</iHappiness>

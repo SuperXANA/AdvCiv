@@ -1,0 +1,167 @@
+{
+  "structural_configuration_checks": "pass",
+  "baseline_traits_preserved": 11,
+  "staged_traits": 16,
+  "installed_leader_records": 146,
+  "installed_trait_identifiers_resolved": [
+    "TRAIT_AGGRESSIVE",
+    "TRAIT_CHARISMATIC",
+    "TRAIT_CREATIVE",
+    "TRAIT_DIVINE_TYPE_IV",
+    "TRAIT_EXPANSIVE",
+    "TRAIT_FINANCIAL",
+    "TRAIT_IMPERIALIST",
+    "TRAIT_INDUSTRIOUS",
+    "TRAIT_MEDIC",
+    "TRAIT_ORGANIZED",
+    "TRAIT_PHILOSOPHICAL",
+    "TRAIT_PROTECTIVE",
+    "TRAIT_RANGER",
+    "TRAIT_SEAFARING",
+    "TRAIT_SPACEFARING",
+    "TRAIT_SPIRITUAL"
+  ],
+  "additional_source_traits": {
+    "TRAIT_MEDIC": [
+      "LEADER_AMAI",
+      "LEADER_UHANE"
+    ],
+    "TRAIT_SEAFARING": [
+      "LEADER_SEAPONY"
+    ],
+    "TRAIT_SPACEFARING": [
+      "LEADER_DECA"
+    ],
+    "TRAIT_RANGER": [
+      "LEADER_DARINGDO"
+    ],
+    "TRAIT_DIVINE_TYPE_IV": [
+      "LEADER_SITELAE",
+      "LEADER_SOLAIS"
+    ]
+  },
+  "unmatched_trait_records": [],
+  "aggressive_upgrade_cost_modifiers": {
+    "UNITCOMBAT_GUN": -50
+  },
+  "unit_combat_references_consistent_with_unit_XML": [
+    "UNITCOMBAT_ARCHER",
+    "UNITCOMBAT_ARMOR",
+    "UNITCOMBAT_GUN",
+    "UNITCOMBAT_HELICOPTER",
+    "UNITCOMBAT_MELEE",
+    "UNITCOMBAT_NAVAL",
+    "UNITCOMBAT_RECON"
+  ],
+  "direct_UnitCombatInfo_table_validation": "not available in inspected repositories",
+  "unresolved_promotion_dependencies": [
+    "PROMOTION_DESTINY"
+  ],
+  "trait_promotion_dependencies_complete": false,
+  "installed_leader_civilization_schema_issues": [
+    {
+      "path": "Assets/XML/Civilizations/CIV4LeaderHeadInfos.xml",
+      "identifier": "LEADER_BARBARIAN",
+      "reason": "Unknown or out-of-order field in DiplomacyMusicPeace"
+    }
+  ],
+  "known_installation_blockers_resolved": false,
+  "staged_traits_git_blob": "d9b22a1b479c1fedb1a8bcd9cf2fd703cb74e6b5",
+  "staged_schema_git_blob": "41fa1fc9baec43e0a84d2bb6dacd2cd2776f81c9",
+  "engine_XML_initialization": "not run",
+  "in_game_upgrade_pricing": "not run",
+  "save_reload": "not run",
+  "date": "2026-11-02",
+  "scope": "unit-combat-upgrade-trait-xml-integration",
+  "status": "staged_configuration_valid_known_installation_issues_open",
+  "pins": {
+    "source_branch": "PerUnitCombatUpgradeCostModifers",
+    "source_commit": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+    "source_trait_blob": "2abec4df4bebabdcbc0db056c07b2eebfd6fb5ce",
+    "compiled_branch": "UnitCombatUpgradeBuild-ChatGPT",
+    "compiled_head": "6786d8d79fda34d6bfce45526ba6d489df916f35",
+    "compiled_tree": "1d206538f9c822cecc0c27f9454d5ac88ae7d1e3",
+    "tested_commit": "d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+    "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41390572710",
+    "run_id": 41390572710,
+    "installation_repository": "SuperXANA/MLPCiv",
+    "installation_branch": "master",
+    "installation_commit": "7bd66c170c3689e0433cf9309554f609b4894ec9",
+    "installation_leaders_blob": "8c10a7997c6a18a20bf05a2c65cd2deb835015ba",
+    "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+    "dll_tree": "f2a5da8477c263aa2c5784c3a2ce68d9671430ac",
+    "integration_branch": "UnitCombatUpgradeXML-ChatGPT"
+  },
+  "edge_checks": {
+    "absent_optional_list": "schema sequence accepted; no configured contribution",
+    "empty_optional_list": "schema sequence accepted; no configured contribution",
+    "signed_integer_values": [
+      "-2147483648",
+      "-50",
+      "0",
+      "+50",
+      "2147483647"
+    ],
+    "reject_boolean_value": true,
+    "reject_integer_overflow": true,
+    "reject_entry_order": true,
+    "reject_trait_order": true,
+    "source_feature_and_five_custom_blocks_preserved_except_line_endings": true,
+    "baseline_bytes_unchanged_outside_two_insertions": true,
+    "missing_list_or_unlisted_combat_default": "0, established by unchanged production source inspection",
+    "pricing_contract": "destination unit combat, after standard discounts; Python override and barbarian early return unchanged",
+    "reference_price_examples": [
+      {
+        "price_before_combat_modifier": 0,
+        "effective_modifier": -50,
+        "expected_reference_result": 0
+      },
+      {
+        "price_before_combat_modifier": 1,
+        "effective_modifier": -50,
+        "expected_reference_result": 1
+      },
+      {
+        "price_before_combat_modifier": 100,
+        "effective_modifier": -50,
+        "expected_reference_result": 50
+      },
+      {
+        "price_before_combat_modifier": 101,
+        "effective_modifier": -50,
+        "expected_reference_result": 51
+      }
+    ],
+    "reference_price_examples_are_game_execution": false,
+    "discount_only_patch_preserves_local_customization_and_CRLF": true
+  },
+  "findings": {
+    "UCU-XML-001": "staged configuration corrected",
+    "UCU-XML-002": "missing PROMOTION_DESTINY definition",
+    "UCU-XML-003": "existing Barbarian peace-music child-tag mismatch"
+  },
+  "DLL_validation": {
+    "reused_run": 41390572710,
+    "tested_commit": "d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+    "Release": "success",
+    "Debug": "success",
+    "compiler": "MSVC 7.1",
+    "Cpp_changed": false,
+    "complete_DLL_subtree": "f2a5da8477c263aa2c5784c3a2ce68d9671430ac",
+    "workflow_changed": false,
+    "new_build_requested": false
+  },
+  "runtime_coverage": {
+    "engine_initialization": false,
+    "pricing": false,
+    "save_reload": false,
+    "basis": "No prior feature saves have been used; validation starts with a new game, saves after several turns, and reloads. Baseline-save migration is not runtime evidence for this feature."
+  },
+  "original_repositories_and_branches_mutated": false,
+  "input_blobs": {
+    "Assets/XML/Civilizations/CIV4CivilizationsSchema.xml": "41fa1fc9baec43e0a84d2bb6dacd2cd2776f81c9",
+    "Assets/XML/Civilizations/CIV4TraitInfos.xml": "565cd1a94cc773ddcf201fe5072159ae941ba3d0",
+    "Assets/XML/Units/CIV4PromotionInfos.xml": "90073fe8a53d3064fa65bb1486828bc077a36737",
+    "Assets/XML/Units/CIV4UnitInfos.xml": "5e1d12ea67ab97fa6bcda11a4a5460e0578b1270"
+  }
+}
