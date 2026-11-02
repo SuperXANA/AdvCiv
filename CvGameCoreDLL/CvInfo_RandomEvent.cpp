@@ -2107,7 +2107,7 @@ CvEventPreferenceInfo::CvEventPreferenceInfo() :
 
 // XANA: 11-01-2026 Independent preference default copies (ChatGPT)
 CvEventPreferenceInfo::CvEventPreferenceInfo(CvEventPreferenceInfo const& kOther) :
-	base_t(kOther),
+	base_t(), // XANA: 11-02-2026 Re-read base metadata on default clones (ChatGPT)
 	m_iLeaderType(kOther.m_iLeaderType),
 	m_iCivilizationType(kOther.m_iCivilizationType),
 	m_vEventPrefData(kOther.m_vEventPrefData),

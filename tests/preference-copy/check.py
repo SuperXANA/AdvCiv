@@ -39,7 +39,21 @@ typedef int UnitTypes;
 enum { NO_TECH=-1, NO_EVENT=-1, NO_UNITCOMBAT=-1, NO_UNITCLASS=-1, NO_UNIT=-1,
        NO_LEADER=-1, NO_CIVILIZATION=-1 };
 class CvXMLLoadUtility;
-struct CvInfoBase { bool read(CvXMLLoadUtility*); };
+// Constructors mirror pinned 1.14 CvInfo_Base.cpp:6-12; read remains a stub.
+int unsupportedBaseCopies = 0;
+#define FErrorMsg(message) ((void)(++unsupportedBaseCopies))
+struct CvInfoBase {
+    bool m_bGraphicalOnly;
+    CvInfoBase();
+    CvInfoBase(CvInfoBase const&);
+    bool read(CvXMLLoadUtility*);
+};
+CvInfoBase::CvInfoBase() : m_bGraphicalOnly(false) {}
+// Parameter name omitted solely to avoid an unused-parameter host warning.
+CvInfoBase::CvInfoBase(CvInfoBase const&)
+{
+    FErrorMsg("Copy-ctor not implemented");
+}
 struct Globals {
     int count;
     int getNumTechInfos() const { return count; }
@@ -229,11 +243,14 @@ int main() {
         }
         original->read(data);original->verify(expected);
         Infos copy(*original);copy.verify(expected);
+        assert(unsupportedBaseCopies == 0);
+        assert(!copy.tech.m_bGraphicalOnly && !copy.event.m_bGraphicalOnly && !copy.unit.m_bGraphicalOnly);
         for(int k=0;k<5;++k) {
             if(original->map(k)) assert(copy.map(k)!=original->map(k));
             else assert(copy.map(k)==NULL);
         }
         Infos chain(copy);chain.verify(expected);
+        assert(unsupportedBaseCopies == 0);
         delete original;
         copy.verify(expected);chain.verify(expected);
         Xml empty;

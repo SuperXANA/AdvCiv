@@ -1572,7 +1572,7 @@ CvTechPreferenceInfo::CvTechPreferenceInfo() :
 
 // XANA: 11-01-2026 Independent preference default copies (ChatGPT)
 CvTechPreferenceInfo::CvTechPreferenceInfo(CvTechPreferenceInfo const& kOther) :
-	base_t(kOther),
+	base_t(), // XANA: 11-02-2026 Re-read base metadata on default clones (ChatGPT)
 	m_iLeaderType(kOther.m_iLeaderType),
 	m_iCivilizationType(kOther.m_iCivilizationType),
 	m_vTechPrefData(kOther.m_vTechPrefData),
