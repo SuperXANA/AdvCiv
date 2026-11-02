@@ -13377,6 +13377,16 @@ void CvGameTextMgr::setAngerHelp(CvWStringBuffer &szBuffer, CvCity const& kCity)
 			szBuffer.append(NEWLINE);
 		}
 	}
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
+	int const iWithdrawalAnger = kCity.getTemporaryUnhappiness();
+	if (iWithdrawalAnger > 0)
+	{
+		iNewAnger += iWithdrawalAnger;
+		szBuffer.append(gDLL->getText("TXT_KEY_ANGER_MINOR_RELIGION_WITHDRAWAL",
+				iWithdrawalAnger, kCity.getUnhappinessTimer()));
+		szBuffer.append(NEWLINE);
+	}
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
 	szBuffer.append(L"-----------------------\n");
 	szBuffer.append(gDLL->getText("TXT_KEY_ANGER_TOTAL_UNHAPPY", iNewAnger));
 	FAssert(iNewAnger == iUnhappy);

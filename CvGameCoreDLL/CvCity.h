@@ -552,6 +552,11 @@ public:
 	int flatDefyResolutionAngerLength() const;																	// Exposed to Python
 	int getHappinessTimer() const { return m_iHappinessTimer; }													// Exposed to Python
 	void changeHappinessTimer(int iChange);																		// Exposed to Python
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
+	int getUnhappinessTimer() const { return m_iUnhappinessTimer; }
+	void changeUnhappinessTimer(int iChange);
+	int getTemporaryUnhappiness() const;
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
 	int getNoUnhappinessCount() const { return m_iNoUnhappinessCount; }			
 	bool isNoUnhappiness() const { return (getNoUnhappinessCount() > 0); }										// Exposed to Python
 	void changeNoUnhappinessCount(int iChange);
@@ -1359,6 +1364,9 @@ protected:
 	int m_iConscriptAngerTimer;
 	int m_iDefyResolutionAngerTimer;
 	int m_iHappinessTimer;
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
+	int m_iUnhappinessTimer;
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
 	int m_iMilitaryHappinessUnits;
 	int m_iBuildingGoodHappiness;
 	int m_iBuildingBadHappiness;

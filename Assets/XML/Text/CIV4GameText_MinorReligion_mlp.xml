@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Civ4GameText>
+	<!-- XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT) -->
+	<TEXT>
+		<Tag>TXT_KEY_ANGER_MINOR_RELIGION_WITHDRAWAL</Tag>
+		<English>+%d1_Change[ICON_UNHAPPY]: "Our religious organization has left us!" (%d2 [NUM2:Turn:Turns])</English>
+	</TEXT>
+	<!-- XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT) -->
+</Civ4GameText>

@@ -62,6 +62,9 @@ CvCity::CvCity() // advc.003u: Merged with the deleted reset function
 	m_iConscriptAngerTimer = 0;
 	m_iDefyResolutionAngerTimer = 0;
 	m_iHappinessTimer = 0;
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
+	m_iUnhappinessTimer = 0;
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
 	m_iMilitaryHappinessUnits = 0;
 	m_iBuildingGoodHappiness = 0;
 	m_iBuildingBadHappiness = 0;
@@ -559,6 +562,11 @@ void CvCity::doTurn()
 			getCommerceRateTimes100(COMMERCE_CULTURE), true); // </K-Mod>
 	doProduction(!bForceProduction);
 	doDecay();
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
+	// Expire old anger after production, before doReligion can add a new penalty.
+	if (getUnhappinessTimer() > 0)
+		changeUnhappinessTimer(-1);
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
 	doReligion();
 	doGreatPeople();
 	doMeltdown();
@@ -3752,6 +3760,9 @@ int CvCity::unhappyLevel(int iExtra) const
 	iUnhappiness -= std::min(0, GC.getInfo(getHandicapType()).getHappyBonus());
 	iUnhappiness += std::max(0, getVassalUnhappiness());
 	iUnhappiness += std::max(0, getEspionageHappinessCounter());
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
+	iUnhappiness += getTemporaryUnhappiness();
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
 
 	return std::max(0, iUnhappiness);
 }
@@ -5973,6 +5984,30 @@ void CvCity::changeHappinessTimer(int iChange)
 		AI_setAssignWorkDirty(true);
 	}
 }
+
+
+// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
+void CvCity::changeUnhappinessTimer(int iChange)
+{
+	// Repeated withdrawals extend duration, not magnitude, like joining happiness.
+	// Bound the sum before adding to avoid signed overflow on repeated applications.
+	int const iNewValue = (iChange > 0 ?
+			m_iUnhappinessTimer + std::min(iChange, MAX_INT - m_iUnhappinessTimer) :
+			std::max(0, m_iUnhappinessTimer + iChange));
+	if (iNewValue != m_iUnhappinessTimer)
+	{
+		m_iUnhappinessTimer = iNewValue;
+		AI_setAssignWorkDirty(true);
+	}
+}
+
+
+int CvCity::getTemporaryUnhappiness() const
+{
+	// Mirror the existing joining bonus without introducing another balance value.
+	return (getUnhappinessTimer() > 0 ? std::max(0, GC.getDefineINT("TEMP_HAPPY")) : 0);
+}
+// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
 
 
 void CvCity::changeNoUnhappinessCount(int iChange)
@@ -11340,6 +11375,11 @@ void CvCity::read(FDataStreamBase* pStream)
 	pStream->Read(&m_iConscriptAngerTimer);
 	pStream->Read(&m_iDefyResolutionAngerTimer);
 	pStream->Read(&m_iHappinessTimer);
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
+	if (uiFlag >= 18)
+		pStream->Read(&m_iUnhappinessTimer);
+	else m_iUnhappinessTimer = 0;
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
 	pStream->Read(&m_iMilitaryHappinessUnits);
 	pStream->Read(&m_iBuildingGoodHappiness);
 	pStream->Read(&m_iBuildingBadHappiness);
@@ -11880,7 +11920,10 @@ void CvCity::write(FDataStreamBase* pStream)
 	//uiFlag = 14; // advc.179, advc.exp.1, advc.exp.2
 	//uiFlag = 15; // advc.912d: Partly reverted, adjust MaxFoodKept.
 	//uiFlag = 16; // advc.enum: m_aiShrine
-	uiFlag = 17; // advc.313: Disorganized promo removed, advc.enum: bugfix.
+	//uiFlag = 17; // advc.313: Disorganized promo removed, advc.enum: bugfix.
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
+	uiFlag = 18; // Dedicated withdrawal timer; pre-18 cities default to zero.
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
 	pStream->Write(uiFlag);
 
 	pStream->Write(m_iID);
@@ -11924,6 +11967,9 @@ void CvCity::write(FDataStreamBase* pStream)
 	pStream->Write(m_iConscriptAngerTimer);
 	pStream->Write(m_iDefyResolutionAngerTimer);
 	pStream->Write(m_iHappinessTimer);
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
+	pStream->Write(m_iUnhappinessTimer);
+	// XANA: 11-02-2026 Minor religion withdrawal anger (ChatGPT)
 	pStream->Write(m_iMilitaryHappinessUnits);
 	pStream->Write(m_iBuildingGoodHappiness);
 	pStream->Write(m_iBuildingBadHappiness);
@@ -13579,6 +13625,7 @@ void CvCity::setCityChangesDueToMinorReligionLeaving(HybridOrganizationTypes con
 	if (kHybridOrg.getWithdrawalUnhappinessTurns() > 0)
 	{
 		// XANA (note): TO-DO - Need an unhappiness timer for handling anger of a minor religious organization leaving
+		// XANA: 11-02-2026 Implemented separately from hurry anger above (ChatGPT).
 		changeUnhappinessTimer(kHybridOrg.getWithdrawalUnhappinessTurns());
 	}
 }
