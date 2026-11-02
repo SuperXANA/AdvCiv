@@ -146,3 +146,15 @@ the DLL's C/C++ compilation uses MSVC 7.1.
 
 Both configuration logs additionally confirm the compiler probe:
 `Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1).`
+
+## Downloaded-artifact follow-up — 2026-11-01
+
+The two exact archives from run 40583685157 at `dc22ea9a64cb4c2ee45af31d4c20191e08e8247d` were downloaded, their API-reported ZIP sizes and SHA256 digests verified, and every extracted entry compared with the ZIP. This closes the earlier report's unperformed binary inspection, without triggering a new build.
+
+Both DLLs are PE32 x86 DLLs. Release is 6565888 bytes, SHA256 `0fa16277acc17e64fc37ec56f736b55dbe7fc7748e1e4318887e9cf823f0d304`. Debug is 25194496 bytes, SHA256 `63f2eaa76cfb8498319fb2ab629f33a09945b442f14b2bfa746973af56942324`. The Debug DLL's RSDS GUID `cf711684-735c-4402-90c7-6a54f4b74ceb`, age 1, matches the extracted PDB.
+
+Both provenance records match the tested commit, baseline, original feature source and historical workflow. Their 349-entry filename lists match the exact tested tree. All 363 current assistant DLL/workflow blobs are identical to that tested tree; only documentation has advanced. Both terminal jobs succeeded, and their retrieved runner logs report 0 warnings/errors and the MSVC 7.1 compiler probe.
+
+**Historical verification limitation:** neither archive contains actual MSBuild Build.log, BuildTiming.log, an actual-source hash manifest or a content-hash verification record. The Release ZIP contains the DLL, provenance and expected filename list; Debug additionally contains the PDB. Runner logs and filename-only lists do not replace the missing actual build logs and source-content hashes. This follow-up is binary/provenance/symbol verification of the historical run, not a fresh full DLL validation under the current procedure.
+
+The next relevant source build should use the current dll-build workflow. No unchanged passing rebuild was triggered solely to replace unavailable historical evidence. Actual engine XML acceptance, negotiation, game behavior and multiplayer remain unverified. [Detailed artifact evidence](renegade-artifacts-2026-11-01.json).

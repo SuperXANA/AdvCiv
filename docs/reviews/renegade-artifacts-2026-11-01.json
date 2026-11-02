@@ -1,0 +1,95 @@
+{
+  "review_date": "2026-11-01",
+  "classification": "historical_binary_artifact_verification_not_new_full_DLL_validation",
+  "original_source": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+  "reviewed_assistant_head": "6660adfd2883b8286c9fbd759f310b6da7dd4c86",
+  "tested_commit": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "historical_workflow": "058e4d0e1760f76195071823d3e2dc85c81b7285",
+  "run": 40583685157,
+  "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157",
+  "run_created_date": "2026-10-27",
+  "terminal_status": "completed",
+  "terminal_conclusion": "success",
+  "both_archives_downloaded": true,
+  "ZIP_metadata_sizes_and_SHA256_verified": true,
+  "all_ZIP_entries_extracted_and_compared_to_archive": true,
+  "compiler_probe_both_runner_logs": "_MSC_VER == 1310 (MSVC 7.1)",
+  "both_runner_logs_report": {
+    "warnings": 0,
+    "errors": 0
+  },
+  "actual_MSBuild_Build_logs_available": false,
+  "actual_BuildTiming_logs_available": false,
+  "source_content_hash_manifests_available": false,
+  "filename_manifests_match_tested_tree": true,
+  "current_assistant_DLL_and_workflow_blobs_identical_to_tested_tree": 363,
+  "Release": {
+    "artifact_id": 12770887082,
+    "configuration": "Release",
+    "provenance": {
+      "commit": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+      "configuration": "Release",
+      "compiler": "_MSC_VER_1310",
+      "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "feature_source": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+      "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+    },
+    "filename_manifest_count": 349,
+    "filename_manifest_sha256": "342222151516bbd81c2a82665df74eab68d37df36b657cb5a5fcb050480e8cf8",
+    "PE": "PE32 x86 DLL",
+    "dll_bytes": 6565888,
+    "dll_sha256": "0fa16277acc17e64fc37ec56f736b55dbe7fc7748e1e4318887e9cf823f0d304",
+    "archive_files": [
+      "artifacts/CvGameCoreDLL.dll",
+      "build-provenance.txt",
+      "expected-sources.txt"
+    ]
+  },
+  "Debug": {
+    "artifact_id": 12770842991,
+    "configuration": "Debug",
+    "provenance": {
+      "commit": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+      "configuration": "Debug",
+      "compiler": "_MSC_VER_1310",
+      "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "feature_source": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+      "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+    },
+    "filename_manifest_count": 349,
+    "filename_manifest_sha256": "342222151516bbd81c2a82665df74eab68d37df36b657cb5a5fcb050480e8cf8",
+    "PE": "PE32 x86 DLL",
+    "dll_bytes": 25194496,
+    "dll_sha256": "63f2eaa76cfb8498319fb2ab629f33a09945b442f14b2bfa746973af56942324",
+    "archive_files": [
+      "CvGameCoreDLL.pdb",
+      "artifacts/CvGameCoreDLL.dll",
+      "build-provenance.txt",
+      "expected-sources.txt"
+    ],
+    "pdb_guid": "cf711684-735c-4402-90c7-6a54f4b74ceb",
+    "pdb_age": 1,
+    "pdb_bytes": 70634496,
+    "pdb_sha256": "ae9f40d8947f1f4f9e9c7702cbe4bde0b88a87c3573a63546258f7ae0fa27082"
+  },
+  "artifact_metadata": [
+    {
+      "id": 12770887082,
+      "name": "CvGameCoreDLL-Release-RenegadeDiplomacyBuild-ChatGPT-dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+      "size_in_bytes": 2342634,
+      "digest": "sha256:849808fb69325ab373c23baacb738d41ff45ed0ebfcf63fe3daf7232e60969f7",
+      "head_sha": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d"
+    },
+    {
+      "id": 12770842991,
+      "name": "CvGameCoreDLL-Debug-RenegadeDiplomacyBuild-ChatGPT-dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+      "size_in_bytes": 18565668,
+      "digest": "sha256:14c3ffb590b88eb1487ccfd0b5f47338d5930a0ebbd1fef7468f4fed261fcfdf",
+      "head_sha": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d"
+    }
+  ],
+  "new_build_triggered": false,
+  "production_changes": false,
+  "qualification": "Binary and matching-symbol inspection of the exact historical run. No actual Build.log, BuildTiming.log, actual-source hash manifest or hash-verification record exists in either downloaded ZIP. Runner totals and compiler probes were observed but are not substituted for those missing records. No current full-procedure validation or game execution claimed."
+}
