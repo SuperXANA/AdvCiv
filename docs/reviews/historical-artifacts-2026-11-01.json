@@ -1,0 +1,454 @@
+{
+  "date": "2026-11-01",
+  "scope": "Historical binary and symbol verification only; no new full DLL run or production change.",
+  "all_seven_ZIPs_size_digest_checked_extracted_and_compared": true,
+  "results": [
+    {
+      "branch": "CityBonusDiplomacyBuild-ChatGPT",
+      "current": "1488899c9d040f00b772936137dbdb64b656bd22",
+      "tested": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
+      "run": 40575245169,
+      "source_branch": "CityBonusLeaderDiplomacyModifiers",
+      "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "source_head": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169",
+      "terminal_status": "completed",
+      "terminal_conclusion": "success",
+      "jobs": [
+        {
+          "branch": "CityBonusDiplomacyBuild-ChatGPT",
+          "id": 122439804572,
+          "name": "build-dll (Debug)",
+          "compiler_probe": [
+            "2026-10-27T20:12:37.5977591Z Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+          ],
+          "configuration": [
+            "2026-10-27T20:10:32.3918907Z Targeting configuration: Debug"
+          ],
+          "totals": [
+            "2026-10-27T20:12:37.5957762Z     0 Warning(s)",
+            "2026-10-27T20:12:37.5958158Z     0 Error(s)"
+          ]
+        },
+        {
+          "branch": "CityBonusDiplomacyBuild-ChatGPT",
+          "id": 122439805171,
+          "name": "build-dll (Release)",
+          "compiler_probe": [
+            "2026-10-27T20:10:19.3513129Z Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+          ],
+          "configuration": [
+            "2026-10-27T20:07:51.9140480Z Targeting configuration: Release"
+          ],
+          "totals": [
+            "2026-10-27T20:10:19.3302889Z     0 Warning(s)",
+            "2026-10-27T20:10:19.3303076Z     0 Error(s)"
+          ]
+        }
+      ],
+      "current_DLL_workflow_comparison": {
+        "branch": "CityBonusDiplomacyBuild-ChatGPT",
+        "compared": 363,
+        "identical": true,
+        "reports": [
+          "docs/reviews/city-bonus-diplomacy-2026-10-27.md"
+        ]
+      },
+      "archive_results": {
+        "Release": {
+          "artifact_id": 12767885725,
+          "configuration": "Release",
+          "PE": "PE32 x86 DLL",
+          "dll_bytes": 6569984,
+          "dll_sha256": "5dacb0da6e3c8de36c34ccd3c22ffa687c5f4caf3adb5bdfbe5e1d7b3675fda3",
+          "archive_files": [
+            "artifacts/CvGameCoreDLL.dll",
+            "build-provenance.txt",
+            "expected-sources.txt"
+          ],
+          "provenance": {
+            "commit": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
+            "configuration": "Release",
+            "compiler": "_MSC_VER_1310",
+            "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+            "feature_source": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+            "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+          },
+          "filename_manifest_count": 349,
+          "filename_manifest_sha256": "342222151516bbd81c2a82665df74eab68d37df36b657cb5a5fcb050480e8cf8",
+          "actual_Build_log_in_archive": false,
+          "timing_log_in_archive": false,
+          "actual_source_hashes_in_archive": false
+        },
+        "Debug": {
+          "artifact_id": 12766979488,
+          "configuration": "Debug",
+          "PE": "PE32 x86 DLL",
+          "dll_bytes": 25198592,
+          "dll_sha256": "38d4564f42b653a07914ac4bec3ddbcea6d6cfc151495c72c83b3ba63c561de7",
+          "archive_files": [
+            "CvGameCoreDLL.pdb",
+            "artifacts/CvGameCoreDLL.dll",
+            "build-provenance.txt",
+            "expected-sources.txt"
+          ],
+          "provenance": {
+            "commit": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
+            "configuration": "Debug",
+            "compiler": "_MSC_VER_1310",
+            "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+            "feature_source": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+            "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+          },
+          "filename_manifest_count": 349,
+          "filename_manifest_sha256": "342222151516bbd81c2a82665df74eab68d37df36b657cb5a5fcb050480e8cf8",
+          "pdb_guid": "50eb20aa-34ba-47e5-afb7-8727d55cd4f9",
+          "pdb_age": 1,
+          "pdb_bytes": 70634496,
+          "pdb_sha256": "b956b58ffbb0c7b02f3d1d719d8d9661a73b72c8f799e71e85b36eb829bb4ed9",
+          "actual_Build_log_in_archive": false,
+          "timing_log_in_archive": false,
+          "actual_source_hashes_in_archive": false
+        }
+      },
+      "artifact_metadata": [
+        {
+          "id": 12767885725,
+          "name": "CvGameCoreDLL-Release-CityBonusDiplomacyBuild-ChatGPT-60d88bfa0edf155d542cd24cb4853b2651897b0f",
+          "size_in_bytes": 2343463,
+          "digest": "sha256:9e961fb83b8ebbcae47ee1d5a267cfa75ce6dd354487a9b52f99752a17848537",
+          "head_sha": "60d88bfa0edf155d542cd24cb4853b2651897b0f"
+        },
+        {
+          "id": 12766979488,
+          "name": "CvGameCoreDLL-Debug-CityBonusDiplomacyBuild-ChatGPT-60d88bfa0edf155d542cd24cb4853b2651897b0f",
+          "size_in_bytes": 18566327,
+          "digest": "sha256:c81219939795edcf65dda459f2e58ff101c4c3f84e63e3fab73ce33a0415fc2a",
+          "head_sha": "60d88bfa0edf155d542cd24cb4853b2651897b0f"
+        }
+      ],
+      "actual_MSBuild_Build_log_available": false,
+      "actual_source_content_hashes_available": false,
+      "Debug_validated_in_this_historical_run": true
+    },
+    {
+      "branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "current": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
+      "tested": "6d106160bfc778b47274ef2025f02e68d183f3af",
+      "run": 40548144176,
+      "source_branch": "LLMDiplomacyTextGeneration",
+      "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "source_head": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176",
+      "terminal_status": "completed",
+      "terminal_conclusion": "success",
+      "jobs": [
+        {
+          "branch": "LLMDiplomacyTextBuild-ChatGPT",
+          "id": 122344251851,
+          "name": "build-dll (Release)",
+          "compiler_probe": [
+            "2026-10-27T17:13:34.7250651Z Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+          ],
+          "configuration": [
+            "2026-10-27T17:11:11.1510894Z Targeting configuration: Release"
+          ],
+          "totals": [
+            "2026-10-27T17:13:34.7243515Z     0 Warning(s)",
+            "2026-10-27T17:13:34.7243893Z     0 Error(s)"
+          ]
+        },
+        {
+          "branch": "LLMDiplomacyTextBuild-ChatGPT",
+          "id": 122344252109,
+          "name": "build-dll (Debug)",
+          "compiler_probe": [
+            "2026-10-27T17:15:53.7310825Z Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+          ],
+          "configuration": [
+            "2026-10-27T17:13:46.2210542Z Targeting configuration: Debug"
+          ],
+          "totals": [
+            "2026-10-27T17:15:53.7309986Z     0 Warning(s)",
+            "2026-10-27T17:15:53.7310230Z     0 Error(s)"
+          ]
+        }
+      ],
+      "current_DLL_workflow_comparison": {
+        "branch": "LLMDiplomacyTextBuild-ChatGPT",
+        "compared": 366,
+        "identical": true,
+        "reports": []
+      },
+      "archive_results": {
+        "Debug": {
+          "artifact_id": 12753299260,
+          "configuration": "Debug",
+          "PE": "PE32 x86 DLL",
+          "dll_bytes": 25366528,
+          "dll_sha256": "144112132229e30feb671e9ecc39455e151a9edab58d6882757f151bdc543f1b",
+          "archive_files": [
+            "CvGameCoreDLL.pdb",
+            "artifacts/CvGameCoreDLL.dll",
+            "build-provenance.txt",
+            "expected-sources.txt"
+          ],
+          "provenance": {
+            "commit": "6d106160bfc778b47274ef2025f02e68d183f3af",
+            "configuration": "Debug",
+            "compiler": "_MSC_VER_1310",
+            "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+            "feature_source": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+            "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+          },
+          "filename_manifest_count": 352,
+          "filename_manifest_sha256": "a24310c2bd7603cd4f70d31750ffe3c085166c36f787247a45767b4580e2e8ff",
+          "pdb_guid": "39e92abf-a426-45ee-98db-6783d0226fb0",
+          "pdb_age": 1,
+          "pdb_bytes": 71199744,
+          "pdb_sha256": "54219f16874277cbc931c1d72ab5c4e28763c83c2ef005c9d53b75ad11f98720",
+          "actual_Build_log_in_archive": false,
+          "timing_log_in_archive": false,
+          "actual_source_hashes_in_archive": false
+        },
+        "Release": {
+          "artifact_id": 12753094174,
+          "configuration": "Release",
+          "PE": "PE32 x86 DLL",
+          "dll_bytes": 6606848,
+          "dll_sha256": "97ab20f965e03cad785aabf05862c652f1a60088de8330d4a9b65e126dec3b55",
+          "archive_files": [
+            "artifacts/CvGameCoreDLL.dll",
+            "build-provenance.txt",
+            "expected-sources.txt"
+          ],
+          "provenance": {
+            "commit": "6d106160bfc778b47274ef2025f02e68d183f3af",
+            "configuration": "Release",
+            "compiler": "_MSC_VER_1310",
+            "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+            "feature_source": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+            "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+          },
+          "filename_manifest_count": 352,
+          "filename_manifest_sha256": "a24310c2bd7603cd4f70d31750ffe3c085166c36f787247a45767b4580e2e8ff",
+          "actual_Build_log_in_archive": false,
+          "timing_log_in_archive": false,
+          "actual_source_hashes_in_archive": false
+        }
+      },
+      "artifact_metadata": [
+        {
+          "id": 12753299260,
+          "name": "CvGameCoreDLL-Debug-LLMDiplomacyTextBuild-ChatGPT-6d106160bfc778b47274ef2025f02e68d183f3af",
+          "size_in_bytes": 18690798,
+          "digest": "sha256:e257d91b0c3ef9b35b46d666148d8f4d606a4ec90f4e3ec6d604229bb43d491e",
+          "head_sha": "6d106160bfc778b47274ef2025f02e68d183f3af"
+        },
+        {
+          "id": 12753094174,
+          "name": "CvGameCoreDLL-Release-LLMDiplomacyTextBuild-ChatGPT-6d106160bfc778b47274ef2025f02e68d183f3af",
+          "size_in_bytes": 2355068,
+          "digest": "sha256:59c42a061518f5e7fcbfebc903bc574a119324ca16c3337be6b64b5dde80ce43",
+          "head_sha": "6d106160bfc778b47274ef2025f02e68d183f3af"
+        }
+      ],
+      "actual_MSBuild_Build_log_available": false,
+      "actual_source_content_hashes_available": false,
+      "Debug_validated_in_this_historical_run": true
+    },
+    {
+      "branch": "LeaderTeamSizeBuild-ChatGPT",
+      "current": "74098492ca88543c88e5e30781b84a687cb51e42",
+      "tested": "23b8e74ea630209d67deaa53475d31113bd614b1",
+      "run": 40448128843,
+      "source_branch": "LeaderSpecificTeamSizeAttitude",
+      "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "source_head": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843",
+      "terminal_status": "completed",
+      "terminal_conclusion": "success",
+      "jobs": [
+        {
+          "branch": "LeaderTeamSizeBuild-ChatGPT",
+          "id": 122004459094,
+          "name": "build-dll",
+          "compiler_probe": [],
+          "configuration": [
+            "2026-10-27T04:10:04.4745638Z Targeting configuration: Release"
+          ],
+          "totals": [
+            "2026-10-27T04:12:24.1850004Z     0 Warning(s)",
+            "2026-10-27T04:12:24.1850198Z     0 Error(s)"
+          ]
+        }
+      ],
+      "current_DLL_workflow_comparison": {
+        "branch": "LeaderTeamSizeBuild-ChatGPT",
+        "compared": 363,
+        "identical": true,
+        "reports": [
+          "docs/reviews/leader-team-size-2026-10-27.md"
+        ]
+      },
+      "archive_results": {
+        "Release": {
+          "artifact_id": 12709332075,
+          "configuration": "Release",
+          "PE": "PE32 x86 DLL",
+          "dll_bytes": 6565888,
+          "dll_sha256": "b8a61fcd49e323f35e310f918233a4a3ade9623dad58ca85e163a285d3ab0a21",
+          "archive_files": [
+            "CvGameCoreDLL.dll"
+          ],
+          "provenance": null,
+          "filename_manifest_count": null,
+          "actual_Build_log_in_archive": false,
+          "timing_log_in_archive": false,
+          "actual_source_hashes_in_archive": false
+        }
+      },
+      "artifact_metadata": [
+        {
+          "id": 12709332075,
+          "name": "CvGameCoreDLL-LeaderTeamSizeBuild-ChatGPT-23b8e74ea630209d67deaa53475d31113bd614b1",
+          "size_in_bytes": 2340368,
+          "digest": "sha256:eab6a306cb4e1e6f60a78cd260b9df658b2a97f0089a56e795ad5d83f4dc8b20",
+          "head_sha": "23b8e74ea630209d67deaa53475d31113bd614b1"
+        }
+      ],
+      "actual_MSBuild_Build_log_available": false,
+      "actual_source_content_hashes_available": false,
+      "Debug_validated_in_this_historical_run": false
+    },
+    {
+      "branch": "UnitCombatUpgradeBuild-ChatGPT",
+      "current": "cf97766d59822b81772d0ab50a80dba139d8a787",
+      "tested": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+      "run": 40456936509,
+      "source_branch": "PerUnitCombatUpgradeCostModifers",
+      "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "source_head": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509",
+      "terminal_status": "completed",
+      "terminal_conclusion": "success",
+      "jobs": [
+        {
+          "branch": "UnitCombatUpgradeBuild-ChatGPT",
+          "id": 122032343885,
+          "name": "build-dll",
+          "compiler_probe": [],
+          "configuration": [
+            "2026-10-27T05:43:35.1786092Z Targeting configuration: Release"
+          ],
+          "totals": [
+            "2026-10-27T05:45:56.4638207Z     0 Warning(s)",
+            "2026-10-27T05:45:56.4638513Z     0 Error(s)"
+          ]
+        }
+      ],
+      "current_DLL_workflow_comparison": {
+        "branch": "UnitCombatUpgradeBuild-ChatGPT",
+        "compared": 363,
+        "identical": true,
+        "reports": [
+          "docs/reviews/unit-combat-upgrade-2026-10-27.md"
+        ]
+      },
+      "archive_results": {
+        "Release": {
+          "artifact_id": 12713071194,
+          "configuration": "Release",
+          "PE": "PE32 x86 DLL",
+          "dll_bytes": 6569984,
+          "dll_sha256": "c0ebc398af9bf2fc32b90fd52d6e9624551b3624cfe92df87701a3cfdb0dbffd",
+          "archive_files": [
+            "CvGameCoreDLL.dll"
+          ],
+          "provenance": null,
+          "filename_manifest_count": null,
+          "actual_Build_log_in_archive": false,
+          "timing_log_in_archive": false,
+          "actual_source_hashes_in_archive": false
+        }
+      },
+      "artifact_metadata": [
+        {
+          "id": 12713071194,
+          "name": "CvGameCoreDLL-UnitCombatUpgradeBuild-ChatGPT-e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+          "size_in_bytes": 2342238,
+          "digest": "sha256:e63f9ada59d7f0bf87cc2e68b23423b27ea1bfe2f6b99f9ad25da36d18bf8f93",
+          "head_sha": "e1f41d9bed34d4035fa09b506c9e14d377268fbb"
+        }
+      ],
+      "actual_MSBuild_Build_log_available": false,
+      "actual_source_content_hashes_available": false,
+      "Debug_validated_in_this_historical_run": false
+    },
+    {
+      "branch": "PromotionXPBuild-ChatGPT",
+      "current": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+      "tested": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
+      "run": 40518367294,
+      "source_branch": "PromotionAltersUnitXPValues",
+      "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "source_head": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40518367294",
+      "terminal_status": "completed",
+      "terminal_conclusion": "success",
+      "jobs": [
+        {
+          "branch": "PromotionXPBuild-ChatGPT",
+          "id": 122238065468,
+          "name": "build-dll",
+          "compiler_probe": [],
+          "configuration": [
+            "2026-10-27T14:09:12.8413937Z Targeting configuration: Release"
+          ],
+          "totals": [
+            "2026-10-27T14:11:35.9296570Z     0 Warning(s)",
+            "2026-10-27T14:11:35.9299598Z     0 Error(s)"
+          ]
+        }
+      ],
+      "current_DLL_workflow_comparison": {
+        "branch": "PromotionXPBuild-ChatGPT",
+        "compared": 363,
+        "identical": true,
+        "reports": [
+          "docs/reviews/promotion-xp-2026-10-27.md"
+        ]
+      },
+      "archive_results": {
+        "Release": {
+          "artifact_id": 12741530101,
+          "configuration": "Release",
+          "PE": "PE32 x86 DLL",
+          "dll_bytes": 6569984,
+          "dll_sha256": "db07e4844c5ce5ec7415a96fab50f05fbe00793d0fc1cfa09cb1a3695ea5d341",
+          "archive_files": [
+            "CvGameCoreDLL.dll"
+          ],
+          "provenance": null,
+          "filename_manifest_count": null,
+          "actual_Build_log_in_archive": false,
+          "timing_log_in_archive": false,
+          "actual_source_hashes_in_archive": false
+        }
+      },
+      "artifact_metadata": [
+        {
+          "id": 12741530101,
+          "name": "CvGameCoreDLL-PromotionXPBuild-ChatGPT-7394c4d68628bbfac61ec1366c2c2f52284c35a2",
+          "size_in_bytes": 2341383,
+          "digest": "sha256:58d36aac38f0b75d69c02f4f6dd89d596db6f07edd086f467bc9a6ae082e2592",
+          "head_sha": "7394c4d68628bbfac61ec1366c2c2f52284c35a2"
+        }
+      ],
+      "actual_MSBuild_Build_log_available": false,
+      "actual_source_content_hashes_available": false,
+      "Debug_validated_in_this_historical_run": false
+    }
+  ],
+  "limits": "No downloaded archive contains actual MSBuild Build.log, BuildTiming.log or source-content hashes. The three earlier Release-only archives contain only the DLL and no embedded provenance/filename list. Their runner logs have no compiler probe; configuration and zero totals were observed. No in-game execution or current-procedure validation is claimed."
+}
