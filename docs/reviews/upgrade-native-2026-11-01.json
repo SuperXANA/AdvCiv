@@ -1,0 +1,105 @@
+{
+  "date": "2026-11-01",
+  "classification": "missing_Debug_and_current_native_evidence_completed_without_Cpp_changes",
+  "original_source": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+  "selected_assistant_source": "cf97766d59822b81772d0ab50a80dba139d8a787",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+  "workflow_correction_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+  "tested_commit": "d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+  "run": 41390572710,
+  "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41390572710",
+  "terminal_status": "completed",
+  "terminal_conclusion": "success",
+  "Cpp_changes": false,
+  "baseline_blobs_retained": 872,
+  "selected_DLL_blobs_unchanged": 362,
+  "root_sources": 349,
+  "independent_feature_Git_blob_and_native_SHA256_checks": 6,
+  "compiler_probes_both": "_MSC_VER == 1310 (MSVC 7.1)",
+  "actual_Build_log_and_BuildTiming_inspected_both": true,
+  "all_four_archives_downloaded_API_size_SHA256_checked_extracted": true,
+  "all_extracted_entries_match_archive": true,
+  "source_manifests_expected_actual_equal": true,
+  "source_hash_diffs_empty": true,
+  "source_manifest_names_match_tested_tree": true,
+  "exact_all_provenance_pins_verified": true,
+  "both_source_diagnostics_uploads": "success",
+  "artifact_metadata": [
+    {
+      "id": 13117820742,
+      "name": "source-verification-Release-UnitCombatUpgradeBuild-ChatGPT-d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+      "size_in_bytes": 31097,
+      "digest": "sha256:4a4ba969393e3c11b1b496b74461d9b79d506666ab15d17bce526e0a531d1dbe",
+      "head_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6"
+    },
+    {
+      "id": 13117561823,
+      "name": "source-verification-Debug-UnitCombatUpgradeBuild-ChatGPT-d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+      "size_in_bytes": 31096,
+      "digest": "sha256:4ee01eb5a612e8e6433729456a5ae4e7c4c2a55d37664e6c2d08005370def33f",
+      "head_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6"
+    },
+    {
+      "id": 13117322516,
+      "name": "CvGameCoreDLL-Debug-UnitCombatUpgradeBuild-ChatGPT-d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+      "size_in_bytes": 18582993,
+      "digest": "sha256:99239cebbd4e955633f3b8f454da2174e7127632f0ed4d7cb7927c527fd70fd3",
+      "head_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6"
+    },
+    {
+      "id": 13116997931,
+      "name": "CvGameCoreDLL-Release-UnitCombatUpgradeBuild-ChatGPT-d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+      "size_in_bytes": 2350534,
+      "digest": "sha256:5c8af72c9ac1a3cc57ae36300e57e3097ecb7d00115ef924264dd61cabb0cea3",
+      "head_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6"
+    }
+  ],
+  "native": {
+    "Release": {
+      "configuration": "Release",
+      "artifacts": {
+        "binary": 13116997931,
+        "diagnostic": 13117820742
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 349,
+      "manifest_sha256": "6875d1155d7eb6f500362b20a8e58671999f18d7e2cae0ecb307b05b040191ee",
+      "dll_bytes": 6569984,
+      "dll_sha256": "a0cf9c3b76664c7d719ddbf8f2545d06a3c741e6605d788f11bf38dcce053327",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-02T04:49:25.5868199Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-02T04:49:23.5712024Z",
+        "precompile_utc_after=2026-11-02T04:49:23.5712024Z"
+      ]
+    },
+    "Debug": {
+      "configuration": "Debug",
+      "artifacts": {
+        "binary": 13117322516,
+        "diagnostic": 13117561823
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 349,
+      "manifest_sha256": "6875d1155d7eb6f500362b20a8e58671999f18d7e2cae0ecb307b05b040191ee",
+      "dll_bytes": 25210880,
+      "dll_sha256": "bd968021349c24b6aff157034a788b00ce42ed0abef4eac635c82b8c6bfedee1",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-02T04:52:15.5243202Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-02T04:52:13.5086944Z",
+        "precompile_utc_after=2026-11-02T04:52:13.5086944Z"
+      ],
+      "pdb_guid": "c768a29b-58f3-407d-9d80-19c2e983fd7e",
+      "pdb_age": 1,
+      "pdb_bytes": 70683648,
+      "pdb_sha256": "bf67b2218194675ceb53b6d6da34aea8c4a5b1998d453ede6482f43aa46770e8"
+    }
+  },
+  "engine_XML_traits_pricing_streams_gameplay": false
+}

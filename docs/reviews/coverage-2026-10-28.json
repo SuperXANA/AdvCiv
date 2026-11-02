@@ -152,8 +152,8 @@
       "branch": "CityBonusDiplomacyBuild-ChatGPT",
       "head_at_inventory": "b7cdc0447e3bba3da04fae6828ce64762e8370d6",
       "coverage": "published_review_artifact",
-      "native_verification": "linked_build_commit_passed",
-      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "native_verification": "historical_assistant_Release_Debug_binaries_and_symbols_verified_actual_MSBuild_logs_unavailable",
+      "next_action": "Review relevant changed source or actual XML/resource/plot-group/corporation transaction timing and UI/cache/game execution. Retain the established periodic cache refresh; do not invent immediate mutation callbacks without full caller analysis. Do not repeat unchanged passing builds.",
       "source_branch": "CityBonusLeaderDiplomacyModifiers",
       "tested_code_sha": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169",
@@ -168,18 +168,412 @@
         "merge_base": null,
         "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates.",
         "record_commit": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f"
-      }
+      },
+      "city_bonus_metadata_cache_audit": {
+        "date": "2026-11-01",
+        "reviewed_source_sha": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+        "reviewed_assistant_head": "b7cdc0447e3bba3da04fae6828ce64762e8370d6",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "classification": "static_bonus_metadata_and_attitude_cache_path_audit_no_new_finding",
+        "locations": {
+          "CvGameCoreDLL/CvInfo_Civilization.cpp": [
+            502,
+            540,
+            560,
+            669,
+            1071
+          ],
+          "CvGameCoreDLL/CvXMLLoadUtilitySet.cpp": [
+            681,
+            695
+          ],
+          "CvGameCoreDLL/CvPlayerAI.cpp": [
+            430,
+            446,
+            450,
+            7674,
+            7721,
+            8312,
+            8719
+          ],
+          "CvGameCoreDLL/CvPlayer.cpp": [
+            4268
+          ],
+          "CvGameCoreDLL/CvCity.cpp": [
+            2945,
+            7785,
+            7838,
+            8355,
+            8379,
+            8390,
+            8400
+          ]
+        },
+        "observations": [
+          "Bonus info loading precedes leader info loading; the new array receives an already populated bonus-table size.",
+          "NULL initialization, allocCopy using the bonus count, destructor cleanup and a signed zero-fallback getter are all present.",
+          "AI_updateAttitude accumulates the per-bonus helper; the helper queries target-player city availability only for configured nonzero modifiers.",
+          "Inspected city availability paths include ordinary counts, disabled resources, free resource plot-group updates and corporation-produced resource recomputation. No direct attitude refresh call occurs inside these inspected mutation functions; this is not a claim about every surrounding caller.",
+          "AI_doTurnPost refreshes other major AI attitudes toward the current player before its human-return branch and before AI_doDiplo; the AI's own cache is refreshed through AI_updateExpansionistHate. This establishes a source-level periodic refresh path, not live event timing.",
+          "No immediate per-resource refresh was added: plot-group/corporation changes can have intermediate states, and the intended point for a mid-turn cache update requires full transaction/caller and runtime evaluation."
+        ],
+        "new_finding_ids": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_run": false,
+        "build_status": "Prior exact-overlay Release/Debug success retained. Historical artifacts were not redownloaded or newly certified in this static pass.",
+        "limits": [
+          "Actual resource acquisition/loss, city transfer/destruction and plot-group transaction caller order",
+          "Installed XML/default/parser execution and attitude-cache timing in Civ4",
+          "Resource display versus cached AI decision values during a turn",
+          "Actual game/UI/multiplayer execution"
+        ],
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
+      },
+      "runtime_save_validation_policy": "save_runtime_validation_policy",
+      "historical_artifact_review": {
+        "branch": "CityBonusDiplomacyBuild-ChatGPT",
+        "current": "1488899c9d040f00b772936137dbdb64b656bd22",
+        "tested": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
+        "run": 40575245169,
+        "source_branch": "CityBonusLeaderDiplomacyModifiers",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "source_head": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "jobs": [
+          {
+            "branch": "CityBonusDiplomacyBuild-ChatGPT",
+            "id": 122439804572,
+            "name": "build-dll (Debug)",
+            "compiler_probe": [
+              "2026-10-27T20:12:37.5977591Z Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+            ],
+            "configuration": [
+              "2026-10-27T20:10:32.3918907Z Targeting configuration: Debug"
+            ],
+            "totals": [
+              "2026-10-27T20:12:37.5957762Z     0 Warning(s)",
+              "2026-10-27T20:12:37.5958158Z     0 Error(s)"
+            ]
+          },
+          {
+            "branch": "CityBonusDiplomacyBuild-ChatGPT",
+            "id": 122439805171,
+            "name": "build-dll (Release)",
+            "compiler_probe": [
+              "2026-10-27T20:10:19.3513129Z Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+            ],
+            "configuration": [
+              "2026-10-27T20:07:51.9140480Z Targeting configuration: Release"
+            ],
+            "totals": [
+              "2026-10-27T20:10:19.3302889Z     0 Warning(s)",
+              "2026-10-27T20:10:19.3303076Z     0 Error(s)"
+            ]
+          }
+        ],
+        "current_DLL_workflow_comparison": {
+          "branch": "CityBonusDiplomacyBuild-ChatGPT",
+          "compared": 363,
+          "identical": true,
+          "reports": [
+            "docs/reviews/city-bonus-diplomacy-2026-10-27.md"
+          ]
+        },
+        "archive_results": {
+          "Release": {
+            "artifact_id": 12767885725,
+            "configuration": "Release",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 6569984,
+            "dll_sha256": "5dacb0da6e3c8de36c34ccd3c22ffa687c5f4caf3adb5bdfbe5e1d7b3675fda3",
+            "archive_files": [
+              "artifacts/CvGameCoreDLL.dll",
+              "build-provenance.txt",
+              "expected-sources.txt"
+            ],
+            "provenance": {
+              "commit": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
+              "configuration": "Release",
+              "compiler": "_MSC_VER_1310",
+              "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+              "feature_source": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+              "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+            },
+            "filename_manifest_count": 349,
+            "filename_manifest_sha256": "342222151516bbd81c2a82665df74eab68d37df36b657cb5a5fcb050480e8cf8",
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          },
+          "Debug": {
+            "artifact_id": 12766979488,
+            "configuration": "Debug",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 25198592,
+            "dll_sha256": "38d4564f42b653a07914ac4bec3ddbcea6d6cfc151495c72c83b3ba63c561de7",
+            "archive_files": [
+              "CvGameCoreDLL.pdb",
+              "artifacts/CvGameCoreDLL.dll",
+              "build-provenance.txt",
+              "expected-sources.txt"
+            ],
+            "provenance": {
+              "commit": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
+              "configuration": "Debug",
+              "compiler": "_MSC_VER_1310",
+              "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+              "feature_source": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+              "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+            },
+            "filename_manifest_count": 349,
+            "filename_manifest_sha256": "342222151516bbd81c2a82665df74eab68d37df36b657cb5a5fcb050480e8cf8",
+            "pdb_guid": "50eb20aa-34ba-47e5-afb7-8727d55cd4f9",
+            "pdb_age": 1,
+            "pdb_bytes": 70634496,
+            "pdb_sha256": "b956b58ffbb0c7b02f3d1d719d8d9661a73b72c8f799e71e85b36eb829bb4ed9",
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          }
+        },
+        "artifact_metadata": [
+          {
+            "id": 12767885725,
+            "name": "CvGameCoreDLL-Release-CityBonusDiplomacyBuild-ChatGPT-60d88bfa0edf155d542cd24cb4853b2651897b0f",
+            "size_in_bytes": 2343463,
+            "digest": "sha256:9e961fb83b8ebbcae47ee1d5a267cfa75ce6dd354487a9b52f99752a17848537",
+            "head_sha": "60d88bfa0edf155d542cd24cb4853b2651897b0f"
+          },
+          {
+            "id": 12766979488,
+            "name": "CvGameCoreDLL-Debug-CityBonusDiplomacyBuild-ChatGPT-60d88bfa0edf155d542cd24cb4853b2651897b0f",
+            "size_in_bytes": 18566327,
+            "digest": "sha256:c81219939795edcf65dda459f2e58ff101c4c3f84e63e3fab73ce33a0415fc2a",
+            "head_sha": "60d88bfa0edf155d542cd24cb4853b2651897b0f"
+          }
+        ],
+        "actual_MSBuild_Build_log_available": false,
+        "actual_source_content_hashes_available": false,
+        "Debug_validated_in_this_historical_run": true,
+        "review_date": "2026-11-01",
+        "new_build": false,
+        "production_changes": false,
+        "scope": "Downloaded binary/symbol/provenance inspection, not current full-procedure validation."
+      },
+      "latest_artifact_review": "docs/reviews/historical-artifacts-2026-11-01.md",
+      "artifact_review_branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "artifact_review_next_action": "Retain historical binary evidence and missing actual-log/source-content limits. Use the current workflow on subsequent relevant validation; retain explicit unverified Debug status for Release-only runs."
     },
     {
       "branch": "CityBonusLeaderDiplomacyModifiers",
       "head_at_inventory": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
       "coverage": "published_scoped_review",
-      "native_verification": "linked_refinement_passed",
-      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "native_verification": "linked_historical_assistant_Release_Debug_binaries_and_symbols_verified_actual_MSBuild_logs_unavailable",
+      "next_action": "Review relevant changed source or actual XML/resource/plot-group/corporation transaction timing and UI/cache/game execution. Retain the established periodic cache refresh; do not invent immediate mutation callbacks without full caller analysis. Do not repeat unchanged passing builds.",
       "refinement_branch": "CityBonusDiplomacyBuild-ChatGPT",
       "tested_code_sha": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169",
-      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head.",
+      "city_bonus_metadata_cache_audit": {
+        "date": "2026-11-01",
+        "reviewed_source_sha": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+        "reviewed_assistant_head": "b7cdc0447e3bba3da04fae6828ce64762e8370d6",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "classification": "static_bonus_metadata_and_attitude_cache_path_audit_no_new_finding",
+        "locations": {
+          "CvGameCoreDLL/CvInfo_Civilization.cpp": [
+            502,
+            540,
+            560,
+            669,
+            1071
+          ],
+          "CvGameCoreDLL/CvXMLLoadUtilitySet.cpp": [
+            681,
+            695
+          ],
+          "CvGameCoreDLL/CvPlayerAI.cpp": [
+            430,
+            446,
+            450,
+            7674,
+            7721,
+            8312,
+            8719
+          ],
+          "CvGameCoreDLL/CvPlayer.cpp": [
+            4268
+          ],
+          "CvGameCoreDLL/CvCity.cpp": [
+            2945,
+            7785,
+            7838,
+            8355,
+            8379,
+            8390,
+            8400
+          ]
+        },
+        "observations": [
+          "Bonus info loading precedes leader info loading; the new array receives an already populated bonus-table size.",
+          "NULL initialization, allocCopy using the bonus count, destructor cleanup and a signed zero-fallback getter are all present.",
+          "AI_updateAttitude accumulates the per-bonus helper; the helper queries target-player city availability only for configured nonzero modifiers.",
+          "Inspected city availability paths include ordinary counts, disabled resources, free resource plot-group updates and corporation-produced resource recomputation. No direct attitude refresh call occurs inside these inspected mutation functions; this is not a claim about every surrounding caller.",
+          "AI_doTurnPost refreshes other major AI attitudes toward the current player before its human-return branch and before AI_doDiplo; the AI's own cache is refreshed through AI_updateExpansionistHate. This establishes a source-level periodic refresh path, not live event timing.",
+          "No immediate per-resource refresh was added: plot-group/corporation changes can have intermediate states, and the intended point for a mid-turn cache update requires full transaction/caller and runtime evaluation."
+        ],
+        "new_finding_ids": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_run": false,
+        "build_status": "Prior exact-overlay Release/Debug success retained. Historical artifacts were not redownloaded or newly certified in this static pass.",
+        "limits": [
+          "Actual resource acquisition/loss, city transfer/destruction and plot-group transaction caller order",
+          "Installed XML/default/parser execution and attitude-cache timing in Civ4",
+          "Resource display versus cached AI decision values during a turn",
+          "Actual game/UI/multiplayer execution"
+        ],
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
+      },
+      "runtime_save_validation_policy": "save_runtime_validation_policy",
+      "historical_artifact_review": {
+        "branch": "CityBonusDiplomacyBuild-ChatGPT",
+        "current": "1488899c9d040f00b772936137dbdb64b656bd22",
+        "tested": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
+        "run": 40575245169,
+        "source_branch": "CityBonusLeaderDiplomacyModifiers",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "source_head": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40575245169",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "jobs": [
+          {
+            "branch": "CityBonusDiplomacyBuild-ChatGPT",
+            "id": 122439804572,
+            "name": "build-dll (Debug)",
+            "compiler_probe": [
+              "2026-10-27T20:12:37.5977591Z Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+            ],
+            "configuration": [
+              "2026-10-27T20:10:32.3918907Z Targeting configuration: Debug"
+            ],
+            "totals": [
+              "2026-10-27T20:12:37.5957762Z     0 Warning(s)",
+              "2026-10-27T20:12:37.5958158Z     0 Error(s)"
+            ]
+          },
+          {
+            "branch": "CityBonusDiplomacyBuild-ChatGPT",
+            "id": 122439805171,
+            "name": "build-dll (Release)",
+            "compiler_probe": [
+              "2026-10-27T20:10:19.3513129Z Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+            ],
+            "configuration": [
+              "2026-10-27T20:07:51.9140480Z Targeting configuration: Release"
+            ],
+            "totals": [
+              "2026-10-27T20:10:19.3302889Z     0 Warning(s)",
+              "2026-10-27T20:10:19.3303076Z     0 Error(s)"
+            ]
+          }
+        ],
+        "current_DLL_workflow_comparison": {
+          "branch": "CityBonusDiplomacyBuild-ChatGPT",
+          "compared": 363,
+          "identical": true,
+          "reports": [
+            "docs/reviews/city-bonus-diplomacy-2026-10-27.md"
+          ]
+        },
+        "archive_results": {
+          "Release": {
+            "artifact_id": 12767885725,
+            "configuration": "Release",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 6569984,
+            "dll_sha256": "5dacb0da6e3c8de36c34ccd3c22ffa687c5f4caf3adb5bdfbe5e1d7b3675fda3",
+            "archive_files": [
+              "artifacts/CvGameCoreDLL.dll",
+              "build-provenance.txt",
+              "expected-sources.txt"
+            ],
+            "provenance": {
+              "commit": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
+              "configuration": "Release",
+              "compiler": "_MSC_VER_1310",
+              "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+              "feature_source": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+              "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+            },
+            "filename_manifest_count": 349,
+            "filename_manifest_sha256": "342222151516bbd81c2a82665df74eab68d37df36b657cb5a5fcb050480e8cf8",
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          },
+          "Debug": {
+            "artifact_id": 12766979488,
+            "configuration": "Debug",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 25198592,
+            "dll_sha256": "38d4564f42b653a07914ac4bec3ddbcea6d6cfc151495c72c83b3ba63c561de7",
+            "archive_files": [
+              "CvGameCoreDLL.pdb",
+              "artifacts/CvGameCoreDLL.dll",
+              "build-provenance.txt",
+              "expected-sources.txt"
+            ],
+            "provenance": {
+              "commit": "60d88bfa0edf155d542cd24cb4853b2651897b0f",
+              "configuration": "Debug",
+              "compiler": "_MSC_VER_1310",
+              "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+              "feature_source": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+              "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+            },
+            "filename_manifest_count": 349,
+            "filename_manifest_sha256": "342222151516bbd81c2a82665df74eab68d37df36b657cb5a5fcb050480e8cf8",
+            "pdb_guid": "50eb20aa-34ba-47e5-afb7-8727d55cd4f9",
+            "pdb_age": 1,
+            "pdb_bytes": 70634496,
+            "pdb_sha256": "b956b58ffbb0c7b02f3d1d719d8d9661a73b72c8f799e71e85b36eb829bb4ed9",
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          }
+        },
+        "artifact_metadata": [
+          {
+            "id": 12767885725,
+            "name": "CvGameCoreDLL-Release-CityBonusDiplomacyBuild-ChatGPT-60d88bfa0edf155d542cd24cb4853b2651897b0f",
+            "size_in_bytes": 2343463,
+            "digest": "sha256:9e961fb83b8ebbcae47ee1d5a267cfa75ce6dd354487a9b52f99752a17848537",
+            "head_sha": "60d88bfa0edf155d542cd24cb4853b2651897b0f"
+          },
+          {
+            "id": 12766979488,
+            "name": "CvGameCoreDLL-Debug-CityBonusDiplomacyBuild-ChatGPT-60d88bfa0edf155d542cd24cb4853b2651897b0f",
+            "size_in_bytes": 18566327,
+            "digest": "sha256:c81219939795edcf65dda459f2e58ff101c4c3f84e63e3fab73ce33a0415fc2a",
+            "head_sha": "60d88bfa0edf155d542cd24cb4853b2651897b0f"
+          }
+        ],
+        "actual_MSBuild_Build_log_available": false,
+        "actual_source_content_hashes_available": false,
+        "Debug_validated_in_this_historical_run": true,
+        "review_date": "2026-11-01",
+        "new_build": false,
+        "production_changes": false,
+        "scope": "Downloaded binary/symbol/provenance inspection, not current full-procedure validation."
+      },
+      "latest_artifact_review": "docs/reviews/historical-artifacts-2026-11-01.md",
+      "artifact_review_branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "artifact_review_next_action": "Retain historical binary evidence and missing actual-log/source-content limits. Use the current workflow on subsequent relevant validation; retain explicit unverified Debug status for Release-only runs."
     },
     {
       "branch": "CityPopulationTrait",
@@ -648,12 +1042,12 @@
     {
       "branch": "ColonyLeaderBuild-ChatGPT",
       "head_at_inventory": "d3c5e6aeb2c29606d10cfbb931205c709e01250b",
-      "coverage": "published_review_artifact",
-      "native_verification": "linked_build_commit_passed",
-      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "coverage": "optional_colony_derivative_leader_index_zero_reader_corrected_and_native_validated",
+      "native_verification": "exact_overlay_Release_Debug_passed_all_artifacts_logs_hashes_symbols_verified",
+      "next_action": "Review relevant changed source and actual installed modular XML/colony selection/UI/game execution. Preserve optional omission at leader index zero and existing independent eligibility/scoring policies. No unchanged passing rebuild is pending.",
       "source_branch": "LeaderSpecificColonySplitVassal",
-      "tested_code_sha": "26b6ff5428b9bff6d7f79ea2892e424a7444cf4a",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40527777945",
+      "tested_code_sha": "0f66179997115e5c4c49715033f643fe282dd243",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41359029328",
       "last_head_review": {
         "classification": "documentation_only",
         "production_changes": false,
@@ -665,7 +1059,137 @@
         "merge_base": null,
         "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates.",
         "record_commit": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f"
-      }
+      },
+      "native_validation_history": [
+        {
+          "tested_code_sha": "26b6ff5428b9bff6d7f79ea2892e424a7444cf4a",
+          "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40527777945",
+          "native_verification": "linked_build_commit_passed",
+          "qualification": "Historical Release build record retained; no new artifact verification of that historical run in this pass."
+        }
+      ],
+      "reviewed_source_sha": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+      "reviewed_assistant_head": "0f66179997115e5c4c49715033f643fe282dd243",
+      "source_code_sha": "de358671fd7f7e3b9e9d1d396fde4632b11de243",
+      "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+      "finding_ids": [
+        "COLONY-XML-01",
+        "COLONY-20261101-02"
+      ],
+      "latest_review": "docs/reviews/colony-optional-2026-11-01.md",
+      "qualification": "200 optional two-read/module sequences pass C++03 -fno-exceptions, normal and ASan/UBSan; old optional-tag diagnostic reproduced. Exact complete baseline overlay passes MSVC7.1 Release/Debug with zero warnings/errors. All four ZIPs, actual Build.log/timing, 349-file manifests/pins, five feature files plus baseline helper hashes, PE32 DLLs and Debug PDB identity verified. Real FXml/module discovery/colony creation/UI/game execution untested.",
+      "artifact_verification": {
+        "date": "2026-11-01",
+        "finding_id": "COLONY-20261101-02",
+        "original_source": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+        "assistant_parent": "d3c5e6aeb2c29606d10cfbb931205c709e01250b",
+        "code_commit": "de358671fd7f7e3b9e9d1d396fde4632b11de243",
+        "tested_commit": "0f66179997115e5c4c49715033f643fe282dd243",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "run": 41359029328,
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41359029328",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "compiler_probe_both": "_MSC_VER == 1310 (MSVC 7.1)",
+        "baseline_blobs_retained": 872,
+        "selected_DLL_blobs": 362,
+        "root_sources": 349,
+        "all_four_archives_downloaded_size_digest_checked_extracted": true,
+        "actual_Build_logs_inspected_both": true,
+        "actual_BuildTiming_logs_inspected_both": true,
+        "source_manifests_expected_equal_actual": true,
+        "source_hash_diffs_empty": true,
+        "source_manifest_names_match_exact_tested_tree": true,
+        "all_five_feature_DLL_sources_and_baseline_string_helper_independently_Git_blob_and_SHA256_checked": true,
+        "host_cases": 200,
+        "host_checks": [
+          "strict C++03 -fno-exceptions warnings-as-errors pedantic",
+          "ASan/UBSan; LSan disabled",
+          "original reader negative control reproduces optional-tag diagnostic"
+        ],
+        "host_boundary": "Actual field reader and actual string/generic helper bodies; FXml interface, ID lookup, strings and class shell stand-ins, int template routing modeled.",
+        "native": {
+          "Release": {
+            "configuration": "Release",
+            "artifacts": {
+              "binary": 13104801439,
+              "diagnostic": 13104243828
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "b56d0b57c38c9a6b68b23b76048331ea1f573257d5ef1c6b25714e564f8a68c3",
+            "dll_bytes": 6565888,
+            "dll_sha256": "3989792df0e0e63132af6f8dff3ef6f2c67130985e58b7ae58abbcb342fd39ca",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-01T22:49:06.4462050Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-01T22:49:04.4305712Z",
+              "precompile_utc_after=2026-11-01T22:49:04.4305712Z"
+            ]
+          },
+          "Debug": {
+            "configuration": "Debug",
+            "artifacts": {
+              "binary": 13104003723,
+              "diagnostic": 13103514812
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "b56d0b57c38c9a6b68b23b76048331ea1f573257d5ef1c6b25714e564f8a68c3",
+            "dll_bytes": 25194496,
+            "dll_sha256": "3dd744de02275e62f91a69bff1d56bfa05829a4e9e517278255e893ad0193beb",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-01T22:51:50.7430723Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-01T22:51:48.7430723Z",
+              "precompile_utc_after=2026-11-01T22:51:48.7430723Z"
+            ],
+            "pdb_guid": "3593ef38-01fa-438b-afc1-50d30fb7766d",
+            "pdb_age": 1,
+            "pdb_bytes": 70634496,
+            "pdb_sha256": "5d0ccfada4491cad5763694d0a87520e25a86d6d2d37fccb168c626978b2af3f"
+          }
+        },
+        "artifacts": [
+          {
+            "id": 13104801439,
+            "name": "CvGameCoreDLL-Release-ColonyLeaderBuild-ChatGPT-0f66179997115e5c4c49715033f643fe282dd243",
+            "size_in_bytes": 2350151,
+            "digest": "sha256:bb755578cb6582cac3ca5fde8d64f0849152d3bc51f69eda69154fb7629f8430",
+            "head_sha": "0f66179997115e5c4c49715033f643fe282dd243"
+          },
+          {
+            "id": 13104243828,
+            "name": "source-verification-Release-ColonyLeaderBuild-ChatGPT-0f66179997115e5c4c49715033f643fe282dd243",
+            "size_in_bytes": 31070,
+            "digest": "sha256:09e397931b1eb0a8683e23cd2f083bd4bd7c94344be3da66a02c043895591977",
+            "head_sha": "0f66179997115e5c4c49715033f643fe282dd243"
+          },
+          {
+            "id": 13104003723,
+            "name": "CvGameCoreDLL-Debug-ColonyLeaderBuild-ChatGPT-0f66179997115e5c4c49715033f643fe282dd243",
+            "size_in_bytes": 18572653,
+            "digest": "sha256:93fbac1e93123e210f3b1c3b23fba1f4523cb6fb1538240bbfc752e54409feac",
+            "head_sha": "0f66179997115e5c4c49715033f643fe282dd243"
+          },
+          {
+            "id": 13103514812,
+            "name": "source-verification-Debug-ColonyLeaderBuild-ChatGPT-0f66179997115e5c4c49715033f643fe282dd243",
+            "size_in_bytes": 31070,
+            "digest": "sha256:c2b6f061e805ccb893515267325baa225d5f6755daed9bd0c1af14bc824141ce",
+            "head_sha": "0f66179997115e5c4c49715033f643fe282dd243"
+          }
+        ],
+        "runtime_XML_and_colony_gameplay": false
+      },
+      "runtime_save_validation_policy": "save_runtime_validation_policy",
+      "prior_feature_saves_exist": false,
+      "prior_feature_save_migration_required": false
     },
     {
       "branch": "CustomAIDiplomacyComments",
@@ -704,11 +1228,11 @@
     },
     {
       "branch": "dll-build",
-      "head_at_inventory": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
-      "coverage": "changed_source_log_cleanup_set_and_equivalent_copy_only_upload_guard_reviewed",
-      "native_verification": "pinned_current_workflow_template_release_debug_passed_on_corrected_vote_overlay",
-      "next_action": "Latest user source adopts the timing-log cleanup fix. Do not repeat a DLL build solely for this diagnostic-only adoption; inspect new workflow changes first.",
-      "refinement_branch": "HatedDiplomacyDraft-ChatGPT",
+      "head_at_inventory": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+      "coverage": "changed_preparation_build_split_reviewed_source_diagnostics_output_owner_fix_published",
+      "native_verification": "assistant_copy_with_two_output_owner_edits_Release_Debug_passed",
+      "next_action": "User source a9d225d still lacks the two output-owner edits. Preserve its step separation; use the published scoped correction when copying this workflow. Recheck any newer user workflow head before further changes.",
+      "refinement_branch": "LeaderTeamSizeBuild-ChatGPT",
       "workflow_draft_sha": "7a90901362d00fa7ec43ae85bcaeadf1ca274b1f",
       "finding_ids": [
         "WORKFLOW-20261028-01",
@@ -719,23 +1243,22 @@
         "WORKFLOW-20261031-06",
         "WORKFLOW-20261031-07",
         "WORKFLOW-20261031-08",
-        "WORKFLOW-20261031-09"
+        "WORKFLOW-20261031-09",
+        "WORKFLOW-20261101-10"
       ],
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41221093729",
-      "qualification": "Current f77f8a6 workflow copied unchanged except exact provenance pins into complete vote overlay. Run 41227377831 passed both configurations; all four success ZIPs and actual logs/provenance/manifests/binaries verified. Prior local workflow findings/history retained separately; no actual-game claim.",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41384996106",
+      "qualification": "User a9d225d workflow split read from actual source; diagnostics still referenced the old build-step output. Assistant copy adds prepare_sources ID and corrects guard, then validates unchanged team-size Release/Debug. This is validation of the corrected assistant workflow copy, not the unmodified user template.",
       "latest_source_review": {
-        "source_sha": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
-        "previous_source_sha": "733140746ebe7a488db066aa85d299897ff6e0e0",
-        "intermediate_source_sha": "4dec9b6502486a8b045d1f2a44ec9d4569162613",
-        "classification": "adopted_timing_and_copy_guards_then_collected_log_cleanup_fix",
-        "implementation_commit": "7a90901362d00fa7ec43ae85bcaeadf1ca274b1f",
-        "adopted_in_user_source": true,
-        "native_verified": false,
-        "local_copy_cases": 6,
-        "local_log_cases": 5,
-        "local_hash_cases": 6,
-        "regression_control": "restored_omission_fails_collected_subset_cleared_set",
-        "review_document": "docs/reviews/workflow-log-set-2026-10-31.md"
+        "source_sha": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+        "previous_source_sha": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "classification": "split_preparation_step_leaves_diagnostics_output_on_old_owner",
+        "implementation_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+        "adopted_in_user_source": false,
+        "local_cases": 6,
+        "negative_control": "old build-step output reference suppresses four expected uploads",
+        "native_verified_corrected_copy": true,
+        "remote_hash_or_sync_failure_fault_injected": false,
+        "review_document": "docs/reviews/workflow-split-2026-11-01.md"
       },
       "last_head_review": {
         "classification": "SHA256_sync_verification_workflow",
@@ -764,7 +1287,7 @@
         "hash_implementation_changed": false,
         "review": "docs/reviews/workflow-source-hash-2026-10-30.md"
       },
-      "latest_review": "docs/reviews/workflow-log-set-2026-10-31.md",
+      "latest_review": "docs/reviews/workflow-split-2026-11-01.md",
       "workflow_failure_log_validation": {
         "workflow_source": "1cbd526fddeec564231958870aeab3f2be187a4e",
         "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
@@ -853,17 +1376,145 @@
         "report": "docs/reviews/workflow-copy-outcome-2026-10-31.md"
       },
       "current_template_native_validation": {
-        "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
-        "tested_commit": "2787283390994434207ca40c1784adbd64e64cb0",
-        "feature_branch": "VoteCounterDraft-ChatGPT",
-        "selected_source": "6d6e73b10343f277481da186013426be702ce00a",
-        "run": 41227377831,
+        "workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+        "assistant_correction_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+        "tested_commit": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+        "feature_branch": "LeaderTeamSizeBuild-ChatGPT",
+        "selected_source": "74098492ca88543c88e5e30781b84a687cb51e42",
+        "run": 41384996106,
         "status": "Release_Debug_success_0_warnings_0_errors",
+        "workflow_changes": "two output-owner edits plus three exact provenance pins",
         "all_four_ZIPs_verified": true,
-        "artifact_Build_logs_inspected": true,
-        "workflow_changes": "only_exact_provenance_pins",
-        "report": "docs/reviews/vote-save-2026-10-31.md"
-      }
+        "actual_artifact_Build_logs_inspected": true,
+        "both_source_diagnostics_uploads_succeeded": true,
+        "report": "docs/reviews/workflow-split-2026-11-01.md"
+      },
+      "reviewed_source_sha": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+      "workflow_split_validation": {
+        "date": "2026-11-01",
+        "finding_id": "WORKFLOW-20261101-10",
+        "user_workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+        "previous_workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "correction_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+        "refinement_branch": "LeaderTeamSizeBuild-ChatGPT",
+        "original_feature_source": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+        "selected_feature_source": "74098492ca88543c88e5e30781b84a687cb51e42",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "tested_commit": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+        "run": 41384996106,
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41384996106",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "workflow_changes": "Add prepare_sources step ID and redirect source diagnostics upload output reference; populate three provenance pins. All remaining author workflow text preserved.",
+        "Cpp_changes": false,
+        "baseline_blobs_retained": 872,
+        "selected_DLL_blobs_unchanged": 362,
+        "root_sources": 349,
+        "local_actual_preparation_script_cases": 6,
+        "old_output_owner_skips_four_expected_upload_cases": true,
+        "local_standins": "rsync and SSH; actual Bash body, files and GITHUB_OUTPUT captured. No local remote PowerShell or compiler execution.",
+        "remote_failure_fault_injection": false,
+        "source_diagnostics_upload_both": "success",
+        "compiler_probe_both": "_MSC_VER == 1310 (MSVC 7.1)",
+        "all_four_ZIPs_downloaded_size_SHA256_checked_extracted": true,
+        "all_extracted_entries_match_archive": true,
+        "actual_Build_log_and_BuildTiming_inspected_both": true,
+        "source_expected_actual_349_content_manifests_match": true,
+        "source_hash_diffs_empty": true,
+        "source_manifest_names_match_tested_tree": true,
+        "three_feature_DLL_files_independent_Git_blob_and_native_SHA256_checks": true,
+        "artifact_metadata": [
+          {
+            "id": 13114802805,
+            "name": "source-verification-Release-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+            "size_in_bytes": 31086,
+            "digest": "sha256:483c4fcb4f49da0a1d2d81e8407481dd9dc5033c9dc0d73e035ff70cc7355065",
+            "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+          },
+          {
+            "id": 13114678269,
+            "name": "CvGameCoreDLL-Debug-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+            "size_in_bytes": 18571438,
+            "digest": "sha256:1ebd6bb3c239ffb01934970557ce84e24ec6f7dea307b9442a7063a1744c6ada",
+            "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+          },
+          {
+            "id": 13114483481,
+            "name": "source-verification-Debug-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+            "size_in_bytes": 31085,
+            "digest": "sha256:5c43b1f88202524416a27ff45cbc6e571992b2d23b62c4d4d71abc67ffc1076e",
+            "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+          },
+          {
+            "id": 13114288608,
+            "name": "CvGameCoreDLL-Release-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+            "size_in_bytes": 2348663,
+            "digest": "sha256:d943d6cd21c9e8c8ca7aff900cf58b53b35fde9e388ba9685a6a811db7fcb0a7",
+            "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+          }
+        ],
+        "native": {
+          "Release": {
+            "configuration": "Release",
+            "artifacts": {
+              "binary": 13114288608,
+              "diagnostic": 13114802805
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "9154adfd5adb62c0f40cb4c1d492280794a5ef5627535ea1f5fdcb955e7c2fdc",
+            "dll_bytes": 6565888,
+            "dll_sha256": "56866d9e82e0bb9e22f434a910567a8c2936476df83d56420284016bc17cead3",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-02T03:47:40.6961940Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-02T03:47:38.6961940Z",
+              "precompile_utc_after=2026-11-02T03:47:38.6961940Z"
+            ]
+          },
+          "Debug": {
+            "configuration": "Debug",
+            "artifacts": {
+              "binary": 13114678269,
+              "diagnostic": 13114483481
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "9154adfd5adb62c0f40cb4c1d492280794a5ef5627535ea1f5fdcb955e7c2fdc",
+            "dll_bytes": 25194496,
+            "dll_sha256": "2f4fbd134a021bc7b6923b2caff264b5d3563b97675d61d012c2896ad363976e",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-02T03:50:23.7899455Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-02T03:50:21.7743199Z",
+              "precompile_utc_after=2026-11-02T03:50:21.7743199Z"
+            ],
+            "pdb_guid": "bac68889-1874-4e0b-939c-2d8911a64ea4",
+            "pdb_age": 1,
+            "pdb_bytes": 70634496,
+            "pdb_sha256": "37c5742b0b04e1ff725ff3fa970953687c3d50a778a21f2c021fc9b7347f5f09"
+          }
+        },
+        "gameplay_XML_and_UI_execution": false,
+        "user_workflow_branch_modified": false
+      },
+      "additional_corrected_copy_validations": [
+        {
+          "tested_commit": "d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+          "source": "cf97766d59822b81772d0ab50a80dba139d8a787",
+          "feature_branch": "UnitCombatUpgradeBuild-ChatGPT",
+          "workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+          "workflow_correction_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+          "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41390572710",
+          "Release_Debug_passed": true,
+          "all_four_archives_actual_logs_source_hashes_symbols_verified": true,
+          "Cpp_changes": false
+        }
+      ]
     },
     {
       "branch": "dll-build-debug",
@@ -1259,7 +1910,7 @@
       "head_at_inventory": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
       "coverage": "source_review_partial_native_failure_paths_corrected",
       "native_verification": "complete_header_cpp03_fno_exceptions_ASan_UBSan_no_DLL",
-      "next_action": "Review actual consuming-engine allocation/deletion and native load-status propagation, MSVC7.1 integration and alignment. Do not restore exception recovery or repeat obsolete exception-injection coverage.",
+      "next_action": "Review relevant source changes or actual authored consuming integration. Then verify MSVC7.1 nothrow/engine allocator dispatch, alignment and native record failure propagation. No speculative allocator/API rewrite or baseline-only DLL build is justified by the static boundary audit.",
       "review_branch": "SimpleStorageChangeDraft-ChatGPT",
       "draft_code_sha": "87cd9ba0c0fa3395077200999960c2c1cda061a4",
       "finding_ids": [
@@ -1312,6 +1963,81 @@
         ],
         "DLL_build": false,
         "report": "docs/reviews/storage-native-returns-2026-10-31.md"
+      },
+      "baseline_boundary_audit": {
+        "date": "2026-11-01",
+        "source_sha": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+        "reviewed_assistant_head": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
+        "baseline_sha": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "classification": "static_baseline_allocator_and_stream_boundary_audit_no_new_finding",
+        "locations": {
+          "CvGameCoreDLL/FSimpleDataStorage.h": [
+            32,
+            36,
+            148,
+            341,
+            437,
+            503
+          ],
+          "CvGameCoreDLL/FDataStreamBase.h": [
+            35,
+            37,
+            41,
+            42,
+            64,
+            74
+          ],
+          "CvGameCoreDLL/CvGameCoreDLL.h": [
+            29,
+            30
+          ],
+          "CvGameCoreDLL/CvMemoryManager.cpp": [
+            43,
+            47,
+            55,
+            74,
+            79,
+            84,
+            89,
+            90,
+            99,
+            102
+          ],
+          "CvGameCoreDLL/CvGameCoreDLLDefNew.h": [
+            2,
+            23
+          ],
+          "CvGameCoreDLL/CvDLLUtilityIFaceBase.h": [
+            59,
+            63,
+            65,
+            66
+          ]
+        },
+        "observations": [
+          "The selected assistant tree supplies two production headers and no consuming/instantiating .cpp translation unit. No authored engine allocation/load caller can be traced in this independent feature snapshot.",
+          "The baseline header defines USE_MEMMANAGER under _DEBUG; allocator replacements are guarded by USE_MEMMANAGER. This is source inspection, not confirmation of any machine-local compiler flag set.",
+          "Guarded baseline array new routes to gDLL->newMemArray and initializes the returned memory; array delete routes to gDLL->delMemArray. The baseline declares no explicit nothrow replacement overload here. MSVC7.1 CRT nothrow dispatch and the executable allocator's failure contract remain unexecuted.",
+          "The new/file macros in CvGameCoreDLLDefNew.h are entirely commented out by baseline K-Mod code; no active macro-expansion failure is inferred for the helper's placement/nothrow new expressions.",
+          "Actual FDataStreamBase exposes AtEnd, position, EOF and GetSizeLeft queries, while the used typed Read methods return void. Byte-size queries are available but are not a generic typed-read success status or a supplied consuming-record failure contract.",
+          "The current storage Read methods retain void interfaces and guard NULL destinations. Full failure propagation requires an actual consumer to decide how a partially consumed record is rejected. No new status API, byte-size assumptions for generic T, save-record format or exception recovery was invented.",
+          "Existing upstream allocator exception syntax was observed in the read-only baseline, not introduced or changed by this audit. The corrected storage header remains as previously published."
+        ],
+        "new_finding_ids": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_build": false,
+        "native_validation_gate": {
+          "source_sha": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+          "status": "deferred_until_authored_consuming_integration",
+          "reason": "No authored production .cpp instantiates these template paths. A baseline-only DLL cannot validate them; do not invent a production caller solely to obtain a build."
+        },
+        "limits": [
+          "Actual MSVC7.1 CRT/engine allocator dispatch and failure behavior",
+          "Concrete consuming record read/error propagation",
+          "Native alignment and object/stream execution"
+        ],
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
       }
     },
     {
@@ -2192,13 +2918,142 @@
     {
       "branch": "LeaderSpecificColonySplitVassal",
       "head_at_inventory": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
-      "coverage": "published_scoped_review",
-      "native_verification": "linked_refinement_passed",
-      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "coverage": "optional_colony_derivative_leader_index_zero_reader_corrected_and_native_validated",
+      "native_verification": "linked_corrected_assistant_Release_Debug_verified_original_not_built",
+      "next_action": "Review relevant changed source and actual installed modular XML/colony selection/UI/game execution. Preserve optional omission at leader index zero and existing independent eligibility/scoring policies. No unchanged passing rebuild is pending.",
       "refinement_branch": "ColonyLeaderBuild-ChatGPT",
-      "tested_code_sha": "26b6ff5428b9bff6d7f79ea2892e424a7444cf4a",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40527777945",
-      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+      "tested_code_sha": "0f66179997115e5c4c49715033f643fe282dd243",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41359029328",
+      "qualification": "200 optional two-read/module sequences pass C++03 -fno-exceptions, normal and ASan/UBSan; old optional-tag diagnostic reproduced. Exact complete baseline overlay passes MSVC7.1 Release/Debug with zero warnings/errors. All four ZIPs, actual Build.log/timing, 349-file manifests/pins, five feature files plus baseline helper hashes, PE32 DLLs and Debug PDB identity verified. Real FXml/module discovery/colony creation/UI/game execution untested.",
+      "native_validation_history": [
+        {
+          "tested_code_sha": "26b6ff5428b9bff6d7f79ea2892e424a7444cf4a",
+          "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40527777945",
+          "native_verification": "linked_refinement_passed",
+          "qualification": "Historical Release build record retained; no new artifact verification of that historical run in this pass."
+        }
+      ],
+      "reviewed_source_sha": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+      "reviewed_assistant_head": "0f66179997115e5c4c49715033f643fe282dd243",
+      "source_code_sha": "de358671fd7f7e3b9e9d1d396fde4632b11de243",
+      "workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+      "finding_ids": [
+        "COLONY-XML-01",
+        "COLONY-20261101-02"
+      ],
+      "latest_review": "docs/reviews/colony-optional-2026-11-01.md",
+      "artifact_verification": {
+        "date": "2026-11-01",
+        "finding_id": "COLONY-20261101-02",
+        "original_source": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+        "assistant_parent": "d3c5e6aeb2c29606d10cfbb931205c709e01250b",
+        "code_commit": "de358671fd7f7e3b9e9d1d396fde4632b11de243",
+        "tested_commit": "0f66179997115e5c4c49715033f643fe282dd243",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "run": 41359029328,
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41359029328",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "compiler_probe_both": "_MSC_VER == 1310 (MSVC 7.1)",
+        "baseline_blobs_retained": 872,
+        "selected_DLL_blobs": 362,
+        "root_sources": 349,
+        "all_four_archives_downloaded_size_digest_checked_extracted": true,
+        "actual_Build_logs_inspected_both": true,
+        "actual_BuildTiming_logs_inspected_both": true,
+        "source_manifests_expected_equal_actual": true,
+        "source_hash_diffs_empty": true,
+        "source_manifest_names_match_exact_tested_tree": true,
+        "all_five_feature_DLL_sources_and_baseline_string_helper_independently_Git_blob_and_SHA256_checked": true,
+        "host_cases": 200,
+        "host_checks": [
+          "strict C++03 -fno-exceptions warnings-as-errors pedantic",
+          "ASan/UBSan; LSan disabled",
+          "original reader negative control reproduces optional-tag diagnostic"
+        ],
+        "host_boundary": "Actual field reader and actual string/generic helper bodies; FXml interface, ID lookup, strings and class shell stand-ins, int template routing modeled.",
+        "native": {
+          "Release": {
+            "configuration": "Release",
+            "artifacts": {
+              "binary": 13104801439,
+              "diagnostic": 13104243828
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "b56d0b57c38c9a6b68b23b76048331ea1f573257d5ef1c6b25714e564f8a68c3",
+            "dll_bytes": 6565888,
+            "dll_sha256": "3989792df0e0e63132af6f8dff3ef6f2c67130985e58b7ae58abbcb342fd39ca",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-01T22:49:06.4462050Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-01T22:49:04.4305712Z",
+              "precompile_utc_after=2026-11-01T22:49:04.4305712Z"
+            ]
+          },
+          "Debug": {
+            "configuration": "Debug",
+            "artifacts": {
+              "binary": 13104003723,
+              "diagnostic": 13103514812
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "b56d0b57c38c9a6b68b23b76048331ea1f573257d5ef1c6b25714e564f8a68c3",
+            "dll_bytes": 25194496,
+            "dll_sha256": "3dd744de02275e62f91a69bff1d56bfa05829a4e9e517278255e893ad0193beb",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-01T22:51:50.7430723Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-01T22:51:48.7430723Z",
+              "precompile_utc_after=2026-11-01T22:51:48.7430723Z"
+            ],
+            "pdb_guid": "3593ef38-01fa-438b-afc1-50d30fb7766d",
+            "pdb_age": 1,
+            "pdb_bytes": 70634496,
+            "pdb_sha256": "5d0ccfada4491cad5763694d0a87520e25a86d6d2d37fccb168c626978b2af3f"
+          }
+        },
+        "artifacts": [
+          {
+            "id": 13104801439,
+            "name": "CvGameCoreDLL-Release-ColonyLeaderBuild-ChatGPT-0f66179997115e5c4c49715033f643fe282dd243",
+            "size_in_bytes": 2350151,
+            "digest": "sha256:bb755578cb6582cac3ca5fde8d64f0849152d3bc51f69eda69154fb7629f8430",
+            "head_sha": "0f66179997115e5c4c49715033f643fe282dd243"
+          },
+          {
+            "id": 13104243828,
+            "name": "source-verification-Release-ColonyLeaderBuild-ChatGPT-0f66179997115e5c4c49715033f643fe282dd243",
+            "size_in_bytes": 31070,
+            "digest": "sha256:09e397931b1eb0a8683e23cd2f083bd4bd7c94344be3da66a02c043895591977",
+            "head_sha": "0f66179997115e5c4c49715033f643fe282dd243"
+          },
+          {
+            "id": 13104003723,
+            "name": "CvGameCoreDLL-Debug-ColonyLeaderBuild-ChatGPT-0f66179997115e5c4c49715033f643fe282dd243",
+            "size_in_bytes": 18572653,
+            "digest": "sha256:93fbac1e93123e210f3b1c3b23fba1f4523cb6fb1538240bbfc752e54409feac",
+            "head_sha": "0f66179997115e5c4c49715033f643fe282dd243"
+          },
+          {
+            "id": 13103514812,
+            "name": "source-verification-Debug-ColonyLeaderBuild-ChatGPT-0f66179997115e5c4c49715033f643fe282dd243",
+            "size_in_bytes": 31070,
+            "digest": "sha256:c2b6f061e805ccb893515267325baa225d5f6755daed9bd0c1af14bc824141ce",
+            "head_sha": "0f66179997115e5c4c49715033f643fe282dd243"
+          }
+        ],
+        "runtime_XML_and_colony_gameplay": false
+      },
+      "runtime_save_validation_policy": "save_runtime_validation_policy",
+      "prior_feature_saves_exist": false,
+      "prior_feature_save_migration_required": false
     },
     {
       "branch": "LeaderSpecificDynamicRankBonusDiplomacy",
@@ -2403,23 +3258,120 @@
       "branch": "LeaderSpecificRebelliousTeamDiplomaticDecisions",
       "head_at_inventory": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
       "coverage": "published_scoped_review",
-      "native_verification": "linked_refinement_passed",
-      "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
+      "native_verification": "linked_historical_assistant_binaries_verified_original_not_built_actual_MSBuild_logs_unavailable",
+      "next_action": "Review relevant source changes and actual XML/UI/negotiation/multiplayer/game behavior. Use current dll-build workflow on the next relevant native build; do not rerun unchanged passing code solely to replace missing historical Build.log/timing/source-content records.",
       "refinement_branch": "RenegadeDiplomacyBuild-ChatGPT",
       "tested_code_sha": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157",
-      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+      "qualification": "Binary and matching-symbol inspection of the exact historical run. No actual Build.log, BuildTiming.log, actual-source hash manifest or hash-verification record exists in either downloaded ZIP. Runner totals and compiler probes were observed but are not substituted for those missing records. No current full-procedure validation or game execution claimed.",
+      "historical_artifact_review": {
+        "review_date": "2026-11-01",
+        "classification": "historical_binary_artifact_verification_not_new_full_DLL_validation",
+        "original_source": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+        "reviewed_assistant_head": "6660adfd2883b8286c9fbd759f310b6da7dd4c86",
+        "tested_commit": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "historical_workflow": "058e4d0e1760f76195071823d3e2dc85c81b7285",
+        "run": 40583685157,
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157",
+        "run_created_date": "2026-10-27",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "both_archives_downloaded": true,
+        "ZIP_metadata_sizes_and_SHA256_verified": true,
+        "all_ZIP_entries_extracted_and_compared_to_archive": true,
+        "compiler_probe_both_runner_logs": "_MSC_VER == 1310 (MSVC 7.1)",
+        "both_runner_logs_report": {
+          "warnings": 0,
+          "errors": 0
+        },
+        "actual_MSBuild_Build_logs_available": false,
+        "actual_BuildTiming_logs_available": false,
+        "source_content_hash_manifests_available": false,
+        "filename_manifests_match_tested_tree": true,
+        "current_assistant_DLL_and_workflow_blobs_identical_to_tested_tree": 363,
+        "Release": {
+          "artifact_id": 12770887082,
+          "configuration": "Release",
+          "provenance": {
+            "commit": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+            "configuration": "Release",
+            "compiler": "_MSC_VER_1310",
+            "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+            "feature_source": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+            "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+          },
+          "filename_manifest_count": 349,
+          "filename_manifest_sha256": "342222151516bbd81c2a82665df74eab68d37df36b657cb5a5fcb050480e8cf8",
+          "PE": "PE32 x86 DLL",
+          "dll_bytes": 6565888,
+          "dll_sha256": "0fa16277acc17e64fc37ec56f736b55dbe7fc7748e1e4318887e9cf823f0d304",
+          "archive_files": [
+            "artifacts/CvGameCoreDLL.dll",
+            "build-provenance.txt",
+            "expected-sources.txt"
+          ]
+        },
+        "Debug": {
+          "artifact_id": 12770842991,
+          "configuration": "Debug",
+          "provenance": {
+            "commit": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+            "configuration": "Debug",
+            "compiler": "_MSC_VER_1310",
+            "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+            "feature_source": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+            "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+          },
+          "filename_manifest_count": 349,
+          "filename_manifest_sha256": "342222151516bbd81c2a82665df74eab68d37df36b657cb5a5fcb050480e8cf8",
+          "PE": "PE32 x86 DLL",
+          "dll_bytes": 25194496,
+          "dll_sha256": "63f2eaa76cfb8498319fb2ab629f33a09945b442f14b2bfa746973af56942324",
+          "archive_files": [
+            "CvGameCoreDLL.pdb",
+            "artifacts/CvGameCoreDLL.dll",
+            "build-provenance.txt",
+            "expected-sources.txt"
+          ],
+          "pdb_guid": "cf711684-735c-4402-90c7-6a54f4b74ceb",
+          "pdb_age": 1,
+          "pdb_bytes": 70634496,
+          "pdb_sha256": "ae9f40d8947f1f4f9e9c7702cbe4bde0b88a87c3573a63546258f7ae0fa27082"
+        },
+        "artifact_metadata": [
+          {
+            "id": 12770887082,
+            "name": "CvGameCoreDLL-Release-RenegadeDiplomacyBuild-ChatGPT-dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+            "size_in_bytes": 2342634,
+            "digest": "sha256:849808fb69325ab373c23baacb738d41ff45ed0ebfcf63fe3daf7232e60969f7",
+            "head_sha": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d"
+          },
+          {
+            "id": 12770842991,
+            "name": "CvGameCoreDLL-Debug-RenegadeDiplomacyBuild-ChatGPT-dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+            "size_in_bytes": 18565668,
+            "digest": "sha256:14c3ffb590b88eb1487ccfd0b5f47338d5930a0ebbd1fef7468f4fed261fcfdf",
+            "head_sha": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d"
+          }
+        ],
+        "new_build_triggered": false,
+        "production_changes": false,
+        "qualification": "Binary and matching-symbol inspection of the exact historical run. No actual Build.log, BuildTiming.log, actual-source hash manifest or hash-verification record exists in either downloaded ZIP. Runner totals and compiler probes were observed but are not substituted for those missing records. No current full-procedure validation or game execution claimed."
+      },
+      "latest_artifact_review": "docs/reviews/renegade-artifacts-2026-11-01.json",
+      "runtime_save_validation_policy": "save_runtime_validation_policy"
     },
     {
       "branch": "LeaderSpecificTeamSizeAttitude",
       "head_at_inventory": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
       "coverage": "published_scoped_review",
-      "native_verification": "linked_refinement_passed",
-      "next_action": "Review relevant source changes, team-membership/personality attitude-cache lifecycle, authored UWAI weighting policy and actual XML/default/game execution. Preserve prior sign policy; do not repeat unchanged passing builds.",
+      "native_verification": "linked_assistant_Release_Debug_verified_original_not_built",
+      "next_action": "Review relevant source changes and actual team-membership/personality/XML/default/UI/game execution. Preserve team-size sign policy; do not repeat unchanged passing builds.",
       "refinement_branch": "LeaderTeamSizeBuild-ChatGPT",
-      "tested_code_sha": "23b8e74ea630209d67deaa53475d31113bd614b1",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843",
-      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head.",
+      "tested_code_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41384996106",
+      "qualification": "Unchanged team-size DLL source, complete pinned baseline, new split workflow with scoped output-owner correction. MSVC7.1 Release/Debug zero warnings/errors; all four ZIPs, actual Build.log/BuildTiming, 349-file content manifests/pins, three feature file hashes, PE32 DLLs and matching Debug PDB verified. No engine XML/UI/gameplay execution.",
       "team_size_metadata_consumer_audit": {
         "date": "2026-11-01",
         "source_sha": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
@@ -2480,7 +3432,215 @@
           "Installed-game UI and gameplay"
         ],
         "runtime_save_validation_policy": "save_runtime_validation_policy"
-      }
+      },
+      "historical_artifact_review": {
+        "branch": "LeaderTeamSizeBuild-ChatGPT",
+        "current": "74098492ca88543c88e5e30781b84a687cb51e42",
+        "tested": "23b8e74ea630209d67deaa53475d31113bd614b1",
+        "run": 40448128843,
+        "source_branch": "LeaderSpecificTeamSizeAttitude",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "source_head": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "jobs": [
+          {
+            "branch": "LeaderTeamSizeBuild-ChatGPT",
+            "id": 122004459094,
+            "name": "build-dll",
+            "compiler_probe": [],
+            "configuration": [
+              "2026-10-27T04:10:04.4745638Z Targeting configuration: Release"
+            ],
+            "totals": [
+              "2026-10-27T04:12:24.1850004Z     0 Warning(s)",
+              "2026-10-27T04:12:24.1850198Z     0 Error(s)"
+            ]
+          }
+        ],
+        "current_DLL_workflow_comparison": {
+          "branch": "LeaderTeamSizeBuild-ChatGPT",
+          "compared": 363,
+          "identical": true,
+          "reports": [
+            "docs/reviews/leader-team-size-2026-10-27.md"
+          ]
+        },
+        "archive_results": {
+          "Release": {
+            "artifact_id": 12709332075,
+            "configuration": "Release",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 6565888,
+            "dll_sha256": "b8a61fcd49e323f35e310f918233a4a3ade9623dad58ca85e163a285d3ab0a21",
+            "archive_files": [
+              "CvGameCoreDLL.dll"
+            ],
+            "provenance": null,
+            "filename_manifest_count": null,
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          }
+        },
+        "artifact_metadata": [
+          {
+            "id": 12709332075,
+            "name": "CvGameCoreDLL-LeaderTeamSizeBuild-ChatGPT-23b8e74ea630209d67deaa53475d31113bd614b1",
+            "size_in_bytes": 2340368,
+            "digest": "sha256:eab6a306cb4e1e6f60a78cd260b9df658b2a97f0089a56e795ad5d83f4dc8b20",
+            "head_sha": "23b8e74ea630209d67deaa53475d31113bd614b1"
+          }
+        ],
+        "actual_MSBuild_Build_log_available": false,
+        "actual_source_content_hashes_available": false,
+        "Debug_validated_in_this_historical_run": false,
+        "review_date": "2026-11-01",
+        "new_build": false,
+        "production_changes": false,
+        "scope": "Downloaded binary/symbol/provenance inspection, not current full-procedure validation."
+      },
+      "latest_artifact_review": "docs/reviews/historical-artifacts-2026-11-01.md",
+      "artifact_review_branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "artifact_review_next_action": "Current native Release/Debug and actual-log/hash evidence is complete for this tested overlay; retain historical records without repeating their already superseded missing-Debug status as a current blocker. Review new source or live integration.",
+      "native_validation_history": [
+        {
+          "tested_code_sha": "23b8e74ea630209d67deaa53475d31113bd614b1",
+          "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843",
+          "native_verification": "linked_historical_assistant_Release_DLL_verified_no_Debug_result_actual_MSBuild_logs_and_embedded_provenance_unavailable",
+          "qualification": "Historical Release-only evidence retained; binary/archive inspection remains in historical_artifact_review."
+        }
+      ],
+      "reviewed_source_sha": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+      "reviewed_assistant_head": "74098492ca88543c88e5e30781b84a687cb51e42",
+      "workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+      "workflow_correction_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+      "native_configurations": [
+        "Release",
+        "Debug"
+      ],
+      "artifacts": {
+        "Release": 13114288608,
+        "Debug": 13114678269
+      },
+      "hash_diagnostics": {
+        "Release": 13114802805,
+        "Debug": 13114483481
+      },
+      "artifact_verification": {
+        "date": "2026-11-01",
+        "finding_id": "WORKFLOW-20261101-10",
+        "user_workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+        "previous_workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "correction_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+        "refinement_branch": "LeaderTeamSizeBuild-ChatGPT",
+        "original_feature_source": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+        "selected_feature_source": "74098492ca88543c88e5e30781b84a687cb51e42",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "tested_commit": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+        "run": 41384996106,
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41384996106",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "workflow_changes": "Add prepare_sources step ID and redirect source diagnostics upload output reference; populate three provenance pins. All remaining author workflow text preserved.",
+        "Cpp_changes": false,
+        "baseline_blobs_retained": 872,
+        "selected_DLL_blobs_unchanged": 362,
+        "root_sources": 349,
+        "local_actual_preparation_script_cases": 6,
+        "old_output_owner_skips_four_expected_upload_cases": true,
+        "local_standins": "rsync and SSH; actual Bash body, files and GITHUB_OUTPUT captured. No local remote PowerShell or compiler execution.",
+        "remote_failure_fault_injection": false,
+        "source_diagnostics_upload_both": "success",
+        "compiler_probe_both": "_MSC_VER == 1310 (MSVC 7.1)",
+        "all_four_ZIPs_downloaded_size_SHA256_checked_extracted": true,
+        "all_extracted_entries_match_archive": true,
+        "actual_Build_log_and_BuildTiming_inspected_both": true,
+        "source_expected_actual_349_content_manifests_match": true,
+        "source_hash_diffs_empty": true,
+        "source_manifest_names_match_tested_tree": true,
+        "three_feature_DLL_files_independent_Git_blob_and_native_SHA256_checks": true,
+        "artifact_metadata": [
+          {
+            "id": 13114802805,
+            "name": "source-verification-Release-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+            "size_in_bytes": 31086,
+            "digest": "sha256:483c4fcb4f49da0a1d2d81e8407481dd9dc5033c9dc0d73e035ff70cc7355065",
+            "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+          },
+          {
+            "id": 13114678269,
+            "name": "CvGameCoreDLL-Debug-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+            "size_in_bytes": 18571438,
+            "digest": "sha256:1ebd6bb3c239ffb01934970557ce84e24ec6f7dea307b9442a7063a1744c6ada",
+            "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+          },
+          {
+            "id": 13114483481,
+            "name": "source-verification-Debug-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+            "size_in_bytes": 31085,
+            "digest": "sha256:5c43b1f88202524416a27ff45cbc6e571992b2d23b62c4d4d71abc67ffc1076e",
+            "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+          },
+          {
+            "id": 13114288608,
+            "name": "CvGameCoreDLL-Release-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+            "size_in_bytes": 2348663,
+            "digest": "sha256:d943d6cd21c9e8c8ca7aff900cf58b53b35fde9e388ba9685a6a811db7fcb0a7",
+            "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+          }
+        ],
+        "native": {
+          "Release": {
+            "configuration": "Release",
+            "artifacts": {
+              "binary": 13114288608,
+              "diagnostic": 13114802805
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "9154adfd5adb62c0f40cb4c1d492280794a5ef5627535ea1f5fdcb955e7c2fdc",
+            "dll_bytes": 6565888,
+            "dll_sha256": "56866d9e82e0bb9e22f434a910567a8c2936476df83d56420284016bc17cead3",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-02T03:47:40.6961940Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-02T03:47:38.6961940Z",
+              "precompile_utc_after=2026-11-02T03:47:38.6961940Z"
+            ]
+          },
+          "Debug": {
+            "configuration": "Debug",
+            "artifacts": {
+              "binary": 13114678269,
+              "diagnostic": 13114483481
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "9154adfd5adb62c0f40cb4c1d492280794a5ef5627535ea1f5fdcb955e7c2fdc",
+            "dll_bytes": 25194496,
+            "dll_sha256": "2f4fbd134a021bc7b6923b2caff264b5d3563b97675d61d012c2896ad363976e",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-02T03:50:23.7899455Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-02T03:50:21.7743199Z",
+              "precompile_utc_after=2026-11-02T03:50:21.7743199Z"
+            ],
+            "pdb_guid": "bac68889-1874-4e0b-939c-2d8911a64ea4",
+            "pdb_age": 1,
+            "pdb_bytes": 70634496,
+            "pdb_sha256": "37c5742b0b04e1ff725ff3fa970953687c3d50a778a21f2c021fc9b7347f5f09"
+          }
+        },
+        "gameplay_XML_and_UI_execution": false,
+        "user_workflow_branch_modified": false
+      },
+      "latest_review": "docs/reviews/workflow-split-2026-11-01.md"
     },
     {
       "branch": "LeaderSpecificUWAIAspectWeights",
@@ -2731,11 +3891,11 @@
       "branch": "LeaderTeamSizeBuild-ChatGPT",
       "head_at_inventory": "a2f01100680d037b72d4cc08e3661950cff5984e",
       "coverage": "published_review_artifact",
-      "native_verification": "linked_build_commit_passed",
-      "next_action": "Review relevant source changes, team-membership/personality attitude-cache lifecycle, authored UWAI weighting policy and actual XML/default/game execution. Preserve prior sign policy; do not repeat unchanged passing builds.",
+      "native_verification": "exact_overlay_Release_Debug_passed_all_artifacts_actual_logs_hashes_symbols_verified",
+      "next_action": "Review relevant source changes and actual team-membership/personality/XML/default/UI/game execution. Preserve team-size sign policy; do not repeat unchanged passing builds.",
       "source_branch": "LeaderSpecificTeamSizeAttitude",
-      "tested_code_sha": "23b8e74ea630209d67deaa53475d31113bd614b1",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843",
+      "tested_code_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41384996106",
       "last_head_review": {
         "classification": "documentation_only",
         "production_changes": false,
@@ -2808,13 +3968,222 @@
           "Installed-game UI and gameplay"
         ],
         "runtime_save_validation_policy": "save_runtime_validation_policy"
-      }
+      },
+      "historical_artifact_review": {
+        "branch": "LeaderTeamSizeBuild-ChatGPT",
+        "current": "74098492ca88543c88e5e30781b84a687cb51e42",
+        "tested": "23b8e74ea630209d67deaa53475d31113bd614b1",
+        "run": 40448128843,
+        "source_branch": "LeaderSpecificTeamSizeAttitude",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "source_head": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "jobs": [
+          {
+            "branch": "LeaderTeamSizeBuild-ChatGPT",
+            "id": 122004459094,
+            "name": "build-dll",
+            "compiler_probe": [],
+            "configuration": [
+              "2026-10-27T04:10:04.4745638Z Targeting configuration: Release"
+            ],
+            "totals": [
+              "2026-10-27T04:12:24.1850004Z     0 Warning(s)",
+              "2026-10-27T04:12:24.1850198Z     0 Error(s)"
+            ]
+          }
+        ],
+        "current_DLL_workflow_comparison": {
+          "branch": "LeaderTeamSizeBuild-ChatGPT",
+          "compared": 363,
+          "identical": true,
+          "reports": [
+            "docs/reviews/leader-team-size-2026-10-27.md"
+          ]
+        },
+        "archive_results": {
+          "Release": {
+            "artifact_id": 12709332075,
+            "configuration": "Release",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 6565888,
+            "dll_sha256": "b8a61fcd49e323f35e310f918233a4a3ade9623dad58ca85e163a285d3ab0a21",
+            "archive_files": [
+              "CvGameCoreDLL.dll"
+            ],
+            "provenance": null,
+            "filename_manifest_count": null,
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          }
+        },
+        "artifact_metadata": [
+          {
+            "id": 12709332075,
+            "name": "CvGameCoreDLL-LeaderTeamSizeBuild-ChatGPT-23b8e74ea630209d67deaa53475d31113bd614b1",
+            "size_in_bytes": 2340368,
+            "digest": "sha256:eab6a306cb4e1e6f60a78cd260b9df658b2a97f0089a56e795ad5d83f4dc8b20",
+            "head_sha": "23b8e74ea630209d67deaa53475d31113bd614b1"
+          }
+        ],
+        "actual_MSBuild_Build_log_available": false,
+        "actual_source_content_hashes_available": false,
+        "Debug_validated_in_this_historical_run": false,
+        "review_date": "2026-11-01",
+        "new_build": false,
+        "production_changes": false,
+        "scope": "Downloaded binary/symbol/provenance inspection, not current full-procedure validation."
+      },
+      "latest_artifact_review": "docs/reviews/historical-artifacts-2026-11-01.md",
+      "artifact_review_branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "artifact_review_next_action": "Current native Release/Debug and actual-log/hash evidence is complete for this tested overlay; retain historical records without repeating their already superseded missing-Debug status as a current blocker. Review new source or live integration.",
+      "native_validation_history": [
+        {
+          "tested_code_sha": "23b8e74ea630209d67deaa53475d31113bd614b1",
+          "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40448128843",
+          "native_verification": "historical_assistant_Release_DLL_verified_no_Debug_result_actual_MSBuild_logs_and_embedded_provenance_unavailable",
+          "qualification": "Historical Release-only evidence retained; binary/archive inspection remains in historical_artifact_review."
+        }
+      ],
+      "reviewed_source_sha": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+      "reviewed_assistant_head": "74098492ca88543c88e5e30781b84a687cb51e42",
+      "workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+      "workflow_correction_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+      "qualification": "Unchanged team-size DLL source, complete pinned baseline, new split workflow with scoped output-owner correction. MSVC7.1 Release/Debug zero warnings/errors; all four ZIPs, actual Build.log/BuildTiming, 349-file content manifests/pins, three feature file hashes, PE32 DLLs and matching Debug PDB verified. No engine XML/UI/gameplay execution.",
+      "native_configurations": [
+        "Release",
+        "Debug"
+      ],
+      "artifacts": {
+        "Release": 13114288608,
+        "Debug": 13114678269
+      },
+      "hash_diagnostics": {
+        "Release": 13114802805,
+        "Debug": 13114483481
+      },
+      "artifact_verification": {
+        "date": "2026-11-01",
+        "finding_id": "WORKFLOW-20261101-10",
+        "user_workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+        "previous_workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "correction_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+        "refinement_branch": "LeaderTeamSizeBuild-ChatGPT",
+        "original_feature_source": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+        "selected_feature_source": "74098492ca88543c88e5e30781b84a687cb51e42",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "tested_commit": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+        "run": 41384996106,
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41384996106",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "workflow_changes": "Add prepare_sources step ID and redirect source diagnostics upload output reference; populate three provenance pins. All remaining author workflow text preserved.",
+        "Cpp_changes": false,
+        "baseline_blobs_retained": 872,
+        "selected_DLL_blobs_unchanged": 362,
+        "root_sources": 349,
+        "local_actual_preparation_script_cases": 6,
+        "old_output_owner_skips_four_expected_upload_cases": true,
+        "local_standins": "rsync and SSH; actual Bash body, files and GITHUB_OUTPUT captured. No local remote PowerShell or compiler execution.",
+        "remote_failure_fault_injection": false,
+        "source_diagnostics_upload_both": "success",
+        "compiler_probe_both": "_MSC_VER == 1310 (MSVC 7.1)",
+        "all_four_ZIPs_downloaded_size_SHA256_checked_extracted": true,
+        "all_extracted_entries_match_archive": true,
+        "actual_Build_log_and_BuildTiming_inspected_both": true,
+        "source_expected_actual_349_content_manifests_match": true,
+        "source_hash_diffs_empty": true,
+        "source_manifest_names_match_tested_tree": true,
+        "three_feature_DLL_files_independent_Git_blob_and_native_SHA256_checks": true,
+        "artifact_metadata": [
+          {
+            "id": 13114802805,
+            "name": "source-verification-Release-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+            "size_in_bytes": 31086,
+            "digest": "sha256:483c4fcb4f49da0a1d2d81e8407481dd9dc5033c9dc0d73e035ff70cc7355065",
+            "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+          },
+          {
+            "id": 13114678269,
+            "name": "CvGameCoreDLL-Debug-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+            "size_in_bytes": 18571438,
+            "digest": "sha256:1ebd6bb3c239ffb01934970557ce84e24ec6f7dea307b9442a7063a1744c6ada",
+            "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+          },
+          {
+            "id": 13114483481,
+            "name": "source-verification-Debug-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+            "size_in_bytes": 31085,
+            "digest": "sha256:5c43b1f88202524416a27ff45cbc6e571992b2d23b62c4d4d71abc67ffc1076e",
+            "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+          },
+          {
+            "id": 13114288608,
+            "name": "CvGameCoreDLL-Release-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+            "size_in_bytes": 2348663,
+            "digest": "sha256:d943d6cd21c9e8c8ca7aff900cf58b53b35fde9e388ba9685a6a811db7fcb0a7",
+            "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+          }
+        ],
+        "native": {
+          "Release": {
+            "configuration": "Release",
+            "artifacts": {
+              "binary": 13114288608,
+              "diagnostic": 13114802805
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "9154adfd5adb62c0f40cb4c1d492280794a5ef5627535ea1f5fdcb955e7c2fdc",
+            "dll_bytes": 6565888,
+            "dll_sha256": "56866d9e82e0bb9e22f434a910567a8c2936476df83d56420284016bc17cead3",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-02T03:47:40.6961940Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-02T03:47:38.6961940Z",
+              "precompile_utc_after=2026-11-02T03:47:38.6961940Z"
+            ]
+          },
+          "Debug": {
+            "configuration": "Debug",
+            "artifacts": {
+              "binary": 13114678269,
+              "diagnostic": 13114483481
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "9154adfd5adb62c0f40cb4c1d492280794a5ef5627535ea1f5fdcb955e7c2fdc",
+            "dll_bytes": 25194496,
+            "dll_sha256": "2f4fbd134a021bc7b6923b2caff264b5d3563b97675d61d012c2896ad363976e",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-02T03:50:23.7899455Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-02T03:50:21.7743199Z",
+              "precompile_utc_after=2026-11-02T03:50:21.7743199Z"
+            ],
+            "pdb_guid": "bac68889-1874-4e0b-939c-2d8911a64ea4",
+            "pdb_age": 1,
+            "pdb_bytes": 70634496,
+            "pdb_sha256": "37c5742b0b04e1ff725ff3fa970953687c3d50a778a21f2c021fc9b7347f5f09"
+          }
+        },
+        "gameplay_XML_and_UI_execution": false,
+        "user_workflow_branch_modified": false
+      },
+      "latest_review": "docs/reviews/workflow-split-2026-11-01.md"
     },
     {
       "branch": "LLMDiplomacyTextBuild-ChatGPT",
       "head_at_inventory": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
       "coverage": "published_review_artifact",
-      "native_verification": "linked_build_commit_passed",
+      "native_verification": "historical_assistant_Release_Debug_binaries_and_symbols_verified_actual_MSBuild_logs_unavailable",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "LLMDiplomacyTextGeneration",
       "tested_code_sha": "6d106160bfc778b47274ef2025f02e68d183f3af",
@@ -2830,18 +4199,284 @@
         "merge_base": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
         "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates.",
         "record_commit": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f"
-      }
+      },
+      "historical_artifact_review": {
+        "branch": "LLMDiplomacyTextBuild-ChatGPT",
+        "current": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
+        "tested": "6d106160bfc778b47274ef2025f02e68d183f3af",
+        "run": 40548144176,
+        "source_branch": "LLMDiplomacyTextGeneration",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "source_head": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "jobs": [
+          {
+            "branch": "LLMDiplomacyTextBuild-ChatGPT",
+            "id": 122344251851,
+            "name": "build-dll (Release)",
+            "compiler_probe": [
+              "2026-10-27T17:13:34.7250651Z Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+            ],
+            "configuration": [
+              "2026-10-27T17:11:11.1510894Z Targeting configuration: Release"
+            ],
+            "totals": [
+              "2026-10-27T17:13:34.7243515Z     0 Warning(s)",
+              "2026-10-27T17:13:34.7243893Z     0 Error(s)"
+            ]
+          },
+          {
+            "branch": "LLMDiplomacyTextBuild-ChatGPT",
+            "id": 122344252109,
+            "name": "build-dll (Debug)",
+            "compiler_probe": [
+              "2026-10-27T17:15:53.7310825Z Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+            ],
+            "configuration": [
+              "2026-10-27T17:13:46.2210542Z Targeting configuration: Debug"
+            ],
+            "totals": [
+              "2026-10-27T17:15:53.7309986Z     0 Warning(s)",
+              "2026-10-27T17:15:53.7310230Z     0 Error(s)"
+            ]
+          }
+        ],
+        "current_DLL_workflow_comparison": {
+          "branch": "LLMDiplomacyTextBuild-ChatGPT",
+          "compared": 366,
+          "identical": true,
+          "reports": []
+        },
+        "archive_results": {
+          "Debug": {
+            "artifact_id": 12753299260,
+            "configuration": "Debug",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 25366528,
+            "dll_sha256": "144112132229e30feb671e9ecc39455e151a9edab58d6882757f151bdc543f1b",
+            "archive_files": [
+              "CvGameCoreDLL.pdb",
+              "artifacts/CvGameCoreDLL.dll",
+              "build-provenance.txt",
+              "expected-sources.txt"
+            ],
+            "provenance": {
+              "commit": "6d106160bfc778b47274ef2025f02e68d183f3af",
+              "configuration": "Debug",
+              "compiler": "_MSC_VER_1310",
+              "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+              "feature_source": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+              "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+            },
+            "filename_manifest_count": 352,
+            "filename_manifest_sha256": "a24310c2bd7603cd4f70d31750ffe3c085166c36f787247a45767b4580e2e8ff",
+            "pdb_guid": "39e92abf-a426-45ee-98db-6783d0226fb0",
+            "pdb_age": 1,
+            "pdb_bytes": 71199744,
+            "pdb_sha256": "54219f16874277cbc931c1d72ab5c4e28763c83c2ef005c9d53b75ad11f98720",
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          },
+          "Release": {
+            "artifact_id": 12753094174,
+            "configuration": "Release",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 6606848,
+            "dll_sha256": "97ab20f965e03cad785aabf05862c652f1a60088de8330d4a9b65e126dec3b55",
+            "archive_files": [
+              "artifacts/CvGameCoreDLL.dll",
+              "build-provenance.txt",
+              "expected-sources.txt"
+            ],
+            "provenance": {
+              "commit": "6d106160bfc778b47274ef2025f02e68d183f3af",
+              "configuration": "Release",
+              "compiler": "_MSC_VER_1310",
+              "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+              "feature_source": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+              "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+            },
+            "filename_manifest_count": 352,
+            "filename_manifest_sha256": "a24310c2bd7603cd4f70d31750ffe3c085166c36f787247a45767b4580e2e8ff",
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          }
+        },
+        "artifact_metadata": [
+          {
+            "id": 12753299260,
+            "name": "CvGameCoreDLL-Debug-LLMDiplomacyTextBuild-ChatGPT-6d106160bfc778b47274ef2025f02e68d183f3af",
+            "size_in_bytes": 18690798,
+            "digest": "sha256:e257d91b0c3ef9b35b46d666148d8f4d606a4ec90f4e3ec6d604229bb43d491e",
+            "head_sha": "6d106160bfc778b47274ef2025f02e68d183f3af"
+          },
+          {
+            "id": 12753094174,
+            "name": "CvGameCoreDLL-Release-LLMDiplomacyTextBuild-ChatGPT-6d106160bfc778b47274ef2025f02e68d183f3af",
+            "size_in_bytes": 2355068,
+            "digest": "sha256:59c42a061518f5e7fcbfebc903bc574a119324ca16c3337be6b64b5dde80ce43",
+            "head_sha": "6d106160bfc778b47274ef2025f02e68d183f3af"
+          }
+        ],
+        "actual_MSBuild_Build_log_available": false,
+        "actual_source_content_hashes_available": false,
+        "Debug_validated_in_this_historical_run": true,
+        "review_date": "2026-11-01",
+        "new_build": false,
+        "production_changes": false,
+        "scope": "Downloaded binary/symbol/provenance inspection, not current full-procedure validation."
+      },
+      "latest_artifact_review": "docs/reviews/historical-artifacts-2026-11-01.md",
+      "artifact_review_branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "artifact_review_next_action": "Retain historical binary evidence and missing actual-log/source-content limits. Use the current workflow on subsequent relevant validation; retain explicit unverified Debug status for Release-only runs."
     },
     {
       "branch": "LLMDiplomacyTextGeneration",
       "head_at_inventory": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
       "coverage": "published_scoped_review",
-      "native_verification": "linked_refinement_passed",
+      "native_verification": "linked_historical_assistant_Release_Debug_binaries_and_symbols_verified_actual_MSBuild_logs_unavailable",
       "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
       "refinement_branch": "LLMDiplomacyTextBuild-ChatGPT",
       "tested_code_sha": "6d106160bfc778b47274ef2025f02e68d183f3af",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176",
-      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head.",
+      "historical_artifact_review": {
+        "branch": "LLMDiplomacyTextBuild-ChatGPT",
+        "current": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
+        "tested": "6d106160bfc778b47274ef2025f02e68d183f3af",
+        "run": 40548144176,
+        "source_branch": "LLMDiplomacyTextGeneration",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "source_head": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40548144176",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "jobs": [
+          {
+            "branch": "LLMDiplomacyTextBuild-ChatGPT",
+            "id": 122344251851,
+            "name": "build-dll (Release)",
+            "compiler_probe": [
+              "2026-10-27T17:13:34.7250651Z Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+            ],
+            "configuration": [
+              "2026-10-27T17:11:11.1510894Z Targeting configuration: Release"
+            ],
+            "totals": [
+              "2026-10-27T17:13:34.7243515Z     0 Warning(s)",
+              "2026-10-27T17:13:34.7243893Z     0 Error(s)"
+            ]
+          },
+          {
+            "branch": "LLMDiplomacyTextBuild-ChatGPT",
+            "id": 122344252109,
+            "name": "build-dll (Debug)",
+            "compiler_probe": [
+              "2026-10-27T17:15:53.7310825Z Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+            ],
+            "configuration": [
+              "2026-10-27T17:13:46.2210542Z Targeting configuration: Debug"
+            ],
+            "totals": [
+              "2026-10-27T17:15:53.7309986Z     0 Warning(s)",
+              "2026-10-27T17:15:53.7310230Z     0 Error(s)"
+            ]
+          }
+        ],
+        "current_DLL_workflow_comparison": {
+          "branch": "LLMDiplomacyTextBuild-ChatGPT",
+          "compared": 366,
+          "identical": true,
+          "reports": []
+        },
+        "archive_results": {
+          "Debug": {
+            "artifact_id": 12753299260,
+            "configuration": "Debug",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 25366528,
+            "dll_sha256": "144112132229e30feb671e9ecc39455e151a9edab58d6882757f151bdc543f1b",
+            "archive_files": [
+              "CvGameCoreDLL.pdb",
+              "artifacts/CvGameCoreDLL.dll",
+              "build-provenance.txt",
+              "expected-sources.txt"
+            ],
+            "provenance": {
+              "commit": "6d106160bfc778b47274ef2025f02e68d183f3af",
+              "configuration": "Debug",
+              "compiler": "_MSC_VER_1310",
+              "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+              "feature_source": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+              "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+            },
+            "filename_manifest_count": 352,
+            "filename_manifest_sha256": "a24310c2bd7603cd4f70d31750ffe3c085166c36f787247a45767b4580e2e8ff",
+            "pdb_guid": "39e92abf-a426-45ee-98db-6783d0226fb0",
+            "pdb_age": 1,
+            "pdb_bytes": 71199744,
+            "pdb_sha256": "54219f16874277cbc931c1d72ab5c4e28763c83c2ef005c9d53b75ad11f98720",
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          },
+          "Release": {
+            "artifact_id": 12753094174,
+            "configuration": "Release",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 6606848,
+            "dll_sha256": "97ab20f965e03cad785aabf05862c652f1a60088de8330d4a9b65e126dec3b55",
+            "archive_files": [
+              "artifacts/CvGameCoreDLL.dll",
+              "build-provenance.txt",
+              "expected-sources.txt"
+            ],
+            "provenance": {
+              "commit": "6d106160bfc778b47274ef2025f02e68d183f3af",
+              "configuration": "Release",
+              "compiler": "_MSC_VER_1310",
+              "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+              "feature_source": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+              "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+            },
+            "filename_manifest_count": 352,
+            "filename_manifest_sha256": "a24310c2bd7603cd4f70d31750ffe3c085166c36f787247a45767b4580e2e8ff",
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          }
+        },
+        "artifact_metadata": [
+          {
+            "id": 12753299260,
+            "name": "CvGameCoreDLL-Debug-LLMDiplomacyTextBuild-ChatGPT-6d106160bfc778b47274ef2025f02e68d183f3af",
+            "size_in_bytes": 18690798,
+            "digest": "sha256:e257d91b0c3ef9b35b46d666148d8f4d606a4ec90f4e3ec6d604229bb43d491e",
+            "head_sha": "6d106160bfc778b47274ef2025f02e68d183f3af"
+          },
+          {
+            "id": 12753094174,
+            "name": "CvGameCoreDLL-Release-LLMDiplomacyTextBuild-ChatGPT-6d106160bfc778b47274ef2025f02e68d183f3af",
+            "size_in_bytes": 2355068,
+            "digest": "sha256:59c42a061518f5e7fcbfebc903bc574a119324ca16c3337be6b64b5dde80ce43",
+            "head_sha": "6d106160bfc778b47274ef2025f02e68d183f3af"
+          }
+        ],
+        "actual_MSBuild_Build_log_available": false,
+        "actual_source_content_hashes_available": false,
+        "Debug_validated_in_this_historical_run": true,
+        "review_date": "2026-11-01",
+        "new_build": false,
+        "production_changes": false,
+        "scope": "Downloaded binary/symbol/provenance inspection, not current full-procedure validation."
+      },
+      "latest_artifact_review": "docs/reviews/historical-artifacts-2026-11-01.md",
+      "artifact_review_branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "artifact_review_next_action": "Retain historical binary evidence and missing actual-log/source-content limits. Use the current workflow on subsequent relevant validation; retain explicit unverified Debug status for Release-only runs."
     },
     {
       "branch": "PartnerDiplomacyBuild-ChatGPT",
@@ -2970,12 +4605,12 @@
       "branch": "PerUnitCombatUpgradeCostModifers",
       "head_at_inventory": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
       "coverage": "published_scoped_review",
-      "native_verification": "linked_refinement_passed",
-      "next_action": "Review relevant source changes, authored modifier/default profiles and actual engine XML/trait/price/EnumMap/save integration; inspect extreme raw-sum and price arithmetic without inventing caps. Do not repeat unchanged passing builds.",
+      "native_verification": "linked_assistant_Release_Debug_verified_original_not_built",
+      "next_action": "Review relevant source changes, authored modifier/default profiles and actual engine XML/trait/price/EnumMap/game integration. Extreme arithmetic remains a separate scoped review; no arbitrary cap is introduced. Do not repeat unchanged fully verified builds.",
       "refinement_branch": "UnitCombatUpgradeBuild-ChatGPT",
-      "tested_code_sha": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509",
-      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head.",
+      "tested_code_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41390572710",
+      "qualification": "Unchanged corrected unit-combat upgrade C++ source passes complete pinned-baseline MSVC7.1 Release/Debug with zero warnings/errors. Four ZIPs, actual Build.log/timing, 349-file content manifests/pins, six feature Git/native hashes, PE32 DLLs and Debug PDB match verified. No actual XML/trait/pricing/stream/gameplay execution.",
       "upgrade_metadata_consumer_audit": {
         "date": "2026-11-01",
         "reviewed_source_sha": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
@@ -3066,7 +4701,209 @@
           "Actual engine EnumMap and stream execution"
         ],
         "runtime_save_validation_policy": "save_runtime_validation_policy"
-      }
+      },
+      "historical_artifact_review": {
+        "branch": "UnitCombatUpgradeBuild-ChatGPT",
+        "current": "cf97766d59822b81772d0ab50a80dba139d8a787",
+        "tested": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+        "run": 40456936509,
+        "source_branch": "PerUnitCombatUpgradeCostModifers",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "source_head": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "jobs": [
+          {
+            "branch": "UnitCombatUpgradeBuild-ChatGPT",
+            "id": 122032343885,
+            "name": "build-dll",
+            "compiler_probe": [],
+            "configuration": [
+              "2026-10-27T05:43:35.1786092Z Targeting configuration: Release"
+            ],
+            "totals": [
+              "2026-10-27T05:45:56.4638207Z     0 Warning(s)",
+              "2026-10-27T05:45:56.4638513Z     0 Error(s)"
+            ]
+          }
+        ],
+        "current_DLL_workflow_comparison": {
+          "branch": "UnitCombatUpgradeBuild-ChatGPT",
+          "compared": 363,
+          "identical": true,
+          "reports": [
+            "docs/reviews/unit-combat-upgrade-2026-10-27.md"
+          ]
+        },
+        "archive_results": {
+          "Release": {
+            "artifact_id": 12713071194,
+            "configuration": "Release",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 6569984,
+            "dll_sha256": "c0ebc398af9bf2fc32b90fd52d6e9624551b3624cfe92df87701a3cfdb0dbffd",
+            "archive_files": [
+              "CvGameCoreDLL.dll"
+            ],
+            "provenance": null,
+            "filename_manifest_count": null,
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          }
+        },
+        "artifact_metadata": [
+          {
+            "id": 12713071194,
+            "name": "CvGameCoreDLL-UnitCombatUpgradeBuild-ChatGPT-e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+            "size_in_bytes": 2342238,
+            "digest": "sha256:e63f9ada59d7f0bf87cc2e68b23423b27ea1bfe2f6b99f9ad25da36d18bf8f93",
+            "head_sha": "e1f41d9bed34d4035fa09b506c9e14d377268fbb"
+          }
+        ],
+        "actual_MSBuild_Build_log_available": false,
+        "actual_source_content_hashes_available": false,
+        "Debug_validated_in_this_historical_run": false,
+        "review_date": "2026-11-01",
+        "new_build": false,
+        "production_changes": false,
+        "scope": "Downloaded binary/symbol/provenance inspection, not current full-procedure validation."
+      },
+      "latest_artifact_review": "docs/reviews/historical-artifacts-2026-11-01.md",
+      "artifact_review_branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "artifact_review_next_action": "Current native Release/Debug actual-log/hash evidence is complete for this tested overlay; retain historical Release-only evidence without treating it as a current missing-Debug blocker. Revisit changed source or live integration.",
+      "native_validation_history": [
+        {
+          "tested_code_sha": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+          "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509",
+          "native_verification": "linked_historical_assistant_Release_DLL_verified_no_Debug_result_actual_MSBuild_logs_and_embedded_provenance_unavailable",
+          "qualification": "Historical Release-only run retained with binary-only archive limits in historical_artifact_review."
+        }
+      ],
+      "reviewed_source_sha": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+      "reviewed_assistant_head": "cf97766d59822b81772d0ab50a80dba139d8a787",
+      "workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+      "workflow_correction_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+      "native_configurations": [
+        "Release",
+        "Debug"
+      ],
+      "artifacts": {
+        "Release": 13116997931,
+        "Debug": 13117322516
+      },
+      "hash_diagnostics": {
+        "Release": 13117820742,
+        "Debug": 13117561823
+      },
+      "artifact_verification": {
+        "date": "2026-11-01",
+        "classification": "missing_Debug_and_current_native_evidence_completed_without_Cpp_changes",
+        "original_source": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+        "selected_assistant_source": "cf97766d59822b81772d0ab50a80dba139d8a787",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+        "workflow_correction_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+        "tested_commit": "d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+        "run": 41390572710,
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41390572710",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "Cpp_changes": false,
+        "baseline_blobs_retained": 872,
+        "selected_DLL_blobs_unchanged": 362,
+        "root_sources": 349,
+        "independent_feature_Git_blob_and_native_SHA256_checks": 6,
+        "compiler_probes_both": "_MSC_VER == 1310 (MSVC 7.1)",
+        "actual_Build_log_and_BuildTiming_inspected_both": true,
+        "all_four_archives_downloaded_API_size_SHA256_checked_extracted": true,
+        "all_extracted_entries_match_archive": true,
+        "source_manifests_expected_actual_equal": true,
+        "source_hash_diffs_empty": true,
+        "source_manifest_names_match_tested_tree": true,
+        "exact_all_provenance_pins_verified": true,
+        "both_source_diagnostics_uploads": "success",
+        "artifact_metadata": [
+          {
+            "id": 13117820742,
+            "name": "source-verification-Release-UnitCombatUpgradeBuild-ChatGPT-d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+            "size_in_bytes": 31097,
+            "digest": "sha256:4a4ba969393e3c11b1b496b74461d9b79d506666ab15d17bce526e0a531d1dbe",
+            "head_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6"
+          },
+          {
+            "id": 13117561823,
+            "name": "source-verification-Debug-UnitCombatUpgradeBuild-ChatGPT-d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+            "size_in_bytes": 31096,
+            "digest": "sha256:4ee01eb5a612e8e6433729456a5ae4e7c4c2a55d37664e6c2d08005370def33f",
+            "head_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6"
+          },
+          {
+            "id": 13117322516,
+            "name": "CvGameCoreDLL-Debug-UnitCombatUpgradeBuild-ChatGPT-d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+            "size_in_bytes": 18582993,
+            "digest": "sha256:99239cebbd4e955633f3b8f454da2174e7127632f0ed4d7cb7927c527fd70fd3",
+            "head_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6"
+          },
+          {
+            "id": 13116997931,
+            "name": "CvGameCoreDLL-Release-UnitCombatUpgradeBuild-ChatGPT-d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+            "size_in_bytes": 2350534,
+            "digest": "sha256:5c8af72c9ac1a3cc57ae36300e57e3097ecb7d00115ef924264dd61cabb0cea3",
+            "head_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6"
+          }
+        ],
+        "native": {
+          "Release": {
+            "configuration": "Release",
+            "artifacts": {
+              "binary": 13116997931,
+              "diagnostic": 13117820742
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "6875d1155d7eb6f500362b20a8e58671999f18d7e2cae0ecb307b05b040191ee",
+            "dll_bytes": 6569984,
+            "dll_sha256": "a0cf9c3b76664c7d719ddbf8f2545d06a3c741e6605d788f11bf38dcce053327",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-02T04:49:25.5868199Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-02T04:49:23.5712024Z",
+              "precompile_utc_after=2026-11-02T04:49:23.5712024Z"
+            ]
+          },
+          "Debug": {
+            "configuration": "Debug",
+            "artifacts": {
+              "binary": 13117322516,
+              "diagnostic": 13117561823
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "6875d1155d7eb6f500362b20a8e58671999f18d7e2cae0ecb307b05b040191ee",
+            "dll_bytes": 25210880,
+            "dll_sha256": "bd968021349c24b6aff157034a788b00ce42ed0abef4eac635c82b8c6bfedee1",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-02T04:52:15.5243202Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-02T04:52:13.5086944Z",
+              "precompile_utc_after=2026-11-02T04:52:13.5086944Z"
+            ],
+            "pdb_guid": "c768a29b-58f3-407d-9d80-19c2e983fd7e",
+            "pdb_age": 1,
+            "pdb_bytes": 70683648,
+            "pdb_sha256": "bf67b2218194675ceb53b6d6da34aea8c4a5b1998d453ede6482f43aa46770e8"
+          }
+        },
+        "engine_XML_traits_pricing_streams_gameplay": false
+      },
+      "latest_review": "docs/reviews/upgrade-native-2026-11-01.md",
+      "runtime_save_validation_policy": "save_runtime_validation_policy"
     },
     {
       "branch": "PlotTimerDraft-ChatGPT",
@@ -3233,12 +5070,83 @@
       "branch": "PromotionAltersUnitXPValues",
       "head_at_inventory": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
       "coverage": "published_scoped_review",
-      "native_verification": "linked_refinement_passed",
+      "native_verification": "linked_historical_assistant_Release_DLL_verified_no_Debug_result_actual_MSBuild_logs_and_embedded_provenance_unavailable",
       "next_action": "Revisit changed code or remaining integration scope; do not repeat delivered findings.",
       "refinement_branch": "PromotionXPBuild-ChatGPT",
       "tested_code_sha": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40518367294",
-      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head."
+      "qualification": "This result is for the exact isolated overlay commit, not a build of the original branch head.",
+      "historical_artifact_review": {
+        "branch": "PromotionXPBuild-ChatGPT",
+        "current": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+        "tested": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
+        "run": 40518367294,
+        "source_branch": "PromotionAltersUnitXPValues",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "source_head": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40518367294",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "jobs": [
+          {
+            "branch": "PromotionXPBuild-ChatGPT",
+            "id": 122238065468,
+            "name": "build-dll",
+            "compiler_probe": [],
+            "configuration": [
+              "2026-10-27T14:09:12.8413937Z Targeting configuration: Release"
+            ],
+            "totals": [
+              "2026-10-27T14:11:35.9296570Z     0 Warning(s)",
+              "2026-10-27T14:11:35.9299598Z     0 Error(s)"
+            ]
+          }
+        ],
+        "current_DLL_workflow_comparison": {
+          "branch": "PromotionXPBuild-ChatGPT",
+          "compared": 363,
+          "identical": true,
+          "reports": [
+            "docs/reviews/promotion-xp-2026-10-27.md"
+          ]
+        },
+        "archive_results": {
+          "Release": {
+            "artifact_id": 12741530101,
+            "configuration": "Release",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 6569984,
+            "dll_sha256": "db07e4844c5ce5ec7415a96fab50f05fbe00793d0fc1cfa09cb1a3695ea5d341",
+            "archive_files": [
+              "CvGameCoreDLL.dll"
+            ],
+            "provenance": null,
+            "filename_manifest_count": null,
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          }
+        },
+        "artifact_metadata": [
+          {
+            "id": 12741530101,
+            "name": "CvGameCoreDLL-PromotionXPBuild-ChatGPT-7394c4d68628bbfac61ec1366c2c2f52284c35a2",
+            "size_in_bytes": 2341383,
+            "digest": "sha256:58d36aac38f0b75d69c02f4f6dd89d596db6f07edd086f467bc9a6ae082e2592",
+            "head_sha": "7394c4d68628bbfac61ec1366c2c2f52284c35a2"
+          }
+        ],
+        "actual_MSBuild_Build_log_available": false,
+        "actual_source_content_hashes_available": false,
+        "Debug_validated_in_this_historical_run": false,
+        "review_date": "2026-11-01",
+        "new_build": false,
+        "production_changes": false,
+        "scope": "Downloaded binary/symbol/provenance inspection, not current full-procedure validation."
+      },
+      "latest_artifact_review": "docs/reviews/historical-artifacts-2026-11-01.md",
+      "artifact_review_branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "artifact_review_next_action": "Retain historical binary evidence and missing actual-log/source-content limits. Use the current workflow on subsequent relevant validation; retain explicit unverified Debug status for Release-only runs."
     },
     {
       "branch": "PromotionTimedExpireTurns",
@@ -3472,7 +5380,7 @@
       "branch": "PromotionXPBuild-ChatGPT",
       "head_at_inventory": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
       "coverage": "published_review_artifact",
-      "native_verification": "linked_build_commit_passed",
+      "native_verification": "historical_assistant_Release_DLL_verified_no_Debug_result_actual_MSBuild_logs_and_embedded_provenance_unavailable",
       "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
       "source_branch": "PromotionAltersUnitXPValues",
       "tested_code_sha": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
@@ -3488,7 +5396,78 @@
         "merge_base": null,
         "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates.",
         "record_commit": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f"
-      }
+      },
+      "historical_artifact_review": {
+        "branch": "PromotionXPBuild-ChatGPT",
+        "current": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+        "tested": "7394c4d68628bbfac61ec1366c2c2f52284c35a2",
+        "run": 40518367294,
+        "source_branch": "PromotionAltersUnitXPValues",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "source_head": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40518367294",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "jobs": [
+          {
+            "branch": "PromotionXPBuild-ChatGPT",
+            "id": 122238065468,
+            "name": "build-dll",
+            "compiler_probe": [],
+            "configuration": [
+              "2026-10-27T14:09:12.8413937Z Targeting configuration: Release"
+            ],
+            "totals": [
+              "2026-10-27T14:11:35.9296570Z     0 Warning(s)",
+              "2026-10-27T14:11:35.9299598Z     0 Error(s)"
+            ]
+          }
+        ],
+        "current_DLL_workflow_comparison": {
+          "branch": "PromotionXPBuild-ChatGPT",
+          "compared": 363,
+          "identical": true,
+          "reports": [
+            "docs/reviews/promotion-xp-2026-10-27.md"
+          ]
+        },
+        "archive_results": {
+          "Release": {
+            "artifact_id": 12741530101,
+            "configuration": "Release",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 6569984,
+            "dll_sha256": "db07e4844c5ce5ec7415a96fab50f05fbe00793d0fc1cfa09cb1a3695ea5d341",
+            "archive_files": [
+              "CvGameCoreDLL.dll"
+            ],
+            "provenance": null,
+            "filename_manifest_count": null,
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          }
+        },
+        "artifact_metadata": [
+          {
+            "id": 12741530101,
+            "name": "CvGameCoreDLL-PromotionXPBuild-ChatGPT-7394c4d68628bbfac61ec1366c2c2f52284c35a2",
+            "size_in_bytes": 2341383,
+            "digest": "sha256:58d36aac38f0b75d69c02f4f6dd89d596db6f07edd086f467bc9a6ae082e2592",
+            "head_sha": "7394c4d68628bbfac61ec1366c2c2f52284c35a2"
+          }
+        ],
+        "actual_MSBuild_Build_log_available": false,
+        "actual_source_content_hashes_available": false,
+        "Debug_validated_in_this_historical_run": false,
+        "review_date": "2026-11-01",
+        "new_build": false,
+        "production_changes": false,
+        "scope": "Downloaded binary/symbol/provenance inspection, not current full-procedure validation."
+      },
+      "latest_artifact_review": "docs/reviews/historical-artifacts-2026-11-01.md",
+      "artifact_review_branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "artifact_review_next_action": "Retain historical binary evidence and missing actual-log/source-content limits. Use the current workflow on subsequent relevant validation; retain explicit unverified Debug status for Release-only runs."
     },
     {
       "branch": "RaceDemographicsDraft-ChatGPT",
@@ -3579,8 +5558,8 @@
       "branch": "RenegadeDiplomacyBuild-ChatGPT",
       "head_at_inventory": "6660adfd2883b8286c9fbd759f310b6da7dd4c86",
       "coverage": "published_review_artifact",
-      "native_verification": "linked_build_commit_passed",
-      "next_action": "Inspect new head changes only before reopening a completed scoped refinement.",
+      "native_verification": "historical_Release_Debug_binaries_and_symbols_verified_actual_MSBuild_logs_unavailable",
+      "next_action": "Review relevant source changes and actual XML/UI/negotiation/multiplayer/game behavior. Use current dll-build workflow on the next relevant native build; do not rerun unchanged passing code solely to replace missing historical Build.log/timing/source-content records.",
       "source_branch": "LeaderSpecificRebelliousTeamDiplomaticDecisions",
       "tested_code_sha": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157",
@@ -3595,7 +5574,105 @@
         "merge_base": null,
         "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates.",
         "record_commit": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f"
-      }
+      },
+      "historical_artifact_review": {
+        "review_date": "2026-11-01",
+        "classification": "historical_binary_artifact_verification_not_new_full_DLL_validation",
+        "original_source": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+        "reviewed_assistant_head": "6660adfd2883b8286c9fbd759f310b6da7dd4c86",
+        "tested_commit": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "historical_workflow": "058e4d0e1760f76195071823d3e2dc85c81b7285",
+        "run": 40583685157,
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157",
+        "run_created_date": "2026-10-27",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "both_archives_downloaded": true,
+        "ZIP_metadata_sizes_and_SHA256_verified": true,
+        "all_ZIP_entries_extracted_and_compared_to_archive": true,
+        "compiler_probe_both_runner_logs": "_MSC_VER == 1310 (MSVC 7.1)",
+        "both_runner_logs_report": {
+          "warnings": 0,
+          "errors": 0
+        },
+        "actual_MSBuild_Build_logs_available": false,
+        "actual_BuildTiming_logs_available": false,
+        "source_content_hash_manifests_available": false,
+        "filename_manifests_match_tested_tree": true,
+        "current_assistant_DLL_and_workflow_blobs_identical_to_tested_tree": 363,
+        "Release": {
+          "artifact_id": 12770887082,
+          "configuration": "Release",
+          "provenance": {
+            "commit": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+            "configuration": "Release",
+            "compiler": "_MSC_VER_1310",
+            "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+            "feature_source": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+            "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+          },
+          "filename_manifest_count": 349,
+          "filename_manifest_sha256": "342222151516bbd81c2a82665df74eab68d37df36b657cb5a5fcb050480e8cf8",
+          "PE": "PE32 x86 DLL",
+          "dll_bytes": 6565888,
+          "dll_sha256": "0fa16277acc17e64fc37ec56f736b55dbe7fc7748e1e4318887e9cf823f0d304",
+          "archive_files": [
+            "artifacts/CvGameCoreDLL.dll",
+            "build-provenance.txt",
+            "expected-sources.txt"
+          ]
+        },
+        "Debug": {
+          "artifact_id": 12770842991,
+          "configuration": "Debug",
+          "provenance": {
+            "commit": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+            "configuration": "Debug",
+            "compiler": "_MSC_VER_1310",
+            "base_1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+            "feature_source": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+            "workflow_source": "058e4d0e1760f76195071823d3e2dc85c81b7285"
+          },
+          "filename_manifest_count": 349,
+          "filename_manifest_sha256": "342222151516bbd81c2a82665df74eab68d37df36b657cb5a5fcb050480e8cf8",
+          "PE": "PE32 x86 DLL",
+          "dll_bytes": 25194496,
+          "dll_sha256": "63f2eaa76cfb8498319fb2ab629f33a09945b442f14b2bfa746973af56942324",
+          "archive_files": [
+            "CvGameCoreDLL.pdb",
+            "artifacts/CvGameCoreDLL.dll",
+            "build-provenance.txt",
+            "expected-sources.txt"
+          ],
+          "pdb_guid": "cf711684-735c-4402-90c7-6a54f4b74ceb",
+          "pdb_age": 1,
+          "pdb_bytes": 70634496,
+          "pdb_sha256": "ae9f40d8947f1f4f9e9c7702cbe4bde0b88a87c3573a63546258f7ae0fa27082"
+        },
+        "artifact_metadata": [
+          {
+            "id": 12770887082,
+            "name": "CvGameCoreDLL-Release-RenegadeDiplomacyBuild-ChatGPT-dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+            "size_in_bytes": 2342634,
+            "digest": "sha256:849808fb69325ab373c23baacb738d41ff45ed0ebfcf63fe3daf7232e60969f7",
+            "head_sha": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d"
+          },
+          {
+            "id": 12770842991,
+            "name": "CvGameCoreDLL-Debug-RenegadeDiplomacyBuild-ChatGPT-dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+            "size_in_bytes": 18565668,
+            "digest": "sha256:14c3ffb590b88eb1487ccfd0b5f47338d5930a0ebbd1fef7468f4fed261fcfdf",
+            "head_sha": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d"
+          }
+        ],
+        "new_build_triggered": false,
+        "production_changes": false,
+        "qualification": "Binary and matching-symbol inspection of the exact historical run. No actual Build.log, BuildTiming.log, actual-source hash manifest or hash-verification record exists in either downloaded ZIP. Runner totals and compiler probes were observed but are not substituted for those missing records. No current full-procedure validation or game execution claimed."
+      },
+      "qualification": "Binary and matching-symbol inspection of the exact historical run. No actual Build.log, BuildTiming.log, actual-source hash manifest or hash-verification record exists in either downloaded ZIP. Runner totals and compiler probes were observed but are not substituted for those missing records. No current full-procedure validation or game execution claimed.",
+      "latest_artifact_review": "docs/reviews/renegade-artifacts-2026-11-01.json",
+      "runtime_save_validation_policy": "save_runtime_validation_policy"
     },
     {
       "branch": "SerializationHelpers",
@@ -4469,11 +6546,11 @@
       "branch": "UnitCombatUpgradeBuild-ChatGPT",
       "head_at_inventory": "cb5e560613ea2bbc9c04c84f1888d2440028a6d5",
       "coverage": "published_review_artifact",
-      "native_verification": "linked_build_commit_passed",
-      "next_action": "Review relevant source changes, authored modifier/default profiles and actual engine XML/trait/price/EnumMap/save integration; inspect extreme raw-sum and price arithmetic without inventing caps. Do not repeat unchanged passing builds.",
+      "native_verification": "exact_overlay_Release_Debug_passed_all_artifacts_actual_logs_hashes_symbols_verified",
+      "next_action": "Review relevant source changes, authored modifier/default profiles and actual engine XML/trait/price/EnumMap/game integration. Extreme arithmetic remains a separate scoped review; no arbitrary cap is introduced. Do not repeat unchanged fully verified builds.",
       "source_branch": "PerUnitCombatUpgradeCostModifers",
-      "tested_code_sha": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509",
+      "tested_code_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41390572710",
       "last_head_review": {
         "classification": "documentation_only",
         "production_changes": false,
@@ -4576,7 +6653,210 @@
           "Actual engine EnumMap and stream execution"
         ],
         "runtime_save_validation_policy": "save_runtime_validation_policy"
-      }
+      },
+      "historical_artifact_review": {
+        "branch": "UnitCombatUpgradeBuild-ChatGPT",
+        "current": "cf97766d59822b81772d0ab50a80dba139d8a787",
+        "tested": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+        "run": 40456936509,
+        "source_branch": "PerUnitCombatUpgradeCostModifers",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "source_head": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "jobs": [
+          {
+            "branch": "UnitCombatUpgradeBuild-ChatGPT",
+            "id": 122032343885,
+            "name": "build-dll",
+            "compiler_probe": [],
+            "configuration": [
+              "2026-10-27T05:43:35.1786092Z Targeting configuration: Release"
+            ],
+            "totals": [
+              "2026-10-27T05:45:56.4638207Z     0 Warning(s)",
+              "2026-10-27T05:45:56.4638513Z     0 Error(s)"
+            ]
+          }
+        ],
+        "current_DLL_workflow_comparison": {
+          "branch": "UnitCombatUpgradeBuild-ChatGPT",
+          "compared": 363,
+          "identical": true,
+          "reports": [
+            "docs/reviews/unit-combat-upgrade-2026-10-27.md"
+          ]
+        },
+        "archive_results": {
+          "Release": {
+            "artifact_id": 12713071194,
+            "configuration": "Release",
+            "PE": "PE32 x86 DLL",
+            "dll_bytes": 6569984,
+            "dll_sha256": "c0ebc398af9bf2fc32b90fd52d6e9624551b3624cfe92df87701a3cfdb0dbffd",
+            "archive_files": [
+              "CvGameCoreDLL.dll"
+            ],
+            "provenance": null,
+            "filename_manifest_count": null,
+            "actual_Build_log_in_archive": false,
+            "timing_log_in_archive": false,
+            "actual_source_hashes_in_archive": false
+          }
+        },
+        "artifact_metadata": [
+          {
+            "id": 12713071194,
+            "name": "CvGameCoreDLL-UnitCombatUpgradeBuild-ChatGPT-e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+            "size_in_bytes": 2342238,
+            "digest": "sha256:e63f9ada59d7f0bf87cc2e68b23423b27ea1bfe2f6b99f9ad25da36d18bf8f93",
+            "head_sha": "e1f41d9bed34d4035fa09b506c9e14d377268fbb"
+          }
+        ],
+        "actual_MSBuild_Build_log_available": false,
+        "actual_source_content_hashes_available": false,
+        "Debug_validated_in_this_historical_run": false,
+        "review_date": "2026-11-01",
+        "new_build": false,
+        "production_changes": false,
+        "scope": "Downloaded binary/symbol/provenance inspection, not current full-procedure validation."
+      },
+      "latest_artifact_review": "docs/reviews/historical-artifacts-2026-11-01.md",
+      "artifact_review_branch": "LLMDiplomacyTextBuild-ChatGPT",
+      "artifact_review_next_action": "Current native Release/Debug actual-log/hash evidence is complete for this tested overlay; retain historical Release-only evidence without treating it as a current missing-Debug blocker. Revisit changed source or live integration.",
+      "native_validation_history": [
+        {
+          "tested_code_sha": "e1f41d9bed34d4035fa09b506c9e14d377268fbb",
+          "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40456936509",
+          "native_verification": "historical_assistant_Release_DLL_verified_no_Debug_result_actual_MSBuild_logs_and_embedded_provenance_unavailable",
+          "qualification": "Historical Release-only run retained with binary-only archive limits in historical_artifact_review."
+        }
+      ],
+      "reviewed_source_sha": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+      "reviewed_assistant_head": "cf97766d59822b81772d0ab50a80dba139d8a787",
+      "workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+      "workflow_correction_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+      "native_configurations": [
+        "Release",
+        "Debug"
+      ],
+      "artifacts": {
+        "Release": 13116997931,
+        "Debug": 13117322516
+      },
+      "hash_diagnostics": {
+        "Release": 13117820742,
+        "Debug": 13117561823
+      },
+      "artifact_verification": {
+        "date": "2026-11-01",
+        "classification": "missing_Debug_and_current_native_evidence_completed_without_Cpp_changes",
+        "original_source": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+        "selected_assistant_source": "cf97766d59822b81772d0ab50a80dba139d8a787",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+        "workflow_correction_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+        "tested_commit": "d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+        "run": 41390572710,
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41390572710",
+        "terminal_status": "completed",
+        "terminal_conclusion": "success",
+        "Cpp_changes": false,
+        "baseline_blobs_retained": 872,
+        "selected_DLL_blobs_unchanged": 362,
+        "root_sources": 349,
+        "independent_feature_Git_blob_and_native_SHA256_checks": 6,
+        "compiler_probes_both": "_MSC_VER == 1310 (MSVC 7.1)",
+        "actual_Build_log_and_BuildTiming_inspected_both": true,
+        "all_four_archives_downloaded_API_size_SHA256_checked_extracted": true,
+        "all_extracted_entries_match_archive": true,
+        "source_manifests_expected_actual_equal": true,
+        "source_hash_diffs_empty": true,
+        "source_manifest_names_match_tested_tree": true,
+        "exact_all_provenance_pins_verified": true,
+        "both_source_diagnostics_uploads": "success",
+        "artifact_metadata": [
+          {
+            "id": 13117820742,
+            "name": "source-verification-Release-UnitCombatUpgradeBuild-ChatGPT-d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+            "size_in_bytes": 31097,
+            "digest": "sha256:4a4ba969393e3c11b1b496b74461d9b79d506666ab15d17bce526e0a531d1dbe",
+            "head_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6"
+          },
+          {
+            "id": 13117561823,
+            "name": "source-verification-Debug-UnitCombatUpgradeBuild-ChatGPT-d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+            "size_in_bytes": 31096,
+            "digest": "sha256:4ee01eb5a612e8e6433729456a5ae4e7c4c2a55d37664e6c2d08005370def33f",
+            "head_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6"
+          },
+          {
+            "id": 13117322516,
+            "name": "CvGameCoreDLL-Debug-UnitCombatUpgradeBuild-ChatGPT-d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+            "size_in_bytes": 18582993,
+            "digest": "sha256:99239cebbd4e955633f3b8f454da2174e7127632f0ed4d7cb7927c527fd70fd3",
+            "head_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6"
+          },
+          {
+            "id": 13116997931,
+            "name": "CvGameCoreDLL-Release-UnitCombatUpgradeBuild-ChatGPT-d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+            "size_in_bytes": 2350534,
+            "digest": "sha256:5c8af72c9ac1a3cc57ae36300e57e3097ecb7d00115ef924264dd61cabb0cea3",
+            "head_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6"
+          }
+        ],
+        "native": {
+          "Release": {
+            "configuration": "Release",
+            "artifacts": {
+              "binary": 13116997931,
+              "diagnostic": 13117820742
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "6875d1155d7eb6f500362b20a8e58671999f18d7e2cae0ecb307b05b040191ee",
+            "dll_bytes": 6569984,
+            "dll_sha256": "a0cf9c3b76664c7d719ddbf8f2545d06a3c741e6605d788f11bf38dcce053327",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-02T04:49:25.5868199Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-02T04:49:23.5712024Z",
+              "precompile_utc_after=2026-11-02T04:49:23.5712024Z"
+            ]
+          },
+          "Debug": {
+            "configuration": "Debug",
+            "artifacts": {
+              "binary": 13117322516,
+              "diagnostic": 13117561823
+            },
+            "warnings": 0,
+            "errors": 0,
+            "root_sources": 349,
+            "manifest_sha256": "6875d1155d7eb6f500362b20a8e58671999f18d7e2cae0ecb307b05b040191ee",
+            "dll_bytes": 25210880,
+            "dll_sha256": "bd968021349c24b6aff157034a788b00ce42ed0abef4eac635c82b8c6bfedee1",
+            "PE": "PE32 x86 DLL",
+            "timing": [
+              "vm_utc_before=2026-11-02T04:52:15.5243202Z",
+              "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+              "normalized_source_utc=2026-11-02T04:52:13.5086944Z",
+              "precompile_utc_after=2026-11-02T04:52:13.5086944Z"
+            ],
+            "pdb_guid": "c768a29b-58f3-407d-9d80-19c2e983fd7e",
+            "pdb_age": 1,
+            "pdb_bytes": 70683648,
+            "pdb_sha256": "bf67b2218194675ceb53b6d6da34aea8c4a5b1998d453ede6482f43aa46770e8"
+          }
+        },
+        "engine_XML_traits_pricing_streams_gameplay": false
+      },
+      "latest_review": "docs/reviews/upgrade-native-2026-11-01.md",
+      "qualification": "Unchanged corrected unit-combat upgrade C++ source passes complete pinned-baseline MSVC7.1 Release/Debug with zero warnings/errors. Four ZIPs, actual Build.log/timing, 349-file content manifests/pins, six feature Git/native hashes, PE32 DLLs and Debug PDB match verified. No actual XML/trait/pricing/stream/gameplay execution.",
+      "runtime_save_validation_policy": "save_runtime_validation_policy"
     },
     {
       "branch": "UnitStatusEffects",
@@ -4944,7 +7224,7 @@
       "source_branch": "FSimpleDataStorage",
       "source_head": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
       "draft_code_sha": "87cd9ba0c0fa3395077200999960c2c1cda061a4",
-      "next_action": "Review actual consuming-engine allocation/deletion and native load-status propagation, MSVC7.1 integration and alignment. Do not restore exception recovery or repeat obsolete exception-injection coverage.",
+      "next_action": "Review relevant source changes or actual authored consuming integration. Then verify MSVC7.1 nothrow/engine allocator dispatch, alignment and native record failure propagation. No speculative allocator/API rewrite or baseline-only DLL build is justified by the static boundary audit.",
       "refinement_branch": "SimpleStorageChangeDraft-ChatGPT",
       "finding_ids": [
         "STORAGE-20261028-01",
@@ -5008,6 +7288,81 @@
         "merge_base": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
         "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates.",
         "record_commit": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f"
+      },
+      "baseline_boundary_audit": {
+        "date": "2026-11-01",
+        "source_sha": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+        "reviewed_assistant_head": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
+        "baseline_sha": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "classification": "static_baseline_allocator_and_stream_boundary_audit_no_new_finding",
+        "locations": {
+          "CvGameCoreDLL/FSimpleDataStorage.h": [
+            32,
+            36,
+            148,
+            341,
+            437,
+            503
+          ],
+          "CvGameCoreDLL/FDataStreamBase.h": [
+            35,
+            37,
+            41,
+            42,
+            64,
+            74
+          ],
+          "CvGameCoreDLL/CvGameCoreDLL.h": [
+            29,
+            30
+          ],
+          "CvGameCoreDLL/CvMemoryManager.cpp": [
+            43,
+            47,
+            55,
+            74,
+            79,
+            84,
+            89,
+            90,
+            99,
+            102
+          ],
+          "CvGameCoreDLL/CvGameCoreDLLDefNew.h": [
+            2,
+            23
+          ],
+          "CvGameCoreDLL/CvDLLUtilityIFaceBase.h": [
+            59,
+            63,
+            65,
+            66
+          ]
+        },
+        "observations": [
+          "The selected assistant tree supplies two production headers and no consuming/instantiating .cpp translation unit. No authored engine allocation/load caller can be traced in this independent feature snapshot.",
+          "The baseline header defines USE_MEMMANAGER under _DEBUG; allocator replacements are guarded by USE_MEMMANAGER. This is source inspection, not confirmation of any machine-local compiler flag set.",
+          "Guarded baseline array new routes to gDLL->newMemArray and initializes the returned memory; array delete routes to gDLL->delMemArray. The baseline declares no explicit nothrow replacement overload here. MSVC7.1 CRT nothrow dispatch and the executable allocator's failure contract remain unexecuted.",
+          "The new/file macros in CvGameCoreDLLDefNew.h are entirely commented out by baseline K-Mod code; no active macro-expansion failure is inferred for the helper's placement/nothrow new expressions.",
+          "Actual FDataStreamBase exposes AtEnd, position, EOF and GetSizeLeft queries, while the used typed Read methods return void. Byte-size queries are available but are not a generic typed-read success status or a supplied consuming-record failure contract.",
+          "The current storage Read methods retain void interfaces and guard NULL destinations. Full failure propagation requires an actual consumer to decide how a partially consumed record is rejected. No new status API, byte-size assumptions for generic T, save-record format or exception recovery was invented.",
+          "Existing upstream allocator exception syntax was observed in the read-only baseline, not introduced or changed by this audit. The corrected storage header remains as previously published."
+        ],
+        "new_finding_ids": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_build": false,
+        "native_validation_gate": {
+          "source_sha": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+          "status": "deferred_until_authored_consuming_integration",
+          "reason": "No authored production .cpp instantiates these template paths. A baseline-only DLL cannot validate them; do not invent a production caller solely to obtain a build."
+        },
+        "limits": [
+          "Actual MSVC7.1 CRT/engine allocator dispatch and failure behavior",
+          "Concrete consuming record read/error propagation",
+          "Native alignment and object/stream execution"
+        ],
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
       }
     },
     {
@@ -6285,8 +8640,16 @@
     ],
     "retired_branch": "dll-build-debug",
     "qualification": "Use the current named workflow and populate pinned overlay provenance; do not recreate a separate Debug branch.",
-    "source_sha": "07133f27906c364b266043a1788ec0eacd2e8b3b",
-    "artifact_log_policy": "Download produced artifacts and inspect extracted MSBuild Build.log; explicitly report artifact/download absence. Do not infer compiler output solely from GitHub shell output when artifact logs are available."
+    "source_sha": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+    "artifact_log_policy": "Download produced artifacts and inspect extracted MSBuild Build.log; explicitly report artifact/download absence. Do not infer compiler output solely from GitHub shell output when artifact logs are available.",
+    "pending_assistant_correction": {
+      "finding": "WORKFLOW-20261101-10",
+      "commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+      "branch": "LeaderTeamSizeBuild-ChatGPT",
+      "source_step_id": "prepare_sources",
+      "diagnostics_guard": "steps.prepare_sources.outputs.source_verification_started",
+      "adopted_in_user_source": false
+    }
   },
   "assistant_branch_cleanup_policy": "Reuse suitable assistant branches. For clearly duplicate older/newer assistant branches, inspect histories and contents, merge older into newer preserving newer edits, then mark older safe for user manual removal. Never delete the older branch automatically. This explicit user authorization is limited to assistant branch consolidation.",
   "inventory_date": "2026-11-01",
@@ -9157,5 +11520,636 @@
     "assistant_parent": "cb5e560613ea2bbc9c04c84f1888d2440028a6d5",
     "new_findings": [],
     "new_builds": false
+  },
+  "inventory_2026_11_01_colony_optional": {
+    "date": "2026-11-01",
+    "branch_count": 75,
+    "original_head_changes": [],
+    "observed_heads": {
+      "1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "AISurvivorSQLiteBuild-ChatGPT": "3520c1e04dbfce039a6dae97a9bd4f4d1a0e4f53",
+      "AISurvivorStatTracking": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+      "AdvancedDiplomacy": "e83ce4c7977daf4193b07d0b94a533bb0338fb11",
+      "CityBonusDiplomacyBuild-ChatGPT": "b7cdc0447e3bba3da04fae6828ce64762e8370d6",
+      "CityBonusLeaderDiplomacyModifiers": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+      "CityPopulationDraft-ChatGPT": "f159c2c47de9c8a3b2dca31f02e5abf513d20305",
+      "CityPopulationTrait": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
+      "CivicScrollDraft-ChatGPT": "a7a1290aa2a0c125432dd60df5f4153294eead82",
+      "CodeMacroHelpers": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+      "CodeMacroHelpersBuild-ChatGPT": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f",
+      "ColonyLeaderBuild-ChatGPT": "0f66179997115e5c4c49715033f643fe282dd243",
+      "CustomAIDiplomacyComments": "ca3531fac64b2e70ea66b98745e45733da1f0c37",
+      "CvPartyGroup": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "DynamicRankDraft-ChatGPT": "b16c9cabd2efedad83ba5f55d9b2e704b73915bf",
+      "EquipmentGatesDraft-ChatGPT": "1fc3d59b0807904187fb8e24909e9d6e3b1d920d",
+      "FFHEquipmentTypes": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+      "FFHRaceTypes": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+      "FFHSpellCreationBuild-ChatGPT": "9c7ff06e4c33ff822f5b112eacba8a1d4da5655a",
+      "FFHSpellTypes": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
+      "FSimpleDataStorage": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+      "FamilyRelationsBuild-ChatGPT": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
+      "FavoriteUnitCombatDraft-ChatGPT": "7e5e7a04a8cb2366c741ddc8003f13610d2abf60",
+      "FirstImpressionDiplomacyModifiers": "cc764ad80e89f751f809998a61a23225254109f2",
+      "FirstImpressionDraft-ChatGPT": "dd773ace6f4650cde2d0fe495b5b82d5173be70f",
+      "FreePromotionLoaderBuild-ChatGPT": "7ae61d10dc8f310523bbc15f25ee2dda49d2b8c4",
+      "GenderCounterDraft-ChatGPT": "f127d03db270afba4c72f0df764b3ec6dec002ff",
+      "GenderSpecificDiplomacy": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+      "HatedCivicReligionDiplomacy": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+      "HatedDiplomacyDraft-ChatGPT": "de790fd226e6768ca83abb3ed1c428a6f9e2b6c0",
+      "LLMDiplomacyTextBuild-ChatGPT": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
+      "LLMDiplomacyTextGeneration": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+      "LeaderCivilizationDecisionPreferences": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+      "LeaderCivilizationSummoningRandomEvents": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+      "LeaderCivilizationVariantMechanics": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "LeaderFamilyRelations": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+      "LeaderSpecificColonySplitVassal": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+      "LeaderSpecificDynamicRankBonusDiplomacy": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+      "LeaderSpecificFavoriteUnitCombats": "799082c323ea44335c66b9714e1a9bb365c12095",
+      "LeaderSpecificMultilayeredAIDecisionEval": "484412d0de7e42e2d310bb39e75340fc5307f597",
+      "LeaderSpecificRebelliousTeamDiplomaticDecisions": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+      "LeaderSpecificTeamSizeAttitude": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+      "LeaderSpecificUWAIAspectWeights": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+      "LeaderSpecificVoteActionDiplomacy": "8fcfdd97329279393120aaab34c00dde84e729df",
+      "LeaderTeamSizeBuild-ChatGPT": "74098492ca88543c88e5e30781b84a687cb51e42",
+      "PartnerDiplomacyBuild-ChatGPT": "4f38c94e2267543582ab88619a16a6b5a1b97513",
+      "PartnerLeaderCivSpecificDiplomacyText": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+      "PartyWrapperDraft-ChatGPT": "85e2d6f28e1c2e92d0cf3715c58d7979f1edf533",
+      "PerUnitCombatFreePromotionTraits": "c122a8c130b6e47760aade7d2d438c798dca8951",
+      "PerUnitCombatUpgradeCostModifers": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+      "PlotTimerDraft-ChatGPT": "fea29629a5f5bd4c986591423cd69b78afe7f90c",
+      "PreferenceFrameworkDraft-ChatGPT": "5518502d36e4a180b1df6905ac91fffce42a4aaf",
+      "PromotionAltersUnitHPValues": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+      "PromotionAltersUnitXPValues": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+      "PromotionExpiryDraft-ChatGPT": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+      "PromotionHPDraft-ChatGPT": "207b05c210d776cb367ef2613831f045562d2c28",
+      "PromotionTimedExpireTurns": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+      "PromotionXPBuild-ChatGPT": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+      "RaceDemographicsDraft-ChatGPT": "45256362feb2b354410ba7d2f8efa23719c0344e",
+      "RealisticAIDecisions": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "RenegadeDiplomacyBuild-ChatGPT": "6660adfd2883b8286c9fbd759f310b6da7dd4c86",
+      "ReputationWindowDraft-ChatGPT": "1ae7ec40153adafffa54d07ca325f059db3dff49",
+      "SerializationHelpers": "2be6010dc6787a717c851cd125e005010cf71450",
+      "SerializationHelpersBuild-ChatGPT": "bea54776ac0ace2dab02000ecd8c7f3e0d85ed66",
+      "SidSaysDiscoveryBuild-ChatGPT": "be355c9ea45072238bd0df8ac0db67c1e7cbbf0b",
+      "SidSaysPatch": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
+      "SimpleStorageChangeDraft-ChatGPT": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
+      "SummonCatchupDraft-ChatGPT": "9408469df1c280bc24db9aee750ac972bb77028b",
+      "UWAIWeightsDraft-ChatGPT": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
+      "UniqueCivicsReligions": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+      "UnitCombatUpgradeBuild-ChatGPT": "cf97766d59822b81772d0ab50a80dba139d8a787",
+      "UnitStatusEffects": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed",
+      "VoteCounterDraft-ChatGPT": "3f3a691f7d5d75f841f1aea6f50c0a9ea836a4ec",
+      "alert-autofix-1": "f52ced74c31bdbd9696c37b00b73ce12b99f5d1b",
+      "dll-build": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e"
+    },
+    "assistant_parent": "d3c5e6aeb2c29606d10cfbb931205c709e01250b",
+    "scope": "Actual colony second-pass registration, module ordering and ID helper trace. Correct optional field read after prior valid leader index zero; preserve source markers and selection policy.",
+    "new_finding_ids": [
+      "COLONY-20261101-02"
+    ],
+    "code_commit": "de358671fd7f7e3b9e9d1d396fde4632b11de243",
+    "tested_commit": "0f66179997115e5c4c49715033f643fe282dd243",
+    "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41359029328",
+    "Release_Debug_verified": true
+  },
+  "inventory_2026_11_01_city_bonus_cache": {
+    "date": "2026-11-01",
+    "branch_count": 75,
+    "original_head_changes": [],
+    "observed_heads": {
+      "1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "AISurvivorSQLiteBuild-ChatGPT": "3520c1e04dbfce039a6dae97a9bd4f4d1a0e4f53",
+      "AISurvivorStatTracking": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+      "AdvancedDiplomacy": "e83ce4c7977daf4193b07d0b94a533bb0338fb11",
+      "CityBonusDiplomacyBuild-ChatGPT": "b7cdc0447e3bba3da04fae6828ce64762e8370d6",
+      "CityBonusLeaderDiplomacyModifiers": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+      "CityPopulationDraft-ChatGPT": "f159c2c47de9c8a3b2dca31f02e5abf513d20305",
+      "CityPopulationTrait": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
+      "CivicScrollDraft-ChatGPT": "a7a1290aa2a0c125432dd60df5f4153294eead82",
+      "CodeMacroHelpers": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+      "CodeMacroHelpersBuild-ChatGPT": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f",
+      "ColonyLeaderBuild-ChatGPT": "7ecb44c226cb1e165d65419832dcb14a8a3d0dd4",
+      "CustomAIDiplomacyComments": "ca3531fac64b2e70ea66b98745e45733da1f0c37",
+      "CvPartyGroup": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "DynamicRankDraft-ChatGPT": "b16c9cabd2efedad83ba5f55d9b2e704b73915bf",
+      "EquipmentGatesDraft-ChatGPT": "1fc3d59b0807904187fb8e24909e9d6e3b1d920d",
+      "FFHEquipmentTypes": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+      "FFHRaceTypes": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+      "FFHSpellCreationBuild-ChatGPT": "9c7ff06e4c33ff822f5b112eacba8a1d4da5655a",
+      "FFHSpellTypes": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
+      "FSimpleDataStorage": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+      "FamilyRelationsBuild-ChatGPT": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
+      "FavoriteUnitCombatDraft-ChatGPT": "7e5e7a04a8cb2366c741ddc8003f13610d2abf60",
+      "FirstImpressionDiplomacyModifiers": "cc764ad80e89f751f809998a61a23225254109f2",
+      "FirstImpressionDraft-ChatGPT": "dd773ace6f4650cde2d0fe495b5b82d5173be70f",
+      "FreePromotionLoaderBuild-ChatGPT": "7ae61d10dc8f310523bbc15f25ee2dda49d2b8c4",
+      "GenderCounterDraft-ChatGPT": "f127d03db270afba4c72f0df764b3ec6dec002ff",
+      "GenderSpecificDiplomacy": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+      "HatedCivicReligionDiplomacy": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+      "HatedDiplomacyDraft-ChatGPT": "de790fd226e6768ca83abb3ed1c428a6f9e2b6c0",
+      "LLMDiplomacyTextBuild-ChatGPT": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
+      "LLMDiplomacyTextGeneration": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+      "LeaderCivilizationDecisionPreferences": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+      "LeaderCivilizationSummoningRandomEvents": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+      "LeaderCivilizationVariantMechanics": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "LeaderFamilyRelations": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+      "LeaderSpecificColonySplitVassal": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+      "LeaderSpecificDynamicRankBonusDiplomacy": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+      "LeaderSpecificFavoriteUnitCombats": "799082c323ea44335c66b9714e1a9bb365c12095",
+      "LeaderSpecificMultilayeredAIDecisionEval": "484412d0de7e42e2d310bb39e75340fc5307f597",
+      "LeaderSpecificRebelliousTeamDiplomaticDecisions": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+      "LeaderSpecificTeamSizeAttitude": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+      "LeaderSpecificUWAIAspectWeights": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+      "LeaderSpecificVoteActionDiplomacy": "8fcfdd97329279393120aaab34c00dde84e729df",
+      "LeaderTeamSizeBuild-ChatGPT": "74098492ca88543c88e5e30781b84a687cb51e42",
+      "PartnerDiplomacyBuild-ChatGPT": "4f38c94e2267543582ab88619a16a6b5a1b97513",
+      "PartnerLeaderCivSpecificDiplomacyText": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+      "PartyWrapperDraft-ChatGPT": "85e2d6f28e1c2e92d0cf3715c58d7979f1edf533",
+      "PerUnitCombatFreePromotionTraits": "c122a8c130b6e47760aade7d2d438c798dca8951",
+      "PerUnitCombatUpgradeCostModifers": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+      "PlotTimerDraft-ChatGPT": "fea29629a5f5bd4c986591423cd69b78afe7f90c",
+      "PreferenceFrameworkDraft-ChatGPT": "5518502d36e4a180b1df6905ac91fffce42a4aaf",
+      "PromotionAltersUnitHPValues": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+      "PromotionAltersUnitXPValues": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+      "PromotionExpiryDraft-ChatGPT": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+      "PromotionHPDraft-ChatGPT": "207b05c210d776cb367ef2613831f045562d2c28",
+      "PromotionTimedExpireTurns": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+      "PromotionXPBuild-ChatGPT": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+      "RaceDemographicsDraft-ChatGPT": "45256362feb2b354410ba7d2f8efa23719c0344e",
+      "RealisticAIDecisions": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "RenegadeDiplomacyBuild-ChatGPT": "6660adfd2883b8286c9fbd759f310b6da7dd4c86",
+      "ReputationWindowDraft-ChatGPT": "1ae7ec40153adafffa54d07ca325f059db3dff49",
+      "SerializationHelpers": "2be6010dc6787a717c851cd125e005010cf71450",
+      "SerializationHelpersBuild-ChatGPT": "bea54776ac0ace2dab02000ecd8c7f3e0d85ed66",
+      "SidSaysDiscoveryBuild-ChatGPT": "be355c9ea45072238bd0df8ac0db67c1e7cbbf0b",
+      "SidSaysPatch": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
+      "SimpleStorageChangeDraft-ChatGPT": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
+      "SummonCatchupDraft-ChatGPT": "9408469df1c280bc24db9aee750ac972bb77028b",
+      "UWAIWeightsDraft-ChatGPT": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
+      "UniqueCivicsReligions": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+      "UnitCombatUpgradeBuild-ChatGPT": "cf97766d59822b81772d0ab50a80dba139d8a787",
+      "UnitStatusEffects": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed",
+      "VoteCounterDraft-ChatGPT": "3f3a691f7d5d75f841f1aea6f50c0a9ea836a4ec",
+      "alert-autofix-1": "f52ced74c31bdbd9696c37b00b73ce12b99f5d1b",
+      "dll-build": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e"
+    },
+    "scope": "City Bonus metadata/loading order, actual resource mutation paths and end-of-turn attitude refresh connection; static inspection only.",
+    "assistant_parent": "b7cdc0447e3bba3da04fae6828ce64762e8370d6",
+    "new_findings": [],
+    "new_builds": false
+  },
+  "inventory_2026_11_01_renegade_artifacts": {
+    "date": "2026-11-01",
+    "branch_count": 75,
+    "original_head_changes": [],
+    "observed_heads": {
+      "1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "AISurvivorSQLiteBuild-ChatGPT": "3520c1e04dbfce039a6dae97a9bd4f4d1a0e4f53",
+      "AISurvivorStatTracking": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+      "AdvancedDiplomacy": "e83ce4c7977daf4193b07d0b94a533bb0338fb11",
+      "CityBonusDiplomacyBuild-ChatGPT": "1488899c9d040f00b772936137dbdb64b656bd22",
+      "CityBonusLeaderDiplomacyModifiers": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+      "CityPopulationDraft-ChatGPT": "f159c2c47de9c8a3b2dca31f02e5abf513d20305",
+      "CityPopulationTrait": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
+      "CivicScrollDraft-ChatGPT": "a7a1290aa2a0c125432dd60df5f4153294eead82",
+      "CodeMacroHelpers": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+      "CodeMacroHelpersBuild-ChatGPT": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f",
+      "ColonyLeaderBuild-ChatGPT": "7ecb44c226cb1e165d65419832dcb14a8a3d0dd4",
+      "CustomAIDiplomacyComments": "ca3531fac64b2e70ea66b98745e45733da1f0c37",
+      "CvPartyGroup": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "DynamicRankDraft-ChatGPT": "b16c9cabd2efedad83ba5f55d9b2e704b73915bf",
+      "EquipmentGatesDraft-ChatGPT": "1fc3d59b0807904187fb8e24909e9d6e3b1d920d",
+      "FFHEquipmentTypes": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+      "FFHRaceTypes": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+      "FFHSpellCreationBuild-ChatGPT": "9c7ff06e4c33ff822f5b112eacba8a1d4da5655a",
+      "FFHSpellTypes": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
+      "FSimpleDataStorage": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+      "FamilyRelationsBuild-ChatGPT": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
+      "FavoriteUnitCombatDraft-ChatGPT": "7e5e7a04a8cb2366c741ddc8003f13610d2abf60",
+      "FirstImpressionDiplomacyModifiers": "cc764ad80e89f751f809998a61a23225254109f2",
+      "FirstImpressionDraft-ChatGPT": "dd773ace6f4650cde2d0fe495b5b82d5173be70f",
+      "FreePromotionLoaderBuild-ChatGPT": "7ae61d10dc8f310523bbc15f25ee2dda49d2b8c4",
+      "GenderCounterDraft-ChatGPT": "f127d03db270afba4c72f0df764b3ec6dec002ff",
+      "GenderSpecificDiplomacy": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+      "HatedCivicReligionDiplomacy": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+      "HatedDiplomacyDraft-ChatGPT": "de790fd226e6768ca83abb3ed1c428a6f9e2b6c0",
+      "LLMDiplomacyTextBuild-ChatGPT": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
+      "LLMDiplomacyTextGeneration": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+      "LeaderCivilizationDecisionPreferences": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+      "LeaderCivilizationSummoningRandomEvents": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+      "LeaderCivilizationVariantMechanics": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "LeaderFamilyRelations": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+      "LeaderSpecificColonySplitVassal": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+      "LeaderSpecificDynamicRankBonusDiplomacy": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+      "LeaderSpecificFavoriteUnitCombats": "799082c323ea44335c66b9714e1a9bb365c12095",
+      "LeaderSpecificMultilayeredAIDecisionEval": "484412d0de7e42e2d310bb39e75340fc5307f597",
+      "LeaderSpecificRebelliousTeamDiplomaticDecisions": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+      "LeaderSpecificTeamSizeAttitude": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+      "LeaderSpecificUWAIAspectWeights": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+      "LeaderSpecificVoteActionDiplomacy": "8fcfdd97329279393120aaab34c00dde84e729df",
+      "LeaderTeamSizeBuild-ChatGPT": "74098492ca88543c88e5e30781b84a687cb51e42",
+      "PartnerDiplomacyBuild-ChatGPT": "4f38c94e2267543582ab88619a16a6b5a1b97513",
+      "PartnerLeaderCivSpecificDiplomacyText": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+      "PartyWrapperDraft-ChatGPT": "85e2d6f28e1c2e92d0cf3715c58d7979f1edf533",
+      "PerUnitCombatFreePromotionTraits": "c122a8c130b6e47760aade7d2d438c798dca8951",
+      "PerUnitCombatUpgradeCostModifers": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+      "PlotTimerDraft-ChatGPT": "fea29629a5f5bd4c986591423cd69b78afe7f90c",
+      "PreferenceFrameworkDraft-ChatGPT": "5518502d36e4a180b1df6905ac91fffce42a4aaf",
+      "PromotionAltersUnitHPValues": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+      "PromotionAltersUnitXPValues": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+      "PromotionExpiryDraft-ChatGPT": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+      "PromotionHPDraft-ChatGPT": "207b05c210d776cb367ef2613831f045562d2c28",
+      "PromotionTimedExpireTurns": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+      "PromotionXPBuild-ChatGPT": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+      "RaceDemographicsDraft-ChatGPT": "45256362feb2b354410ba7d2f8efa23719c0344e",
+      "RealisticAIDecisions": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "RenegadeDiplomacyBuild-ChatGPT": "6660adfd2883b8286c9fbd759f310b6da7dd4c86",
+      "ReputationWindowDraft-ChatGPT": "1ae7ec40153adafffa54d07ca325f059db3dff49",
+      "SerializationHelpers": "2be6010dc6787a717c851cd125e005010cf71450",
+      "SerializationHelpersBuild-ChatGPT": "bea54776ac0ace2dab02000ecd8c7f3e0d85ed66",
+      "SidSaysDiscoveryBuild-ChatGPT": "be355c9ea45072238bd0df8ac0db67c1e7cbbf0b",
+      "SidSaysPatch": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
+      "SimpleStorageChangeDraft-ChatGPT": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
+      "SummonCatchupDraft-ChatGPT": "9408469df1c280bc24db9aee750ac972bb77028b",
+      "UWAIWeightsDraft-ChatGPT": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
+      "UniqueCivicsReligions": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+      "UnitCombatUpgradeBuild-ChatGPT": "cf97766d59822b81772d0ab50a80dba139d8a787",
+      "UnitStatusEffects": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed",
+      "VoteCounterDraft-ChatGPT": "3f3a691f7d5d75f841f1aea6f50c0a9ea836a4ec",
+      "alert-autofix-1": "f52ced74c31bdbd9696c37b00b73ce12b99f5d1b",
+      "dll-build": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e"
+    },
+    "scope": "Download, extract and inspect exact historical Renegade Release/Debug DLL/PDB archives; verify ZIP hashes, provenance, names and symbols. No new source defect or build.",
+    "assistant_parent": "6660adfd2883b8286c9fbd759f310b6da7dd4c86",
+    "tested_commit": "dc22ea9a64cb4c2ee45af31d4c20191e08e8247d",
+    "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40583685157",
+    "new_findings": [],
+    "new_builds": false,
+    "actual_historical_MSBuild_logs": "not present in available artifacts"
+  },
+  "inventory_2026_11_01_historical_artifact_batch": {
+    "date": "2026-11-01",
+    "branch_count": 75,
+    "original_head_changes": [],
+    "observed_heads": {
+      "1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "AISurvivorSQLiteBuild-ChatGPT": "3520c1e04dbfce039a6dae97a9bd4f4d1a0e4f53",
+      "AISurvivorStatTracking": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+      "AdvancedDiplomacy": "e83ce4c7977daf4193b07d0b94a533bb0338fb11",
+      "CityBonusDiplomacyBuild-ChatGPT": "1488899c9d040f00b772936137dbdb64b656bd22",
+      "CityBonusLeaderDiplomacyModifiers": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+      "CityPopulationDraft-ChatGPT": "f159c2c47de9c8a3b2dca31f02e5abf513d20305",
+      "CityPopulationTrait": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
+      "CivicScrollDraft-ChatGPT": "a7a1290aa2a0c125432dd60df5f4153294eead82",
+      "CodeMacroHelpers": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+      "CodeMacroHelpersBuild-ChatGPT": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f",
+      "ColonyLeaderBuild-ChatGPT": "7ecb44c226cb1e165d65419832dcb14a8a3d0dd4",
+      "CustomAIDiplomacyComments": "ca3531fac64b2e70ea66b98745e45733da1f0c37",
+      "CvPartyGroup": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "DynamicRankDraft-ChatGPT": "b16c9cabd2efedad83ba5f55d9b2e704b73915bf",
+      "EquipmentGatesDraft-ChatGPT": "1fc3d59b0807904187fb8e24909e9d6e3b1d920d",
+      "FFHEquipmentTypes": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+      "FFHRaceTypes": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+      "FFHSpellCreationBuild-ChatGPT": "9c7ff06e4c33ff822f5b112eacba8a1d4da5655a",
+      "FFHSpellTypes": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
+      "FSimpleDataStorage": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+      "FamilyRelationsBuild-ChatGPT": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
+      "FavoriteUnitCombatDraft-ChatGPT": "7e5e7a04a8cb2366c741ddc8003f13610d2abf60",
+      "FirstImpressionDiplomacyModifiers": "cc764ad80e89f751f809998a61a23225254109f2",
+      "FirstImpressionDraft-ChatGPT": "dd773ace6f4650cde2d0fe495b5b82d5173be70f",
+      "FreePromotionLoaderBuild-ChatGPT": "7ae61d10dc8f310523bbc15f25ee2dda49d2b8c4",
+      "GenderCounterDraft-ChatGPT": "f127d03db270afba4c72f0df764b3ec6dec002ff",
+      "GenderSpecificDiplomacy": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+      "HatedCivicReligionDiplomacy": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+      "HatedDiplomacyDraft-ChatGPT": "de790fd226e6768ca83abb3ed1c428a6f9e2b6c0",
+      "LLMDiplomacyTextBuild-ChatGPT": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
+      "LLMDiplomacyTextGeneration": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+      "LeaderCivilizationDecisionPreferences": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+      "LeaderCivilizationSummoningRandomEvents": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+      "LeaderCivilizationVariantMechanics": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "LeaderFamilyRelations": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+      "LeaderSpecificColonySplitVassal": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+      "LeaderSpecificDynamicRankBonusDiplomacy": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+      "LeaderSpecificFavoriteUnitCombats": "799082c323ea44335c66b9714e1a9bb365c12095",
+      "LeaderSpecificMultilayeredAIDecisionEval": "484412d0de7e42e2d310bb39e75340fc5307f597",
+      "LeaderSpecificRebelliousTeamDiplomaticDecisions": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+      "LeaderSpecificTeamSizeAttitude": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+      "LeaderSpecificUWAIAspectWeights": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+      "LeaderSpecificVoteActionDiplomacy": "8fcfdd97329279393120aaab34c00dde84e729df",
+      "LeaderTeamSizeBuild-ChatGPT": "74098492ca88543c88e5e30781b84a687cb51e42",
+      "PartnerDiplomacyBuild-ChatGPT": "4f38c94e2267543582ab88619a16a6b5a1b97513",
+      "PartnerLeaderCivSpecificDiplomacyText": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+      "PartyWrapperDraft-ChatGPT": "85e2d6f28e1c2e92d0cf3715c58d7979f1edf533",
+      "PerUnitCombatFreePromotionTraits": "c122a8c130b6e47760aade7d2d438c798dca8951",
+      "PerUnitCombatUpgradeCostModifers": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+      "PlotTimerDraft-ChatGPT": "fea29629a5f5bd4c986591423cd69b78afe7f90c",
+      "PreferenceFrameworkDraft-ChatGPT": "5518502d36e4a180b1df6905ac91fffce42a4aaf",
+      "PromotionAltersUnitHPValues": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+      "PromotionAltersUnitXPValues": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+      "PromotionExpiryDraft-ChatGPT": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+      "PromotionHPDraft-ChatGPT": "207b05c210d776cb367ef2613831f045562d2c28",
+      "PromotionTimedExpireTurns": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+      "PromotionXPBuild-ChatGPT": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+      "RaceDemographicsDraft-ChatGPT": "45256362feb2b354410ba7d2f8efa23719c0344e",
+      "RealisticAIDecisions": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "RenegadeDiplomacyBuild-ChatGPT": "1b7b5fef0f644b2b1c8921abc8dae0034af98068",
+      "ReputationWindowDraft-ChatGPT": "1ae7ec40153adafffa54d07ca325f059db3dff49",
+      "SerializationHelpers": "2be6010dc6787a717c851cd125e005010cf71450",
+      "SerializationHelpersBuild-ChatGPT": "bea54776ac0ace2dab02000ecd8c7f3e0d85ed66",
+      "SidSaysDiscoveryBuild-ChatGPT": "be355c9ea45072238bd0df8ac0db67c1e7cbbf0b",
+      "SidSaysPatch": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
+      "SimpleStorageChangeDraft-ChatGPT": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
+      "SummonCatchupDraft-ChatGPT": "9408469df1c280bc24db9aee750ac972bb77028b",
+      "UWAIWeightsDraft-ChatGPT": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
+      "UniqueCivicsReligions": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+      "UnitCombatUpgradeBuild-ChatGPT": "cf97766d59822b81772d0ab50a80dba139d8a787",
+      "UnitStatusEffects": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed",
+      "VoteCounterDraft-ChatGPT": "3f3a691f7d5d75f841f1aea6f50c0a9ea836a4ec",
+      "alert-autofix-1": "f52ced74c31bdbd9696c37b00b73ce12b99f5d1b",
+      "dll-build": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e"
+    },
+    "scope": "Seven historical DLL archives across five unchanged assistant branches; PE/provenance/filename checks and two matching PDBs. No actual Build.log or source-content hashes available.",
+    "assistant_parent": "0d76c106aa8c5d0974e7803faffd62e55e6f1344",
+    "reviewed_branches": [
+      "CityBonusDiplomacyBuild-ChatGPT",
+      "LLMDiplomacyTextBuild-ChatGPT",
+      "LeaderTeamSizeBuild-ChatGPT",
+      "UnitCombatUpgradeBuild-ChatGPT",
+      "PromotionXPBuild-ChatGPT"
+    ],
+    "new_findings": [],
+    "new_builds": false
+  },
+  "inventory_2026_11_01_storage_boundary": {
+    "date": "2026-11-01",
+    "branch_count": 75,
+    "original_head_changes": [],
+    "observed_heads": {
+      "1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "AISurvivorSQLiteBuild-ChatGPT": "3520c1e04dbfce039a6dae97a9bd4f4d1a0e4f53",
+      "AISurvivorStatTracking": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+      "AdvancedDiplomacy": "e83ce4c7977daf4193b07d0b94a533bb0338fb11",
+      "CityBonusDiplomacyBuild-ChatGPT": "1488899c9d040f00b772936137dbdb64b656bd22",
+      "CityBonusLeaderDiplomacyModifiers": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+      "CityPopulationDraft-ChatGPT": "f159c2c47de9c8a3b2dca31f02e5abf513d20305",
+      "CityPopulationTrait": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
+      "CivicScrollDraft-ChatGPT": "a7a1290aa2a0c125432dd60df5f4153294eead82",
+      "CodeMacroHelpers": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+      "CodeMacroHelpersBuild-ChatGPT": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f",
+      "ColonyLeaderBuild-ChatGPT": "7ecb44c226cb1e165d65419832dcb14a8a3d0dd4",
+      "CustomAIDiplomacyComments": "ca3531fac64b2e70ea66b98745e45733da1f0c37",
+      "CvPartyGroup": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "DynamicRankDraft-ChatGPT": "b16c9cabd2efedad83ba5f55d9b2e704b73915bf",
+      "EquipmentGatesDraft-ChatGPT": "1fc3d59b0807904187fb8e24909e9d6e3b1d920d",
+      "FFHEquipmentTypes": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+      "FFHRaceTypes": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+      "FFHSpellCreationBuild-ChatGPT": "9c7ff06e4c33ff822f5b112eacba8a1d4da5655a",
+      "FFHSpellTypes": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
+      "FSimpleDataStorage": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+      "FamilyRelationsBuild-ChatGPT": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
+      "FavoriteUnitCombatDraft-ChatGPT": "7e5e7a04a8cb2366c741ddc8003f13610d2abf60",
+      "FirstImpressionDiplomacyModifiers": "cc764ad80e89f751f809998a61a23225254109f2",
+      "FirstImpressionDraft-ChatGPT": "dd773ace6f4650cde2d0fe495b5b82d5173be70f",
+      "FreePromotionLoaderBuild-ChatGPT": "7ae61d10dc8f310523bbc15f25ee2dda49d2b8c4",
+      "GenderCounterDraft-ChatGPT": "f127d03db270afba4c72f0df764b3ec6dec002ff",
+      "GenderSpecificDiplomacy": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+      "HatedCivicReligionDiplomacy": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+      "HatedDiplomacyDraft-ChatGPT": "de790fd226e6768ca83abb3ed1c428a6f9e2b6c0",
+      "LLMDiplomacyTextBuild-ChatGPT": "06a80e3e4f1f43d420242209757b5cf5448dd425",
+      "LLMDiplomacyTextGeneration": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+      "LeaderCivilizationDecisionPreferences": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+      "LeaderCivilizationSummoningRandomEvents": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+      "LeaderCivilizationVariantMechanics": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "LeaderFamilyRelations": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+      "LeaderSpecificColonySplitVassal": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+      "LeaderSpecificDynamicRankBonusDiplomacy": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+      "LeaderSpecificFavoriteUnitCombats": "799082c323ea44335c66b9714e1a9bb365c12095",
+      "LeaderSpecificMultilayeredAIDecisionEval": "484412d0de7e42e2d310bb39e75340fc5307f597",
+      "LeaderSpecificRebelliousTeamDiplomaticDecisions": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+      "LeaderSpecificTeamSizeAttitude": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+      "LeaderSpecificUWAIAspectWeights": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+      "LeaderSpecificVoteActionDiplomacy": "8fcfdd97329279393120aaab34c00dde84e729df",
+      "LeaderTeamSizeBuild-ChatGPT": "74098492ca88543c88e5e30781b84a687cb51e42",
+      "PartnerDiplomacyBuild-ChatGPT": "4f38c94e2267543582ab88619a16a6b5a1b97513",
+      "PartnerLeaderCivSpecificDiplomacyText": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+      "PartyWrapperDraft-ChatGPT": "85e2d6f28e1c2e92d0cf3715c58d7979f1edf533",
+      "PerUnitCombatFreePromotionTraits": "c122a8c130b6e47760aade7d2d438c798dca8951",
+      "PerUnitCombatUpgradeCostModifers": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+      "PlotTimerDraft-ChatGPT": "fea29629a5f5bd4c986591423cd69b78afe7f90c",
+      "PreferenceFrameworkDraft-ChatGPT": "5518502d36e4a180b1df6905ac91fffce42a4aaf",
+      "PromotionAltersUnitHPValues": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+      "PromotionAltersUnitXPValues": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+      "PromotionExpiryDraft-ChatGPT": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+      "PromotionHPDraft-ChatGPT": "207b05c210d776cb367ef2613831f045562d2c28",
+      "PromotionTimedExpireTurns": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+      "PromotionXPBuild-ChatGPT": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+      "RaceDemographicsDraft-ChatGPT": "45256362feb2b354410ba7d2f8efa23719c0344e",
+      "RealisticAIDecisions": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "RenegadeDiplomacyBuild-ChatGPT": "1b7b5fef0f644b2b1c8921abc8dae0034af98068",
+      "ReputationWindowDraft-ChatGPT": "1ae7ec40153adafffa54d07ca325f059db3dff49",
+      "SerializationHelpers": "2be6010dc6787a717c851cd125e005010cf71450",
+      "SerializationHelpersBuild-ChatGPT": "bea54776ac0ace2dab02000ecd8c7f3e0d85ed66",
+      "SidSaysDiscoveryBuild-ChatGPT": "be355c9ea45072238bd0df8ac0db67c1e7cbbf0b",
+      "SidSaysPatch": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
+      "SimpleStorageChangeDraft-ChatGPT": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
+      "SummonCatchupDraft-ChatGPT": "9408469df1c280bc24db9aee750ac972bb77028b",
+      "UWAIWeightsDraft-ChatGPT": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
+      "UniqueCivicsReligions": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+      "UnitCombatUpgradeBuild-ChatGPT": "cf97766d59822b81772d0ab50a80dba139d8a787",
+      "UnitStatusEffects": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed",
+      "VoteCounterDraft-ChatGPT": "3f3a691f7d5d75f841f1aea6f50c0a9ea836a4ec",
+      "alert-autofix-1": "f52ced74c31bdbd9696c37b00b73ce12b99f5d1b",
+      "dll-build": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e"
+    },
+    "assistant_parent": "d9571efb9cfb42f856b4b5a5543b0fda16c07291",
+    "scope": "Actual baseline Debug allocator guards/hooks and FDataStreamBase status/size interfaces; selected storage has no consuming .cpp. No new defect, production edit or build.",
+    "new_findings": [],
+    "new_builds": false
+  },
+  "inventory_2026_11_01_workflow_split": {
+    "date": "2026-11-01",
+    "branch_count": 75,
+    "changed_original_heads": [
+      {
+        "branch": "dll-build",
+        "previous": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+        "current": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a"
+      }
+    ],
+    "observed_heads": {
+      "1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "AISurvivorSQLiteBuild-ChatGPT": "3520c1e04dbfce039a6dae97a9bd4f4d1a0e4f53",
+      "AISurvivorStatTracking": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+      "AdvancedDiplomacy": "e83ce4c7977daf4193b07d0b94a533bb0338fb11",
+      "CityBonusDiplomacyBuild-ChatGPT": "1488899c9d040f00b772936137dbdb64b656bd22",
+      "CityBonusLeaderDiplomacyModifiers": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+      "CityPopulationDraft-ChatGPT": "f159c2c47de9c8a3b2dca31f02e5abf513d20305",
+      "CityPopulationTrait": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
+      "CivicScrollDraft-ChatGPT": "a7a1290aa2a0c125432dd60df5f4153294eead82",
+      "CodeMacroHelpers": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+      "CodeMacroHelpersBuild-ChatGPT": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f",
+      "ColonyLeaderBuild-ChatGPT": "7ecb44c226cb1e165d65419832dcb14a8a3d0dd4",
+      "CustomAIDiplomacyComments": "ca3531fac64b2e70ea66b98745e45733da1f0c37",
+      "CvPartyGroup": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "DynamicRankDraft-ChatGPT": "b16c9cabd2efedad83ba5f55d9b2e704b73915bf",
+      "EquipmentGatesDraft-ChatGPT": "1fc3d59b0807904187fb8e24909e9d6e3b1d920d",
+      "FFHEquipmentTypes": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+      "FFHRaceTypes": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+      "FFHSpellCreationBuild-ChatGPT": "9c7ff06e4c33ff822f5b112eacba8a1d4da5655a",
+      "FFHSpellTypes": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
+      "FSimpleDataStorage": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+      "FamilyRelationsBuild-ChatGPT": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
+      "FavoriteUnitCombatDraft-ChatGPT": "7e5e7a04a8cb2366c741ddc8003f13610d2abf60",
+      "FirstImpressionDiplomacyModifiers": "cc764ad80e89f751f809998a61a23225254109f2",
+      "FirstImpressionDraft-ChatGPT": "dd773ace6f4650cde2d0fe495b5b82d5173be70f",
+      "FreePromotionLoaderBuild-ChatGPT": "7ae61d10dc8f310523bbc15f25ee2dda49d2b8c4",
+      "GenderCounterDraft-ChatGPT": "f127d03db270afba4c72f0df764b3ec6dec002ff",
+      "GenderSpecificDiplomacy": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+      "HatedCivicReligionDiplomacy": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+      "HatedDiplomacyDraft-ChatGPT": "de790fd226e6768ca83abb3ed1c428a6f9e2b6c0",
+      "LLMDiplomacyTextBuild-ChatGPT": "06a80e3e4f1f43d420242209757b5cf5448dd425",
+      "LLMDiplomacyTextGeneration": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+      "LeaderCivilizationDecisionPreferences": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+      "LeaderCivilizationSummoningRandomEvents": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+      "LeaderCivilizationVariantMechanics": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "LeaderFamilyRelations": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+      "LeaderSpecificColonySplitVassal": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+      "LeaderSpecificDynamicRankBonusDiplomacy": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+      "LeaderSpecificFavoriteUnitCombats": "799082c323ea44335c66b9714e1a9bb365c12095",
+      "LeaderSpecificMultilayeredAIDecisionEval": "484412d0de7e42e2d310bb39e75340fc5307f597",
+      "LeaderSpecificRebelliousTeamDiplomaticDecisions": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+      "LeaderSpecificTeamSizeAttitude": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+      "LeaderSpecificUWAIAspectWeights": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+      "LeaderSpecificVoteActionDiplomacy": "8fcfdd97329279393120aaab34c00dde84e729df",
+      "LeaderTeamSizeBuild-ChatGPT": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+      "PartnerDiplomacyBuild-ChatGPT": "4f38c94e2267543582ab88619a16a6b5a1b97513",
+      "PartnerLeaderCivSpecificDiplomacyText": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+      "PartyWrapperDraft-ChatGPT": "85e2d6f28e1c2e92d0cf3715c58d7979f1edf533",
+      "PerUnitCombatFreePromotionTraits": "c122a8c130b6e47760aade7d2d438c798dca8951",
+      "PerUnitCombatUpgradeCostModifers": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+      "PlotTimerDraft-ChatGPT": "fea29629a5f5bd4c986591423cd69b78afe7f90c",
+      "PreferenceFrameworkDraft-ChatGPT": "5518502d36e4a180b1df6905ac91fffce42a4aaf",
+      "PromotionAltersUnitHPValues": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+      "PromotionAltersUnitXPValues": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+      "PromotionExpiryDraft-ChatGPT": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+      "PromotionHPDraft-ChatGPT": "207b05c210d776cb367ef2613831f045562d2c28",
+      "PromotionTimedExpireTurns": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+      "PromotionXPBuild-ChatGPT": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+      "RaceDemographicsDraft-ChatGPT": "45256362feb2b354410ba7d2f8efa23719c0344e",
+      "RealisticAIDecisions": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "RenegadeDiplomacyBuild-ChatGPT": "1b7b5fef0f644b2b1c8921abc8dae0034af98068",
+      "ReputationWindowDraft-ChatGPT": "1ae7ec40153adafffa54d07ca325f059db3dff49",
+      "SerializationHelpers": "2be6010dc6787a717c851cd125e005010cf71450",
+      "SerializationHelpersBuild-ChatGPT": "bea54776ac0ace2dab02000ecd8c7f3e0d85ed66",
+      "SidSaysDiscoveryBuild-ChatGPT": "be355c9ea45072238bd0df8ac0db67c1e7cbbf0b",
+      "SidSaysPatch": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
+      "SimpleStorageChangeDraft-ChatGPT": "7e80aab1490794d2f19ccef76a8028cdc7efeec6",
+      "SummonCatchupDraft-ChatGPT": "9408469df1c280bc24db9aee750ac972bb77028b",
+      "UWAIWeightsDraft-ChatGPT": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
+      "UniqueCivicsReligions": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+      "UnitCombatUpgradeBuild-ChatGPT": "cf97766d59822b81772d0ab50a80dba139d8a787",
+      "UnitStatusEffects": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed",
+      "VoteCounterDraft-ChatGPT": "3f3a691f7d5d75f841f1aea6f50c0a9ea836a4ec",
+      "alert-autofix-1": "f52ced74c31bdbd9696c37b00b73ce12b99f5d1b",
+      "dll-build": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a"
+    },
+    "scope": "Prioritize new author workflow split; correct source diagnostics output owner, validate unchanged team-size source under full current matrix, close missing Debug coverage.",
+    "new_finding_ids": [
+      "WORKFLOW-20261101-10"
+    ],
+    "code_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+    "tested_commit": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+    "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41384996106",
+    "Cpp_changes": false,
+    "Release_Debug_actual_artifacts_verified": true
+  },
+  "inventory_2026_11_01_upgrade_native": {
+    "date": "2026-11-01",
+    "branch_count": 75,
+    "original_head_changes": [],
+    "observed_heads": {
+      "1.14": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+      "AISurvivorSQLiteBuild-ChatGPT": "3520c1e04dbfce039a6dae97a9bd4f4d1a0e4f53",
+      "AISurvivorStatTracking": "f2575de4bb94f561d3e1f0df651489487e3742ae",
+      "AdvancedDiplomacy": "e83ce4c7977daf4193b07d0b94a533bb0338fb11",
+      "CityBonusDiplomacyBuild-ChatGPT": "1488899c9d040f00b772936137dbdb64b656bd22",
+      "CityBonusLeaderDiplomacyModifiers": "084726f21f44dda2f1e8b4e3906da7ae66ce4759",
+      "CityPopulationDraft-ChatGPT": "f159c2c47de9c8a3b2dca31f02e5abf513d20305",
+      "CityPopulationTrait": "dd39c040ee3a25fc8463ad4c484b72bd5f0d8ab3",
+      "CivicScrollDraft-ChatGPT": "a7a1290aa2a0c125432dd60df5f4153294eead82",
+      "CodeMacroHelpers": "d9908667cdc5fddef11a49e3864dfad1ecc47e92",
+      "CodeMacroHelpersBuild-ChatGPT": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f",
+      "ColonyLeaderBuild-ChatGPT": "7ecb44c226cb1e165d65419832dcb14a8a3d0dd4",
+      "CustomAIDiplomacyComments": "ca3531fac64b2e70ea66b98745e45733da1f0c37",
+      "CvPartyGroup": "c6b1b14d0263196c497d8dcf85da41982d5ec7af",
+      "DynamicRankDraft-ChatGPT": "b16c9cabd2efedad83ba5f55d9b2e704b73915bf",
+      "EquipmentGatesDraft-ChatGPT": "1fc3d59b0807904187fb8e24909e9d6e3b1d920d",
+      "FFHEquipmentTypes": "d585bfd6a9a3315a0eb351d73d78c84d37cc37f5",
+      "FFHRaceTypes": "a50b62ccd1ec72672c3b8b4814ad03230088ea18",
+      "FFHSpellCreationBuild-ChatGPT": "9c7ff06e4c33ff822f5b112eacba8a1d4da5655a",
+      "FFHSpellTypes": "93557449aa8d3f39ca1fb3cb952bb58e6a21790e",
+      "FSimpleDataStorage": "1b7de3bc31268786c341238ff9ecc2e25640f27e",
+      "FamilyRelationsBuild-ChatGPT": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
+      "FavoriteUnitCombatDraft-ChatGPT": "7e5e7a04a8cb2366c741ddc8003f13610d2abf60",
+      "FirstImpressionDiplomacyModifiers": "cc764ad80e89f751f809998a61a23225254109f2",
+      "FirstImpressionDraft-ChatGPT": "dd773ace6f4650cde2d0fe495b5b82d5173be70f",
+      "FreePromotionLoaderBuild-ChatGPT": "7ae61d10dc8f310523bbc15f25ee2dda49d2b8c4",
+      "GenderCounterDraft-ChatGPT": "f127d03db270afba4c72f0df764b3ec6dec002ff",
+      "GenderSpecificDiplomacy": "80e6ec595041cf335d5437b7bedea4fcaa61622b",
+      "HatedCivicReligionDiplomacy": "a9c1a754b5e9b64e10ceaa22fd02fa78f3718785",
+      "HatedDiplomacyDraft-ChatGPT": "de790fd226e6768ca83abb3ed1c428a6f9e2b6c0",
+      "LLMDiplomacyTextBuild-ChatGPT": "06a80e3e4f1f43d420242209757b5cf5448dd425",
+      "LLMDiplomacyTextGeneration": "5d12da1af2d4e6f9048d02f7e79eccb66c39051e",
+      "LeaderCivilizationDecisionPreferences": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+      "LeaderCivilizationSummoningRandomEvents": "d237c40d9d5f19e8c1d60f2c8a8ff3e15d3792bc",
+      "LeaderCivilizationVariantMechanics": "39edf4ca659e806b6fb4bb2de4ab280756829a99",
+      "LeaderFamilyRelations": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+      "LeaderSpecificColonySplitVassal": "c2c8690c4854482f98ea3ceae2974586e5d1503d",
+      "LeaderSpecificDynamicRankBonusDiplomacy": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+      "LeaderSpecificFavoriteUnitCombats": "799082c323ea44335c66b9714e1a9bb365c12095",
+      "LeaderSpecificMultilayeredAIDecisionEval": "484412d0de7e42e2d310bb39e75340fc5307f597",
+      "LeaderSpecificRebelliousTeamDiplomaticDecisions": "4b24f235ef0056a6dcab56b0dada3dcd0909798d",
+      "LeaderSpecificTeamSizeAttitude": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+      "LeaderSpecificUWAIAspectWeights": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+      "LeaderSpecificVoteActionDiplomacy": "8fcfdd97329279393120aaab34c00dde84e729df",
+      "LeaderTeamSizeBuild-ChatGPT": "3bbbcc80b9b6f97027d41887afb796aeb9b6b3eb",
+      "PartnerDiplomacyBuild-ChatGPT": "4f38c94e2267543582ab88619a16a6b5a1b97513",
+      "PartnerLeaderCivSpecificDiplomacyText": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+      "PartyWrapperDraft-ChatGPT": "85e2d6f28e1c2e92d0cf3715c58d7979f1edf533",
+      "PerUnitCombatFreePromotionTraits": "c122a8c130b6e47760aade7d2d438c798dca8951",
+      "PerUnitCombatUpgradeCostModifers": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
+      "PlotTimerDraft-ChatGPT": "fea29629a5f5bd4c986591423cd69b78afe7f90c",
+      "PreferenceFrameworkDraft-ChatGPT": "5518502d36e4a180b1df6905ac91fffce42a4aaf",
+      "PromotionAltersUnitHPValues": "d64fade8bb53d8c4bd92521c6a606b323af91025",
+      "PromotionAltersUnitXPValues": "09741c7206588a8fc42b1e62b90c76ecaea13a55",
+      "PromotionExpiryDraft-ChatGPT": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+      "PromotionHPDraft-ChatGPT": "207b05c210d776cb367ef2613831f045562d2c28",
+      "PromotionTimedExpireTurns": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+      "PromotionXPBuild-ChatGPT": "9230eeb926de40e4d2ebd79f59b867b27f30e492",
+      "RaceDemographicsDraft-ChatGPT": "45256362feb2b354410ba7d2f8efa23719c0344e",
+      "RealisticAIDecisions": "372d64549f70884fbc86cec7bfbee0a9778bd948",
+      "RenegadeDiplomacyBuild-ChatGPT": "1b7b5fef0f644b2b1c8921abc8dae0034af98068",
+      "ReputationWindowDraft-ChatGPT": "1ae7ec40153adafffa54d07ca325f059db3dff49",
+      "SerializationHelpers": "2be6010dc6787a717c851cd125e005010cf71450",
+      "SerializationHelpersBuild-ChatGPT": "bea54776ac0ace2dab02000ecd8c7f3e0d85ed66",
+      "SidSaysDiscoveryBuild-ChatGPT": "be355c9ea45072238bd0df8ac0db67c1e7cbbf0b",
+      "SidSaysPatch": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
+      "SimpleStorageChangeDraft-ChatGPT": "7e80aab1490794d2f19ccef76a8028cdc7efeec6",
+      "SummonCatchupDraft-ChatGPT": "9408469df1c280bc24db9aee750ac972bb77028b",
+      "UWAIWeightsDraft-ChatGPT": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
+      "UniqueCivicsReligions": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+      "UnitCombatUpgradeBuild-ChatGPT": "d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+      "UnitStatusEffects": "1dd3fea3cda92dbce247b5bdfda0c93e6ccfd7ed",
+      "VoteCounterDraft-ChatGPT": "3f3a691f7d5d75f841f1aea6f50c0a9ea836a4ec",
+      "alert-autofix-1": "f52ced74c31bdbd9696c37b00b73ce12b99f5d1b",
+      "dll-build": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a"
+    },
+    "scope": "Close previously missing unit-combat upgrade Debug validation and current actual-log/hash evidence, using unchanged C++ and corrected current workflow.",
+    "selected_source": "cf97766d59822b81772d0ab50a80dba139d8a787",
+    "tested_commit": "d0ee554823f99f0d72a2c90a77463235e08c2fa6",
+    "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41390572710",
+    "Cpp_changes": false,
+    "new_findings": [],
+    "native_Release_Debug_verified": true
   }
 }
