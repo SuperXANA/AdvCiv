@@ -661,6 +661,8 @@ int CvLeaderHeadInfo::getDiploWarMusicScriptIds(int i) const
 scaled CvLeaderHeadInfo::getWarUtilityAspect(int i) const
 {
 	FAssertBounds(0, GC.getNumWarUtilityAspectAIInfos(), i);
+	if (i < 0 || i >= GC.getNumWarUtilityAspectAIInfos())
+		return 0;
 	return m_prWarUtilityAspects ? per100(m_prWarUtilityAspects[i]) : 0; // advc.003t
 }
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights

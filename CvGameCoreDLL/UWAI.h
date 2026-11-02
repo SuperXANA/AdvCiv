@@ -62,11 +62,15 @@ public:
 	scaled aspectWeight(WarUtilityAspectAITypes eAspect) const
 	{
 		FAssertBounds(0, GC.getNumWarUtilityAspectAIInfos(), eAspect);
+		if (eAspect < 0 || eAspect >= GC.getNumWarUtilityAspectAIInfos())
+			return 0;
 		return per100(GC.getInfo(eAspect).getAIWeight());
 	}
 	wchar const* aspectName(WarUtilityAspectAITypes eAspect) const
 	{
 		FAssertBounds(0, GC.getNumWarUtilityAspectAIInfos(), eAspect);
+		if (eAspect < 0 || eAspect >= GC.getNumWarUtilityAspectAIInfos())
+			return L"";
 		return GC.getInfo(eAspect).getDescription();
 	}
 // XANA: 11-01-2025 Leader Specific War Utility Aspect Weights
