@@ -1578,7 +1578,7 @@
       "head_at_inventory": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
       "coverage": "source_scoped_review_historical_artifacts_partially_verified",
       "native_verification": "historical_runner_success_related_binaries_and_Debug_symbols_verified_missing_Build_log_and_source_hashes",
-      "next_action": "Do not rebuild unchanged passing code solely to repeat the historical run. Review changed source or remaining real XML/default/cache/save/attitude integration; use current workflow on the next relevant DLL validation. Historical Build.log and source-content evidence remain unavailable.",
+      "next_action": "Identity initialization/change/load reconstruction has bounded static coverage with no new finding. Revisit relevant source changes or authored relation/relationship XML/schema and actual installed parser/cache/save/attitude/UI/game evidence. Preserve personality/first-match semantics. Do not rebuild unchanged passing source solely to replace missing historical logs/hashes.",
       "source_branch": "LeaderFamilyRelations",
       "tested_code_sha": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051",
@@ -1683,7 +1683,82 @@
         "merge_base": null,
         "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates.",
         "record_commit": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f"
-      }
+      },
+      "identity_reconstruction_source_audit": {
+        "date": "2026-11-02",
+        "classification": "bounded_relationship_identity_and_load_reconstruction_source_audit_no_new_finding",
+        "source_head": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+        "assistant_head": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "locations": {
+          "CvGameCoreDLL/CvPlayer.cpp": [
+            79,
+            104,
+            111,
+            136,
+            144,
+            172,
+            234,
+            429,
+            636,
+            643,
+            671,
+            6382,
+            6385,
+            6386,
+            6388,
+            6390,
+            9320,
+            9322,
+            9324,
+            14741
+          ],
+          "CvGameCoreDLL/CvPlayerAI.cpp": [
+            8574,
+            8575,
+            8577,
+            8580
+          ],
+          "CvGameCoreDLL/CvInfo_Civilization.cpp": [
+            1568,
+            1576,
+            1589,
+            1601,
+            1610,
+            1616,
+            1623,
+            1630,
+            1633,
+            1637
+          ],
+          "CvGameCoreDLL/CvXMLLoadUtilitySet.cpp": [
+            639,
+            701
+          ]
+        },
+        "observations": [
+          "Both initial CvPlayer::init and CvPlayer::initInGame call initOtherData; that shared routine invokes changePersonalityType and initLeaderRelationship. No missing mid-game creation hook was established.",
+          "changePersonalityType uses setPersonalityType for ordinary and randomized valid personalities. The repaired setter rebuilds relationship identity before AI_updatePersonality; reset clears the derived relationship and the end of CvPlayer::read reconstructs it.",
+          "initLeaderRelationship first clears stale identity, checks the personality domain and selects the first matching relationship record. The consumer looks up the other player's personality, then applies the relation bounds to first-impression attitude. Personality-based rather than visible-leader-based identity and first-match duplicate handling remain author policy.",
+          "The mapping is derived metadata, not an independent event-updated history. Existing reconstruction is present; no additional serialized relationship ID or game-save version was introduced.",
+          "The loader explicitly requests CIV4RelationInfos from BasicInfos and CIV4RelationshipInfos from Civilizations. Neither XML file nor a dedicated relation/relationship schema is present in the selected complete tree, confirming the already documented non-install-ready asset boundary.",
+          "The original bounds, vector ownership, personality-refresh and declaration findings remain completed scoped work; no regression or new actionable defect was established by this source continuation."
+        ],
+        "new_finding_ids": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_build": false,
+        "verification": "Static actual-source call-chain and tree inspection only. Historical related binaries remain as previously inspected; missing old actual Build.log/source hashes were not re-investigated and no new full DLL result is claimed.",
+        "remaining_limits": [
+          "Authored relation/relationship XML profiles and schema installation, actual parser/default/cache execution",
+          "Fresh-game several-turn save/reload and reconstructed identity in the running game",
+          "Personality change versus cached attitude timing and observed first-impression/UI behavior",
+          "Runtime random-personality/colony/multiplayer behavior"
+        ],
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
+      },
+      "reviewed_source_sha": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+      "reviewed_assistant_head": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018"
     },
     {
       "branch": "FFHEquipmentTypes",
@@ -2673,12 +2748,12 @@
     },
     {
       "branch": "LeaderCivilizationDecisionPreferences",
-      "head_at_inventory": "aac03388283a5ac316f6a19f6e3754a7435b6511",
-      "coverage": "source_review_partial_preference_clone_base_initialization_corrected",
-      "native_verification": "actual_preference_owners_and_baseline_constructor_bodies_host_verified_no_DLL",
-      "next_action": "Retain derived owning-map deep copies and baseline default-construction of base metadata. Review actual authored XML/default/parser integration, player reconstruction and percentage arithmetic. Full DLL overlay remains deferred until missing Event/Unit assets and Unit schema are supplied; do not invent them.",
+      "head_at_inventory": "c245f5c3d205437ca6db26c9b74d5e6f121de1f6",
+      "coverage": "changed_Unit_schema_incorporated_and_reader_contracts_aligned",
+      "native_verification": "schema_structural_contract_checks_passed_CPP_unchanged_no_full_DLL",
+      "next_action": "Unit-schema gate resolved. Await authored CIV4EventPreferenceInfos.xml and CIV4UnitPreferenceInfos.xml for full installation/integration; review new source deltas and actual XML/default/parser/player reconstruction/arithmetic evidence. Preserve existing C++ fixes; no unchanged rebuild for schema-only work.",
       "refinement_branch": "PreferenceFrameworkDraft-ChatGPT",
-      "draft_code_sha": "87a7aa044ea0ed52d304a0b3fbac9c15b5137962",
+      "draft_code_sha": "62d2f9499ae53a2741e80798070fb8c9c60c954e",
       "finding_ids": [
         "PREFERENCE-20261028-01",
         "PREFERENCE-20261028-02",
@@ -2694,12 +2769,13 @@
         "PREFERENCE-20261031-12",
         "PREFERENCE-20261031-13",
         "PREFERENCE-20261101-14",
-        "PREFERENCE-20261102-15"
+        "PREFERENCE-20261102-15",
+        "PREFERENCE-20261102-16"
       ],
-      "qualification": "Three unsupported base_t(kOther) initializers replaced by base_t(), matching actual baseline default cloning. Strict C++03 -fno-exceptions normal and ASan/UBSan host runs pass 160 ownership and 960 repeated-load sequences; three old-initializer diagnostic controls fail as expected. Actual two base constructor bodies represented, full base/XML/records/globals reduced; no MSVC7.1/DLL/parser/game result. Missing authored asset/schema gate retained.",
-      "latest_review": "docs/reviews/preference-base-2026-11-02.md",
+      "qualification": "Authored Unit schema incorporated; root/key/owner/list contracts corrected, optional owners aligned with supplied Tech profiles. Three-schema structural checks, five actual record contracts and seven negative controls pass; no MSXML/XDR/full DLL/game result. Production C++ unchanged; remaining missing data-file gate explicit.",
+      "latest_review": "docs/reviews/preference-schema-2026-11-02.md",
       "last_review_parent": "4d183d19b36c374f1fd3bf4830ca12c69b7b2a1f",
-      "reviewed_source_sha": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+      "reviewed_source_sha": "c245f5c3d205437ca6db26c9b74d5e6f121de1f6",
       "category_key_review": {
         "code_sha": "d103db3cc9e2ddb9f2b997364bfd8c899c04be33",
         "source_sha": "aac03388283a5ac316f6a19f6e3754a7435b6511",
@@ -2762,7 +2838,7 @@
         "qualification": "Static language/field-layout inspection, not real Firaxis XML/default merging or game execution. Existing scoped test qualifications and missing Event/Unit asset/schema DLL gate remain.",
         "runtime_save_validation_policy": "save_runtime_validation_policy"
       },
-      "reviewed_assistant_head": "5518502d36e4a180b1df6905ac91fffce42a4aaf",
+      "reviewed_assistant_head": "61c5ae3119e06b97098e7ccd3c629f06b61b5b39",
       "base_default_clone_review": {
         "date": "2026-11-02",
         "finding_id": "PREFERENCE-20261102-15",
@@ -2823,7 +2899,73 @@
           "gameplay_result": null
         },
         "runtime_save_validation_policy": "save_runtime_validation_policy"
-      }
+      },
+      "source_review_history": [
+        {
+          "source_sha": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+          "scope": "Prior C++/record/default-copy reviews retained; historical missing Unit-schema gate partially superseded by new authored source."
+        }
+      ],
+      "source_head": "c245f5c3d205437ca6db26c9b74d5e6f121de1f6",
+      "schema_integration_review": {
+        "date": "2026-11-02",
+        "finding_id": "PREFERENCE-20261102-16",
+        "source_branch": "LeaderCivilizationDecisionPreferences",
+        "source_sha": "c245f5c3d205437ca6db26c9b74d5e6f121de1f6",
+        "previous_source_sha": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+        "new_source_commits": [
+          "bc95f4707cd38954cea36fec3447e9c1d38ea295",
+          "c245f5c3d205437ca6db26c9b74d5e6f121de1f6"
+        ],
+        "assistant_parent": "61c5ae3119e06b97098e7ccd3c629f06b61b5b39",
+        "refinement_branch": "PreferenceFrameworkDraft-ChatGPT",
+        "code_sha": "62d2f9499ae53a2741e80798070fb8c9c60c954e",
+        "schema_code_sha": "72543d4e94d17803dc1eb31be3700b7e492cecae",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "changed_paths": [
+          "XML/Civilizations/CIV4CivilizationsSchema.xml",
+          "XML/Events/CIV4EventSchema.xml",
+          "XML/Units/CIV4UnitSchema.xml",
+          "tests/preference-schema/check.py"
+        ],
+        "CPP_changes": false,
+        "XANA_markers_preserved": true,
+        "corrections": [
+          "Unit schema root spelling matches Civ4UnitPreferenceInfos requested by the actual loader.",
+          "Unit owner tags are LeaderType/CivilizationType, matching CvUnitPreferenceInfo::read.",
+          "Unit record uses declared UnitType rather than undefined Unit; key declarations remain distinct from existing UnitClassType/UnitCombatType.",
+          "UnitCombatPreferences and UnitClassPreferences mirror the two existing C++ list readers; all three list containers are optional, retaining omission/inherited-list support.",
+          "Tech/Event/Unit owner fields are optional, matching leader-only or civilization-only profiles and the supplied technology XML examples.",
+          "Existing assistant Tech/Event root-spelling corrections retained, not counted as new fixes."
+        ],
+        "verification": {
+          "three_schemas_well_formed": true,
+          "duplicate_ElementType_declarations": 0,
+          "unresolved_element_references": 0,
+          "actual_loader_roots_and_paths_checked": 3,
+          "actual_record_reader_contracts_checked": 5,
+          "authored_Tech_profiles_checked": 2,
+          "negative_controls_detected": 7,
+          "MSXML_XDR_engine_execution": false,
+          "full_DLL_run": false,
+          "gameplay_execution": false
+        },
+        "gate": {
+          "Unit_schema_supplied": true,
+          "Unit_schema_corrected_on_assistant_branch": true,
+          "Event_preference_data_XML_supplied": false,
+          "Unit_preference_data_XML_supplied": false,
+          "remaining_missing_files": [
+            "XML/Events/CIV4EventPreferenceInfos.xml",
+            "XML/Units/CIV4UnitPreferenceInfos.xml"
+          ],
+          "no_profiles_or_mechanics_invented": true,
+          "ci": "[skip ci]"
+        },
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
+      },
+      "integration_skip_source_sha": "c245f5c3d205437ca6db26c9b74d5e6f121de1f6",
+      "integration_skip_reason": "Event/Unit preference data XML documents remain absent; Unit schema is now supplied and corrected. No authored profiles/weights are invented for DLL/game validation."
     },
     {
       "branch": "LeaderCivilizationSummoningRandomEvents",
@@ -2911,7 +3053,7 @@
       "head_at_inventory": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
       "coverage": "source_scoped_review_historical_artifacts_partially_verified",
       "native_verification": "historical_runner_success_related_binaries_and_Debug_symbols_verified_missing_Build_log_and_source_hashes",
-      "next_action": "Do not rebuild unchanged passing code solely to repeat the historical run. Review changed source or remaining real XML/default/cache/save/attitude integration; use current workflow on the next relevant DLL validation. Historical Build.log and source-content evidence remain unavailable.",
+      "next_action": "Identity initialization/change/load reconstruction has bounded static coverage with no new finding. Revisit relevant source changes or authored relation/relationship XML/schema and actual installed parser/cache/save/attitude/UI/game evidence. Preserve personality/first-match semantics. Do not rebuild unchanged passing source solely to replace missing historical logs/hashes.",
       "refinement_branch": "FamilyRelationsBuild-ChatGPT",
       "tested_code_sha": "5b41bb1d9598a514c99f8fe8e59333a884f56c0b",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40564726051",
@@ -3004,7 +3146,82 @@
       "latest_review": "docs/reviews/family-artifacts-2026-10-31.md",
       "runtime_save_validation_policy": "save_runtime_validation_policy",
       "prior_feature_saves_exist": false,
-      "prior_feature_save_migration_required": false
+      "prior_feature_save_migration_required": false,
+      "identity_reconstruction_source_audit": {
+        "date": "2026-11-02",
+        "classification": "bounded_relationship_identity_and_load_reconstruction_source_audit_no_new_finding",
+        "source_head": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+        "assistant_head": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "locations": {
+          "CvGameCoreDLL/CvPlayer.cpp": [
+            79,
+            104,
+            111,
+            136,
+            144,
+            172,
+            234,
+            429,
+            636,
+            643,
+            671,
+            6382,
+            6385,
+            6386,
+            6388,
+            6390,
+            9320,
+            9322,
+            9324,
+            14741
+          ],
+          "CvGameCoreDLL/CvPlayerAI.cpp": [
+            8574,
+            8575,
+            8577,
+            8580
+          ],
+          "CvGameCoreDLL/CvInfo_Civilization.cpp": [
+            1568,
+            1576,
+            1589,
+            1601,
+            1610,
+            1616,
+            1623,
+            1630,
+            1633,
+            1637
+          ],
+          "CvGameCoreDLL/CvXMLLoadUtilitySet.cpp": [
+            639,
+            701
+          ]
+        },
+        "observations": [
+          "Both initial CvPlayer::init and CvPlayer::initInGame call initOtherData; that shared routine invokes changePersonalityType and initLeaderRelationship. No missing mid-game creation hook was established.",
+          "changePersonalityType uses setPersonalityType for ordinary and randomized valid personalities. The repaired setter rebuilds relationship identity before AI_updatePersonality; reset clears the derived relationship and the end of CvPlayer::read reconstructs it.",
+          "initLeaderRelationship first clears stale identity, checks the personality domain and selects the first matching relationship record. The consumer looks up the other player's personality, then applies the relation bounds to first-impression attitude. Personality-based rather than visible-leader-based identity and first-match duplicate handling remain author policy.",
+          "The mapping is derived metadata, not an independent event-updated history. Existing reconstruction is present; no additional serialized relationship ID or game-save version was introduced.",
+          "The loader explicitly requests CIV4RelationInfos from BasicInfos and CIV4RelationshipInfos from Civilizations. Neither XML file nor a dedicated relation/relationship schema is present in the selected complete tree, confirming the already documented non-install-ready asset boundary.",
+          "The original bounds, vector ownership, personality-refresh and declaration findings remain completed scoped work; no regression or new actionable defect was established by this source continuation."
+        ],
+        "new_finding_ids": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_build": false,
+        "verification": "Static actual-source call-chain and tree inspection only. Historical related binaries remain as previously inspected; missing old actual Build.log/source hashes were not re-investigated and no new full DLL result is claimed.",
+        "remaining_limits": [
+          "Authored relation/relationship XML profiles and schema installation, actual parser/default/cache execution",
+          "Fresh-game several-turn save/reload and reconstructed identity in the running game",
+          "Personality change versus cached attitude timing and observed first-impression/UI behavior",
+          "Runtime random-personality/colony/multiplayer behavior"
+        ],
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
+      },
+      "reviewed_source_sha": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+      "reviewed_assistant_head": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018"
     },
     {
       "branch": "LeaderSpecificColonySplitVassal",
@@ -3151,7 +3368,7 @@
       "head_at_inventory": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
       "coverage": "source_review_partial",
       "native_verification": "fractional_overlay_release_debug_passed_artifact_Build_logs_inspected",
-      "next_action": "Do not repeat unchanged passing builds. Review shared attitude-threshold/rank policy, versioned player-counter persistence, XML/default/cache compatibility and actual game behavior; extreme arithmetic bounds remain unverified.",
+      "next_action": "Current-branch counter persistence/reset ordering has bounded static coverage with no new finding. Review relevant source changes or actual fresh-game save/reload, attitude reconstruction, XML/default/cache integration and shared threshold/rank policy. Extreme arithmetic remains unverified; do not invent caps or repeat unchanged passing builds.",
       "review_branch": "DynamicRankDraft-ChatGPT",
       "finding_ids": [
         "RANK-20261028-01",
@@ -3263,7 +3480,80 @@
         "new_DLL_build": false,
         "runtime_save_validation_policy": "save_runtime_validation_policy",
         "qualification": "Source inspection only. No actual engine XML/cache or new-game save/reload/gameplay execution; historical full DLL evidence retained without rebuilding."
-      }
+      },
+      "counter_persistence_source_audit": {
+        "date": "2026-11-02",
+        "classification": "bounded_counter_persistence_and_reset_source_audit_no_new_actionable_finding",
+        "source_head": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+        "assistant_head": "b16c9cabd2efedad83ba5f55d9b2e704b73915bf",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "locations": {
+          "CvGameCoreDLL/CvPlayerAI.cpp": [
+            54,
+            63,
+            113,
+            183,
+            207,
+            214,
+            236,
+            245,
+            18699,
+            18707,
+            18899,
+            19405,
+            19518,
+            19525,
+            19530,
+            23012,
+            23065,
+            23098,
+            23213,
+            23236,
+            23274
+          ],
+          "CvGameCoreDLL/CvPlayer.cpp": [
+            318,
+            442,
+            549,
+            550,
+            14072,
+            14074
+          ],
+          "CvGameCoreDLL/CvPlayer.h": [
+            69,
+            876,
+            1470
+          ]
+        },
+        "observations": [
+          "Constructor allocates MAX_PLAYERS signed-int counter storage; destructor deletes it. AI_reset zeros the player's whole array and conditionally the corresponding slot in other players.",
+          "Current branch reader and writer both serialize MAX_PLAYERS counter entries after the bonus-trade counter and before peacetime-trade values. The existing writer version remains 22 and the feature payload is unconditional in its reader.",
+          "CvPlayerAI::read calls CvPlayer::read first. The actual base read starts with reset(), whose header default eID is NO_PLAYER; reset assigns that value before calling AI_reset(false). The getID()!=NO_PLAYER guard therefore suppresses the cross-player slot clearing during this load reset.",
+          "Same-branch counter payload order is statically symmetric; no missing current writer/read field or unconditional cross-player reset defect was established. Actual native stream execution and whole-game reconstruction were not performed.",
+          "Counter mutation and decay remain the authored nonnegative accumulation/rank-threshold policy. Extreme arithmetic and the shared threshold/rank meaning remain separate unresolved policy/range scopes; no arbitrary cap or new save version was introduced."
+        ],
+        "save_contract": {
+          "current_branch_format_only": true,
+          "baseline_same_numeric_version_not_a_feature_format_discriminator": true,
+          "prior_feature_saves_exist": false,
+          "prior_feature_save_migration_required": false,
+          "runtime_test": "new_game_then_several_turns_save_reload",
+          "runtime_policy_reference": "save_runtime_validation_policy"
+        },
+        "new_finding_ids": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_build": false,
+        "verification": "Static source inspection only; existing native Release/Debug evidence retained, no fresh DLL or save/load result claimed.",
+        "limits": [
+          "Actual engine fresh-game several-turn save/reload and post-load attitude reconstruction",
+          "Changed compiled MAX_PLAYERS or unrelated independent feature save formats",
+          "Extreme counter/metadata arithmetic, threshold mechanics and XML/default/cache integration"
+        ],
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
+      },
+      "reviewed_source_sha": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+      "reviewed_assistant_head": "b16c9cabd2efedad83ba5f55d9b2e704b73915bf"
     },
     {
       "branch": "LeaderSpecificFavoriteUnitCombats",
@@ -3966,7 +4256,7 @@
       "head_at_inventory": "8fcfdd97329279393120aaab34c00dde84e729df",
       "coverage": "source_review_partial_native_corrected_overlay_passed",
       "native_verification": "linked_corrected_assistant_overlay_passed_original_not_built",
-      "next_action": "Review actual XML/schema/default/copy/parser behavior, attitude-cache coherence and fresh-game save/reload. XML file-cache round-trip work is conditional on enabling ENABLE_XML_FILE_CACHE; do not repeat unchanged passing builds.",
+      "next_action": "Vote dispatch/cache source audit complete without a new actionable finding. Review relevant source changes or actual XML/default/parser, vote-to-refresh UI/network timing, attitude dependency order and fresh-game save/reload evidence. File-cache work remains conditional on ENABLE_XML_FILE_CACHE; do not repeat unchanged passing builds or add speculative refresh callbacks.",
       "refinement_branch": "VoteCounterDraft-ChatGPT",
       "draft_code_sha": "6d6e73b10343f277481da186013426be702ce00a",
       "finding_ids": [
@@ -4126,7 +4416,78 @@
         "load_path": "CvXMLLoadUtilitySet.cpp:1365–1390 excludes cache creation/read and takes LoadCivXml under #else.",
         "disposition": "Disabled XML file cache is not a current-build runtime validation blocker. Audit cache serialization and pending staging lifecycle only if this compile-time option is enabled.",
         "qualification": "Does not certify real XML/schema loading, in-memory attitude caches, gameplay or new-game save/reload. No source edits or rebuild."
-      }
+      },
+      "vote_attitude_cache_source_audit": {
+        "date": "2026-11-02",
+        "classification": "bounded_vote_dispatch_and_attitude_cache_source_audit_no_new_actionable_finding",
+        "source_head": "8fcfdd97329279393120aaab34c00dde84e729df",
+        "assistant_head": "3f3a691f7d5d75f841f1aea6f50c0a9ea836a4ec",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "locations": {
+          "CvGameCoreDLL/CvGame.cpp": [
+            5979,
+            5996,
+            6014,
+            6021,
+            6025,
+            6028,
+            6251,
+            10029,
+            10044,
+            10057
+          ],
+          "CvGameCoreDLL/CvPlayerAI.cpp": [
+            459,
+            474,
+            477,
+            481,
+            484,
+            7670,
+            7715,
+            7725,
+            7748,
+            7796,
+            8538,
+            19081,
+            19089,
+            19098,
+            23996,
+            24070,
+            24099
+          ],
+          "CvGameCoreDLL/CvPlayerAI.h": [
+            214,
+            217
+          ],
+          "CvGameCoreDLL/CvTeamAI.cpp": [
+            842,
+            857,
+            866,
+            880
+          ]
+        },
+        "observations": [
+          "CvGame::castVote updates the feature voter history after the existing memory-count paths and before setPlayerVote. AI_updateVoteCount has native bounds/null guards but no direct attitude-cache refresh.",
+          "Existing memory updates apply their own memory-attitude delta through AI_setMemoryCount and AI_changeCachedAttitude; that is not a recalculation of the separate vote-history contribution.",
+          "AI_updateAttitude includes a loop over all vote contributions and stores the resulting cached value. AI_doTurnPost refreshes other major AI players toward the active player before its human return or AI diplomacy; its own AI cache refresh follows through AI_updateExpansionistHate. CvGame::doDeals also invokes the global attitude refresh.",
+          "AI_getAttitude and the ordinary final AI_getAttitudeVal path read the cached player attitude; team aggregation reads player attitude values. The vote-attitude dependency on candidate/recipient attitudes is therefore not direct recursive recalculation.",
+          "addVoteTriggered casts AI ballots sequentially and queues human popups. Whether UI or another consequential consumer observes a changed vote-history contribution before the next scheduled refresh remains an actual dispatch/timing integration question.",
+          "No new refresh callback or multi-pass attitude policy is introduced without establishing the affected runtime transaction and intended dependency/update semantics. Existing city-recipient and team/ballot diplomacy formulas remain author policy."
+        ],
+        "new_finding_ids": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_build": false,
+        "verification": "Static actual-source inspection only; prior complete native result retained, no new compiler/parser/gameplay result claimed.",
+        "limits": [
+          "Installed-game vote dispatch, popup/network timing and attitude/UI observation between history mutation and periodic refresh",
+          "Interdependent candidate/recipient attitude update order and authored diplomacy policy",
+          "Fresh-game several-turn save/reload and cache reconstruction"
+        ],
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
+      },
+      "reviewed_source_sha": "8fcfdd97329279393120aaab34c00dde84e729df",
+      "reviewed_assistant_head": "3f3a691f7d5d75f841f1aea6f50c0a9ea836a4ec"
     },
     {
       "branch": "LeaderTeamSizeBuild-ChatGPT",
@@ -4728,7 +5089,7 @@
       "source_head": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
       "tested_code_sha": "e9b15e6b550d44cea48ec4f652fb3c8131879474",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40788471435",
-      "next_action": "Retain current verified workflow and source provenance; revisit changed source or integration scope.",
+      "next_action": "Installed loader path, optional schema tag names and Python selector routing have bounded source coverage without a new finding. Review changed source or actual installed XDR/Boost/embedded-Python/displayed dialogue/custom-roster/cache evidence; retain existing native provenance and do not repeat unchanged builds or filter fixtures.",
       "native_configurations": [
         "Release",
         "Debug"
@@ -4762,14 +5123,90 @@
         "merge_base": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
         "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates.",
         "record_commit": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f"
-      }
+      },
+      "installed_loader_routing_audit": {
+        "date": "2026-11-02",
+        "classification": "bounded_installed_XML_loader_and_Python_routing_audit_no_new_actionable_finding",
+        "source_head": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+        "assistant_head": "4f38c94e2267543582ab88619a16a6b5a1b97513",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "locations": {
+          "CvGameCoreDLL/CvXMLLoadUtilitySet.cpp": [
+            817,
+            1305,
+            1331,
+            1339,
+            1466,
+            1489,
+            1498,
+            1503,
+            1513
+          ],
+          "CvGameCoreDLL/CvInfo_Civilization.cpp": [
+            1515,
+            1519,
+            1520,
+            1524,
+            1525,
+            1662,
+            1676,
+            1677,
+            1678
+          ],
+          "CvGameCoreDLL/CvInfo_Misc.cpp": [
+            1463,
+            1465
+          ],
+          "Assets/Python/CvDiplomacy.py": [
+            430,
+            440,
+            447,
+            460,
+            467,
+            472,
+            473,
+            489,
+            506
+          ],
+          "Assets/XML/GameInfo/CIV4GameInfoSchema.xml": [
+            1165,
+            1168,
+            1182,
+            1185,
+            1211,
+            1218,
+            1219,
+            1220,
+            1221
+          ],
+          "CvGameCoreDLL/CvInfo_Base.h": [
+            12
+          ]
+        },
+        "observations": [
+          "The post-menu loader requests CIV4DiplomacyInfos from GameInfo. LoadDiplomacyInfo constructs the matching xml/GameInfo path, then uses SetDiplomacyInfo. Its module path uses *_CIV4DiplomacyInfos.xml and the same reader.",
+          "CvDiplomacyInfo::read allocates response objects and calls CvDiplomacyResponse::read; all four partner tag literals match optional Response schema elements in the co-located CIV4GameInfoSchema.xml.",
+          "The selected live CIV4DiplomacyInfos.xml blob is identical to pinned baseline (a37df97b711a757e7fb6b2378e8d6c69b130a054) and declares x-schema:CIV4GameInfoSchema.xml. The custom Celestia/Sombra source response remains inactive under tests, with partner fields after DiplomacyText as in the supplied schema sequence.",
+          "getDiplomacyComment obtains gc.getDiplomacyInfo and invokes filterUserResponse. That selector separates the trading player's ordinary masks from the active player's Other allow/deny masks; no missing Python routing stage was established.",
+          "SetDiplomacyInfo reuses an existing diplomacy-info object for repeated types; its response reader appends new responses, following the existing modular-loader behavior. No default-clone or wholesale-replacement semantics were introduced.",
+          "ENABLE_XML_FILE_CACHE is explicitly zero in the selected baseline header. The earlier cache-enabled fixtures remain scoped; the active configuration follows XML, and no actual cache-file interoperability is claimed."
+        ],
+        "new_finding_ids": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_build": false,
+        "verification": "Actual-source path/schema-literal/Python-routing inspection and exact live XML blob identity only. No real MSXML/XDR, embedded Python/Boost, installed custom roster, displayed dialogue, multiplayer or new native result.",
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
+      },
+      "reviewed_source_sha": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+      "reviewed_assistant_head": "4f38c94e2267543582ab88619a16a6b5a1b97513"
     },
     {
       "branch": "PartnerLeaderCivSpecificDiplomacyText",
       "head_at_inventory": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
       "coverage": "published_scoped_review",
       "native_verification": "linked_refinement_passed",
-      "next_action": "Revisit changed source or perform actual XDR/Boost/UI/cache runtime validation; reuse the existing isolated branch. Do not repeat delivered findings or claim the original source head passed.",
+      "next_action": "Installed loader path, optional schema tag names and Python selector routing have bounded source coverage without a new finding. Review changed source or actual installed XDR/Boost/embedded-Python/displayed dialogue/custom-roster/cache evidence; retain existing native provenance and do not repeat unchanged builds or filter fixtures.",
       "refinement_branch": "PartnerDiplomacyBuild-ChatGPT",
       "tested_code_sha": "0b80d617ec269caff3241245ea7af1eb285d4c38",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/40619734522",
@@ -4791,7 +5228,83 @@
       },
       "runtime_save_validation_policy": "save_runtime_validation_policy",
       "prior_feature_saves_exist": false,
-      "prior_feature_save_migration_required": false
+      "prior_feature_save_migration_required": false,
+      "installed_loader_routing_audit": {
+        "date": "2026-11-02",
+        "classification": "bounded_installed_XML_loader_and_Python_routing_audit_no_new_actionable_finding",
+        "source_head": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+        "assistant_head": "4f38c94e2267543582ab88619a16a6b5a1b97513",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "locations": {
+          "CvGameCoreDLL/CvXMLLoadUtilitySet.cpp": [
+            817,
+            1305,
+            1331,
+            1339,
+            1466,
+            1489,
+            1498,
+            1503,
+            1513
+          ],
+          "CvGameCoreDLL/CvInfo_Civilization.cpp": [
+            1515,
+            1519,
+            1520,
+            1524,
+            1525,
+            1662,
+            1676,
+            1677,
+            1678
+          ],
+          "CvGameCoreDLL/CvInfo_Misc.cpp": [
+            1463,
+            1465
+          ],
+          "Assets/Python/CvDiplomacy.py": [
+            430,
+            440,
+            447,
+            460,
+            467,
+            472,
+            473,
+            489,
+            506
+          ],
+          "Assets/XML/GameInfo/CIV4GameInfoSchema.xml": [
+            1165,
+            1168,
+            1182,
+            1185,
+            1211,
+            1218,
+            1219,
+            1220,
+            1221
+          ],
+          "CvGameCoreDLL/CvInfo_Base.h": [
+            12
+          ]
+        },
+        "observations": [
+          "The post-menu loader requests CIV4DiplomacyInfos from GameInfo. LoadDiplomacyInfo constructs the matching xml/GameInfo path, then uses SetDiplomacyInfo. Its module path uses *_CIV4DiplomacyInfos.xml and the same reader.",
+          "CvDiplomacyInfo::read allocates response objects and calls CvDiplomacyResponse::read; all four partner tag literals match optional Response schema elements in the co-located CIV4GameInfoSchema.xml.",
+          "The selected live CIV4DiplomacyInfos.xml blob is identical to pinned baseline (a37df97b711a757e7fb6b2378e8d6c69b130a054) and declares x-schema:CIV4GameInfoSchema.xml. The custom Celestia/Sombra source response remains inactive under tests, with partner fields after DiplomacyText as in the supplied schema sequence.",
+          "getDiplomacyComment obtains gc.getDiplomacyInfo and invokes filterUserResponse. That selector separates the trading player's ordinary masks from the active player's Other allow/deny masks; no missing Python routing stage was established.",
+          "SetDiplomacyInfo reuses an existing diplomacy-info object for repeated types; its response reader appends new responses, following the existing modular-loader behavior. No default-clone or wholesale-replacement semantics were introduced.",
+          "ENABLE_XML_FILE_CACHE is explicitly zero in the selected baseline header. The earlier cache-enabled fixtures remain scoped; the active configuration follows XML, and no actual cache-file interoperability is claimed."
+        ],
+        "new_finding_ids": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_build": false,
+        "verification": "Actual-source path/schema-literal/Python-routing inspection and exact live XML blob identity only. No real MSXML/XDR, embedded Python/Boost, installed custom roster, displayed dialogue, multiplayer or new native result.",
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
+      },
+      "reviewed_source_sha": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+      "reviewed_assistant_head": "4f38c94e2267543582ab88619a16a6b5a1b97513"
     },
     {
       "branch": "PartyWrapperDraft-ChatGPT",
@@ -7387,7 +7900,7 @@
       "head_at_inventory": "a4bf7f3e4516d135b18872fca3d6ff2d3c0080a2",
       "coverage": "source_review_partial_native_corrected_overlay_passed",
       "native_verification": "corrected_overlay_release_debug_passed_artifact_Build_logs_inspected",
-      "next_action": "Review actual XML/schema/default/copy/parser behavior, attitude-cache coherence and fresh-game save/reload. XML file-cache round-trip work is conditional on enabling ENABLE_XML_FILE_CACHE; do not repeat unchanged passing builds.",
+      "next_action": "Vote dispatch/cache source audit complete without a new actionable finding. Review relevant source changes or actual XML/default/parser, vote-to-refresh UI/network timing, attitude dependency order and fresh-game save/reload evidence. File-cache work remains conditional on ENABLE_XML_FILE_CACHE; do not repeat unchanged passing builds or add speculative refresh callbacks.",
       "refinement_branch": "VoteCounterDraft-ChatGPT",
       "draft_code_sha": "6d6e73b10343f277481da186013426be702ce00a",
       "finding_ids": [
@@ -7560,7 +8073,78 @@
         "merge_base": "4f2e7c2ea110e7859fbab1bdac32a02a27f5bb30",
         "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates.",
         "record_commit": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f"
-      }
+      },
+      "vote_attitude_cache_source_audit": {
+        "date": "2026-11-02",
+        "classification": "bounded_vote_dispatch_and_attitude_cache_source_audit_no_new_actionable_finding",
+        "source_head": "8fcfdd97329279393120aaab34c00dde84e729df",
+        "assistant_head": "3f3a691f7d5d75f841f1aea6f50c0a9ea836a4ec",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "locations": {
+          "CvGameCoreDLL/CvGame.cpp": [
+            5979,
+            5996,
+            6014,
+            6021,
+            6025,
+            6028,
+            6251,
+            10029,
+            10044,
+            10057
+          ],
+          "CvGameCoreDLL/CvPlayerAI.cpp": [
+            459,
+            474,
+            477,
+            481,
+            484,
+            7670,
+            7715,
+            7725,
+            7748,
+            7796,
+            8538,
+            19081,
+            19089,
+            19098,
+            23996,
+            24070,
+            24099
+          ],
+          "CvGameCoreDLL/CvPlayerAI.h": [
+            214,
+            217
+          ],
+          "CvGameCoreDLL/CvTeamAI.cpp": [
+            842,
+            857,
+            866,
+            880
+          ]
+        },
+        "observations": [
+          "CvGame::castVote updates the feature voter history after the existing memory-count paths and before setPlayerVote. AI_updateVoteCount has native bounds/null guards but no direct attitude-cache refresh.",
+          "Existing memory updates apply their own memory-attitude delta through AI_setMemoryCount and AI_changeCachedAttitude; that is not a recalculation of the separate vote-history contribution.",
+          "AI_updateAttitude includes a loop over all vote contributions and stores the resulting cached value. AI_doTurnPost refreshes other major AI players toward the active player before its human return or AI diplomacy; its own AI cache refresh follows through AI_updateExpansionistHate. CvGame::doDeals also invokes the global attitude refresh.",
+          "AI_getAttitude and the ordinary final AI_getAttitudeVal path read the cached player attitude; team aggregation reads player attitude values. The vote-attitude dependency on candidate/recipient attitudes is therefore not direct recursive recalculation.",
+          "addVoteTriggered casts AI ballots sequentially and queues human popups. Whether UI or another consequential consumer observes a changed vote-history contribution before the next scheduled refresh remains an actual dispatch/timing integration question.",
+          "No new refresh callback or multi-pass attitude policy is introduced without establishing the affected runtime transaction and intended dependency/update semantics. Existing city-recipient and team/ballot diplomacy formulas remain author policy."
+        ],
+        "new_finding_ids": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_build": false,
+        "verification": "Static actual-source inspection only; prior complete native result retained, no new compiler/parser/gameplay result claimed.",
+        "limits": [
+          "Installed-game vote dispatch, popup/network timing and attitude/UI observation between history mutation and periodic refresh",
+          "Interdependent candidate/recipient attitude update order and authored diplomacy policy",
+          "Fresh-game several-turn save/reload and cache reconstruction"
+        ],
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
+      },
+      "reviewed_source_sha": "8fcfdd97329279393120aaab34c00dde84e729df",
+      "reviewed_assistant_head": "3f3a691f7d5d75f841f1aea6f50c0a9ea836a4ec"
     },
     {
       "branch": "ReputationWindowDraft-ChatGPT",
@@ -8326,12 +8910,12 @@
     },
     {
       "branch": "PreferenceFrameworkDraft-ChatGPT",
-      "head_at_inventory": "87a7aa044ea0ed52d304a0b3fbac9c15b5137962",
-      "coverage": "source_review_partial_preference_clone_base_initialization_corrected",
-      "native_verification": "actual_preference_owners_and_baseline_constructor_bodies_host_verified_no_DLL",
+      "head_at_inventory": "62d2f9499ae53a2741e80798070fb8c9c60c954e",
+      "coverage": "changed_Unit_schema_incorporated_and_reader_contracts_aligned",
+      "native_verification": "schema_structural_contract_checks_passed_CPP_unchanged_no_full_DLL",
       "source_branch": "LeaderCivilizationDecisionPreferences",
-      "source_head": "aac03388283a5ac316f6a19f6e3754a7435b6511",
-      "draft_code_sha": "87a7aa044ea0ed52d304a0b3fbac9c15b5137962",
+      "source_head": "c245f5c3d205437ca6db26c9b74d5e6f121de1f6",
+      "draft_code_sha": "62d2f9499ae53a2741e80798070fb8c9c60c954e",
       "finding_ids": [
         "PREFERENCE-20261028-01",
         "PREFERENCE-20261028-02",
@@ -8347,13 +8931,14 @@
         "PREFERENCE-20261031-12",
         "PREFERENCE-20261031-13",
         "PREFERENCE-20261101-14",
-        "PREFERENCE-20261102-15"
+        "PREFERENCE-20261102-15",
+        "PREFERENCE-20261102-16"
       ],
-      "next_action": "Retain derived owning-map deep copies and baseline default-construction of base metadata. Review actual authored XML/default/parser integration, player reconstruction and percentage arithmetic. Full DLL overlay remains deferred until missing Event/Unit assets and Unit schema are supplied; do not invent them.",
-      "qualification": "Three unsupported base_t(kOther) initializers replaced by base_t(), matching actual baseline default cloning. Strict C++03 -fno-exceptions normal and ASan/UBSan host runs pass 160 ownership and 960 repeated-load sequences; three old-initializer diagnostic controls fail as expected. Actual two base constructor bodies represented, full base/XML/records/globals reduced; no MSVC7.1/DLL/parser/game result. Missing authored asset/schema gate retained.",
-      "latest_review": "docs/reviews/preference-base-2026-11-02.md",
+      "next_action": "Unit-schema gate resolved. Await authored CIV4EventPreferenceInfos.xml and CIV4UnitPreferenceInfos.xml for full installation/integration; review new source deltas and actual XML/default/parser/player reconstruction/arithmetic evidence. Preserve existing C++ fixes; no unchanged rebuild for schema-only work.",
+      "qualification": "Authored Unit schema incorporated; root/key/owner/list contracts corrected, optional owners aligned with supplied Tech profiles. Three-schema structural checks, five actual record contracts and seven negative controls pass; no MSXML/XDR/full DLL/game result. Production C++ unchanged; remaining missing data-file gate explicit.",
+      "latest_review": "docs/reviews/preference-schema-2026-11-02.md",
       "last_review_parent": "4d183d19b36c374f1fd3bf4830ca12c69b7b2a1f",
-      "reviewed_source_sha": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+      "reviewed_source_sha": "c245f5c3d205437ca6db26c9b74d5e6f121de1f6",
       "category_key_review": {
         "code_sha": "d103db3cc9e2ddb9f2b997364bfd8c899c04be33",
         "source_sha": "aac03388283a5ac316f6a19f6e3754a7435b6511",
@@ -8429,7 +9014,7 @@
         "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates.",
         "record_commit": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f"
       },
-      "reviewed_assistant_head": "5518502d36e4a180b1df6905ac91fffce42a4aaf",
+      "reviewed_assistant_head": "61c5ae3119e06b97098e7ccd3c629f06b61b5b39",
       "base_default_clone_review": {
         "date": "2026-11-02",
         "finding_id": "PREFERENCE-20261102-15",
@@ -8490,7 +9075,72 @@
           "gameplay_result": null
         },
         "runtime_save_validation_policy": "save_runtime_validation_policy"
-      }
+      },
+      "source_review_history": [
+        {
+          "source_sha": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+          "scope": "Prior C++/record/default-copy reviews retained; historical missing Unit-schema gate partially superseded by new authored source."
+        }
+      ],
+      "schema_integration_review": {
+        "date": "2026-11-02",
+        "finding_id": "PREFERENCE-20261102-16",
+        "source_branch": "LeaderCivilizationDecisionPreferences",
+        "source_sha": "c245f5c3d205437ca6db26c9b74d5e6f121de1f6",
+        "previous_source_sha": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+        "new_source_commits": [
+          "bc95f4707cd38954cea36fec3447e9c1d38ea295",
+          "c245f5c3d205437ca6db26c9b74d5e6f121de1f6"
+        ],
+        "assistant_parent": "61c5ae3119e06b97098e7ccd3c629f06b61b5b39",
+        "refinement_branch": "PreferenceFrameworkDraft-ChatGPT",
+        "code_sha": "62d2f9499ae53a2741e80798070fb8c9c60c954e",
+        "schema_code_sha": "72543d4e94d17803dc1eb31be3700b7e492cecae",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "changed_paths": [
+          "XML/Civilizations/CIV4CivilizationsSchema.xml",
+          "XML/Events/CIV4EventSchema.xml",
+          "XML/Units/CIV4UnitSchema.xml",
+          "tests/preference-schema/check.py"
+        ],
+        "CPP_changes": false,
+        "XANA_markers_preserved": true,
+        "corrections": [
+          "Unit schema root spelling matches Civ4UnitPreferenceInfos requested by the actual loader.",
+          "Unit owner tags are LeaderType/CivilizationType, matching CvUnitPreferenceInfo::read.",
+          "Unit record uses declared UnitType rather than undefined Unit; key declarations remain distinct from existing UnitClassType/UnitCombatType.",
+          "UnitCombatPreferences and UnitClassPreferences mirror the two existing C++ list readers; all three list containers are optional, retaining omission/inherited-list support.",
+          "Tech/Event/Unit owner fields are optional, matching leader-only or civilization-only profiles and the supplied technology XML examples.",
+          "Existing assistant Tech/Event root-spelling corrections retained, not counted as new fixes."
+        ],
+        "verification": {
+          "three_schemas_well_formed": true,
+          "duplicate_ElementType_declarations": 0,
+          "unresolved_element_references": 0,
+          "actual_loader_roots_and_paths_checked": 3,
+          "actual_record_reader_contracts_checked": 5,
+          "authored_Tech_profiles_checked": 2,
+          "negative_controls_detected": 7,
+          "MSXML_XDR_engine_execution": false,
+          "full_DLL_run": false,
+          "gameplay_execution": false
+        },
+        "gate": {
+          "Unit_schema_supplied": true,
+          "Unit_schema_corrected_on_assistant_branch": true,
+          "Event_preference_data_XML_supplied": false,
+          "Unit_preference_data_XML_supplied": false,
+          "remaining_missing_files": [
+            "XML/Events/CIV4EventPreferenceInfos.xml",
+            "XML/Units/CIV4UnitPreferenceInfos.xml"
+          ],
+          "no_profiles_or_mechanics_invented": true,
+          "ci": "[skip ci]"
+        },
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
+      },
+      "integration_skip_source_sha": "c245f5c3d205437ca6db26c9b74d5e6f121de1f6",
+      "integration_skip_reason": "Event/Unit preference data XML documents remain absent; Unit schema is now supplied and corrected. No authored profiles/weights are invented for DLL/game validation."
     },
     {
       "branch": "CityPopulationDraft-ChatGPT",
@@ -9209,7 +9859,7 @@
         "Release": 13047011759,
         "Debug": 13047012057
       },
-      "next_action": "Do not repeat unchanged passing builds. Review shared attitude-threshold/rank policy, versioned player-counter persistence, XML/default/cache compatibility and actual game behavior; extreme arithmetic bounds remain unverified.",
+      "next_action": "Current-branch counter persistence/reset ordering has bounded static coverage with no new finding. Review relevant source changes or actual fresh-game save/reload, attitude reconstruction, XML/default/cache integration and shared threshold/rank policy. Extreme arithmetic remains unverified; do not invent caps or repeat unchanged passing builds.",
       "finding_ids": [
         "RANK-20261028-01",
         "RANK-20261029-02",
@@ -9273,7 +9923,7 @@
       "coverage": "source_review_partial",
       "qualification": "2,313,362 extracted-method C++03/ASan/UBSan cases with game/fixed-point stand-ins; 2 negative controls. Native corrected overlay Release/Debug zero warnings/errors; all 4 ZIPs extracted, actual Build.log/provenance/349-source manifests/PE32 x86 DLLs/Debug PDB verified. Initial Release PCH failure retained; precise cause unconfirmed. No whole-game/saves/numerical DLL execution certification.",
       "last_review_parent": "8f8f6830478d97c0f0fb88856dff5561098e9f4b",
-      "head_at_inventory": "6173663f4e80b96817b6d0c59ef7692a64e01648",
+      "head_at_inventory": "b16c9cabd2efedad83ba5f55d9b2e704b73915bf",
       "source_branch": "LeaderSpecificDynamicRankBonusDiplomacy",
       "source_head": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
       "last_inventory_followup": {
@@ -9331,7 +9981,80 @@
         "merge_base": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
         "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates.",
         "record_commit": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f"
-      }
+      },
+      "counter_persistence_source_audit": {
+        "date": "2026-11-02",
+        "classification": "bounded_counter_persistence_and_reset_source_audit_no_new_actionable_finding",
+        "source_head": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+        "assistant_head": "b16c9cabd2efedad83ba5f55d9b2e704b73915bf",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "locations": {
+          "CvGameCoreDLL/CvPlayerAI.cpp": [
+            54,
+            63,
+            113,
+            183,
+            207,
+            214,
+            236,
+            245,
+            18699,
+            18707,
+            18899,
+            19405,
+            19518,
+            19525,
+            19530,
+            23012,
+            23065,
+            23098,
+            23213,
+            23236,
+            23274
+          ],
+          "CvGameCoreDLL/CvPlayer.cpp": [
+            318,
+            442,
+            549,
+            550,
+            14072,
+            14074
+          ],
+          "CvGameCoreDLL/CvPlayer.h": [
+            69,
+            876,
+            1470
+          ]
+        },
+        "observations": [
+          "Constructor allocates MAX_PLAYERS signed-int counter storage; destructor deletes it. AI_reset zeros the player's whole array and conditionally the corresponding slot in other players.",
+          "Current branch reader and writer both serialize MAX_PLAYERS counter entries after the bonus-trade counter and before peacetime-trade values. The existing writer version remains 22 and the feature payload is unconditional in its reader.",
+          "CvPlayerAI::read calls CvPlayer::read first. The actual base read starts with reset(), whose header default eID is NO_PLAYER; reset assigns that value before calling AI_reset(false). The getID()!=NO_PLAYER guard therefore suppresses the cross-player slot clearing during this load reset.",
+          "Same-branch counter payload order is statically symmetric; no missing current writer/read field or unconditional cross-player reset defect was established. Actual native stream execution and whole-game reconstruction were not performed.",
+          "Counter mutation and decay remain the authored nonnegative accumulation/rank-threshold policy. Extreme arithmetic and the shared threshold/rank meaning remain separate unresolved policy/range scopes; no arbitrary cap or new save version was introduced."
+        ],
+        "save_contract": {
+          "current_branch_format_only": true,
+          "baseline_same_numeric_version_not_a_feature_format_discriminator": true,
+          "prior_feature_saves_exist": false,
+          "prior_feature_save_migration_required": false,
+          "runtime_test": "new_game_then_several_turns_save_reload",
+          "runtime_policy_reference": "save_runtime_validation_policy"
+        },
+        "new_finding_ids": [],
+        "production_changes": false,
+        "new_tests": false,
+        "new_DLL_build": false,
+        "verification": "Static source inspection only; existing native Release/Debug evidence retained, no fresh DLL or save/load result claimed.",
+        "limits": [
+          "Actual engine fresh-game several-turn save/reload and post-load attitude reconstruction",
+          "Changed compiled MAX_PLAYERS or unrelated independent feature save formats",
+          "Extreme counter/metadata arithmetic, threshold mechanics and XML/default/cache integration"
+        ],
+        "runtime_save_validation_policy": "save_runtime_validation_policy"
+      },
+      "reviewed_source_sha": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+      "reviewed_assistant_head": "b16c9cabd2efedad83ba5f55d9b2e704b73915bf"
     }
   ],
   "current_pass": {
@@ -9383,9 +10106,15 @@
   "last_inventory": {
     "date": "2026-11-02",
     "branch_count": 75,
-    "original_head_changes": [],
-    "scope": "Preference base-constructor contract review and scoped correction; 160 ownership/960 reload host sequences and three negative controls; no DLL under existing asset gate.",
-    "assistant_parent": "5518502d36e4a180b1df6905ac91fffce42a4aaf"
+    "original_head_changes": [
+      {
+        "branch": "LeaderCivilizationDecisionPreferences",
+        "previous": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+        "current": "c245f5c3d205437ca6db26c9b74d5e6f121de1f6"
+      }
+    ],
+    "scope": "Changed preference Unit schema incorporated with scoped schema/reader alignment; remaining missing data-file gate narrowed; no C++ change or DLL run.",
+    "assistant_parent": "61c5ae3119e06b97098e7ccd3c629f06b61b5b39"
   },
   "inventory_2026_10_31_native_failure_review": [
     {
@@ -13008,5 +13737,61 @@
     "record": "docs/reviews/preference-base-2026-11-02.json",
     "previous_master_branch": "UWAIWeightsDraft-ChatGPT",
     "previous_master_commit": "21e4baf145aef96e95f3c17a7e45ba638bad2725"
+  },
+  "inventory_2026_11_02_vote_attitude_cache": {
+    "date": "2026-11-02",
+    "branch_count": 75,
+    "original_head_changes": [],
+    "scope": "Bounded vote-dispatch, history-consumer and attitude-cache source audit; no new actionable finding, C++ changes, tests or DLL run.",
+    "assistant_parent": "3f3a691f7d5d75f841f1aea6f50c0a9ea836a4ec",
+    "source": "8fcfdd97329279393120aaab34c00dde84e729df",
+    "previous_master_branch": "PreferenceFrameworkDraft-ChatGPT",
+    "previous_master_commit": "61c5ae3119e06b97098e7ccd3c629f06b61b5b39"
+  },
+  "inventory_2026_11_02_rank_counter_persistence": {
+    "date": "2026-11-02",
+    "branch_count": 75,
+    "original_head_changes": [],
+    "scope": "Bounded dynamic-rank current-format counter save/read and reset lifecycle audit; no new finding, C++ changes, tests or DLL run.",
+    "assistant_parent": "b16c9cabd2efedad83ba5f55d9b2e704b73915bf",
+    "source": "ff5560a1f2af752be1446e8bbd8d37bcdbe64a1e",
+    "previous_master_branch": "VoteCounterDraft-ChatGPT",
+    "previous_master_commit": "1733a2b8f67d239ee8a9a2471074a9bb3d87554b"
+  },
+  "inventory_2026_11_02_partner_loader_routing": {
+    "date": "2026-11-02",
+    "branch_count": 75,
+    "original_head_changes": [],
+    "scope": "Partner diplomacy installed XML/schema/active response-loader/Python routing audit; no new finding, source changes, tests or DLL run.",
+    "assistant_parent": "4f38c94e2267543582ab88619a16a6b5a1b97513",
+    "source": "d37d0ca0adcaef748e0c7b32ccd90568dbee05e0",
+    "previous_master_branch": "DynamicRankDraft-ChatGPT",
+    "previous_master_commit": "1c14d776c749047ce573a6d64f7a894c646c18f9"
+  },
+  "inventory_2026_11_02_family_identity": {
+    "date": "2026-11-02",
+    "branch_count": 75,
+    "original_head_changes": [],
+    "scope": "Family relationship shared initialization/personality/load reconstruction audit and existing missing-asset boundary; no new finding, source changes, tests or DLL run.",
+    "assistant_parent": "56e2a1c319b4d2e2b085e773aff9cfcfb497d018",
+    "source": "ba88a0e713fb21fccff9ae2469164af78544bc2b",
+    "previous_master_branch": "PartnerDiplomacyBuild-ChatGPT",
+    "previous_master_commit": "9c1a781ea1e3c5bb9336f741d0720bc32d76e9de"
+  },
+  "inventory_2026_11_02_preference_schema": {
+    "date": "2026-11-02",
+    "branch_count": 75,
+    "original_head_changes": [
+      {
+        "branch": "LeaderCivilizationDecisionPreferences",
+        "previous": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+        "current": "c245f5c3d205437ca6db26c9b74d5e6f121de1f6"
+      }
+    ],
+    "scope": "Changed preference Unit schema incorporated with scoped schema/reader alignment; remaining missing data-file gate narrowed; no C++ change or DLL run.",
+    "assistant_parent": "61c5ae3119e06b97098e7ccd3c629f06b61b5b39",
+    "code": "62d2f9499ae53a2741e80798070fb8c9c60c954e",
+    "previous_master_branch": "FamilyRelationsBuild-ChatGPT",
+    "previous_master_commit": "8187e666dd4b380bc9f61d0921cd09cfed1fda83"
   }
 }

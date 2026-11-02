@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-02",
+  "finding_id": "PREFERENCE-20261102-16",
+  "source_branch": "LeaderCivilizationDecisionPreferences",
+  "source_sha": "c245f5c3d205437ca6db26c9b74d5e6f121de1f6",
+  "previous_source_sha": "aac03388283a5ac316f6a19f6e3754a7435b6511",
+  "new_source_commits": [
+    "bc95f4707cd38954cea36fec3447e9c1d38ea295",
+    "c245f5c3d205437ca6db26c9b74d5e6f121de1f6"
+  ],
+  "assistant_parent": "61c5ae3119e06b97098e7ccd3c629f06b61b5b39",
+  "refinement_branch": "PreferenceFrameworkDraft-ChatGPT",
+  "code_sha": "62d2f9499ae53a2741e80798070fb8c9c60c954e",
+  "schema_code_sha": "72543d4e94d17803dc1eb31be3700b7e492cecae",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "changed_paths": [
+    "XML/Civilizations/CIV4CivilizationsSchema.xml",
+    "XML/Events/CIV4EventSchema.xml",
+    "XML/Units/CIV4UnitSchema.xml",
+    "tests/preference-schema/check.py"
+  ],
+  "CPP_changes": false,
+  "XANA_markers_preserved": true,
+  "corrections": [
+    "Unit schema root spelling matches Civ4UnitPreferenceInfos requested by the actual loader.",
+    "Unit owner tags are LeaderType/CivilizationType, matching CvUnitPreferenceInfo::read.",
+    "Unit record uses declared UnitType rather than undefined Unit; key declarations remain distinct from existing UnitClassType/UnitCombatType.",
+    "UnitCombatPreferences and UnitClassPreferences mirror the two existing C++ list readers; all three list containers are optional, retaining omission/inherited-list support.",
+    "Tech/Event/Unit owner fields are optional, matching leader-only or civilization-only profiles and the supplied technology XML examples.",
+    "Existing assistant Tech/Event root-spelling corrections retained, not counted as new fixes."
+  ],
+  "verification": {
+    "three_schemas_well_formed": true,
+    "duplicate_ElementType_declarations": 0,
+    "unresolved_element_references": 0,
+    "actual_loader_roots_and_paths_checked": 3,
+    "actual_record_reader_contracts_checked": 5,
+    "authored_Tech_profiles_checked": 2,
+    "negative_controls_detected": 7,
+    "MSXML_XDR_engine_execution": false,
+    "full_DLL_run": false,
+    "gameplay_execution": false
+  },
+  "gate": {
+    "Unit_schema_supplied": true,
+    "Unit_schema_corrected_on_assistant_branch": true,
+    "Event_preference_data_XML_supplied": false,
+    "Unit_preference_data_XML_supplied": false,
+    "remaining_missing_files": [
+      "XML/Events/CIV4EventPreferenceInfos.xml",
+      "XML/Units/CIV4UnitPreferenceInfos.xml"
+    ],
+    "no_profiles_or_mechanics_invented": true,
+    "ci": "[skip ci]"
+  },
+  "runtime_save_validation_policy": "save_runtime_validation_policy"
+}
