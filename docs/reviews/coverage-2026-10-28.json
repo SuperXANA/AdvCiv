@@ -5427,7 +5427,7 @@
       "head_at_inventory": "3e8418a1b6840192f21af4650dcfce89a8c557d1",
       "coverage": "published_scoped_review",
       "native_verification": "linked_assistant_Release_Debug_verified_original_not_built",
-      "next_action": "Review relevant source changes, authored modifier/default profiles and actual engine XML/trait/price/EnumMap/game integration. Extreme arithmetic remains a separate scoped review; no arbitrary cap is introduced. Do not repeat unchanged fully verified builds.",
+      "next_action": "Local Destiny definition and corrected Barbarian audio XML are reported present/adopted. Await observed game XML initialization, trait changes, upgrade prices and fresh-game save/reload; no C++ change or unchanged DLL rebuild required by this update.",
       "refinement_branch": "UnitCombatUpgradeXML-ChatGPT",
       "tested_code_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41390572710",
@@ -5734,7 +5734,16 @@
           "PROMOTION_DESTINY definition absent",
           "MLPCiv LEADER_BARBARIAN DiplomacyMusicPeace schema mismatch"
         ],
-        "game_runtime_verified": false
+        "game_runtime_verified": false,
+        "open_installation_issues_scope": "Previously inspected published snapshot only; see local_installation_update."
+      },
+      "local_installation_update": {
+        "date": "2026-11-02",
+        "evidence": "user_report_local_installation",
+        "PROMOTION_DESTINY": "Present in user's live local mod; absent from the previously inspected GitHub asset snapshot. Not a local missing-definition blocker.",
+        "Barbarian_leader_audio_XML": "User reports adopting assistant-corrected XML locally.",
+        "repository_local_distinction": "Published MLPCiv assets are not a complete mirror of the user's laptop installation.",
+        "runtime_verification": "Still pending; this report does not establish engine XML initialization, trait/upgrade behavior or fresh-game save/reload."
       }
     },
     {
@@ -7784,7 +7793,7 @@
       "head_at_inventory": "6786d8d79fda34d6bfce45526ba6d489df916f35",
       "coverage": "published_review_artifact",
       "native_verification": "exact_overlay_Release_Debug_passed_all_artifacts_actual_logs_hashes_symbols_verified",
-      "next_action": "No further development on this older assistant branch. All work is ancestor history of UnitCombatUpgradeXML-ChatGPT; retain exact tested commit/run/artifacts as historical validation evidence. User may manually remove this branch; it has not been deleted.",
+      "next_action": "Removed by user after incorporation into UnitCombatUpgradeXML-ChatGPT; do not recreate. Retain exact historical build evidence.",
       "source_branch": "PerUnitCombatUpgradeCostModifers",
       "tested_code_sha": "d0ee554823f99f0d72a2c90a77463235e08c2fa6",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41390572710",
@@ -8094,7 +8103,7 @@
       "latest_review": "docs/reviews/upgrade-native-2026-11-01.md",
       "qualification": "Unchanged corrected unit-combat upgrade C++ source passes complete pinned-baseline MSVC7.1 Release/Debug with zero warnings/errors. Four ZIPs, actual Build.log/timing, 349-file content manifests/pins, six feature Git/native hashes, PE32 DLLs and Debug PDB match verified. No actual XML/trait/pricing/stream/gameplay execution.",
       "runtime_save_validation_policy": "save_runtime_validation_policy",
-      "review_disposition": "superseded_safe_to_ignore_manual_removal_permitted",
+      "review_disposition": "superseded_removed_by_user",
       "superseded_by": "UnitCombatUpgradeXML-ChatGPT",
       "consolidation": {
         "older_branch": "UnitCombatUpgradeBuild-ChatGPT",
@@ -8109,8 +8118,10 @@
         "DLL_tree": "f2a5da8477c263aa2c5784c3a2ce68d9671430ac",
         "github_tree": "06d04d488350b8009fd3cbd2c08e27974e0e9c01",
         "DLL_and_workflow_trees_identical": true,
-        "older_branch_deleted": false
-      }
+        "older_branch_deleted": true,
+        "deletion_actor": "user"
+      },
+      "branch_absence_verified_date": "2026-11-02"
     },
     {
       "branch": "UnitStatusEffects",
@@ -10631,11 +10642,20 @@
           "PROMOTION_DESTINY definition absent",
           "MLPCiv LEADER_BARBARIAN DiplomacyMusicPeace schema mismatch"
         ],
-        "game_runtime_verified": false
+        "game_runtime_verified": false,
+        "open_installation_issues_scope": "Previously inspected published snapshot only; see local_installation_update."
       },
       "qualification": "This pass verifies branch ancestry and identical DLL/workflow trees and reconciles existing reports. It does not rerun the XML checker, download the civic artifacts again, or claim new runtime/native validation.",
-      "next_action": "Continue upgrade feature integration here. Resolve authored Destiny promotion and installed leader schema issues before engine initialization and new-game trait/pricing/save-reload checks. No unchanged DLL rebuild.",
-      "runtime_save_validation_policy": "save_runtime_validation_policy"
+      "next_action": "Local Destiny definition and corrected Barbarian audio XML are reported present/adopted. Await observed game XML initialization, trait changes, upgrade prices and fresh-game save/reload; no C++ change or unchanged DLL rebuild required by this update.",
+      "runtime_save_validation_policy": "save_runtime_validation_policy",
+      "local_installation_update": {
+        "date": "2026-11-02",
+        "evidence": "user_report_local_installation",
+        "PROMOTION_DESTINY": "Present in user's live local mod; absent from the previously inspected GitHub asset snapshot. Not a local missing-definition blocker.",
+        "Barbarian_leader_audio_XML": "User reports adopting assistant-corrected XML locally.",
+        "repository_local_distinction": "Published MLPCiv assets are not a complete mirror of the user's laptop installation.",
+        "runtime_verification": "Still pending; this report does not establish engine XML initialization, trait/upgrade behavior or fresh-game save/reload."
+      }
     }
   ],
   "current_pass": {
@@ -10690,7 +10710,7 @@
   },
   "assistant_branch_cleanup_policy": "Reuse suitable assistant branches. For clearly duplicate older/newer assistant branches, inspect histories and contents, merge older into newer preserving newer edits, then mark older safe for user manual removal. Never delete the older branch automatically. This explicit user authorization is limited to assistant branch consolidation.",
   "inventory_date": "2026-11-02",
-  "inventory_branch_count": 76,
+  "inventory_branch_count": 75,
   "last_inventory": {
     "date": "2026-11-02",
     "branch_count": 75,
@@ -14428,5 +14448,13 @@
     },
     "previous_master_branch": "FavoriteUnitCombatDraft-ChatGPT",
     "previous_master_commit": "c6d55bf41f3d0e6e5f3a088fcece8001ab165971"
+  },
+  "inventory_2026_11_02_local_upgrade_update": {
+    "date": "2026-11-02",
+    "evidence": "user_report_local_installation",
+    "PROMOTION_DESTINY": "Present in user's live local mod; absent from the previously inspected GitHub asset snapshot. Not a local missing-definition blocker.",
+    "Barbarian_leader_audio_XML": "User reports adopting assistant-corrected XML locally.",
+    "repository_local_distinction": "Published MLPCiv assets are not a complete mirror of the user's laptop installation.",
+    "runtime_verification": "Still pending; this report does not establish engine XML initialization, trait/upgrade behavior or fresh-game save/reload."
   }
 }
