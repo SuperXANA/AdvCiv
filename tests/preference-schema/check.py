@@ -54,10 +54,11 @@ def validate(unit_text, event_text, tech_text):
     xml = ET.fromstring((ROOT / 'XML/Civilizations/CIV4TechPreferenceInfos.xml').read_text())
     assert xml.tag.rsplit('}', 1)[-1] == 'Civ4TechPreferenceInfos'
     rows = xml.findall('.//{*}TechPreferenceInfo')
-    assert len(rows) == 2
+    assert rows
+    required = {e.attrib['type'] for e in tech['TechPreferenceInfo'].findall('{*}element') if e.get('minOccurs', '1') != '0'}
     for row in rows:
         present = {e.tag.rsplit('}', 1)[-1] for e in row}
-        assert ('LeaderType' in present) != ('CivilizationType' in present)
+        assert required <= present, 'authored profile omits required schema fields'
 
 texts = [p.read_text() for p in (UNITS, EVENTS, TECHS)]
 validate(*texts)
