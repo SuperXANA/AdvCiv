@@ -450,8 +450,8 @@
 	</ElementType>
 	<ElementType name="EventPreferenceInfo" content="eltOnly">
 		<element type="Type"/>
-		<element type="Leader"/>
-		<element type="Civilization"/>
+		<element type="Leader" minOccurs="0"/>
+		<element type="Civilization" minOccurs="0"/>
 		<element type="EventPreferences"/>
 	</ElementType>
 	<ElementType name="EventPreferenceInfos" content="eltOnly">

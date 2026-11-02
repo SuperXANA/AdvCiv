@@ -564,8 +564,8 @@
 	</ElementType>
 	<ElementType name="TechPreferenceInfo" content="eltOnly">
 		<element type="Type"/>
-		<element type="LeaderType"/>
-		<element type="CivilizationType"/>
+		<element type="LeaderType" minOccurs="0"/>
+		<element type="CivilizationType" minOccurs="0"/>
 		<element type="TechPreferences"/>
 	</ElementType>
 	<ElementType name="TechPreferenceInfos" content="eltOnly">
