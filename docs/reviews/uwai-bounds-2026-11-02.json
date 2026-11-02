@@ -1,0 +1,133 @@
+{
+  "date": "2026-11-02",
+  "finding_id": "UWAI-20261102-08",
+  "source_branch": "LeaderSpecificUWAIAspectWeights",
+  "original_source": "d38c565a981984a7c34417a9d9529fec2bcd7165",
+  "assistant_parent": "f1d3125c0f35dff4c4a144c63a66d9437a270acd",
+  "code": "800199eb609c9d1c139bb2bbe1bd5af8e59f9e4f",
+  "tested_commit": "b9c0c192e98a02d8003e88bf6f4e8741225a7494",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "workflow": "1cc8c3d24e9fe15126485de0b9e6604167caac36",
+  "run": 41402811119,
+  "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41402811119",
+  "terminal_status": "completed",
+  "terminal_conclusion": "success",
+  "jobs": [
+    {
+      "id": 125138129711,
+      "name": "build-dll (Release)",
+      "conclusion": "success"
+    },
+    {
+      "id": 125138129877,
+      "name": "build-dll (Debug)",
+      "conclusion": "success"
+    }
+  ],
+  "workflow_changes": "Only the three provenance pins; actual current dll-build workflow copied.",
+  "baseline_blob_paths_retained": 872,
+  "selected_DLL_blobs_matching": 364,
+  "root_sources": 351,
+  "production_changes": {
+    "files": [
+      "CvGameCoreDLL/UWAI.h",
+      "CvGameCoreDLL/CvInfo_Civilization.cpp"
+    ],
+    "added_guard_lines": 6,
+    "methods": 3,
+    "XANA_markers_preserved": true,
+    "no_explicit_CPP_exceptions": true
+  },
+  "host": {
+    "cases": 252,
+    "C03_fno_exceptions": true,
+    "ASan_UBSan": true,
+    "original_three_accessor_invalid_ID_controls_failed": true,
+    "engine_interfaces_and_scaled_are_standins": true,
+    "leak_detection": false
+  },
+  "all_four_archives_downloaded_size_SHA256_checked_extracted": true,
+  "all_extracted_entries_match_archive": true,
+  "actual_Build_log_and_BuildTiming_inspected_both": true,
+  "compiler_probe_both": "_MSC_VER == 1310 (MSVC 7.1)",
+  "source_manifests_and_provenance_pins_verified_both": true,
+  "source_hash_diff_empty_both": true,
+  "eleven_feature_files_Git_blob_and_native_SHA256_verified": true,
+  "artifact_metadata": [
+    {
+      "id": 13122581116,
+      "name": "source-verification-Release-UWAIWeightsDraft-ChatGPT-b9c0c192e98a02d8003e88bf6f4e8741225a7494",
+      "size_in_bytes": 31268,
+      "digest": "sha256:51043dd0693e25a170c1ee53618f98c4acd970dd2891230107f910a0487a307c",
+      "head_sha": "b9c0c192e98a02d8003e88bf6f4e8741225a7494"
+    },
+    {
+      "id": 13122058006,
+      "name": "CvGameCoreDLL-Release-UWAIWeightsDraft-ChatGPT-b9c0c192e98a02d8003e88bf6f4e8741225a7494",
+      "size_in_bytes": 2350600,
+      "digest": "sha256:66e50973e463b7c4c160e6ff70cacb52921925f219c3be3c04085dafc6ec6566",
+      "head_sha": "b9c0c192e98a02d8003e88bf6f4e8741225a7494"
+    },
+    {
+      "id": 13121968679,
+      "name": "CvGameCoreDLL-Debug-UWAIWeightsDraft-ChatGPT-b9c0c192e98a02d8003e88bf6f4e8741225a7494",
+      "size_in_bytes": 18571462,
+      "digest": "sha256:a7f2f6557b283dced0ccf7261468a4dc52ef4b3f6111ea584fa7f126f2e50578",
+      "head_sha": "b9c0c192e98a02d8003e88bf6f4e8741225a7494"
+    },
+    {
+      "id": 13121584643,
+      "name": "source-verification-Debug-UWAIWeightsDraft-ChatGPT-b9c0c192e98a02d8003e88bf6f4e8741225a7494",
+      "size_in_bytes": 31268,
+      "digest": "sha256:d8bc8808c38193f5b389b8745600311b0cca0c7db1793c1b5822fbfdeb12938e",
+      "head_sha": "b9c0c192e98a02d8003e88bf6f4e8741225a7494"
+    }
+  ],
+  "native": {
+    "Release": {
+      "configuration": "Release",
+      "artifacts": {
+        "binary": 13122058006,
+        "diagnostic": 13122581116
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 351,
+      "manifest_sha256": "db50619adb0940bae8026dae080488c14f2d2414374dc7c7c510f232a89dee0e",
+      "dll_bytes": 6569984,
+      "dll_sha256": "f607806b0ad6f7645f151b456cc1cb60e365693b5c8d2e08ac881435e40f558c",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-02T06:53:41.3211940Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-02T06:53:39.3211940Z",
+        "precompile_utc_after=2026-11-02T06:53:39.3211940Z"
+      ]
+    },
+    "Debug": {
+      "configuration": "Debug",
+      "artifacts": {
+        "binary": 13121968679,
+        "diagnostic": 13121584643
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 351,
+      "manifest_sha256": "db50619adb0940bae8026dae080488c14f2d2414374dc7c7c510f232a89dee0e",
+      "dll_bytes": 25206784,
+      "dll_sha256": "6c6fb4e57ca763f52ada0b95b15834b59ca8ecde9da82db649114751ba1aba89",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-02T06:56:30.3993229Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-02T06:56:28.3836964Z",
+        "precompile_utc_after=2026-11-02T06:56:28.3836964Z"
+      ],
+      "pdb_guid": "74913cea-8917-4a5b-90b7-cb865a64d1f9",
+      "pdb_age": 1,
+      "pdb_bytes": 70618112,
+      "pdb_sha256": "302d2d205b2ab6c3467e24881ac83f57ae79cd7c0d05519f972436408e65f70f"
+    }
+  },
+  "runtime_XML_gameplay_verified": false
+}
