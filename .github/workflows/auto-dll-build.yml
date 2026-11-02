@@ -30,8 +30,7 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-    - name: Build DLL via MSBuild
-      id: build
+    - name: Prepare CvGameCoreDLL Sources & Hash Verification
       shell: bash
       env:  
           # YAML automatically preserves this string exactly as written
@@ -45,73 +44,6 @@ jobs:
           # YAML automatically preserves this string exactly as written
           # add workflow commit SHA here
           WORKFLOW_COMMIT_SHA: 0
-          
-          # YAML automatically preserves this multi-line string exactly as written
-          PS_CODE: |
-            param(
-              [string]$cfg
-            )
-            $ErrorActionPreference = "Stop"
-            $sourceRoot = "R:\CvGameCoreDLL"
-            # Preserve the VM's Project configuration and force fresh build outputs.
-            $projectDir = "$sourceRoot\Project"
-            foreach ($dir in @("Release", "Debug", "temp_files", "obj")) {
-              $outputDir = Join-Path $projectDir $dir
-              if (Test-Path $outputDir) { Remove-Item $outputDir -Recurse -Force }
-            }
-            # Remove existing MSBuild logs to protect against uploading older log files - especially when evaluating failing builds
-            foreach ($logName in @("Build.log", "JustErrors.log", "JustWarnings.log", "BuildTiming.log")) {
-              $logPath = Join-Path $projectDir $logName
-              if (Test-Path -LiteralPath $logPath) { Remove-Item -LiteralPath $logPath -Force }
-            }
-            # Correlate failure logs with this exact invocation, including reruns.
-            Set-Content -LiteralPath (Join-Path $projectDir "codex-build-log-token.txt") -Encoding ASCII '${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.configuration }}-${{ github.sha }}'
-            # rsync preserves runner timestamps; the VM clock can lag behind it.
-            # Fresh outputs are already removed, so source-only mtime normalization
-            # cannot hide stale objects and does not change verified file contents.
-            $precompileSource = Get-Item -LiteralPath (Join-Path $sourceRoot "_precompile.cpp")
-            $sourceStamp = [DateTime]::UtcNow.AddSeconds(-2)
-            $timingLog = Join-Path $projectDir "BuildTiming.log"
-            @(
-              ("vm_utc_before=" + [DateTime]::UtcNow.ToString("o")),
-              ("precompile_utc_before=" + $precompileSource.LastWriteTimeUtc.ToString("o")),
-              ("normalized_source_utc=" + $sourceStamp.ToString("o"))
-            ) | Set-Content -LiteralPath $timingLog -Encoding ASCII
-            $sourceExtensions = @(".c", ".cpp", ".h", ".inl")
-            foreach ($sourceFile in @(Get-ChildItem -LiteralPath $sourceRoot -Force | Where-Object { -not $_.PSIsContainer -and $sourceExtensions -contains $_.Extension.ToLowerInvariant() })) {
-              $sourceFile.LastWriteTimeUtc = $sourceStamp
-            }
-            Add-Content -LiteralPath $timingLog -Encoding ASCII ("precompile_utc_after=" + (Get-Item -LiteralPath $precompileSource.FullName).LastWriteTimeUtc.ToString("o"))
-            # Check the compiler selected by the machine-local Makefile.user.
-            # The VS2010 shell only hosts MSBuild; game code must use VC7.1.
-            $probeSource = Join-Path $projectDir "codex-toolset-check.cpp"
-            $probeMake = Join-Path $projectDir "codex-toolset-check.mk"
-            Set-Content -Encoding ASCII $probeSource @(
-              "#if _MSC_VER != 1310",
-              "#error Civ4 DLL validation requires MSVC 7.1 (_MSC_VER 1310)",
-              "#endif",
-              "int codex_toolset_check;"
-            )
-            $probeLines = "!include Makefile`r`ncodex_compiler_check:`r`n`t" + '@$(CPP) /nologo /c /TP /Focodex-toolset-check.obj codex-toolset-check.cpp' + "`r`n"
-            Set-Content -Encoding ASCII $probeMake $probeLines
-            # Set configuration based on current active branch
-            Write-Output "Targeting configuration: $cfg"
-            $vcvarsall = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
-            $projectDir = "R:\CvGameCoreDLL\Project"
-            # Run vcvarsall, change directory, and build all in ONE cmd session.
-            # No need to import env vars into PowerShell.
-            $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && nmake /f codex-toolset-check.mk TARGET=$cfg codex_compiler_check /NOLOGO && msbuild AdvCiv.vcxproj /p:Configuration=$cfg -t:Rebuild -fl1 -flp1:logfile=Build.log -fl2 -fl3 -flp2:logfile=JustErrors.log;errorsonly -flp3:logfile=JustWarnings.log"
-            try {
-              cmd.exe /c $buildCmd
-              $buildExit = $LASTEXITCODE
-            } finally {
-              Remove-Item $probeSource, $probeMake, (Join-Path $projectDir "codex-toolset-check.obj") -Force -ErrorAction SilentlyContinue
-            }
-            if ($buildExit -ne 0) {
-              Write-Error "MSBuild compilation process encountered errors."
-              exit $buildExit
-            }
-            Write-Output "Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)." 
           
           # YAML automatically preserves this multi-line string exactly as written
           HASH_SCRIPT: |
@@ -222,6 +154,81 @@ jobs:
             printf 'actual_sources_manifest_sha256=%s\n' \
             "$(sha256sum actual-sources.txt | cut -d ' ' -f 1)"
           } >> build-provenance.txt
+
+    - name: Build DLL via MSBuild
+      id: build
+      shell: bash
+      env:
+          # YAML automatically preserves this multi-line string exactly as written
+          PS_CODE: |
+            param(
+              [string]$cfg
+            )
+            $ErrorActionPreference = "Stop"
+            $sourceRoot = "R:\CvGameCoreDLL"
+            # Preserve the VM's Project configuration and force fresh build outputs.
+            $projectDir = "$sourceRoot\Project"
+            foreach ($dir in @("Release", "Debug", "temp_files", "obj")) {
+              $outputDir = Join-Path $projectDir $dir
+              if (Test-Path $outputDir) { Remove-Item $outputDir -Recurse -Force }
+            }
+            # Remove existing MSBuild logs to protect against uploading older log files - especially when evaluating failing builds
+            foreach ($logName in @("Build.log", "JustErrors.log", "JustWarnings.log", "BuildTiming.log")) {
+              $logPath = Join-Path $projectDir $logName
+              if (Test-Path -LiteralPath $logPath) { Remove-Item -LiteralPath $logPath -Force }
+            }
+            # Correlate failure logs with this exact invocation, including reruns.
+            Set-Content -LiteralPath (Join-Path $projectDir "codex-build-log-token.txt") -Encoding ASCII '${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.configuration }}-${{ github.sha }}'
+            # rsync preserves runner timestamps; the VM clock can lag behind it.
+            # Fresh outputs are already removed, so source-only mtime normalization
+            # cannot hide stale objects and does not change verified file contents.
+            $precompileSource = Get-Item -LiteralPath (Join-Path $sourceRoot "_precompile.cpp")
+            $sourceStamp = [DateTime]::UtcNow.AddSeconds(-2)
+            $timingLog = Join-Path $projectDir "BuildTiming.log"
+            @(
+              ("vm_utc_before=" + [DateTime]::UtcNow.ToString("o")),
+              ("precompile_utc_before=" + $precompileSource.LastWriteTimeUtc.ToString("o")),
+              ("normalized_source_utc=" + $sourceStamp.ToString("o"))
+            ) | Set-Content -LiteralPath $timingLog -Encoding ASCII
+            $sourceExtensions = @(".c", ".cpp", ".h", ".inl")
+            foreach ($sourceFile in @(Get-ChildItem -LiteralPath $sourceRoot -Force | Where-Object { -not $_.PSIsContainer -and $sourceExtensions -contains $_.Extension.ToLowerInvariant() })) {
+              $sourceFile.LastWriteTimeUtc = $sourceStamp
+            }
+            Add-Content -LiteralPath $timingLog -Encoding ASCII ("precompile_utc_after=" + (Get-Item -LiteralPath $precompileSource.FullName).LastWriteTimeUtc.ToString("o"))
+            # Check the compiler selected by the machine-local Makefile.user.
+            # The VS2010 shell only hosts MSBuild; game code must use VC7.1.
+            $probeSource = Join-Path $projectDir "codex-toolset-check.cpp"
+            $probeMake = Join-Path $projectDir "codex-toolset-check.mk"
+            Set-Content -Encoding ASCII $probeSource @(
+              "#if _MSC_VER != 1310",
+              "#error Civ4 DLL validation requires MSVC 7.1 (_MSC_VER 1310)",
+              "#endif",
+              "int codex_toolset_check;"
+            )
+            $probeLines = "!include Makefile`r`ncodex_compiler_check:`r`n`t" + '@$(CPP) /nologo /c /TP /Focodex-toolset-check.obj codex-toolset-check.cpp' + "`r`n"
+            Set-Content -Encoding ASCII $probeMake $probeLines
+            # Set configuration based on current active branch
+            Write-Output "Targeting configuration: $cfg"
+            $vcvarsall = "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
+            $projectDir = "R:\CvGameCoreDLL\Project"
+            # Run vcvarsall, change directory, and build all in ONE cmd session.
+            # No need to import env vars into PowerShell.
+            $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && nmake /f codex-toolset-check.mk TARGET=$cfg codex_compiler_check /NOLOGO && msbuild AdvCiv.vcxproj /p:Configuration=$cfg -t:Rebuild -fl1 -flp1:logfile=Build.log -fl2 -fl3 -flp2:logfile=JustErrors.log;errorsonly -flp3:logfile=JustWarnings.log"
+            try {
+              cmd.exe /c $buildCmd
+              $buildExit = $LASTEXITCODE
+            } finally {
+              Remove-Item $probeSource, $probeMake, (Join-Path $projectDir "codex-toolset-check.obj") -Force -ErrorAction SilentlyContinue
+            }
+            if ($buildExit -ne 0) {
+              Write-Error "MSBuild compilation process encountered errors."
+              exit $buildExit
+            }
+            Write-Output "Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
+      run: |
+          set -euo pipefail
+          # Set configuration based on matrix (Using standard Bash syntax)
+          CONFIG="${{ matrix.configuration }}"
           
           # Encode the command for PowerShell
           ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
