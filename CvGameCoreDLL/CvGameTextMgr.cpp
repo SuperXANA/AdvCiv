@@ -7188,7 +7188,7 @@ void CvGameTextMgr::parseCivicInfo(CvWStringBuffer &szHelpText, CivicTypes eCivi
 			if (kCivic.getPrereqCivilization() != NO_CIVILIZATION)
 			{
 				if (!bPlayerContext ||
-					GET_PLAYER(eActivePlayer).getCivilizationType() != kCivic.getPrereqCivilization()))
+					GET_PLAYER(eActivePlayer).getCivilizationType() != kCivic.getPrereqCivilization()) // XANA: 11-02-2026 Native syntax fix (ChatGPT)
 				{
 					szHelpText.append(NEWLINE);
 					szHelpText.append(gDLL->getText("TXT_KEY_CIVIC_REQUIRES",
@@ -7198,7 +7198,7 @@ void CvGameTextMgr::parseCivicInfo(CvWStringBuffer &szHelpText, CivicTypes eCivi
 			if (kCivic.getPrereqLeader() != NO_LEADER)
 			{
 				if (!bPlayerContext ||
-					GET_PLAYER(eActivePlayer).getLeaderType() != kCivic.getPrereqLeader()))
+					GET_PLAYER(eActivePlayer).getLeaderType() != kCivic.getPrereqLeader()) // XANA: 11-02-2026 Native syntax fix (ChatGPT)
 				{
 					szHelpText.append(NEWLINE);
 					szHelpText.append(gDLL->getText("TXT_KEY_CIVIC_REQUIRES",
@@ -10551,7 +10551,7 @@ void CvGameTextMgr::setBuildingHelpActual(CvWStringBuffer &szBuffer,
 		{
 			CvHybridOrganizationInfo const& kHybridOrg = GC.getInfo(eFoundsOrg);
 			CorporationTypes const eMinorCorp = kHybridOrg.getTriggerCorporation();
-			ReligonTypes const eMinorReligion = kHybridOrg.getTriggerReligion();
+			ReligionTypes const eMinorReligion = kHybridOrg.getTriggerReligion(); // XANA: 11-02-2026 Native type-name fix (ChatGPT)
 			if (eMinorCorp != NO_CORPORATION && eMinorReligion != NO_RELIGION)
 			{
 				if (!kGame.isCorporationFounded(eMinorCorp) || kGame.isReligionSlotTaken(eMinorReligion))
@@ -11220,7 +11220,7 @@ void CvGameTextMgr::setBuildingHelpActual(CvWStringBuffer &szBuffer,
 	
 	// XANA: 06-27-2026 Unique Civics and Religions
 	{
-		ReligonTypes eMinorReligion = NO_RELIGION;
+		ReligionTypes eMinorReligion = NO_RELIGION; // XANA: 11-02-2026 Native type-name fix (ChatGPT)
 		if (kBuilding.getFoundsHybridOrganization() != NO_HYBRID_ORGANIZATION)
 		{
 			eMinorReligion = GC.getInfo(kBuilding.getFoundsHybridOrganization()).getTriggerReligion();
