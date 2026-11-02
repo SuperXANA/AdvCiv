@@ -4491,7 +4491,8 @@ void CvTeam::setHasTech(TechTypes eTech, bool bNewValue, PlayerTypes ePlayer,
 				else
 				// XANA: 06-27-2026 Unique Civics and Religions
 				{
-					if (GC.getInfo(eReligion).isMinorOrganization()) /* XANA (note): This Religion must be founded by constructing a Building, not solely by possesing a Technology. */
+					// XANA: 11-02-2026 Use this loop's religion ID (ChatGPT).
+					if (GC.getInfo(eLoopReligion).isMinorOrganization()) /* XANA (note): This Religion must be founded by constructing a Building, not solely by possesing a Technology. */
 					{
 						continue;
 					}
