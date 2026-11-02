@@ -1,0 +1,112 @@
+{
+  "date": "2026-11-01",
+  "finding_id": "WORKFLOW-20261101-10",
+  "user_workflow_source": "a9d225d2e9e5a44a47d5f357bd3f6dbc9017807a",
+  "previous_workflow_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+  "correction_commit": "63cfe575f29ba99686d4516e05b5af66b8ea7935",
+  "refinement_branch": "LeaderTeamSizeBuild-ChatGPT",
+  "original_feature_source": "9d0004e21a9e9f4df0abc89a4d7fb2e7dad98a58",
+  "selected_feature_source": "74098492ca88543c88e5e30781b84a687cb51e42",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "tested_commit": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+  "run": 41384996106,
+  "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41384996106",
+  "terminal_status": "completed",
+  "terminal_conclusion": "success",
+  "workflow_changes": "Add prepare_sources step ID and redirect source diagnostics upload output reference; populate three provenance pins. All remaining author workflow text preserved.",
+  "Cpp_changes": false,
+  "baseline_blobs_retained": 872,
+  "selected_DLL_blobs_unchanged": 362,
+  "root_sources": 349,
+  "local_actual_preparation_script_cases": 6,
+  "old_output_owner_skips_four_expected_upload_cases": true,
+  "local_standins": "rsync and SSH; actual Bash body, files and GITHUB_OUTPUT captured. No local remote PowerShell or compiler execution.",
+  "remote_failure_fault_injection": false,
+  "source_diagnostics_upload_both": "success",
+  "compiler_probe_both": "_MSC_VER == 1310 (MSVC 7.1)",
+  "all_four_ZIPs_downloaded_size_SHA256_checked_extracted": true,
+  "all_extracted_entries_match_archive": true,
+  "actual_Build_log_and_BuildTiming_inspected_both": true,
+  "source_expected_actual_349_content_manifests_match": true,
+  "source_hash_diffs_empty": true,
+  "source_manifest_names_match_tested_tree": true,
+  "three_feature_DLL_files_independent_Git_blob_and_native_SHA256_checks": true,
+  "artifact_metadata": [
+    {
+      "id": 13114802805,
+      "name": "source-verification-Release-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+      "size_in_bytes": 31086,
+      "digest": "sha256:483c4fcb4f49da0a1d2d81e8407481dd9dc5033c9dc0d73e035ff70cc7355065",
+      "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+    },
+    {
+      "id": 13114678269,
+      "name": "CvGameCoreDLL-Debug-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+      "size_in_bytes": 18571438,
+      "digest": "sha256:1ebd6bb3c239ffb01934970557ce84e24ec6f7dea307b9442a7063a1744c6ada",
+      "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+    },
+    {
+      "id": 13114483481,
+      "name": "source-verification-Debug-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+      "size_in_bytes": 31085,
+      "digest": "sha256:5c43b1f88202524416a27ff45cbc6e571992b2d23b62c4d4d71abc67ffc1076e",
+      "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+    },
+    {
+      "id": 13114288608,
+      "name": "CvGameCoreDLL-Release-LeaderTeamSizeBuild-ChatGPT-1e6ae047440c62ec2b1fbff7f2e2b015d7188b36",
+      "size_in_bytes": 2348663,
+      "digest": "sha256:d943d6cd21c9e8c8ca7aff900cf58b53b35fde9e388ba9685a6a811db7fcb0a7",
+      "head_sha": "1e6ae047440c62ec2b1fbff7f2e2b015d7188b36"
+    }
+  ],
+  "native": {
+    "Release": {
+      "configuration": "Release",
+      "artifacts": {
+        "binary": 13114288608,
+        "diagnostic": 13114802805
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 349,
+      "manifest_sha256": "9154adfd5adb62c0f40cb4c1d492280794a5ef5627535ea1f5fdcb955e7c2fdc",
+      "dll_bytes": 6565888,
+      "dll_sha256": "56866d9e82e0bb9e22f434a910567a8c2936476df83d56420284016bc17cead3",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-02T03:47:40.6961940Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-02T03:47:38.6961940Z",
+        "precompile_utc_after=2026-11-02T03:47:38.6961940Z"
+      ]
+    },
+    "Debug": {
+      "configuration": "Debug",
+      "artifacts": {
+        "binary": 13114678269,
+        "diagnostic": 13114483481
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 349,
+      "manifest_sha256": "9154adfd5adb62c0f40cb4c1d492280794a5ef5627535ea1f5fdcb955e7c2fdc",
+      "dll_bytes": 25194496,
+      "dll_sha256": "2f4fbd134a021bc7b6923b2caff264b5d3563b97675d61d012c2896ad363976e",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-02T03:50:23.7899455Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-02T03:50:21.7743199Z",
+        "precompile_utc_after=2026-11-02T03:50:21.7743199Z"
+      ],
+      "pdb_guid": "bac68889-1874-4e0b-939c-2d8911a64ea4",
+      "pdb_age": 1,
+      "pdb_bytes": 70634496,
+      "pdb_sha256": "37c5742b0b04e1ff725ff3fa970953687c3d50a778a21f2c021fc9b7347f5f09"
+    }
+  },
+  "gameplay_XML_and_UI_execution": false,
+  "user_workflow_branch_modified": false
+}
