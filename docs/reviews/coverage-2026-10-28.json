@@ -1492,7 +1492,7 @@
       "head_at_inventory": "d0fc7c0f93320e112903416c17bb2a2030819d60",
       "coverage": "source_review_partial_with_exact_head_readiness_skip",
       "native_verification": "failed_native_missing_user_unhappiness_timer_implementation_no_DLL",
-      "next_action": "Skip this unchanged original head and associated assistant integration/build work. Preserve the scoped weight/cast fixes; resume after user changes supply the missing minor-religion withdrawal anger implementation.",
+      "next_action": "Original user source remains unchanged with its historical C3861 failure. The assistant withdrawal implementation now passes Release/Debug native compilation on CivicScrollDraft-ChatGPT. Review it and perform fresh-game runtime verification; do not rebuild the unchanged original or merge automatically.",
       "review_branch": "CivicScrollDraft-ChatGPT",
       "draft_code_sha": "3ac8bca1a805156652028fe71376fddc43eab428",
       "finding_ids": [
@@ -1507,19 +1507,23 @@
         "ORGLOAD-20261031-06",
         "ORGLOAD-20261031-07",
         "RELIGION-20261031-02",
-        "ORGLOAD-20261031-08"
+        "ORGLOAD-20261031-08",
+        "MINORRELIGION-20261102-01",
+        "MINORRELIGION-20261102-02",
+        "MINORRELIGION-20261102-03",
+        "MINORRELIGION-20261102-04"
       ],
       "source_review_scope": "Actual original/current religion-weight methods, constructor zero-map representation, civic prerequisite getters, and native City departure hook/header/baseline timer absence. Other metadata/player/yield/cache scope remains uncertified.",
       "qualification": "2695 actual-method mutation/bounds/allocation-failure cases plus prior 15 getter/20 weight cases passed strict C++03/ASan/UBSan with engine/owning-info stand-ins; 3 negative controls. Two complete native overlay matrices failed; all 8 ZIPs extracted and actual logs/pins/manifests verified. Enum casts cleared C2440; final C3861 is missing source implementation. No DLL produced; changed weight translation unit not reached natively.",
-      "latest_review": "docs/reviews/religion-weight-mutation-2026-10-31.md",
-      "last_review_parent": "07bf390e44fca4927d0043d73fa276d45d8aa782",
+      "latest_review": "docs/reviews/minor-religion-withdrawal-2026-11-02.md",
+      "last_review_parent": "a7a1290aa2a0c125432dd60df5f4153294eead82",
       "native_cast_refinement_sha": "3c7b7f01d41396cad0ced2b4d38fdaf5cbb546b1",
       "tested_code_sha": "596f539981627e0373d557804f80410e248dc6c0",
       "review_disposition": "skip_until_original_source_head_changes",
       "skip_source_sha": "d0fc7c0f93320e112903416c17bb2a2030819d60",
       "skip_reason": "CvCity::setCityChangesDueToMinorReligionLeaving calls changeUnhappinessTimer at CvCity.cpp:13582 under an explicit TODO. No supplied or baseline API/state/implementation. Native C3861. Do not substitute another timer or invent anger magnitude/stacking/decay/persistence/UI to force a build.",
       "resume_condition": "Assess changed user source for the missing timer API/implementation and mechanics; unchanged assistant/docs commits do not reopen this source readiness gate.",
-      "workflow_source": "4dec9b6502486a8b045d1f2a44ec9d4569162613",
+      "workflow_source": "1cc8c3d24e9fe15126485de0b9e6604167caac36",
       "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41224382638",
       "native_build_history": [
         {
@@ -1563,6 +1567,113 @@
             "release": 13050164909,
             "debug": 13051271027
           }
+        },
+        {
+          "commit": "298db31e52027b86912a8241ecbac3204cc92837",
+          "selected_source": "201ab3bc1f9254eaf6c99c9353a5041d7c9b4c81",
+          "run": 41475051763,
+          "result": "Release_Debug_failed_CvCityAI_hybrid_identifier_scope_errors",
+          "warnings_per_configuration": 0,
+          "errors_including_wrappers_per_configuration": 7,
+          "DLL_artifacts": 0,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "root_source_count": 349,
+          "manifest_sha256": "4e3cfd356db81b9f0380b801bef52d4b7875f906aff42269a9fce5a20eb4437b",
+          "failure_logs": {
+            "release": 13156143669,
+            "debug": 13156852107
+          },
+          "source_diagnostics": {
+            "release": 13156842183,
+            "debug": 13156732280
+          }
+        },
+        {
+          "commit": "08f53cf64ae57ce3d79b2eaaa5d41b0b716be27b",
+          "selected_source": "d664c818c2486f47a4fc150fe9296fb4ef809371",
+          "run": 41475698321,
+          "result": "Release_Debug_failed_CvGameTextMgr_parentheses_ReligonTypes",
+          "warnings_per_configuration": 0,
+          "errors_including_wrappers_per_configuration": 18,
+          "DLL_artifacts": 0,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "root_source_count": 349,
+          "manifest_sha256": "a5b9ca6ed7a8832db5da493ebe0576302599dd42693d6b55ffaced9a0a42ca84",
+          "failure_logs": {
+            "release": 13157092477,
+            "debug": 13156234351
+          },
+          "source_diagnostics": {
+            "release": 13157147514,
+            "debug": 13157122634
+          }
+        },
+        {
+          "commit": "bed22dc80e8bdd2e47afc824b4ad5c94bf6fe51a",
+          "selected_source": "6eb9b57565e9136a37c223a9973258d0977d29c1",
+          "run": 41476027569,
+          "result": "Release_Debug_failed_CvTeam_current_religion_loop_identifier",
+          "warnings_per_configuration": 0,
+          "errors_including_wrappers_per_configuration": 4,
+          "DLL_artifacts": 0,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "root_source_count": 349,
+          "manifest_sha256": "fe40d01dac9dae8651f4b0945043eea793e8cb8aaca6016c9cfc14b18880e25f",
+          "failure_logs": {
+            "release": 13156414384,
+            "debug": 13157397778
+          },
+          "source_diagnostics": {
+            "release": 13157078044,
+            "debug": 13157941620
+          }
+        },
+        {
+          "commit": "bc6173a8ff9bc14588d80734a93c887ea95175cb",
+          "selected_source": "e43dcf0ed56702c9bb3c739d6e5231da136bce23",
+          "run": 41476525357,
+          "result": "Release_Debug_compiled_and_linked_successfully_MSVC_7_1",
+          "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
+          "warnings_per_configuration": 0,
+          "errors_per_configuration": 0,
+          "DLL_artifacts": 2,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "source_and_workflow_provenance_verified": true,
+          "root_source_count": 349,
+          "manifest_sha256": "3920d10c21db66118e7a6e5fd720f57d68c21656d609cfc74ba28b509dde3fd4",
+          "binary_artifacts": {
+            "Release": 13156574097,
+            "Debug": 13157733294
+          },
+          "source_diagnostics": {
+            "Release": 13158031730,
+            "Debug": 13157683346
+          },
+          "verified_binary_details": {
+            "release": {
+              "DLL_bytes": 6578176,
+              "DLL_sha256": "60d657efc0e6989e6cda550846f7b4d6b0fc098da6393982b457069e1ff6a9c6",
+              "manifest_entries": 349,
+              "manifest_sha256": "3920d10c21db66118e7a6e5fd720f57d68c21656d609cfc74ba28b509dde3fd4",
+              "warnings": 0,
+              "errors": 0
+            },
+            "debug": {
+              "DLL_bytes": 25231360,
+              "DLL_sha256": "9ec196fb2bdbc86099657476c789310f29b75afd4ddf5a4b3089a2a6e2d27b65",
+              "manifest_entries": 349,
+              "manifest_sha256": "3920d10c21db66118e7a6e5fd720f57d68c21656d609cfc74ba28b509dde3fd4",
+              "warnings": 0,
+              "errors": 0,
+              "PDB_bytes": 70822912,
+              "PDB_sha256": "9899f15a503edcdc401e0a7b642e490c6e997c6e4cfed356088c5654e14ec34e"
+            }
+          },
+          "in_game_religion_withdrawal_and_fresh_game_save_reload": "unverified"
         }
       ],
       "religion_weight_refinement": {
@@ -1573,6 +1684,28 @@
         "prior_weight_cases": 20,
         "class_and_GC_stand_ins": true,
         "native_changed_translation_unit_compiled": false
+      },
+      "withdrawal_implementation": {
+        "code_sha": "201ab3bc1f9254eaf6c99c9353a5041d7c9b4c81",
+        "native_AI_scope_fix": "d664c818c2486f47a4fc150fe9296fb4ef809371",
+        "native_help_fix": "6eb9b57565e9136a37c223a9973258d0977d29c1",
+        "scope": "dedicated_zero_default_timer_TEMP_HAPPY_magnitude_additive_duration_pre_religion_expiry_version_18_stream_and_anger_UI",
+        "scoped_Cpp03_cases": {
+          "lifecycle_tooltip": 24,
+          "stream": 44,
+          "bounds": 140,
+          "hybrid_building_value": 8
+        },
+        "negative_controls": 3,
+        "runtime_withdrawal_and_fresh_game_save_reload": "unverified",
+        "original_source_unchanged": true,
+        "native_team_loop_fix": "e43dcf0ed56702c9bb3c739d6e5231da136bce23",
+        "native_validation": {
+          "tested_code_sha": "bc6173a8ff9bc14588d80734a93c887ea95175cb",
+          "run": 41476525357,
+          "result": "Release_Debug_compiled_and_linked_successfully_MSVC_7_1",
+          "original_user_source_not_built_at_this_run": true
+        }
       }
     },
     {
@@ -1686,13 +1819,13 @@
     },
     {
       "branch": "CivicScrollDraft-ChatGPT",
-      "head_at_inventory": "596f539981627e0373d557804f80410e248dc6c0",
-      "coverage": "source_review_partial_with_exact_head_readiness_skip",
-      "native_verification": "failed_native_missing_user_unhappiness_timer_implementation_no_DLL",
+      "head_at_inventory": "bc6173a8ff9bc14588d80734a93c887ea95175cb",
+      "coverage": "withdrawal_implementation_and_newly_exposed_native_compiler_fixes",
+      "native_verification": "Release_Debug_passed_MSVC_7_1_runtime_withdrawal_reload_unverified",
       "source_branch": "UniqueCivicsReligions",
       "source_head": "d0fc7c0f93320e112903416c17bb2a2030819d60",
-      "draft_code_sha": "3ac8bca1a805156652028fe71376fddc43eab428",
-      "next_action": "Skip this unchanged original head and associated assistant integration/build work. Preserve the scoped weight/cast fixes; resume after user changes supply the missing minor-religion withdrawal anger implementation.",
+      "draft_code_sha": "e43dcf0ed56702c9bb3c739d6e5231da136bce23",
+      "next_action": "Review the completed withdrawal implementation and run a fresh-game join/departure/repeated-anger/immunity/save-reload scenario; do not repeat unchanged DLL builds or merge automatically.",
       "finding_ids": [
         "CIVICUI-20261028-01",
         "RELIGIONUI-20261028-01",
@@ -1705,20 +1838,21 @@
         "ORGLOAD-20261031-06",
         "ORGLOAD-20261031-07",
         "RELIGION-20261031-02",
-        "ORGLOAD-20261031-08"
+        "ORGLOAD-20261031-08",
+        "MINORRELIGION-20261102-01",
+        "MINORRELIGION-20261102-02",
+        "MINORRELIGION-20261102-03",
+        "MINORRELIGION-20261102-04"
       ],
-      "qualification": "2695 actual-method mutation/bounds/allocation-failure cases plus prior 15 getter/20 weight cases passed strict C++03/ASan/UBSan with engine/owning-info stand-ins; 3 negative controls. Two complete native overlay matrices failed; all 8 ZIPs extracted and actual logs/pins/manifests verified. Enum casts cleared C2440; final C3861 is missing source implementation. No DLL produced; changed weight translation unit not reached natively.",
-      "latest_review": "docs/reviews/religion-weight-mutation-2026-10-31.md",
-      "last_review_parent": "07bf390e44fca4927d0043d73fa276d45d8aa782",
+      "qualification": "Dedicated independent timer implemented. Actual-method/sliced-lifecycle C++03 regressions and preserved organization/weight/UI fixtures pass. Four changed-source matrices: three exposed concrete compiler errors now fixed; final Release/Debug DLLs link with 0 warnings/0 errors using MSVC 7.1. All 16 ZIPs extracted and actual logs/pins/manifests inspected, final x86 DLLs and Debug PDB verified. Runtime withdrawal/tooltip/fresh-game save-reload remains unverified.",
+      "latest_review": "docs/reviews/minor-religion-withdrawal-2026-11-02.md",
+      "last_review_parent": "a7a1290aa2a0c125432dd60df5f4153294eead82",
       "native_cast_refinement_sha": "3c7b7f01d41396cad0ced2b4d38fdaf5cbb546b1",
-      "tested_code_sha": "596f539981627e0373d557804f80410e248dc6c0",
-      "review_disposition": "skip_until_original_source_head_changes",
-      "skip_source_sha": "d0fc7c0f93320e112903416c17bb2a2030819d60",
-      "skip_reason": "CvCity::setCityChangesDueToMinorReligionLeaving calls changeUnhappinessTimer at CvCity.cpp:13582 under an explicit TODO. No supplied or baseline API/state/implementation. Native C3861. Do not substitute another timer or invent anger magnitude/stacking/decay/persistence/UI to force a build.",
-      "resume_condition": "Assess changed user source for the missing timer API/implementation and mechanics; unchanged assistant/docs commits do not reopen this source readiness gate.",
-      "source_review_scope": "Actual original/current religion-weight methods, constructor zero-map representation, civic prerequisite getters, and native City departure hook/header/baseline timer absence. Other metadata/player/yield/cache scope remains uncertified.",
-      "workflow_source": "4dec9b6502486a8b045d1f2a44ec9d4569162613",
-      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41224382638",
+      "tested_code_sha": "bc6173a8ff9bc14588d80734a93c887ea95175cb",
+      "review_disposition": "native_ready_runtime_verification_pending",
+      "source_review_scope": "Withdrawal constructor/defaults, bounds and repeat mutation, full happy/unhappy methods, production-through-religion ordering, versioned city stream slices and complete anger tooltip; native-exposed hybrid valuation and help syntax.",
+      "workflow_source": "1cc8c3d24e9fe15126485de0b9e6604167caac36",
+      "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41476525357",
       "native_build_history": [
         {
           "commit": "5a31326b440238e97d8f831da17c6bd9631f8216",
@@ -1761,6 +1895,113 @@
             "release": 13050164909,
             "debug": 13051271027
           }
+        },
+        {
+          "commit": "298db31e52027b86912a8241ecbac3204cc92837",
+          "selected_source": "201ab3bc1f9254eaf6c99c9353a5041d7c9b4c81",
+          "run": 41475051763,
+          "result": "Release_Debug_failed_CvCityAI_hybrid_identifier_scope_errors",
+          "warnings_per_configuration": 0,
+          "errors_including_wrappers_per_configuration": 7,
+          "DLL_artifacts": 0,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "root_source_count": 349,
+          "manifest_sha256": "4e3cfd356db81b9f0380b801bef52d4b7875f906aff42269a9fce5a20eb4437b",
+          "failure_logs": {
+            "release": 13156143669,
+            "debug": 13156852107
+          },
+          "source_diagnostics": {
+            "release": 13156842183,
+            "debug": 13156732280
+          }
+        },
+        {
+          "commit": "08f53cf64ae57ce3d79b2eaaa5d41b0b716be27b",
+          "selected_source": "d664c818c2486f47a4fc150fe9296fb4ef809371",
+          "run": 41475698321,
+          "result": "Release_Debug_failed_CvGameTextMgr_parentheses_ReligonTypes",
+          "warnings_per_configuration": 0,
+          "errors_including_wrappers_per_configuration": 18,
+          "DLL_artifacts": 0,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "root_source_count": 349,
+          "manifest_sha256": "a5b9ca6ed7a8832db5da493ebe0576302599dd42693d6b55ffaced9a0a42ca84",
+          "failure_logs": {
+            "release": 13157092477,
+            "debug": 13156234351
+          },
+          "source_diagnostics": {
+            "release": 13157147514,
+            "debug": 13157122634
+          }
+        },
+        {
+          "commit": "bed22dc80e8bdd2e47afc824b4ad5c94bf6fe51a",
+          "selected_source": "6eb9b57565e9136a37c223a9973258d0977d29c1",
+          "run": 41476027569,
+          "result": "Release_Debug_failed_CvTeam_current_religion_loop_identifier",
+          "warnings_per_configuration": 0,
+          "errors_including_wrappers_per_configuration": 4,
+          "DLL_artifacts": 0,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "root_source_count": 349,
+          "manifest_sha256": "fe40d01dac9dae8651f4b0945043eea793e8cb8aaca6016c9cfc14b18880e25f",
+          "failure_logs": {
+            "release": 13156414384,
+            "debug": 13157397778
+          },
+          "source_diagnostics": {
+            "release": 13157078044,
+            "debug": 13157941620
+          }
+        },
+        {
+          "commit": "bc6173a8ff9bc14588d80734a93c887ea95175cb",
+          "selected_source": "e43dcf0ed56702c9bb3c739d6e5231da136bce23",
+          "run": 41476525357,
+          "result": "Release_Debug_compiled_and_linked_successfully_MSVC_7_1",
+          "compiler": "_MSC_VER == 1310 (MSVC 7.1)",
+          "warnings_per_configuration": 0,
+          "errors_per_configuration": 0,
+          "DLL_artifacts": 2,
+          "all_four_ZIPs_extracted": true,
+          "artifact_Build_logs_inspected": true,
+          "source_and_workflow_provenance_verified": true,
+          "root_source_count": 349,
+          "manifest_sha256": "3920d10c21db66118e7a6e5fd720f57d68c21656d609cfc74ba28b509dde3fd4",
+          "binary_artifacts": {
+            "Release": 13156574097,
+            "Debug": 13157733294
+          },
+          "source_diagnostics": {
+            "Release": 13158031730,
+            "Debug": 13157683346
+          },
+          "verified_binary_details": {
+            "release": {
+              "DLL_bytes": 6578176,
+              "DLL_sha256": "60d657efc0e6989e6cda550846f7b4d6b0fc098da6393982b457069e1ff6a9c6",
+              "manifest_entries": 349,
+              "manifest_sha256": "3920d10c21db66118e7a6e5fd720f57d68c21656d609cfc74ba28b509dde3fd4",
+              "warnings": 0,
+              "errors": 0
+            },
+            "debug": {
+              "DLL_bytes": 25231360,
+              "DLL_sha256": "9ec196fb2bdbc86099657476c789310f29b75afd4ddf5a4b3089a2a6e2d27b65",
+              "manifest_entries": 349,
+              "manifest_sha256": "3920d10c21db66118e7a6e5fd720f57d68c21656d609cfc74ba28b509dde3fd4",
+              "warnings": 0,
+              "errors": 0,
+              "PDB_bytes": 70822912,
+              "PDB_sha256": "9899f15a503edcdc401e0a7b642e490c6e997c6e4cfed356088c5654e14ec34e"
+            }
+          },
+          "in_game_religion_withdrawal_and_fresh_game_save_reload": "unverified"
         }
       ],
       "religion_weight_refinement": {
@@ -1771,6 +2012,34 @@
         "prior_weight_cases": 20,
         "class_and_GC_stand_ins": true,
         "native_changed_translation_unit_compiled": false
+      },
+      "withdrawal_implementation": {
+        "code_sha": "201ab3bc1f9254eaf6c99c9353a5041d7c9b4c81",
+        "native_AI_scope_fix": "d664c818c2486f47a4fc150fe9296fb4ef809371",
+        "native_help_fix": "6eb9b57565e9136a37c223a9973258d0977d29c1",
+        "scope": "dedicated_zero_default_timer_TEMP_HAPPY_magnitude_additive_duration_pre_religion_expiry_version_18_stream_and_anger_UI",
+        "scoped_Cpp03_cases": {
+          "lifecycle_tooltip": 24,
+          "stream": 44,
+          "bounds": 140,
+          "hybrid_building_value": 8
+        },
+        "negative_controls": 3,
+        "runtime_withdrawal_and_fresh_game_save_reload": "unverified",
+        "original_source_unchanged": true,
+        "native_team_loop_fix": "e43dcf0ed56702c9bb3c739d6e5231da136bce23",
+        "native_validation": {
+          "tested_code_sha": "bc6173a8ff9bc14588d80734a93c887ea95175cb",
+          "run": 41476525357,
+          "result": "Release_Debug_compiled_and_linked_successfully_MSVC_7_1",
+          "original_user_source_not_built_at_this_run": true
+        }
+      },
+      "previous_readiness_gate": {
+        "skip_source_sha": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+        "skip_reason": "CvCity::setCityChangesDueToMinorReligionLeaving calls changeUnhappinessTimer at CvCity.cpp:13582 under an explicit TODO. No supplied or baseline API/state/implementation. Native C3861. Do not substitute another timer or invent anger magnitude/stacking/decay/persistence/UI to force a build.",
+        "resume_condition": "Assess changed user source for the missing timer API/implementation and mechanics; unchanged assistant/docs commits do not reopen this source readiness gate.",
+        "reopened": "Explicit request to implement the missing withdrawal mechanism on 2026-11-02; changed code tested, not a retry of unchanged failure."
       }
     },
     {
@@ -2300,24 +2569,29 @@
     }
   ],
   "current_pass": {
-    "classification": "workflow_log_cleanup_and_religion_weight_mutation_native_readiness",
-    "date": "2026-10-31",
-    "workflow_latest_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
-    "workflow_code_commit": "7a90901362d00fa7ec43ae85bcaeadf1ca274b1f",
-    "feature_source": "d0fc7c0f93320e112903416c17bb2a2030819d60",
-    "feature_code_commit": "3ac8bca1a805156652028fe71376fddc43eab428",
-    "native_cast_commit": "3c7b7f01d41396cad0ced2b4d38fdaf5cbb546b1",
-    "tested_code_sha": "596f539981627e0373d557804f80410e248dc6c0",
-    "dll_build_triggered": true,
+    "classification": "explicit_minor_religion_withdrawal_implementation_and_native_validation",
+    "date": "2026-11-02",
+    "scope": "CivicScrollDraft-ChatGPT only; no repository-wide fresh inventory claimed",
+    "implementation_parent": "a7a1290aa2a0c125432dd60df5f4153294eead82",
+    "feature_code_commit": "e43dcf0ed56702c9bb3c739d6e5231da136bce23",
+    "tested_code_sha": "bc6173a8ff9bc14588d80734a93c887ea95175cb",
+    "workflow_latest_source": "1cc8c3d24e9fe15126485de0b9e6604167caac36",
     "native_runs": [
-      41224201639,
-      41224382638
+      41475051763,
+      41475698321,
+      41476027569,
+      41476525357
     ],
-    "result": "native_failed_missing_source_implementation_exact_head_skipped",
-    "standalone_cases": 2695,
-    "negative_controls": 3,
-    "all_eight_artifact_ZIPs_extracted": true,
-    "inventory_branch_count": 75
+    "result": "Release_Debug_passed_MSVC_7_1_runtime_unverified",
+    "in_game_withdrawal_and_fresh_game_reload": "unverified",
+    "native_configurations": [
+      "Release",
+      "Debug"
+    ],
+    "warnings_per_configuration": 0,
+    "errors_per_configuration": 0,
+    "all_sixteen_artifact_ZIPs_extracted": true,
+    "final_manifest_sha256": "3920d10c21db66118e7a6e5fd720f57d68c21656d609cfc74ba28b509dde3fd4"
   },
   "ci_skip_policy": "Use [skip ci] in draft-only/code-review and documentation commits when no DLL build is intended. Reuse relevant assistant branches before creating any new branch.",
   "previous_baseline_sha": "272c7cc30f137ab4f6f00f22f79933c6bb0ed38a",
@@ -2349,5 +2623,26 @@
       }
     ],
     "scope": "Changed workflow collected-log set; religion-weight mutation and civic native readiness"
+  },
+  "last_update_date": "2026-11-02",
+  "previous_pass": {
+    "classification": "workflow_log_cleanup_and_religion_weight_mutation_native_readiness",
+    "date": "2026-10-31",
+    "workflow_latest_source": "f77f8a67cd17fdfa9d1c3f443d49005cee04421e",
+    "workflow_code_commit": "7a90901362d00fa7ec43ae85bcaeadf1ca274b1f",
+    "feature_source": "d0fc7c0f93320e112903416c17bb2a2030819d60",
+    "feature_code_commit": "3ac8bca1a805156652028fe71376fddc43eab428",
+    "native_cast_commit": "3c7b7f01d41396cad0ced2b4d38fdaf5cbb546b1",
+    "tested_code_sha": "596f539981627e0373d557804f80410e248dc6c0",
+    "dll_build_triggered": true,
+    "native_runs": [
+      41224201639,
+      41224382638
+    ],
+    "result": "native_failed_missing_source_implementation_exact_head_skipped",
+    "standalone_cases": 2695,
+    "negative_controls": 3,
+    "all_eight_artifact_ZIPs_extracted": true,
+    "inventory_branch_count": 75
   }
 }
