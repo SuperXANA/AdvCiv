@@ -33,7 +33,7 @@ def main():
             "-std=c++03", "-Wall", "-Wextra", "-pedantic", "-Werror", "-pthread",
             "-DCV_OBSERVER_ENABLE", "-DCV_OBSERVER_TEST_POSIX",
             "-DCV_OBSERVER_STANDALONE", "-I", str(root / "CvGameCoreDLL"),
-            str(root / "CvGameCoreDLL/CvObserverCore.cpp"),
+            str(root / "tests/observer/observer_standalone.cpp"),
             str(root / "tests/observer/observer_tests.cpp"),
             "-o", str(executable),
         ]

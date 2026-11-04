@@ -27,7 +27,7 @@ additional collision check; processes started outside these workflows must
 still be coordinated by their operator.
 
 Each entry independently compares SHA-256 hashes of the root `.c`, `.cpp`,
-`.h`, and `.inl` files and the exact `observer_tests.cpp` input on Linux and
+`.h`, and `.inl` files and the exact `observer_tests.cpp` and `observer_standalone.cpp` inputs on Linux and
 Windows. The manifest and provenance record the source commit and the gate
 variant. Root source deletion remains scoped to source extensions; Project
 and machine-local configuration are excluded. Fresh compiler outputs are
@@ -36,9 +36,12 @@ commit token before they can be collected.
 
 The selected compiler must pass `_MSC_VER == 1310` before MSBuild runs. The
 standalone test target uses that same `$(CPP)`, the selected Toolkit/SDK
-include and library paths, and `ws2_32.lib`. It compiles `CvObserverCore.cpp`,
-`CvObserverTransport.cpp`, and the actual observer tests with
+include and library paths, and `ws2_32.lib`. It compiles `observer_standalone.cpp` and the actual observer tests with
 `CV_OBSERVER_STANDALONE`, then executes the resulting Windows executable.
+The standalone wrapper includes the same `CvObserverCore.inl` and
+`CvObserverTransport.inl` bodies as the production translation units. Production
+wrappers include the game PCH unconditionally first, as required by MSVC 7.1
+when `/Yu` restores preprocessor state.
 `ObserverTests.log` is collected alongside `Build.log`; variant names keep
 disabled and enabled DLL artifacts distinct.
 

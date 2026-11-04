@@ -72,12 +72,14 @@ jobs:
                 # Match GNU sha256sum's text record, not its formatted PowerShell table.
                 [Console]::WriteLine(('{0}  ./{1}' -f $hash.ToLowerInvariant(), $file.Name))
               }
-              $testFile = Get-Item -LiteralPath (Join-Path $root 'ObserverTests\observer_tests.cpp')
-              if (($testFile.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
-                throw 'Standalone test source must not be a reparse point.'
+              foreach ($testName in @('observer_tests.cpp', 'observer_standalone.cpp')) {
+                $testFile = Get-Item -LiteralPath (Join-Path $root ('ObserverTests\' + $testName))
+                if (($testFile.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+                  throw 'Standalone test source must not be a reparse point.'
+                }
+                $testHash = (Get-FileHash -LiteralPath $testFile.FullName -Algorithm SHA256).Hash
+                [Console]::WriteLine(('{0}  ./ObserverTests/{1}' -f $testHash.ToLowerInvariant(), $testName))
               }
-              $testHash = (Get-FileHash -LiteralPath $testFile.FullName -Algorithm SHA256).Hash
-              [Console]::WriteLine(('{0}  ./ObserverTests/observer_tests.cpp' -f $testHash.ToLowerInvariant()))
               exit 0
             } catch {
               [Console]::Error.WriteLine($_.Exception.Message)
@@ -136,7 +138,7 @@ jobs:
           # Prerequisite: the enclosing workflow already uses set -euo pipefail.
           rm -f expected-sources.txt actual-sources.txt source-hashes.diff \
             source-verification.txt build-provenance.txt
-          printf '%s\n' 'scope=root:.c,.cpp,.h,.inl;ObserverTests/observer_tests.cpp' 'algorithm=SHA256' \
+          printf '%s\n' 'scope=root:.c,.cpp,.h,.inl;ObserverTests/{observer_tests,observer_standalone}.cpp' 'algorithm=SHA256' \
             'status=collecting' > source-verification.txt
           echo 'source_verification_started=true' >> "$GITHUB_OUTPUT"
 
@@ -153,7 +155,7 @@ jobs:
               fi
               sha256sum -- "$file"
               done
-            sha256sum -- ../tests/observer/observer_tests.cpp | sed 's# ../tests/observer/# ./ObserverTests/#'
+            sha256sum -- ../tests/observer/observer_tests.cpp ../tests/observer/observer_standalone.cpp | sed 's# ../tests/observer/# ./ObserverTests/#'
           ) | LC_ALL=C sort -k2 > expected-sources.txt
 
           test -s expected-sources.txt
@@ -180,7 +182,7 @@ jobs:
           # Add hash verification to build provenance
           {
             printf '%s\n' 'source_hash_algorithm=SHA256' \
-            'source_scope=root:.c,.cpp,.h,.inl;ObserverTests/observer_tests.cpp' \
+            'source_scope=root:.c,.cpp,.h,.inl;ObserverTests/{observer_tests,observer_standalone}.cpp' \
             'source_manifest_format=sha256sum-v1' 'source_hash_verification=passed'
             printf 'expected_sources_manifest_sha256=%s\n' \
             "$(sha256sum expected-sources.txt | cut -d ' ' -f 1)"
@@ -242,7 +244,7 @@ jobs:
             $probeLines = "!include Makefile`r`ncodex_compiler_check:`r`n`t" + '@$(CPP) /nologo /c /TP /Focodex-toolset-check.obj codex-toolset-check.cpp' + "`r`n"
             $probeLines += "`r`ncodex_observer_tests:`r`n"
             $probeLines += "`t" + '@if not exist codex-observer-obj mkdir codex-observer-obj' + "`r`n"
-            $probeLines += "`t" + '@$(CPP) /nologo /MD /EHsc /W3 /DWIN32 /D_WINDOWS /DCV_OBSERVER_STANDALONE $(GLOBAL_INCS) /I.. /Focodex-observer-obj\ /Fecodex-observer-tests.exe ..\ObserverTests\observer_tests.cpp ..\CvObserverCore.cpp ..\CvObserverTransport.cpp /link /LIBPATH:"$(TOOLKIT)/lib" /LIBPATH:"$(PSDK)/Lib" ws2_32.lib' + "`r`n"
+            $probeLines += "`t" + '@$(CPP) /nologo /MD /EHsc /W3 /DWIN32 /D_WINDOWS /DCV_OBSERVER_STANDALONE $(GLOBAL_INCS) /I.. /Focodex-observer-obj\ /Fecodex-observer-tests.exe ..\ObserverTests\observer_tests.cpp ..\ObserverTests\observer_standalone.cpp /link /LIBPATH:"$(TOOLKIT)/lib" /LIBPATH:"$(PSDK)/Lib" ws2_32.lib' + "`r`n"
             $probeLines += "`t" + '@codex-observer-tests.exe' + "`r`n"
             Set-Content -Encoding ASCII $probeMake $probeLines
             # Set configuration based on current active branch

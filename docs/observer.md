@@ -134,12 +134,17 @@ python3 -m unittest discover -s tests/observer -p 'test_receiver.py' -v
 python3 tests/observer/run_static_tests.py
 ```
 
-The static script strictly compiles the actual core with `g++ -std=c++03`,
+The static script strictly compiles the actual shared core implementation with `g++ -std=c++03`,
 warnings as errors, and a test-only pthread lock adapter. It checks copied
 snapshots, JSON edge values, bounded/drop-oldest queues, closure and concurrent
 record integrity, then parses actual formatter output using Python JSON.
 The receiver suite checks fragmented/coalesced lines, malformed JSON/metadata,
 bounded input/history, partial disconnects, reconnection, idle clients and stop.
+
+The DLL `.cpp` wrappers include the game's precompiled header unconditionally
+first, as required by MSVC 7.1 `/Yu`. Shared `.inl` files contain the core and
+transport implementation; `observer_standalone.cpp` includes those same files
+without the game precompiled header for focused testing.
 
 The enabled native workflow compiles and executes `observer_tests.cpp` using
 MSVC 7.1 and the real Windows critical sections/Winsock transport on the builder.
