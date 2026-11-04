@@ -10656,6 +10656,27 @@
         "repository_local_distinction": "Published MLPCiv assets are not a complete mirror of the user's laptop installation.",
         "runtime_verification": "Still pending; this report does not establish engine XML initialization, trait/upgrade behavior or fresh-game save/reload."
       }
+    },
+    {
+      "branch": "ObserverMCP",
+      "head_at_inventory": "52bc44bf909a302c00a8a7c3e7f7c54a37c43a99",
+      "reviewed_source_sha": "52bc44bf909a302c00a8a7c3e7f7c54a37c43a99",
+      "coverage": "complete_supplied_header_source_read_observer_integration_absent",
+      "review_disposition": "skip_until_source_head_changes",
+      "native_verification": "not_built_no_translation_unit_or_observer_consumers",
+      "source_review_scope": "README.md and complete CvGameCoreDLL/CvCriticalSectionMutex.h (67 lines): noncopyable CRITICAL_SECTION owner and noncopyable scoped lock.",
+      "observations": [
+        "The source tree contains only README.md and one header; there is no observer implementation, translation unit, include site or lock consumer.",
+        "CvCriticalSection initializes/deletes its CRITICAL_SECTION and forwards lock/unlock to Win32; CvFunctionMutex acquires in construction and releases in destruction. Both types disable copying with private undeclared copy members.",
+        "No explicit C++ try/catch/throw calls are present. The exception-unwinding comment is not evidence that Civ4 can recover from DLL exceptions.",
+        "No enclosing XANA date/tag block is present in the supplied header; preserve its authored content and do not infer baseline ancestry from the README marker template."
+      ],
+      "skip_source_sha": "52bc44bf909a302c00a8a7c3e7f7c54a37c43a99",
+      "skip_reason": "Observer behavior and consuming integration are absent. A baseline overlay build would not compile/use this unreferenced header and would not meaningfully validate the intended feature.",
+      "next_action": "Review changed source when observer implementation and consuming lifetime/thread/locking contracts are supplied. Do not invent observer behavior, lock ownership or initialization-failure policy just to obtain a build.",
+      "finding_ids": [],
+      "production_changes": false,
+      "new_DLL_build": false
     }
   ],
   "current_pass": {
@@ -10710,7 +10731,7 @@
   },
   "assistant_branch_cleanup_policy": "Reuse suitable assistant branches. For clearly duplicate older/newer assistant branches, inspect histories and contents, merge older into newer preserving newer edits, then mark older safe for user manual removal. Never delete the older branch automatically. This explicit user authorization is limited to assistant branch consolidation.",
   "inventory_date": "2026-11-02",
-  "inventory_branch_count": 75,
+  "inventory_branch_count": 76,
   "last_inventory": {
     "date": "2026-11-02",
     "branch_count": 75,
@@ -14456,5 +14477,13 @@
     "Barbarian_leader_audio_XML": "User reports adopting assistant-corrected XML locally.",
     "repository_local_distinction": "Published MLPCiv assets are not a complete mirror of the user's laptop installation.",
     "runtime_verification": "Still pending; this report does not establish engine XML initialization, trait/upgrade behavior or fresh-game save/reload."
+  },
+  "inventory_2026_11_03_observer": {
+    "reviewed_source": "52bc44bf909a302c00a8a7c3e7f7c54a37c43a99",
+    "branch": "ObserverMCP",
+    "date": "2026-11-03",
+    "classification": "new_header_only_scaffold_reviewed_integration_skip",
+    "new_findings": [],
+    "new_DLL_build": false
   }
 }
