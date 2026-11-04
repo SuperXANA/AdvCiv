@@ -7,6 +7,12 @@ This isolated idea branch combines the complete read-only AdvCiv 1.14 baseline
 ObserverMCP date markers. This is a small observation transport; an MCP server
 and game-control commands are future, separate work. It is independent of cdb.
 
+To adopt the idea in a combined mod, copy the new observer implementation files
+and the unchanged mutex header, then merge the three marked include/hook blocks
+into your current `CvGame.cpp`. This branch's `CvGame.cpp` and native DLLs contain
+the pinned 1.14 baseline plus this prototype; other independent feature branches
+are outside this validation scope.
+
 ## Capture boundary and ownership
 
 `CvGame::update()` calls `CvObserver::postUpdate(*this)` after its update loop,
