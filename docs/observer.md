@@ -135,6 +135,11 @@ It never sends data to the DLL. A disconnected receiver loses incomplete frames.
 
 ## Reproduce focused checks
 
+For opt-in gameplay checkpoints, typed Python-object evidence, save/reload
+session comparisons and Linux-initiated SSH forwarding, see the
+[runtime smoke-test guide](observer-smoke-test.md). Its simulated script tests
+are separate from the successful native DLL validation.
+
 ```sh
 python3 -m unittest discover -s tests/observer -p 'test_receiver.py' -v
 python3 tests/observer/run_static_tests.py
@@ -190,3 +195,4 @@ boundary and copy it into an explicitly defined value schema. Keep game objects,
 iterators and lazy callbacks out of the queue. Define what the boundary means
 before combining multiple fields, and revise the protocol/parser/tests together.
 Increase the fixed message limit only with corresponding bounds in both peers.
+

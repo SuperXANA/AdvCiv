@@ -1,0 +1,8 @@
+{
+  "stages": [
+    {"name": "baseline", "kind": "observe", "timeout": 180},
+    {"name": "advance", "kind": "advance", "timeout": 180},
+    {"name": "reload", "kind": "reload", "timeout": 180},
+    {"name": "exit", "kind": "shutdown", "timeout": 180}
+  ]
+}

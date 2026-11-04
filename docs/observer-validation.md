@@ -92,8 +92,8 @@ Actual failure artifacts were downloaded and extracted, and their `Build.log`
 and `ObserverTests.log` files inspected. Source manifests passed before all
 builds; `_MSC_VER == 1310` was verified by the selected native compiler.
 
-Documentation-only commits after the validated code commit do not alter its
-DLL, native test or workflow inputs. The original source branch and the exact
+Documentation and separate runtime-smoke tooling after the validated code
+commit do not alter its DLL, native test or workflow inputs. The original source branch and the exact
 README/mutex blob IDs were rechecked after implementation and remain unchanged.
 
 ## Runtime boundary
@@ -103,3 +103,34 @@ or SSH-forwarding path is claimed as executed or completely tested. Standalone
 Windows tests on the builder have a narrower scope. The game callback threading,
 turn observations, reload session boundaries and normal game exit remain for
 the user's runtime testing described in [the guide](observer.md).
+
+## Runtime smoke-runner preparation — November 4, 2026
+
+Added opt-in tooling on the existing assistant branch; native implementation,
+receiver, native harness and workflow are preserved from the validated inputs.
+See [runtime smoke-test instructions](observer-smoke-test.md).
+
+| Area | Evidence in this preparation |
+| --- | --- |
+| Reused protocol | Imports the existing `Receiver`; accepted callbacks contain exact-schema Python dictionaries with real integer/text values |
+| Checkpoints | Independent expected turns; uninterrupted advancement; externally attested reload plus changed session and saved turn; process-exit evidence separate from peer EOF |
+| Journals | Machine-readable `passed` / `failed` / `not_run`, accepted snapshots, raw per-connection bytes and connection/error events |
+| SSH | Linux remote-forward argv and cleanup tested with mocks only; no home-host access |
+| Windows launcher | Configurable executable/working directory/arguments and child-only environment; explicit opt-in; source reviewed only |
+| New automated tests | All 20 passed, using synthetic producers and actual Linux loopback sockets |
+| Existing receiver tests | All 11 passed unchanged |
+| Native validation | Existing successful four-configuration run remains applicable to unchanged DLL/native inputs; no rebuild triggered by this tooling scope |
+| Civilization IV / Windows PowerShell / home tunnel | **Not executed** |
+
+The new tests include malformed numeric types, duplicate/reordered IDs,
+fragmented/coalesced frames, gaps, reconnections, turn mismatch/regression,
+missing evidence, unchanged reload sessions, stale action tokens, action
+failure versus unavailable actions, listener failure, bounded checkpoint
+history, non-overwriting artifacts, and shutdown EOF provenance.
+
+`OBS-SMOKE-01`: completed preparation and simulated verification. Runtime
+validation remains open. Neither a running SSH process, a DLL launch, nor a
+new session alone is counted as successful gameplay validation. Sender-side
+refused-connect errors and DLL worker teardown need independent diagnostics
+and are explicitly `not_run` in the result's unobservable-check list.
+
