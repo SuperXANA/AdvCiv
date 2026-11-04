@@ -36,7 +36,10 @@ commit token before they can be collected.
 
 The selected compiler must pass `_MSC_VER == 1310` before MSBuild runs. The
 standalone test target uses that same `$(CPP)`, the selected Toolkit/SDK
-include and library paths, and `ws2_32.lib`. It compiles `observer_standalone.cpp` and the actual observer tests with
+include and library paths, and `ws2_32.lib`. Only this standalone test harness
+uses `/MT` to link the VC7.1 CRT statically; the game DLL retains its established
+`/MD` runtime configuration. This avoids depending on a VC7.1 runtime DLL in the
+builder process search path when executing the standalone tests. It compiles `observer_standalone.cpp` and the actual observer tests with
 `CV_OBSERVER_STANDALONE`, then executes the resulting Windows executable.
 The standalone wrapper includes the same `CvObserverCore.inl` and
 `CvObserverTransport.inl` bodies as the production translation units. Production

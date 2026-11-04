@@ -162,6 +162,21 @@ compilation. Successful native compilation/standalone builder tests do not
 prove the Civ4 executable's actual callback threading, game VM observations,
 normal game-exit behavior or SSH path. Those require the user's runtime test.
 
+Suggested game-runtime checks, still awaiting the user's execution:
+
+1. With a default DLL, confirm that setting the environment opt-in alone causes
+   no observer connection. With an enabled DLL and no opt-in, expect the same.
+2. Start the receiver and forwarding path, then launch the enabled DLL with the
+   opt-in inherited by Civ4. Start a game and inspect the initial snapshot.
+3. Advance turns and compare `game_turn` with Civ4. IDs should increase; repeated
+   update calls during one turn should not create extra records.
+4. Save and reload, or start a new game. Expect a new session token and IDs
+   restarting at one, even when the loaded turn is earlier.
+5. Stop/restart the receiver while advancing turns. Gaps are permitted, and
+   Civ4 should continue without waiting for the receiver.
+6. Return to the menu and exit normally. Confirm observer activity ends and
+   the game exits cleanly. These are runtime expectations, not completed tests.
+
 ## Extend the idea
 
 To add another game field, read it beside `getGameTurn()` at the same game-thread
