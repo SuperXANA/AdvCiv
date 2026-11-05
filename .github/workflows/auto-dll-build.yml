@@ -4,7 +4,7 @@ name: Automated Civ4 DLL Build
 # This strips away all default write access except for what is explicitly defined here.
 permissions:
   contents: read
-  actions: write
+  actions: read
 
 on:
   push:
