@@ -10673,10 +10673,51 @@
       ],
       "skip_source_sha": "52bc44bf909a302c00a8a7c3e7f7c54a37c43a99",
       "skip_reason": "Observer behavior and consuming integration are absent. A baseline overlay build would not compile/use this unreferenced header and would not meaningfully validate the intended feature.",
-      "next_action": "Review changed source when observer implementation and consuming lifetime/thread/locking contracts are supplied. Do not invent observer behavior, lock ownership or initialization-failure policy just to obtain a build.",
+      "next_action": "Original header-only source remains skipped. Existing ObserverMCP-ChatGPT separately implements the feature; see derivative evidence and OBS-POLICY-20261104-01.",
       "finding_ids": [],
       "production_changes": false,
-      "new_DLL_build": false
+      "new_DLL_build": false,
+      "assistant_derivative": {
+        "reviewed_head": "dd9c176e8f799dfe414bb19b800f4829cc369715",
+        "report_url": "https://github.com/SuperXANA/AdvCiv/blob/dd9c176e8f799dfe414bb19b800f4829cc369715/docs/observer-validation.md",
+        "tested_code_sha": "c68a89f633a817efd7d69d70dcca0a89c6703014",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41788851432",
+        "result": "Existing report records four MSVC7.1 configurations passing with 0 warnings/errors and both enabled Windows standalone test executions passing.",
+        "verification_this_pass": "Read existing report and source; did not independently download artifacts or execute runtime tests.",
+        "runtime": "Civ4 game, save/reload and home SSH forwarding remain unverified."
+      }
+    },
+    {
+      "branch": "ObserverMCP-ChatGPT",
+      "head_at_inventory": "dd9c176e8f799dfe414bb19b800f4829cc369715",
+      "source_branch": "ObserverMCP",
+      "source_head": "52bc44bf909a302c00a8a7c3e7f7c54a37c43a99",
+      "coverage": "existing_implementation_native_report_reconciled_game_bridge_exception_policy_review",
+      "native_verification": "existing_report_four_native_configurations_passed_not_reverified_in_this_pass",
+      "evidence": {
+        "reviewed_head": "dd9c176e8f799dfe414bb19b800f4829cc369715",
+        "report_url": "https://github.com/SuperXANA/AdvCiv/blob/dd9c176e8f799dfe414bb19b800f4829cc369715/docs/observer-validation.md",
+        "tested_code_sha": "c68a89f633a817efd7d69d70dcca0a89c6703014",
+        "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41788851432",
+        "result": "Existing report records four MSVC7.1 configurations passing with 0 warnings/errors and both enabled Windows standalone test executions passing.",
+        "verification_this_pass": "Read existing report and source; did not independently download artifacts or execute runtime tests.",
+        "runtime": "Civ4 game, save/reload and home SSH forwarding remain unverified."
+      },
+      "finding_ids": [
+        "OBS-POLICY-20261104-01"
+      ],
+      "findings": [
+        {
+          "id": "OBS-POLICY-20261104-01",
+          "file": "CvGameCoreDLL/CvObserver.cpp",
+          "function": "start",
+          "issue": "Explicit try/catch (...) violates standing no-explicit-C++-exception-handlers instruction.",
+          "disposition": "proposed_null_return_allocation_snippet_committed_for_review_not_applied",
+          "native_correction_verified": false
+        }
+      ],
+      "next_action": "Apply and validate exception-free allocation/initialization correction through full observer-enabled and disabled native matrices before treating this policy finding as closed. Preserve existing receiver/smoke work; no duplicate implementation or unchanged build.",
+      "runtime_save_validation_policy": "save_runtime_validation_policy"
     }
   ],
   "current_pass": {
@@ -10731,7 +10772,7 @@
   },
   "assistant_branch_cleanup_policy": "Reuse suitable assistant branches. For clearly duplicate older/newer assistant branches, inspect histories and contents, merge older into newer preserving newer edits, then mark older safe for user manual removal. Never delete the older branch automatically. This explicit user authorization is limited to assistant branch consolidation.",
   "inventory_date": "2026-11-02",
-  "inventory_branch_count": 76,
+  "inventory_branch_count": 77,
   "last_inventory": {
     "date": "2026-11-02",
     "branch_count": 75,
@@ -14485,5 +14526,14 @@
     "classification": "new_header_only_scaffold_reviewed_integration_skip",
     "new_findings": [],
     "new_DLL_build": false
+  },
+  "inventory_2026_11_04_observer_reconciliation": {
+    "reviewed_head": "dd9c176e8f799dfe414bb19b800f4829cc369715",
+    "report_url": "https://github.com/SuperXANA/AdvCiv/blob/dd9c176e8f799dfe414bb19b800f4829cc369715/docs/observer-validation.md",
+    "tested_code_sha": "c68a89f633a817efd7d69d70dcca0a89c6703014",
+    "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/41788851432",
+    "result": "Existing report records four MSVC7.1 configurations passing with 0 warnings/errors and both enabled Windows standalone test executions passing.",
+    "verification_this_pass": "Read existing report and source; did not independently download artifacts or execute runtime tests.",
+    "runtime": "Civ4 game, save/reload and home SSH forwarding remain unverified."
   }
 }
