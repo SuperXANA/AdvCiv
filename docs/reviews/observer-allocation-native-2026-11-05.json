@@ -1,0 +1,115 @@
+{
+  "date": "2026-11-05",
+  "finding": "OBS-POLICY-20261104-01",
+  "code_commit": "0574f4962f28ee02bc5ee9975bda36d45b84827c",
+  "tested_commit": "33d1ee1d4ffccb0e012487027a8cd67bc831fea7",
+  "run": 42155681291,
+  "run_url": "https://github.com/SuperXANA/AdvCiv/actions/runs/42155681291",
+  "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+  "workflow_source": "cf9b2a7fe6b9be2581f46a67a84944c35536d046",
+  "result": {
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "33d1ee1d4ffccb0e012487027a8cd67bc831fea7"
+  },
+  "native": {
+    "Release-disabled": {
+      "configuration": "Release-disabled",
+      "artifacts": {
+        "diagnostic": 13475375280,
+        "binary": 13475080921
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 361,
+      "manifest_sha256": "ffe441c721febfd4d80e384b22bff4b1a530404eb266df74083bd7ab92bf14c5",
+      "dll_bytes": 6565888,
+      "dll_sha256": "d20119430ed147c0c4c14f748aed7d1a42faacf0aed1f752d5e77a2a31cd9afc",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-06T03:17:31.9305699Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-06T03:17:29.9305699Z",
+        "precompile_utc_after=2026-11-06T03:17:29.9305699Z"
+      ]
+    },
+    "Debug-enabled": {
+      "configuration": "Debug-enabled",
+      "artifacts": {
+        "diagnostic": 13474892449,
+        "binary": 13474692965
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 361,
+      "manifest_sha256": "c9134c072f9e9b6891a56219a16b64a5d69027484b9fd5802ce5df807cb65286",
+      "dll_bytes": 25214976,
+      "dll_sha256": "ac275c32b654c7fb7ee807210469ebce629cd4e3646310cfc12163e52fe500ca",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-06T03:25:57.0555712Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-06T03:25:55.0555712Z",
+        "precompile_utc_after=2026-11-06T03:25:55.0555712Z"
+      ],
+      "pdb_guid": "517baa66-ea1a-4a57-98b1-302f6ea3c1f1",
+      "pdb_age": 1,
+      "pdb_bytes": 70691840,
+      "pdb_sha256": "2d09bfe52ff7ea8628133a99f8f8367b60b3fcf28081f1415f15b29fabf08c30"
+    },
+    "Release-enabled": {
+      "configuration": "Release-enabled",
+      "artifacts": {
+        "diagnostic": 13474397866,
+        "binary": 13474348057
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 361,
+      "manifest_sha256": "c9134c072f9e9b6891a56219a16b64a5d69027484b9fd5802ce5df807cb65286",
+      "dll_bytes": 6569984,
+      "dll_sha256": "b6f2c1a0fb47a4014295f42fd515957c03abea085316cfdf55ef2860c69cc63d",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-06T03:20:20.9774476Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-06T03:20:18.9618215Z",
+        "precompile_utc_after=2026-11-06T03:20:18.9618215Z"
+      ]
+    },
+    "Debug-disabled": {
+      "configuration": "Debug-disabled",
+      "artifacts": {
+        "binary": 13474184414,
+        "diagnostic": 13474049826
+      },
+      "warnings": 0,
+      "errors": 0,
+      "root_sources": 361,
+      "manifest_sha256": "ffe441c721febfd4d80e384b22bff4b1a530404eb266df74083bd7ab92bf14c5",
+      "dll_bytes": 25194496,
+      "dll_sha256": "f28747ce6fe9881df148912d130341d40e5aae673b81bf01444ff47ec8cc71a4",
+      "PE": "PE32 x86 DLL",
+      "timing": [
+        "vm_utc_before=2026-11-06T03:23:06.3836964Z",
+        "precompile_utc_before=2026-10-30T20:46:01.6027498Z",
+        "normalized_source_utc=2026-11-06T03:23:04.3680717Z",
+        "precompile_utc_after=2026-11-06T03:23:04.3680717Z"
+      ],
+      "pdb_guid": "fa1449ca-1c8a-4aaa-b4b4-ade38754f28a",
+      "pdb_age": 1,
+      "pdb_bytes": 70642688,
+      "pdb_sha256": "eb7e73c110177b41dd68fdf86871db3e053d22abf55e63aa72ff3ad3a619d7b9"
+    }
+  },
+  "all_eight_archives_downloaded_size_SHA256_checked_extracted": true,
+  "actual_Build_log_and_BuildTiming_inspected_all_four": true,
+  "enabled_ObserverTests_logs_passed_both": true,
+  "source_records_per_configuration": 361,
+  "feature_Git_blob_and_native_SHA256_checks": 12,
+  "baseline_blobs_retained": 872,
+  "complete_DLL_blobs": 372,
+  "explicit_exception_keyword_scan": "No try/catch/throw in inspected observer DLL and native-test files.",
+  "runtime_game_save_reload_SSH": false,
+  "allocation_failure_fault_injection": false
+}
