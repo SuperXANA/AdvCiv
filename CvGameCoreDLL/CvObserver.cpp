@@ -4,6 +4,7 @@
 #include "CvGame.h"
 #include "CvObserverTransport.h"
 #include <stdio.h>
+#include <new>
 
 // XANA: 2026-11-04 ObserverMCP - game-thread boundary and lifetime
 namespace
@@ -67,24 +68,22 @@ namespace
 		config.queueCapacity = static_cast<unsigned int>(capacity);
 		config.retryMs = retry;
 		config.ioTimeoutMs = timeout;
-		try
+		// XANA: 2026-11-05 Observer allocation uses explicit failure returns.
+		g_transport = new (std::nothrow) CvObserverTransport(config);
+		if (g_transport == NULL)
 		{
-			g_transport = new CvObserverTransport(config);
-			if (!g_transport->start())
-			{
-				delete g_transport;
-				g_transport = NULL;
-				OutputDebugStringA("ObserverMCP: transport start failed; disabled until reset.\n");
-				return;
-			}
-		}
-		catch (...)
-		{
-			delete g_transport;
-			g_transport = NULL;
+			FAssertMsg(false, "Observer transport allocation failed");
 			OutputDebugStringA("ObserverMCP: allocation failed; disabled until reset.\n");
 			return;
 		}
+		if (!g_transport->start())
+		{
+			delete g_transport;
+			g_transport = NULL;
+			OutputDebugStringA("ObserverMCP: transport start failed; disabled until reset.\n");
+			return;
+		}
+		// XANA: 2026-11-05 Observer allocation end.
 		FILETIME now;
 		GetSystemTimeAsFileTime(&now);
 		++g_generation;
