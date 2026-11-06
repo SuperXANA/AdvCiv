@@ -4,7 +4,7 @@ name: Observer DLL and Native Tests
 # This strips away all default write access except for what is explicitly defined here.
 permissions:
   contents: read
-  actions: write
+  actions: read
 
 on:
   push:
@@ -40,11 +40,11 @@ jobs:
           
           # YAML automatically preserves this string exactly as written
           # add feature commit SHA here
-          FEATURE_COMMIT_SHA: 52bc44bf909a302c00a8a7c3e7f7c54a37c43a99
+          FEATURE_COMMIT_SHA: 0574f4962f28ee02bc5ee9975bda36d45b84827c
           
           # YAML automatically preserves this string exactly as written
           # add workflow commit SHA here
-          WORKFLOW_COMMIT_SHA: 1cc8c3d24e9fe15126485de0b9e6604167caac36
+          WORKFLOW_COMMIT_SHA: cf9b2a7fe6b9be2581f46a67a84944c35536d046
           
           # YAML automatically preserves this multi-line string exactly as written
           PS_CODE: |
