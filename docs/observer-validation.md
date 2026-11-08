@@ -20,6 +20,20 @@ against the hierarchical implementation passed:
 These checks do not execute the Civ4 game bridge or the Windows transport. Their
 scope is distinct from the native MSVC 7.1 matrix and user-runtime testing.
 
+### Version-2 native attempts
+
+| Run | Commit | Result |
+| --- | --- | --- |
+| [42526910478](https://github.com/SuperXANA/AdvCiv/actions/runs/42526910478) | `8bdbc8cb31d35e873c79d3a18016f0ab7889c727` | Both disabled DLLs passed. Both enabled DLLs compiled and linked with zero warnings/errors and matching source hashes, but the standalone test exited `0xc00000fd` because two harness receive buffers still used the v1 512-byte capacity. Commit `6431f6af0dd2c56288767818f3200b1cc646aedf` resized them to the shared 4096-byte protocol capacity. |
+| [42528134374](https://github.com/SuperXANA/AdvCiv/actions/runs/42528134374) | `f7e6aa63d122c9ae8882133ddaa8228ee0d3788d` | Both disabled DLLs and both enabled DLL compilations again succeeded with zero warnings/errors. The standalone stack-overflow code remained because one test function owned four 256 KiB queues on the default 1 MiB Windows stack. Commit `2d264b8e45e0ee0c78ab656bd26d2809280495ec` moves the largest test-only queue to heap storage; production queue ownership is unchanged. |
+| [42528819929](https://github.com/SuperXANA/AdvCiv/actions/runs/42528819929) | `1a8d03cfd95e55266db27b27a7ddb26633607d41` | Cancelled as superseded after the second run exposed the remaining native-test stack issue. |
+
+An independent review also identified an exact-boundary replay case where the
+Python receiver accepted an out-of-range empty city chunk that the C++ producer
+rejects. Commit `a6d5d11f2dedb002a49735e72fa05193b1a9ba9d` added the missing
+`city_part < city_part_count` check and its regression test; all 14 receiver
+tests passed afterward.
+
 ## Version-1 historical validation
 
 ### Pinned inputs
