@@ -27,6 +27,15 @@ scope is distinct from the native MSVC 7.1 matrix and user-runtime testing.
 | [42526910478](https://github.com/SuperXANA/AdvCiv/actions/runs/42526910478) | `8bdbc8cb31d35e873c79d3a18016f0ab7889c727` | Both disabled DLLs passed. Both enabled DLLs compiled and linked with zero warnings/errors and matching source hashes, but the standalone test exited `0xc00000fd` because two harness receive buffers still used the v1 512-byte capacity. Commit `6431f6af0dd2c56288767818f3200b1cc646aedf` resized them to the shared 4096-byte protocol capacity. |
 | [42528134374](https://github.com/SuperXANA/AdvCiv/actions/runs/42528134374) | `f7e6aa63d122c9ae8882133ddaa8228ee0d3788d` | Both disabled DLLs and both enabled DLL compilations again succeeded with zero warnings/errors. The standalone stack-overflow code remained because one test function owned four 256 KiB queues on the default 1 MiB Windows stack. Commit `2d264b8e45e0ee0c78ab656bd26d2809280495ec` moves the largest test-only queue to heap storage; production queue ownership is unchanged. |
 | [42528819929](https://github.com/SuperXANA/AdvCiv/actions/runs/42528819929) | `1a8d03cfd95e55266db27b27a7ddb26633607d41` | Cancelled as superseded after the second run exposed the remaining native-test stack issue. |
+| [42529427140](https://github.com/SuperXANA/AdvCiv/actions/runs/42529427140) | `f663a476025edf9e0b45a100d748b815c4e33a47` | **Pass:** all four Release/Debug × disabled/enabled configurations compiled with zero warnings/errors. Both enabled native test executions passed JSON, queue, concurrency, Windows loopback, disconnect and shutdown checks. |
+
+The final run's artifacts were downloaded and inspected. All four DLL files and
+build logs are present; both enabled `ObserverTests.log` files contain the full
+native pass marker. Expected and actual source manifests match byte-for-byte in
+every configuration, with empty hash diffs. Provenance identifies AdvCiv 1.14
+`5970334b64a875b5cdb370c94fc9a98db4eacda6`, feature source
+`2d264b8e45e0ee0c78ab656bd26d2809280495ec`, and workflow input
+`cf9b2a7fe6b9be2581f46a67a84944c35536d046`.
 
 An independent review also identified an exact-boundary replay case where the
 Python receiver accepted an out-of-range empty city chunk that the C++ producer
