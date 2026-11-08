@@ -183,6 +183,9 @@ class ProtocolTests(unittest.TestCase):
         item = city_chunk(32, 0)
         nested(item, PLAYER)["cities"].append(dict(id=99, x=0, y=0, population=1))
         invalid.append(item)
+        item = city_chunk(32, 0)
+        nested(item, PLAYER).update(city_part=1, city_offset=32, cities=[])
+        invalid.append(item)
         for item in invalid:
             with self.subTest(player=nested(item, PLAYER)), self.assertRaises(receiver.ProtocolError):
                 receiver.parse_snapshot(encode(item))

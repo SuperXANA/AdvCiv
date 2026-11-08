@@ -132,6 +132,8 @@ def parse_snapshot(line):
         raise ProtocolError("city_offset must equal city_part*32")
     if city_part_count != max(1, (city_count + 31) // 32):
         raise ProtocolError("city_part_count does not match city_count")
+    if city_part >= city_part_count:
+        raise ProtocolError("city_part must be less than city_part_count")
     if len(cities) != min(32, city_count - city_offset):
         raise ProtocolError("cities length does not match the requested chunk")
     for city in cities:
