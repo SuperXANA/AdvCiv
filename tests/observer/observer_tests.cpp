@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <memory>
 
 static void check(bool condition, const char* expression, int line)
 {
@@ -237,11 +238,12 @@ static void testQueueBoundsAndClose()
 	CHECK(minimum.push(snapshot(2, 2)));
 	CHECK(minimum.size() == 1);
 	CHECK(minimum.dropped() == 1);
-	CvObserverQueue maximum(1000);
+	// Four full queues exceed the Windows test process's default 1 MiB stack.
+	std::auto_ptr<CvObserverQueue> maximum(new CvObserverQueue(1000));
 	for (unsigned long i = 1; i <= 65; ++i)
-		CHECK(maximum.push(snapshot(i, (int)i)));
-	CHECK(maximum.size() == 64);
-	CHECK(maximum.dropped() == 1);
+		CHECK(maximum->push(snapshot(i, (int)i)));
+	CHECK(maximum->size() == 64);
+	CHECK(maximum->dropped() == 1);
 }
 
 // Test-only synchronization for the consumer's completion flag.
