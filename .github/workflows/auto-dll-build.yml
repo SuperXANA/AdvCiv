@@ -254,17 +254,21 @@ jobs:
             # Run vcvarsall, change directory, and build all in ONE cmd session.
             # No need to import env vars into PowerShell.
             $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && nmake /f codex-toolset-check.mk TARGET=$cfg codex_compiler_check /NOLOGO && msbuild AdvCiv.vcxproj /p:Configuration=$cfg -t:Rebuild -fl1 -flp1:logfile=Build.log -fl2 -fl3 -flp2:logfile=JustErrors.log;errorsonly -flp3:logfile=JustWarnings.log"
+            # XANA: Save time by running the observation validator test checks first, before we do the DLL creation process
+            if ($observer -eq 'enabled') {
+              $testCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && nmake /f codex-toolset-check.mk TARGET=$cfg codex_observer_tests /NOLOGO > ObserverTests.log 2>&1"
+              cmd.exe /c $testCmd
+              $buildExit = $LASTEXITCODE
+              if (Test-Path -LiteralPath (Join-Path $projectDir "ObserverTests.log")) {
+                Get-Content -LiteralPath (Join-Path $projectDir "ObserverTests.log")
+              }
+            }
+            # XANA: Now will we try the build. Given that each build task takes about 12 minutes overall, due to the repeated process occurring 4 times
+            # Building the DLL only after synthetic tests resolve should avoid waiting issues where edits to the observartion layers break the test suite
+            # which would only be, previously, reported after successful DLL artifacts are created.
             try {
               cmd.exe /c $buildCmd
               $buildExit = $LASTEXITCODE
-              if ($buildExit -eq 0 -and $observer -eq 'enabled') {
-                $testCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && nmake /f codex-toolset-check.mk TARGET=$cfg codex_observer_tests /NOLOGO > ObserverTests.log 2>&1"
-                cmd.exe /c $testCmd
-                $buildExit = $LASTEXITCODE
-                if (Test-Path -LiteralPath (Join-Path $projectDir "ObserverTests.log")) {
-                  Get-Content -LiteralPath (Join-Path $projectDir "ObserverTests.log")
-                }
-              }
             } finally {
               Remove-Item $probeSource, $probeMake, (Join-Path $projectDir "codex-toolset-check.obj"), (Join-Path $projectDir "codex-observer-tests.exe") -Force -ErrorAction SilentlyContinue
               Remove-Item -LiteralPath (Join-Path $projectDir "codex-observer-obj") -Recurse -Force -ErrorAction SilentlyContinue
