@@ -1,6 +1,6 @@
 # ObserverMCP runtime smoke test
 
-The smoke runner collects evidence from the existing version-1 observer. It
+The smoke runner collects evidence from the hierarchical version-2 observer. It
 imports `tools/observer/receiver.py`; it does not replace the receiver, create
 a second protocol, send commands to the DLL, or deploy a DLL. Its purpose is to
 answer separate questions: did valid typed snapshots arrive, did their IDs
@@ -155,7 +155,7 @@ Use a Civ4 Python `CyGame().getGameTurn()` reading, cdb inspection of the actual
 game value, or another independent game-state reading. Record a source and
 checkpoint context that can be reviewed later. The visible calendar year or
 an AutoIT click count alone may not equal `getGameTurn()`. Do not copy the
-observer's received `game_turn` into the expectation and call that a comparison.
+observer's received `world_instance.state.game_turn` into the expectation and call that a comparison.
 
 For a complete manual scenario:
 
@@ -247,9 +247,10 @@ requested-check exit-code summary. They require independent diagnostics.
 The order check needs at least one received pair within the same session;
 two single records from different sessions leave that check `not_run`.
 
-The existing receiver validates complete NDJSON frames, exactly seven fields,
-fixed text values, integer version/IDs/turns, bounded values, duplicate keys,
-and increasing IDs within its bounded session history. Quoted numbers,
+The existing receiver validates complete NDJSON frames, the exact version-2
+session/world/state/player/city hierarchy, fixed text values, integer/boolean
+types, city-chunk invariants, bounded values, duplicate keys, and increasing
+snapshot IDs within its bounded session history. Quoted numbers,
 booleans in integer fields, malformed JSON and out-of-order IDs are rejected
 before they enter the accepted snapshot callback. Accepted snapshots therefore
 provide evidence about actual Python values, beyond a successful TCP bridge.

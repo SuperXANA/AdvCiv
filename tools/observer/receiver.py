@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Receive the opt-in AdvCiv observer's version-1 NDJSON snapshots.
+"""Receive the opt-in AdvCiv observer's version-2 NDJSON snapshots.
 
     python3 tools/observer/receiver.py --port 37631 --output snapshots.ndjson
     python3 tools/observer/receiver.py --validate snapshots.ndjson
@@ -20,10 +20,19 @@ import threading
 import time
 
 
-MAX_LINE_BYTES = 512  # Includes the terminating LF.
+MAX_LINE_BYTES = 4096  # Includes the terminating LF.
 MAX_SESSIONS = 64  # Bound receiver-side reconnect/deduplication history.
-FIELDS = frozenset(("protocol", "version", "type", "session_id", "snapshot_id",
-                    "boundary", "game_turn"))
+FIELDS = frozenset(("protocol", "version", "type", "game_session"))
+SESSION_FIELDS = frozenset(("id", "sequence", "world_instance"))
+WORLD_FIELDS = frozenset(("id", "sequence", "map_seed", "state"))
+STATE_FIELDS = frozenset(("capture_id", "snapshot_id", "boundary", "game_turn",
+                          "player_count", "player_index", "players"))
+PLAYER_FIELDS = frozenset(("id", "team_id", "civilization_type", "leader_type",
+                           "is_human", "is_barbarian", "city_count", "total_population",
+                           "city_offset", "city_part", "city_part_count", "cities"))
+CITY_FIELDS = frozenset(("id", "x", "y", "population"))
+SESSION_ID = re.compile(r"[0-9a-fA-F]{1,64}")
+WORLD_ID = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{8}")
 
 
 class ProtocolError(ValueError):
@@ -39,33 +48,97 @@ def _unique_object(pairs):
     return result
 
 
+def _object(value, fields, name):
+    if not isinstance(value, dict) or frozenset(value) != fields:
+        raise ProtocolError(name + " must be an object with exactly the version-2 fields")
+    return value
+
+
+def _integer(value, minimum, maximum, name):
+    if type(value) is not int or not minimum <= value <= maximum:
+        raise ProtocolError(name + " has an invalid integer value or is outside its bounds")
+    return value
+
+
+def _nonfinite(value):
+    raise ValueError("nonfinite JSON number: " + value)
+
+
 def parse_snapshot(line):
     """Validate a complete bytes frame; return a detached dictionary."""
     if not isinstance(line, bytes) or not line.endswith(b"\n"):
         raise ProtocolError("snapshot must be a complete LF-terminated bytes frame")
     if len(line) > MAX_LINE_BYTES:
-        raise ProtocolError("snapshot exceeds 512-byte frame limit")
+        raise ProtocolError("snapshot exceeds 4096-byte frame limit")
     try:
-        snapshot = json.loads(line.decode("utf-8"), object_pairs_hook=_unique_object)
+        snapshot = json.loads(line.decode("ascii"), object_pairs_hook=_unique_object,
+                              parse_constant=_nonfinite)
     except (UnicodeError, ValueError) as exc:
         raise ProtocolError("invalid JSON: " + str(exc)) from exc
-    if not isinstance(snapshot, dict) or frozenset(snapshot) != FIELDS:
-        raise ProtocolError("snapshot must have exactly the version-1 fields")
+    _object(snapshot, FIELDS, "snapshot")
     if snapshot["protocol"] != "advciv-observer":
         raise ProtocolError("unsupported protocol")
-    if type(snapshot["version"]) is not int or snapshot["version"] != 1:
+    if type(snapshot["version"]) is not int or snapshot["version"] != 2:
         raise ProtocolError("unsupported protocol version")
-    if snapshot["type"] != "snapshot" or snapshot["boundary"] != "post_update":
-        raise ProtocolError("unsupported message type or capture boundary")
-    session = snapshot["session_id"]
-    if not isinstance(session, str) or re.fullmatch(r"[0-9a-fA-F]{1,64}", session) is None:
-        raise ProtocolError("session_id must be an ASCII hex token of 1-64 characters")
-    identifier = snapshot["snapshot_id"]
-    if type(identifier) is not int or not 1 <= identifier <= 0xffffffff:
-        raise ProtocolError("snapshot_id must be a positive 32-bit unsigned integer")
-    turn = snapshot["game_turn"]
-    if type(turn) is not int or not -0x80000000 <= turn <= 0x7fffffff:
-        raise ProtocolError("game_turn must be a signed 32-bit integer")
+    if snapshot["type"] != "snapshot":
+        raise ProtocolError("unsupported message type")
+
+    session = _object(snapshot["game_session"], SESSION_FIELDS, "game_session")
+    if not isinstance(session["id"], str) or SESSION_ID.fullmatch(session["id"]) is None:
+        raise ProtocolError("game_session.id must be an ASCII hex token of 1-64 characters")
+    _integer(session["sequence"], 1, 0xffffffff, "game_session.sequence")
+    world = _object(session["world_instance"], WORLD_FIELDS, "world_instance")
+    if not isinstance(world["id"], str) or WORLD_ID.fullmatch(world["id"]) is None:
+        raise ProtocolError("world_instance.id must contain two hyphen-separated 8-digit hex tokens")
+    _integer(world["sequence"], 1, 0xffffffff, "world_instance.sequence")
+    _integer(world["map_seed"], 0, 0xffffffff, "world_instance.map_seed")
+    expected_world_id = "{:08x}-{:08x}".format(world["map_seed"], world["sequence"])
+    if world["id"].lower() != expected_world_id:
+        raise ProtocolError("world_instance.id components must equal map_seed and sequence")
+
+    state = _object(world["state"], STATE_FIELDS, "world_instance.state")
+    _integer(state["capture_id"], 1, 0xffffffff, "capture_id")
+    _integer(state["snapshot_id"], 1, 0xffffffff, "snapshot_id")
+    if state["boundary"] != "post_update":
+        raise ProtocolError("unsupported capture boundary")
+    _integer(state["game_turn"], -0x80000000, 0x7fffffff, "game_turn")
+    player_count = _integer(state["player_count"], 0, 0x7fffffff, "player_count")
+    player_index = _integer(state["player_index"], -1, 0x7fffffff, "player_index")
+    players = state["players"]
+    if not isinstance(players, list):
+        raise ProtocolError("players must be an array")
+    if player_count == 0:
+        if player_index != -1 or players:
+            raise ProtocolError("an empty world requires player_index=-1 and players=[]")
+        return snapshot
+    if len(players) != 1 or not 0 <= player_index < player_count:
+        raise ProtocolError("a nonempty world requires one player at a valid player_index")
+
+    player = _object(players[0], PLAYER_FIELDS, "player")
+    for field in ("id", "team_id", "civilization_type", "leader_type"):
+        _integer(player[field], -0x80000000, 0x7fffffff, "player." + field)
+    for field in ("is_human", "is_barbarian"):
+        if type(player[field]) is not bool:
+            raise ProtocolError("player." + field + " must be a JSON boolean")
+    city_count = _integer(player["city_count"], 0, 0x7fffffff, "city_count")
+    _integer(player["total_population"], 0, 0x7fffffff, "total_population")
+    city_offset = _integer(player["city_offset"], 0, 0x7fffffff, "city_offset")
+    city_part = _integer(player["city_part"], 0, 0x7fffffff, "city_part")
+    city_part_count = _integer(player["city_part_count"], 1, 0x7fffffff, "city_part_count")
+    cities = player["cities"]
+    if not isinstance(cities, list) or len(cities) > 32:
+        raise ProtocolError("cities must be an array containing at most 32 cities")
+    if city_offset != city_part * 32:
+        raise ProtocolError("city_offset must equal city_part*32")
+    if city_part_count != max(1, (city_count + 31) // 32):
+        raise ProtocolError("city_part_count does not match city_count")
+    if len(cities) != min(32, city_count - city_offset):
+        raise ProtocolError("cities length does not match the requested chunk")
+    for city in cities:
+        _object(city, CITY_FIELDS, "city")
+        for field in ("id", "x", "y"):
+            _integer(city[field], -0x80000000, 0x7fffffff, "city." + field)
+        _integer(city["population"], 0, 0x7fffffff, "city.population")
     return snapshot
 
 
@@ -83,14 +156,14 @@ class LineDecoder:
             self._pending.append(byte)
             if len(self._pending) > MAX_LINE_BYTES:
                 self._pending.clear()
-                raise ProtocolError("snapshot exceeds 512-byte frame limit")
+                raise ProtocolError("snapshot exceeds 4096-byte frame limit")
             if byte == 10:
                 line = bytes(self._pending)
                 self._pending.clear()
                 yield parse_snapshot(line)
             elif len(self._pending) == MAX_LINE_BYTES:
                 self._pending.clear()
-                raise ProtocolError("snapshot has no LF within 512-byte frame limit")
+                raise ProtocolError("snapshot has no LF within 4096-byte frame limit")
 
     def finish(self):
         """Offline files require complete frames; TCP EOF discards partial data."""
@@ -110,7 +183,8 @@ class SnapshotOrder:
         self._last = OrderedDict()
 
     def accept(self, snapshot):
-        session, identifier = snapshot["session_id"], snapshot["snapshot_id"]
+        session = snapshot["game_session"]["id"]
+        identifier = snapshot["game_session"]["world_instance"]["state"]["snapshot_id"]
         if identifier <= self._last.get(session, 0):
             raise ProtocolError("snapshot_id did not increase for this session")
         self._last[session] = identifier
@@ -123,7 +197,7 @@ def validate_stream(stream, on_snapshot):
     """Validate an offline binary NDJSON stream and return its frame count."""
     decoder, order, count = LineDecoder(), SnapshotOrder(), 0
     while True:
-        chunk = stream.read(512)
+        chunk = stream.read(MAX_LINE_BYTES)
         if not chunk:
             break
         for snapshot in decoder.feed(chunk):
@@ -180,7 +254,7 @@ class Receiver:
         deadline = time.monotonic() + self._idle_timeout
         while not self._stop.is_set():
             try:
-                chunk = connection.recv(512)
+                chunk = connection.recv(MAX_LINE_BYTES)
             except socket.timeout:
                 if time.monotonic() >= deadline:
                     self._on_error("idle client disconnected")

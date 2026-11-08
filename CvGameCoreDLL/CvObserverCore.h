@@ -34,16 +34,64 @@ public:
 #include "CvCriticalSectionMutex.h"
 #endif
 
+enum
+{
+	CV_OBSERVER_MESSAGE_CAPACITY = 4096,
+	CV_OBSERVER_CITY_CHUNK_SIZE = 32
+};
+
 struct CvObserverMessage
 {
-	char data[512]; // Includes newline; not required to be NUL-terminated on wire.
+	char data[CV_OBSERVER_MESSAGE_CAPACITY]; // Includes LF and a trailing NUL.
 	unsigned int length;
 };
 
-// Only fixed literals, hexadecimal session IDs and decimal integers enter JSON.
-// The game thread supplies a VALUE, never a CvGame pointer or deferred callback.
-bool CvObserverFormatSnapshot(const char* sessionId, unsigned long snapshotId,
-		int gameTurn, CvObserverMessage& message);
+struct CvObserverCity
+{
+	int id;
+	int x;
+	int y;
+	int population;
+};
+
+struct CvObserverPlayer
+{
+	int id;
+	int teamId;
+	int civilizationType;
+	int leaderType;
+	bool isHuman;
+	bool isBarbarian;
+	int cityCount;
+	int totalPopulation;
+	int cityOffset;
+	int cityPart;
+	int cityPartCount;
+	int citiesInMessage;
+	CvObserverCity cities[CV_OBSERVER_CITY_CHUNK_SIZE];
+};
+
+// Detached values only: no CvGame/CvPlayer/CvCity pointers or deferred callbacks.
+// One record contains zero or one player and at most one bounded city chunk.
+struct CvObserverSnapshot
+{
+	CvObserverSnapshot();
+	const char* sessionId;
+	unsigned long sessionSequence;
+	const char* worldId;
+	unsigned long worldSequence;
+	unsigned long mapSeed;
+	unsigned long captureId;
+	unsigned long snapshotId;
+	int gameTurn;
+	int playerCount;
+	int playerIndex;
+	bool hasPlayer;
+	CvObserverPlayer player;
+};
+
+bool CvObserverFormatSnapshot(const CvObserverSnapshot& snapshot,
+	CvObserverMessage& message);
 
 class CvObserverQueue
 {
@@ -63,6 +111,6 @@ private:
 	unsigned long m_dropped;
 	bool m_closed;
 };
-// XANA: 2026-11-04 ObserverMCP end
+// XANA: 2026-11-08 ObserverMCP hierarchical protocol v2
 #endif
 #endif

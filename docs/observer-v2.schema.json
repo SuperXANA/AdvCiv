@@ -1,0 +1,195 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "AdvCiv Observer protocol v2 snapshot",
+  "description": "One snapshot record encoded as an ASCII JSON object on an LF-terminated NDJSON line of at most 4096 bytes including LF. JSON duplicate keys are forbidden. Queue drops and transport loss may omit city chunks; arrival of one chunk does not establish capture completeness.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol", "version", "type", "game_session"],
+  "properties": {
+    "protocol": {
+      "type": "string",
+      "enum": ["advciv-observer"]
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 2
+    },
+    "type": {
+      "type": "string",
+      "enum": ["snapshot"]
+    },
+    "game_session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sequence", "world_instance"],
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/sessionId"
+        },
+        "sequence": {
+          "$ref": "#/definitions/positiveUint32",
+          "description": "Session sequence starts at 1 for each producer process."
+        },
+        "world_instance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "sequence", "map_seed", "state"],
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/worldId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/positiveUint32"
+            },
+            "map_seed": {
+              "$ref": "#/definitions/uint32"
+            },
+            "state": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["capture_id", "snapshot_id", "boundary", "game_turn", "player_count", "player_index", "players"],
+              "properties": {
+                "capture_id": {
+                  "$ref": "#/definitions/positiveUint32",
+                  "description": "Shared by all chunks from one game boundary."
+                },
+                "snapshot_id": {
+                  "$ref": "#/definitions/positiveUint32",
+                  "description": "Strictly increases for every record within a session; gaps are allowed."
+                },
+                "boundary": {
+                  "type": "string",
+                  "enum": ["post_update"]
+                },
+                "game_turn": {
+                  "$ref": "#/definitions/int32"
+                },
+                "player_count": {
+                  "$ref": "#/definitions/nonnegativeInt32",
+                  "description": "Count of all alive players, including Barbarians and minor civilizations. When zero, player_index must be -1 and players must be empty; otherwise players contains exactly one item."
+                },
+                "player_index": {
+                  "type": "integer",
+                  "minimum": -1,
+                  "maximum": 2147483647,
+                  "description": "Zero-based position of the included player, strictly less than player_count; -1 only when player_count is zero."
+                },
+                "players": {
+                  "type": "array",
+                  "maxItems": 1,
+                  "items": {
+                    "$ref": "#/definitions/player"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "sessionId": {
+      "type": "string",
+      "pattern": "^[0-9A-Fa-f]{1,64}$"
+    },
+    "worldId": {
+      "type": "string",
+      "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{8}$",
+      "description": "Eight hexadecimal map-seed digits, a hyphen, and eight hexadecimal world-sequence digits. The two components must exactly equal map_seed and sequence formatted as 08x-08x; hexadecimal letter case is insignificant."
+    },
+    "uint32": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "positiveUint32": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4294967295
+    },
+    "int32": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "nonnegativeInt32": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "player": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "team_id", "civilization_type", "leader_type", "is_human", "is_barbarian", "city_count", "total_population", "city_offset", "city_part", "city_part_count", "cities"],
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/int32"
+        },
+        "team_id": {
+          "$ref": "#/definitions/int32"
+        },
+        "civilization_type": {
+          "$ref": "#/definitions/int32"
+        },
+        "leader_type": {
+          "$ref": "#/definitions/int32"
+        },
+        "is_human": {
+          "type": "boolean"
+        },
+        "is_barbarian": {
+          "type": "boolean"
+        },
+        "city_count": {
+          "$ref": "#/definitions/nonnegativeInt32"
+        },
+        "total_population": {
+          "$ref": "#/definitions/nonnegativeInt32"
+        },
+        "city_offset": {
+          "$ref": "#/definitions/nonnegativeInt32",
+          "description": "Must equal city_part multiplied by 32."
+        },
+        "city_part": {
+          "$ref": "#/definitions/nonnegativeInt32",
+          "description": "Zero-based city chunk index."
+        },
+        "city_part_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647,
+          "description": "Must equal max(1, ceil(city_count/32))."
+        },
+        "cities": {
+          "type": "array",
+          "maxItems": 32,
+          "description": "Length must equal min(32, city_count-city_offset), including zero for an empire with no cities.",
+          "items": {
+            "$ref": "#/definitions/city"
+          }
+        }
+      }
+    },
+    "city": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "x", "y", "population"],
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/int32"
+        },
+        "x": {
+          "$ref": "#/definitions/int32"
+        },
+        "y": {
+          "$ref": "#/definitions/int32"
+        },
+        "population": {
+          "$ref": "#/definitions/nonnegativeInt32"
+        }
+      }
+    }
+  }
+}

@@ -324,6 +324,11 @@ void CvGame::regenerateMap(/* advc.tsl: */ bool bAutomated)
 	m_initialRandSeed.uiMap = getMapRand().getSeed();
 	CvMapGenerator::GetInstance().generateRandomMap();
 	CvMapGenerator::GetInstance().addGameElements();
+	// XANA: 2026-11-08 ObserverMCP - same session, new RNG-derived world instance
+#ifdef CV_OBSERVER_ENABLE
+	CvObserver::mapRegenerated(*this);
+#endif
+	// XANA: 2026-11-08 ObserverMCP end
 
 	gDLL->getEngineIFace()->RebuildAllPlots();
 	/*	<advc.001> Even if we call CvMap::setupGraphical before RebuildAllPlots,

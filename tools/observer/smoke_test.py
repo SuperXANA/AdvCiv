@@ -102,10 +102,11 @@ class Capture:
         with self.changed:
             self.total += 1
             item = dict(snapshot)  # Actual detached Python values from Receiver.
-            session = item["session_id"]
+            session = item["game_session"]["id"]
+            state = item["game_session"]["world_instance"]["state"]
             if session in self.last_ids:
                 self.order_comparisons += 1
-            self.last_ids[session] = item["snapshot_id"]
+            self.last_ids[session] = state["snapshot_id"]
             self.last_ids.move_to_end(session)
             if len(self.last_ids) > receiver.MAX_SESSIONS:
                 self.last_ids.popitem(last=False)
@@ -276,13 +277,16 @@ def run_stage(stage, args, capture, tunnel, checks, stage_hook=None):
             samples = [(index, item) for index, _, item in capture.recent if index > cursor]
             if kind in ("advance", "reload"):
                 samples = [(index, item) for index, item in samples
-                           if (item["session_id"] == baseline["session_id"]) == (kind == "advance")]
-            matched = [(index, item) for index, item in samples if expected is None or item["game_turn"] == expected]
+                           if (item["game_session"]["id"] == baseline["game_session"]["id"]) == (kind == "advance")]
+            matched = [(index, item) for index, item in samples
+                       if expected is None or item["game_session"]["world_instance"]["state"]["game_turn"] == expected]
             eofs = [event for event in capture.eofs if event["event_id"] > start["event_id"]
                     and event["connection_id"] == connection]
             ready = bool(eofs) if kind == "shutdown" else (len(samples) >= stage.get("min_snapshots", 1) and bool(matched))
             if kind == "advance":
-                ready = ready and any(item["game_turn"] > baseline["game_turn"] for _, item in samples)
+                ready = ready and any(item["game_session"]["world_instance"]["state"]["game_turn"] >
+                                      baseline["game_session"]["world_instance"]["state"]["game_turn"]
+                                      for _, item in samples)
             if ready or capture.fatal or (tunnel is not None and tunnel.poll() is not None) or time.monotonic() >= deadline:
                 break
             capture.changed.wait(min(0.1, max(0, deadline - time.monotonic())))
@@ -312,23 +316,27 @@ def run_stage(stage, args, capture, tunnel, checks, stage_hook=None):
         check(checks, name + ".expected_turn", "passed" if matched else ("failed" if samples else "not_run"),
               "matched independently supplied game_turn" if matched else "expected turn was not observed",
               expected_turn=expected, source=source,
-              observed_turns=[item["game_turn"] for _, item in samples],
+              observed_turns=[item["game_session"]["world_instance"]["state"]["game_turn"]
+                              for _, item in samples],
               matching_snapshot_indices=[index for index, _ in matched], **common)
     if kind == "advance":
-        turns = [baseline["game_turn"]] + [item["game_turn"] for _, item in samples]
+        turns = [baseline["game_session"]["world_instance"]["state"]["game_turn"]]
+        turns += [item["game_session"]["world_instance"]["state"]["game_turn"] for _, item in samples]
         progressed = any(turn > turns[0] for turn in turns[1:]) and all(a <= b for a, b in zip(turns, turns[1:]))
         check(checks, name + ".turn_advance", "not_run" if overflow else ("passed" if progressed else ("failed" if samples else "not_run")),
               "nondecreasing turns with advancement in the baseline session" if progressed else "no qualifying uninterrupted turn advancement",
               baseline=baseline, observed_turns=turns[1:], **common)
         with capture.lock:
-            changed_session = any(item["session_id"] != baseline["session_id"] for index, _, item in capture.recent if index > cursor)
+            changed_session = any(item["game_session"]["id"] != baseline["game_session"]["id"]
+                                  for index, _, item in capture.recent if index > cursor)
         check(checks, name + ".same_session", "failed" if changed_session else ("not_run" if overflow else ("passed" if samples else "not_run")),
               "session changed during advance" if changed_session else "advance session continuity", **common)
     if kind == "reload":
         check(checks, name + ".session_change", "passed" if samples else "failed",
               "new session after externally reported reload" if samples else "new reload session was not observed",
-              previous_session=baseline["session_id"],
-              observed_sessions=sorted({item["session_id"] for _, item in samples}), source=evidence["source"], **common)
+              previous_session=baseline["game_session"]["id"],
+              observed_sessions=sorted({item["game_session"]["id"] for _, item in samples}),
+              source=evidence["source"], **common)
 
 
 def run_capture(args, plan, scope="live_capture", stage_hook=None):

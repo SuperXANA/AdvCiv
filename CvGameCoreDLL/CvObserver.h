@@ -7,6 +7,7 @@ class CvGame;
 namespace CvObserver
 {
 	void postUpdate(CvGame const& game);
+	void mapRegenerated(CvGame const& game);
 	void stop(CvGame const& game);
 }
 // XANA: 2026-11-04 ObserverMCP end

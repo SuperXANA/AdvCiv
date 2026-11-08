@@ -22,13 +22,34 @@ import smoke_test
 
 
 def snapshot(identifier=1, session="abc123", turn=42):
-    return {"protocol": "advciv-observer", "version": 1, "type": "snapshot",
-            "session_id": session, "snapshot_id": identifier,
-            "boundary": "post_update", "game_turn": turn}
+    return {
+        "protocol": "advciv-observer", "version": 2, "type": "snapshot",
+        "game_session": {
+            "id": session, "sequence": 1,
+            "world_instance": {
+                "id": "89abcdef-00000001", "sequence": 1, "map_seed": 0x89abcdef,
+                "state": {
+                    "capture_id": 1, "snapshot_id": identifier, "boundary": "post_update",
+                    "game_turn": turn, "player_count": 1, "player_index": 0,
+                    "players": [{
+                        "id": 0, "team_id": 0, "civilization_type": 1, "leader_type": 2,
+                        "is_human": True, "is_barbarian": False,
+                        "city_count": 1, "total_population": 3,
+                        "city_offset": 0, "city_part": 0, "city_part_count": 1,
+                        "cities": [{"id": 10, "x": 20, "y": 30, "population": 3}]
+                    }]
+                }
+            }
+        }
+    }
+
+
+def state(item):
+    return item["game_session"]["world_instance"]["state"]
 
 
 def frame(identifier=1, session="abc123", turn=42):
-    return (json.dumps(snapshot(identifier, session, turn)) + "\n").encode("ascii")
+    return (json.dumps(snapshot(identifier, session, turn), separators=(",", ":")) + "\n").encode("ascii")
 
 
 def action(**evidence):
@@ -143,15 +164,21 @@ class SmokeRunnerTests(unittest.TestCase):
         objects = [json.loads(line) for line in (self.root / "result" / "snapshots.ndjson").read_text().splitlines()]
         self.assertEqual(objects, [snapshot(3), snapshot(7, turn=43), snapshot(9, turn=44), snapshot(4, "def456", 42)])
         for item in objects:
-            for field in ("version", "snapshot_id", "game_turn"):
-                self.assertIs(type(item[field]), int)
-            self.assertIs(type(item["session_id"]), str)
+            self.assertIs(type(item["version"]), int)
+            self.assertIs(type(item["game_session"]["id"]), str)
+            self.assertIs(type(item["game_session"]["sequence"]), int)
+            world = item["game_session"]["world_instance"]
+            self.assertIs(type(world["id"]), str)
+            for field in ("sequence", "map_seed"):
+                self.assertIs(type(world[field]), int)
+            for field in ("capture_id", "snapshot_id", "game_turn", "player_count", "player_index"):
+                self.assertIs(type(state(item)[field]), int)
         self.assertEqual((self.root / "result" / "wire-0001.bin").read_bytes(),
                          frame(3) + frame(7, turn=43) + frame(9, turn=44))
 
     def test_quoted_integer_is_rejected_and_retained_as_wire_evidence(self):
         bad = snapshot()
-        bad["game_turn"] = "42"
+        state(bad)["game_turn"] = "42"
         wire = (json.dumps(bad) + "\n").encode()
 
         def hook(item, capture, checkpoint):
@@ -166,7 +193,9 @@ class SmokeRunnerTests(unittest.TestCase):
         self.assertEqual(statuses(result)["protocol_validation"], "failed")
         self.assertEqual(result["accepted_snapshots"], 1)
         self.assertEqual((self.root / "result" / "wire-0001.bin").read_bytes(), wire)
-        self.assertIn("signed 32-bit", (self.root / "result" / "events.ndjson").read_text())
+        events = (self.root / "result" / "events.ndjson").read_text()
+        self.assertIn("rejected_frame", events)
+        self.assertIn("game_turn has an invalid integer value", events)
 
     def test_duplicate_snapshot_id_fails_order_across_reconnections(self):
         def hook(item, capture, checkpoint):

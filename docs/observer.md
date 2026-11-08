@@ -1,4 +1,4 @@
-# ObserverMCP first snapshot prototype
+# ObserverMCP hierarchical snapshot prototype
 
 This isolated idea branch combines the complete read-only AdvCiv 1.14 baseline
 `5970334b64a875b5cdb370c94fc9a98db4eacda6` with ObserverMCP input
@@ -8,8 +8,8 @@ ObserverMCP date markers. This is a small observation transport; an MCP server
 and game-control commands are future, separate work. It is independent of cdb.
 
 To adopt the idea in a combined mod, copy the new observer implementation files
-and the unchanged mutex header, then merge the three marked include/hook blocks
-into your current `CvGame.cpp`. This branch's `CvGame.cpp` and native DLLs contain
+and the unchanged mutex header, then merge the marked include, update,
+regeneration and uninitialization hook blocks into your current `CvGame.cpp`. This branch's `CvGame.cpp` and native DLLs contain
 the pinned 1.14 baseline plus this prototype; other independent feature branches
 are outside this validation scope.
 
@@ -18,10 +18,12 @@ are outside this validation scope.
 `CvGame::update()` calls `CvObserver::postUpdate(*this)` after its update loop,
 only when `isFinalInitialized()` is true. The first eligible call captures the
 owning thread ID; later calls on another thread are ignored. The bridge reads
-`game.getGameTurn()` once, on that thread, and formats a detached value. It emits
-an initial snapshot, then one whenever the observed turn changes. This labels
-the end of an update call, not a guarantee that every player's turn is complete.
-Several internal updates may occur before that boundary.
+the stored map seed and turn, iterates alive players and their cities, and copies
+plain values into bounded schema objects. It emits an initial capture, then one
+whenever the observed turn or world changes. This labels the end of an update
+call, not a guarantee that every player's turn is complete. Several internal
+updates may occur before that boundary, and same-turn city changes alone do not
+trigger a new capture.
 
 The queue owns fixed-size copies of the serialized messages. The worker's
 entire input is the queue, immutable configuration, a stop event and its error
@@ -41,38 +43,64 @@ path to run first. Abrupt process termination cannot promise final delivery.
 
 ## Wire format
 
-One ASCII JSON object per LF-terminated line, at most 512 bytes including LF:
+Protocol version 2 is hierarchical: session, world, captured state, player and
+city objects nest below one another. One ASCII JSON object is written per
+LF-terminated line, at most 4096 bytes including LF. A typical record is:
 
 ```json
-{"protocol":"advciv-observer","version":1,"type":"snapshot","session_id":"01abcdef","snapshot_id":1,"boundary":"post_update","game_turn":42}
+{"protocol":"advciv-observer","version":2,"type":"snapshot","game_session":{"id":"01abcdef","sequence":1,"world_instance":{"id":"89abcdef-00000001","sequence":1,"map_seed":2309737967,"state":{"capture_id":1,"snapshot_id":1,"boundary":"post_update","game_turn":42,"player_count":1,"player_index":0,"players":[{"id":0,"team_id":0,"civilization_type":1,"leader_type":2,"is_human":true,"is_barbarian":false,"city_count":1,"total_population":3,"city_offset":0,"city_part":0,"city_part_count":1,"cities":[{"id":10,"x":20,"y":30,"population":3}]}]}}}}
 ```
 
-| Field | Version 1 meaning |
-| --- | --- |
-| `protocol` | Always `advciv-observer` |
-| `version` | Integer `1`; incompatible schemas require a different version |
-| `type` | Always `snapshot` |
-| `session_id` | ASCII hex correlation token; new after observer start/reset/load |
-| `snapshot_id` | Positive uint32, increasing within a session; gaps allowed |
-| `boundary` | Always `post_update` |
-| `game_turn` | Signed 32-bit value copied from `CvGame::getGameTurn() const` |
+The [JSON Schema Draft 4 definition](observer-v2.schema.json) and the Python
+receiver enforce the exact fields and cross-field bounds.
 
-The game token combines Windows FILETIME, process ID and an in-process start
-counter. It is a practical correlation token, not a secret, save identifier or
-global uniqueness guarantee. Snapshot IDs stop at uint32 maximum rather than
-wrapping; a reset/new session is then needed. Neither identifier is serialized
-to a save. No synchronous network call, game RNG use or observation state enters
-gameplay decisions.
+| Object/field | Version 2 meaning |
+| --- | --- |
+| `protocol`, `version`, `type` | `advciv-observer`, integer `2`, `snapshot` |
+| `game_session.id` | ASCII hex correlation token; new after observer start/reset/load |
+| `game_session.sequence` | Positive process-local session counter, starting at 1 |
+| `world_instance.id` | Eight hexadecimal map-seed digits, hyphen, eight hexadecimal world-sequence digits |
+| `world_instance.sequence` | Positive counter, incremented for each world within its session |
+| `world_instance.map_seed` | Uint32 copied from `CvGame::getInitialRandSeed().first` |
+| `state.capture_id` | Positive uint32 shared by every record from one capture boundary |
+| `state.snapshot_id` | Positive uint32, increasing per record within a session; gaps allowed |
+| `state.boundary` | Always `post_update` |
+| `state.game_turn` | Signed 32-bit value copied from `CvGame::getGameTurn() const` |
+| `state.player_count` | Number of alive players, including minor civilizations and Barbarians |
+| `state.player_index` | Zero-based alive-player index, or -1 in the single empty-player-state record |
+| `players[]` | Zero or one copied player record per line |
+| `players[].city_count` | Total city count, not merely the number in this line |
+| `players[].total_population` | Cached total copied from `CvPlayer::getTotalPopulation()` |
+| `players[].cities[]` | Up to 32 city IDs, map coordinates and population sizes |
+
+The session token combines Windows FILETIME, process ID and the in-process
+session counter. It is a practical correlation token, not a secret, save
+identifier or global uniqueness guarantee. Regeneration does not create a new
+session: the post-generation `CvObserver::mapRegenerated` notification and a
+seed comparison make the next finalized update increment only the world
+sequence. The sequence distinguishes even a repeated seed. The observer reads
+the stored map RNG seed; it never calls `CvRandom::get()` or advances game RNG.
+Observer IDs are not serialized to saves and never enter gameplay decisions.
+
+A turn/world capture emits one record per alive player when at most 32 cities
+are present. Larger empires use consecutive city chunks: `city_offset` is
+`city_part * 32`, `city_part_count` covers the player's full city list, and
+`capture_id` reassembles all players/chunks from the same boundary. An empire
+with no cities has one empty `cities` array. A game with no alive players has
+one record whose `players` array is empty. IDs stop at uint32 maximum rather
+than wrapping; a reset/new session is then needed.
 
 The configured queue holds 1–64 records and drops its oldest record when full.
-Physical storage is a fixed 64-record array (about 33 KiB); the worker can hold
-one additional in-flight record. An absent receiver therefore cannot grow
-memory without bound or make capture wait for network I/O. A short critical
-section protects each copy. Failed connects retry after an interruptible delay.
-Partial sends continue only on the same connection with an overall timeout.
-A failed in-flight record is discarded before reconnecting; later snapshots
-can proceed. Buffered records are discarded on shutdown. There are no ACKs,
-delivery guarantees or commands. Snapshot-ID gaps are expected.
+Physical storage is a fixed 64-record array (about 256 KiB); the worker can hold
+one additional in-flight record. Consequently, consumers may see missing
+players or city chunks and must not call a capture complete solely because one
+of its records arrived. An absent receiver cannot grow memory without bound or
+make capture wait for network I/O. A short critical section protects each copy.
+Failed connects retry after an interruptible delay. Partial sends continue only
+on the same connection with an overall timeout. A failed in-flight record is
+discarded before reconnecting; later snapshots can proceed. Buffered records
+are discarded on shutdown. There are no ACKs, delivery guarantees or commands.
+Snapshot-ID gaps and incomplete capture IDs are expected.
 
 The worker uses nonblocking Winsock2, checks connect completion with select and
 SO_ERROR, slices network waits to at most 50 ms, and owns/cleans up its sockets.
@@ -128,9 +156,9 @@ ssh -NT -o ExitOnForwardFailure=yes -R 127.0.0.1:37631:127.0.0.1:37631 WINDOWS_R
 
 That command is a configuration example, not executed tunnel evidence. It
 requires the Windows SSH server to permit remote forwarding. Keep both ends
-bound to loopback. The receiver is standard-library Python 3, validates all
-seven fields and framing, rejects duplicate keys and non-increasing IDs for
-its bounded history of 64 sessions, and accepts reconnects. Ctrl-C stops it.
+bound to loopback. The receiver is standard-library Python 3, validates the
+version-2 hierarchy, chunk invariants and framing, rejects duplicate keys and
+non-increasing IDs for its bounded history of 64 sessions, and accepts reconnects. Ctrl-C stops it.
 It never sends data to the DLL. A disconnected receiver loses incomplete frames.
 
 ## Reproduce focused checks
@@ -179,20 +207,31 @@ Suggested game-runtime checks, still awaiting the user's execution:
    no observer connection. With an enabled DLL and no opt-in, expect the same.
 2. Start the receiver and forwarding path, then launch the enabled DLL with the
    opt-in inherited by Civ4. Start a game and inspect the initial snapshot.
-3. Advance turns and compare `game_turn` with Civ4. IDs should increase; repeated
-   update calls during one turn should not create extra records.
-4. Save and reload, or start a new game. Expect a new session token and IDs
+3. Advance turns and compare `state.game_turn` with Civ4. IDs should increase;
+   repeated update calls during one turn should not create extra captures.
+4. Regenerate the map on turn 0. Expect the same `game_session.id`, an incremented
+   world sequence, a new world ID/capture, and turn-0 player/city state.
+5. Save and reload, or start a new game. Expect a new session token and IDs
    restarting at one, even when the loaded turn is earlier.
-5. Stop/restart the receiver while advancing turns. Gaps are permitted, and
-   Civ4 should continue without waiting for the receiver.
-6. Return to the menu and exit normally. Confirm observer activity ends and
+6. Stop/restart the receiver while advancing turns. Gaps and partial captures are
+   permitted, and Civ4 should continue without waiting for the receiver.
+7. Return to the menu and exit normally. Confirm observer activity ends and
    the game exits cleanly. These are runtime expectations, not completed tests.
 
-## Extend the idea
+## Extend the schema
 
-To add another game field, read it beside `getGameTurn()` at the same game-thread
-boundary and copy it into an explicitly defined value schema. Keep game objects,
-iterators and lazy callbacks out of the queue. Define what the boundary means
-before combining multiple fields, and revise the protocol/parser/tests together.
-Increase the fixed message limit only with corresponding bounds in both peers.
+1. Add plain copied fields to `CvObserverSnapshot`, `CvObserverPlayer`,
+   `CvObserverCity`, or a new fixed-size value struct in `CvObserverCore.h`.
+2. Read the live value in `CvObserver.cpp` beside the existing game-thread
+   capture. Never store a game object, iterator or callback in the value.
+3. Serialize it with `CvObserverJsonWriter` in `CvObserverCore.inl`. Reuse the
+   existing session/world/state nesting; add a new bounded chunk type rather
+   than allowing an unbounded array into one message.
+4. Update `observer-v2.schema.json`, receiver validation, C++ formatter tests,
+   Python consumer tests and this document together. Compatible additions can
+   retain version 2 only when all peers are updated; incompatible changes need
+   a new protocol version.
+5. Exercise the actual C++ formatter through `run_static_tests.py` and run the
+   native enabled/disabled DLL workflow. Keep the 4096-byte producer/consumer
+   bound aligned if a future schema requires a different fixed capacity.
 

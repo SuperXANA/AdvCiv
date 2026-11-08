@@ -7,21 +7,12 @@ MSVC, Civilization IV, a Windows VM, or an SSH tunnel. The native workflow runs
 the same C++ tests with the original Windows critical-section implementation.
 """
 
-import json
+import importlib.util
 import os
 from pathlib import Path
 import shlex
 import subprocess
 import tempfile
-
-
-def unique_object(pairs):
-    result = {}
-    for key, value in pairs:
-        if key in result:
-            raise AssertionError("duplicate JSON field: " + key)
-        result[key] = value
-    return result
 
 
 def main():
@@ -48,20 +39,27 @@ def main():
         lines = output.splitlines(keepends=True)
         if len(lines) != 3:
             raise AssertionError("expected three actual C++ formatter records")
+        spec = importlib.util.spec_from_file_location(
+            "observer_receiver", root / "tools/observer/receiver.py")
+        receiver = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(receiver)
         expected_ids = [1, 2, 4294967295]
         expected_turns = [0, -2147483648, 2147483647]
         for index, line in enumerate(lines):
-            if not line.endswith(b"\n") or len(line) > 512:
-                raise AssertionError("invalid NDJSON framing")
-            record = json.loads(line.decode("ascii"), object_pairs_hook=unique_object)
-            expected = {
-                "protocol": "advciv-observer", "version": 1, "type": "snapshot",
-                "session_id": "abc012", "snapshot_id": expected_ids[index],
-                "boundary": "post_update", "game_turn": expected_turns[index],
-            }
-            if record != expected:
-                raise AssertionError("C++ output did not match the v1 schema")
-        print("PASS: Python json parsed all actual C++ formatter records and numeric edges")
+            record = receiver.parse_snapshot(line)
+            session = record["game_session"]
+            world = session["world_instance"]
+            state = world["state"]
+            if session["id"] != "abc012" or world["id"] != "89abcdef-00000001":
+                raise AssertionError("C++ output has incorrect session/world identity")
+            if state["snapshot_id"] != expected_ids[index]:
+                raise AssertionError("C++ output has incorrect snapshot ID")
+            if state["game_turn"] != expected_turns[index]:
+                raise AssertionError("C++ output has incorrect signed game turn")
+            player = state["players"][0]
+            if player["total_population"] != 3 or player["cities"][0]["population"] != 3:
+                raise AssertionError("C++ output lost copied city/population values")
+        print("PASS: consumer parsed all actual C++ v2 records and numeric edges")
 
 
 if __name__ == "__main__":

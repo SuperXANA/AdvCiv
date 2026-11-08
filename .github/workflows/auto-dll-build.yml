@@ -8,7 +8,7 @@ permissions:
 
 on:
   push:
-    branches: ["ObserverMCP-ChatGPT"]
+    branches: ["ObserverMCP-KimiAI"]
     paths: ["CvGameCoreDLL/**", "tests/observer/**", ".github/workflows/auto-dll-build.yml"]
   workflow_dispatch:
   

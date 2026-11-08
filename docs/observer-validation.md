@@ -1,6 +1,28 @@
 # ObserverMCP coverage and validation ledger
 
-## Pinned inputs
+## Hierarchical version-2 local validation
+
+The `ObserverMCP-KimiAI` schema uses the same AdvCiv 1.14 baseline
+`5970334b64a875b5cdb370c94fc9a98db4eacda6` and `dll-build` workflow input
+`cf9b2a7fe6b9be2581f46a67a84944c35536d046` as its provenance pins. Local checks
+against the hierarchical implementation passed:
+
+- Strict `g++ -std=c++03 -Wall -Wextra -pedantic -Werror` compilation and three
+  executions of the real formatter/queue/concurrency tests.
+- Actual C++ session/world/player/city records parsed by the production Python
+  receiver, including uint32 and signed-turn boundaries.
+- Fourteen receiver tests covering hierarchy, scalar types, identity and city
+  chunk invariants, framing, ordering, TCP reconnects and shutdown.
+- Twenty smoke-runner tests covering nested state access and independent runtime
+  checkpoint semantics with synthetic loopback producers.
+- Draft 4 schema validation and validation of the documented v2 example.
+
+These checks do not execute the Civ4 game bridge or the Windows transport. Their
+scope is distinct from the native MSVC 7.1 matrix and user-runtime testing.
+
+## Version-1 historical validation
+
+### Pinned inputs
 
 | Input | Exact commit |
 | --- | --- |
@@ -9,8 +31,10 @@
 | Copied dll-build workflow | `1cc8c3d24e9fe15126485de0b9e6604167caac36` |
 | Final implementation and native harness | `c68a89f633a817efd7d69d70dcca0a89c6703014` |
 
-Work is confined to `ObserverMCP-ChatGPT`. The complete baseline supplies the
-build tree; the original source branch is preserved. Original blob IDs remain
+The version-1 work recorded below was confined to `ObserverMCP-ChatGPT`. The
+current hierarchical version-2 work is on `ObserverMCP-KimiAI`; its separate
+validation results are appended after execution. The complete baseline supplies
+the build tree; the original source branch is preserved. Original blob IDs remain
 `23bfaae2dcdbc07c284788957a677eaa22930733` for README and
 `f61b5c1a52c6f87ce714acfe43defedf18cb0113` for the mutex header.
 

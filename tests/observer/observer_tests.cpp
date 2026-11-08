@@ -56,55 +56,155 @@ static void pauseMs(unsigned long milliseconds)
 #endif
 }
 
+static CvObserverSnapshot snapshotValue(unsigned long id, int turn)
+{
+	CvObserverSnapshot value;
+	value.sessionId = "abc012";
+	value.sessionSequence = 1;
+	value.worldId = "89abcdef-00000001";
+	value.worldSequence = 1;
+	value.mapSeed = 0x89abcdefUL;
+	value.captureId = id;
+	value.snapshotId = id;
+	value.gameTurn = turn;
+	value.playerCount = 1;
+	value.playerIndex = 0;
+	value.hasPlayer = true;
+	value.player.id = 0;
+	value.player.teamId = 0;
+	value.player.civilizationType = 1;
+	value.player.leaderType = 2;
+	value.player.isHuman = true;
+	value.player.isBarbarian = false;
+	value.player.cityCount = 1;
+	value.player.totalPopulation = 3;
+	value.player.cityOffset = 0;
+	value.player.cityPart = 0;
+	value.player.cityPartCount = 1;
+	value.player.citiesInMessage = 1;
+	value.player.cities[0].id = 10;
+	value.player.cities[0].x = 20;
+	value.player.cities[0].y = 30;
+	value.player.cities[0].population = 3;
+	return value;
+}
+
 static CvObserverMessage snapshot(unsigned long id, int turn)
 {
 	CvObserverMessage message;
-	CHECK(CvObserverFormatSnapshot("abc012", id, turn, message));
+	CHECK(CvObserverFormatSnapshot(snapshotValue(id, turn), message));
 	return message;
 }
 
 static void testFormatAndCopies()
 {
 	CvObserverMessage message = snapshot(7, 42);
-	const char* expected = "{\"protocol\":\"advciv-observer\",\"version\":1,"
-		"\"type\":\"snapshot\",\"session_id\":\"abc012\",\"snapshot_id\":7,"
-		"\"boundary\":\"post_update\",\"game_turn\":42}\n";
-	CHECK(message.length == strlen(expected));
-	CHECK(memcmp(message.data, expected, message.length) == 0);
-	CHECK(message.length <= sizeof(message.data));
-	CHECK(CvObserverFormatSnapshot("A012f", 0xffffffffUL, INT_MIN, message));
+	CHECK(message.length < sizeof(message.data));
+	CHECK(message.data[message.length - 1] == '\n');
+	CHECK(message.data[message.length] == 0);
+	CHECK(strstr(message.data, "\"version\":2") != NULL);
+	CHECK(strstr(message.data, "\"game_session\":{\"id\":\"abc012\"") != NULL);
+	CHECK(strstr(message.data, "\"world_instance\":{\"id\":\"89abcdef-00000001\"") != NULL);
+	CHECK(strstr(message.data, "\"capture_id\":7") != NULL);
+	CHECK(strstr(message.data, "\"players\":[{\"id\":0") != NULL);
+	CHECK(strstr(message.data, "\"cities\":[{\"id\":10") != NULL);
+
+	CvObserverSnapshot value = snapshotValue(0xffffffffUL, INT_MIN);
+	CHECK(CvObserverFormatSnapshot(value, message));
 	CHECK(strstr(message.data, "4294967295") != NULL);
 	CHECK(strstr(message.data, "-2147483648") != NULL);
-	CHECK(CvObserverFormatSnapshot("0", 1, INT_MAX, message));
-	CHECK(!CvObserverFormatSnapshot("", 1, 0, message));
-	CHECK(!CvObserverFormatSnapshot(NULL, 1, 0, message));
-	CHECK(!CvObserverFormatSnapshot("not-hex", 1, 0, message));
-	CHECK(!CvObserverFormatSnapshot("a\"", 1, 0, message));
-	CHECK(!CvObserverFormatSnapshot("aa\n", 1, 0, message));
-	CHECK(!CvObserverFormatSnapshot("a", 0, 0, message));
+	value = snapshotValue(1, INT_MAX);
+	value.sessionId = "0";
+	CHECK(CvObserverFormatSnapshot(value, message));
+	value.sessionId = "";
+	CHECK(!CvObserverFormatSnapshot(value, message));
+	value.sessionId = NULL;
+	CHECK(!CvObserverFormatSnapshot(value, message));
+	value.sessionId = "not-hex";
+	CHECK(!CvObserverFormatSnapshot(value, message));
+	value.sessionId = "a\"";
+	CHECK(!CvObserverFormatSnapshot(value, message));
+	value.sessionId = "aa\n";
+	CHECK(!CvObserverFormatSnapshot(value, message));
+	value = snapshotValue(0, 0);
+	CHECK(!CvObserverFormatSnapshot(value, message));
+	value = snapshotValue(1, 0);
+	value.worldId = "89abcdef00000001";
+	CHECK(!CvObserverFormatSnapshot(value, message));
+	value.worldId = NULL;
+	CHECK(!CvObserverFormatSnapshot(value, message));
+	value = snapshotValue(1, 0);
+	value.mapSeed = 0;
+	CHECK(!CvObserverFormatSnapshot(value, message));
+	value.worldId = "00000000-00000001";
+	CHECK(CvObserverFormatSnapshot(value, message));
+	value = snapshotValue(1, 0);
+	value.captureId = 0;
+	CHECK(!CvObserverFormatSnapshot(value, message));
 	char longSession[66];
 	memset(longSession, 'a', 65);
 	longSession[65] = 0;
-	CHECK(!CvObserverFormatSnapshot(longSession, 1, 0, message));
+	value = snapshotValue(1, 0);
+	value.sessionId = longSession;
+	CHECK(!CvObserverFormatSnapshot(value, message));
 	longSession[64] = 0;
-	CHECK(CvObserverFormatSnapshot(longSession, 1, 0, message));
+	CHECK(CvObserverFormatSnapshot(value, message));
 #if ULONG_MAX > 0xffffffffUL
-	CHECK(!CvObserverFormatSnapshot("a", 0x100000000UL, 0, message));
+	value = snapshotValue(1, 0);
+	value.mapSeed = 0x100000000UL;
+	CHECK(!CvObserverFormatSnapshot(value, message));
 #endif
 
-	// The queue must own a value copy, independent of the producer's variables.
+	value = snapshotValue(1, 0);
+	value.hasPlayer = false;
+	CHECK(!CvObserverFormatSnapshot(value, message));
+	value = snapshotValue(1, 0);
+	value.playerCount = 0;
+	value.playerIndex = -1;
+	value.hasPlayer = false;
+	CHECK(CvObserverFormatSnapshot(value, message));
+	CHECK(strstr(message.data, "\"players\":[]") != NULL);
+	value = snapshotValue(1, 0);
+	value.player.cities[0].population = -1;
+	CHECK(!CvObserverFormatSnapshot(value, message));
+	value = snapshotValue(1, 0);
+	value.player.cityPartCount = 2;
+	CHECK(!CvObserverFormatSnapshot(value, message));
+
+	value = snapshotValue(1, 0);
+	value.player.cityCount = 33;
+	value.player.totalPopulation = 33;
+	value.player.cityPartCount = 2;
+	value.player.citiesInMessage = 32;
+	for (int i = 0; i < 32; ++i)
+	{
+		value.player.cities[i].id = INT_MIN + i;
+		value.player.cities[i].x = INT_MIN;
+		value.player.cities[i].y = INT_MAX;
+		value.player.cities[i].population = INT_MAX;
+	}
+	CHECK(CvObserverFormatSnapshot(value, message));
+	CHECK(strstr(message.data, "\"city_part_count\":2") != NULL);
+	value.player.cityOffset = 32;
+	value.player.cityPart = 1;
+	value.player.citiesInMessage = 1;
+	value.player.cities[0].id = 32;
+	CHECK(CvObserverFormatSnapshot(value, message));
+	CHECK(strstr(message.data, "\"city_offset\":32") != NULL);
+	value.player.cityOffset = 31;
+	CHECK(!CvObserverFormatSnapshot(value, message));
+
+	// The queue must own a serialized copy, independent of the producer's buffer.
 	CvObserverQueue queue(2);
-	int liveTurn = 42;
-	message = snapshot(7, liveTurn);
+	CvObserverMessage expected = snapshot(7, 42);
+	message = expected;
 	CHECK(queue.push(message));
-	liveTurn = 99;
 	memset(message.data, 'x', sizeof(message.data));
 	message.length = 1;
 	CvObserverMessage copy;
 	CHECK(queue.pop(copy));
-	CHECK(copy.length == strlen(expected));
-	CHECK(memcmp(copy.data, expected, copy.length) == 0);
-	CHECK(liveTurn == 99);
+	CHECK(copy.length == expected.length);
+	CHECK(memcmp(copy.data, expected.data, expected.length) == 0);
 }
 
 static void testQueueBoundsAndClose()
@@ -129,7 +229,7 @@ static void testQueueBoundsAndClose()
 	CvObserverQueue validation(2);
 	message.length = 0;
 	CHECK(!validation.push(message));
-	message.length = 513;
+	message.length = CV_OBSERVER_MESSAGE_CAPACITY + 1;
 	CHECK(!validation.push(message));
 
 	CvObserverQueue minimum(0);
