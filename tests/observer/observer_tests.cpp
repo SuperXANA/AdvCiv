@@ -441,7 +441,7 @@ static SOCKET acceptBefore(SOCKET listener, unsigned long timeout)
 
 static void readOneByteAtATime(SOCKET peer, const CvObserverMessage& expected)
 {
-	char received[512];
+	char received[CV_OBSERVER_MESSAGE_CAPACITY];
 	unsigned int count = 0;
 	unsigned long started = nowMs();
 	while (count < expected.length)
@@ -571,8 +571,8 @@ static void testLoopbackAndReconnect()
 		peer = acceptBefore(listener, 150);
 	}
 	CHECK(peer != INVALID_SOCKET);
-	// Confirm the reconnected stream consists of a complete v1 frame.
-	char line[512];
+	// Confirm the reconnected stream consists of a complete v2 frame.
+	char line[CV_OBSERVER_MESSAGE_CAPACITY];
 	unsigned int length = 0;
 	started = nowMs();
 	while (length < sizeof(line) - 1)
