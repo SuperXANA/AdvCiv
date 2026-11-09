@@ -6356,7 +6356,68 @@
       ],
       "runtime_save_validation_policy": "save_runtime_validation_policy",
       "prior_feature_saves_exist": false,
-      "prior_feature_save_migration_required": false
+      "prior_feature_save_migration_required": false,
+      "authored_duration_arithmetic_audit": {
+        "date": "2026-11-06",
+        "original_source": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+        "assistant_source": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "scope": "Static arithmetic check of supplied feature XML with pinned baseline game speeds.",
+        "locations": {
+          "CvGameCoreDLL/CvUnit.cpp": {
+            "doExpireTempPromotions": 721,
+            "setHasPromotion": 10471,
+            "applyEvent": 11721
+          },
+          "Assets/XML/Units/CIV4PromotionInfos.xml": [
+            101,
+            201,
+            301
+          ],
+          "Assets/XML/Events/CIV4EventInfos.xml": [
+            47
+          ]
+        },
+        "authored_promotion_durations": [
+          3,
+          7,
+          16
+        ],
+        "authored_event_durations": [
+          7
+        ],
+        "baseline_train_percent": {
+          "Marathon": 200,
+          "Epic": 150,
+          "Normal": 100,
+          "Quick": 67
+        },
+        "scaled_durations": {
+          "Marathon": [
+            6,
+            14,
+            32
+          ],
+          "Epic": [
+            4,
+            10,
+            24
+          ],
+          "Normal": [
+            3,
+            7,
+            16
+          ],
+          "Quick": [
+            2,
+            4,
+            10
+          ]
+        },
+        "result": "All supplied positive durations stay positive at turn zero and the largest intermediate product is 3200. The largest offset is 32, so addition fits on nonnegative turns through INT_MAX - 32. Existing edge concerns for other XML configurations or extreme turns remain open. No new finding or production correction.",
+        "new_DLL_build": false,
+        "game_runtime_verified": false
+      }
     },
     {
       "branch": "PromotionXPBuild-ChatGPT",
@@ -10044,6 +10105,67 @@
         "merge_base": "5f0e1235780e19a81a09aba91234bb0487489fcf",
         "disposition": "No whole-branch merge recommendation; use scoped file/hunk transfer after listed integration gates.",
         "record_commit": "76121c24ad0bfa8be0b6acf6601cebd1a42c918f"
+      },
+      "authored_duration_arithmetic_audit": {
+        "date": "2026-11-06",
+        "original_source": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+        "assistant_source": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+        "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+        "scope": "Static arithmetic check of supplied feature XML with pinned baseline game speeds.",
+        "locations": {
+          "CvGameCoreDLL/CvUnit.cpp": {
+            "doExpireTempPromotions": 721,
+            "setHasPromotion": 10471,
+            "applyEvent": 11721
+          },
+          "Assets/XML/Units/CIV4PromotionInfos.xml": [
+            101,
+            201,
+            301
+          ],
+          "Assets/XML/Events/CIV4EventInfos.xml": [
+            47
+          ]
+        },
+        "authored_promotion_durations": [
+          3,
+          7,
+          16
+        ],
+        "authored_event_durations": [
+          7
+        ],
+        "baseline_train_percent": {
+          "Marathon": 200,
+          "Epic": 150,
+          "Normal": 100,
+          "Quick": 67
+        },
+        "scaled_durations": {
+          "Marathon": [
+            6,
+            14,
+            32
+          ],
+          "Epic": [
+            4,
+            10,
+            24
+          ],
+          "Normal": [
+            3,
+            7,
+            16
+          ],
+          "Quick": [
+            2,
+            4,
+            10
+          ]
+        },
+        "result": "All supplied positive durations stay positive at turn zero and the largest intermediate product is 3200. The largest offset is 32, so addition fits on nonnegative turns through INT_MAX - 32. Existing edge concerns for other XML configurations or extreme turns remain open. No new finding or production correction.",
+        "new_DLL_build": false,
+        "game_runtime_verified": false
       }
     },
     {
@@ -10957,6 +11079,68 @@
         "runtime_game_save_reload_SSH": false,
         "allocation_failure_fault_injection": false
       }
+    },
+    {
+      "branch": "ObserverMCP-KimiAI",
+      "head_at_inventory": "9b1eb662d5e31f44de93dd1b658ae08f0fb22571",
+      "reviewed_source_sha": "9b1eb662d5e31f44de93dd1b658ae08f0fb22571",
+      "coverage": "v2_test_first_workflow_delta_reviewed",
+      "refinement_branch": "ObserverMCP-KimiAI-ChatGPT",
+      "review": {
+        "date": "2026-11-08",
+        "source": "9b1eb662d5e31f44de93dd1b658ae08f0fb22571",
+        "scope": "Reviewed test-first workflow change. Compared current native inputs against the recorded Observer v2 tested commit.",
+        "finding": "OBS-CI-20261108-01",
+        "file": ".github/workflows/auto-dll-build.yml",
+        "source_lines": [
+          257,
+          261,
+          269,
+          271,
+          320
+        ],
+        "issue": "MSBuild always runs and overwrites a failed observer test exit code. The log transfer requires Build.log even when an observer test should stop the job before MSBuild.",
+        "correction": "Gate build on test success, retain the native test failure status through cleanup, and allow ObserverTests.log to satisfy log collection on failure. Successful jobs still require Build.log.",
+        "verification": "YAML parsed, Bash syntax checked, and five executions of the extracted log gate passed. PowerShell/native runner execution pending.",
+        "prior_native": {
+          "commit": "f663a476025edf9e0b45a100d748b815c4e33a47",
+          "run": 42529427140,
+          "status": "Existing report records four configurations and both enabled tests passing. Artifacts were not downloaded again in this pass."
+        },
+        "new_DLL_build": false
+      },
+      "runtime_save_validation_policy": "save_runtime_validation_policy"
+    },
+    {
+      "branch": "ObserverMCP-KimiAI-ChatGPT",
+      "source_branch": "ObserverMCP-KimiAI",
+      "source_head": "9b1eb662d5e31f44de93dd1b658ae08f0fb22571",
+      "reviewed_source_sha": "9b1eb662d5e31f44de93dd1b658ae08f0fb22571",
+      "coverage": "workflow_failure_gate_corrected",
+      "review": {
+        "date": "2026-11-08",
+        "source": "9b1eb662d5e31f44de93dd1b658ae08f0fb22571",
+        "scope": "Reviewed test-first workflow change. Compared current native inputs against the recorded Observer v2 tested commit.",
+        "finding": "OBS-CI-20261108-01",
+        "file": ".github/workflows/auto-dll-build.yml",
+        "source_lines": [
+          257,
+          261,
+          269,
+          271,
+          320
+        ],
+        "issue": "MSBuild always runs and overwrites a failed observer test exit code. The log transfer requires Build.log even when an observer test should stop the job before MSBuild.",
+        "correction": "Gate build on test success, retain the native test failure status through cleanup, and allow ObserverTests.log to satisfy log collection on failure. Successful jobs still require Build.log.",
+        "verification": "YAML parsed, Bash syntax checked, and five executions of the extracted log gate passed. PowerShell/native runner execution pending.",
+        "prior_native": {
+          "commit": "f663a476025edf9e0b45a100d748b815c4e33a47",
+          "run": 42529427140,
+          "status": "Existing report records four configurations and both enabled tests passing. Artifacts were not downloaded again in this pass."
+        },
+        "new_DLL_build": false
+      },
+      "runtime_save_validation_policy": "save_runtime_validation_policy"
     }
   ],
   "current_pass": {
@@ -10994,7 +11178,7 @@
   },
   "assistant_branch_cleanup_policy": "Reuse suitable assistant branches. For clearly duplicate older/newer assistant branches, inspect histories and contents, merge older into newer preserving newer edits, then mark older safe for user manual removal. Never delete the older branch automatically. This explicit user authorization is limited to assistant branch consolidation.",
   "inventory_date": "2026-11-02",
-  "inventory_branch_count": 77,
+  "inventory_branch_count": 79,
   "last_inventory": {
     "date": "2026-11-02",
     "branch_count": 75,
@@ -14872,5 +15056,98 @@
     "explicit_exception_keyword_scan": "No try/catch/throw in inspected observer DLL and native-test files.",
     "runtime_game_save_reload_SSH": false,
     "allocation_failure_fault_injection": false
+  },
+  "inventory_2026_11_06_expiry_authored_durations": {
+    "date": "2026-11-06",
+    "original_source": "5f0e1235780e19a81a09aba91234bb0487489fcf",
+    "assistant_source": "45dabe719c0fea87478ac99df4381e4d7c7f0785",
+    "baseline": "5970334b64a875b5cdb370c94fc9a98db4eacda6",
+    "scope": "Static arithmetic check of supplied feature XML with pinned baseline game speeds.",
+    "locations": {
+      "CvGameCoreDLL/CvUnit.cpp": {
+        "doExpireTempPromotions": 721,
+        "setHasPromotion": 10471,
+        "applyEvent": 11721
+      },
+      "Assets/XML/Units/CIV4PromotionInfos.xml": [
+        101,
+        201,
+        301
+      ],
+      "Assets/XML/Events/CIV4EventInfos.xml": [
+        47
+      ]
+    },
+    "authored_promotion_durations": [
+      3,
+      7,
+      16
+    ],
+    "authored_event_durations": [
+      7
+    ],
+    "baseline_train_percent": {
+      "Marathon": 200,
+      "Epic": 150,
+      "Normal": 100,
+      "Quick": 67
+    },
+    "scaled_durations": {
+      "Marathon": [
+        6,
+        14,
+        32
+      ],
+      "Epic": [
+        4,
+        10,
+        24
+      ],
+      "Normal": [
+        3,
+        7,
+        16
+      ],
+      "Quick": [
+        2,
+        4,
+        10
+      ]
+    },
+    "result": "All supplied positive durations stay positive at turn zero and the largest intermediate product is 3200. The largest offset is 32, so addition fits on nonnegative turns through INT_MAX - 32. Existing edge concerns for other XML configurations or extreme turns remain open. No new finding or production correction.",
+    "new_DLL_build": false,
+    "game_runtime_verified": false
+  },
+  "inventory_2026_11_08": {
+    "observer_workflow": {
+      "date": "2026-11-08",
+      "source": "9b1eb662d5e31f44de93dd1b658ae08f0fb22571",
+      "scope": "Reviewed test-first workflow change. Compared current native inputs against the recorded Observer v2 tested commit.",
+      "finding": "OBS-CI-20261108-01",
+      "file": ".github/workflows/auto-dll-build.yml",
+      "source_lines": [
+        257,
+        261,
+        269,
+        271,
+        320
+      ],
+      "issue": "MSBuild always runs and overwrites a failed observer test exit code. The log transfer requires Build.log even when an observer test should stop the job before MSBuild.",
+      "correction": "Gate build on test success, retain the native test failure status through cleanup, and allow ObserverTests.log to satisfy log collection on failure. Successful jobs still require Build.log.",
+      "verification": "YAML parsed, Bash syntax checked, and five executions of the extracted log gate passed. PowerShell/native runner execution pending.",
+      "prior_native": {
+        "commit": "f663a476025edf9e0b45a100d748b815c4e33a47",
+        "run": 42529427140,
+        "status": "Existing report records four configurations and both enabled tests passing. Artifacts were not downloaded again in this pass."
+      },
+      "new_DLL_build": false
+    },
+    "sid_scan": {
+      "source_head": "9a554540240cbe5b57a6a58e5b228e0a881b31c7",
+      "assistant_head": "be355c9ea45072238bd0df8ac0db67c1e7cbbf0b",
+      "checked": "Only localization XML changed after user hook commit 3171a91bd8b595781f624d94ee14d3f2552ac9e7. Current assistant DLL blob paths and hashes exactly match tested commit 770e9e4f0984f3099b7eaa8c261bbaa51a1e0756.",
+      "new_DLL_build": false,
+      "runtime_save_validation_policy": "save_runtime_validation_policy"
+    }
   }
 }
