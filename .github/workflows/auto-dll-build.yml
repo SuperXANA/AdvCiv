@@ -8,8 +8,8 @@ permissions:
 
 on:
   push:
-    branches-ignore: |
-      dll-build
+    branches-ignore:
+      - dll-build
     paths: ["CvGameCoreDLL/**", ".github/workflows/auto-dll-build.yml"]
   workflow_dispatch:
   
