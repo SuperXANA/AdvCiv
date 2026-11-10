@@ -19,14 +19,34 @@ concurrency:
 
 jobs:
   build-dll:
-    runs-on: civ4-dll-build # Use local virtual machine for building
     strategy:
       fail-fast: false
       max-parallel: 1
       matrix:
         configuration: [Release, Debug]
-    
+        system: [linux-1, linux-2]
+
+    runs-on: ["${{ matrix.system }}"]  # Use local virtual machine for building
     steps:
+    - name: Resolve Dedicated Windows Server IP
+      shell: bash
+      env: 
+        RUNNING_SYSTEM: ${{ matrix.system }} # Get the runner we are executing on now
+      run: |
+           echo "Executing on: $RUNNING_SYSTEM"
+           
+           if [ "$RUNNING_SYSTEM" == "linux-1" ]; then
+             IPADDR="192.168.2.252"
+           elif [ "$RUNNING_SYSTEM" == "linux-2" ]; then
+             IPADDR="192.168.2.238"
+           else
+             echo "::error::Unexpected execution context: '$RUNNING_SYSTEM'. Aborting build."
+             exit 1
+           fi
+           
+           # Export for all subsequent bash build steps
+           echo "WINDOWS_IP=$IPADDR" >> "$GITHUB_ENV"
+    
     - name: Checkout Code
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
@@ -88,7 +108,7 @@ jobs:
           -e "ssh -o IPQoS=throughput" \
           --include='/*.cpp' --include='/*.h' --include='/*.inl' --include='/*.c' \
           --exclude='/*' \
-          ./CvGameCoreDLL/ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
+          ./CvGameCoreDLL/ Administrator@$WINDOWS_IP:"/cygdrive/r/cvgamecoredll"
 
           # Sync the complete pinned-base-plus-feature source overlay into the Windows Server's RAM Disk workspace.
           rsync -avz --checksum --blocking-io \
@@ -97,7 +117,7 @@ jobs:
           --exclude='/.git/*' \
           --exclude='/.github/*' \
           --include='*/' --include='*' --include='*.cpp' --include='*.h' --include='*.inl' --include='*.c' --exclude='*/' --exclude='*' \
-          ./CvGameCoreDLL/ Administrator@192.168.2.252:"/cygdrive/r/cvgamecoredll"
+          ./CvGameCoreDLL/ Administrator@$WINDOWS_IP:"/cygdrive/r/cvgamecoredll"
 
           # Enable sha256sum hashing of DLL sources
           # Hash the same root source scope as the existing filename-only check.
@@ -130,7 +150,7 @@ jobs:
           ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
 
           # Enumerate and hash the Windows files independently. Only the MANIFEST's CR characters are removed; source bytes are never altered.
-          ssh -o IPQoS=throughput Administrator@192.168.2.252 \
+          ssh -o IPQoS=throughput Administrator@$WINDOWS_IP \
           "powershell.exe -EncodedCommand $ENCODED_SCRIPT" \
           | tr -d '\r' | LC_ALL=C sort -k2 > actual-sources.txt
 
@@ -237,7 +257,7 @@ jobs:
           echo "build_started=true" >> "$GITHUB_OUTPUT"
           
           # Connect to local Windows Server builder virtual machine and start the build remotely
-          ssh Administrator@192.168.2.252 "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG'\""
+          ssh Administrator@$WINDOWS_IP "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG'\""
      
     - name: Copy Build Log files Over To Linux
       if: ${{ always() && steps.build.outputs.build_started == 'true' }}
@@ -252,7 +272,7 @@ jobs:
         rm -f ./artifacts/*.log
         
         EXPECTED_LOG_TOKEN='${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.configuration }}-${{ github.sha }}'
-        REMOTE_LOG_TOKEN=$(ssh -o IPQoS=throughput Administrator@192.168.2.252 \
+        REMOTE_LOG_TOKEN=$(ssh -o IPQoS=throughput Administrator@$WINDOWS_IP \
           'cat /cygdrive/r/cvgamecoredll/project/codex-build-log-token.txt' | tr -d '\r\n')
         if [ "$REMOTE_LOG_TOKEN" != "$EXPECTED_LOG_TOKEN" ]; then
           echo '::error::Current build log token is missing or mismatched; refusing stale logs.'
@@ -261,7 +281,7 @@ jobs:
         
         # Get the build log that MSBUild created - local build with updated msbuild cmd verified that these were created in source R:/CvGameCoreDLL/Project
         for LOG in Build.log JustErrors.log JustWarnings.log BuildTiming.log; do
-          if ! scp "Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$LOG" ./artifacts/; then
+          if ! scp "Administrator@$WINDOWS_IP:/cygdrive/r/cvgamecoredll/project/$LOG" ./artifacts/; then
             echo "::warning::No current $LOG could be copied."
           fi
         done
@@ -306,10 +326,10 @@ jobs:
         rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.pdb
         
         # Get the game DLL file - known-working source location
-        scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/$CONFIG/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.dll
+        scp Administrator@$WINDOWS_IP:/cygdrive/r/cvgamecoredll/project/$CONFIG/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.dll
         # Get the PDB file if this is a Debug build - known-working source location
         if [ "$CONFIG" = "Debug" ]; then
-          scp Administrator@192.168.2.252:/cygdrive/r/cvgamecoredll/project/temp_files/$CONFIG/CvGameCoreDLL.pdb ./artifacts/CvGameCoreDLL.pdb
+          scp Administrator@$WINDOWS_IP:/cygdrive/r/cvgamecoredll/project/temp_files/$CONFIG/CvGameCoreDLL.pdb ./artifacts/CvGameCoreDLL.pdb
           test -s ./artifacts/CvGameCoreDLL.pdb
         fi
         
@@ -352,7 +372,7 @@ jobs:
           ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
           
           # Execute remotely over SSH
-          ssh Administrator@192.168.2.252 "powershell -EncodedCommand $ENCODED_SCRIPT"
+          ssh Administrator@$WINDOWS_IP "powershell -EncodedCommand $ENCODED_SCRIPT"
           
           # Clean up the pulled local data on the Linux orchestrator VM so subsequent runs start completely fresh without old DLL state.
           rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.pdb  ./artifacts/*.log \
