@@ -8,8 +8,8 @@ permissions:
 
 on:
   push:
-    branches-ignore:
-      - dll-build
+    branches-ignore: |
+      dll-build
     paths: ["CvGameCoreDLL/**", ".github/workflows/auto-dll-build.yml"]
   workflow_dispatch:
   
@@ -22,9 +22,12 @@ jobs:
     runs-on: civ4-dll-build # Use local virtual machine for building
     strategy:
       fail-fast: false
-      max-parallel: 2 # Allow each runner to handle a dispatched build task
+      max-parallel: 2
       matrix:
         configuration: [Release, Debug]
+    
+    env:
+      BUILD_TOKEN: ${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.configuration }}-${{ github.sha }}
 
     steps:
     - name: Resolve Dedicated Windows Server IP
@@ -32,19 +35,20 @@ jobs:
       run: |
             RUNNER_NAME="${{ runner.name }}"
             echo "Job picked up by runner: $RUNNER_NAME"
-         
             if [ "$RUNNER_NAME" = "civ4-build-runner" ]; then
-              TARGET_IP="192.168.2.252" # main windows vm: CIV4-BUILD-SYS
+              TARGET_IP="192.168.2.252"
+              EXPECTED_HOST="CIV4-BUILD-SYS"
             elif [ "$RUNNER_NAME" = "civ4-build-runner-2" ]; then
-              TARGET_IP="192.168.2.238" # alt windows vm: CIV4-BUILD-SYS2
+              TARGET_IP="192.168.2.238"
+              EXPECTED_HOST="CIV4-BUILD-SYS2"
             else
               echo "::error::Unexpected runner name '$RUNNER_NAME'. Aborting build."
               exit 1
             fi
-         
             # Export for all subsequent bash build steps
             echo "WINDOWS_IP=$TARGET_IP" >> "$GITHUB_ENV"
-    
+            echo "EXPECTED_WINDOWS_HOST=$EXPECTED_HOST" >> "$GITHUB_ENV"
+            
     - name: Checkout Code
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
@@ -100,6 +104,17 @@ jobs:
           # Set configuration based on matrix (Using standard Bash syntax)
           CONFIG="${{ matrix.configuration }}"
           
+          # Refuse to overwrite an already compiling Windows workspace.
+          PREFLIGHT_SCRIPT='$ErrorActionPreference = "Stop"; $busy = @(Get-Process cl,link,nmake,MSBuild,fastdep -ErrorAction SilentlyContinue); if ($busy.Count -ne 0) { throw "Windows builder is already compiling; source sync refused." }; Write-Output $env:COMPUTERNAME'
+          PREFLIGHT_ENCODED=$(printf '%s' "$PREFLIGHT_SCRIPT" | iconv -t UTF-16LE | base64 -w 0)
+          WINDOWS_HOST=$(ssh -o IPQoS=throughput "Administrator@$WINDOWS_IP" \
+            "powershell.exe -EncodedCommand $PREFLIGHT_ENCODED" | tr -d '\r\n')
+          if [[ "${WINDOWS_HOST^^}" != "$EXPECTED_WINDOWS_HOST" ]]; then
+            echo "::error::Expected Windows builder $EXPECTED_WINDOWS_HOST, reached '$WINDOWS_HOST'."
+            exit 1
+          fi
+          printf 'Verified Windows builder: %s (%s)\n' "$WINDOWS_HOST" "$WINDOWS_IP"
+          
           # Delete stale top-level source files only. Excluded directories and
           # machine-local Project files are protected from this delete pass.
           rsync -avz --checksum --delete --blocking-io \
@@ -107,7 +122,7 @@ jobs:
           --include='/*.cpp' --include='/*.h' --include='/*.inl' --include='/*.c' \
           --exclude='/*' \
           ./CvGameCoreDLL/ Administrator@$WINDOWS_IP:"/cygdrive/r/cvgamecoredll"
-
+          
           # Sync the complete pinned-base-plus-feature source overlay into the Windows Server's RAM Disk workspace.
           rsync -avz --checksum --blocking-io \
           -e "ssh -o IPQoS=throughput" \
@@ -116,9 +131,9 @@ jobs:
           --exclude='/.github/*' \
           --include='*/' --include='*' --include='*.cpp' --include='*.h' --include='*.inl' --include='*.c' --exclude='*/' --exclude='*' \
           ./CvGameCoreDLL/ Administrator@$WINDOWS_IP:"/cygdrive/r/cvgamecoredll"
-
+          
           # Enable sha256sum hashing of DLL sources
-          # Hash the same root source scope as the existing filename-only check.
+          # Verify root game sources and the exact native test input.
           # Run after rsync, but before invoking the compiler.
           # Prerequisite: the enclosing workflow already uses set -euo pipefail.
           rm -f expected-sources.txt actual-sources.txt source-hashes.diff \
@@ -126,7 +141,7 @@ jobs:
           printf '%s\n' 'scope=root:.c,.cpp,.h,.inl' 'algorithm=SHA256' \
             'status=collecting' > source-verification.txt
           echo 'source_verification_started=true' >> "$GITHUB_OUTPUT"
-
+          
           (
             cd CvGameCoreDLL
             # Include symlinks in discovery so they cannot silently evade verification.
@@ -141,18 +156,17 @@ jobs:
               sha256sum -- "$file"
               done
           ) | LC_ALL=C sort -k2 > expected-sources.txt
-
           test -s expected-sources.txt
           
           # Encode the command for PowerShell
           ENCODED_SCRIPT=$(echo -n "$PS_CODE" | iconv -t UTF-16LE | base64 -w 0)
-
+          
           # Enumerate and hash the Windows files independently. Only the MANIFEST's CR characters are removed; source bytes are never altered.
           ssh -o IPQoS=throughput Administrator@$WINDOWS_IP \
           "powershell.exe -EncodedCommand $ENCODED_SCRIPT" \
           | tr -d '\r' | LC_ALL=C sort -k2 > actual-sources.txt
-
           test -s actual-sources.txt
+          
           if ! diff -u expected-sources.txt actual-sources.txt > source-hashes.diff; then
             printf '%s\n' 'status=failed' >> source-verification.txt
             cat source-hashes.diff
@@ -160,9 +174,11 @@ jobs:
             exit 1
           fi
           printf '%s\n' 'status=passed' >> source-verification.txt
+          
           # Add commit hashes to build provenence log file
           printf '%s\n' "commit=${{ github.sha }}" "configuration=$CONFIG" "compiler=_MSC_VER_1310" "base=$BASE_COMMIT_SHA" "feature_source=$FEATURE_COMMIT_SHA" "workflow_source=$WORKFLOW_COMMIT_SHA" > build-provenance.txt
-
+          printf '%s\n' "runner=${{ runner.name }}" "windows_host=$WINDOWS_HOST" "windows_ip=$WINDOWS_IP" \
+            "run_id=$GITHUB_RUN_ID" "run_attempt=$GITHUB_RUN_ATTEMPT" "build_token=$BUILD_TOKEN" >> build-provenance.txt
           # Add hash verification to build provenance
           {
             printf '%s\n' 'source_hash_algorithm=SHA256' \
@@ -173,7 +189,7 @@ jobs:
             printf 'actual_sources_manifest_sha256=%s\n' \
             "$(sha256sum actual-sources.txt | cut -d ' ' -f 1)"
           } >> build-provenance.txt
-
+          
     - name: Build DLL via MSBuild
       id: build
       shell: bash
@@ -197,7 +213,7 @@ jobs:
               if (Test-Path -LiteralPath $logPath) { Remove-Item -LiteralPath $logPath -Force }
             }
             # Correlate failure logs with this exact invocation, including reruns.
-            Set-Content -LiteralPath (Join-Path $projectDir "codex-build-log-token.txt") -Encoding ASCII '${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.configuration }}-${{ github.sha }}'
+            Set-Content -LiteralPath (Join-Path $projectDir "codex-build-log-token.txt") -Encoding ASCII '${{ env.BUILD_TOKEN }}'
             # rsync preserves runner timestamps; the VM clock can lag behind it.
             # Fresh outputs are already removed, so source-only mtime normalization
             # cannot hide stale objects and does not change verified file contents.
@@ -233,14 +249,19 @@ jobs:
             # Run vcvarsall, change directory, and build all in ONE cmd session.
             # No need to import env vars into PowerShell.
             $buildCmd = "call `"$vcvarsall`" x86 && cd /d `"$projectDir`" && nmake /f codex-toolset-check.mk TARGET=$cfg codex_compiler_check /NOLOGO && msbuild AdvCiv.vcxproj /p:Configuration=$cfg -t:Rebuild -fl1 -flp1:logfile=Build.log -fl2 -fl3 -flp2:logfile=JustErrors.log;errorsonly -flp3:logfile=JustWarnings.log"
+            $buildExit = 0
+            $failedStage = 'Compiler probe or MSBuild'
             try {
-              cmd.exe /c $buildCmd
-              $buildExit = $LASTEXITCODE
+                cmd.exe /c $buildCmd
+                $buildExit = $LASTEXITCODE
+              } else {
+                $failedStage = 'Windows'
+              }
             } finally {
               Remove-Item $probeSource, $probeMake, (Join-Path $projectDir "codex-toolset-check.obj") -Force -ErrorAction SilentlyContinue
             }
             if ($buildExit -ne 0) {
-              Write-Error "MSBuild compilation process encountered errors."
+              Write-Error "$failedStage failed with exit code $buildExit." -ErrorAction Continue
               exit $buildExit
             }
             Write-Output "Verified selected compiler: _MSC_VER == 1310 (MSVC 7.1)."
@@ -255,9 +276,10 @@ jobs:
           echo "build_started=true" >> "$GITHUB_OUTPUT"
           
           # Connect to local Windows Server builder virtual machine and start the build remotely
-          ssh Administrator@$WINDOWS_IP "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG'\""
+          ssh Administrator@$WINDOWS_IP "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG' -observer '${{ matrix.observer }}'\""
      
     - name: Copy Build Log files Over To Linux
+      id: copy_logs
       if: ${{ always() && steps.build.outputs.build_started == 'true' }}
       shell: bash
       run: |
@@ -269,10 +291,9 @@ jobs:
         mkdir -p artifacts
         rm -f ./artifacts/*.log
         
-        EXPECTED_LOG_TOKEN='${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.configuration }}-${{ github.sha }}'
         REMOTE_LOG_TOKEN=$(ssh -o IPQoS=throughput Administrator@$WINDOWS_IP \
           'cat /cygdrive/r/cvgamecoredll/project/codex-build-log-token.txt' | tr -d '\r\n')
-        if [ "$REMOTE_LOG_TOKEN" != "$EXPECTED_LOG_TOKEN" ]; then
+        if [ "$REMOTE_LOG_TOKEN" != "$BUILD_TOKEN" ]; then
           echo '::error::Current build log token is missing or mismatched; refusing stale logs.'
           exit 1
         fi
@@ -283,13 +304,12 @@ jobs:
             echo "::warning::No current $LOG could be copied."
           fi
         done
-        test -s ./artifacts/Build.log
-
+        
     - name: Upload Build Artifacts Always on Failure
       if: ${{ always() && steps.build.outcome == 'failure' && steps.build.outputs.build_started == 'true' }}
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
       with:
-        name: compilation-failure-artifacts-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
+        name: compilation-failure-artifacts-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}-attempt-${{ github.run_attempt }}
         path: |
           ./artifacts/*.log
         if-no-files-found: error
@@ -299,7 +319,7 @@ jobs:
       if: ${{ always() && steps.prepare_sources.outputs.source_verification_started == 'true' }}
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
       with:
-        name: source-verification-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
+        name: source-verification-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}-attempt-${{ github.run_attempt }}
         path: |
           ./expected-sources.txt
           ./actual-sources.txt
@@ -310,7 +330,7 @@ jobs:
         
     - name: Copy DLL files Over To Linux
       id: copy_dll
-      if: ${{ always() && steps.build.outcome == 'success' }}
+      if: ${{ always() && steps.build.outcome == 'success' && steps.copy_logs.outcome == 'success' }}
       shell: bash
       run: |
         set -euo pipefail
@@ -319,9 +339,8 @@ jobs:
         
         # Copy files so upload-artifact can upload them
         mkdir -p artifacts
-
         # Remove earlier local binaries before starting a new transfer.
-        rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.pdb
+        rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.pdb ./artifacts/output-checksums.txt
         
         # Get the game DLL file - known-working source location
         scp Administrator@$WINDOWS_IP:/cygdrive/r/cvgamecoredll/project/$CONFIG/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.dll
@@ -332,16 +351,33 @@ jobs:
         fi
         
         test -s ./artifacts/CvGameCoreDLL.dll
+        # Hash the same DLL, symbols and logs on the builder and in the upload directory.
+        remote_files=("$CONFIG/CvGameCoreDLL.dll")
+        if [[ "$CONFIG" == Debug ]]; then
+          remote_files+=("temp_files/$CONFIG/CvGameCoreDLL.pdb")
+        fi
+        for log in Build.log JustErrors.log JustWarnings.log BuildTiming.log; do
+          if [[ -f "artifacts/$log" ]]; then
+            remote_files+=("$log")
+          fi
+        done
+        
+        ssh -o IPQoS=throughput "Administrator@$WINDOWS_IP" \
+          "cd /cygdrive/r/cvgamecoredll/project && test \"\$(tr -d '\r\n' < codex-build-log-token.txt)\" = '$BUILD_TOKEN' && sha256sum -b -- ${remote_files[*]}" \
+          | tr -d '\r' | sed -E 's@^([[:xdigit:]]{64}) [ *](.*/)?([^/]+)$@\1  \3@' > artifacts/output-checksums.txt
+        test -s artifacts/output-checksums.txt
+        (cd artifacts && sha256sum -c output-checksums.txt)
         
     - name: Upload Compiled DLL Artifact
       if: ${{ always() && steps.copy_dll.outcome == 'success' }}
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
       
       with:
-        name: CvGameCoreDLL-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}
+        name: CvGameCoreDLL-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}-attempt-${{ github.run_attempt }}
         path: |
           ./artifacts/CvGameCoreDLL.dll
           ./artifacts/CvGameCoreDLL.pdb
+          ./artifacts/output-checksums.txt
           ./artifacts/*.log
         if-no-files-found: error
 
@@ -355,6 +391,15 @@ jobs:
             $ErrorActionPreference = "Stop"
             Write-Output "Scrubbing workspace build artifacts..."
             Set-Location "R:\CvGameCoreDLL\Project"
+            $logToken = "codex-build-log-token.txt"
+            if (!(Test-Path -LiteralPath $logToken) -or
+                (Get-Content -LiteralPath $logToken) -ne '${{ env.BUILD_TOKEN }}') {
+              throw 'Build token missing or mismatched; workspace cleanup refused.'
+            }
+            $busy = @(Get-Process cl,link,nmake,MSBuild,fastdep -ErrorAction SilentlyContinue)
+            if ($busy.Count -ne 0) {
+              throw 'Windows builder is still compiling; workspace cleanup refused.'
+            }
             $cleanupDirs = @("Release", "Debug", "temp_files", "obj")
             foreach ($dir in $cleanupDirs) {
               if (Test-Path $dir) {
@@ -362,8 +407,7 @@ jobs:
                 Write-Output "Successfully wiped: $dir"
               }
             }
-            $logToken = "codex-build-log-token.txt"
-            Remove-Item -LiteralPath "R:\CvGameCoreDLL\Project\$logToken" -Force -ErrorAction SilentlyContinue
+            Remove-Item -LiteralPath $logToken -Force
             Write-Output "Successfully wiped: $logToken"
       run: |
           # Encode the command for PowerShell
@@ -375,4 +419,4 @@ jobs:
           # Clean up the pulled local data on the Linux orchestrator VM so subsequent runs start completely fresh without old DLL state.
           rm -f ./artifacts/CvGameCoreDLL.dll ./artifacts/CvGameCoreDLL.pdb  ./artifacts/*.log \
             ./build-provenance.txt ./expected-sources.txt ./actual-sources.txt \
-           ./source-hashes.diff ./source-verification.txt
+           ./source-hashes.diff ./source-verification.txt ./artifacts/output-checksums.txt
