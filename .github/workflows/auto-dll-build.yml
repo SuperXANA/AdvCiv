@@ -33,7 +33,7 @@ jobs:
             RUNNER_NAME="${{ runner.name }}"
             echo "Job picked up by runner: $RUNNER_NAME"
          
-            if [ "$RUNNER_NAME" = "civ4-build-runnner" ]; then
+            if [ "$RUNNER_NAME" = "civ4-build-runner" ]; then
               TARGET_IP="192.168.2.252" # main windows vm: CIV4-BUILD-SYS
             elif [ "$RUNNER_NAME" = "civ4-build-runner-2" ]; then
               TARGET_IP="192.168.2.238" # alt windows vm: CIV4-BUILD-SYS2
