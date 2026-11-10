@@ -419,8 +419,8 @@ jobs:
           fi
         done
         ssh -o IPQoS=throughput "Administrator@$WINDOWS_IP" \
-          "cd /cygdrive/r/cvgamecoredll/project && test \"\$(tr -d '\r\n' < codex-build-log-token.txt)\" = '$BUILD_TOKEN' && sha256sum -- ${remote_files[*]}" \
-          | tr -d '\r' | sed -E 's@^([[:xdigit:]]{64}  ).*/@\1@' > artifacts/output-checksums.txt
+          "cd /cygdrive/r/cvgamecoredll/project && test \"\$(tr -d '\r\n' < codex-build-log-token.txt)\" = '$BUILD_TOKEN' && sha256sum -b -- ${remote_files[*]}" \
+          | tr -d '\r' | sed -E 's@^([[:xdigit:]]{64}) [ *](.*/)?([^/]+)$@\1  \3@' > artifacts/output-checksums.txt
         test -s artifacts/output-checksums.txt
         (cd artifacts && sha256sum -c output-checksums.txt)
         
