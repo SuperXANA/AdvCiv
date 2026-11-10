@@ -22,7 +22,7 @@ jobs:
     runs-on: civ4-dll-build # Use local virtual machine for building
     strategy:
       fail-fast: false
-      max-parallel: 1
+      max-parallel: 2 # Allow each runner to handle a dispatched build task
       matrix:
         configuration: [Release, Debug]
 
