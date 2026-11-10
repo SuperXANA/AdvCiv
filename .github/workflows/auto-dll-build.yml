@@ -19,33 +19,31 @@ concurrency:
 
 jobs:
   build-dll:
+    runs-on: civ4-dll-build # Use local virtual machine for building
     strategy:
       fail-fast: false
       max-parallel: 1
       matrix:
         configuration: [Release, Debug]
-        system: [linux-1, linux-2]
 
-    runs-on: ["${{ matrix.system }}"]  # Use local virtual machine for building
     steps:
     - name: Resolve Dedicated Windows Server IP
       shell: bash
-      env: 
-        RUNNING_SYSTEM: ${{ matrix.system }} # Get the runner we are executing on now
       run: |
-           echo "Executing on: $RUNNING_SYSTEM"
-           
-           if [ "$RUNNING_SYSTEM" == "linux-1" ]; then
-             IPADDR="192.168.2.252"
-           elif [ "$RUNNING_SYSTEM" == "linux-2" ]; then
-             IPADDR="192.168.2.238"
-           else
-             echo "::error::Unexpected execution context: '$RUNNING_SYSTEM'. Aborting build."
-             exit 1
-           fi
-           
-           # Export for all subsequent bash build steps
-           echo "WINDOWS_IP=$IPADDR" >> "$GITHUB_ENV"
+            RUNNER_NAME="${{ runner.name }}"
+            echo "Job picked up by runner: $RUNNER_NAME"
+         
+            if [ "$RUNNER_NAME" = "civ4-build-runnner" ]; then
+              TARGET_IP="192.168.2.252" # main windows vm: CIV4-BUILD-SYS
+            elif [ "$RUNNER_NAME" = "civ4-build-runner-2" ]; then
+              TARGET_IP="192.168.2.238" # alt windows vm: CIV4-BUILD-SYS2
+            else
+              echo "::error::Unexpected runner name '$RUNNER_NAME'. Aborting build."
+              exit 1
+            fi
+         
+            # Export for all subsequent bash build steps
+            echo "WINDOWS_IP=$TARGET_IP" >> "$GITHUB_ENV"
     
     - name: Checkout Code
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
