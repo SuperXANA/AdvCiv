@@ -276,7 +276,7 @@ jobs:
           echo "build_started=true" >> "$GITHUB_OUTPUT"
           
           # Connect to local Windows Server builder virtual machine and start the build remotely
-          ssh Administrator@$WINDOWS_IP "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG' -observer '${{ matrix.observer }}'\""
+          ssh Administrator@$WINDOWS_IP "powershell.exe -Command \"& ([scriptblock]::Create([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('$ENCODED_SCRIPT')))) -cfg '$CONFIG'\""
      
     - name: Copy Build Log files Over To Linux
       id: copy_logs
