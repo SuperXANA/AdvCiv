@@ -48,6 +48,9 @@ jobs:
             # Export for all subsequent bash build steps
             echo "WINDOWS_IP=$TARGET_IP" >> "$GITHUB_ENV"
             echo "EXPECTED_WINDOWS_HOST=$EXPECTED_HOST" >> "$GITHUB_ENV"
+            # Artifact names may not contain a forward slash, but branch names can
+            # (e.g. claude/EquipmentTradesDraft), so use a dash in its place.
+            echo "SAFE_REF_NAME=${GITHUB_REF_NAME//\//-}" >> "$GITHUB_ENV"
             
     - name: Checkout Code
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -306,7 +309,7 @@ jobs:
       if: ${{ always() && steps.build.outcome == 'failure' && steps.build.outputs.build_started == 'true' }}
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
       with:
-        name: compilation-failure-artifacts-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}-attempt-${{ github.run_attempt }}
+        name: compilation-failure-artifacts-${{ matrix.configuration }}-${{ env.SAFE_REF_NAME }}-${{ github.sha }}-attempt-${{ github.run_attempt }}
         path: |
           ./artifacts/*.log
         if-no-files-found: error
@@ -316,7 +319,7 @@ jobs:
       if: ${{ always() && steps.prepare_sources.outputs.source_verification_started == 'true' }}
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
       with:
-        name: source-verification-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}-attempt-${{ github.run_attempt }}
+        name: source-verification-${{ matrix.configuration }}-${{ env.SAFE_REF_NAME }}-${{ github.sha }}-attempt-${{ github.run_attempt }}
         path: |
           ./expected-sources.txt
           ./actual-sources.txt
@@ -370,7 +373,7 @@ jobs:
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
       
       with:
-        name: CvGameCoreDLL-${{ matrix.configuration }}-${{ github.ref_name }}-${{ github.sha }}-attempt-${{ github.run_attempt }}
+        name: CvGameCoreDLL-${{ matrix.configuration }}-${{ env.SAFE_REF_NAME }}-${{ github.sha }}-attempt-${{ github.run_attempt }}
         path: |
           ./artifacts/CvGameCoreDLL.dll
           ./artifacts/CvGameCoreDLL.pdb
