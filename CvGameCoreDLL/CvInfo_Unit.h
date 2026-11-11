@@ -876,6 +876,13 @@ public:
 	int getEquipmentHighestLevelRequired() const { return m_iEquipmentHighestLevelRequired; }
 	bool isLegendaryWeapon() const { return m_bLegendaryEquipment; }
 	bool isPersonalWeapon() const { return m_bPersonalEquipment; }
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
+	// Whether the piece can be put on the diplomacy table at all (cf. CvTechInfo::isTrade)
+	bool isTrade() const { return m_bTrade; }
+	/*	What the AI considers the piece to be worth, expressed in gold.
+		0 (the default) means that the AI won't sell the piece. */
+	int getAITradeValue() const { return m_iAITradeValue; }
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
 	UnitTypes getPrereqUnitType() const { return (UnitTypes)m_iPersonalUnitPrereq; }
 	PromotionTypes getRequiredEnchantment() const { return (PromotionTypes)m_iMagicEnchantmentPrereq; }
 	
@@ -899,6 +906,10 @@ protected:
 	int m_iEquipmentHighestLevelRequired;
 	bool m_bLegendaryEquipment;
 	bool m_bPersonalEquipment;
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
+	bool m_bTrade;
+	int m_iAITradeValue;
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
 	int m_iPersonalUnitPrereq;
 	int m_iMagicEnchantmentPrereq;
 

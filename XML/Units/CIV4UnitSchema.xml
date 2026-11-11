@@ -1082,6 +1082,10 @@
 	</ElementType>
 	<ElementType name="iEquipmentLowestLevelRequired" content="textOnly" dt:type="int"/>
 	<ElementType name="iEquipmentHighestLevelRequired" content="textOnly" dt:type="int"/>
+	<!-- XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv -->
+	<ElementType name="bTrade" content="textOnly" dt:type="boolean"/>
+	<ElementType name="iAITradeValue" content="textOnly" dt:type="int"/>
+	<!-- XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv -->
 	<ElementType name="EquipmentInfo" content="eltOnly">
 		<element type="Class"/>
 		<element type="Type"/>
@@ -1092,6 +1096,11 @@
 		<element type="iEquipmentLowestLevelRequired" minOccurs="0"/>
 		<element type="iEquipmentHighestLevelRequired" minOccurs="0"/>
 		<element type="EquipmentHoldOptions" minOccurs="0" maxOccurs="1"/>
+		<!-- XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv -->
+		<element type="bTrade" minOccurs="0"/>
+		<element type="iAITradeValue" minOccurs="0"/>
+		<element type="Button" minOccurs="0"/>
+		<!-- XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv -->
 	</ElementType>
 	<ElementType name="EquipmentInfos" content="eltOnly">
 		<element type="EquipmentInfo" maxOccurs="*"/>

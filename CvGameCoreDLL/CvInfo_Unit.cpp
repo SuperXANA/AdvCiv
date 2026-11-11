@@ -2695,6 +2695,10 @@ m_iEquipmentClass(NO_EQUIPMENT_CLASS),
 m_bOnlyOffensive(true),
 m_bLegendaryEquipment(false),
 m_bPersonalEquipment(false),
+// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
+m_bTrade(false),
+m_iAITradeValue(0),
+// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
 m_iPersonalUnitPrereq(NO_UNIT),
 m_iEquipmentLowestLevelRequired(1), 
 m_iEquipmentHighestLevelRequired(0),
@@ -2738,6 +2742,11 @@ bool CvEquipmentInfo::read(CvXMLLoadUtility* pXML)
 	pXML->GetChildXmlValByName(&m_iEquipmentHighestLevelRequired, "iEquipmentHighestLevelRequired");
 	pXML->GetChildXmlValByName(&m_bLegendaryEquipment, "bLegendaryEquipment");
 	pXML->GetChildXmlValByName(&m_bPersonalEquipment, "bPersonalEquipment");
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
+	// Both optional. (The Button tag for the trade screen icon is read by the base class.)
+	pXML->GetChildXmlValByName(&m_bTrade, "bTrade", false);
+	pXML->GetChildXmlValByName(&m_iAITradeValue, "iAITradeValue", 0);
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
 
 	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "PromotionChangesOnEquipmentGain"))
 	{

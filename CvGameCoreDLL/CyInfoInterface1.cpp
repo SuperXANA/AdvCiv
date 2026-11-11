@@ -75,6 +75,7 @@ void CyInfoPythonInterface1()
 		.def("isMapVisible", &CvTechInfo::isMapVisible, "bool ()")
 		.def("isMapTrading", &CvTechInfo::isMapTrading, "bool ()")
 		.def("isTechTrading", &CvTechInfo::isTechTrading, "bool ()")
+		.def("isEquipmentTrading", &CvTechInfo::isEquipmentTrading, "bool ()") // XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
 		.def("isGoldTrading", &CvTechInfo::isGoldTrading, "bool ()")
 		.def("isOpenBordersTrading", &CvTechInfo::isOpenBordersTrading, "bool ()")
 		.def("isDefensivePactTrading", &CvTechInfo::isDefensivePactTrading, "bool ()")

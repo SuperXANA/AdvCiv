@@ -1142,6 +1142,15 @@ enum TradeableItems
 	TRADE_EMBARGO,
 	TRADE_CIVIC,
 	TRADE_RELIGION,
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
+	/*	A heading item like TRADE_TECHNOLOGIES: one row per equipment piece,
+		TradeData::m_iData holds the EquipmentTypes id. Appended behind the last
+		BtS heading so that the values 0..16 that the EXE was compiled with don't
+		move. The EXE learns the new heading count through
+		CvGlobals::getNumTradeableHeadings. Side effect: TRADE_DISENGAGE moves
+		from 18 to 19; CvDeal::read converts older savegames. */
+	TRADE_EQUIPMENT,
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
 #ifdef _USRDLL
 	NUM_TRADEABLE_HEADINGS,
 	NUM_ENUM_TYPES(TRADE_ITEM) = NUM_TRADEABLE_HEADINGS, // advc.enum

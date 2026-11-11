@@ -15,6 +15,13 @@
 			<Strategy>TXT_KEY_EQUIPMENT_ALICORN_AMULET_STRATEGY</Strategy>
 			<iEquipmentLowestLevelRequired>1</iEquipmentLowestLevelRequired>
 			<iEquipmentHighestLevelRequired>9</iEquipmentHighestLevelRequired>
+			<!-- XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv -->
+			<!-- bTrade: may be offered in diplomacy. iAITradeValue: what the AI considers the piece worth, in gold (0 = AI won't sell).
+				 Button: icon in the trade screen; a stock BtS promotion button stands in until the piece has its own art. -->
+			<bTrade>1</bTrade>
+			<iAITradeValue>300</iAITradeValue>
+			<Button>Art/Interface/Buttons/Promotions/Combat1.dds</Button>
+			<!-- XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv -->
 		</EquipmentInfo>
 	</EquipmentInfos>
 </Civ4EquipmentInfos>

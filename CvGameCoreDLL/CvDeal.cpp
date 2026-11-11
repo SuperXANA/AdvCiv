@@ -688,7 +688,9 @@ CLinkList<TradeData> const& CvDeal::getReceivesList(TeamTypes eReceivingTeam) co
 void CvDeal::write(FDataStreamBase* pStream)
 {
 	PROFILE_FUNC(); // advc
-	uint uiFlag=0;
+	uint uiFlag;
+	//uiFlag = 0; // BtS
+	uiFlag = 1; // XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv (TRADE_DISENGAGE renumbered)
 	pStream->Write(uiFlag);
 	REPRO_TEST_BEGIN_WRITE(CvString::format("Deal(%d,%d,%d)", getID(), getFirstPlayer(), getSecondPlayer()));
 	pStream->Write(m_iID);
@@ -715,6 +717,26 @@ void CvDeal::read(FDataStreamBase* pStream)
 
 	m_firstList.Read(pStream);
 	m_secondList.Read(pStream);
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
+	/*	TradeData is saved as a raw struct. Adding TRADE_EQUIPMENT in front of
+		NUM_TRADEABLE_HEADINGS has moved TRADE_DISENGAGE from 18 to 19, so a
+		disengagement deal from an older savegame needs its item type corrected.
+		(No other enumerator has moved, and equipment trades are never stored.) */
+	if (uiFlag < 1)
+	{
+		int const iLegacyDisengage = 18;
+		CLinkList<TradeData>* apLists[] = { &m_firstList, &m_secondList };
+		for (int i = 0; i < 2; i++)
+		{
+			for (CLLNode<TradeData>* pNode = apLists[i]->head(); pNode != NULL;
+				pNode = apLists[i]->next(pNode))
+			{
+				if (pNode->m_data.m_eItemType == (TradeableItems)iLegacyDisengage)
+					pNode->m_data.m_eItemType = TRADE_DISENGAGE;
+			}
+		}
+	}
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
 }
 
 // Returns true if the trade should be saved...
@@ -754,6 +776,23 @@ bool CvDeal::startTrade(TradeData trade, PlayerTypes eFromPlayer, PlayerTypes eT
 		break;
 	}
 
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
+	case TRADE_EQUIPMENT:
+	{
+		/*	A one-time hand-over like a tech, except that a physical piece
+			changes owner: the giver's armory loses it. bSave stays false, so
+			nothing is stored in the deal and there's no endTrade counterpart.
+			The items of a deal are validated together but executed one by one,
+			so giveEquipmentTo checks the rules again and does nothing if the
+			piece is no longer available. */
+		EquipmentTypes eEquipment = (EquipmentTypes)trade.m_iData;
+		if (kFromPlayer.giveEquipmentTo(eToPlayer, eEquipment))
+		{
+			if (gTeamLogLevel >= 2) logBBAI("    Player %d (%S) hands equipment %S to player %d (%S)", eFromPlayer, kFromPlayer.getCivilizationDescription(0), GC.getInfo(eEquipment).getDescription(), eToPlayer, kToPlayer.getCivilizationDescription(0));
+		}
+		break;
+	}
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
 	case TRADE_RESOURCES:
 	{
 		kFromPlayer.changeBonusExport((BonusTypes)trade.m_iData, 1);

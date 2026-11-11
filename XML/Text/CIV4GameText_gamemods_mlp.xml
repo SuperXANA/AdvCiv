@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Civ4GameText xmlns="http://www.firaxis.com">
+	<!-- XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv -->
+	<!-- Heading above the equipment rows in the diplomacy trade screen -->
+	<TEXT>
+		<Tag>TXT_KEY_TRADE_EQUIPMENT</Tag>
+		<English>Equipment</English>
+	</TEXT>
+	<!-- XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv -->
+</Civ4GameText>
