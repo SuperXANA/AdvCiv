@@ -634,12 +634,6 @@ bool CvXMLLoadUtility::LoadBasicInfos()
 	LoadGlobalClassInfo(GC.m_paUnitAIInfo, "CIV4UnitAIInfos", "BasicInfos", "Civ4UnitAIInfos/UnitAIInfos/UnitAIInfo", false);
 	LoadGlobalClassInfo(GC.m_paAttitudeInfo, "CIV4AttitudeInfos", "BasicInfos", "Civ4AttitudeInfos/AttitudeInfos/AttitudeInfo", false);
 	LoadGlobalClassInfo(GC.m_paMemoryInfo, "CIV4MemoryInfos", "BasicInfos", "Civ4MemoryInfos/MemoryInfos/MemoryInfo", false);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	// XANA (note): The methods by which you can hold a piece of equipment, e.g. one-handed right/left, two-handed, headgear, footgear, etc.
-	LoadGlobalClassInfo(GC.m_paEquipmentHoldClassInfo, "CIV4EquipmentHoldClassInfos", "BasicInfos", "Civ4EquipmentHoldClassInfos/EquipmentHoldClassInfos/EquipmentHoldClassInfo", false);
-	// XANA (note): The civilization-specific methods by which Units can hold equipment and the holding limitations they don't have acces to, in the fore-hoof [hand] for Ponies, rendered unable to use equipment that requires it to be tied to a mane/tail for those lacking that feature, etc.
-	LoadGlobalClassInfo(GC.m_paEquipmentHoldInfo, "CIV4EquipmentHoldInfos", "BasicInfos", "Civ4EquipmentHoldInfos/EquipmentHoldInfos/EquipmentHoldInfo", false);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	DestroyFXml();
 	return true;
@@ -672,10 +666,6 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	LoadGlobalClassInfo(GC.m_paReligionInfo, "CIV4ReligionInfo", "GameInfo", "Civ4ReligionInfo/ReligionInfos/ReligionInfo", false);
 	LoadGlobalClassInfo(GC.m_paAnimationCategoryInfo, "CIV4AnimationInfos", "Units", "Civ4AnimationInfos/AnimationCategories/AnimationCategory", false);
 	LoadGlobalClassInfo(GC.m_paAnimationPathInfo, "CIV4AnimationPathInfos", "Units", "Civ4AnimationPathInfos/AnimationPaths/AnimationPath", false);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	// XANA (note): The different kinds of equipment you can hold, swords, shields, staves, magical rods, etc.
-	LoadGlobalClassInfo(GC.m_paEquipmentClassInfo, "CIV4EquipmentClassInfos", "Units", "Civ4EquipmentClassInfos/EquipmentClassInfos/EquipmentClassInfo", false);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paPromotionInfo, "CIV4PromotionInfos", "Units", "Civ4PromotionInfos/PromotionInfos/PromotionInfo", true, &CvDLLUtilityIFaceBase::createPromotionInfoCacheObject);
 	LoadGlobalClassInfo(GC.m_paTraitInfo, "CIV4TraitInfos", "Civilizations", "Civ4TraitInfos/TraitInfos/TraitInfo", false);
 	LoadGlobalClassInfo(GC.m_paGoodyInfo, "CIV4GoodyInfo", "GameInfo", "Civ4GoodyInfo/GoodyInfos/GoodyInfo", false);
@@ -711,20 +701,13 @@ bool CvXMLLoadUtility::LoadPreMenuGlobals()
 	// <advc.003w>
 	FOR_EACH_ENUM(Bonus)
 		GC.getInfo(eLoopBonus).updateCache(eLoopBonus); // </advc.003w>
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	// XANA (note): The different kinds of equipment you can have, an Alicorn Amulet, a Fire Wand, etc.
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
+	// (Same call as in the XANA 08-26-2025 equipment draft)
 	LoadGlobalClassInfo(GC.m_paEquipmentInfo, "CIV4EquipmentInfos", "Units", "Civ4EquipmentInfos/EquipmentInfos/EquipmentInfo", true);
-	// XANA (note): Defining the equipment pieces that Promotions would require a Unit to have so that the Promotion can be granted/taken away/rendered permanent etc.
-	FOR_EACH_ENUM(Promotion)
-		GC.getInfo(eLoopPromotion).readPass3();
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paUnitInfo, "CIV4UnitInfos", "Units", "Civ4UnitInfos/UnitInfos/UnitInfo", false, &CvDLLUtilityIFaceBase::createUnitInfoCacheObject);
 	FOR_EACH_ENUM(UnitClass)
 		GC.getInfo(eLoopUnitClass).readPass3();
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	FOR_EACH_ENUM(Equipment)
-		GC.getInfo(eLoopEquipment).readPass3();
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	LoadGlobalClassInfo(GC.m_paUnitArtStyleInfo, "CIV4UnitArtStyleTypeInfos", "Civilizations", "Civ4UnitArtStyleTypeInfos/UnitArtStyleTypeInfos/UnitArtStyleTypeInfo", false);
 	LoadGlobalClassInfo(GC.m_paCivilizationInfo, "CIV4CivilizationInfos", "Civilizations", "Civ4CivilizationInfos/CivilizationInfos/CivilizationInfo", true, &CvDLLUtilityIFaceBase::createCivilizationInfoCacheObject);
 	LoadGlobalClassInfo(GC.m_paHintInfo, "CIV4Hints", "GameInfo", "Civ4Hints/HintInfos/HintInfo", false);

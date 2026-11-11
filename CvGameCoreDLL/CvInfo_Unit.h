@@ -58,12 +58,6 @@ public: // All the const functions are exposed to Python. advc:inl: All inlined.
 	{
 		return (UnitTypes)m_iDefaultUnitIndex;
 	}
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	EquipmentClassTypes getEquipmentClass() const
-	{
-		return (EquipmentClassTypes)m_iBaseEquipmentClass;
-	}
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	bool read(CvXMLLoadUtility* pXML);
 	bool readPass3();
@@ -74,9 +68,6 @@ protected:
 	int m_iMaxPlayerInstances;
 	int m_iInstanceCostModifier;
 	int m_iDefaultUnitIndex;
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	int m_iBaseEquipmentClass;
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 };
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -310,11 +301,6 @@ public: /*  All const functions are exposed to Python except some related to art
 	bool getFeatureNative(int i) const;
 	bool getFreePromotions(int i) const;
 	bool isAnyFreePromotions() const { return (m_pbFreePromotions != NULL); } // advc.003t
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	bool getFreeEquipments(int i) const;
-	bool isAnyFreeEquipments() const { return (m_pbFreeEquipments != NULL); }
-	bool isHero() const { return ((getSpecialUnitType() != NO_SPECIALUNIT) ? GC.getInfo(getSpecialUnitType()).isHero() : false); }
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	int getLeaderPromotion() const;
 	int getLeaderExperience() const;
 
@@ -335,15 +321,6 @@ public: /*  All const functions are exposed to Python except some related to art
 	// Moved from CvGameCoreUtils.h. Still exposed to Python through CyGameCoreUtils.
 	bool isPromotionValid(PromotionTypes ePromotion, bool bLeader) const;
 	// </advc.003w>
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	EquipmentClassTypes getEquipmentClass() const
-	{
-		return ((m_iBaseEquipmentClass != NO_EQUIPMENT_CLASS) ?
-				(EquipmentClassTypes)m_iBaseEquipmentClass :
-				GC.getInfo(getUnitClassType()).getEquipmentClass());
-	}
-	bool isEquipmentValid(EquipmentTypes eEquipment, bool bLeader) const;
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	const TCHAR* getEarlyArtDefineTag(int i, UnitArtStyleTypes eStyle) const;
 	void setEarlyArtDefineTag(int i, const TCHAR* szVal);
@@ -490,9 +467,6 @@ protected:
 	bool m_bAlwaysHostile;
 	bool m_bNoRevealMap;
 	int m_iLeaderPromotion;
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	int m_iBaseEquipmentClass;
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	float m_fUnitMaxSpeed;
 	float m_fUnitPadTime;
@@ -535,9 +509,6 @@ protected:
 	bool* m_pbTerrainImpassable;
 	bool* m_pbFeatureImpassable;
 	bool* m_pbFreePromotions;
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	bool* m_pbFreeEquipments;
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	CvString* m_paszEarlyArtDefineTags;
 	CvString* m_paszLateArtDefineTags;
@@ -590,9 +561,6 @@ public:
 
 	bool isValid() const;
 	bool isCityLoad() const;
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	bool isHero() const { return m_bHeroicUnit; }
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	bool isCarrierUnitAIType(int i) const; // Exposed to Python
 	int getProductionTraits(int i) const; // Exposed to Python
@@ -602,9 +570,6 @@ public:
 protected:
 	bool m_bValid;
 	bool m_bCityLoad;
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	bool m_bHeroicUnit;
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	bool* m_pbCarrierUnitAITypes;
 	int* m_piProductionTraits;
@@ -689,9 +654,6 @@ public: // All the const functions are exposed to Python
 	#endif
 	bool read(CvXMLLoadUtility* pXML);
 	bool readPass2(CvXMLLoadUtility* pXML);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	bool readPass3(CvXMLLoadUtility* pXML);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 protected:
 	int m_iLayerAnimationPath;
@@ -845,78 +807,33 @@ protected:
 	bool m_bReturnToCapital; // advc.103
 };
 
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//  class : CvEquipmentInfo
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
+/*	Build-validation stand-in for the CvEquipmentInfo class of the
+	XANA 08-26-2025 equipment draft. That draft doesn't compile yet, so this
+	tree carries only the members that equipment trading needs. All names
+	(class, accessors, XML tags) are the draft's own; isTrade and
+	getAITradeValue are the two additions made for trading. When merging,
+	keep the draft's class and add those two members to it. */
 class CvEquipmentInfo : public CvXMLInfo
 {
 	typedef CvXMLInfo base_t;
-protected:
-	void addElements(ElementList& kElements) const
-	{
-		base_t::addElements(kElements);
-	}
 public:
-	enum IntElementTypes
-	{
-		NUM_INT_ELEMENT_TYPES
-	};
-	int get(IntElementTypes e) const
-	{
-		return base_t::get(static_cast<base_t::IntElementTypes>(e));
-	}
-
 	CvEquipmentInfo();
-	~CvEquipmentInfo();
 
-	EquipmentClassTypes getEquipmentClass() const { return m_iEquipmentClass; }
-	bool isOnlyOffensive() const { return m_bOnlyOffensive; }
-	int getEquipmentLowestLevelRequired() const { return m_iEquipmentLowestLevelRequired; }
-	int getEquipmentHighestLevelRequired() const { return m_iEquipmentHighestLevelRequired; }
-	bool isLegendaryWeapon() const { return m_bLegendaryEquipment; }
 	bool isPersonalWeapon() const { return m_bPersonalEquipment; }
-	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
 	// Whether the piece can be put on the diplomacy table at all (cf. CvTechInfo::isTrade)
 	bool isTrade() const { return m_bTrade; }
 	/*	What the AI considers the piece to be worth, expressed in gold.
 		0 (the default) means that the AI won't sell the piece. */
 	int getAITradeValue() const { return m_iAITradeValue; }
-	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
-	UnitTypes getPrereqUnitType() const { return (UnitTypes)m_iPersonalUnitPrereq; }
-	PromotionTypes getRequiredEnchantment() const { return (PromotionTypes)m_iMagicEnchantmentPrereq; }
-	
-	// Array access:
-	
-	PromotionChangeTypes getEquipmentGainPromotionChangeType(int i) const;
-	PromotionChangeTypes getEquipmentLossPromotionChangeType(int i) const;
-	
-	int getEquipmentGainPromotionChangeTurns(int i) const;
-	int getEquipmentLossPromotionChangeTurns(int i) const;
 
 	bool read(CvXMLLoadUtility* pXML);
-	bool readPass2(CvXMLLoadUtility* pXML);
-	bool readPass3();
 
 protected:
-
-	int m_iEquipmentClass;
-	bool m_bOnlyOffensive;
-	int m_iEquipmentLowestLevelRequired;
-	int m_iEquipmentHighestLevelRequired;
-	bool m_bLegendaryEquipment;
 	bool m_bPersonalEquipment;
-	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
 	bool m_bTrade;
 	int m_iAITradeValue;
-	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
-	int m_iPersonalUnitPrereq;
-	int m_iMagicEnchantmentPrereq;
-
-	PromotionChangeData* m_pasPromotionChangesOnGain;
-	PromotionChangeData* m_pasPromotionChangesOnLoss;
-
 };
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
 
 #endif

@@ -160,10 +160,6 @@ m_piUnitGroupRequired(NULL),
 m_pbTerrainNative(NULL),
 m_pbFeatureNative(NULL),
 m_pbFreePromotions(NULL),
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-m_iBaseEquipmentClass(NO_EQUIPMENT_CLASS),
-m_pbFreeEquipments(NULL),
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 m_paszEarlyArtDefineTags(NULL),
 m_paszLateArtDefineTags(NULL),
 m_paszMiddleArtDefineTags(NULL),
@@ -207,9 +203,6 @@ CvUnitInfo::~CvUnitInfo()
 	SAFE_DELETE_ARRAY(m_pbTerrainNative);
 	SAFE_DELETE_ARRAY(m_pbFeatureNative);
 	SAFE_DELETE_ARRAY(m_pbFreePromotions);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	SAFE_DELETE_ARRAY(m_pbFreeEquipments);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	SAFE_DELETE_ARRAY(m_paszEarlyArtDefineTags);
 	SAFE_DELETE_ARRAY(m_paszLateArtDefineTags);
 	SAFE_DELETE_ARRAY(m_paszMiddleArtDefineTags);
@@ -542,14 +535,6 @@ bool CvUnitInfo::getFreePromotions(int i) const
 	return m_pbFreePromotions ? m_pbFreePromotions[i] : false;
 }
 
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-bool CvUnitInfo::getFreeEquipments(int i) const
-{
-	FAssertBounds(0, GC.getNumEquipmentInfos(), i);
-	return m_pbFreeEquipments ? m_pbFreeEquipments[i] : false;
-}
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-
 int CvUnitInfo::getLeaderPromotion() const
 {
 	return m_iLeaderPromotion;
@@ -644,87 +629,6 @@ bool CvUnitInfo::isPromotionValid(PromotionTypes ePromotion, bool bLeader) const
 
 	return true;
 }
-
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-bool CvUnitInfo::isEquipmentValid(EquipmentTypes eEquipment, bool bLeader) const
-{
-	CvEquipmentInfo& kEquipment = GC.getInfo(eEquipment);
-
-	if (getFreeEquipments(eEquipment))
-		return true;
-
-	if (getUnitCombatType() == NO_UNITCOMBAT)
-		return false;
-
-	if (kEquipment.isOnlyOffensive()
-	{
-		if (m_iBaseEquipmentClass == NO_EQUIPMENT_CLASS)
-		{
-			return false;
-		}
-		else if (kEquipment.getEquipmentClass() != m_iBaseEquipmentClass)
-		{
-			return false;
-		}
-	}
-
-	if (!bLeader && kEquipment.isLeader())
-		return false;
-
-	if (!kEquipment.getUnitCombat(getUnitCombatType()))
-		return false;
-
-	if (kEquipment.getPrereqPromotion() != NO_PROMOTION &&
-		!isPromotionValid((PromotionTypes)kPromotion.getPrereqPromotion(), bLeader))
-	{
-		return false;
-	}
-
-	{
-		PromotionTypes ePrereq1 = (PromotionTypes)kPromotion.getPrereqOrPromotion1();
-		PromotionTypes ePrereq2 = (PromotionTypes)kPromotion.getPrereqOrPromotion2();
-		PromotionTypes ePrereq3 = (PromotionTypes)kPromotion.getPrereqOrPromotion3();
-		if (ePrereq1 != NO_PROMOTION || ePrereq2 != NO_PROMOTION || ePrereq3 != NO_PROMOTION)
-		{
-			bool bValid = false;
-			if (ePrereq1 != NO_PROMOTION && isPromotionValid(ePrereq1, bLeader))
-				bValid = true;
-			if (ePrereq2 != NO_PROMOTION && isPromotionValid(ePrereq2, bLeader))
-				bValid = true;
-			if (ePrereq3 != NO_PROMOTION && isPromotionValid(ePrereq3, bLeader))
-				bValid = true;
-			if (!bValid)
-				return false;
-		}
-		
-		if (kEquipment.getPrereqEquipment() != NO_EQUIPMENT &&
-			!isEquipmentValid((EquipmentTypes)kPromotion.getPrereqEquipment(), bLeader))
-		{
-			return false;
-		}
-	}
-
-	{
-		EquipmentTypes ePrereq1 = (EquipmentTypes)kPromotion.getPrereqOrEquipment1();
-		EquipmentTypes ePrereq2 = (EquipmentTypes)kPromotion.getPrereqOrEquipment2();
-		EquipmentTypes ePrereq3 = (EquipmentTypes)kPromotion.getPrereqOrEquipment3();
-		if (ePrereq1 != NO_EQUIPMENT || ePrereq2 != NO_EQUIPMENT || ePrereq3 != NO_EQUIPMENT)
-		{
-			bool bValid = false;
-			if (ePrereq1 != NO_EQUIPMENT && isEquipmentValid(ePrereq1, bLeader))
-				bValid = true;
-			if (ePrereq2 != NO_EQUIPMENT && isEquipmentValid(ePrereq2, bLeader))
-				bValid = true;
-			if (ePrereq3 != NO_EQUIPMENT && isEquipmentValid(ePrereq3, bLeader))
-				bValid = true;
-			if (!bValid)
-				return false;
-		}
-	}
-
-	return true;
-}
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 const TCHAR* CvUnitInfo::getEarlyArtDefineTag(int i, UnitArtStyleTypes eStyle) const
 {
@@ -1096,12 +1000,6 @@ void CvUnitInfo::read(FDataStreamBase* stream)
 	m_paszUnitNames = new CvString[m_iNumUnitNames];
 	stream->ReadString(m_iNumUnitNames, m_paszUnitNames);
 	stream->ReadString(m_szFormationType);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	SAFE_DELETE_ARRAY(m_pbFreeEquipments);
-	m_pbFreeEquipments = new bool[GC.getNumEquipmentInfos()];
-	stream->Read(GC.getNumEquipmentInfos(), m_pbFreeEquipments);
-	stream->Read(&m_iBaseEquipmentClass);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	updateArtDefineButton();
 }
 
@@ -1288,10 +1186,6 @@ void CvUnitInfo::write(FDataStreamBase* stream)
 	stream->WriteString(m_iGroupDefinitions, m_paszMiddleArtDefineTags);
 	stream->WriteString(m_iNumUnitNames, m_paszUnitNames);
 	stream->WriteString(m_szFormationType);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	stream->Write(GC.getNumEquipmentInfos(), m_pbFreeEquipments);
-	stream->Write(m_iBaseEquipmentClass);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 }
 #endif
 
@@ -1623,11 +1517,6 @@ bool CvUnitInfo::read(CvXMLLoadUtility* pXML)
 	pXML->SetInfoIDFromChildXmlVal(m_iLeaderPromotion, "LeaderPromotion");
 
 	pXML->GetChildXmlValByName(&m_iLeaderExperience, "iLeaderExperience");
-	
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	pXML->SetInfoIDFromChildXmlVal(m_iBaseEquipmentClass, "EquipmentClass");
-	pXML->SetVariableListTagPair(&m_pbFreeEquipments, "FreeEquipments", GC.getNumEquipmentInfos());
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	updateArtDefineButton();
 
@@ -1787,10 +1676,7 @@ m_iMaxGlobalInstances(0),
 m_iMaxTeamInstances(0),
 m_iMaxPlayerInstances(0),
 m_iInstanceCostModifier(0),
-m_iDefaultUnitIndex(NO_UNIT),
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-m_iBaseEquipmentClass(NO_EQUIPMENT_CLASS)
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+m_iDefaultUnitIndex(NO_UNIT)
 {}
 
 bool CvUnitClassInfo::read(CvXMLLoadUtility* pXML)
@@ -1806,28 +1692,20 @@ bool CvUnitClassInfo::read(CvXMLLoadUtility* pXML)
 	CvString szTextVal;
 	pXML->GetChildXmlValByName(szTextVal, "DefaultUnit");
 	m_aszExtraXMLforPass3.push_back(szTextVal);
-	
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	pXML->GetChildXmlValByName(szTextVal, "EquipmentClass");
-	m_aszExtraXMLforPass3.push_back(szTextVal);
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	return true;
 }
 
 bool CvUnitClassInfo::readPass3()
 {
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	if (m_aszExtraXMLforPass3.size() < 2)
+	if (m_aszExtraXMLforPass3.size() < 1)
 	{
 		FAssert(false);
 		return false;
 	}
 
 	m_iDefaultUnitIndex = GC.getInfoTypeForString(m_aszExtraXMLforPass3[0]);
-	m_iBaseEquipmentClass = GC.getInfoTypeForString(m_aszExtraXMLforPass3[1]);
 	m_aszExtraXMLforPass3.clear();
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 	return true;
 }
@@ -1836,10 +1714,7 @@ CvSpecialUnitInfo::CvSpecialUnitInfo() :
 m_bValid(false),
 m_bCityLoad(false),
 m_pbCarrierUnitAITypes(NULL),
-m_piProductionTraits(NULL),
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-bHeroicUnit(false)
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
+m_piProductionTraits(NULL)
 {}
 
 CvSpecialUnitInfo::~CvSpecialUnitInfo()
@@ -1879,9 +1754,6 @@ bool CvSpecialUnitInfo::read(CvXMLLoadUtility* pXML)
 
 	pXML->GetChildXmlValByName(&m_bValid, "bValid");
 	pXML->GetChildXmlValByName(&m_bCityLoad, "bCityLoad");
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-	pXML->GetChildXmlValByName(&bHeroicUnit, "bHeroicUnit");
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 	pXML->SetVariableListTagPair(&m_pbCarrierUnitAITypes, "CarrierUnitAITypes", NUM_UNITAI_TYPES);
 	pXML->SetVariableListTagPair(&m_piProductionTraits, "ProductionTraits", GC.getNumTraitInfos());
 	return true;
@@ -2461,15 +2333,6 @@ bool CvPromotionInfo::readPass2(CvXMLLoadUtility* pXML)
 	return true;
 }
 
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-bool CvPromotionInfo::readPass3(CvXMLLoadUtility* pXML)
-{
-	// XNAA (note): Nothing here yet.
-
-	return true;
-}
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-
 CvEspionageMissionInfo::CvEspionageMissionInfo() // <kmodx>
 	: m_iCost(0),
 	m_bIsPassive(false),
@@ -2689,201 +2552,26 @@ bool CvEspionageMissionInfo::read(CvXMLLoadUtility* pXML)
 	return true;
 }
 
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-CvEquipmentInfo::CvEquipmentInfo() : 
-m_iEquipmentClass(NO_EQUIPMENT_CLASS),
-m_bOnlyOffensive(true),
-m_bLegendaryEquipment(false),
+// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
+// (See the comment above the class declaration.)
+CvEquipmentInfo::CvEquipmentInfo() :
 m_bPersonalEquipment(false),
-// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
 m_bTrade(false),
-m_iAITradeValue(0),
-// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
-m_iPersonalUnitPrereq(NO_UNIT),
-m_iEquipmentLowestLevelRequired(1), 
-m_iEquipmentHighestLevelRequired(0),
-m_pasPromotionChanges(NULL)
+m_iAITradeValue(0)
 {}
-
-
-CvEquipmentInfo::~CvEquipmentInfo()
-{
-	SAFE_DELETE_ARRAY(m_pasPromotionChanges);
-}
-
-PromotionChangeTypes CvEquipmentInfo::getEquipmentGainPromotionChangeType(int i) const
-{
-	return (m_pasPromotionChangesOnGain ? m_pasPromotionChangesOnGain[i].eChangeType : NO_PROMOTION_CHANGE);
-}
-
-PromotionChangeTypes CvEquipmentInfo::getEquipmentLossPromotionChangeType(int i) const
-{
-	return (m_pasPromotionChangesOnLoss ? m_pasPromotionChangesOnLoss[i].eChangeType : NO_PROMOTION_CHANGE);
-}
-
-int CvEquipmentInfo::getEquipmentGainPromotionChangeTurns(int i) const
-{
-	return (m_pasPromotionChangesOnGain ? m_pasPromotionChangesOnGain[i].iChangeTurns : 0);
-}
-
-int CvEquipmentInfo::getEquipmentLossPromotionChangeTurns(int i) const
-{
-	return (m_pasPromotionChangesOnLoss ? m_pasPromotionChangesOnLoss[i].iChangeTurns : 0);
-}
 
 bool CvEquipmentInfo::read(CvXMLLoadUtility* pXML)
 {
+	/*	The base class reads Type, Description, Civilopedia, Strategy, Help
+		and Button; the latter supplies the icon in the trade screen. */
 	if (!base_t::read(pXML))
 		return false;
 
-	pXML->SetInfoIDFromChildXmlVal(m_iEquipmentClass, "EquipmentClass");
-	pXML->GetChildXmlValByName(&m_bOnlyOffensive, "bOnlyOffensive");
-	pXML->GetChildXmlValByName(&m_iEquipmentLowestLevelRequired, "iEquipmentLowestLevelRequired");
-	pXML->GetChildXmlValByName(&m_iEquipmentHighestLevelRequired, "iEquipmentHighestLevelRequired");
-	pXML->GetChildXmlValByName(&m_bLegendaryEquipment, "bLegendaryEquipment");
-	pXML->GetChildXmlValByName(&m_bPersonalEquipment, "bPersonalEquipment");
-	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
-	// Both optional. (The Button tag for the trade screen icon is read by the base class.)
+	// All three are optional tags
+	pXML->GetChildXmlValByName(&m_bPersonalEquipment, "bPersonalEquipment", false);
 	pXML->GetChildXmlValByName(&m_bTrade, "bTrade", false);
 	pXML->GetChildXmlValByName(&m_iAITradeValue, "iAITradeValue", 0);
-	// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv
-
-	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "PromotionChangesOnEquipmentGain"))
-	{
-		if (pXML->SkipToNextVal())
-		{
-			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
-			pXML->initList(&m_pasPromotionChangesOnGain, GC.getNumPromotionInfos());
-			if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
-			{
-				if (iNumSibs > 0)
-				{
-					for (int i = 0; i < iNumSibs; i++)
-					{
-						CvString szTextVal;
-						if (pXML->getChildXmlVal(szTextVal))
-						{
-							PromotionTypes ePromotion = (PromotionTypes)GC.getInfoTypeForString(szTextVal);
-							if (ePromotion != NO_PROMOTION)
-							{
-								if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
-								{
-									CvString szActionType = "NO_PROMOTION_CHANGE";
-									pXML->getNextXmlVal(szActionType);
-									if (szActionType == "PROMOTION_CHANGE_ADD")
-									{
-										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTION_CHANGE_ADD;
-									}
-									else if (szActionType == "PROMOTION_CHANGE_ADD_TIMED")
-									{
-										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTION_CHANGE_ADD_TIMED;
-										pXML->getNextXmlVal(m_pasPromotionChangesOnGain[ePromotion].iTurnsUntilChange);
-									}
-									else if (szActionType == "PROMOTION_CHANGE_REMOVE")
-									{
-										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTION_CHANGE_REMOVE;
-									}
-									else if (szActionType == "PROMOTION_CHANGE_REMOVE_TIMED")
-									{
-										m_pasPromotionChangesOnGain[ePromotion].eChangeType = PROMOTION_CHANGE_REMOVE_TIMED;
-										pXML->getNextXmlVal(m_pasPromotionChangesOnGain[ePromotion].iTurnsUntilChange);
-									}
-									gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-								}
-							}
-						}
-						
-						if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
-							break;
-					}
-				}
-				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-			}
-			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-		}
-	}
-	if (gDLL->getXMLIFace()->SetToChildByTagName(pXML->GetXML(), "PromotionChangesOnEquipmentLoss"))
-	{
-		if (pXML->SkipToNextVal())
-		{
-			int iNumSibs = gDLL->getXMLIFace()->GetNumChildren(pXML->GetXML());
-			pXML->initList(&m_pasPromotionChangesOnLoss, GC.getNumPromotionInfos());
-			if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
-			{
-				if (iNumSibs > 0)
-				{
-					for (int i = 0; i < iNumSibs; i++)
-					{
-						CvString szTextVal;
-						if (pXML->getChildXmlVal(szTextVal))
-						{
-							PromotionTypes ePromotion = (PromotionTypes)GC.getInfoTypeForString(szTextVal);
-							if (ePromotion != NO_PROMOTION)
-							{
-								if (gDLL->getXMLIFace()->SetToChild(pXML->GetXML()))
-								{
-									CvString szActionType = "NO_PROMOTION_CHANGE";
-									pXML->getNextXmlVal(szActionType);
-									if (szActionType == "PROMOTION_CHANGE_ADD")
-									{
-										m_pasPromotionChangesOnLoss[ePromotion].eChangeType = PROMOTION_CHANGE_ADD;
-									}
-									else if (szActionType == "PROMOTION_CHANGE_ADD_TIMED")
-									{
-										m_pasPromotionChangesOnLoss[ePromotion].eChangeType = PROMOTION_CHANGE_ADD_TIMED;
-										pXML->getNextXmlVal(m_pasPromotionChangesOnLoss[ePromotion].iTurnsUntilChange);
-									}
-									else if (szActionType == "PROMOTION_CHANGE_REMOVE")
-									{
-										m_pasPromotionChangesOnLoss[ePromotion].eChangeType = PROMOTION_CHANGE_REMOVE;
-									}
-									else if (szActionType == "PROMOTION_CHANGE_REMOVE_TIMED")
-									{
-										m_pasPromotionChangesOnLoss[ePromotion].eChangeType = PROMOTION_CHANGE_REMOVE_TIMED;
-										pXML->getNextXmlVal(m_pasPromotionChangesOnLoss[ePromotion].iTurnsUntilChange);
-									}
-									gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-								}
-							}
-						}
-						
-						if (!gDLL->getXMLIFace()->NextSibling(pXML->GetXML()))
-							break;
-					}
-				}
-				gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-			}
-			gDLL->getXMLIFace()->SetToParent(pXML->GetXML());
-		}
-	}
-	pXML->SetInfoIDFromChildXmlVal(&m_iMagicEnchantmentPrereq, "MagicEnchantmentPrereq");
-	
-	CvString szTextVal;
-	pXML->GetChildXmlValByName(szTextVal, "PersonalUnitPrereq");
-	m_aszExtraXMLforPass3.push_back(szTextVal);
 
 	return true;
 }
-
-bool CvEquipmentInfo::readPass2(CvXMLLoadUtility* pXML)
-{
-	// XNAA (note): Nothing here yet.
-
-	return true;
-}
-
-bool CvEquipmentInfo::readPass3()
-{
-	if (m_aszExtraXMLforPass3.size() < 1)
-	{
-		FAssert(false);
-		return false;
-	}
-
-	m_iPersonalUnitPrereq = GC.getInfoTypeForString(m_aszExtraXMLforPass3[0]);
-	m_aszExtraXMLforPass3.clear();
-
-	return true;
-}
-// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
-
+// XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv

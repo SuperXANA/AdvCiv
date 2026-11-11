@@ -82,12 +82,8 @@
 	DO(TruCiv, TRUCIV) \
 	DO(TruLeader, TRULEADER) \
 	DO(TruBonus, TRUBONUS) /* </advc.tsl> */ \
-	/* XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv */ \
-	DO(EquipmentHoldClass, EQUIPMENTHOLDCLASS) \
-	DO(EquipmentHold, EQUIPMENT_HOLD) \
-	DO(EquipmentClass, EQUIPMENTCLASS) \
+	/* XANA: 11-11-2026 Tradeable Equipment for AdvancedCiv */ \
 	DO(Equipment, EQUIPMENT)
-	// XANA: 08-26-2025 RPG Unit Equipment for AdvancedCiv
 
 // Number of instances not known at compile time
 #define DO_FOR_EACH_DYN_INFO_TYPE(DO) \

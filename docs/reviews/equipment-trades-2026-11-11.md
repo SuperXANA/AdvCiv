@@ -67,7 +67,9 @@ differing from the feature commit:
 | `CvEnumMacros.h` | pinned 1.14 plus the `Equipment` entry only |
 | `CvXMLLoadUtilitySet.cpp` | pinned 1.14 plus the `CIV4EquipmentInfos` load call |
 
-Every other source file is identical in both commits. The feature commit keeps the draft's
+Every other source file is identical in both commits. Because `CvUnit.cpp` is the pinned
+file in the build tree, `tests/equipment-gates/check.py` only runs at the feature commit
+(2c5fc754b3d679dd52b6cfa56a6b50e4d3107a60), not at the build commit. The feature commit keeps the draft's
 own versions of the six files above, with the two trade members added to its
 `CvEquipmentInfo`.
 
