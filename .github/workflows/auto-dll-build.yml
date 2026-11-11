@@ -252,11 +252,8 @@ jobs:
             $buildExit = 0
             $failedStage = 'Compiler probe or MSBuild'
             try {
-                cmd.exe /c $buildCmd
-                $buildExit = $LASTEXITCODE
-              } else {
-                $failedStage = 'Windows'
-              }
+              cmd.exe /c $buildCmd
+              $buildExit = $LASTEXITCODE
             } finally {
               Remove-Item $probeSource, $probeMake, (Join-Path $projectDir "codex-toolset-check.obj") -Force -ErrorAction SilentlyContinue
             }
